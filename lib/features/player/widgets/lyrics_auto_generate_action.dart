@@ -30,6 +30,9 @@ Future<void> runLyricsAutoGenerate(
 
   final ok = await controller.run(title: title);
 
+  // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
+  // 不能再碰 ref,結果已由系統通知回報,直接收尾。
+  if (!context.mounted) return;
   final result = ref.read(lyricsAutoGenerateControllerProvider(trackId));
   if (ok) {
     debugPrint('[LyricsAutoGen] 成功 trackId=$trackId');

@@ -33,6 +33,9 @@ Future<void> runLyricsAutoSync(
     engine: engine,
   );
 
+  // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
+  // 不能再碰 ref,結果已由系統通知回報,直接收尾。
+  if (!context.mounted) return;
   final result = ref.read(lyricsAutoSyncControllerProvider(trackId));
   if (!ok && result.status != LyricsAutoSyncStatus.cancelled) {
     // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。

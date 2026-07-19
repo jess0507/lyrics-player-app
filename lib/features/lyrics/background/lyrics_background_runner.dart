@@ -138,6 +138,8 @@ class LyricsBackgroundRunner {
         _ref.read(syncStateStoreProvider).markLyricsModified();
         _complete(const LyricsBackgroundResult(LyricsBackgroundStatus.success));
       case LyricsBackgroundEventType.error:
+        // 不在此上報 Crashlytics:service 層(compress / upload / callable /
+        // 回應解析)已各自上報一次,這裡再報會讓同一次失敗重複兩份。
         _complete(
           LyricsBackgroundResult(LyricsBackgroundStatus.error, event.errorName),
         );

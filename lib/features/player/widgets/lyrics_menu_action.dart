@@ -169,7 +169,7 @@ Future<void> _confirmDelete(
       ],
     ),
   );
-  if (ok != true) return;
+  if (ok != true || !context.mounted) return;
   await ref.read(lyricsRepositoryProvider).deleteByTrackId(trackId);
   ref.invalidate(trackLyricsProvider(trackId));
   onDeleted?.call();

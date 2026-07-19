@@ -145,6 +145,17 @@ class LyricsAutoGenerateService {
       final data = result.data;
       final value = data is Map ? data['lrc'] : null;
       if (value is! String || value.isEmpty) {
+        // 後端回 200 卻取不到 lrc:記下回應形狀(不含歌詞內容),
+        // 以區分平台通道反序列化問題與後端真的沒給。
+        reportError(
+          StateError(
+            'generate_lyrics 回應缺 lrc：data=${data.runtimeType}'
+            '${data is Map ? ' keys=${data.keys.toList()}' : ''}'
+            ' lrc=${value is String ? 'String(len=${value.length})' : value.runtimeType}',
+          ),
+          StackTrace.current,
+          reason: 'generate_lyrics 回應解析失敗',
+        );
         throw const LyricsAutoGenerateException(
           LyricsAutoGenerateError.transcriptionFailed,
         );
@@ -152,7 +163,11 @@ class LyricsAutoGenerateService {
       lrc = value;
     } on FirebaseFunctionsException catch (e, s) {
       debugPrint('Firebase Funcion generate_lyrics: $e');
-      reportError(e, s, reason: 'generate_lyrics 失敗（code=${e.code}）');
+      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
+      // 使用者狀態非 bug,不上報。
+      if (e.code != 'unauthenticated' && e.code != 'resource-exhausted') {
+        reportError(e, s, reason: 'generate_lyrics 失敗（code=${e.code}）');
+      }
       throw LyricsAutoGenerateException(_mapFunctionsError(e));
     }
 

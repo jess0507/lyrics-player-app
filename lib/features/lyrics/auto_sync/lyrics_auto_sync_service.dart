@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -170,13 +171,31 @@ class LyricsAutoSyncService {
       final data = result.data;
       final value = data is Map ? data['lrc'] : null;
       if (value is! String || value.isEmpty) {
+        // 後端回 200 卻取不到 lrc:記下回應形狀(不含歌詞內容),
+        // 以區分平台通道反序列化問題與後端真的沒給。
+        reportError(
+          StateError(
+            'align_lyrics 回應缺 lrc：data=${data.runtimeType}'
+            '${data is Map ? ' keys=${data.keys.toList()}' : ''}'
+            ' lrc=${value is String ? 'String(len=${value.length})' : value.runtimeType}',
+          ),
+          StackTrace.current,
+          reason: 'align_lyrics 回應解析失敗',
+        );
         throw const LyricsAutoSyncException(
           LyricsAutoSyncError.alignmentFailed,
         );
       }
       lrc = value;
     } on FirebaseFunctionsException catch (e, s) {
-      reportError(e, s, reason: 'align_lyrics 失敗（code=${e.code}）');
+      // code/message 是判別故障層的關鍵:failed-precondition / internal 為
+      // Function / 後端問題;unavailable 無 message 多為連線層死亡。
+      debugPrint('Firebase Function align_lyrics: $e');
+      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
+      // 使用者狀態非 bug,不上報。
+      if (e.code != 'unauthenticated' && e.code != 'resource-exhausted') {
+        reportError(e, s, reason: 'align_lyrics 失敗（code=${e.code}）');
+      }
       throw LyricsAutoSyncException(_mapFunctionsError(e));
     }
 
