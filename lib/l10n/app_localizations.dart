@@ -1044,6 +1044,24 @@ abstract class AppLocalizations {
   /// **'Edit playlist'**
   String get playlist_edit_tracks;
 
+  /// No description provided for @playlist_all_added.
+  ///
+  /// In en, this message translates to:
+  /// **'All songs are already in this playlist'**
+  String get playlist_all_added;
+
+  /// No description provided for @playlist_add_item.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get playlist_add_item;
+
+  /// No description provided for @playlist_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get playlist_edit;
+
   /// No description provided for @playlist_added.
   ///
   /// In en, this message translates to:

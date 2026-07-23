@@ -496,6 +496,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlist_edit_tracks => 'Çalma listesini düzenle';
 
   @override
+  String get playlist_all_added => 'Tüm şarkılar zaten bu çalma listesinde';
+
+  @override
+  String get playlist_add_item => 'Ekle';
+
+  @override
+  String get playlist_edit => 'Düzenle';
+
+  @override
   String playlist_added(String name) {
     return '\"$name\" listesine eklendi';
   }

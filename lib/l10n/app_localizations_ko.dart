@@ -475,6 +475,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlist_edit_tracks => '재생목록 편집';
 
   @override
+  String get playlist_all_added => '모든 곡이 이미 이 재생목록에 있습니다';
+
+  @override
+  String get playlist_add_item => '추가';
+
+  @override
+  String get playlist_edit => '편집';
+
+  @override
   String playlist_added(String name) {
     return '\"$name\"에 추가됨';
   }

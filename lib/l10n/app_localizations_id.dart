@@ -494,6 +494,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlist_edit_tracks => 'Edit playlist';
 
   @override
+  String get playlist_all_added => 'Semua lagu sudah ada di playlist ini';
+
+  @override
+  String get playlist_add_item => 'Tambah item';
+
+  @override
+  String get playlist_edit => 'Edit';
+
+  @override
   String playlist_added(String name) {
     return 'Ditambahkan ke \"$name\"';
   }

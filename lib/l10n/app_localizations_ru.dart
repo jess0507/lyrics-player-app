@@ -493,6 +493,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playlist_edit_tracks => 'Редактировать плейлист';
 
   @override
+  String get playlist_all_added => 'Все песни уже добавлены в этот плейлист';
+
+  @override
+  String get playlist_add_item => 'Добавить';
+
+  @override
+  String get playlist_edit => 'Изменить';
+
+  @override
   String playlist_added(String name) {
     return 'Добавлено в «$name»';
   }

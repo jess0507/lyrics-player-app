@@ -158,6 +158,9 @@
   "playlist_add_to": "Add to playlist",
   "playlist_add_tracks": "Add to this playlist",
   "playlist_edit_tracks": "Edit playlist",
+  "playlist_all_added": "All songs are already in this playlist",
+  "playlist_add_item": "Add item",
+  "playlist_edit": "Edit",
   "playlist_added": "Added to \"{name}\"",
   "@playlist_added": {
     "placeholders": {

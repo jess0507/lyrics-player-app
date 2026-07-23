@@ -501,6 +501,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get playlist_edit_tracks => 'Editar lista';
 
   @override
+  String get playlist_all_added => 'Todas las canciones ya están en esta lista';
+
+  @override
+  String get playlist_add_item => 'Añadir';
+
+  @override
+  String get playlist_edit => 'Editar';
+
+  @override
   String playlist_added(String name) {
     return 'Añadido a «$name»';
   }

@@ -493,6 +493,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get playlist_edit_tracks => 'Chỉnh sửa danh sách phát';
 
   @override
+  String get playlist_all_added =>
+      'Tất cả bài hát đã có trong danh sách phát này';
+
+  @override
+  String get playlist_add_item => 'Thêm';
+
+  @override
+  String get playlist_edit => 'Sửa';
+
+  @override
   String playlist_added(String name) {
     return 'Đã thêm vào \"$name\"';
   }

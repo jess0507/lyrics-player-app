@@ -470,6 +470,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlist_edit_tracks => '編輯播放清單';
 
   @override
+  String get playlist_all_added => '音樂庫的曲目都已加入這個播放清單';
+
+  @override
+  String get playlist_add_item => '新增項目';
+
+  @override
+  String get playlist_edit => '編輯';
+
+  @override
   String playlist_added(String name) {
     return '已加入「$name」';
   }
@@ -987,6 +996,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlist_edit_tracks => '编辑播放列表';
 
   @override
+  String get playlist_all_added => '音乐库的曲目都已加入这个播放列表';
+
+  @override
+  String get playlist_add_item => '添加项目';
+
+  @override
+  String get playlist_edit => '编辑';
+
+  @override
   String playlist_added(String name) {
     return '已加入“$name”';
   }
@@ -1502,6 +1520,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlist_edit_tracks => '編輯播放清單';
+
+  @override
+  String get playlist_all_added => '音樂庫的曲目都已加入這個播放清單';
+
+  @override
+  String get playlist_add_item => '新增項目';
+
+  @override
+  String get playlist_edit => '編輯';
 
   @override
   String playlist_added(String name) {

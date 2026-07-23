@@ -491,6 +491,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playlist_edit_tracks => 'تعديل قائمة التشغيل';
 
   @override
+  String get playlist_all_added =>
+      'جميع الأغاني موجودة بالفعل في قائمة التشغيل هذه';
+
+  @override
+  String get playlist_add_item => 'إضافة عنصر';
+
+  @override
+  String get playlist_edit => 'تعديل';
+
+  @override
   String playlist_added(String name) {
     return 'تمت الإضافة إلى \"$name\"';
   }
