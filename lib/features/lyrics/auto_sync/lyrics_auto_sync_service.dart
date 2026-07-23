@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,11 +72,23 @@ class LyricsAutoSyncException implements Exception {
   final LyricsAutoSyncError error;
 }
 
-/// 歌詞自動對時:讀本機音訊 → 壓縮 → 上傳 GCS → 呼叫 `align_lyrics` callable
-/// (後端轉呼 aeneas)→ 把回傳的同步 LRC 寫回同一 [LyricsEntity]
-/// (`source = generated`、`format = lrc`),顯示端自動切到同步視圖。
+/// 歌詞自動對時:讀本機音訊 → 壓縮 → 上傳 GCS → 呼叫 `align_lyrics` callable。
+/// 後端把工作丟進 Cloud Tasks 後**立刻回應,不等對時完成**(見
+/// `functions/main.py` `align_lyrics`)——`autoSync` 成功返回只代表「已送出
+/// 背景處理」,**不保證歌詞已經產生完成**:
+/// - 該 trackId 已有快照(`cached`)→ 立即讀回內文寫入本機 [LyricsEntity]
+///   (`source = generated`、`format = lrc`),顯示端立刻可見。
+/// - 否則(`queued`)→ 不等待、不嘗試讀取本機也不寫入;結果由 Cloud Run 端
+///   背景算完後自行存入 `users/{uid}/lyrics/{trackId}`,下次開啟歌詞頁時
+///   `trackLyricsProvider` 的 Firestore 快照降級路徑會自然讀到
+///   (見 `providers/track_lyrics_provider.dart`)。
 ///
-/// 失敗一律不寫半套時間:對齊失敗 / 任一步出錯時保留原本的純文字歌詞。
+/// 讀回快照寫本機(`cached` 情形)是必要的,不只是圖方便:歌詞備份同步
+/// (sync v5,見 `core/sync/lyrics_sync.dart`)是「本機 Isar 有什麼、雲端就
+/// 整份覆寫成什麼」——若本機完全沒有這筆資料,之後任何其他歌詞變更觸發的
+/// 全量同步,會把雲端這份快照當「本機沒有的多餘文件」誤刪。
+///
+/// 失敗一律不寫半套時間:任一步出錯時保留原本的純文字歌詞。
 class LyricsAutoSyncService {
   LyricsAutoSyncService(this._ref);
 
@@ -148,16 +161,15 @@ class LyricsAutoSyncService {
     }
 
     onStep?.call(LyricsAutoSyncStep.aligning);
-    final String lrc;
+    var cached = false;
     try {
       final callable = FirebaseFunctions.instanceFor(
         region: _functionsRegion,
       ).httpsCallable(
         'align_lyrics',
-        // client 預設逾時僅 70s,但 CPU 對齊整首歌常破 1–2 分鐘(後端
-        // timeout_sec=600)。不放寬會在後端跑完前就 deadline-exceeded →
-        // 被映成 network「連線錯誤」。對齊後端逾時設為 10 分鐘。
-        options: HttpsCallableOptions(timeout: const Duration(minutes: 10)),
+        // 後端派工到 Cloud Tasks 後立刻回應,不再需要等對時整首歌跑完,
+        // 但保留較寬鬆逾時以應付偶發的冷啟動 / 網路延遲。
+        options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
       );
       final result = await callable.call<Object?>({
         'lines': lines,
@@ -166,30 +178,13 @@ class LyricsAutoSyncService {
         'language': language,
         'format': 'm4a',
         'engine': engine.wireName,
+        'trackId': trackId,
+        'title': title,
       });
       // 不同平台回傳 Map 的鍵型別不一,故動態取值。
       final data = result.data;
-      final value = data is Map ? data['lrc'] : null;
-      if (value is! String || value.isEmpty) {
-        // 後端回 200 卻取不到 lrc:記下回應形狀(不含歌詞內容),
-        // 以區分平台通道反序列化問題與後端真的沒給。
-        reportError(
-          StateError(
-            'align_lyrics 回應缺 lrc：data=${data.runtimeType}'
-            '${data is Map ? ' keys=${data.keys.toList()}' : ''}'
-            ' lrc=${value is String ? 'String(len=${value.length})' : value.runtimeType}',
-          ),
-          StackTrace.current,
-          reason: 'align_lyrics 回應解析失敗',
-        );
-        throw const LyricsAutoSyncException(
-          LyricsAutoSyncError.alignmentFailed,
-        );
-      }
-      lrc = value;
+      cached = data is Map && data['cached'] == true;
     } on FirebaseFunctionsException catch (e, s) {
-      // code/message 是判別故障層的關鍵:failed-precondition / internal 為
-      // Function / 後端問題;unavailable 無 message 多為連線層死亡。
       debugPrint('Firebase Function align_lyrics: $e');
       // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
       // 使用者狀態非 bug,不上報。
@@ -199,13 +194,42 @@ class LyricsAutoSyncService {
       throw LyricsAutoSyncException(_mapFunctionsError(e));
     }
 
+    if (!cached) {
+      // 已成功送進背景處理佇列,歌詞尚未產生完成——不等待也不嘗試讀取,
+      // 詳見本類別文件註解。
+      return;
+    }
+
+    // 該 trackId 先前已對時 / 產生過,Firestore 已有現成快照,立即讀回寫本機。
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('lyrics')
+        .doc(trackId)
+        .get();
+    final content = snapshot.data()?['content'];
+    if (content is! String || content.isEmpty) {
+      // 後端宣稱有快照卻讀不到:記下形狀以區分權限 / 路徑問題。
+      reportError(
+        StateError(
+          'align_lyrics 回 cached 但讀不到 Firestore 快照:trackId=$trackId'
+          ' exists=${snapshot.exists}',
+        ),
+        StackTrace.current,
+        reason: 'align_lyrics 快照讀回失敗',
+      );
+      throw const LyricsAutoSyncException(
+        LyricsAutoSyncError.alignmentFailed,
+      );
+    }
+
     // 沿用唯一索引 replace 覆蓋原歌詞;來源 / 格式改為對時產物。
     final synced = LyricsEntity()
       ..trackId = trackId
       ..title = title
       ..format = LyricsFormat.lrc
       ..source = LyricsSource.generated
-      ..content = lrc
+      ..content = content
       ..addedAt = DateTime.now();
     await repo.save(synced);
     _ref.invalidate(trackLyricsProvider(trackId));

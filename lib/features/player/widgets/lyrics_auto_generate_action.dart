@@ -21,13 +21,13 @@ Future<void> runLyricsAutoGenerate(
     debugPrint('[LyricsAutoGen] 已在執行中,略過 trackId=$trackId');
     return;
   }
-  final controller = ref.read(
-    lyricsAutoGenerateControllerProvider(trackId).notifier,
-  );
 
   debugPrint('[LyricsAutoGen] 開始 trackId=$trackId title="$title"');
   messenger.showAppSnackBar(l10n.lyrics_auto_generate_running_background);
 
+  final controller = ref.read(
+    lyricsAutoGenerateControllerProvider(trackId).notifier,
+  );
   final ok = await controller.run(title: title);
 
   // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就

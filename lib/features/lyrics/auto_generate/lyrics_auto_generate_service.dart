@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -56,14 +57,6 @@ class LyricsAutoGenerateException implements Exception {
   final LyricsAutoGenerateError error;
 }
 
-/// 歌詞自動產生:讀本機音訊 → 壓縮 → 上傳 GCS → 呼叫 `generate_lyrics` callable
-/// (後端 WhisperX ASR 轉寫 + 對齊)→ 把回傳的同步 LRC 寫回 [LyricsEntity]
-/// (`source = generated`、`format = lrc`),顯示端自動切到同步視圖。
-///
-/// 與對時(auto_sync)互補:對時是「已有純文字、只補時間」,本流程是「**沒有
-/// 歌詞**、從音訊直接辨識」。語言交由後端自動偵測(不送 language)。
-///
-/// 失敗一律不寫入:辨識失敗 / 任一步出錯時保持原本的無歌詞狀態。
 class LyricsAutoGenerateService {
   LyricsAutoGenerateService(this._ref);
 
@@ -125,50 +118,63 @@ class LyricsAutoGenerateService {
     }
 
     onStep?.call(LyricsAutoGenerateStep.transcribing);
-    final String lrc;
+    var cached = false;
     try {
       final callable = FirebaseFunctions.instanceFor(region: _functionsRegion)
           .httpsCallable(
             'generate_lyrics',
-            // client 預設逾時僅 70s,但 CPU 轉寫整首歌常破 1–2 分鐘(後端
-            // timeout_sec=600)。不放寬會在後端跑完前就 deadline-exceeded →
-            // 被映成 network「連線錯誤」。對齊後端逾時設為 10 分鐘。
-            options: HttpsCallableOptions(timeout: const Duration(minutes: 10)),
+            // 後端派工到 Cloud Tasks 後立刻回應,不再需要等轉寫整首歌跑完,
+            // 但保留較寬鬆逾時以應付偶發的冷啟動 / 網路延遲。
+            options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
           );
       // 不送 language:交由後端自動偵測歌曲語言。
       final result = await callable.call<Object?>({
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
+        'trackId': trackId,
+        'title': title,
       });
       // 不同平台回傳 Map 的鍵型別不一,故動態取值。
       final data = result.data;
-      final value = data is Map ? data['lrc'] : null;
-      if (value is! String || value.isEmpty) {
-        // 後端回 200 卻取不到 lrc:記下回應形狀(不含歌詞內容),
-        // 以區分平台通道反序列化問題與後端真的沒給。
-        reportError(
-          StateError(
-            'generate_lyrics 回應缺 lrc：data=${data.runtimeType}'
-            '${data is Map ? ' keys=${data.keys.toList()}' : ''}'
-            ' lrc=${value is String ? 'String(len=${value.length})' : value.runtimeType}',
-          ),
-          StackTrace.current,
-          reason: 'generate_lyrics 回應解析失敗',
-        );
-        throw const LyricsAutoGenerateException(
-          LyricsAutoGenerateError.transcriptionFailed,
-        );
-      }
-      lrc = value;
+      cached = data is Map && data['cached'] == true;
     } on FirebaseFunctionsException catch (e, s) {
       debugPrint('Firebase Funcion generate_lyrics: $e');
       // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
       // 使用者狀態非 bug,不上報。
       if (e.code != 'unauthenticated' && e.code != 'resource-exhausted') {
-        reportError(e, s, reason: 'generate_lyrics 失敗（code=${e.code}）');
+        reportError(e, s, reason: 'generate_lyrics 失敗(code=${e.code})');
       }
       throw LyricsAutoGenerateException(_mapFunctionsError(e));
+    }
+
+    if (!cached) {
+      // 已成功送進背景處理佇列,歌詞尚未產生完成——不等待也不嘗試讀取,
+      // 詳見本類別文件註解。
+      return;
+    }
+
+    // 該 trackId 先前已產生過,Firestore 已有現成快照,立即讀回寫本機。
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('lyrics')
+        .doc(trackId)
+        .get();
+    final content = snapshot.data()?['content'];
+    if (content is! String || content.isEmpty) {
+      // 後端宣稱有快照卻讀不到:記下形狀以區分權限 / 路徑問題。
+      reportError(
+        StateError(
+          'generate_lyrics 回 cached 但讀不到 Firestore 快照:trackId=$trackId'
+          ' exists=${snapshot.exists}',
+        ),
+        StackTrace.current,
+        reason: 'generate_lyrics 快照讀回失敗',
+      );
+      throw const LyricsAutoGenerateException(
+        LyricsAutoGenerateError.transcriptionFailed,
+      );
     }
 
     // 沿用唯一索引 replace 寫入;來源 / 格式為自動產生產物。
@@ -177,7 +183,7 @@ class LyricsAutoGenerateService {
       ..title = title
       ..format = LyricsFormat.lrc
       ..source = LyricsSource.generated
-      ..content = lrc
+      ..content = content
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(generated);
     _ref.invalidate(trackLyricsProvider(trackId));
