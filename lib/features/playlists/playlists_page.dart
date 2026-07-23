@@ -80,17 +80,8 @@ class PlaylistsPage extends ConsumerWidget {
       ),
       body: playlists.isEmpty
           ? Center(child: Text(l10n.playlists_empty))
-          : ListView.separated(
+          : ListView.builder(
               itemCount: playlists.length,
-              separatorBuilder: (context, index) => Divider(
-                height: 1,
-                thickness: 1,
-                indent: 16,
-                endIndent: 16,
-                color: Theme.of(
-                  context,
-                ).colorScheme.outlineVariant.withValues(alpha: 0.5),
-              ),
               itemBuilder: (context, index) {
                 final playlist = playlists[index];
                 return ListTile(

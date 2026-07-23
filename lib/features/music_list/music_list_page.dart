@@ -143,20 +143,17 @@ class _MusicListPageState extends ConsumerState<MusicListPage> {
       builder: (context, snapshot) {
         final tag = snapshot.data?.currentSource?.tag;
         final currentId = tag is MediaItem ? tag.id : null;
-        return ListView.separated(
+        return ListView.builder(
           itemCount: tracks.length,
-          separatorBuilder: (context, index) => Divider(
-            height: 1,
-            thickness: 1,
-            indent: 16,
-            endIndent: 16,
-            color: scheme.outlineVariant.withValues(alpha: 0.5),
-          ),
           itemBuilder: (context, index) {
             final track = tracks[index];
             final isCurrent = track.id == currentId;
             return ListTile(
-              contentPadding: EdgeInsets.only(left: 16.0),
+              contentPadding: EdgeInsets.only(
+                left: 16.0,
+                top: 4.0,
+                bottom: 4.0,
+              ),
               leading: TrackLeading(
                 trackId: track.id,
                 isCurrent: isCurrent,

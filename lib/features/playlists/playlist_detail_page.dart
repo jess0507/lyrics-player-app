@@ -114,7 +114,11 @@ class PlaylistDetailPage extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ListTile(
-                        contentPadding: const EdgeInsets.only(left: 16.0),
+                        contentPadding: EdgeInsets.only(
+                          left: 16.0,
+                          top: 4.0,
+                          bottom: 4.0,
+                        ),
                         leading: TrackLeading(
                           trackId: track.id,
                           isCurrent: isCurrent,
@@ -162,14 +166,6 @@ class PlaylistDetailPage extends ConsumerWidget {
                             .read(playbackControllerProvider)
                             .playTracksAt(tracks, index),
                       ),
-                      if (index < tracks.length - 1)
-                        Divider(
-                          height: 1,
-                          thickness: 1,
-                          indent: 16,
-                          endIndent: 16,
-                          color: scheme.outlineVariant.withValues(alpha: 0.5),
-                        ),
                     ],
                   );
                 },
