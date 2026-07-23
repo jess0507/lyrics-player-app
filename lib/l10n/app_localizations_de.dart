@@ -467,6 +467,41 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bitte warte, bis die aktuelle Songtext-Aufgabe abgeschlossen ist';
 
   @override
+  String get lyrics_job_processing => 'Songtext wird verarbeitet…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Bei der Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Audiodatei konnte nicht heruntergeladen werden. Bitte versuche es erneut.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Der Synchronisierungsdienst ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Songtext konnte nicht mit dem Audio synchronisiert werden.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Songtext für diesen Titel konnte nicht erkannt werden.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Etwas ist schiefgelaufen. Bitte versuche es später erneut.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Songtext wurde verarbeitet, konnte aber nicht gespeichert werden. Bitte versuche es erneut.';
+
+  @override
+  String get lyrics_job_error_unknown =>
+      'Songtext konnte nicht verarbeitet werden.';
+
+  @override
   String get tab_playlists => 'Playlists';
 
   @override

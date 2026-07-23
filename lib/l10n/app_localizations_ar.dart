@@ -459,6 +459,39 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_job_busy => 'يرجى الانتظار حتى تنتهي مهمة الكلمات الحالية';
 
   @override
+  String get lyrics_job_processing => 'جارٍ معالجة كلمات الأغنية…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'حدث خطأ في الطلب. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'تعذّر تنزيل الملف الصوتي. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'خدمة المزامنة غير متاحة مؤقتًا. يُرجى المحاولة لاحقًا.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'تعذّرت مزامنة الكلمات مع الصوت.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'تعذّر التعرّف على كلمات هذه الأغنية.';
+
+  @override
+  String get lyrics_job_error_internal => 'حدث خطأ ما. يُرجى المحاولة لاحقًا.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'تمت معالجة الكلمات لكن تعذّر حفظها. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get lyrics_job_error_unknown => 'تعذّرت معالجة كلمات الأغنية.';
+
+  @override
   String get tab_playlists => 'قوائم التشغيل';
 
   @override

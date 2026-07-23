@@ -984,6 +984,60 @@ abstract class AppLocalizations {
   /// **'Please wait for the current lyrics task to finish'**
   String get lyrics_job_busy;
 
+  /// No description provided for @lyrics_job_processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing lyrics…'**
+  String get lyrics_job_processing;
+
+  /// No description provided for @lyrics_job_error_invalid_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong with the request. Please try again.'**
+  String get lyrics_job_error_invalid_request;
+
+  /// No description provided for @lyrics_job_error_audio_fetch_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t download the audio file. Please try again.'**
+  String get lyrics_job_error_audio_fetch_failed;
+
+  /// No description provided for @lyrics_job_error_align_model_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The alignment service is temporarily unavailable. Please try again later.'**
+  String get lyrics_job_error_align_model_unavailable;
+
+  /// No description provided for @lyrics_job_error_alignment_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t align the lyrics with the audio.'**
+  String get lyrics_job_error_alignment_failed;
+
+  /// No description provided for @lyrics_job_error_transcription_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t recognize lyrics in this track.'**
+  String get lyrics_job_error_transcription_failed;
+
+  /// No description provided for @lyrics_job_error_internal.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again later.'**
+  String get lyrics_job_error_internal;
+
+  /// No description provided for @lyrics_job_error_firestore_write_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics were processed but couldn\'t be saved. Please try again.'**
+  String get lyrics_job_error_firestore_write_failed;
+
+  /// No description provided for @lyrics_job_error_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t process lyrics.'**
+  String get lyrics_job_error_unknown;
+
   /// No description provided for @tab_playlists.
   ///
   /// In en, this message translates to:

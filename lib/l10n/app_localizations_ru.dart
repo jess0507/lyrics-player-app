@@ -461,6 +461,40 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_job_busy => 'Дождитесь завершения текущей задачи с текстом';
 
   @override
+  String get lyrics_job_processing => 'Обработка текста…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Произошла ошибка запроса. Повторите попытку.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Не удалось загрузить аудиофайл. Повторите попытку.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Служба синхронизации временно недоступна. Повторите попытку позже.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Не удалось синхронизировать текст с аудио.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Не удалось распознать текст этой песни.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Произошла ошибка. Повторите попытку позже.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Текст обработан, но не удалось сохранить его. Повторите попытку.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Не удалось обработать текст.';
+
+  @override
   String get tab_playlists => 'Плейлисты';
 
   @override

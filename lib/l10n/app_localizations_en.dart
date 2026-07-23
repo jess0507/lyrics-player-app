@@ -460,6 +460,40 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please wait for the current lyrics task to finish';
 
   @override
+  String get lyrics_job_processing => 'Processing lyrics…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Something went wrong with the request. Please try again.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Couldn\'t download the audio file. Please try again.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'The alignment service is temporarily unavailable. Please try again later.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Couldn\'t align the lyrics with the audio.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Couldn\'t recognize lyrics in this track.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Something went wrong. Please try again later.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Lyrics were processed but couldn\'t be saved. Please try again.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Couldn\'t process lyrics.';
+
+  @override
   String get tab_playlists => 'Playlists';
 
   @override

@@ -468,6 +468,40 @@ class AppLocalizationsFr extends AppLocalizations {
       'Veuillez attendre la fin de la tâche de paroles en cours';
 
   @override
+  String get lyrics_job_processing => 'Traitement des paroles…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Une erreur est survenue avec la requête. Veuillez réessayer.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Impossible de télécharger le fichier audio. Veuillez réessayer.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Le service de synchronisation est temporairement indisponible. Veuillez réessayer plus tard.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Impossible de synchroniser les paroles avec l\'audio.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Impossible de reconnaître les paroles de ce titre.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Une erreur est survenue. Veuillez réessayer plus tard.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Les paroles ont été traitées mais n\'ont pas pu être enregistrées. Veuillez réessayer.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Impossible de traiter les paroles.';
+
+  @override
   String get tab_playlists => 'Playlists';
 
   @override

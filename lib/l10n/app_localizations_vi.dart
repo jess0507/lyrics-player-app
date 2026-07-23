@@ -461,6 +461,40 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_job_busy => 'Vui lòng đợi tác vụ lời hiện tại hoàn tất';
 
   @override
+  String get lyrics_job_processing => 'Đang xử lý lời bài hát…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Đã xảy ra lỗi với yêu cầu. Vui lòng thử lại.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Không thể tải xuống tệp âm thanh. Vui lòng thử lại.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Dịch vụ đồng bộ tạm thời không khả dụng. Vui lòng thử lại sau.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Không thể đồng bộ lời với âm thanh.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Không thể nhận dạng lời của bài hát này.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Lời đã được xử lý nhưng không thể lưu. Vui lòng thử lại.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Không thể xử lý lời bài hát.';
+
+  @override
   String get tab_playlists => 'Danh sách phát';
 
   @override

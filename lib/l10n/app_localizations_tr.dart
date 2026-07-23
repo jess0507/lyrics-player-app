@@ -464,6 +464,39 @@ class AppLocalizationsTr extends AppLocalizations {
       'Lütfen mevcut sözler görevinin bitmesini bekleyin';
 
   @override
+  String get lyrics_job_processing => 'Sözler işleniyor…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'İstekte bir sorun oluştu. Lütfen tekrar deneyin.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Ses dosyası indirilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Eşitleme hizmeti geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin.';
+
+  @override
+  String get lyrics_job_error_alignment_failed => 'Sözler sesle eşitlenemedi.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Bu şarkının sözleri tanınamadı.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Bir sorun oluştu. Lütfen daha sonra tekrar deneyin.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Sözler işlendi ancak kaydedilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Sözler işlenemedi.';
+
+  @override
   String get tab_playlists => 'Çalma listeleri';
 
   @override

@@ -438,6 +438,33 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';
 
   @override
+  String get lyrics_job_processing => '歌詞處理中…';
+
+  @override
+  String get lyrics_job_error_invalid_request => '處理請求發生錯誤,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed => '無法下載音訊檔案,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable => '對齊服務暫時無法使用,請稍後再試。';
+
+  @override
+  String get lyrics_job_error_alignment_failed => '無法將歌詞與音訊對齊。';
+
+  @override
+  String get lyrics_job_error_transcription_failed => '無法辨識這首歌的歌詞。';
+
+  @override
+  String get lyrics_job_error_internal => '發生未預期的錯誤,請稍後再試。';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed => '歌詞已處理完成,但儲存失敗,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_unknown => '無法處理歌詞。';
+
+  @override
   String get tab_playlists => '播放清單';
 
   @override
@@ -964,6 +991,33 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_job_busy => '请等待当前的歌词任务完成';
 
   @override
+  String get lyrics_job_processing => '歌词处理中…';
+
+  @override
+  String get lyrics_job_error_invalid_request => '处理请求发生错误,请重新尝试。';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed => '无法下载音频文件,请重新尝试。';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable => '对齐服务暂时无法使用,请稍后再试。';
+
+  @override
+  String get lyrics_job_error_alignment_failed => '无法将歌词与音频对齐。';
+
+  @override
+  String get lyrics_job_error_transcription_failed => '无法识别这首歌的歌词。';
+
+  @override
+  String get lyrics_job_error_internal => '发生未预期的错误,请稍后再试。';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed => '歌词已处理完成,但保存失败,请重新尝试。';
+
+  @override
+  String get lyrics_job_error_unknown => '无法处理歌词。';
+
+  @override
   String get tab_playlists => '播放列表';
 
   @override
@@ -1488,6 +1542,33 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';
+
+  @override
+  String get lyrics_job_processing => '歌詞處理中…';
+
+  @override
+  String get lyrics_job_error_invalid_request => '處理請求發生錯誤,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed => '無法下載音訊檔案,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable => '對齊服務暫時無法使用,請稍後再試。';
+
+  @override
+  String get lyrics_job_error_alignment_failed => '無法將歌詞與音訊對齊。';
+
+  @override
+  String get lyrics_job_error_transcription_failed => '無法辨識這首歌的歌詞。';
+
+  @override
+  String get lyrics_job_error_internal => '發生未預期的錯誤,請稍後再試。';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed => '歌詞已處理完成,但儲存失敗,請重新嘗試。';
+
+  @override
+  String get lyrics_job_error_unknown => '無法處理歌詞。';
 
   @override
   String get tab_playlists => '播放清單';

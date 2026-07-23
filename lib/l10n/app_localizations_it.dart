@@ -465,6 +465,40 @@ class AppLocalizationsIt extends AppLocalizations {
       'Attendi il completamento dell’attività sul testo in corso';
 
   @override
+  String get lyrics_job_processing => 'Elaborazione del testo…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Si è verificato un errore con la richiesta. Riprova.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Impossibile scaricare il file audio. Riprova.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Il servizio di sincronizzazione non è temporaneamente disponibile. Riprova più tardi.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Impossibile sincronizzare il testo con l\'audio.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Impossibile riconoscere il testo di questo brano.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Si è verificato un errore. Riprova più tardi.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Il testo è stato elaborato ma non è stato possibile salvarlo. Riprova.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Impossibile elaborare il testo.';
+
+  @override
   String get tab_playlists => 'Playlist';
 
   @override

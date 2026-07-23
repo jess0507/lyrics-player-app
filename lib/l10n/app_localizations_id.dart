@@ -462,6 +462,39 @@ class AppLocalizationsId extends AppLocalizations {
       'Harap tunggu hingga tugas lirik saat ini selesai';
 
   @override
+  String get lyrics_job_processing => 'Memproses lirik…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Terjadi kesalahan pada permintaan. Silakan coba lagi.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Tidak dapat mengunduh file audio. Silakan coba lagi.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'Layanan penyelarasan sedang tidak tersedia. Coba lagi nanti.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Tidak dapat menyelaraskan lirik dengan audio.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Tidak dapat mengenali lirik pada lagu ini.';
+
+  @override
+  String get lyrics_job_error_internal => 'Terjadi kesalahan. Coba lagi nanti.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'Lirik telah diproses, tetapi tidak dapat disimpan. Silakan coba lagi.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Tidak dapat memproses lirik.';
+
+  @override
   String get tab_playlists => 'Playlist';
 
   @override

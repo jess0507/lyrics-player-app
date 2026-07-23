@@ -443,6 +443,37 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_job_busy => '현재 가사 작업이 끝날 때까지 기다려 주세요';
 
   @override
+  String get lyrics_job_processing => '가사를 처리하는 중…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      '요청 처리 중 오류가 발생했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      '오디오 파일을 다운로드할 수 없습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      '동기화 서비스를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_job_error_alignment_failed => '가사를 오디오와 동기화할 수 없습니다.';
+
+  @override
+  String get lyrics_job_error_transcription_failed => '이 곡의 가사를 인식할 수 없습니다.';
+
+  @override
+  String get lyrics_job_error_internal => '오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      '가사 처리는 완료되었지만 저장할 수 없습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_job_error_unknown => '가사를 처리할 수 없습니다.';
+
+  @override
   String get tab_playlists => '재생목록';
 
   @override

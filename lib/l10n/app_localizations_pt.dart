@@ -462,6 +462,40 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lyrics_job_busy => 'Aguarde a conclusão da tarefa de letra atual';
 
   @override
+  String get lyrics_job_processing => 'Processando a letra…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'Ocorreu um erro na solicitação. Tente novamente.';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'Não foi possível baixar o arquivo de áudio. Tente novamente.';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'O serviço de sincronização está temporariamente indisponível. Tente novamente mais tarde.';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'Não foi possível sincronizar a letra com o áudio.';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'Não foi possível reconhecer a letra desta música.';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'Ocorreu um erro. Tente novamente mais tarde.';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'A letra foi processada, mas não foi possível salvá-la. Tente novamente.';
+
+  @override
+  String get lyrics_job_error_unknown => 'Não foi possível processar a letra.';
+
+  @override
   String get tab_playlists => 'Playlists';
 
   @override

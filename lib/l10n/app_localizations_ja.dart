@@ -440,6 +440,37 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_job_busy => '現在の歌詞処理が完了するまでお待ちください';
 
   @override
+  String get lyrics_job_processing => '歌詞を処理しています…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'リクエストでエラーが発生しました。もう一度お試しください。';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      '音声ファイルをダウンロードできませんでした。もう一度お試しください。';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      '同期サービスが一時的に利用できません。しばらくしてからもう一度お試しください。';
+
+  @override
+  String get lyrics_job_error_alignment_failed => '歌詞と音声を同期できませんでした。';
+
+  @override
+  String get lyrics_job_error_transcription_failed => 'この曲の歌詞を認識できませんでした。';
+
+  @override
+  String get lyrics_job_error_internal => 'エラーが発生しました。しばらくしてからもう一度お試しください。';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      '歌詞の処理は完了しましたが、保存できませんでした。もう一度お試しください。';
+
+  @override
+  String get lyrics_job_error_unknown => '歌詞を処理できませんでした。';
+
+  @override
   String get tab_playlists => 'プレイリスト';
 
   @override

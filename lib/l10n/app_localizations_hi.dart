@@ -463,6 +463,40 @@ class AppLocalizationsHi extends AppLocalizations {
       'कृपया वर्तमान बोल कार्य पूरा होने तक प्रतीक्षा करें';
 
   @override
+  String get lyrics_job_processing => 'बोल प्रोसेस हो रहे हैं…';
+
+  @override
+  String get lyrics_job_error_invalid_request =>
+      'अनुरोध में कुछ गड़बड़ी हुई। कृपया फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_job_error_audio_fetch_failed =>
+      'ऑडियो फ़ाइल डाउनलोड नहीं हो सकी। कृपया फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_job_error_align_model_unavailable =>
+      'सिंक सेवा अस्थायी रूप से अनुपलब्ध है। कृपया बाद में फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_job_error_alignment_failed =>
+      'बोल को ऑडियो के साथ सिंक नहीं किया जा सका।';
+
+  @override
+  String get lyrics_job_error_transcription_failed =>
+      'इस गाने के बोल पहचाने नहीं जा सके।';
+
+  @override
+  String get lyrics_job_error_internal =>
+      'कुछ गड़बड़ी हुई। कृपया बाद में फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_job_error_firestore_write_failed =>
+      'बोल प्रोसेस हो गए, लेकिन सेव नहीं हो सके। कृपया फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_job_error_unknown => 'बोल प्रोसेस नहीं हो सके।';
+
+  @override
   String get tab_playlists => 'प्लेलिस्ट';
 
   @override
