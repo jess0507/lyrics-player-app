@@ -11,8 +11,7 @@ import 'package:seek_player/features/playlists/providers/playlists_provider.dart
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/widgets/playing_indicator.dart';
-import 'package:seek_player/shared/widgets/track_leading.dart';
+import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 單一播放清單內容:播放全部、逐首播放、移除、拖曳排序。
 class PlaylistDetailPage extends ConsumerWidget {
@@ -47,27 +46,48 @@ class PlaylistDetailPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // 最上方的「新增至這個播放清單」入口:往上展開挑選曲目頁。
+          // 最上方兩個入口,都往上展開同一張挑選/排序曲目頁:
+          // 「增加項目」新增曲目、「編輯播放清單」調整已加入曲目的順序。
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
             child: Align(
               alignment: AlignmentDirectional.centerStart,
-              child: TextButton.icon(
-                style: TextButton.styleFrom(
-                  backgroundColor: scheme.primaryContainer,
-                  foregroundColor: scheme.onPrimaryContainer,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  TextButton.icon(
+                    style: TextButton.styleFrom(
+                      backgroundColor: scheme.primaryContainer,
+                      foregroundColor: scheme.onPrimaryContainer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () =>
+                        showPlaylistAddTracksSheet(context, playlistId),
+                    icon: const Icon(Icons.add),
+                    label: Text(l10n.playlist_add_item),
                   ),
-                ),
-                onPressed: () =>
-                    showPlaylistAddTracksSheet(context, playlistId),
-                icon: const Icon(Icons.add),
-                label: Text(
-                  tracks.isEmpty
-                      ? l10n.playlist_add_tracks
-                      : l10n.playlist_edit_tracks,
-                ),
+                  // 清單為空時沒有項目可排序或刪除，不顯示編輯按鈕。
+                  if (tracks.isNotEmpty)
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        backgroundColor: scheme.primaryContainer,
+                        foregroundColor: scheme.onPrimaryContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () => showPlaylistAddTracksSheet(
+                        context,
+                        playlistId,
+                        reorderable: true,
+                      ),
+                      icon: const Icon(Icons.edit),
+                      label: Text(l10n.playlist_edit),
+                    ),
+                ],
               ),
             ),
           ),
@@ -82,7 +102,6 @@ class PlaylistDetailPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final tracks = ref.watch(playlistTracksProvider(playlistId));
     final audio = ref.watch(audioPlayerServiceProvider);
-    final scheme = Theme.of(context).colorScheme;
 
     return tracks.isEmpty
         ? Center(
@@ -109,64 +128,23 @@ class PlaylistDetailPage extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   final track = tracks[index];
                   final isCurrent = track.id == currentId;
-                  return Column(
+                  return TrackListTile(
                     key: ValueKey(track.id),
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        contentPadding: EdgeInsets.only(
-                          left: 16.0,
-                          top: 4.0,
-                          bottom: 4.0,
-                        ),
-                        leading: TrackLeading(
-                          trackId: track.id,
-                          isCurrent: isCurrent,
-                          audio: audio,
-                          color: scheme.primary,
-                        ),
-                        title: Row(
-                          children: [
-                            if (isCurrent) ...[
-                              PlayingTrackLeading(
-                                audio: audio,
-                                color: scheme.primary,
-                              ),
-                              const SizedBox(width: 8),
-                            ],
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Text(
-                                track.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: isCurrent
-                                    ? TextStyle(
-                                        color: scheme.primary,
-                                        fontWeight: FontWeight.bold,
-                                      )
-                                    : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: track.artist == null
-                            ? null
-                            : Text(track.artist!, maxLines: 1),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.more_vert),
-                          onPressed: () => showPlaylistTrackActionsSheet(
-                            context,
-                            ref,
-                            playlistId,
-                            track,
-                          ),
-                        ),
-                        onTap: () => ref
-                            .read(playbackControllerProvider)
-                            .playTracksAt(tracks, index),
+                    track: track,
+                    audio: audio,
+                    isCurrent: isCurrent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.more_vert),
+                      onPressed: () => showPlaylistTrackActionsSheet(
+                        context,
+                        ref,
+                        playlistId,
+                        track,
                       ),
-                    ],
+                    ),
+                    onTap: () => ref
+                        .read(playbackControllerProvider)
+                        .playTracksAt(tracks, index),
                   );
                 },
               );

@@ -10,8 +10,7 @@ import 'package:seek_player/features/music_list/providers/music_search_query_pro
 import '../../core/audio/audio_player_service.dart';
 import '../../core/permissions/permission_service.dart';
 import '../../l10n/app_localizations.dart';
-import '../../shared/widgets/playing_indicator.dart';
-import '../../shared/widgets/track_leading.dart';
+import '../../shared/widgets/track_list_tile.dart';
 import '../player/providers/playback_controller.dart';
 import 'widgets/track_actions_sheet.dart';
 
@@ -137,7 +136,6 @@ class _MusicListPageState extends ConsumerState<MusicListPage> {
       );
     }
     final audio = ref.watch(audioPlayerServiceProvider);
-    final scheme = Theme.of(context).colorScheme;
     return StreamBuilder<SequenceState?>(
       stream: audio.player.sequenceStateStream,
       builder: (context, snapshot) {
@@ -148,43 +146,10 @@ class _MusicListPageState extends ConsumerState<MusicListPage> {
           itemBuilder: (context, index) {
             final track = tracks[index];
             final isCurrent = track.id == currentId;
-            return ListTile(
-              contentPadding: EdgeInsets.only(
-                left: 16.0,
-                top: 4.0,
-                bottom: 4.0,
-              ),
-              leading: TrackLeading(
-                trackId: track.id,
-                isCurrent: isCurrent,
-                audio: audio,
-                color: scheme.primary,
-              ),
-              title: Row(
-                children: [
-                  if (isCurrent) ...[
-                    PlayingTrackLeading(audio: audio, color: scheme.primary),
-                    const SizedBox(width: 8),
-                  ],
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Text(
-                      track.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: isCurrent
-                          ? TextStyle(
-                              color: scheme.primary,
-                              fontWeight: FontWeight.bold,
-                            )
-                          : null,
-                    ),
-                  ),
-                ],
-              ),
-              subtitle: track.artist == null
-                  ? null
-                  : Text(track.artist!, maxLines: 1),
+            return TrackListTile(
+              track: track,
+              audio: audio,
+              isCurrent: isCurrent,
               trailing: IconButton(
                 icon: const Icon(Icons.more_vert),
                 onPressed: () => showTrackActionsSheet(context, ref, track),
