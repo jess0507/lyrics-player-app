@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -64,7 +66,14 @@ class SecondaryControls extends ConsumerWidget {
                 iconSize: _kIconSize,
                 isSelected: selected,
                 onPressed: enabled ? () => _cycleLoop(mode) : null,
-                icon: Icon(icon),
+                icon: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Icon(icon),
+                    // 關閉狀態疊一條斜線，與 repeat/repeat_one 共用的圖示做出區隔。
+                    if (mode == LoopMode.off) const _DiagonalSlash(),
+                  ],
+                ),
               );
             },
           ),
@@ -116,5 +125,33 @@ class SecondaryControls extends ConsumerWidget {
       LoopMode.one => LoopMode.off,
     };
     audio.setLoopMode(next);
+  }
+}
+
+/// 疊在 loop icon 上的斜線，顏色跟隨所在 [IconButton] 當下實際套用的 [IconTheme]。
+///
+/// 用 [Builder] 取得自身在 element tree 中的 context，
+/// 才能讀到 [IconButton] 內部 `IconTheme.merge` 後的顏色，
+/// 而不是外層 [StreamBuilder] 尚未套用該樣式前的 context。
+class _DiagonalSlash extends StatelessWidget {
+  const _DiagonalSlash();
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        final size = IconTheme.of(context).size ?? _kIconSize;
+        return IgnorePointer(
+          child: Transform.rotate(
+            angle: math.pi / 4,
+            child: Container(
+              width: size * 1.15,
+              height: 1.4,
+              color: IconTheme.of(context).color,
+            ),
+          ),
+        );
+      },
+    );
   }
 }
