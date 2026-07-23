@@ -403,6 +403,11 @@ class AppLocalizationsId extends AppLocalizations {
       'Lagu lain sedang diproses. Coba lagi nanti.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Coba lagi nanti. Sedang diproses: \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Membuat lirik di latar belakang…';
 

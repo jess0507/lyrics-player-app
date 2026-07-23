@@ -126,6 +126,12 @@
   "lyrics_auto_sync_success": "Lyrics synced (auto, may be imperfect)",
   "lyrics_auto_sync_failed": "Couldn't sync lyrics; kept original text",
   "lyrics_background_busy": "Another song is already being processed. Please try again later.",
+  "lyrics_background_busy_named": "Please try again later. Currently processing \"{title}\".",
+  "@lyrics_background_busy_named": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
   "lyrics_auto_generate_running_background": "Generating lyrics in the background…",
   "lyrics_auto_sync_running_background": "Aligning lyrics in the background…",
   "lyrics_auto_sync_need_login": "Sign in to use auto-sync",

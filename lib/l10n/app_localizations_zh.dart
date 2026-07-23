@@ -387,6 +387,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return '請稍後再試,正在處理《$title》';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background => '已在背景產生歌詞';
 
   @override
@@ -940,6 +945,11 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_background_busy => '已有其他歌曲正在处理中,请稍后再试';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return '请稍后再试,正在处理《$title》';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background => '已在后台生成歌词';
 
   @override
@@ -1491,6 +1501,11 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
+
+  @override
+  String lyrics_background_busy_named(String title) {
+    return '請稍後再試,正在處理《$title》';
+  }
 
   @override
   String get lyrics_auto_generate_running_background => '已在背景產生歌詞';

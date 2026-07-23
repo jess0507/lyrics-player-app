@@ -403,6 +403,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'दूसरा गाना पहले से प्रोसेस हो रहा है। कृपया बाद में फिर से कोशिश करें।';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'कृपया बाद में फिर से कोशिश करें। अभी प्रोसेस हो रहा है: \"$title\"';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'बैकग्राउंड में लिरिक्स बनाए जा रहे हैं…';
 

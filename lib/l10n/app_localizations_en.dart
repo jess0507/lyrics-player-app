@@ -402,6 +402,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Another song is already being processed. Please try again later.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Please try again later. Currently processing \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Generating lyrics in the background…';
 

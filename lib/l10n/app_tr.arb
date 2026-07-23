@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Sözler eşitlendi (otomatik, hatalı olabilir)",
   "lyrics_auto_sync_failed": "Sözler eşitlenemedi; özgün metin korundu",
   "lyrics_background_busy": "Başka bir şarkı zaten işleniyor. Lütfen daha sonra tekrar deneyin.",
+  "lyrics_background_busy_named": "Lütfen daha sonra tekrar deneyin. Şu anda işleniyor: \"{title}\".",
   "lyrics_auto_generate_running_background": "Şarkı sözleri arka planda oluşturuluyor…",
   "lyrics_auto_sync_running_background": "Şarkı sözleri arka planda hizalanıyor…",
   "lyrics_auto_sync_need_login": "Otomatik eşitlemeyi kullanmak için giriş yapın",

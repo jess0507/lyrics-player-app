@@ -401,6 +401,11 @@ class AppLocalizationsRu extends AppLocalizations {
       'Уже обрабатывается другая песня. Повторите попытку позже.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Повторите попытку позже. Сейчас обрабатывается: «$title».';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Текст создаётся в фоновом режиме…';
 

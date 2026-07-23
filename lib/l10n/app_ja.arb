@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "歌詞を同期しました(自動、誤差の可能性あり)",
   "lyrics_auto_sync_failed": "歌詞を同期できませんでした。元の歌詞を保持します",
   "lyrics_background_busy": "別の曲を処理中です。しばらくしてからもう一度お試しください",
+  "lyrics_background_busy_named": "しばらくしてからもう一度お試しください。処理中:「{title}」",
   "lyrics_auto_generate_running_background": "バックグラウンドで歌詞を生成しています",
   "lyrics_auto_sync_running_background": "バックグラウンドで歌詞を同期しています",
   "lyrics_auto_sync_need_login": "自動同期を使うにはログインしてください",

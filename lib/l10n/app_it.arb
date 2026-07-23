@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Testo sincronizzato (automatico, possibili imprecisioni)",
   "lyrics_auto_sync_failed": "Impossibile sincronizzare il testo; testo originale mantenuto",
   "lyrics_background_busy": "Un altro brano è già in elaborazione. Riprova più tardi.",
+  "lyrics_background_busy_named": "Riprova più tardi. In elaborazione: \"{title}\".",
   "lyrics_auto_generate_running_background": "Generazione del testo in background…",
   "lyrics_auto_sync_running_background": "Sincronizzazione del testo in background…",
   "lyrics_auto_sync_need_login": "Accedi per usare la sincronizzazione automatica",

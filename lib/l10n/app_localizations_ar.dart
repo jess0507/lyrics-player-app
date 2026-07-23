@@ -401,6 +401,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'تجري معالجة أغنية أخرى بالفعل. يُرجى المحاولة لاحقًا.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'يُرجى المحاولة لاحقًا. جارٍ معالجة \"$title\" حاليًا.';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'يتم إنشاء الكلمات في الخلفية…';
 

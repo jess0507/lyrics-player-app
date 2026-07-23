@@ -405,6 +405,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Ein anderer Titel wird bereits verarbeitet. Bitte später erneut versuchen.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Bitte später erneut versuchen. Wird gerade verarbeitet: „$title“.';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Songtext wird im Hintergrund erstellt…';
 

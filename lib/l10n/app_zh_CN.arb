@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "已同步歌词(可能有误)",
   "lyrics_auto_sync_failed": "同步失败,已保留原歌词",
   "lyrics_background_busy": "已有其他歌曲正在处理中,请稍后再试",
+  "lyrics_background_busy_named": "请稍后再试,正在处理《{title}》",
   "lyrics_auto_generate_running_background": "已在后台生成歌词",
   "lyrics_auto_sync_running_background": "已在后台对齐歌词",
   "lyrics_auto_sync_need_login": "请先登录才能使用歌词同步",

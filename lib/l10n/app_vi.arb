@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Đã đồng bộ lời (tự động, có thể chưa chính xác)",
   "lyrics_auto_sync_failed": "Không thể đồng bộ lời; đã giữ lời gốc",
   "lyrics_background_busy": "Một bài hát khác đang được xử lý. Vui lòng thử lại sau.",
+  "lyrics_background_busy_named": "Vui lòng thử lại sau. Đang xử lý: \"{title}\".",
   "lyrics_auto_generate_running_background": "Đang tạo lời bài hát trong nền…",
   "lyrics_auto_sync_running_background": "Đang đồng bộ lời bài hát trong nền…",
   "lyrics_auto_sync_need_login": "Đăng nhập để dùng tự động đồng bộ",

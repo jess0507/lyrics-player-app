@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "تمت مزامنة الكلمات (تلقائيًا، قد تكون غير دقيقة)",
   "lyrics_auto_sync_failed": "تعذّرت مزامنة الكلمات؛ تم الإبقاء على النص الأصلي",
   "lyrics_background_busy": "تجري معالجة أغنية أخرى بالفعل. يُرجى المحاولة لاحقًا.",
+  "lyrics_background_busy_named": "يُرجى المحاولة لاحقًا. جارٍ معالجة \"{title}\" حاليًا.",
   "lyrics_auto_generate_running_background": "يتم إنشاء الكلمات في الخلفية…",
   "lyrics_auto_sync_running_background": "تتم مزامنة الكلمات في الخلفية…",
   "lyrics_auto_sync_need_login": "سجّل الدخول لاستخدام المزامنة التلقائية",

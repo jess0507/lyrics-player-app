@@ -404,6 +404,11 @@ class AppLocalizationsIt extends AppLocalizations {
       'Un altro brano è già in elaborazione. Riprova più tardi.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Riprova più tardi. In elaborazione: \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Generazione del testo in background…';
 

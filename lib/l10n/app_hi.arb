@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "बोल सिंक हो गए (स्वतः, त्रुटि संभव)",
   "lyrics_auto_sync_failed": "बोल सिंक नहीं हो सके; मूल टेक्स्ट रखा गया",
   "lyrics_background_busy": "दूसरा गाना पहले से प्रोसेस हो रहा है। कृपया बाद में फिर से कोशिश करें।",
+  "lyrics_background_busy_named": "कृपया बाद में फिर से कोशिश करें। अभी प्रोसेस हो रहा है: \"{title}\"",
   "lyrics_auto_generate_running_background": "बैकग्राउंड में लिरिक्स बनाए जा रहे हैं…",
   "lyrics_auto_sync_running_background": "बैकग्राउंड में लिरिक्स संरेखित किए जा रहे हैं…",
   "lyrics_auto_sync_need_login": "स्वतः सिंक उपयोग करने के लिए साइन इन करें",

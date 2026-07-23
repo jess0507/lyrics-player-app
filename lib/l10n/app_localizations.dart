@@ -882,6 +882,12 @@ abstract class AppLocalizations {
   /// **'Another song is already being processed. Please try again later.'**
   String get lyrics_background_busy;
 
+  /// No description provided for @lyrics_background_busy_named.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again later. Currently processing \"{title}\".'**
+  String lyrics_background_busy_named(String title);
+
   /// No description provided for @lyrics_auto_generate_running_background.
   ///
   /// In en, this message translates to:

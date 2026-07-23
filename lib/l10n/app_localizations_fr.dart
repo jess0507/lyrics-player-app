@@ -407,6 +407,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Une autre chanson est déjà en cours de traitement. Veuillez réessayer plus tard.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Veuillez réessayer plus tard. En cours de traitement : « $title ».';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Génération des paroles en arrière-plan…';
 

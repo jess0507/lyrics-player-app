@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Paroles synchronisées (auto, peut être imprécis)",
   "lyrics_auto_sync_failed": "Impossible de synchroniser les paroles ; texte d’origine conservé",
   "lyrics_background_busy": "Une autre chanson est déjà en cours de traitement. Veuillez réessayer plus tard.",
+  "lyrics_background_busy_named": "Veuillez réessayer plus tard. En cours de traitement : « {title} ».",
   "lyrics_auto_generate_running_background": "Génération des paroles en arrière-plan…",
   "lyrics_auto_sync_running_background": "Synchronisation des paroles en arrière-plan…",
   "lyrics_auto_sync_need_login": "Connectez-vous pour utiliser la synchronisation automatique",

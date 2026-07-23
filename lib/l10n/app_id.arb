@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Lirik tersinkron (otomatis, mungkin kurang tepat)",
   "lyrics_auto_sync_failed": "Tidak dapat menyinkronkan lirik; teks asli dipertahankan",
   "lyrics_background_busy": "Lagu lain sedang diproses. Coba lagi nanti.",
+  "lyrics_background_busy_named": "Coba lagi nanti. Sedang diproses: \"{title}\".",
   "lyrics_auto_generate_running_background": "Membuat lirik di latar belakang…",
   "lyrics_auto_sync_running_background": "Menyelaraskan lirik di latar belakang…",
   "lyrics_auto_sync_need_login": "Masuk untuk menggunakan sinkronisasi otomatis",

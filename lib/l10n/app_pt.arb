@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Letra sincronizada (automática, pode ter imprecisões)",
   "lyrics_auto_sync_failed": "Não foi possível sincronizar a letra; texto original mantido",
   "lyrics_background_busy": "Outra música já está sendo processada. Tente novamente mais tarde.",
+  "lyrics_background_busy_named": "Tente novamente mais tarde. Processando no momento: \"{title}\".",
   "lyrics_auto_generate_running_background": "Gerando a letra em segundo plano…",
   "lyrics_auto_sync_running_background": "Sincronizando a letra em segundo plano…",
   "lyrics_auto_sync_need_login": "Faça login para usar a sincronização automática",

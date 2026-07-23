@@ -403,6 +403,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Başka bir şarkı zaten işleniyor. Lütfen daha sonra tekrar deneyin.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Lütfen daha sonra tekrar deneyin. Şu anda işleniyor: \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Şarkı sözleri arka planda oluşturuluyor…';
 

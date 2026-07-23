@@ -126,6 +126,7 @@
   "lyrics_auto_sync_success": "Текст синхронизирован (автоматически, возможны неточности)",
   "lyrics_auto_sync_failed": "Не удалось синхронизировать текст; оставлен исходный",
   "lyrics_background_busy": "Уже обрабатывается другая песня. Повторите попытку позже.",
+  "lyrics_background_busy_named": "Повторите попытку позже. Сейчас обрабатывается: «{title}».",
   "lyrics_auto_generate_running_background": "Текст создаётся в фоновом режиме…",
   "lyrics_auto_sync_running_background": "Текст синхронизируется в фоновом режиме…",
   "lyrics_auto_sync_need_login": "Войдите, чтобы использовать автосинхронизацию",

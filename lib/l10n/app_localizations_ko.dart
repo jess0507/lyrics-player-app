@@ -391,6 +391,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_background_busy => '다른 곡을 처리 중입니다. 잠시 후 다시 시도해 주세요';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return '잠시 후 다시 시도해 주세요. 처리 중: \"$title\"';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background => '백그라운드에서 가사를 생성하고 있습니다';
 
   @override

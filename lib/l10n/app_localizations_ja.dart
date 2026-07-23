@@ -389,6 +389,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_background_busy => '別の曲を処理中です。しばらくしてからもう一度お試しください';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'しばらくしてからもう一度お試しください。処理中:「$title」';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background => 'バックグラウンドで歌詞を生成しています';
 
   @override

@@ -404,6 +404,11 @@ class AppLocalizationsVi extends AppLocalizations {
       'Một bài hát khác đang được xử lý. Vui lòng thử lại sau.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Vui lòng thử lại sau. Đang xử lý: \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Đang tạo lời bài hát trong nền…';
 

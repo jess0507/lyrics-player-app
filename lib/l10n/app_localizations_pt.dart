@@ -402,6 +402,11 @@ class AppLocalizationsPt extends AppLocalizations {
       'Outra música já está sendo processada. Tente novamente mais tarde.';
 
   @override
+  String lyrics_background_busy_named(String title) {
+    return 'Tente novamente mais tarde. Processando no momento: \"$title\".';
+  }
+
+  @override
   String get lyrics_auto_generate_running_background =>
       'Gerando a letra em segundo plano…';
 
