@@ -22,6 +22,8 @@ class AudioPlayerService {
 
   final AudioPlayer _player = AudioPlayer();
 
+  static const _restartThreshold = Duration(seconds: 3);
+
   AudioPlayer get player => _player;
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
@@ -68,7 +70,15 @@ class AudioPlayerService {
   Future<void> pause() => _player.pause();
   Future<void> seek(Duration position) => _player.seek(position);
   Future<void> seekToNext() => _player.seekToNext();
-  Future<void> seekToPrevious() => _player.seekToPrevious();
+
+  /// 若目前曲目已播放超過 [_restartThreshold]，重置本曲進度到開頭；
+  /// 否則（剛播放不久）才真的跳到上一首。
+  Future<void> seekToPrevious() {
+    if (_player.position > _restartThreshold) {
+      return _player.seek(Duration.zero);
+    }
+    return _player.seekToPrevious();
+  }
   Future<void> setLoopMode(LoopMode mode) => _player.setLoopMode(mode);
   Future<void> setShuffle(bool enabled) =>
       _player.setShuffleModeEnabled(enabled);
