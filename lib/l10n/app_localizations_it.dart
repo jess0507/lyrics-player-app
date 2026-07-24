@@ -400,6 +400,14 @@ class AppLocalizationsIt extends AppLocalizations {
       'Impossibile sincronizzare il testo; testo originale mantenuto';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Richiesta di sincronizzazione del testo inviata';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Invio della richiesta di sincronizzazione del testo non riuscito';
+
+  @override
   String get lyrics_background_busy =>
       'Un altro brano è già in elaborazione. Riprova più tardi.';
 
@@ -451,6 +459,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Impossibile generare il testo';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Richiesta di generazione del testo inviata';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Invio della richiesta di generazione del testo non riuscito';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Accedi per usare la generazione automatica';
 
@@ -471,6 +487,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Elaborazione del testo…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (In esecuzione)';
 
   @override
   String get lyrics_job_error_invalid_request =>

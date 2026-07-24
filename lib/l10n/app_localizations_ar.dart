@@ -397,6 +397,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعذّرت مزامنة الكلمات؛ تم الإبقاء على النص الأصلي';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'تم إرسال طلب مزامنة كلمات الأغنية';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'فشل إرسال طلب مزامنة كلمات الأغنية';
+
+  @override
   String get lyrics_background_busy =>
       'تجري معالجة أغنية أخرى بالفعل. يُرجى المحاولة لاحقًا.';
 
@@ -447,6 +455,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'تعذّر إنشاء الكلمات';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'تم إرسال طلب إنشاء كلمات الأغنية';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'فشل إرسال طلب إنشاء كلمات الأغنية';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'سجّل الدخول لاستخدام الإنشاء التلقائي';
 
@@ -465,6 +481,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'جارٍ معالجة كلمات الأغنية…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (قيد التشغيل)';
 
   @override
   String get lyrics_job_error_invalid_request =>

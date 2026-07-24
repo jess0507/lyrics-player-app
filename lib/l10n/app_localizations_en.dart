@@ -398,6 +398,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t sync lyrics; kept original text';
 
   @override
+  String get lyrics_auto_sync_request_success => 'Sync lyrics request sent';
+
+  @override
+  String get lyrics_auto_sync_request_failed => 'Sync lyrics request failed';
+
+  @override
   String get lyrics_background_busy =>
       'Another song is already being processed. Please try again later.';
 
@@ -447,6 +453,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Couldn\'t generate lyrics';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Generate lyrics request sent';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Generate lyrics request failed';
+
+  @override
   String get lyrics_auto_generate_need_login => 'Sign in to use auto-generate';
 
   @override
@@ -466,6 +480,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Processing lyrics…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Running)';
 
   @override
   String get lyrics_job_error_invalid_request =>

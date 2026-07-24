@@ -876,6 +876,18 @@ abstract class AppLocalizations {
   /// **'Couldn\'t sync lyrics; kept original text'**
   String get lyrics_auto_sync_failed;
 
+  /// No description provided for @lyrics_auto_sync_request_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync lyrics request sent'**
+  String get lyrics_auto_sync_request_success;
+
+  /// No description provided for @lyrics_auto_sync_request_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync lyrics request failed'**
+  String get lyrics_auto_sync_request_failed;
+
   /// No description provided for @lyrics_background_busy.
   ///
   /// In en, this message translates to:
@@ -960,6 +972,18 @@ abstract class AppLocalizations {
   /// **'Couldn\'t generate lyrics'**
   String get lyrics_auto_generate_failed;
 
+  /// No description provided for @lyrics_auto_generate_request_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate lyrics request sent'**
+  String get lyrics_auto_generate_request_success;
+
+  /// No description provided for @lyrics_auto_generate_request_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate lyrics request failed'**
+  String get lyrics_auto_generate_request_failed;
+
   /// No description provided for @lyrics_auto_generate_need_login.
   ///
   /// In en, this message translates to:
@@ -995,6 +1019,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Processing lyrics…'**
   String get lyrics_job_processing;
+
+  /// No description provided for @lyrics_action_running_suffix.
+  ///
+  /// In en, this message translates to:
+  /// **' (Running)'**
+  String get lyrics_action_running_suffix;
 
   /// No description provided for @lyrics_job_error_invalid_request.
   ///

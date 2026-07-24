@@ -399,6 +399,14 @@ class AppLocalizationsId extends AppLocalizations {
       'Tidak dapat menyinkronkan lirik; teks asli dipertahankan';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Permintaan sinkronisasi lirik terkirim';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Permintaan sinkronisasi lirik gagal';
+
+  @override
   String get lyrics_background_busy =>
       'Lagu lain sedang diproses. Coba lagi nanti.';
 
@@ -449,6 +457,14 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Tidak dapat membuat lirik';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Permintaan pembuatan lirik terkirim';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Permintaan pembuatan lirik gagal';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Masuk untuk menggunakan pembuatan otomatis';
 
@@ -468,6 +484,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Memproses lirik…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Sedang berjalan)';
 
   @override
   String get lyrics_job_error_invalid_request =>

@@ -388,6 +388,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_sync_failed => '가사를 동기화할 수 없어 원본 가사를 유지했습니다';
 
   @override
+  String get lyrics_auto_sync_request_success => '가사 동기화 요청을 보냈습니다';
+
+  @override
+  String get lyrics_auto_sync_request_failed => '가사 동기화 요청 전송 실패';
+
+  @override
   String get lyrics_background_busy => '다른 곡을 처리 중입니다. 잠시 후 다시 시도해 주세요';
 
   @override
@@ -432,6 +438,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_generate_failed => '가사를 생성할 수 없습니다';
 
   @override
+  String get lyrics_auto_generate_request_success => '가사 생성 요청을 보냈습니다';
+
+  @override
+  String get lyrics_auto_generate_request_failed => '가사 생성 요청 전송 실패';
+
+  @override
   String get lyrics_auto_generate_need_login => '자동 생성을 사용하려면 로그인하세요';
 
   @override
@@ -449,6 +461,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => '가사를 처리하는 중…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (실행 중)';
 
   @override
   String get lyrics_job_error_invalid_request =>

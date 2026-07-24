@@ -397,6 +397,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось синхронизировать текст; оставлен исходный';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Запрос на синхронизацию текста отправлен';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Не удалось отправить запрос на синхронизацию текста';
+
+  @override
   String get lyrics_background_busy =>
       'Уже обрабатывается другая песня. Повторите попытку позже.';
 
@@ -448,6 +456,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Не удалось создать текст';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Запрос на создание текста отправлен';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Не удалось отправить запрос на создание текста';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Войдите, чтобы использовать автосоздание';
 
@@ -467,6 +483,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Обработка текста…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Выполняется)';
 
   @override
   String get lyrics_job_error_invalid_request =>

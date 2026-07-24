@@ -400,6 +400,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_sync_failed => 'Không thể đồng bộ lời; đã giữ lời gốc';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Đã gửi yêu cầu đồng bộ lời bài hát';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Gửi yêu cầu đồng bộ lời bài hát không thành công';
+
+  @override
   String get lyrics_background_busy =>
       'Một bài hát khác đang được xử lý. Vui lòng thử lại sau.';
 
@@ -449,6 +457,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Không thể tạo lời';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Đã gửi yêu cầu tạo lời bài hát';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Gửi yêu cầu tạo lời bài hát không thành công';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Đăng nhập để dùng tự động tạo lời';
 
@@ -467,6 +483,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Đang xử lý lời bài hát…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Đang chạy)';
 
   @override
   String get lyrics_job_error_invalid_request =>

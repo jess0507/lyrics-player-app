@@ -384,6 +384,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_sync_failed => '同步失敗,已保留原歌詞';
 
   @override
+  String get lyrics_auto_sync_request_success => '發出請求，同步歌詞中...';
+
+  @override
+  String get lyrics_auto_sync_request_failed => '請求失敗';
+
+  @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
 
   @override
@@ -428,6 +434,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_generate_failed => '產生歌詞失敗';
 
   @override
+  String get lyrics_auto_generate_request_success => '發出請求，生成歌詞中...';
+
+  @override
+  String get lyrics_auto_generate_request_failed => '請求失敗';
+
+  @override
   String get lyrics_auto_generate_need_login => '請先登入才能使用自動產生歌詞';
 
   @override
@@ -444,6 +456,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => '歌詞處理中…';
+
+  @override
+  String get lyrics_action_running_suffix => '（執行中）';
 
   @override
   String get lyrics_job_error_invalid_request => '處理請求發生錯誤,請重新嘗試。';
@@ -942,6 +957,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_sync_failed => '同步失败,已保留原歌词';
 
   @override
+  String get lyrics_auto_sync_request_success => '发出请求，同步歌词中...';
+
+  @override
+  String get lyrics_auto_sync_request_failed => '请求失败';
+
+  @override
   String get lyrics_background_busy => '已有其他歌曲正在处理中,请稍后再试';
 
   @override
@@ -986,6 +1007,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_generate_failed => '生成歌词失败';
 
   @override
+  String get lyrics_auto_generate_request_success => '发出请求，生成歌词中...';
+
+  @override
+  String get lyrics_auto_generate_request_failed => '请求失败';
+
+  @override
   String get lyrics_auto_generate_need_login => '请先登录才能使用自动生成歌词';
 
   @override
@@ -1002,6 +1029,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get lyrics_job_processing => '歌词处理中…';
+
+  @override
+  String get lyrics_action_running_suffix => '（执行中）';
 
   @override
   String get lyrics_job_error_invalid_request => '处理请求发生错误,请重新尝试。';
@@ -1500,6 +1530,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_auto_sync_failed => '同步失敗,已保留原歌詞';
 
   @override
+  String get lyrics_auto_sync_request_success => '發出請求，同步歌詞中...';
+
+  @override
+  String get lyrics_auto_sync_request_failed => '請求失敗';
+
+  @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
 
   @override
@@ -1544,6 +1580,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_auto_generate_failed => '產生歌詞失敗';
 
   @override
+  String get lyrics_auto_generate_request_success => '發出請求，生成歌詞中...';
+
+  @override
+  String get lyrics_auto_generate_request_failed => '請求失敗';
+
+  @override
   String get lyrics_auto_generate_need_login => '請先登入才能使用自動產生歌詞';
 
   @override
@@ -1560,6 +1602,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_job_processing => '歌詞處理中…';
+
+  @override
+  String get lyrics_action_running_suffix => '（執行中）';
 
   @override
   String get lyrics_job_error_invalid_request => '處理請求發生錯誤,請重新嘗試。';

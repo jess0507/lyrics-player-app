@@ -399,6 +399,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sözler eşitlenemedi; özgün metin korundu';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Şarkı sözü senkronizasyon isteği gönderildi';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Şarkı sözü senkronizasyon isteği gönderilemedi';
+
+  @override
   String get lyrics_background_busy =>
       'Başka bir şarkı zaten işleniyor. Lütfen daha sonra tekrar deneyin.';
 
@@ -450,6 +458,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Sözler oluşturulamadı';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Şarkı sözü oluşturma isteği gönderildi';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Şarkı sözü oluşturma isteği gönderilemedi';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Otomatik oluşturmayı kullanmak için giriş yapın';
 
@@ -470,6 +486,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Sözler işleniyor…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Çalışıyor)';
 
   @override
   String get lyrics_job_error_invalid_request =>

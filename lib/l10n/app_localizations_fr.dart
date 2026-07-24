@@ -403,6 +403,14 @@ class AppLocalizationsFr extends AppLocalizations {
       'Impossible de synchroniser les paroles ; texte d’origine conservé';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Demande de synchronisation des paroles envoyée';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Échec de l\'envoi de la demande de synchronisation des paroles';
+
+  @override
   String get lyrics_background_busy =>
       'Une autre chanson est déjà en cours de traitement. Veuillez réessayer plus tard.';
 
@@ -454,6 +462,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'Impossible de générer les paroles';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Demande de génération des paroles envoyée';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Échec de l\'envoi de la demande de génération des paroles';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Connectez-vous pour utiliser la génération automatique';
 
@@ -474,6 +490,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Traitement des paroles…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (En cours)';
 
   @override
   String get lyrics_job_error_invalid_request =>

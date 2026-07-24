@@ -401,6 +401,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Songtext konnte nicht synchronisiert werden; Originaltext beibehalten';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'Anfrage zum Synchronisieren des Songtexts gesendet';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'Anfrage zum Synchronisieren des Songtexts fehlgeschlagen';
+
+  @override
   String get lyrics_background_busy =>
       'Ein anderer Titel wird bereits verarbeitet. Bitte später erneut versuchen.';
 
@@ -453,6 +461,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Songtext konnte nicht erstellt werden';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'Anfrage zum Erstellen des Songtexts gesendet';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'Anfrage zum Erstellen des Songtexts fehlgeschlagen';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'Melde dich an, um die automatische Erstellung zu nutzen';
 
@@ -473,6 +489,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'Songtext wird verarbeitet…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (Wird ausgeführt)';
 
   @override
   String get lyrics_job_error_invalid_request =>

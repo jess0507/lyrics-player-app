@@ -399,6 +399,14 @@ class AppLocalizationsHi extends AppLocalizations {
       'बोल सिंक नहीं हो सके; मूल टेक्स्ट रखा गया';
 
   @override
+  String get lyrics_auto_sync_request_success =>
+      'बोल सिंक करने का अनुरोध भेजा गया';
+
+  @override
+  String get lyrics_auto_sync_request_failed =>
+      'बोल सिंक करने का अनुरोध भेजने में विफल';
+
+  @override
   String get lyrics_background_busy =>
       'दूसरा गाना पहले से प्रोसेस हो रहा है। कृपया बाद में फिर से कोशिश करें।';
 
@@ -449,6 +457,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_auto_generate_failed => 'बोल नहीं बन सके';
 
   @override
+  String get lyrics_auto_generate_request_success =>
+      'बोल बनाने का अनुरोध भेजा गया';
+
+  @override
+  String get lyrics_auto_generate_request_failed =>
+      'बोल बनाने का अनुरोध भेजने में विफल';
+
+  @override
   String get lyrics_auto_generate_need_login =>
       'स्वतः निर्माण उपयोग करने के लिए साइन इन करें';
 
@@ -469,6 +485,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => 'बोल प्रोसेस हो रहे हैं…';
+
+  @override
+  String get lyrics_action_running_suffix => ' (चल रहा है)';
 
   @override
   String get lyrics_job_error_invalid_request =>

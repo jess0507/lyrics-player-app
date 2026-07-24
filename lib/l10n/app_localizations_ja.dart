@@ -386,6 +386,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_sync_failed => '歌詞を同期できませんでした。元の歌詞を保持します';
 
   @override
+  String get lyrics_auto_sync_request_success => '歌詞同期リクエストを送信しました';
+
+  @override
+  String get lyrics_auto_sync_request_failed => '歌詞同期リクエストの送信に失敗しました';
+
+  @override
   String get lyrics_background_busy => '別の曲を処理中です。しばらくしてからもう一度お試しください';
 
   @override
@@ -430,6 +436,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_generate_failed => '歌詞を生成できませんでした';
 
   @override
+  String get lyrics_auto_generate_request_success => '歌詞生成リクエストを送信しました';
+
+  @override
+  String get lyrics_auto_generate_request_failed => '歌詞生成リクエストの送信に失敗しました';
+
+  @override
   String get lyrics_auto_generate_need_login => '自動生成を使うにはログインしてください';
 
   @override
@@ -446,6 +458,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lyrics_job_processing => '歌詞を処理しています…';
+
+  @override
+  String get lyrics_action_running_suffix => '（実行中）';
 
   @override
   String get lyrics_job_error_invalid_request =>
