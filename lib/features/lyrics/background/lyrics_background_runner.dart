@@ -20,12 +20,15 @@ import 'lyrics_background_protocol.dart';
 enum LyricsBackgroundStatus { success, error, cancelled, busy }
 
 class LyricsBackgroundResult {
-  const LyricsBackgroundResult(this.status, [this.errorName]);
+  const LyricsBackgroundResult(this.status, [this.errorName, this.activeTitle]);
 
   final LyricsBackgroundStatus status;
 
   /// [LyricsBackgroundStatus.error] 時對應 service 錯誤 enum 的 name。
   final String? errorName;
+
+  /// [errorName] 為 busy(後端回報有別首歌正在處理中)時,該曲的曲名。
+  final String? activeTitle;
 }
 
 /// 追蹤中的單一背景任務(一次只允許一件)。
@@ -141,7 +144,11 @@ class LyricsBackgroundRunner {
         // 不在此上報 Crashlytics:service 層(compress / upload / callable /
         // 回應解析)已各自上報一次,這裡再報會讓同一次失敗重複兩份。
         _complete(
-          LyricsBackgroundResult(LyricsBackgroundStatus.error, event.errorName),
+          LyricsBackgroundResult(
+            LyricsBackgroundStatus.error,
+            event.errorName,
+            event.activeTitle,
+          ),
         );
       case LyricsBackgroundEventType.cancelled:
         _complete(
@@ -161,6 +168,16 @@ class LyricsBackgroundRunner {
 
   void _setRunning(bool value) =>
       _ref.read(lyricsBackgroundRunningProvider.notifier).set(value);
+
+  /// 發 / 更新最終確認通知(同一個原生通知 id,取代前景服務結束時貼的
+  /// 「已送出請求」那則)。跟前景服務本身無關,走 app 常駐的 launcher
+  /// channel,即使服務早就 stop 了也能呼叫——`LyricsPendingSyncService`
+  /// 偵測到 Firestore 轉終態時呼叫。非 Android 無此 channel,
+  /// MissingPluginException 靜默略過。
+  Future<void> notifyResult({required String title, required String text}) =>
+      _launcher
+          .invokeMethod<void>('notifyResult', {'title': title, 'text': text})
+          .catchError((_) {});
 }
 
 final lyricsBackgroundRunnerProvider = Provider<LyricsBackgroundRunner>(

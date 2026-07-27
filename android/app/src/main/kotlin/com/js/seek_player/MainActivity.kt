@@ -30,6 +30,16 @@ class MainActivity : AudioServiceActivity() {
                     }
                 }
                 "isRunning" -> result.success(LyricsBackgroundService.isRunning)
+                "notifyResult" -> {
+                    // main isolate 常駐呼叫,跟前景服務生命週期無關(通常服務
+                    // 早就 stop 了)——LyricsPendingSyncService 偵測到
+                    // Firestore 轉終態時用來發最終確認通知。
+                    val args = call.arguments as? Map<*, *>
+                    val title = args?.get("title") as? String ?: ""
+                    val text = args?.get("text") as? String ?: ""
+                    LyricsBackgroundService.postResultNotification(this, title, text)
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }

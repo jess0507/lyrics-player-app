@@ -40,18 +40,20 @@ Future<void> runLyricsAutoGenerate(
     debugPrint('[LyricsAutoGen] 已取消 trackId=$trackId');
   } else {
     debugPrint('[LyricsAutoGen] 失敗 trackId=$trackId error=${result.error}');
-    messenger.showAppSnackBar(_autoGenerateErrorText(l10n, result.error));
+    messenger.showAppSnackBar(_autoGenerateErrorText(l10n, result));
   }
 }
 
 String _autoGenerateErrorText(
   AppLocalizations l10n,
-  LyricsAutoGenerateError? error,
-) => switch (error) {
+  LyricsAutoGenerateState result,
+) => switch (result.error) {
   LyricsAutoGenerateError.notLoggedIn => l10n.lyrics_auto_generate_need_login,
   LyricsAutoGenerateError.rateLimited => l10n.lyrics_auto_generate_rate_limited,
   LyricsAutoGenerateError.noAudio => l10n.lyrics_auto_generate_no_audio,
   LyricsAutoGenerateError.network => l10n.lyrics_auto_generate_network,
-  LyricsAutoGenerateError.busy => l10n.lyrics_background_busy,
+  LyricsAutoGenerateError.busy => result.activeTitle != null
+      ? l10n.lyrics_background_busy_named(result.activeTitle!)
+      : l10n.lyrics_background_busy,
   _ => l10n.lyrics_auto_generate_failed,
 };

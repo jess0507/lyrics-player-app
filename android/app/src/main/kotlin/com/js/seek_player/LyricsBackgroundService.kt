@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Handler
@@ -59,6 +60,45 @@ class LyricsBackgroundService : Service() {
         @Volatile
         var isRunning = false
             private set
+
+        /**
+         * 確保通知頻道存在。獨立成 companion 方法,讓 [MainActivity] 也能在
+         * 服務不在(甚至沒啟動過)的情況下,直接發最終確認通知。
+         */
+        fun ensureChannel(context: Context) {
+            val manager = context.getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(
+                NotificationChannel(
+                    CHANNEL_ID,
+                    // 頻道名稱僅出現在系統設定;比照 main.dart 音訊頻道以固定字串命名。
+                    "Lyrics processing",
+                    NotificationManager.IMPORTANCE_LOW,
+                ),
+            )
+        }
+
+        /**
+         * 任務最終確認的結果通知,獨立於服務生命週期之外——main isolate 的
+         * `LyricsPendingSyncService` 偵測到 Firestore 轉終態時,經
+         * `MainActivity` 的 launcher channel(`notifyResult`)呼叫本方法,
+         * 這時前景服務通常早就 stop 了。沿用同一個 [RESULT_NOTIFICATION_ID]
+         * 直接覆蓋掉服務結束時貼的「已送出請求」那則。
+         */
+        fun postResultNotification(context: Context, title: String, text: String) {
+            ensureChannel(context)
+            val contentIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.let {
+                PendingIntent.getActivity(context, 3, it, PendingIntent.FLAG_IMMUTABLE)
+            }
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .build()
+            context.getSystemService(NotificationManager::class.java)
+                .notify(RESULT_NOTIFICATION_ID, notification)
+        }
     }
 
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -93,7 +133,7 @@ class LyricsBackgroundService : Service() {
         val initialText = json.optJSONObject("stepLabels")?.optString("compressing") ?: ""
 
         isRunning = true
-        createChannel()
+        ensureChannel(this)
         ServiceCompat.startForeground(
             this,
             NOTIFICATION_ID,
@@ -130,7 +170,7 @@ class LyricsBackgroundService : Service() {
                         // 帶 text 時先發結果通知(成功 / 失敗;取消不帶)再收服務。
                         val text = call.argument<String>("text")
                         Log.i(TAG, "Dart 請求 stop,結束服務(結果通知: ${text != null})")
-                        if (text != null) postResultNotification(text)
+                        if (text != null) postResultNotification(this@LyricsBackgroundService, title, text)
                         result.success(null)
                         stopSelf()
                     }
@@ -172,18 +212,6 @@ class LyricsBackgroundService : Service() {
         super.onDestroy()
     }
 
-    private fun createChannel() {
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(
-            NotificationChannel(
-                CHANNEL_ID,
-                // 頻道名稱僅出現在系統設定;比照 main.dart 音訊頻道以固定字串命名。
-                "Lyrics processing",
-                NotificationManager.IMPORTANCE_LOW,
-            ),
-        )
-    }
-
     private fun buildNotification(text: String): Notification {
         val cancelIntent = PendingIntent.getService(
             this,
@@ -207,21 +235,5 @@ class LyricsBackgroundService : Service() {
 
     private fun notify(notification: Notification) {
         getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, notification)
-    }
-
-    /** 任務結束的結果通知:非常駐、點擊開 app 或可直接滑掉。 */
-    private fun postResultNotification(text: String) {
-        val contentIntent = packageManager.getLaunchIntentForPackage(packageName)?.let {
-            PendingIntent.getActivity(this, 3, it, PendingIntent.FLAG_IMMUTABLE)
-        }
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setAutoCancel(true)
-            .setContentIntent(contentIntent)
-            .build()
-        getSystemService(NotificationManager::class.java)
-            .notify(RESULT_NOTIFICATION_ID, notification)
     }
 }

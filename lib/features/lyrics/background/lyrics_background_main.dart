@@ -42,6 +42,7 @@ Future<void> lyricsBackgroundMain() async {
     LyricsBackgroundEventType type, {
     String? stepName,
     String? errorName,
+    String? activeTitle,
   }) {
     // main isolate 不在(app 已被滑掉)時 port 查無,靜默略過;
     // 結果已寫入 Isar,下次開 app 自然讀到。
@@ -52,6 +53,7 @@ Future<void> lyricsBackgroundMain() async {
         trackId: request.trackId,
         stepName: stepName,
         errorName: errorName,
+        activeTitle: activeTitle,
       ).toJsonString(),
     );
   }
@@ -138,11 +140,19 @@ Future<void> lyricsBackgroundMain() async {
   } on LyricsAutoGenerateException catch (e) {
     debugPrint('[LyricsBg] 失敗(generate): ${e.error.name}');
     resultText = request.failedLabel;
-    emit(LyricsBackgroundEventType.error, errorName: e.error.name);
+    emit(
+      LyricsBackgroundEventType.error,
+      errorName: e.error.name,
+      activeTitle: e.activeTitle,
+    );
   } on LyricsAutoSyncException catch (e) {
     debugPrint('[LyricsBg] 失敗(align): ${e.error.name}');
     resultText = request.failedLabel;
-    emit(LyricsBackgroundEventType.error, errorName: e.error.name);
+    emit(
+      LyricsBackgroundEventType.error,
+      errorName: e.error.name,
+      activeTitle: e.activeTitle,
+    );
   } catch (e, s) {
     debugPrint('[LyricsBg] 未預期錯誤: $e');
     reportError(e, s, reason: '背景歌詞處理：未預期錯誤');

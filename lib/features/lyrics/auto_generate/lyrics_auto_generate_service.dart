@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,9 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
 import '../auto_sync/audio_compressor.dart';
-import '../models/lyrics_entity.dart';
-import '../providers/track_lyrics_provider.dart';
-import '../services/lyrics_repository.dart';
 import '../services/track_audio_resolver.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -52,18 +48,32 @@ enum LyricsAutoGenerateError {
 }
 
 class LyricsAutoGenerateException implements Exception {
-  const LyricsAutoGenerateException(this.error);
+  const LyricsAutoGenerateException(this.error, {this.activeTitle});
 
   final LyricsAutoGenerateError error;
+
+  /// [error] 為 [LyricsAutoGenerateError.busy] 且是後端回報「別首歌正在
+  /// 處理中」時,該曲的曲名,供訊息顯示;其餘情況為 null。
+  final String? activeTitle;
 }
 
+/// 歌詞自動產生:讀本機音訊 → 壓縮 → 上傳 GCS → 呼叫 `generate_lyrics`
+/// callable。後端把工作丟進 Cloud Tasks 後**立刻回應,不等轉寫完成**——
+/// `generate` 成功返回只代表「已送出背景處理」,**不保證歌詞已經產生完成**。
+/// 本方法只負責壓縮 / 上傳 / 呼叫 callable 這段,不碰本機 Isar 也不管
+/// Firestore 是否已有現成快照;把結果寫回本機統一交給
+/// [LyricsPendingSyncService] 處理——呼叫端(見
+/// `LyricsAutoGenerateController.run`)必須在呼叫本方法**之前**就把
+/// trackId 加進 `lyricsPendingSyncStoreProvider`,該服務才會開始監聽
+/// Firestore 狀態,不論這次是後端立即回應(現成快照)還是真的要背景跑一段
+/// 時間,終態都會由它寫回本機。
 class LyricsAutoGenerateService {
   LyricsAutoGenerateService(this._ref);
 
   final Ref _ref;
 
-  /// 為 [trackId] 執行自動產生。各階段以 [onStep] 回報進度。
-  /// 失敗拋 [LyricsAutoGenerateException]。
+  /// 為 [trackId] 執行自動產生。各階段以 [onStep] 回報進度。成功僅代表已
+  /// 送出 callable,失敗拋 [LyricsAutoGenerateException]。
   Future<void> generate({
     required String trackId,
     required String title,
@@ -118,7 +128,6 @@ class LyricsAutoGenerateService {
     }
 
     onStep?.call(LyricsAutoGenerateStep.transcribing);
-    var cached = false;
     try {
       final callable = FirebaseFunctions.instanceFor(region: _functionsRegion)
           .httpsCallable(
@@ -128,65 +137,47 @@ class LyricsAutoGenerateService {
             options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
           );
       // 不送 language:交由後端自動偵測歌曲語言。
-      final result = await callable.call<Object?>({
+      await callable.call<Object?>({
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
         'trackId': trackId,
         'title': title,
       });
-      // 不同平台回傳 Map 的鍵型別不一,故動態取值。
-      final data = result.data;
-      cached = data is Map && data['cached'] == true;
+      debugPrint(
+        '[LyricsAutoGenerateService] trackId:$trackId, 已送出 generate_lyrics',
+      );
     } on FirebaseFunctionsException catch (e, s) {
       debugPrint('Firebase Funcion generate_lyrics: $e');
-      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
-      // 使用者狀態非 bug,不上報。
-      if (e.code != 'unauthenticated' && e.code != 'resource-exhausted') {
+      final exception = _toException(e);
+      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿 / 已有其他
+      // 曲目正在處理都屬於使用者狀態非 bug,不上報。
+      if (e.code != 'unauthenticated' &&
+          e.code != 'resource-exhausted' &&
+          exception.error != LyricsAutoGenerateError.busy) {
         reportError(e, s, reason: 'generate_lyrics 失敗(code=${e.code})');
       }
-      throw LyricsAutoGenerateException(_mapFunctionsError(e));
+      throw exception;
     }
+  }
 
-    if (!cached) {
-      // 已成功送進背景處理佇列,歌詞尚未產生完成——不等待也不嘗試讀取,
-      // 詳見本類別文件註解。
-      return;
-    }
-
-    // 該 trackId 先前已產生過,Firestore 已有現成快照,立即讀回寫本機。
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('lyrics')
-        .doc(trackId)
-        .get();
-    final content = snapshot.data()?['content'];
-    if (content is! String || content.isEmpty) {
-      // 後端宣稱有快照卻讀不到:記下形狀以區分權限 / 路徑問題。
-      reportError(
-        StateError(
-          'generate_lyrics 回 cached 但讀不到 Firestore 快照:trackId=$trackId'
-          ' exists=${snapshot.exists}',
-        ),
-        StackTrace.current,
-        reason: 'generate_lyrics 快照讀回失敗',
-      );
-      throw const LyricsAutoGenerateException(
-        LyricsAutoGenerateError.transcriptionFailed,
+  /// 把 callable 拋出的例外轉成 [LyricsAutoGenerateException];後端因為
+  /// 「使用者已有其他曲目正在處理中」拒絕(`failed-precondition` +
+  /// `details.code == 'busy'`)時,一併取出正在處理中的曲名。
+  LyricsAutoGenerateException _toException(FirebaseFunctionsException e) {
+    final details = e.details;
+    if (e.code == 'failed-precondition' &&
+        details is Map &&
+        details['code'] == 'busy') {
+      final activeTitle = details['activeTitle'];
+      return LyricsAutoGenerateException(
+        LyricsAutoGenerateError.busy,
+        activeTitle: activeTitle is String && activeTitle.isNotEmpty
+            ? activeTitle
+            : null,
       );
     }
-
-    // 沿用唯一索引 replace 寫入;來源 / 格式為自動產生產物。
-    final generated = LyricsEntity()
-      ..trackId = trackId
-      ..title = title
-      ..format = LyricsFormat.lrc
-      ..source = LyricsSource.generated
-      ..content = content
-      ..addedAt = DateTime.now();
-    await _ref.read(lyricsRepositoryProvider).save(generated);
-    _ref.invalidate(trackLyricsProvider(trackId));
+    return LyricsAutoGenerateException(_mapFunctionsError(e));
   }
 
   LyricsAutoGenerateError _mapFunctionsError(FirebaseFunctionsException e) =>

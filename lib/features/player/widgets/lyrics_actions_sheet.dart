@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../lyrics/background/lyrics_background_running.dart';
+import '../../lyrics/providers/lyrics_pending_sync_store.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
 import 'lyrics_menu_action.dart';
 
@@ -58,8 +59,13 @@ class _LyricsActionsSheet extends ConsumerWidget {
       canAutoSync: canAutoSync,
       hasLyrics: hasLyrics,
     );
-    // 背景任務一次只跑一件:執行中時停用「自動產生 / 自動對時」(變淺不可點)。
-    final backgroundRunning = ref.watch(lyricsBackgroundRunningProvider);
+    // 背景任務一次只跑一件:只有選單會顯示自動產生/對時時才需要檢查是否
+    // 已有其他工作在跑(前景服務執行中,或已送出、雲端還沒回終態),
+    // 執行中時停用這些項目(變淺不可點)。
+    final busy = (canAutoGenerate || canAutoSync)
+        ? ref.watch(lyricsBackgroundRunningProvider) ||
+              ref.watch(lyricsPendingSyncStoreProvider).isNotEmpty
+        : false;
 
     return SafeArea(
       child: Column(
@@ -67,9 +73,13 @@ class _LyricsActionsSheet extends ConsumerWidget {
         children: [
           for (final action in actions)
             ListTile(
-              enabled: !(backgroundRunning && action.usesBackgroundTask),
+              enabled: !(busy && action.usesBackgroundTask),
               leading: Icon(action.icon),
-              title: Text(action.label(l10n)),
+              title: Text(
+                busy && action.usesBackgroundTask
+                    ? '${action.label(l10n)}${l10n.lyrics_action_running_suffix}'
+                    : action.label(l10n),
+              ),
               onTap: () {
                 Navigator.of(context).pop();
                 runLyricsMenuAction(

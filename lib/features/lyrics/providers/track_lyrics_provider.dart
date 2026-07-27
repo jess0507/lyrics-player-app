@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/lyrics/models/lyrics.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
@@ -24,6 +25,9 @@ final trackLyricsProvider = FutureProvider.family<Lyrics?, String>((
 });
 
 Future<Lyrics?> _fetchRemoteLyricsSnapshot(String trackId) async {
+  debugPrint(
+    "[trackLyricsProvider] fetch remote lyrics snapshot for trackId:$trackId",
+  );
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return null;
   final snapshot = await FirebaseFirestore.instance

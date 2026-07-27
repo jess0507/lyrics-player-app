@@ -1,13 +1,13 @@
 import 'dart:io';
-import 'dart:ui';
 
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/providers/settings_controller.dart';
 import '../background/lyrics_background_protocol.dart';
 import '../background/lyrics_background_runner.dart';
+import '../background/lyrics_l10n_resolver.dart';
+import '../providers/lyrics_pending_sync_store.dart';
 import 'lyrics_auto_sync_service.dart';
 
 /// 對時整體狀態。
@@ -19,11 +19,16 @@ class LyricsAutoSyncState {
     this.status = LyricsAutoSyncStatus.idle,
     this.step,
     this.error,
+    this.activeTitle,
   });
 
   final LyricsAutoSyncStatus status;
   final LyricsAutoSyncStep? step;
   final LyricsAutoSyncError? error;
+
+  /// [error] 為 [LyricsAutoSyncError.busy] 且是後端回報「別首歌正在處理中」
+  /// 時,該曲的曲名,供訊息顯示;其餘情況為 null。
+  final String? activeTitle;
 
   bool get isRunning => status == LyricsAutoSyncStatus.running;
 }
@@ -50,9 +55,25 @@ class LyricsAutoSyncController
       status: LyricsAutoSyncStatus.running,
       step: LyricsAutoSyncStep.compressing,
     );
-    return Platform.isAndroid
-        ? _runInBackground(title: title, language: language, engine: engine)
-        : _runInline(title: title, language: language, engine: engine);
+    // 送出前先在 main isolate 記到本地待同步清單:無論之後實際執行是走
+    // Android 背景 isolate 還是本 isolate,LyricsPendingSyncService(常駐
+    // main isolate)都能立刻開始監聽 Firestore 狀態,不需背景 isolate 另外
+    // 回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
+    debugPrint('[LyricsAutoSyncController] trackId:$arg, 加入 pendingSyncStore');
+    await ref.read(lyricsPendingSyncStoreProvider.notifier).add(
+      arg,
+      LyricsPendingSyncJob(mode: LyricsBackgroundMode.align, title: title),
+    );
+    final success = Platform.isAndroid
+        ? await _runInBackground(title: title, language: language, engine: engine)
+        : await _runInline(title: title, language: language, engine: engine);
+    if (!success) {
+      // 沒有真的送出背景工作(取消 / busy / 過程中失敗),沒有任何後端 job
+      // 可等,清掉剛剛預先加的紀錄,避免白等一個不存在的工作。
+      debugPrint('[LyricsAutoSyncController] trackId:$arg, 未成功送出,移除 pendingSyncStore');
+      await ref.read(lyricsPendingSyncStoreProvider.notifier).remove(arg);
+    }
+    return success;
   }
 
   /// Android:走前景服務。通知文字在此以當前語系解析好隨請求帶出,
@@ -62,7 +83,7 @@ class LyricsAutoSyncController
     required String language,
     required LyricsAlignEngine engine,
   }) async {
-    final l10n = _lookupL10n();
+    final l10n = resolveLyricsL10n(ref);
     final result = await ref
         .read(lyricsBackgroundRunnerProvider)
         .run(
@@ -79,8 +100,10 @@ class LyricsAutoSyncController
               LyricsAutoSyncStep.aligning.name: l10n.lyrics_auto_sync_aligning,
             },
             cancelLabel: l10n.common_cancel,
-            doneLabel: l10n.lyrics_auto_sync_success,
-            failedLabel: l10n.lyrics_auto_sync_failed,
+            // 這裡只代表「callable 呼叫成功 / 失敗」,不是歌詞真的做完了;
+            // 真正完成時的確認通知由 LyricsPendingSyncService 另外發。
+            doneLabel: l10n.lyrics_auto_sync_request_success,
+            failedLabel: l10n.lyrics_auto_sync_request_failed,
           ),
           onStep: (stepName) {
             final step = LyricsAutoSyncStep.values.asNameMap()[stepName];
@@ -113,6 +136,7 @@ class LyricsAutoSyncController
           error:
               LyricsAutoSyncError.values.asNameMap()[result.errorName] ??
               LyricsAutoSyncError.unknown,
+          activeTitle: result.activeTitle,
         );
         return false;
     }
@@ -143,6 +167,7 @@ class LyricsAutoSyncController
       state = LyricsAutoSyncState(
         status: LyricsAutoSyncStatus.failure,
         error: e.error,
+        activeTitle: e.activeTitle,
       );
       return false;
     } catch (e, s) {
@@ -155,17 +180,6 @@ class LyricsAutoSyncController
     }
   }
 
-  /// 依 app 設定(未設則系統語系)解析 l10n;不支援的語系回退英文。
-  AppLocalizations _lookupL10n() {
-    final locale =
-        ref.read(settingsControllerProvider).locale ??
-        PlatformDispatcher.instance.locale;
-    try {
-      return lookupAppLocalizations(locale);
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('en'));
-    }
-  }
 }
 
 final lyricsAutoSyncControllerProvider =

@@ -5,9 +5,11 @@ import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 import '../../../core/crash_reporter.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/app_snack_bar.dart';
+import '../../lyrics/providers/lyrics_active_job_provider.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
 import '../../lyrics/services/lyrics_import_service.dart';
 import '../providers/lyrics_font_scale_controller.dart';
+import 'lyrics_job_status_view.dart';
 import 'lyrics_synced_view.dart';
 import 'lyrics_unsynced_view.dart';
 
@@ -22,6 +24,11 @@ class LyricsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeJob = ref.watch(lyricsActiveJobProvider(trackId));
+    if (activeJob) {
+      return const LyricsJobStatusView();
+    }
+
     final async = ref.watch(trackLyricsProvider(trackId));
     return async.when(
       loading: () => const Center(child: CircularProgressIndicator()),

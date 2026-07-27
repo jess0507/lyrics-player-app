@@ -37,18 +37,22 @@ Future<void> runLyricsAutoSync(
   // 不能再碰 ref,結果已由系統通知回報,直接收尾。
   if (!context.mounted) return;
   final result = ref.read(lyricsAutoSyncControllerProvider(trackId));
-  if (!ok && result.status != LyricsAutoSyncStatus.cancelled) {
-    // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。
-    messenger.showAppSnackBar(_autoSyncErrorText(l10n, result.error));
+  if (!ok) {
+    if (result.status != LyricsAutoSyncStatus.cancelled) {
+      // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。
+      messenger.showAppSnackBar(_autoSyncErrorText(l10n, result));
+    }
   }
 }
 
-String _autoSyncErrorText(AppLocalizations l10n, LyricsAutoSyncError? error) =>
-    switch (error) {
+String _autoSyncErrorText(AppLocalizations l10n, LyricsAutoSyncState result) =>
+    switch (result.error) {
       LyricsAutoSyncError.notLoggedIn => l10n.lyrics_auto_sync_need_login,
       LyricsAutoSyncError.rateLimited => l10n.lyrics_auto_sync_rate_limited,
       LyricsAutoSyncError.noAudio => l10n.lyrics_auto_sync_no_audio,
       LyricsAutoSyncError.network => l10n.lyrics_auto_sync_network,
-      LyricsAutoSyncError.busy => l10n.lyrics_background_busy,
+      LyricsAutoSyncError.busy => result.activeTitle != null
+          ? l10n.lyrics_background_busy_named(result.activeTitle!)
+          : l10n.lyrics_background_busy,
       _ => l10n.lyrics_auto_sync_failed,
     };

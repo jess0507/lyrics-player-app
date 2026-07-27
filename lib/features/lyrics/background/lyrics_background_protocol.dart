@@ -97,6 +97,7 @@ class LyricsBackgroundEvent {
     required this.trackId,
     this.stepName,
     this.errorName,
+    this.activeTitle,
   });
 
   final LyricsBackgroundEventType type;
@@ -109,12 +110,17 @@ class LyricsBackgroundEvent {
   /// [LyricsBackgroundEventType.error] 時的錯誤 enum name。
   final String? errorName;
 
+  /// [errorName] 為 busy(後端回報有別首歌正在處理中)時,該曲的曲名,
+  /// 供訊息顯示;其餘情況為 null。
+  final String? activeTitle;
+
   String toJsonString() => jsonEncode({
     'type': type.name,
     'mode': mode.name,
     'trackId': trackId,
     if (stepName != null) 'stepName': stepName,
     if (errorName != null) 'errorName': errorName,
+    if (activeTitle != null) 'activeTitle': activeTitle,
   });
 
   factory LyricsBackgroundEvent.fromJsonString(String raw) {
@@ -125,6 +131,7 @@ class LyricsBackgroundEvent {
       trackId: map['trackId'] as String,
       stepName: map['stepName'] as String?,
       errorName: map['errorName'] as String?,
+      activeTitle: map['activeTitle'] as String?,
     );
   }
 }

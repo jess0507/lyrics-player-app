@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,11 +8,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
-import '../models/lyrics_entity.dart';
 import '../services/lyrics_parser.dart';
 import '../services/lyrics_repository.dart';
 import '../services/track_audio_resolver.dart';
-import '../providers/track_lyrics_provider.dart';
 import 'audio_compressor.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -67,26 +64,25 @@ enum LyricsAutoSyncError {
 }
 
 class LyricsAutoSyncException implements Exception {
-  const LyricsAutoSyncException(this.error);
+  const LyricsAutoSyncException(this.error, {this.activeTitle});
 
   final LyricsAutoSyncError error;
+
+  /// [error] 為 [LyricsAutoSyncError.busy] 且是後端回報「別首歌正在處理中」
+  /// 時,該曲的曲名,供訊息顯示;其餘情況為 null。
+  final String? activeTitle;
 }
 
 /// 歌詞自動對時:讀本機音訊 → 壓縮 → 上傳 GCS → 呼叫 `align_lyrics` callable。
 /// 後端把工作丟進 Cloud Tasks 後**立刻回應,不等對時完成**(見
 /// `functions/main.py` `align_lyrics`)——`autoSync` 成功返回只代表「已送出
-/// 背景處理」,**不保證歌詞已經產生完成**:
-/// - 該 trackId 已有快照(`cached`)→ 立即讀回內文寫入本機 [LyricsEntity]
-///   (`source = generated`、`format = lrc`),顯示端立刻可見。
-/// - 否則(`queued`)→ 不等待、不嘗試讀取本機也不寫入;結果由 Cloud Run 端
-///   背景算完後自行存入 `users/{uid}/lyrics/{trackId}`,下次開啟歌詞頁時
-///   `trackLyricsProvider` 的 Firestore 快照降級路徑會自然讀到
-///   (見 `providers/track_lyrics_provider.dart`)。
-///
-/// 讀回快照寫本機(`cached` 情形)是必要的,不只是圖方便:歌詞備份同步
-/// (sync v5,見 `core/sync/lyrics_sync.dart`)是「本機 Isar 有什麼、雲端就
-/// 整份覆寫成什麼」——若本機完全沒有這筆資料,之後任何其他歌詞變更觸發的
-/// 全量同步,會把雲端這份快照當「本機沒有的多餘文件」誤刪。
+/// 背景處理」,**不保證歌詞已經產生完成**。本方法只負責壓縮 / 上傳 / 呼叫
+/// callable 這段,不碰本機 Isar 也不管 Firestore 是否已有現成快照;把結果
+/// 寫回本機統一交給 [LyricsPendingSyncService] 處理——呼叫端(見
+/// `LyricsAutoSyncController.run`)必須在呼叫本方法**之前**就把 trackId 加進
+/// `lyricsPendingSyncStoreProvider`,該服務才會開始監聽 Firestore 狀態,
+/// 不論這次是後端立即回應(現成快照)還是真的要背景跑一段時間,終態都會
+/// 由它寫回本機。
 ///
 /// 失敗一律不寫半套時間:任一步出錯時保留原本的純文字歌詞。
 class LyricsAutoSyncService {
@@ -95,8 +91,8 @@ class LyricsAutoSyncService {
   final Ref _ref;
 
   /// 為 [trackId] 執行對時。[language] 為語言提示(BCP-47,後端正規化)。
-  /// [engine] 指定後端對齊引擎(aeneas / WhisperX)。
-  /// 各階段以 [onStep] 回報進度。失敗拋 [LyricsAutoSyncException]。
+  /// [engine] 指定後端對齊引擎(aeneas / WhisperX)。各階段以 [onStep] 回報
+  /// 進度。成功僅代表已送出 callable,失敗拋 [LyricsAutoSyncException]。
   Future<void> autoSync({
     required String trackId,
     required String title,
@@ -161,7 +157,6 @@ class LyricsAutoSyncService {
     }
 
     onStep?.call(LyricsAutoSyncStep.aligning);
-    var cached = false;
     try {
       final callable = FirebaseFunctions.instanceFor(
         region: _functionsRegion,
@@ -171,7 +166,7 @@ class LyricsAutoSyncService {
         // 但保留較寬鬆逾時以應付偶發的冷啟動 / 網路延遲。
         options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
       );
-      final result = await callable.call<Object?>({
+      await callable.call<Object?>({
         'lines': lines,
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
@@ -181,58 +176,38 @@ class LyricsAutoSyncService {
         'trackId': trackId,
         'title': title,
       });
-      // 不同平台回傳 Map 的鍵型別不一,故動態取值。
-      final data = result.data;
-      cached = data is Map && data['cached'] == true;
+      debugPrint('[LyricsAutoSyncService] trackId:$trackId, 已送出 align_lyrics');
     } on FirebaseFunctionsException catch (e, s) {
       debugPrint('Firebase Function align_lyrics: $e');
-      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿屬
-      // 使用者狀態非 bug,不上報。
-      if (e.code != 'unauthenticated' && e.code != 'resource-exhausted') {
+      final exception = _toException(e);
+      // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿 / 已有其他
+      // 曲目正在處理都屬於使用者狀態非 bug,不上報。
+      if (e.code != 'unauthenticated' &&
+          e.code != 'resource-exhausted' &&
+          exception.error != LyricsAutoSyncError.busy) {
         reportError(e, s, reason: 'align_lyrics 失敗（code=${e.code}）');
       }
-      throw LyricsAutoSyncException(_mapFunctionsError(e));
+      throw exception;
     }
+  }
 
-    if (!cached) {
-      // 已成功送進背景處理佇列,歌詞尚未產生完成——不等待也不嘗試讀取,
-      // 詳見本類別文件註解。
-      return;
-    }
-
-    // 該 trackId 先前已對時 / 產生過,Firestore 已有現成快照,立即讀回寫本機。
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('lyrics')
-        .doc(trackId)
-        .get();
-    final content = snapshot.data()?['content'];
-    if (content is! String || content.isEmpty) {
-      // 後端宣稱有快照卻讀不到:記下形狀以區分權限 / 路徑問題。
-      reportError(
-        StateError(
-          'align_lyrics 回 cached 但讀不到 Firestore 快照:trackId=$trackId'
-          ' exists=${snapshot.exists}',
-        ),
-        StackTrace.current,
-        reason: 'align_lyrics 快照讀回失敗',
-      );
-      throw const LyricsAutoSyncException(
-        LyricsAutoSyncError.alignmentFailed,
+  /// 把 callable 拋出的例外轉成 [LyricsAutoSyncException];後端因為「使用者
+  /// 已有其他曲目正在處理中」拒絕(`failed-precondition` +
+  /// `details.code == 'busy'`)時,一併取出正在處理中的曲名。
+  LyricsAutoSyncException _toException(FirebaseFunctionsException e) {
+    final details = e.details;
+    if (e.code == 'failed-precondition' &&
+        details is Map &&
+        details['code'] == 'busy') {
+      final activeTitle = details['activeTitle'];
+      return LyricsAutoSyncException(
+        LyricsAutoSyncError.busy,
+        activeTitle: activeTitle is String && activeTitle.isNotEmpty
+            ? activeTitle
+            : null,
       );
     }
-
-    // 沿用唯一索引 replace 覆蓋原歌詞;來源 / 格式改為對時產物。
-    final synced = LyricsEntity()
-      ..trackId = trackId
-      ..title = title
-      ..format = LyricsFormat.lrc
-      ..source = LyricsSource.generated
-      ..content = content
-      ..addedAt = DateTime.now();
-    await repo.save(synced);
-    _ref.invalidate(trackLyricsProvider(trackId));
+    return LyricsAutoSyncException(_mapFunctionsError(e));
   }
 
   LyricsAutoSyncError _mapFunctionsError(FirebaseFunctionsException e) =>
