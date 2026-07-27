@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
+import '../../../core/firebase_available_provider.dart';
 import '../../../router/app_router.dart';
 import '../../../shared/widgets/app_snack_bar.dart';
 import '../background/lyrics_background_protocol.dart';
@@ -39,6 +40,10 @@ class LyricsPendingSyncService {
       <String, StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>>{};
 
   void _init() {
+    if (!_ref.read(firebaseAvailableProvider)) {
+      debugPrint('[LyricsPendingSyncService] Firebase 不可用，停用同步');
+      return;
+    }
     _ref.listen<Map<String, LyricsPendingSyncJob>>(
       lyricsPendingSyncStoreProvider,
       (_, next) => _reconcile(next),
