@@ -9,6 +9,7 @@ import 'lyrics_auto_generate_action.dart';
 import 'lyrics_auto_sync_action.dart';
 import 'lyrics_font_size_sheet.dart';
 import 'lyrics_sign_in_gate.dart';
+import 'lyrics_usage_limit_gate.dart';
 import 'lyrics_view.dart';
 
 /// 歌詞相關的選單動作,供「次控制列更多選單」與「歌詞滿版選單」共用。
@@ -110,6 +111,10 @@ Future<void> runLyricsMenuAction(
       message: message,
     );
     if (!signedIn || !context.mounted) return;
+
+    // 登入後才檢查用量,避免未登入時誤讀 usage/{uid}。
+    final withinLimit = await ensureWithinUsageLimitForLyrics(context, ref);
+    if (!withinLimit || !context.mounted) return;
   }
 
   switch (action) {
@@ -137,12 +142,7 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.delete:
       await _confirmDelete(context, ref, trackId, onDeleted);
     case LyricsMenuAction.autoGenerate:
-      await runLyricsAutoGenerate(
-        context,
-        ref,
-        trackId: trackId,
-        title: title,
-      );
+      await runLyricsAutoGenerate(context, ref, trackId: trackId, title: title);
   }
 }
 
