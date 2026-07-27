@@ -152,6 +152,7 @@
   "lyrics_auto_generate_rate_limited": "Daily auto-generate limit reached, try tomorrow",
   "lyrics_auto_generate_no_audio": "Audio file not found",
   "lyrics_auto_generate_network": "Connection problem, try again later",
+  "lyrics_usage_limit_reached": "Monthly free usage limit reached. Try again next month.",
   "lyrics_job_busy": "Please wait for the current lyrics task to finish",
   "lyrics_job_processing": "Processing lyrics…",
   "lyrics_action_running_suffix": " (Running)",

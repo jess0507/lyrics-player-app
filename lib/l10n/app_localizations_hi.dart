@@ -480,6 +480,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'कनेक्शन समस्या, बाद में पुनः प्रयास करें';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'इस महीने की मुफ़्त उपयोग सीमा पूरी हो गई है। अगले महीने पुनः प्रयास करें।';
+
+  @override
   String get lyrics_job_busy =>
       'कृपया वर्तमान बोल कार्य पूरा होने तक प्रतीक्षा करें';
 

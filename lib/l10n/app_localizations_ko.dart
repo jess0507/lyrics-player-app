@@ -457,6 +457,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_generate_network => '연결 문제가 발생했습니다. 나중에 다시 시도하세요';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      '이번 달 무료 사용 한도에 도달했습니다. 다음 달에 다시 시도하세요';
+
+  @override
   String get lyrics_job_busy => '현재 가사 작업이 끝날 때까지 기다려 주세요';
 
   @override

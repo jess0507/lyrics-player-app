@@ -479,6 +479,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_auto_generate_network => 'Masalah koneksi, coba lagi nanti';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'Batas penggunaan gratis bulanan tercapai. Coba lagi bulan depan.';
+
+  @override
   String get lyrics_job_busy =>
       'Harap tunggu hingga tugas lirik saat ini selesai';
 

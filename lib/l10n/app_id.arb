@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "Batas pembuatan harian tercapai, coba lagi besok",
   "lyrics_auto_generate_no_audio": "File audio tidak ditemukan",
   "lyrics_auto_generate_network": "Masalah koneksi, coba lagi nanti",
+  "lyrics_usage_limit_reached": "Batas penggunaan gratis bulanan tercapai. Coba lagi bulan depan.",
   "lyrics_job_busy": "Harap tunggu hingga tugas lirik saat ini selesai",
   "lyrics_job_processing": "Memproses lirik…",
   "lyrics_action_running_suffix": " (Sedang berjalan)",

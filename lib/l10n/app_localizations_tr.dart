@@ -481,6 +481,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bağlantı sorunu, daha sonra tekrar deneyin';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'Aylık ücretsiz kullanım sınırına ulaşıldı. Gelecek ay tekrar deneyin.';
+
+  @override
   String get lyrics_job_busy =>
       'Lütfen mevcut sözler görevinin bitmesini bekleyin';
 

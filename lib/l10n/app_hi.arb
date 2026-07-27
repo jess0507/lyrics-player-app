@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "आज की निर्माण सीमा पूरी हो गई, कल पुनः प्रयास करें",
   "lyrics_auto_generate_no_audio": "ऑडियो फ़ाइल नहीं मिली",
   "lyrics_auto_generate_network": "कनेक्शन समस्या, बाद में पुनः प्रयास करें",
+  "lyrics_usage_limit_reached": "इस महीने की मुफ़्त उपयोग सीमा पूरी हो गई है। अगले महीने पुनः प्रयास करें।",
   "lyrics_job_busy": "कृपया वर्तमान बोल कार्य पूरा होने तक प्रतीक्षा करें",
   "lyrics_job_processing": "बोल प्रोसेस हो रहे हैं…",
   "lyrics_action_running_suffix": " (चल रहा है)",

@@ -477,6 +477,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_auto_generate_network => 'مشكلة في الاتصال، حاول لاحقًا';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'تم بلوغ الحد الشهري للاستخدام المجاني. حاول مرة أخرى الشهر المقبل.';
+
+  @override
   String get lyrics_job_busy => 'يرجى الانتظار حتى تنتهي مهمة الكلمات الحالية';
 
   @override

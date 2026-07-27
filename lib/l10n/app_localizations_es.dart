@@ -487,6 +487,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Problema de conexión, inténtalo más tarde';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'Has alcanzado el límite mensual de uso gratuito. Inténtalo el próximo mes.';
+
+  @override
   String get lyrics_job_busy => 'Espera a que termine la tarea de letra actual';
 
   @override

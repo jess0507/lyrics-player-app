@@ -167,6 +167,7 @@
   "lyrics_auto_generate_rate_limited": "今日產生次數已達上限,請明天再試",
   "lyrics_auto_generate_no_audio": "找不到音訊檔",
   "lyrics_auto_generate_network": "連線問題,請稍後再試",
+  "lyrics_usage_limit_reached": "本月免費額度已用完,請下個月再試",
   "lyrics_job_busy": "請等待目前的歌詞任務完成",
   "lyrics_job_processing": "歌詞處理中…",
   "lyrics_action_running_suffix": "（執行中）",

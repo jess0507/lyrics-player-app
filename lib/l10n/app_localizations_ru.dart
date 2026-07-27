@@ -479,6 +479,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Проблема с подключением, повторите позже';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'Достигнут месячный лимит бесплатного использования. Повторите попытку в следующем месяце.';
+
+  @override
   String get lyrics_job_busy => 'Дождитесь завершения текущей задачи с текстом';
 
   @override

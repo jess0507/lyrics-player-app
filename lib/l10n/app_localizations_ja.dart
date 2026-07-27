@@ -454,6 +454,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_generate_network => '接続に問題があります。後でもう一度お試しください';
 
   @override
+  String get lyrics_usage_limit_reached => '今月の無料利用上限に達しました。来月またお試しください';
+
+  @override
   String get lyrics_job_busy => '現在の歌詞処理が完了するまでお待ちください';
 
   @override

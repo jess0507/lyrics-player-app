@@ -452,6 +452,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_generate_network => '連線問題,請稍後再試';
 
   @override
+  String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';
+
+  @override
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';
 
   @override
@@ -1025,6 +1028,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_generate_network => '连接问题,请稍后再试';
 
   @override
+  String get lyrics_usage_limit_reached => '本月免费额度已用完,请下个月再试';
+
+  @override
   String get lyrics_job_busy => '请等待当前的歌词任务完成';
 
   @override
@@ -1596,6 +1602,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_auto_generate_network => '連線問題,請稍後再試';
+
+  @override
+  String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';
 
   @override
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';

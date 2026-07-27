@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "Tageslimit für automatische Erstellung erreicht, versuche es morgen",
   "lyrics_auto_generate_no_audio": "Audiodatei nicht gefunden",
   "lyrics_auto_generate_network": "Verbindungsproblem, versuche es später erneut",
+  "lyrics_usage_limit_reached": "Monatliches kostenloses Nutzungslimit erreicht. Versuche es nächsten Monat erneut.",
   "lyrics_job_busy": "Bitte warte, bis die aktuelle Songtext-Aufgabe abgeschlossen ist",
   "lyrics_job_processing": "Songtext wird verarbeitet…",
   "lyrics_action_running_suffix": " (Wird ausgeführt)",

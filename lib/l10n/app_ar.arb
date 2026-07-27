@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "تم بلوغ الحد اليومي للإنشاء التلقائي، حاول غدًا",
   "lyrics_auto_generate_no_audio": "لم يتم العثور على ملف الصوت",
   "lyrics_auto_generate_network": "مشكلة في الاتصال، حاول لاحقًا",
+  "lyrics_usage_limit_reached": "تم بلوغ الحد الشهري للاستخدام المجاني. حاول مرة أخرى الشهر المقبل.",
   "lyrics_job_busy": "يرجى الانتظار حتى تنتهي مهمة الكلمات الحالية",
   "lyrics_job_processing": "جارٍ معالجة كلمات الأغنية…",
   "lyrics_action_running_suffix": " (قيد التشغيل)",

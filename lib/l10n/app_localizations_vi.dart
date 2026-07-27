@@ -479,6 +479,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_generate_network => 'Sự cố kết nối, thử lại sau';
 
   @override
+  String get lyrics_usage_limit_reached =>
+      'Đã đạt giới hạn sử dụng miễn phí trong tháng. Vui lòng thử lại vào tháng sau.';
+
+  @override
   String get lyrics_job_busy => 'Vui lòng đợi tác vụ lời hiện tại hoàn tất';
 
   @override

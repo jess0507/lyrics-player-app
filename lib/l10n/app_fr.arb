@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "Limite quotidienne de génération atteinte, réessayez demain",
   "lyrics_auto_generate_no_audio": "Fichier audio introuvable",
   "lyrics_auto_generate_network": "Problème de connexion, réessayez plus tard",
+  "lyrics_usage_limit_reached": "Limite mensuelle d'utilisation gratuite atteinte. Réessayez le mois prochain.",
   "lyrics_job_busy": "Veuillez attendre la fin de la tâche de paroles en cours",
   "lyrics_job_processing": "Traitement des paroles…",
   "lyrics_action_running_suffix": " (En cours)",

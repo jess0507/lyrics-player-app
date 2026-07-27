@@ -1008,6 +1008,12 @@ abstract class AppLocalizations {
   /// **'Connection problem, try again later'**
   String get lyrics_auto_generate_network;
 
+  /// No description provided for @lyrics_usage_limit_reached.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly free usage limit reached. Try again next month.'**
+  String get lyrics_usage_limit_reached;
+
   /// No description provided for @lyrics_job_busy.
   ///
   /// In en, this message translates to:

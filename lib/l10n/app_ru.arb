@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "Достигнут дневной лимит создания, попробуйте завтра",
   "lyrics_auto_generate_no_audio": "Аудиофайл не найден",
   "lyrics_auto_generate_network": "Проблема с подключением, повторите позже",
+  "lyrics_usage_limit_reached": "Достигнут месячный лимит бесплатного использования. Повторите попытку в следующем месяце.",
   "lyrics_job_busy": "Дождитесь завершения текущей задачи с текстом",
   "lyrics_job_processing": "Обработка текста…",
   "lyrics_action_running_suffix": " (Выполняется)",

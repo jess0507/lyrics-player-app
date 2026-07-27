@@ -147,6 +147,7 @@
   "lyrics_auto_generate_rate_limited": "今日生成次数已达上限,请明天再试",
   "lyrics_auto_generate_no_audio": "找不到音频文件",
   "lyrics_auto_generate_network": "连接问题,请稍后再试",
+  "lyrics_usage_limit_reached": "本月免费额度已用完,请下个月再试",
   "lyrics_job_busy": "请等待当前的歌词任务完成",
   "lyrics_job_processing": "歌词处理中…",
   "lyrics_action_running_suffix": "（执行中）",
