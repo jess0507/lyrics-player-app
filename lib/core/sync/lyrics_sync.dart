@@ -23,24 +23,13 @@ class LyricsSync {
 
   SyncStateStore get _store => _ref.read(syncStateStoreProvider);
 
-  /// 歌詞同步（v5）上線前既有的本機歌詞沒有 lyricsModifiedAt 記號；
-  /// 一次性補記，讓下一個同步班次把存量歌詞推上雲端。
+  /// 一次性補記，讓下一個同步班次把存量歌詞推上雲端（見 SyncService
+  /// 的 _shouldPush：本機 lyricsModifiedAt 為 null 時不會觸發推送）。
   void markExistingPending() {
-    final store = _store;
-    if (store.lyricsModifiedAt != null || store.lastLyricsSyncAt != null) {
-      return;
-    }
+    if (_store.lyricsModifiedAt != null) return;
     if (_ref.read(lyricsRepositoryProvider).getAllSync().isEmpty) return;
     debugPrint('[Sync] 補記存量歌詞為待推送');
-    store.markLyricsModified();
-  }
-
-  /// 自上次推送後歌詞有本機變更（含存量補記），需要推送子集合。
-  bool get pushPending {
-    final modified = _store.lyricsModifiedAt;
-    if (modified == null) return false;
-    final synced = _store.lastLyricsSyncAt;
-    return synced == null || modified.isAfter(synced);
+    _store.markLyricsModified();
   }
 
   /// 歌詞全量推送 [userDoc] 的 `lyrics` 子集合：先刪本機沒有的雲端文件，
@@ -84,7 +73,6 @@ class LyricsSync {
       );
     }
     if (pendingOps > 0) await batch.commit();
-    _store.markLyricsSynced();
     debugPrint(
       '[Sync] 已上傳 ${local.length - skipped} 曲歌詞'
       '（刪除雲端 ${cloudIds.difference(localIds).length} 曲）',
@@ -92,7 +80,6 @@ class LyricsSync {
   }
 
   /// 以 [userDoc] 的 `lyrics` 子集合整份覆寫本機歌詞（空集合也覆寫）。
-  /// 僅在雲端文件為 v5+（子集合是權威來源）時由 SyncService 呼叫。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {
     final docs = await userDoc.collection('lyrics').get();
     await _ref
@@ -100,7 +87,6 @@ class LyricsSync {
         .restoreFromRemote(docs.toLyricsEntities());
     // 歌詞顯示 provider 不走 Isar watch，還原後手動作廢重讀。
     _ref.invalidate(trackLyricsProvider);
-    _store.markLyricsSynced();
   }
 }
 
