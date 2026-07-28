@@ -280,6 +280,24 @@ class AppLocalizationsTr extends AppLocalizations {
       'İşlem başarısız oldu. Lütfen daha sonra tekrar deneyin.';
 
   @override
+  String account_last_synced(String time) {
+    return 'Son senkronizasyon: $time';
+  }
+
+  @override
+  String get account_never_synced => 'Henüz senkronize edilmedi';
+
+  @override
+  String get account_sync_now => 'Şimdi senkronize et';
+
+  @override
+  String get account_sync_done => 'Senkronize edildi';
+
+  @override
+  String get account_sync_failed =>
+      'Senkronizasyon başarısız oldu. Bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
   String get common_cancel => 'İptal';
 
   @override

@@ -87,6 +87,16 @@
   "account_sign_in_failed": "登录失败,请重试。",
   "account_sign_up_failed": "注册失败,请重试。",
   "account_operation_failed": "操作失败,请稍后再试。",
+  "account_last_synced": "上次同步：{time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "尚未同步",
+  "account_sync_now": "立即同步",
+  "account_sync_done": "已同步",
+  "account_sync_failed": "同步失败,请检查网络连接后再试一次。",
   "common_cancel": "取消",
   "common_confirm": "确定",
   "common_ok": "好",

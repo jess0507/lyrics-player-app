@@ -270,6 +270,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get account_operation_failed => '操作失敗,請稍後再試。';
 
   @override
+  String account_last_synced(String time) {
+    return '上次同步：$time';
+  }
+
+  @override
+  String get account_never_synced => '尚未同步';
+
+  @override
+  String get account_sync_now => '立即同步';
+
+  @override
+  String get account_sync_done => '已同步';
+
+  @override
+  String get account_sync_failed => '同步失敗,請檢查網路連線後再試一次。';
+
+  @override
   String get common_cancel => '取消';
 
   @override
@@ -846,6 +863,23 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get account_operation_failed => '操作失败,请稍后再试。';
 
   @override
+  String account_last_synced(String time) {
+    return '上次同步：$time';
+  }
+
+  @override
+  String get account_never_synced => '尚未同步';
+
+  @override
+  String get account_sync_now => '立即同步';
+
+  @override
+  String get account_sync_done => '已同步';
+
+  @override
+  String get account_sync_failed => '同步失败,请检查网络连接后再试一次。';
+
+  @override
   String get common_cancel => '取消';
 
   @override
@@ -1420,6 +1454,23 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get account_operation_failed => '操作失敗,請稍後再試。';
+
+  @override
+  String account_last_synced(String time) {
+    return '上次同步：$time';
+  }
+
+  @override
+  String get account_never_synced => '尚未同步';
+
+  @override
+  String get account_sync_now => '立即同步';
+
+  @override
+  String get account_sync_done => '已同步';
+
+  @override
+  String get account_sync_failed => '同步失敗,請檢查網路連線後再試一次。';
 
   @override
   String get common_cancel => '取消';

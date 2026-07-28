@@ -648,6 +648,36 @@ abstract class AppLocalizations {
   /// **'The operation failed. Please try again later.'**
   String get account_operation_failed;
 
+  /// No description provided for @account_last_synced.
+  ///
+  /// In en, this message translates to:
+  /// **'Last synced: {time}'**
+  String account_last_synced(String time);
+
+  /// No description provided for @account_never_synced.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get account_never_synced;
+
+  /// No description provided for @account_sync_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get account_sync_now;
+
+  /// No description provided for @account_sync_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced'**
+  String get account_sync_done;
+
+  /// No description provided for @account_sync_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed. Please check your connection and try again.'**
+  String get account_sync_failed;
+
   /// No description provided for @common_cancel.
   ///
   /// In en, this message translates to:

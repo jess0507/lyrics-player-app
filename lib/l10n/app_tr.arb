@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Oturum açılamadı. Lütfen tekrar deneyin.",
   "account_sign_up_failed": "Kayıt olunamadı. Lütfen tekrar deneyin.",
   "account_operation_failed": "İşlem başarısız oldu. Lütfen daha sonra tekrar deneyin.",
+  "account_last_synced": "Son senkronizasyon: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Henüz senkronize edilmedi",
+  "account_sync_now": "Şimdi senkronize et",
+  "account_sync_done": "Senkronize edildi",
+  "account_sync_failed": "Senkronizasyon başarısız oldu. Bağlantınızı kontrol edip tekrar deneyin.",
   "common_cancel": "İptal",
   "common_confirm": "Onayla",
   "common_ok": "Tamam",

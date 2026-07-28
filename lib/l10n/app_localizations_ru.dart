@@ -278,6 +278,24 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось выполнить операцию. Повторите попытку позже.';
 
   @override
+  String account_last_synced(String time) {
+    return 'Последняя синхронизация: $time';
+  }
+
+  @override
+  String get account_never_synced => 'Ещё не синхронизировано';
+
+  @override
+  String get account_sync_now => 'Синхронизировать сейчас';
+
+  @override
+  String get account_sync_done => 'Синхронизировано';
+
+  @override
+  String get account_sync_failed =>
+      'Не удалось синхронизировать. Проверьте подключение и попробуйте снова.';
+
+  @override
   String get common_cancel => 'Отмена';
 
   @override

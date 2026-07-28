@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Accesso non riuscito. Riprova.",
   "account_sign_up_failed": "Registrazione non riuscita. Riprova.",
   "account_operation_failed": "Operazione non riuscita. Riprova più tardi.",
+  "account_last_synced": "Ultima sincronizzazione: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Non ancora sincronizzato",
+  "account_sync_now": "Sincronizza ora",
+  "account_sync_done": "Sincronizzato",
+  "account_sync_failed": "Sincronizzazione non riuscita. Controlla la connessione e riprova.",
   "common_cancel": "Annulla",
   "common_confirm": "Conferma",
   "common_ok": "OK",

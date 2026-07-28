@@ -282,6 +282,24 @@ class AppLocalizationsVi extends AppLocalizations {
       'Thao tác không thành công. Vui lòng thử lại sau.';
 
   @override
+  String account_last_synced(String time) {
+    return 'Đồng bộ lần cuối: $time';
+  }
+
+  @override
+  String get account_never_synced => 'Chưa đồng bộ';
+
+  @override
+  String get account_sync_now => 'Đồng bộ ngay';
+
+  @override
+  String get account_sync_done => 'Đã đồng bộ';
+
+  @override
+  String get account_sync_failed =>
+      'Đồng bộ thất bại. Vui lòng kiểm tra kết nối và thử lại.';
+
+  @override
   String get common_cancel => 'Hủy';
 
   @override

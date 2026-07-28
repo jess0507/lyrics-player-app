@@ -281,6 +281,24 @@ class AppLocalizationsIt extends AppLocalizations {
       'Operazione non riuscita. Riprova più tardi.';
 
   @override
+  String account_last_synced(String time) {
+    return 'Ultima sincronizzazione: $time';
+  }
+
+  @override
+  String get account_never_synced => 'Non ancora sincronizzato';
+
+  @override
+  String get account_sync_now => 'Sincronizza ora';
+
+  @override
+  String get account_sync_done => 'Sincronizzato';
+
+  @override
+  String get account_sync_failed =>
+      'Sincronizzazione non riuscita. Controlla la connessione e riprova.';
+
+  @override
   String get common_cancel => 'Annulla';
 
   @override

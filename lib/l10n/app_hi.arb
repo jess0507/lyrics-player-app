@@ -87,6 +87,16 @@
   "account_sign_in_failed": "साइन इन विफल रहा। कृपया पुनः प्रयास करें।",
   "account_sign_up_failed": "साइन अप विफल रहा। कृपया पुनः प्रयास करें।",
   "account_operation_failed": "कार्रवाई विफल रही। कृपया बाद में पुनः प्रयास करें।",
+  "account_last_synced": "अंतिम सिंक: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "अभी तक सिंक नहीं हुआ",
+  "account_sync_now": "अभी सिंक करें",
+  "account_sync_done": "सिंक हो गया",
+  "account_sync_failed": "सिंक विफल रहा। कृपया अपना कनेक्शन जाँचें और फिर से प्रयास करें।",
   "common_cancel": "रद्द करें",
   "common_confirm": "पुष्टि करें",
   "common_ok": "ठीक है",

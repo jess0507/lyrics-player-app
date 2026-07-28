@@ -281,6 +281,24 @@ class AppLocalizationsHi extends AppLocalizations {
       'कार्रवाई विफल रही। कृपया बाद में पुनः प्रयास करें।';
 
   @override
+  String account_last_synced(String time) {
+    return 'अंतिम सिंक: $time';
+  }
+
+  @override
+  String get account_never_synced => 'अभी तक सिंक नहीं हुआ';
+
+  @override
+  String get account_sync_now => 'अभी सिंक करें';
+
+  @override
+  String get account_sync_done => 'सिंक हो गया';
+
+  @override
+  String get account_sync_failed =>
+      'सिंक विफल रहा। कृपया अपना कनेक्शन जाँचें और फिर से प्रयास करें।';
+
+  @override
   String get common_cancel => 'रद्द करें';
 
   @override

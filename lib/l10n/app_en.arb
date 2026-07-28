@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Sign-in failed. Please try again.",
   "account_sign_up_failed": "Sign-up failed. Please try again.",
   "account_operation_failed": "The operation failed. Please try again later.",
+  "account_last_synced": "Last synced: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Not synced yet",
+  "account_sync_now": "Sync now",
+  "account_sync_done": "Synced",
+  "account_sync_failed": "Sync failed. Please check your connection and try again.",
   "common_cancel": "Cancel",
   "common_confirm": "Confirm",
   "common_ok": "OK",

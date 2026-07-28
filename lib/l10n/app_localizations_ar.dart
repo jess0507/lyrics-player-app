@@ -278,6 +278,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get account_operation_failed => 'فشلت العملية. يرجى المحاولة لاحقًا.';
 
   @override
+  String account_last_synced(String time) {
+    return 'آخر مزامنة: $time';
+  }
+
+  @override
+  String get account_never_synced => 'لم تتم المزامنة بعد';
+
+  @override
+  String get account_sync_now => 'مزامنة الآن';
+
+  @override
+  String get account_sync_done => 'تمت المزامنة';
+
+  @override
+  String get account_sync_failed =>
+      'فشلت المزامنة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.';
+
+  @override
   String get common_cancel => 'إلغاء';
 
   @override

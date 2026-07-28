@@ -87,6 +87,16 @@
   "account_sign_in_failed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
   "account_sign_up_failed": "فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.",
   "account_operation_failed": "فشلت العملية. يرجى المحاولة لاحقًا.",
+  "account_last_synced": "آخر مزامنة: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "لم تتم المزامنة بعد",
+  "account_sync_now": "مزامنة الآن",
+  "account_sync_done": "تمت المزامنة",
+  "account_sync_failed": "فشلت المزامنة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.",
   "common_cancel": "إلغاء",
   "common_confirm": "تأكيد",
   "common_ok": "موافق",

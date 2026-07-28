@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Gagal masuk. Silakan coba lagi.",
   "account_sign_up_failed": "Gagal mendaftar. Silakan coba lagi.",
   "account_operation_failed": "Operasi gagal. Silakan coba lagi nanti.",
+  "account_last_synced": "Sinkronisasi terakhir: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Belum disinkronkan",
+  "account_sync_now": "Sinkronkan sekarang",
+  "account_sync_done": "Berhasil disinkronkan",
+  "account_sync_failed": "Sinkronisasi gagal. Periksa koneksi Anda dan coba lagi.",
   "common_cancel": "Batal",
   "common_confirm": "Konfirmasi",
   "common_ok": "OK",

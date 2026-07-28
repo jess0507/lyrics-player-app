@@ -87,6 +87,16 @@
   "account_sign_in_failed": "ログインに失敗しました。もう一度お試しください。",
   "account_sign_up_failed": "登録に失敗しました。もう一度お試しください。",
   "account_operation_failed": "処理に失敗しました。しばらくしてからもう一度お試しください。",
+  "account_last_synced": "最終同期: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "まだ同期されていません",
+  "account_sync_now": "今すぐ同期",
+  "account_sync_done": "同期しました",
+  "account_sync_failed": "同期に失敗しました。接続を確認してもう一度お試しください。",
   "common_cancel": "キャンセル",
   "common_confirm": "確定",
   "common_ok": "OK",

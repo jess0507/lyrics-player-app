@@ -280,6 +280,24 @@ class AppLocalizationsId extends AppLocalizations {
       'Operasi gagal. Silakan coba lagi nanti.';
 
   @override
+  String account_last_synced(String time) {
+    return 'Sinkronisasi terakhir: $time';
+  }
+
+  @override
+  String get account_never_synced => 'Belum disinkronkan';
+
+  @override
+  String get account_sync_now => 'Sinkronkan sekarang';
+
+  @override
+  String get account_sync_done => 'Berhasil disinkronkan';
+
+  @override
+  String get account_sync_failed =>
+      'Sinkronisasi gagal. Periksa koneksi Anda dan coba lagi.';
+
+  @override
   String get common_cancel => 'Batal';
 
   @override

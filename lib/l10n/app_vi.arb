@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Đăng nhập không thành công. Vui lòng thử lại.",
   "account_sign_up_failed": "Đăng ký không thành công. Vui lòng thử lại.",
   "account_operation_failed": "Thao tác không thành công. Vui lòng thử lại sau.",
+  "account_last_synced": "Đồng bộ lần cuối: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Chưa đồng bộ",
+  "account_sync_now": "Đồng bộ ngay",
+  "account_sync_done": "Đã đồng bộ",
+  "account_sync_failed": "Đồng bộ thất bại. Vui lòng kiểm tra kết nối và thử lại.",
   "common_cancel": "Hủy",
   "common_confirm": "Xác nhận",
   "common_ok": "OK",

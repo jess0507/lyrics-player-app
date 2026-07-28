@@ -87,6 +87,16 @@
   "account_sign_in_failed": "로그인에 실패했습니다. 다시 시도해 주세요.",
   "account_sign_up_failed": "회원가입에 실패했습니다. 다시 시도해 주세요.",
   "account_operation_failed": "작업에 실패했습니다. 나중에 다시 시도해 주세요.",
+  "account_last_synced": "마지막 동기화: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "아직 동기화되지 않음",
+  "account_sync_now": "지금 동기화",
+  "account_sync_done": "동기화됨",
+  "account_sync_failed": "동기화에 실패했습니다. 연결 상태를 확인한 후 다시 시도해 주세요.",
   "common_cancel": "취소",
   "common_confirm": "확인",
   "common_ok": "확인",

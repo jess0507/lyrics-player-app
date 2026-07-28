@@ -272,6 +272,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get account_operation_failed => '処理に失敗しました。しばらくしてからもう一度お試しください。';
 
   @override
+  String account_last_synced(String time) {
+    return '最終同期: $time';
+  }
+
+  @override
+  String get account_never_synced => 'まだ同期されていません';
+
+  @override
+  String get account_sync_now => '今すぐ同期';
+
+  @override
+  String get account_sync_done => '同期しました';
+
+  @override
+  String get account_sync_failed => '同期に失敗しました。接続を確認してもう一度お試しください。';
+
+  @override
   String get common_cancel => 'キャンセル';
 
   @override

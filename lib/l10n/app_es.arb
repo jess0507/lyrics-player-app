@@ -87,6 +87,16 @@
   "account_sign_in_failed": "No se pudo iniciar sesión. Inténtalo de nuevo.",
   "account_sign_up_failed": "No se pudo registrar. Inténtalo de nuevo.",
   "account_operation_failed": "La operación falló. Inténtalo de nuevo más tarde.",
+  "account_last_synced": "Última sincronización: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Aún no sincronizado",
+  "account_sync_now": "Sincronizar ahora",
+  "account_sync_done": "Sincronizado",
+  "account_sync_failed": "Error al sincronizar. Comprueba tu conexión e inténtalo de nuevo.",
   "common_cancel": "Cancelar",
   "common_confirm": "Confirmar",
   "common_ok": "Aceptar",

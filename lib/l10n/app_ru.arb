@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Не удалось войти. Попробуйте ещё раз.",
   "account_sign_up_failed": "Не удалось зарегистрироваться. Попробуйте ещё раз.",
   "account_operation_failed": "Не удалось выполнить операцию. Повторите попытку позже.",
+  "account_last_synced": "Последняя синхронизация: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Ещё не синхронизировано",
+  "account_sync_now": "Синхронизировать сейчас",
+  "account_sync_done": "Синхронизировано",
+  "account_sync_failed": "Не удалось синхронизировать. Проверьте подключение и попробуйте снова.",
   "common_cancel": "Отмена",
   "common_confirm": "Подтвердить",
   "common_ok": "ОК",

@@ -273,6 +273,23 @@ class AppLocalizationsKo extends AppLocalizations {
   String get account_operation_failed => '작업에 실패했습니다. 나중에 다시 시도해 주세요.';
 
   @override
+  String account_last_synced(String time) {
+    return '마지막 동기화: $time';
+  }
+
+  @override
+  String get account_never_synced => '아직 동기화되지 않음';
+
+  @override
+  String get account_sync_now => '지금 동기화';
+
+  @override
+  String get account_sync_done => '동기화됨';
+
+  @override
+  String get account_sync_failed => '동기화에 실패했습니다. 연결 상태를 확인한 후 다시 시도해 주세요.';
+
+  @override
   String get common_cancel => '취소';
 
   @override

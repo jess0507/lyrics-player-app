@@ -87,6 +87,16 @@
   "account_sign_in_failed": "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
   "account_sign_up_failed": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
   "account_operation_failed": "Vorgang fehlgeschlagen. Bitte versuche es später erneut.",
+  "account_last_synced": "Zuletzt synchronisiert: {time}",
+  "@account_last_synced": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "account_never_synced": "Noch nicht synchronisiert",
+  "account_sync_now": "Jetzt synchronisieren",
+  "account_sync_done": "Synchronisiert",
+  "account_sync_failed": "Synchronisierung fehlgeschlagen. Bitte überprüfe deine Verbindung und versuche es erneut.",
   "common_cancel": "Abbrechen",
   "common_confirm": "Bestätigen",
   "common_ok": "OK",
