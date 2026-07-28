@@ -2,11 +2,14 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_snack_bar.dart';
+import '../providers/last_sync_at_provider.dart';
+import 'sync_now_button.dart';
 
 /// 已登入:顯示頭像、Email、登出與刪除帳號。
 class UserInfoView extends ConsumerWidget {
@@ -19,6 +22,7 @@ class UserInfoView extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final auth = ref.read(authServiceProvider);
     final photo = user.photoURL;
+    final lastSyncAt = ref.watch(lastSyncAtProvider);
 
     return Column(
       children: [
@@ -44,6 +48,20 @@ class UserInfoView extends ConsumerWidget {
           const SizedBox(height: 4),
           Center(child: Text(user.email!)),
         ],
+        const SizedBox(height: 8),
+        Center(
+          child: Text(
+            lastSyncAt == null
+                ? l10n.account_never_synced
+                : l10n.account_last_synced(
+                    DateFormat.yMd(
+                      Localizations.localeOf(context).toString(),
+                    ).add_Hm().format(lastSyncAt),
+                  ),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ),
+        const Center(child: SyncNowButton()),
         const SizedBox(height: 32),
         FilledButton.tonalIcon(
           onPressed: () => auth.signOut(),

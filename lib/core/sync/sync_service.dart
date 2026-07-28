@@ -180,15 +180,32 @@ class SyncService {
     await _upload(uid);
   }
 
+  /// 帳戶頁面「立即同步」手動觸發：不看 `mainChanged`/`pushPending`，
+  /// 直接跑一次上傳，讓使用者能主動確認資料已送上雲端。
+  /// 未登入 / Firebase 不可用時回傳 false（no-op）。
+  Future<bool> syncNow() async {
+    if (!ref.read(firebaseAvailableProvider)) {
+      debugPrint('[Sync] Firebase 不可用，略過手動同步');
+      return false;
+    }
+    final uid = ref.read(authServiceProvider).currentUser?.uid;
+    if (uid == null) {
+      debugPrint('[Sync] 未登入，略過手動同步');
+      return false;
+    }
+    return _upload(uid);
+  }
+
   /// `set()` 整份覆寫（不帶 merge）：雲端永遠是單一裝置的完整快照
   /// （last-write-wins，不合併、不加總）。
   ///
   /// 寫入前先讀一次雲端 schemaVersion：比本機新代表雲端已被較新版 App
   /// 寫入過，本機（App 尚未升級）跳過整個上傳（含子集合），避免舊格式
   /// 覆寫掉新格式；`lastSyncAt` 不動，升級後下次班次自然重試。此為所有
-  /// 上傳路徑（回前景 / 登入 / 統計重設）共用的唯一寫入入口，
-  /// 在此把關即涵蓋全部路徑。
-  Future<void> _upload(String uid) async {
+  /// 上傳路徑（回前景 / 登入 / 統計重設 / 手動同步）共用的唯一寫入入口，
+  /// 在此把關即涵蓋全部路徑。回傳是否真的完成上傳，供手動同步的按鈕
+  /// 顯示結果；自動觸發的路徑不理會回傳值。
+  Future<bool> _upload(String uid) async {
     try {
       final userDoc = _userDoc(uid);
       final cloudVersion =
@@ -197,7 +214,7 @@ class SyncService {
         debugPrint(
           '[Sync] 雲端 schemaVersion ${cloudVersion.toInt()} 較新（本機 App 尚未升級），跳過上傳',
         );
-        return;
+        return false;
       }
       await userDoc.set({
         'schemaVersion': _schemaVersion,
@@ -211,10 +228,12 @@ class SyncService {
       await ref.read(playlistsSyncProvider).push(userDoc);
       await ref.read(statisticsSyncProvider).push(userDoc);
       if (_lyricsSync.pushPending) await _lyricsSync.push(userDoc);
+      return true;
     } catch (e, s) {
       // 離線、權限、逾時等：靜默略過，lastSyncAt 不動，下次啟動自然再試。
       debugPrint('[Sync] 上傳失敗，略過：$e');
       reportError(e, s, reason: '統計 / 設定上傳失敗');
+      return false;
     }
   }
 }
