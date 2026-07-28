@@ -47,14 +47,24 @@ class PlaylistRepository {
       });
 
   /// 新增清單,回傳新 id。
+  ///
+  /// id 取現有清單最大值 + 1,不吃 Isar 內建 autoIncrement 計數器：
+  /// 該計數器不會因 [restoreFromRemote] 寫入的外來 id（雲端 `playlist`
+  /// 子集合 docId）往前跳號，若沿用會導致新清單 id 撞號、覆寫掉剛還原
+  /// 的清單。
   Future<int> create(String name) async {
-    final id = await _isar.writeTxn(
-      () => _col.put(
+    final id = await _isar.writeTxn(() {
+      final maxId = _col.where().findAllSync().fold<int>(
+        0,
+        (max, p) => p.id > max ? p.id : max,
+      );
+      return _col.put(
         PlaylistEntity()
+          ..id = maxId + 1
           ..name = name
           ..createdAt = DateTime.now(),
-      ),
-    );
+      );
+    });
     _syncState.markPlaylistModified();
     return id;
   }

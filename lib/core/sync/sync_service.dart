@@ -35,9 +35,17 @@ class SyncService {
   /// v5+ 的文件以子集合為歌詞的權威來源。
   ///
   /// `days` / `monthlyTotals` 已改存 `monthlyStats/{yyyy-MM}` 子集合
-  /// （見 StatisticsSync，逐月一份文件，同時存明細與月粒度加總），
-  /// 未跟著升版：直接切換為子集合權威來源，不留主文件欄位的還原相容路徑。
-  static const _schemaVersion = 5;
+  /// （見 StatisticsSync，逐月一份文件，同時存明細與月粒度加總）。
+  ///
+  /// v6：`settings` 改存 `setting/default0` 單一文件（見 SettingsSync）；
+  /// `playlists` 改存 `playlist/{id}` 子集合（一份清單一份文件，docId
+  /// 為本機 Isar id，見 PlaylistsSync）。皆以子集合為權威來源，還原時
+  /// 不看主文件版本、不留主文件欄位的相容路徑。
+  ///
+  /// 上傳前一律比對雲端 schemaVersion（見 _upload）：雲端較新代表雲端
+  /// 已被較新版 App 寫入，本機（App 尚未升級）不上傳，避免舊格式覆寫
+  /// 新格式。
+  static const _schemaVersion = 6;
 
   /// 播放清單變更觸發上傳的節流窗長。
   static const _playlistPushThrottle = Duration(minutes: 5);
@@ -179,12 +187,11 @@ class SyncService {
       return;
     }
 
-    ref.read(settingsSyncProvider).restore(data['settings']);
-    // 統計一律以 `monthlyStats` 子集合為權威來源，不看主文件版本
+    // 統計、設定、播放清單一律以各自子集合為權威來源，不看主文件版本
     // （見 _schemaVersion 註解）。
     await ref.read(statisticsSyncProvider).restore(_userDoc(uid));
-    // v4+ 才有 playlists 欄位；舊文件缺欄位時不動本機清單。
-    await ref.read(playlistsSyncProvider).restore(data['playlists']);
+    await ref.read(settingsSyncProvider).restore(_userDoc(uid));
+    await ref.read(playlistsSyncProvider).restore(_userDoc(uid));
     // v5+ 才以歌詞子集合為權威來源（空集合也整份覆寫本機）；
     // v4 舊文件不動本機歌詞，由還原後的上傳判斷補推。
     if (version >= 5) {
@@ -234,21 +241,35 @@ class SyncService {
 
   /// `set()` 整份覆寫（不帶 merge）：雲端永遠是單一裝置的完整快照
   /// （last-write-wins，不合併、不加總）。
+  ///
+  /// 寫入前先讀一次雲端 schemaVersion：比本機新代表雲端已被較新版 App
+  /// 寫入過，本機（App 尚未升級）跳過整個上傳（含子集合），避免舊格式
+  /// 覆寫掉新格式；`lastSyncAt` 不動，升級後下次班次自然重試。此為所有
+  /// 上傳路徑（啟動 / 回前景 / 播放清單節流 / 歌詞變更 / 統計重設）
+  /// 共用的唯一寫入入口，在此把關即涵蓋全部路徑。
   Future<void> _upload(String uid) async {
     try {
-      final playlists = ref.read(playlistsSyncProvider).encode();
-      await _userDoc(uid).set({
+      final userDoc = _userDoc(uid);
+      final cloudVersion =
+          (await userDoc.get()).data()?['schemaVersion'] as num?;
+      if (cloudVersion != null && cloudVersion.toInt() > _schemaVersion) {
+        debugPrint(
+          '[Sync] 雲端 schemaVersion ${cloudVersion.toInt()} 較新（本機 App 尚未升級），跳過上傳',
+        );
+        return;
+      }
+      await userDoc.set({
         'schemaVersion': _schemaVersion,
-        'settings': ref.read(settingsSyncProvider).encode(),
-        'playlists': playlists,
         'updatedAt': FieldValue.serverTimestamp(),
       });
       _store.markSynced();
-      debugPrint('[Sync] 已上傳設定與播放清單（${playlists.length} 份清單）');
-      // 主文件之後才推統計與歌詞子集合：失敗不影響已成功的主文件寫入，
-      // 下個班次重試即可（子集合推送整批重寫，冪等）。
-      await ref.read(statisticsSyncProvider).push(_userDoc(uid));
-      if (_lyricsSync.pushPending) await _lyricsSync.push(_userDoc(uid));
+      debugPrint('[Sync] 已上傳主文件');
+      // 主文件之後才推設定、播放清單、統計與歌詞子集合：失敗不影響已成功
+      // 的主文件寫入，下個班次重試即可（子集合推送整批重寫，冪等）。
+      await ref.read(settingsSyncProvider).push(userDoc);
+      await ref.read(playlistsSyncProvider).push(userDoc);
+      await ref.read(statisticsSyncProvider).push(userDoc);
+      if (_lyricsSync.pushPending) await _lyricsSync.push(userDoc);
     } catch (e, s) {
       // 離線、權限、逾時等：靜默略過，lastSyncAt 不動，下次啟動自然再試。
       debugPrint('[Sync] 上傳失敗，略過：$e');
