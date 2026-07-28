@@ -177,7 +177,8 @@ class StatisticsController extends Notifier<StatisticsData> {
     );
   }
 
-  /// 月粒度 totals（依 period 升冪），供同步上傳（v3 `monthlyTotals` 欄位）。
+  /// 月粒度 totals（依 period 升冪），供同步上傳（`monthlyTotals` 子集合，
+  /// 見 StatisticsSync）。
   List<PeriodStatEntity> monthlyTotals() =>
       _periods.where().sortByPeriod().findAllSync();
 
@@ -229,9 +230,9 @@ class StatisticsController extends Notifier<StatisticsData> {
 
   /// 還原雲端備份（整份覆寫本機）。
   ///
-  /// [monthlyTotals] 為雲端文件（v3）的月粒度 totals——月粒度以雲端為準
-  /// （將來明細被截斷後，月總量只有雲端是完整的）；v2 舊文件無此欄位，
-  /// 傳 null，由明細單趟重建月總量。
+  /// [monthlyTotals] 為雲端 `monthlyTotals` 子集合的月粒度 totals——月粒度
+  /// 以雲端為準（將來明細被截斷後，月總量只有雲端是完整的）；未提供時
+  /// （例：本機測試、雲端子集合缺漏）由明細單趟重建月總量。
   /// day 數據即明細本身，隨 [entities] 一併落地，兩種情形都不需另外重建。
   ///
   /// 還原不算本機變更：不更新 lastModifiedAt，避免還原後馬上又觸發上傳。

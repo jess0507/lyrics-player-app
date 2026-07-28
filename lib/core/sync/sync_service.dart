@@ -33,6 +33,10 @@ class SyncService {
   /// v4：新增 `playlists`（播放清單與其有序 trackIds 關係）。
   /// v5：新增 `lyrics/{trackId}` 子集合（見 LyricsSync）。
   /// v5+ 的文件以子集合為歌詞的權威來源。
+  ///
+  /// `days` / `monthlyTotals` 已改存 `monthlyStats/{yyyy-MM}` 子集合
+  /// （見 StatisticsSync，逐月一份文件，同時存明細與月粒度加總），
+  /// 未跟著升版：直接切換為子集合權威來源，不留主文件欄位的還原相容路徑。
   static const _schemaVersion = 5;
 
   /// 播放清單變更觸發上傳的節流窗長。
@@ -176,10 +180,9 @@ class SyncService {
     }
 
     ref.read(settingsSyncProvider).restore(data['settings']);
-    // v3+ 才有 monthlyTotals 欄位。
-    ref
-        .read(statisticsSyncProvider)
-        .restore(data['days'], version >= 3 ? data['monthlyTotals'] : null);
+    // 統計一律以 `monthlyStats` 子集合為權威來源，不看主文件版本
+    // （見 _schemaVersion 註解）。
+    await ref.read(statisticsSyncProvider).restore(_userDoc(uid));
     // v4+ 才有 playlists 欄位；舊文件缺欄位時不動本機清單。
     await ref.read(playlistsSyncProvider).restore(data['playlists']);
     // v5+ 才以歌詞子集合為權威來源（空集合也整份覆寫本機）；
@@ -233,23 +236,18 @@ class SyncService {
   /// （last-write-wins，不合併、不加總）。
   Future<void> _upload(String uid) async {
     try {
-      final statsFields = ref.read(statisticsSyncProvider).encodeFields();
       final playlists = ref.read(playlistsSyncProvider).encode();
       await _userDoc(uid).set({
         'schemaVersion': _schemaVersion,
         'settings': ref.read(settingsSyncProvider).encode(),
-        ...statsFields,
         'playlists': playlists,
         'updatedAt': FieldValue.serverTimestamp(),
       });
       _store.markSynced();
-      debugPrint(
-        '[Sync] 已上傳統計、設定與播放清單'
-        '（${(statsFields['days'] as Map).length} 天統計、'
-        '${playlists.length} 份清單）',
-      );
-      // 主文件之後才推歌詞：失敗時 lastLyricsSyncAt 不動，
-      // 下個班次由 pushPending 單獨重試（主文件重寫無妨，冪等）。
+      debugPrint('[Sync] 已上傳設定與播放清單（${playlists.length} 份清單）');
+      // 主文件之後才推統計與歌詞子集合：失敗不影響已成功的主文件寫入，
+      // 下個班次重試即可（子集合推送整批重寫，冪等）。
+      await ref.read(statisticsSyncProvider).push(_userDoc(uid));
       if (_lyricsSync.pushPending) await _lyricsSync.push(_userDoc(uid));
     } catch (e, s) {
       // 離線、權限、逾時等：靜默略過，lastSyncAt 不動，下次啟動自然再試。
