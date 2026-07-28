@@ -6,7 +6,7 @@ import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 
 /// 歌詞的 Isar CRUD。儲存原文,解析交給讀取端(parser)。
 /// 每次使用者寫入都 markLyricsModified,SyncService 監聽該事件
-/// 立即推送 `users/{uid}/lyrics/{trackId}` 子集合備份。
+/// 立即推送 `user/{uid}/lyrics/{trackId}` 子集合備份。
 class LyricsRepository {
   LyricsRepository(this._isar, this._syncState);
 

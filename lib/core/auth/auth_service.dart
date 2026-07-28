@@ -98,7 +98,7 @@ class AuthService {
     await _auth.signOut();
   }
 
-  /// 只刪除使用者的雲端資料(Firestore `users/{uid}`),保留登入帳號。
+  /// 只刪除使用者的雲端資料(Firestore `user/{uid}`),保留登入帳號。
   ///
   /// 由 Cloud Function `delete_account_data` 以 Admin SDK 執行。
   Future<void> deleteAccountData() async {

@@ -1,4 +1,4 @@
-/// Firestore `users/{uid}/lyrics/{trackId}` 文件的非同步處理狀態,對應
+/// Firestore `user/{uid}/lyrics/{trackId}` 文件的非同步處理狀態,對應
 /// seek_player_backend/docs/error-codes.md 的狀態機與 error code。
 enum LyricsJobPhase {
   queued,

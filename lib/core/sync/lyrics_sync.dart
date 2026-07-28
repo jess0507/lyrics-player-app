@@ -9,7 +9,7 @@ import '../../features/lyrics/providers/track_lyrics_provider.dart';
 import '../../features/lyrics/services/lyrics_repository.dart';
 import 'sync_state_store.dart';
 
-/// 歌詞與 `users/{uid}/lyrics/{trackId}` 子集合（sync v5）的推送與還原
+/// 歌詞與 `user/{uid}/lyrics/{trackId}` 子集合（sync v5）的推送與還原
 /// （SyncService 調度）。歌詞原文放不進主文件的 1 MiB 上限，
 /// 逐曲一份文件；與主文件同為完整快照語意（last-write-wins）。
 class LyricsSync {

@@ -19,7 +19,7 @@ import 'lyrics_pending_sync_store.dart';
 import 'track_lyrics_provider.dart';
 
 /// 依 [lyricsPendingSyncStoreProvider] 持久化的 trackId 清單,逐一訂閱其
-/// Firestore 文件(`users/{uid}/lyrics/{trackId}`)。背景任務(queued)送出
+/// Firestore 文件(`user/{uid}/lyrics/{trackId}`)。背景任務(queued)送出
 /// 後,Cloud Run 端完成的結果原本只寫進 Firestore——要等使用者剛好再次對
 /// 同一 trackId 觸發命中 cached 分支,或重新登入觸發全量還原,才會回到
 /// 本機。這段空窗期若中間有其他歌詞變更觸發全量推送,雲端這份快照會被
@@ -79,7 +79,7 @@ class LyricsPendingSyncService {
     String uid,
     String trackId,
   ) => FirebaseFirestore.instance
-      .collection('users')
+      .collection('user')
       .doc(uid)
       .collection('lyrics')
       .doc(trackId)

@@ -13,7 +13,7 @@ import 'settings_sync.dart';
 import 'statistics_sync.dart';
 import 'sync_state_store.dart';
 
-/// 使用者資料與 Firestore `users/{uid}` 同步的調度：觸發時機、變更判斷、
+/// 使用者資料與 Firestore `user/{uid}` 同步的調度：觸發時機、變更判斷、
 /// schema 版本與主文件組裝。各領域（設定 / 統計 / 播放清單 / 歌詞）的
 /// 編解碼與還原分別在 `*_sync.dart`。
 ///
@@ -49,7 +49,7 @@ class SyncService {
   LyricsSync get _lyricsSync => ref.read(lyricsSyncProvider);
 
   DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
-      FirebaseFirestore.instance.collection('users').doc(uid);
+      FirebaseFirestore.instance.collection('user').doc(uid);
 
   void _init() {
     if (!ref.read(firebaseAvailableProvider)) {

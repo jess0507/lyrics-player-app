@@ -6,7 +6,7 @@ import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,SyncService 監聽該事件
-/// 節流(5 分鐘)上傳 `users/{uid}` 備份。
+/// 節流(5 分鐘)上傳 `user/{uid}` 備份。
 class PlaylistRepository {
   PlaylistRepository(this._isar, this._syncState);
 

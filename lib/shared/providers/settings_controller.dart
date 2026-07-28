@@ -48,7 +48,7 @@ class SettingsState {
     );
   }
 
-  /// 雲端同步（Firestore `users/{uid}.settings`）的欄位表示。
+  /// 雲端同步（Firestore `user/{uid}.settings`）的欄位表示。
   Map<String, dynamic> toRemoteMap() => {
         'locale':
             locale == null ? null : SettingsController._encodeLocale(locale!),

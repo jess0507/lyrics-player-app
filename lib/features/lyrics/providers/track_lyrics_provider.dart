@@ -12,7 +12,7 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 /// import service `invalidate` 對應 family 觸發重讀。
 ///
 /// 本機沒有歌詞(尚未匯入 / 對時 / 產生過)時,若已登入,降級讀一次雲端快照
-/// `users/{uid}/lyrics/{trackId}`(align_lyrics / generate_lyrics 後端成功後
+/// `user/{uid}/lyrics/{trackId}`(align_lyrics / generate_lyrics 後端成功後
 /// 靜默寫入,或其他裝置同步備份而來),讓使用者不必重新操作即可看到歌詞。
 /// 純顯示用途,不寫回本機 Isar(避免與既有同步機制打架)。
 final trackLyricsProvider = FutureProvider.family<Lyrics?, String>((
@@ -31,7 +31,7 @@ Future<Lyrics?> _fetchRemoteLyricsSnapshot(String trackId) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return null;
   final snapshot = await FirebaseFirestore.instance
-      .collection('users')
+      .collection('user')
       .doc(uid)
       .collection('lyrics')
       .doc(trackId)
