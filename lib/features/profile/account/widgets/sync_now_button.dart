@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/sync/sync_service.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_snack_bar.dart';
 import '../providers/last_sync_at_provider.dart';
 
-/// 帳戶頁面「立即同步」按鈕:手動觸發一次上傳,結束後回報成功/失敗
-/// 並刷新上次同步時間顯示。
+/// 帳戶頁面「立即同步」ListTile:點擊手動觸發一次上傳,結束後回報
+/// 成功/失敗並刷新上次同步時間顯示(顯示於 trailing)。
 class SyncNowButton extends ConsumerStatefulWidget {
   const SyncNowButton({super.key});
 
@@ -34,16 +35,28 @@ class _SyncNowButtonState extends ConsumerState<SyncNowButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return TextButton.icon(
-      onPressed: _syncing ? null : _handleTap,
-      icon: _syncing
+    final lastSyncAt = ref.watch(lastSyncAtProvider);
+    return ListTile(
+      leading: _syncing
           ? const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              width: 24,
+              height: 24,
+              child: Padding(
+                padding: EdgeInsets.all(2),
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
             )
           : const Icon(Icons.sync),
-      label: Text(l10n.account_sync_now),
+      title: Text(l10n.account_sync_now),
+      trailing: Text(
+        lastSyncAt == null
+            ? l10n.account_never_synced
+            : DateFormat.yMd(
+                Localizations.localeOf(context).toString(),
+              ).add_Hm().format(lastSyncAt),
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+      onTap: _syncing ? null : _handleTap,
     );
   }
 }

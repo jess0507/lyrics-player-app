@@ -2,16 +2,14 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_snack_bar.dart';
-import '../providers/last_sync_at_provider.dart';
 import 'sync_now_button.dart';
 
-/// 已登入:顯示頭像、Email、登出與刪除帳號。
+/// 已登入:顯示頭像、Email、同步、登出與刪除帳號。
 class UserInfoView extends ConsumerWidget {
   const UserInfoView({super.key, required this.user});
 
@@ -22,14 +20,13 @@ class UserInfoView extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final auth = ref.read(authServiceProvider);
     final photo = user.photoURL;
-    final lastSyncAt = ref.watch(lastSyncAtProvider);
 
-    return Column(
+    return ListView(
       children: [
         const SizedBox(height: 16),
         Center(
           child: CircleAvatar(
-            radius: 48,
+            radius: 36,
             backgroundImage: photo != null ? NetworkImage(photo) : null,
             child: photo == null ? const Icon(Icons.person, size: 48) : null,
           ),
@@ -48,41 +45,34 @@ class UserInfoView extends ConsumerWidget {
           const SizedBox(height: 4),
           Center(child: Text(user.email!)),
         ],
-        const SizedBox(height: 8),
-        Center(
-          child: Text(
-            lastSyncAt == null
-                ? l10n.account_never_synced
-                : l10n.account_last_synced(
-                    DateFormat.yMd(
-                      Localizations.localeOf(context).toString(),
-                    ).add_Hm().format(lastSyncAt),
-                  ),
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ),
-        const Center(child: SyncNowButton()),
         const SizedBox(height: 32),
-        FilledButton.tonalIcon(
-          onPressed: () => auth.signOut(),
-          icon: const Icon(Icons.logout),
-          label: Text(l10n.account_sign_out),
+        const SyncNowButton(),
+        const Divider(height: 1),
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: Text(l10n.account_sign_out),
+          onTap: () => auth.signOut(),
         ),
-        Spacer(),
-        TextButton.icon(
-          onPressed: () => _confirmDeleteData(context, auth),
-          icon: const Icon(Icons.cleaning_services_outlined),
-          label: Text(l10n.account_delete_data),
+        const Divider(height: 1),
+        const SizedBox(height: 32),
+        ListTile(
+          leading: const Icon(Icons.cleaning_services_outlined),
+          title: Text(l10n.account_delete_data),
+          onTap: () => _confirmDeleteData(context, auth),
         ),
-        const SizedBox(height: 12),
-        TextButton.icon(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
+        const Divider(height: 1),
+        ListTile(
+          leading: Icon(
+            Icons.delete_outline,
+            color: Theme.of(context).colorScheme.error,
           ),
-          onPressed: () => _confirmDelete(context, auth),
-          icon: const Icon(Icons.delete_outline),
-          label: Text(l10n.account_delete),
+          title: Text(
+            l10n.account_delete,
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+          onTap: () => _confirmDelete(context, auth),
         ),
+        const Divider(height: 1),
       ],
     );
   }
