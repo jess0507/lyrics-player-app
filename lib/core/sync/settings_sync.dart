@@ -5,6 +5,10 @@ import '../../shared/providers/settings_controller.dart';
 
 /// 設定與 `setting` 子集合（單一文件 `setting/0`）的推送與還原
 /// （SyncService 調度）。設定僅一份、無需分件，固定 docId 即可。
+///
+/// `setting/0` 同時也是 SyncService 存放四個領域（設定 / 播放清單 /
+/// 統計 / 歌詞）各自 *UpdatedAt 時戳的地方，故這裡的寫入一律 merge，
+/// 避免覆寫掉其他領域的時戳欄位。
 class SettingsSync {
   SettingsSync(this._ref);
 
@@ -16,9 +20,12 @@ class SettingsSync {
     DocumentReference<Map<String, dynamic>> userDoc,
   ) => userDoc.collection('setting').doc(_docId);
 
-  /// 整份覆寫 `setting/0` 文件。
+  /// 覆寫 `setting/0` 文件裡設定本身的欄位（merge，不動時戳欄位）。
   Future<void> push(DocumentReference<Map<String, dynamic>> userDoc) =>
-      _doc(userDoc).set(_ref.read(settingsControllerProvider).toRemoteMap());
+      _doc(userDoc).set(
+        _ref.read(settingsControllerProvider).toRemoteMap(),
+        SetOptions(merge: true),
+      );
 
   /// 以 `setting/0` 文件還原本機設定；文件不存在時不動本機。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {

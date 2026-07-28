@@ -50,14 +50,13 @@ class SettingsState {
 
   /// 雲端同步（Firestore `user/{uid}.settings`）的欄位表示。
   Map<String, dynamic> toRemoteMap() => {
-        'locale':
-            locale == null ? null : SettingsController._encodeLocale(locale!),
-        'themeMode': themeMode.name,
-        'seedColor': seedColor.name,
-        'useGradient': useGradient,
-        'gradientFromCover': gradientFromCover,
-        'autoFullScreenLyrics': autoFullScreenLyrics,
-      };
+    'locale': locale == null ? null : SettingsController._encodeLocale(locale!),
+    'themeMode': themeMode.name,
+    'seedColor': seedColor.name,
+    'useGradient': useGradient,
+    'gradientFromCover': gradientFromCover,
+    'autoFullScreenLyrics': autoFullScreenLyrics,
+  };
 
   static const Object _sentinel = Object();
 }
@@ -157,7 +156,8 @@ class SettingsController extends Notifier<SettingsState> {
     _prefs.setBool(_kAutoFullScreenLyrics, state.autoFullScreenLyrics);
   }
 
-  void _markModified() => ref.read(syncStateStoreProvider).markModified();
+  void _markModified() =>
+      ref.read(syncStateStoreProvider).markSettingModified();
 
   static String _encodeLocale(Locale locale) {
     return locale.countryCode == null
@@ -180,6 +180,4 @@ class SettingsController extends Notifier<SettingsState> {
 }
 
 final settingsControllerProvider =
-    NotifierProvider<SettingsController, SettingsState>(
-  SettingsController.new,
-);
+    NotifierProvider<SettingsController, SettingsState>(SettingsController.new);

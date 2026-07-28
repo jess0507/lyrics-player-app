@@ -20,7 +20,7 @@ class SyncService {
 
   final Ref ref;
 
-  static const _schemaVersion = 6;
+  static const _schemaVersion = 7;
 
   SyncStateStore get _store => ref.read(syncStateStoreProvider);
 
@@ -29,11 +29,17 @@ class SyncService {
   DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
       FirebaseFirestore.instance.collection('user').doc(uid);
 
+  /// 設定 / 播放清單 / 統計 / 歌詞四個領域各自 *UpdatedAt 時戳的存放處
+  /// （與 SettingsSync 的設定內容共用同一份文件，見 settings_sync.dart）。
+  DocumentReference<Map<String, dynamic>> _settingDoc(String uid) =>
+      _userDoc(uid).collection('setting').doc('0');
+
   void _init() {
     if (!ref.read(firebaseAvailableProvider)) {
       debugPrint('[Sync] Firebase 不可用，停用同步');
       return;
     }
+    _lyricsSync.markExistingPending();
     final sub = ref.read(authServiceProvider).authStateChanges().listen((user) {
       if (user == null) {
         debugPrint('[Sync] auth 事件：未登入，不同步');
@@ -81,31 +87,63 @@ class SyncService {
       return;
     }
 
-    // 統計、設定、播放清單一律以各自子集合為權威來源，不看主文件版本
-    // （見 _schemaVersion 註解）；三者共用主文件的 updatedAt 代表整組
-    // 領域的遠端時戳（每次上傳三者一起送，見 _upload）。
-    final remoteMainAt = (data['updatedAt'] as Timestamp?)?.toDate();
-    if (_shouldPull(remote: remoteMainAt, local: _store.lastModifiedAt)) {
-      await ref.read(statisticsSyncProvider).restore(_userDoc(uid));
+    // 設定 / 播放清單 / 統計 / 歌詞一律以各自子集合為權威來源，且各自
+    // 獨立依 setting/0 裡對應的 *UpdatedAt 時戳判斷是否還原，互不牽動
+    // （見 _upload：四者各自推送、各自更新自己的時戳）。
+    final timestamps = (await _settingDoc(uid).get()).data() ?? const {};
+    var restoredAny = false;
+
+    if (_shouldPull(
+      remote: _remoteAt(timestamps, 'settingUpdatedAt'),
+      local: _store.settingModifiedAt,
+    )) {
       await ref.read(settingsSyncProvider).restore(_userDoc(uid));
-      await ref.read(playlistsSyncProvider).restore(_userDoc(uid));
-      // 還原後更新本機顯示用的「上次同步時間」；lastModifiedAt 不動
-      // （還原不算本機變更）。
-      _store.markSynced();
-      debugPrint('[Sync] 雲端設定/統計/播放清單較新，已還原（remoteUpdatedAt=$remoteMainAt）');
+      restoredAny = true;
+      debugPrint('[Sync] 雲端設定較新，已還原');
     } else {
-      debugPrint('[Sync] 本機設定/統計/播放清單較新或雲端無 updatedAt，跳過還原');
+      debugPrint('[Sync] 本機設定較新或雲端無 settingUpdatedAt，跳過還原');
     }
 
-    // 沒有歌詞子集合，不動本機歌詞，由還原後的上傳判斷補推。
-    final remoteLyricsAt = (data['lyricsUpdatedAt'] as Timestamp?)?.toDate();
-    if (_shouldPull(remote: remoteLyricsAt, local: _store.lyricsModifiedAt)) {
+    if (_shouldPull(
+      remote: _remoteAt(timestamps, 'playlistUpdatedAt'),
+      local: _store.playlistModifiedAt,
+    )) {
+      await ref.read(playlistsSyncProvider).restore(_userDoc(uid));
+      restoredAny = true;
+      debugPrint('[Sync] 雲端播放清單較新，已還原');
+    } else {
+      debugPrint('[Sync] 本機播放清單較新或雲端無 playlistUpdatedAt，跳過還原');
+    }
+
+    if (_shouldPull(
+      remote: _remoteAt(timestamps, 'statsUpdatedAt'),
+      local: _store.statsModifiedAt,
+    )) {
+      await ref.read(statisticsSyncProvider).restore(_userDoc(uid));
+      restoredAny = true;
+      debugPrint('[Sync] 雲端統計較新，已還原');
+    } else {
+      debugPrint('[Sync] 本機統計較新或雲端無 statsUpdatedAt，跳過還原');
+    }
+
+    if (_shouldPull(
+      remote: _remoteAt(timestamps, 'lyricsUpdatedAt'),
+      local: _store.lyricsModifiedAt,
+    )) {
       await _lyricsSync.restore(_userDoc(uid));
-      debugPrint('[Sync] 雲端歌詞較新，已還原（remoteUpdatedAt=$remoteLyricsAt）');
+      restoredAny = true;
+      debugPrint('[Sync] 雲端歌詞較新，已還原');
     } else {
       debugPrint('[Sync] 本機歌詞較新或雲端無 lyricsUpdatedAt，跳過還原');
     }
+
+    // 還原後更新本機顯示用的「上次同步時間」；各自的 *ModifiedAt 不動
+    // （還原不算本機變更）。
+    if (restoredAny) _store.markSynced();
   }
+
+  DateTime? _remoteAt(Map<String, dynamic> timestamps, String key) =>
+      (timestamps[key] as Timestamp?)?.toDate();
 
   bool _shouldPull({required DateTime? remote, required DateTime? local}) {
     if (remote == null) return false;
@@ -121,26 +159,33 @@ class SyncService {
 
   Future<void> _maybeUpload(String uid) async {
     ref.read(statisticsSyncProvider).ensureMigrated();
-    final data = (await _userDoc(uid).get()).data();
-    final remoteMainAt = (data?['updatedAt'] as Timestamp?)?.toDate();
-    final remoteLyricsAt = (data?['lyricsUpdatedAt'] as Timestamp?)?.toDate();
-    final mainChanged = _shouldPush(
-      remote: remoteMainAt,
-      local: _store.lastModifiedAt,
+    final timestamps = (await _settingDoc(uid).get()).data() ?? const {};
+    final settingChanged = _shouldPush(
+      remote: _remoteAt(timestamps, 'settingUpdatedAt'),
+      local: _store.settingModifiedAt,
+    );
+    final playlistChanged = _shouldPush(
+      remote: _remoteAt(timestamps, 'playlistUpdatedAt'),
+      local: _store.playlistModifiedAt,
+    );
+    final statsChanged = _shouldPush(
+      remote: _remoteAt(timestamps, 'statsUpdatedAt'),
+      local: _store.statsModifiedAt,
     );
     final lyricsChanged = _shouldPush(
-      remote: remoteLyricsAt,
+      remote: _remoteAt(timestamps, 'lyricsUpdatedAt'),
       local: _store.lyricsModifiedAt,
     );
-    if (!mainChanged && !lyricsChanged) {
-      debugPrint(
-        '[Sync] 雲端已是最新，跳過上傳'
-        '（remoteUpdatedAt=$remoteMainAt, remoteLyricsUpdatedAt=$remoteLyricsAt）',
-      );
+    if (!settingChanged &&
+        !playlistChanged &&
+        !statsChanged &&
+        !lyricsChanged) {
+      debugPrint('[Sync] 雲端已是最新，跳過上傳');
       return;
     }
     debugPrint(
-      '[Sync] 開始上傳（mainChanged=$mainChanged, lyricsChanged=$lyricsChanged）',
+      '[Sync] 開始上傳（setting=$settingChanged, playlist=$playlistChanged, '
+      'stats=$statsChanged, lyrics=$lyricsChanged）',
     );
     await _upload(uid);
   }
@@ -161,7 +206,7 @@ class SyncService {
   }
 
   /// 帳戶頁面「立即同步」手動觸發：不看變更判斷，直接跑一次上傳
-  /// （歌詞子集合仍依 [_shouldPush] 判斷是否真的要推，見 _upload），
+  /// （四個領域仍各自依 [_shouldPush] 判斷是否真的要推，見 _upload），
   /// 讓使用者能主動確認資料已送上雲端。
   /// 未登入 / Firebase 不可用時回傳 false（no-op）。
   Future<bool> syncNow() async {
@@ -180,37 +225,68 @@ class SyncService {
   Future<bool> _upload(String uid) async {
     try {
       final userDoc = _userDoc(uid);
-      final cloudData = (await userDoc.get()).data();
-      final cloudVersion = cloudData?['schemaVersion'] as num?;
+      final settingDoc = _settingDoc(uid);
+      final cloudVersion =
+          (await userDoc.get()).data()?['schemaVersion'] as num?;
       if (cloudVersion != null && cloudVersion.toInt() > _schemaVersion) {
         debugPrint(
           '[Sync] 雲端 schemaVersion ${cloudVersion.toInt()} 較新（本機 App 尚未升級），跳過上傳',
         );
         return false;
       }
+
+      final timestamps = (await settingDoc.get()).data() ?? const {};
+      final pushSetting = _shouldPush(
+        remote: _remoteAt(timestamps, 'settingUpdatedAt'),
+        local: _store.settingModifiedAt,
+      );
+      final pushPlaylist = _shouldPush(
+        remote: _remoteAt(timestamps, 'playlistUpdatedAt'),
+        local: _store.playlistModifiedAt,
+      );
+      final pushStats = _shouldPush(
+        remote: _remoteAt(timestamps, 'statsUpdatedAt'),
+        local: _store.statsModifiedAt,
+      );
       final pushLyrics = _shouldPush(
-        remote: (cloudData?['lyricsUpdatedAt'] as Timestamp?)?.toDate(),
+        remote: _remoteAt(timestamps, 'lyricsUpdatedAt'),
         local: _store.lyricsModifiedAt,
       );
 
-      // merge: true——主文件另存 lyricsUpdatedAt（見下方），這裡整份
-      // set 會把它抹除，故不能用預設的覆寫語意。
       await userDoc.set({
         'schemaVersion': _schemaVersion,
-        'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
       // 更新本機顯示用的「上次同步時間」（帳戶頁面），與雲端寫入同一
       // 時刻，不影響推 / 拉判斷（一律直接讀 Firestore，見上）。
       _store.markSynced();
       debugPrint('[Sync] 已上傳主文件');
-      // 主文件之後才推設定、播放清單、統計與歌詞子集合：失敗不影響已成功
-      // 的主文件寫入，下個班次重試即可（子集合推送整批重寫，冪等）。
-      await ref.read(settingsSyncProvider).push(userDoc);
-      await ref.read(playlistsSyncProvider).push(userDoc);
-      await ref.read(statisticsSyncProvider).push(userDoc);
+
+      // 四個領域各自獨立推送：推送內容之後各自把對應的 *UpdatedAt 寫回
+      // setting/0（merge，見 SettingsSync），失敗不影響其他領域，
+      // 下個班次重試即可（子集合推送整批重寫，冪等）。
+      if (pushSetting) {
+        await ref.read(settingsSyncProvider).push(userDoc);
+        await settingDoc.set({
+          'settingUpdatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+      if (pushPlaylist) {
+        await ref.read(playlistsSyncProvider).push(userDoc);
+        await settingDoc.set({
+          'playlistUpdatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+      if (pushStats) {
+        await ref.read(statisticsSyncProvider).push(userDoc);
+        await settingDoc.set({
+          'statsUpdatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
       if (pushLyrics) {
         await _lyricsSync.push(userDoc);
-        await userDoc.update({'lyricsUpdatedAt': FieldValue.serverTimestamp()});
+        await settingDoc.set({
+          'lyricsUpdatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
       }
       return true;
     } catch (e, s) {

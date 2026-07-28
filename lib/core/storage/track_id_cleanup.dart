@@ -50,7 +50,7 @@ Future<void> cleanupNonHashTrackIds({
     await isar.writeTxn(
       () => isar.dailyTrackStatEntitys.deleteAll(invalidStatIds),
     );
-    syncState.markModified();
+    syncState.markStatsModified();
   }
 
   var removedPlaylistEntries = 0;

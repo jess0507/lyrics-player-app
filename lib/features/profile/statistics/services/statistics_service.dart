@@ -225,7 +225,7 @@ class StatisticsController extends Notifier<StatisticsData> {
       _periods.clearSync();
     });
     state = const StatisticsData([]);
-    ref.read(syncStateStoreProvider).markModified();
+    ref.read(syncStateStoreProvider).markStatsModified();
   }
 
   /// 還原雲端備份（整份覆寫本機）。
@@ -296,7 +296,7 @@ class StatisticsController extends Notifier<StatisticsData> {
       days.add(entity); // 新記錄必為今天，接在升冪清單尾端即仍有序
     }
     state = StatisticsData(days);
-    ref.read(syncStateStoreProvider).markModified();
+    ref.read(syncStateStoreProvider).markStatsModified();
   }
 }
 
