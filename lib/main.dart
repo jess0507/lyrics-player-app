@@ -14,6 +14,7 @@ import 'core/crash_reporter.dart';
 import 'core/firebase_available_provider.dart';
 import 'core/storage/isar_service.dart';
 import 'core/storage/preferences_service.dart';
+import 'core/storage/track_id_cleanup.dart';
 import 'core/sync/sync_state_store.dart';
 import 'firebase_options.dart';
 
@@ -66,12 +67,14 @@ Future<void> main() async {
 
   final prefs = await PreferencesService.create();
   final isar = await openIsar();
+  final syncState = SyncStateStore(prefs);
+
+  // 清掉指紋化(sync v5)前留下的舊資料——trackId 非 sha1 hash 格式一律視為
+  // 過期資料;只跑一次。
+  await cleanupNonHashTrackIds(isar: isar, prefs: prefs, syncState: syncState);
 
   // 確保預設「我的最愛」清單存在(DB 內存名僅作 fallback,UI 顯示在地化名稱)。
-  await PlaylistRepository(
-    isar,
-    SyncStateStore(prefs),
-  ).ensureDefaultFavorites('我的最愛');
+  await PlaylistRepository(isar, syncState).ensureDefaultFavorites('我的最愛');
 
   runApp(
     ProviderScope(
