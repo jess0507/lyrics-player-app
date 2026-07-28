@@ -79,7 +79,7 @@ class LyricsSync {
           'format': e.format.name,
           'source': e.source.name,
           'content': e.content,
-          'addedAt': e.addedAt.millisecondsSinceEpoch,
+          'updatedAt': e.addedAt.millisecondsSinceEpoch,
         }),
       );
     }
@@ -127,7 +127,7 @@ extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
               LyricsSource.manual
           ..content = content
           ..addedAt = DateTime.fromMillisecondsSinceEpoch(
-            (data['addedAt'] as num? ?? 0).toInt(),
+            (data['updatedAt'] as num? ?? 0).toInt(),
           ),
       );
     }
