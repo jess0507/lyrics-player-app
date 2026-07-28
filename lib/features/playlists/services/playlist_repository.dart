@@ -8,8 +8,8 @@ import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 const _defaultFavoritesFallbackName = 'Favorites';
 
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
-/// 每次使用者寫入都 markPlaylistModified,SyncService 監聽該事件
-/// 節流(5 分鐘)上傳 `user/{uid}` 備份。
+/// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
+/// SyncService 在回前景 / 登入 / 統計重設時觸發,寫入當下不觸發推送。
 class PlaylistRepository {
   PlaylistRepository(this._isar, this._syncState);
 

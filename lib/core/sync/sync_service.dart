@@ -17,11 +17,12 @@ import 'sync_state_store.dart';
 /// schema 版本與主文件組裝。各領域（設定 / 統計 / 播放清單 / 歌詞）的
 /// 編解碼與還原分別在 `*_sync.dart`。
 ///
-/// 登入中為上傳備份（App 啟動、回前景、歌詞變更當下與播放清單變更
-/// 節流 5 分鐘觸發、背景執行、有變更才上傳）；
+/// 登入中為上傳備份（回前景 / 登入 / 統計重設時觸發、背景執行、
+/// 有變更才上傳；App 冷啟動本身不觸發，歌詞與播放清單的變更也不
+/// 各自觸發，一律等這三個時機一起送）；
 /// 登入當下一律以雲端為準還原，
 /// 未登入期間的本機資料視為不保存。全程不阻塞 UI、失敗靜默略過不重試，
-/// 下次啟動自然再試。詳細策略見 `plans/statistics-isar-firestore-sync.md`。
+/// 下次回前景自然再試。詳細策略見 `plans/statistics-isar-firestore-sync.md`。
 class SyncService {
   SyncService(this.ref) {
     _init();
@@ -47,15 +48,6 @@ class SyncService {
   /// 新格式。
   static const _schemaVersion = 6;
 
-  /// 播放清單變更觸發上傳的節流窗長。
-  static const _playlistPushThrottle = Duration(minutes: 5);
-
-  /// 節流窗內排定的上傳；null 表示無排定。
-  Timer? _playlistPushTimer;
-
-  /// 上次由播放清單變更觸發上傳的時間（記憶體內，App 重啟歸零）。
-  DateTime? _lastPlaylistPushAt;
-
   SyncStateStore get _store => ref.read(syncStateStoreProvider);
 
   LyricsSync get _lyricsSync => ref.read(lyricsSyncProvider);
@@ -69,8 +61,9 @@ class SyncService {
       return;
     }
     _lyricsSync.markExistingPending();
-    // 首個事件是啟動時的既有登入狀態（App 啟動觸發上傳判斷）；
-    // 其後的 null -> user 轉變才是「登入成功當下」（先還原判斷）。
+    // 首個事件是啟動時的既有登入狀態，App 啟動不再觸發同步
+    // （改由 onResume 補一次）；其後的 null -> user 轉變才是
+    // 「登入成功當下」（先還原判斷）。
     var isStartupEvent = true;
     final sub = ref.read(authServiceProvider).authStateChanges().listen((user) {
       final isStartup = isStartupEvent;
@@ -82,34 +75,15 @@ class SyncService {
       }
       debugPrint('[Sync] auth 事件：uid=${user.uid}（startup=$isStartup）');
       if (isStartup) {
-        unawaited(_maybeUpload(user.uid));
-      } else {
-        unawaited(_onSignedIn(user.uid));
+        debugPrint('[Sync] App 啟動的既有登入狀態，不觸發同步（等 onResume）');
+        return;
       }
+      unawaited(_onSignedIn(user.uid));
     });
     ref.onDispose(sub.cancel);
 
-    // 歌詞變更當下立即推送（不等下次班次）；未登入時留著待推記號，
-    // 登入後的班次自然補推。
-    final lyricsSub = _store.lyricsModifiedEvents.listen((_) {
-      final uid = ref.read(authServiceProvider).currentUser?.uid;
-      if (uid == null) {
-        debugPrint('[Sync] 歌詞變更但未登入，留待登入後補推');
-        return;
-      }
-      debugPrint('[Sync] 歌詞變更，立即推送');
-      unawaited(_upload(uid));
-    });
-    ref.onDispose(lyricsSub.cancel);
-
-    // 播放清單變更後節流上傳（見 _onPlaylistModified）。
-    final playlistSub = _store.playlistModifiedEvents.listen(
-      (_) => _onPlaylistModified(),
-    );
-    ref.onDispose(playlistSub.cancel);
-    ref.onDispose(() => _playlistPushTimer?.cancel());
-
-    // App 回到前景時補一次同步班次（登入中、有變更才上傳）。
+    // App 回到前景時補一次同步班次（登入中、有變更才上傳；歌詞與播放
+    // 清單的變更不各自觸發推送，一律等這裡或登入 / 重設時一起送）。
     final lifecycle = AppLifecycleListener(
       onResume: () {
         final uid = ref.read(authServiceProvider).currentUser?.uid;
@@ -119,40 +93,6 @@ class SyncService {
       },
     );
     ref.onDispose(lifecycle.dispose);
-  }
-
-  /// 播放清單變更當下的節流上傳：窗外首次變更立即上傳；窗內的後續
-  /// 變更合併為窗末一次（走 _maybeUpload，期間已被別的班次推掉就跳過）。
-  /// 未登入時不排程，留著變更時戳由登入後的班次補推。
-  void _onPlaylistModified() {
-    if (ref.read(authServiceProvider).currentUser == null) {
-      debugPrint('[Sync] 播放清單變更但未登入，留待登入後補推');
-      return;
-    }
-    if (_playlistPushTimer != null) return; // 窗內已排定，合併
-    final now = DateTime.now();
-    final last = _lastPlaylistPushAt;
-    final elapsed = last == null ? _playlistPushThrottle : now.difference(last);
-    if (elapsed >= _playlistPushThrottle) {
-      _lastPlaylistPushAt = now;
-      debugPrint('[Sync] 播放清單變更，立即上傳');
-      unawaited(_uploadForCurrentUser());
-      return;
-    }
-    final delay = _playlistPushThrottle - elapsed;
-    debugPrint('[Sync] 播放清單變更，節流 ${delay.inSeconds}s 後上傳');
-    _playlistPushTimer = Timer(delay, () {
-      _playlistPushTimer = null;
-      _lastPlaylistPushAt = DateTime.now();
-      unawaited(_uploadForCurrentUser());
-    });
-  }
-
-  /// 以當下登入者跑一次上傳判斷；期間登出則不上傳。
-  Future<void> _uploadForCurrentUser() async {
-    final uid = ref.read(authServiceProvider).currentUser?.uid;
-    if (uid == null) return;
-    await _maybeUpload(uid);
   }
 
   /// 登入成功當下：一律以雲端為準還原；雲端沒有資料才走上傳（互斥）。
@@ -203,7 +143,8 @@ class SyncService {
     debugPrint('[Sync] 已從雲端還原設定、統計、播放清單與歌詞');
   }
 
-  /// 自上次同步後有變更才上傳（App 啟動 / 回前景 / 登入後無雲端資料時觸發）。
+  /// 自上次同步後有變更才上傳（回前景 / 登入後無雲端資料時觸發；
+  /// App 冷啟動不觸發，見 _init）。
   Future<void> _maybeUpload(String uid) async {
     ref.read(statisticsSyncProvider).ensureMigrated();
     final lastModified = _store.lastModifiedAt;
@@ -245,8 +186,8 @@ class SyncService {
   /// 寫入前先讀一次雲端 schemaVersion：比本機新代表雲端已被較新版 App
   /// 寫入過，本機（App 尚未升級）跳過整個上傳（含子集合），避免舊格式
   /// 覆寫掉新格式；`lastSyncAt` 不動，升級後下次班次自然重試。此為所有
-  /// 上傳路徑（啟動 / 回前景 / 播放清單節流 / 歌詞變更 / 統計重設）
-  /// 共用的唯一寫入入口，在此把關即涵蓋全部路徑。
+  /// 上傳路徑（回前景 / 登入 / 統計重設）共用的唯一寫入入口，
+  /// 在此把關即涵蓋全部路徑。
   Future<void> _upload(String uid) async {
     try {
       final userDoc = _userDoc(uid);
