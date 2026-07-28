@@ -74,7 +74,7 @@ Future<void> main() async {
   await cleanupNonHashTrackIds(isar: isar, prefs: prefs, syncState: syncState);
 
   // 確保預設「我的最愛」清單存在(DB 內存名僅作 fallback,UI 顯示在地化名稱)。
-  await PlaylistRepository(isar, syncState).ensureDefaultFavorites('我的最愛');
+  await PlaylistRepository(isar, syncState).ensureDefaultFavorites();
 
   runApp(
     ProviderScope(

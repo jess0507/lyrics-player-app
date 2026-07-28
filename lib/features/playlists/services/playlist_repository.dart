@@ -4,6 +4,9 @@ import 'package:seek_player/core/storage/isar_service.dart';
 import 'package:seek_player/core/sync/sync_state_store.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 
+/// 我的最愛清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
+const _defaultFavoritesFallbackName = 'Favorites';
+
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,SyncService 監聽該事件
 /// 節流(5 分鐘)上傳 `user/{uid}` 備份。
@@ -22,16 +25,17 @@ class PlaylistRepository {
   /// 同步讀取全部清單(SyncService 上傳快照用)。
   List<PlaylistEntity> getAllSync() => _col.where().findAllSync();
 
-  /// 確保預設「我的最愛」清單存在;[fallbackName] 僅作 DB 內存名,
-  /// UI 會以在地化字串覆寫顯示。已存在則 no-op。
+  /// 確保預設「我的最愛」清單存在;DB 內存名僅作 fallback(初始化時無
+  /// [BuildContext] 可取在地化字串),UI 會以 [isFavorites] 覆寫顯示。
+  /// 已存在則 no-op。
   /// 屬初始化而非使用者變更,不 markModified,避免全新安裝就觸發上傳。
-  Future<void> ensureDefaultFavorites(String fallbackName) async {
+  Future<void> ensureDefaultFavorites() async {
     final existing = _col.filter().isFavoritesEqualTo(true).findFirstSync();
     if (existing != null) return;
     await _isar.writeTxn(
       () => _col.put(
         PlaylistEntity()
-          ..name = fallbackName
+          ..name = _defaultFavoritesFallbackName
           ..isFavorites = true
           ..createdAt = DateTime.now(),
       ),
