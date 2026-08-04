@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Достигнут месячный лимит бесплатного использования. Повторите попытку в следующем месяце.",
   "lyrics_job_busy": "Дождитесь завершения текущей задачи с текстом",
   "lyrics_job_processing": "Обработка текста…",
+  "lyrics_job_cancelled": "Задача с текстом отменена",
   "lyrics_action_running_suffix": " (Выполняется)",
   "lyrics_job_error_invalid_request": "Произошла ошибка запроса. Повторите попытку.",
   "lyrics_job_error_audio_fetch_failed": "Не удалось загрузить аудиофайл. Повторите попытку.",

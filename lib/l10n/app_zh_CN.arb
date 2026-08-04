@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "本月免费额度已用完,请下个月再试",
   "lyrics_job_busy": "请等待当前的歌词任务完成",
   "lyrics_job_processing": "歌词处理中…",
+  "lyrics_job_cancelled": "已取消歌词任务",
   "lyrics_action_running_suffix": "（执行中）",
   "lyrics_job_error_invalid_request": "处理请求发生错误,请重新尝试。",
   "lyrics_job_error_audio_fetch_failed": "无法下载音频文件,请重新尝试。",

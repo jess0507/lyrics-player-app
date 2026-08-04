@@ -508,6 +508,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lyrics_job_processing => 'Processando a letra…';
 
   @override
+  String get lyrics_job_cancelled => 'Tarefa de letra cancelada';
+
+  @override
   String get lyrics_action_running_suffix => ' (Em execução)';
 
   @override

@@ -480,6 +480,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_job_processing => '歌詞を処理しています…';
 
   @override
+  String get lyrics_job_cancelled => '歌詞処理をキャンセルしました';
+
+  @override
   String get lyrics_action_running_suffix => '（実行中）';
 
   @override

@@ -508,6 +508,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_job_processing => 'Memproses lirik…';
 
   @override
+  String get lyrics_job_cancelled => 'Tugas lirik dibatalkan';
+
+  @override
   String get lyrics_action_running_suffix => ' (Sedang berjalan)';
 
   @override

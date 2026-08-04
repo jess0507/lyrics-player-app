@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "今月の無料利用上限に達しました。来月またお試しください",
   "lyrics_job_busy": "現在の歌詞処理が完了するまでお待ちください",
   "lyrics_job_processing": "歌詞を処理しています…",
+  "lyrics_job_cancelled": "歌詞処理をキャンセルしました",
   "lyrics_action_running_suffix": "（実行中）",
   "lyrics_job_error_invalid_request": "リクエストでエラーが発生しました。もう一度お試しください。",
   "lyrics_job_error_audio_fetch_failed": "音声ファイルをダウンロードできませんでした。もう一度お試しください。",

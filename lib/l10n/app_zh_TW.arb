@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "本月免費額度已用完,請下個月再試",
   "lyrics_job_busy": "請等待目前的歌詞任務完成",
   "lyrics_job_processing": "歌詞處理中…",
+  "lyrics_job_cancelled": "已取消歌詞任務",
   "lyrics_action_running_suffix": "（執行中）",
   "lyrics_job_error_invalid_request": "處理請求發生錯誤,請重新嘗試。",
   "lyrics_job_error_audio_fetch_failed": "無法下載音訊檔案,請重新嘗試。",

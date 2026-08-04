@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Batas penggunaan gratis bulanan tercapai. Coba lagi bulan depan.",
   "lyrics_job_busy": "Harap tunggu hingga tugas lirik saat ini selesai",
   "lyrics_job_processing": "Memproses lirik…",
+  "lyrics_job_cancelled": "Tugas lirik dibatalkan",
   "lyrics_action_running_suffix": " (Sedang berjalan)",
   "lyrics_job_error_invalid_request": "Terjadi kesalahan pada permintaan. Silakan coba lagi.",
   "lyrics_job_error_audio_fetch_failed": "Tidak dapat mengunduh file audio. Silakan coba lagi.",

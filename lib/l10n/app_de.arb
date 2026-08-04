@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Monatliches kostenloses Nutzungslimit erreicht. Versuche es nächsten Monat erneut.",
   "lyrics_job_busy": "Bitte warte, bis die aktuelle Songtext-Aufgabe abgeschlossen ist",
   "lyrics_job_processing": "Songtext wird verarbeitet…",
+  "lyrics_job_cancelled": "Songtext-Aufgabe abgebrochen",
   "lyrics_action_running_suffix": " (Wird ausgeführt)",
   "lyrics_job_error_invalid_request": "Bei der Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut.",
   "lyrics_job_error_audio_fetch_failed": "Audiodatei konnte nicht heruntergeladen werden. Bitte versuche es erneut.",

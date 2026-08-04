@@ -514,6 +514,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_job_processing => 'Traitement des paroles…';
 
   @override
+  String get lyrics_job_cancelled => 'Tâche de paroles annulée';
+
+  @override
   String get lyrics_action_running_suffix => ' (En cours)';
 
   @override

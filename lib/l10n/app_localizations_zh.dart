@@ -478,6 +478,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_job_processing => '歌詞處理中…';
 
   @override
+  String get lyrics_job_cancelled => '已取消歌詞任務';
+
+  @override
   String get lyrics_action_running_suffix => '（執行中）';
 
   @override
@@ -1071,6 +1074,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_job_processing => '歌词处理中…';
 
   @override
+  String get lyrics_job_cancelled => '已取消歌词任务';
+
+  @override
   String get lyrics_action_running_suffix => '（执行中）';
 
   @override
@@ -1662,6 +1668,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_job_processing => '歌詞處理中…';
+
+  @override
+  String get lyrics_job_cancelled => '已取消歌詞任務';
 
   @override
   String get lyrics_action_running_suffix => '（執行中）';

@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Đã đạt giới hạn sử dụng miễn phí trong tháng. Vui lòng thử lại vào tháng sau.",
   "lyrics_job_busy": "Vui lòng đợi tác vụ lời hiện tại hoàn tất",
   "lyrics_job_processing": "Đang xử lý lời bài hát…",
+  "lyrics_job_cancelled": "Đã hủy tác vụ lời bài hát",
   "lyrics_action_running_suffix": " (Đang chạy)",
   "lyrics_job_error_invalid_request": "Đã xảy ra lỗi với yêu cầu. Vui lòng thử lại.",
   "lyrics_job_error_audio_fetch_failed": "Không thể tải xuống tệp âm thanh. Vui lòng thử lại.",

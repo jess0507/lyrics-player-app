@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Limite mensal de uso gratuito atingido. Tente novamente no próximo mês.",
   "lyrics_job_busy": "Aguarde a conclusão da tarefa de letra atual",
   "lyrics_job_processing": "Processando a letra…",
+  "lyrics_job_cancelled": "Tarefa de letra cancelada",
   "lyrics_action_running_suffix": " (Em execução)",
   "lyrics_job_error_invalid_request": "Ocorreu um erro na solicitação. Tente novamente.",
   "lyrics_job_error_audio_fetch_failed": "Não foi possível baixar o arquivo de áudio. Tente novamente.",

@@ -484,6 +484,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_job_processing => '가사를 처리하는 중…';
 
   @override
+  String get lyrics_job_cancelled => '가사 작업이 취소되었습니다';
+
+  @override
   String get lyrics_action_running_suffix => ' (실행 중)';
 
   @override

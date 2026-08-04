@@ -510,6 +510,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_job_processing => 'Sözler işleniyor…';
 
   @override
+  String get lyrics_job_cancelled => 'Sözler görevi iptal edildi';
+
+  @override
   String get lyrics_action_running_suffix => ' (Çalışıyor)';
 
   @override

@@ -507,6 +507,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_job_processing => 'Đang xử lý lời bài hát…';
 
   @override
+  String get lyrics_job_cancelled => 'Đã hủy tác vụ lời bài hát';
+
+  @override
   String get lyrics_action_running_suffix => ' (Đang chạy)';
 
   @override

@@ -165,6 +165,7 @@
   "lyrics_usage_limit_reached": "Monthly free usage limit reached. Try again next month.",
   "lyrics_job_busy": "Please wait for the current lyrics task to finish",
   "lyrics_job_processing": "Processing lyrics…",
+  "lyrics_job_cancelled": "Lyrics task cancelled",
   "lyrics_action_running_suffix": " (Running)",
   "lyrics_job_error_invalid_request": "Something went wrong with the request. Please try again.",
   "lyrics_job_error_audio_fetch_failed": "Couldn't download the audio file. Please try again.",

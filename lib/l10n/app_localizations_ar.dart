@@ -505,6 +505,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_job_processing => 'جارٍ معالجة كلمات الأغنية…';
 
   @override
+  String get lyrics_job_cancelled => 'تم إلغاء مهمة الكلمات';
+
+  @override
   String get lyrics_action_running_suffix => ' (قيد التشغيل)';
 
   @override

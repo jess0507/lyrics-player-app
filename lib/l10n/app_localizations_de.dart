@@ -513,6 +513,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_job_processing => 'Songtext wird verarbeitet…';
 
   @override
+  String get lyrics_job_cancelled => 'Songtext-Aufgabe abgebrochen';
+
+  @override
   String get lyrics_action_running_suffix => ' (Wird ausgeführt)';
 
   @override

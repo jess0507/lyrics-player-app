@@ -507,6 +507,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_job_processing => 'Обработка текста…';
 
   @override
+  String get lyrics_job_cancelled => 'Задача с текстом отменена';
+
+  @override
   String get lyrics_action_running_suffix => ' (Выполняется)';
 
   @override

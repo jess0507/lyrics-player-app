@@ -1056,6 +1056,12 @@ abstract class AppLocalizations {
   /// **'Processing lyrics…'**
   String get lyrics_job_processing;
 
+  /// No description provided for @lyrics_job_cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics task cancelled'**
+  String get lyrics_job_cancelled;
+
   /// No description provided for @lyrics_action_running_suffix.
   ///
   /// In en, this message translates to:

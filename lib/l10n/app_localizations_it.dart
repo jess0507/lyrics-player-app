@@ -511,6 +511,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_job_processing => 'Elaborazione del testo…';
 
   @override
+  String get lyrics_job_cancelled => 'Attività sul testo annullata';
+
+  @override
   String get lyrics_action_running_suffix => ' (In esecuzione)';
 
   @override

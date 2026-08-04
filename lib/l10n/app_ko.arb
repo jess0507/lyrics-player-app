@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "이번 달 무료 사용 한도에 도달했습니다. 다음 달에 다시 시도하세요",
   "lyrics_job_busy": "현재 가사 작업이 끝날 때까지 기다려 주세요",
   "lyrics_job_processing": "가사를 처리하는 중…",
+  "lyrics_job_cancelled": "가사 작업이 취소되었습니다",
   "lyrics_action_running_suffix": " (실행 중)",
   "lyrics_job_error_invalid_request": "요청 처리 중 오류가 발생했습니다. 다시 시도해 주세요.",
   "lyrics_job_error_audio_fetch_failed": "오디오 파일을 다운로드할 수 없습니다. 다시 시도해 주세요.",

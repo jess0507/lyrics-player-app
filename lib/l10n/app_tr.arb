@@ -160,6 +160,7 @@
   "lyrics_usage_limit_reached": "Aylık ücretsiz kullanım sınırına ulaşıldı. Gelecek ay tekrar deneyin.",
   "lyrics_job_busy": "Lütfen mevcut sözler görevinin bitmesini bekleyin",
   "lyrics_job_processing": "Sözler işleniyor…",
+  "lyrics_job_cancelled": "Sözler görevi iptal edildi",
   "lyrics_action_running_suffix": " (Çalışıyor)",
   "lyrics_job_error_invalid_request": "İstekte bir sorun oluştu. Lütfen tekrar deneyin.",
   "lyrics_job_error_audio_fetch_failed": "Ses dosyası indirilemedi. Lütfen tekrar deneyin.",

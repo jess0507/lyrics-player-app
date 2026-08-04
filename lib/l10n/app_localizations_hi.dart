@@ -509,6 +509,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_job_processing => 'बोल प्रोसेस हो रहे हैं…';
 
   @override
+  String get lyrics_job_cancelled => 'बोल कार्य रद्द किया गया';
+
+  @override
   String get lyrics_action_running_suffix => ' (चल रहा है)';
 
   @override
