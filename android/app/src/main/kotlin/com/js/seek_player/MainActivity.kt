@@ -30,6 +30,17 @@ class MainActivity : AudioServiceActivity() {
                     }
                 }
                 "isRunning" -> result.success(LyricsBackgroundService.isRunning)
+                "cancel" -> {
+                    // app 內取消按鈕:效果等同使用者按下通知列的取消動作。
+                    // 服務沒在跑就什麼都不做(本機工作早就結束了)。
+                    if (LyricsBackgroundService.isRunning) {
+                        startService(
+                            Intent(this, LyricsBackgroundService::class.java)
+                                .setAction(LyricsBackgroundService.ACTION_CANCEL),
+                        )
+                    }
+                    result.success(null)
+                }
                 "notifyResult" -> {
                     // main isolate 常駐呼叫,跟前景服務生命週期無關(通常服務
                     // 早就 stop 了)——LyricsPendingSyncService 偵測到

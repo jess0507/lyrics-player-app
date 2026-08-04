@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../lyrics/background/lyrics_background_running.dart';
+import '../../lyrics/providers/lyrics_active_job_provider.dart';
 import '../../lyrics/providers/lyrics_pending_sync_store.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
+import 'lyrics_cancel_job_action.dart';
 import 'lyrics_menu_action.dart';
 
 /// 歌詞按鈕點擊後的底部表單:依目前歌詞狀態列出 [lyricsMenuActions]
@@ -66,11 +68,23 @@ class _LyricsActionsSheet extends ConsumerWidget {
         ? ref.watch(lyricsBackgroundRunningProvider) ||
               ref.watch(lyricsPendingSyncStoreProvider).isNotEmpty
         : false;
+    // 這首歌自己有工作在跑(而非別首歌佔線)時,選單最上面加取消,
+    // 不必特地切去滿版歌詞頁才能取消。
+    final ownJobActive = ref.watch(lyricsActiveJobProvider(trackId));
 
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (ownJobActive)
+            ListTile(
+              leading: const Icon(Icons.cancel_outlined),
+              title: Text(l10n.common_cancel),
+              onTap: () {
+                Navigator.of(context).pop();
+                cancelLyricsJob(parentContext, parentRef, trackId: trackId);
+              },
+            ),
           for (final action in actions)
             ListTile(
               enabled: !(busy && action.usesBackgroundTask),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 /// App 統一樣式的 SnackBar:floating、白底、陰影、左側 app logo。
 extension AppSnackBar on ScaffoldMessengerState {
   void showAppSnackBar(String message, {double bottomOffset = 16}) {
+    // 蓋過還在顯示(或排隊中)的上一個 SnackBar,不讓新訊息排隊等待。
+    clearSnackBars();
     showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,

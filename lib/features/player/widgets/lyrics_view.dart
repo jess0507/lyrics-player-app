@@ -26,7 +26,7 @@ class LyricsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeJob = ref.watch(lyricsActiveJobProvider(trackId));
     if (activeJob) {
-      return const LyricsJobStatusView();
+      return LyricsJobStatusView(trackId: trackId);
     }
 
     final async = ref.watch(trackLyricsProvider(trackId));
