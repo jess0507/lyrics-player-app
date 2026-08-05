@@ -34,13 +34,13 @@ class StatisticsData {
   StatisticsData inYear(DateTime date) =>
       _matching('${StatisticsController.yearKey(date)}-');
 
-  /// 期間內聽過的所有歌與各自的次數、時長（title 聚合，依次數排序）。
+  /// 期間內聽過的所有歌與各自的次數、時長（title 聚合，依聆聽時長排序）。
   ///
   /// 以 title 聚合：從雲端還原的記錄帶舊裝置的 trackId，同一首歌在新裝置
   /// 播放會另起一筆，聚合後才不會同曲分裂成兩列。
   List<TrackRanking> allTracks() => _aggregateByTitle(days);
 
-  /// 依播放次數排序的前幾名（跨日加總；標題、次數、聆聽時長）。
+  /// 依聆聽時長排序的前幾名（跨日加總；標題、次數、聆聽時長）。
   List<TrackRanking> topTracks([int limit = 5]) =>
       allTracks().take(limit).toList();
 
@@ -90,7 +90,7 @@ class StatisticsData {
           playCount: e.value.playCount,
           listenTime: Duration(milliseconds: e.value.listenMs),
         ),
-    ]..sort((a, b) => b.playCount.compareTo(a.playCount));
+    ]..sort((a, b) => b.listenTime.compareTo(a.listenTime));
   }
 }
 

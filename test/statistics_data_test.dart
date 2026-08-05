@@ -38,20 +38,20 @@ void main() {
     ]);
     final top = data.topTracks();
     expect(top.length, 2);
-    expect(top[0].title, 'Same Song');
-    expect(top[0].playCount, 5);
-    expect(top[0].listenTime, const Duration(milliseconds: 1500));
-    expect(top[1].title, 'Other');
-    expect(top[1].playCount, 4);
-    expect(top[1].listenTime, const Duration(milliseconds: 2000));
+    expect(top[0].title, 'Other');
+    expect(top[0].playCount, 4);
+    expect(top[0].listenTime, const Duration(milliseconds: 2000));
+    expect(top[1].title, 'Same Song');
+    expect(top[1].playCount, 5);
+    expect(top[1].listenTime, const Duration(milliseconds: 1500));
   });
 
-  test('topTracks 依次數排序並截斷至 limit', () {
+  test('topTracks 依聆聽時長排序並截斷至 limit', () {
     final data = StatisticsData([
-      for (var i = 0; i < 10; i++) _stat('2026-06-12', '$i', 'T$i', i),
+      for (var i = 0; i < 10; i++) _stat('2026-06-12', '$i', 'T$i', i, i * 100),
     ]);
     final top = data.topTracks(3);
-    expect(top.map((e) => e.playCount), [9, 8, 7]);
+    expect(top.map((e) => e.listenTime.inMilliseconds), [900, 800, 700]);
   });
 
   test('onDay 取當日子集，allTracks 列出當日歌曲與各自次數、時長', () {
