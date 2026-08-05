@@ -5,6 +5,7 @@ import 'core/sync/sync_service.dart';
 import 'core/update/app_update_listener.dart';
 import 'features/lyrics/background/lyrics_background_runner.dart';
 import 'features/lyrics/providers/lyrics_pending_sync_service.dart';
+import 'features/player/providers/external_file_open_service.dart';
 import 'l10n/app_localizations.dart';
 import 'router/app_router.dart';
 import 'shared/providers/settings_controller.dart';
@@ -23,6 +24,9 @@ class SeekPlayerApp extends ConsumerWidget {
     // 常駐監聽本地待同步的 trackId 清單,狀態轉終態時把結果同步回本機
     // 並移除清單項目,跨 app 重啟也能接續(見 lyricsPendingSyncServiceProvider)。
     ref.watch(lyricsPendingSyncServiceProvider);
+    // 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔，見
+    // ExternalFileOpenService。
+    ref.watch(externalFileOpenServiceProvider);
     final settings = ref.watch(settingsControllerProvider);
     final router = ref.watch(routerProvider);
 
