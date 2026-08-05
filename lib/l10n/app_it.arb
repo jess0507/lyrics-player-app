@@ -14,6 +14,8 @@
   "player_previous": "Precedente",
   "player_shuffle": "Casuale",
   "player_loop": "Ripeti",
+  "player_mode_sequential": "In sequenza",
+  "player_mode_repeat_one": "Ripeti brano",
   "player_forward": "Avanti 5s",
   "player_rewind": "Indietro 5s",
   "player_speed": "Velocità di riproduzione",

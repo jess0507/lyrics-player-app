@@ -51,6 +51,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get player_loop => '循環播放';
 
   @override
+  String get player_mode_sequential => '順序播放';
+
+  @override
+  String get player_mode_repeat_one => '單曲循環';
+
+  @override
   String get player_forward => '快進5秒';
 
   @override
@@ -662,6 +668,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get player_loop => '循环播放';
 
   @override
+  String get player_mode_sequential => '顺序播放';
+
+  @override
+  String get player_mode_repeat_one => '单曲循环';
+
+  @override
   String get player_forward => '快进5秒';
 
   @override
@@ -1271,6 +1283,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get player_loop => '循環播放';
+
+  @override
+  String get player_mode_sequential => '順序播放';
+
+  @override
+  String get player_mode_repeat_one => '單曲循環';
 
   @override
   String get player_forward => '快進5秒';

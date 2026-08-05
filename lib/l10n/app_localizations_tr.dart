@@ -51,6 +51,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get player_loop => 'Tekrarla';
 
   @override
+  String get player_mode_sequential => 'Sırayla';
+
+  @override
+  String get player_mode_repeat_one => 'Tekli tekrar';
+
+  @override
   String get player_forward => '5sn ileri';
 
   @override

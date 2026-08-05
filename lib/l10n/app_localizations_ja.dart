@@ -51,6 +51,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get player_loop => 'リピート';
 
   @override
+  String get player_mode_sequential => '順番に再生';
+
+  @override
+  String get player_mode_repeat_one => '1曲リピート';
+
+  @override
   String get player_forward => '5秒進む';
 
   @override

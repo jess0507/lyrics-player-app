@@ -14,6 +14,8 @@
   "player_previous": "Zurück",
   "player_shuffle": "Zufallswiedergabe",
   "player_loop": "Wiederholen",
+  "player_mode_sequential": "Der Reihe nach",
+  "player_mode_repeat_one": "Einzeltitel wiederholen",
   "player_forward": "5s vor",
   "player_rewind": "5s zurück",
   "player_speed": "Wiedergabegeschwindigkeit",

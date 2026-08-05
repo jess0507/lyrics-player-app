@@ -51,6 +51,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get player_loop => '반복';
 
   @override
+  String get player_mode_sequential => '순서대로 재생';
+
+  @override
+  String get player_mode_repeat_one => '한 곡 반복';
+
+  @override
   String get player_forward => '5초 앞으로';
 
   @override

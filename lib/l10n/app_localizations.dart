@@ -210,6 +210,18 @@ abstract class AppLocalizations {
   /// **'Repeat'**
   String get player_loop;
 
+  /// No description provided for @player_mode_sequential.
+  ///
+  /// In en, this message translates to:
+  /// **'Sequential'**
+  String get player_mode_sequential;
+
+  /// No description provided for @player_mode_repeat_one.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat one'**
+  String get player_mode_repeat_one;
+
   /// No description provided for @player_forward.
   ///
   /// In en, this message translates to:

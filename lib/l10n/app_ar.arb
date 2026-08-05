@@ -14,6 +14,8 @@
   "player_previous": "السابق",
   "player_shuffle": "تشغيل عشوائي",
   "player_loop": "تكرار",
+  "player_mode_sequential": "التشغيل بالترتيب",
+  "player_mode_repeat_one": "تكرار واحد",
   "player_forward": "تقديم ٥ ثوانٍ",
   "player_rewind": "ترجيع ٥ ثوانٍ",
   "player_speed": "سرعة التشغيل",

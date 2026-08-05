@@ -14,6 +14,8 @@
   "player_previous": "上一首",
   "player_shuffle": "随机播放",
   "player_loop": "循环播放",
+  "player_mode_sequential": "顺序播放",
+  "player_mode_repeat_one": "单曲循环",
   "player_forward": "快进5秒",
   "player_rewind": "快退5秒",
   "player_speed": "播放速度",

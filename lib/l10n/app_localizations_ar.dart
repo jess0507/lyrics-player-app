@@ -51,6 +51,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get player_loop => 'تكرار';
 
   @override
+  String get player_mode_sequential => 'التشغيل بالترتيب';
+
+  @override
+  String get player_mode_repeat_one => 'تكرار واحد';
+
+  @override
   String get player_forward => 'تقديم ٥ ثوانٍ';
 
   @override

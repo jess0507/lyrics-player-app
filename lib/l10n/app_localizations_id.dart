@@ -51,6 +51,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get player_loop => 'Ulangi';
 
   @override
+  String get player_mode_sequential => 'Berurutan';
+
+  @override
+  String get player_mode_repeat_one => 'Ulangi satu';
+
+  @override
   String get player_forward => 'Maju 5d';
 
   @override

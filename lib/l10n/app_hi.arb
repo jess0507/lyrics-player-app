@@ -14,6 +14,8 @@
   "player_previous": "पिछला",
   "player_shuffle": "शफ़ल",
   "player_loop": "दोहराएँ",
+  "player_mode_sequential": "क्रमवार",
+  "player_mode_repeat_one": "एक बार दोहराएँ",
   "player_forward": "5 सेकंड आगे",
   "player_rewind": "5 सेकंड पीछे",
   "player_speed": "प्लेबैक गति",

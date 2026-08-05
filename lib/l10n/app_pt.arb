@@ -14,6 +14,8 @@
   "player_previous": "Anterior",
   "player_shuffle": "Aleatório",
   "player_loop": "Repetir",
+  "player_mode_sequential": "Sequencial",
+  "player_mode_repeat_one": "Repetir uma",
   "player_forward": "Avançar 5s",
   "player_rewind": "Retroceder 5s",
   "player_speed": "Velocidade de reprodução",

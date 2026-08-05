@@ -51,6 +51,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get player_loop => 'Répéter';
 
   @override
+  String get player_mode_sequential => 'Séquentiel';
+
+  @override
+  String get player_mode_repeat_one => 'Répéter un titre';
+
+  @override
   String get player_forward => 'Avancer 5s';
 
   @override

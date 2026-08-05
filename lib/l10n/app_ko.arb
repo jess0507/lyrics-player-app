@@ -14,6 +14,8 @@
   "player_previous": "이전",
   "player_shuffle": "셔플",
   "player_loop": "반복",
+  "player_mode_sequential": "순서대로 재생",
+  "player_mode_repeat_one": "한 곡 반복",
   "player_forward": "5초 앞으로",
   "player_rewind": "5초 뒤로",
   "player_speed": "재생 속도",

@@ -14,6 +14,8 @@
   "player_previous": "Предыдущий",
   "player_shuffle": "Случайно",
   "player_loop": "Повтор",
+  "player_mode_sequential": "По порядку",
+  "player_mode_repeat_one": "Повтор одного",
   "player_forward": "Вперёд 5с",
   "player_rewind": "Назад 5с",
   "player_speed": "Скорость воспроизведения",

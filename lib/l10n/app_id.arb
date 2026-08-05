@@ -14,6 +14,8 @@
   "player_previous": "Sebelumnya",
   "player_shuffle": "Acak",
   "player_loop": "Ulangi",
+  "player_mode_sequential": "Berurutan",
+  "player_mode_repeat_one": "Ulangi satu",
   "player_forward": "Maju 5d",
   "player_rewind": "Mundur 5d",
   "player_speed": "Kecepatan pemutaran",

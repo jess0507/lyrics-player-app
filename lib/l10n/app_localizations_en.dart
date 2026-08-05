@@ -51,6 +51,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get player_loop => 'Repeat';
 
   @override
+  String get player_mode_sequential => 'Sequential';
+
+  @override
+  String get player_mode_repeat_one => 'Repeat one';
+
+  @override
   String get player_forward => 'Forward 5s';
 
   @override

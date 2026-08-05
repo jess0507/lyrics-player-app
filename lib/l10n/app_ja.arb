@@ -14,6 +14,8 @@
   "player_previous": "前へ",
   "player_shuffle": "シャッフル",
   "player_loop": "リピート",
+  "player_mode_sequential": "順番に再生",
+  "player_mode_repeat_one": "1曲リピート",
   "player_forward": "5秒進む",
   "player_rewind": "5秒戻る",
   "player_speed": "再生速度",

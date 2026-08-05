@@ -51,6 +51,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get player_loop => 'दोहराएँ';
 
   @override
+  String get player_mode_sequential => 'क्रमवार';
+
+  @override
+  String get player_mode_repeat_one => 'एक बार दोहराएँ';
+
+  @override
   String get player_forward => '5 सेकंड आगे';
 
   @override
