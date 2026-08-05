@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../../core/audio/audio_player_service.dart';
 import '../../../l10n/app_localizations.dart';
@@ -8,14 +7,15 @@ import '../../../shared/providers/settings_controller.dart';
 import '../../lyrics/background/lyrics_background_running.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
 import 'lyrics_menu_action.dart';
+import 'play_mode_button.dart';
 import 'speed_button.dart';
 
 /// 預設播放速度,用來判斷是否顯示選取狀態。
 const double _kDefaultSpeed = 1.0;
 
-/// 歌詞滿版模式專有的選單動作(隨機、循環、播放速度與「顯示封面」)。
+/// 歌詞滿版模式專有的選單動作(播放模式、播放速度與「顯示封面」)。
 /// 歌詞相關動作另以共用的 [LyricsMenuAction] 表示。
-enum _LyricsModeAction { hideLyrics, shuffle, loop, speed }
+enum _LyricsModeAction { hideLyrics, playMode, speed }
 
 /// 歌詞滿版模式下的 AppBar 選單:整合「顯示封面(關閉歌詞)」、次控制列功能
 /// (隨機、循環、播放速度),以及歌詞操作(字體大小、重新匯入、刪除)。
@@ -59,26 +59,15 @@ class LyricsModeMenu extends ConsumerWidget {
         ),
         const PopupMenuDivider(),
         PopupMenuItem(
-          value: _LyricsModeAction.shuffle,
-          child: StreamBuilder<bool>(
-            stream: audio.shuffleModeEnabledStream,
-            builder: (context, snapshot) => _MenuRow(
-              icon: Icons.shuffle,
-              label: l10n.player_shuffle,
-              selected: snapshot.data ?? false,
-            ),
-          ),
-        ),
-        PopupMenuItem(
-          value: _LyricsModeAction.loop,
-          child: StreamBuilder<LoopMode>(
-            stream: audio.loopModeStream,
+          value: _LyricsModeAction.playMode,
+          child: StreamBuilder<PlayMode>(
+            stream: audio.playModeStream,
             builder: (context, snapshot) {
-              final mode = snapshot.data ?? LoopMode.off;
+              final mode = snapshot.data ?? PlayMode.repeatAll;
               return _MenuRow(
-                icon: mode == LoopMode.one ? Icons.repeat_one : Icons.repeat,
-                label: l10n.player_loop,
-                selected: mode != LoopMode.off,
+                icon: playModeIcon(mode),
+                label: playModeLabel(l10n, mode),
+                selected: mode != PlayMode.sequential,
               );
             },
           ),
@@ -131,10 +120,8 @@ class LyricsModeMenu extends ConsumerWidget {
     switch (value as _LyricsModeAction) {
       case _LyricsModeAction.hideLyrics:
         _hideLyrics(ref);
-      case _LyricsModeAction.shuffle:
-        _toggleShuffle();
-      case _LyricsModeAction.loop:
-        _cycleLoop();
+      case _LyricsModeAction.playMode:
+        audio.setPlayMode(audio.playMode.next);
       case _LyricsModeAction.speed:
         showSpeedSheet(context, audio);
     }
@@ -149,16 +136,6 @@ class LyricsModeMenu extends ConsumerWidget {
     onHideLyrics();
   }
 
-  void _toggleShuffle() => audio.setShuffle(!audio.player.shuffleModeEnabled);
-
-  void _cycleLoop() {
-    final next = switch (audio.player.loopMode) {
-      LoopMode.off => LoopMode.all,
-      LoopMode.all => LoopMode.one,
-      LoopMode.one => LoopMode.off,
-    };
-    audio.setLoopMode(next);
-  }
 }
 
 /// 選單列:圖示 + 文字,選取時上色,可選右側狀態文字(如速度倍率)。

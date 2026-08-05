@@ -1,12 +1,10 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../../core/audio/audio_player_service.dart';
 import '../../../l10n/app_localizations.dart';
 import 'lyrics_actions_sheet.dart';
+import 'play_mode_button.dart';
 import 'secondary_controls_menu.dart';
 
 /// 次控制列圖示的固定大小。
@@ -40,42 +38,10 @@ class SecondaryControls extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          StreamBuilder<bool>(
-            stream: audio.shuffleModeEnabledStream,
-            builder: (context, snapshot) {
-              final shuffle = snapshot.data ?? false;
-              return IconButton(
-                iconSize: _kIconSize,
-                isSelected: shuffle,
-                onPressed: enabled ? () => audio.setShuffle(!shuffle) : null,
-                icon: const Icon(Icons.shuffle),
-              );
-            },
-          ),
-          StreamBuilder<LoopMode>(
-            stream: audio.loopModeStream,
-            builder: (context, snapshot) {
-              final mode = snapshot.data ?? LoopMode.off;
-              // 三種狀態以「顏色 + 圖示」區分:關閉(灰、repeat)、
-              // 全部循環(primary、repeat)、單曲循環(primary、repeat_one)。
-              final selected = mode != LoopMode.off;
-              final icon = mode == LoopMode.one
-                  ? Icons.repeat_one
-                  : Icons.repeat;
-              return IconButton(
-                iconSize: _kIconSize,
-                isSelected: selected,
-                onPressed: enabled ? () => _cycleLoop(mode) : null,
-                icon: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Icon(icon),
-                    // 關閉狀態疊一條斜線，與 repeat/repeat_one 共用的圖示做出區隔。
-                    if (mode == LoopMode.off) const _DiagonalSlash(),
-                  ],
-                ),
-              );
-            },
+          PlayModeButton(
+            audio: audio,
+            enabled: enabled,
+            iconSize: _kIconSize,
           ),
           ?lyrics,
           IconButton(
@@ -118,40 +84,4 @@ class SecondaryControls extends ConsumerWidget {
     );
   }
 
-  void _cycleLoop(LoopMode current) {
-    final next = switch (current) {
-      LoopMode.off => LoopMode.all,
-      LoopMode.all => LoopMode.one,
-      LoopMode.one => LoopMode.off,
-    };
-    audio.setLoopMode(next);
-  }
-}
-
-/// 疊在 loop icon 上的斜線，顏色跟隨所在 [IconButton] 當下實際套用的 [IconTheme]。
-///
-/// 用 [Builder] 取得自身在 element tree 中的 context，
-/// 才能讀到 [IconButton] 內部 `IconTheme.merge` 後的顏色，
-/// 而不是外層 [StreamBuilder] 尚未套用該樣式前的 context。
-class _DiagonalSlash extends StatelessWidget {
-  const _DiagonalSlash();
-
-  @override
-  Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        final size = IconTheme.of(context).size ?? _kIconSize;
-        return IgnorePointer(
-          child: Transform.rotate(
-            angle: math.pi / 4,
-            child: Container(
-              width: size * 1.15,
-              height: 1.4,
-              color: IconTheme.of(context).color,
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

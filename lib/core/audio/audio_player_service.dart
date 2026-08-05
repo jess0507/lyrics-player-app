@@ -14,6 +14,23 @@ class PositionData {
   final Duration duration;
 }
 
+/// 播放模式:順序播放、清單循環、單曲循環、隨機播放。
+/// 底層由 [LoopMode] 與「是否隨機」兩個獨立狀態組合而成,見 [AudioPlayerService.setPlayMode]。
+enum PlayMode {
+  sequential,
+  repeatAll,
+  repeatOne,
+  shuffle;
+
+  /// 供單一 icon button 依序循環切換用。
+  PlayMode get next => switch (this) {
+    PlayMode.sequential => PlayMode.repeatAll,
+    PlayMode.repeatAll => PlayMode.repeatOne,
+    PlayMode.repeatOne => PlayMode.shuffle,
+    PlayMode.shuffle => PlayMode.sequential,
+  };
+}
+
 /// 封裝 just_audio 的 [AudioPlayer]，提供本機播放清單、背景播放與通知列控制。
 class AudioPlayerService {
   AudioPlayerService() {
@@ -35,6 +52,17 @@ class AudioPlayerService {
   bool get playing => _player.playing;
   int? get currentIndex => _player.currentIndex;
   double get speed => _player.speed;
+
+  /// 目前播放模式,由隨機開關與循環模式即時組合而成。
+  PlayMode get playMode =>
+      _playModeOf(_player.shuffleModeEnabled, _player.loopMode);
+
+  Stream<PlayMode> get playModeStream =>
+      Rx.combineLatest2<bool, LoopMode, PlayMode>(
+        shuffleModeEnabledStream,
+        loopModeStream,
+        _playModeOf,
+      );
 
   Stream<PositionData> get positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
@@ -83,6 +111,24 @@ class AudioPlayerService {
   Future<void> setShuffle(bool enabled) =>
       _player.setShuffleModeEnabled(enabled);
 
+  /// 套用整合播放模式:隨機播放時維持清單循環,避免洗完一輪就停播。
+  Future<void> setPlayMode(PlayMode mode) async {
+    switch (mode) {
+      case PlayMode.sequential:
+        await setShuffle(false);
+        await setLoopMode(LoopMode.off);
+      case PlayMode.repeatAll:
+        await setShuffle(false);
+        await setLoopMode(LoopMode.all);
+      case PlayMode.repeatOne:
+        await setShuffle(false);
+        await setLoopMode(LoopMode.one);
+      case PlayMode.shuffle:
+        await setShuffle(true);
+        await setLoopMode(LoopMode.all);
+    }
+  }
+
   /// 設定播放速度（0.5x ~ 4.0x）。
   Future<void> setSpeed(double speed) =>
       _player.setSpeed(speed.clamp(0.5, 4.0));
@@ -97,6 +143,16 @@ class AudioPlayerService {
   }
 
   void dispose() => _player.dispose();
+}
+
+/// 隨機開關優先於循環模式:一旦隨機開啟即視為 [PlayMode.shuffle]。
+PlayMode _playModeOf(bool shuffleEnabled, LoopMode loopMode) {
+  if (shuffleEnabled) return PlayMode.shuffle;
+  return switch (loopMode) {
+    LoopMode.off => PlayMode.sequential,
+    LoopMode.all => PlayMode.repeatAll,
+    LoopMode.one => PlayMode.repeatOne,
+  };
 }
 
 final audioPlayerServiceProvider = Provider<AudioPlayerService>((ref) {
