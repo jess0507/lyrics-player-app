@@ -50,6 +50,7 @@ class MusicLibrary extends AsyncNotifier<List<Track>> {
         Track(
           id: fingerprints[s.data] ?? s.id.toString(),
           uri: s.uri ?? Uri.file(s.data).toString(),
+          filePath: s.data,
           title: s.title,
           artist: (s.artist == null || s.artist == '<unknown>')
               ? null

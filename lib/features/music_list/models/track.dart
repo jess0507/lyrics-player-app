@@ -5,6 +5,7 @@ class Track {
   const Track({
     required this.id,
     required this.uri,
+    required this.filePath,
     required this.title,
     this.artist,
     this.album,
@@ -16,8 +17,12 @@ class Track {
   /// 跨裝置 / 重掃 / 換路徑對同一檔案不變;讀檔失敗時退回 MediaStore id。
   final String id;
 
-  /// 可供 just_audio 載入的 URI（如 `file:///storage/.../song.mp3`）。
+  /// 可供 just_audio 載入的 URI（多為 MediaStore content URI）。
   final String uri;
+
+  /// 裝置上實際檔案路徑（MediaStore `_data` 欄位）。content URI 無法還原
+  /// 成檔案路徑，分享等需要真實檔案的場景要用這個而非 [uri]。
+  final String filePath;
   final String title;
   final String? artist;
   final String? album;
@@ -34,6 +39,7 @@ class Track {
   Track copyWith({int? durationMs}) => Track(
         id: id,
         uri: uri,
+        filePath: filePath,
         title: title,
         artist: artist,
         album: album,
@@ -44,6 +50,7 @@ class Track {
   Map<String, dynamic> toJson() => {
         'id': id,
         'uri': uri,
+        'filePath': filePath,
         'title': title,
         'artist': artist,
         'album': album,
@@ -54,6 +61,7 @@ class Track {
   factory Track.fromJson(Map<String, dynamic> json) => Track(
         id: json['id'] as String,
         uri: json['uri'] as String,
+        filePath: json['filePath'] as String,
         title: json['title'] as String,
         artist: json['artist'] as String?,
         album: json['album'] as String?,

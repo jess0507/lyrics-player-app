@@ -98,11 +98,13 @@ void main() {
       container.read(statisticsControllerProvider.notifier);
 
   test('寫入後月總量與明細同交易成對累加（day 數據即明細，不另存）', () {
-    const track = Track(id: '1', uri: 'file:///a', title: 'A');
+    const track =
+        Track(id: '1', uri: 'file:///a', filePath: '/a', title: 'A');
     final c = controller();
     c.recordPlay(track);
     c.addListenTime(track, const Duration(seconds: 5));
-    c.recordPlay(const Track(id: '2', uri: 'file:///b', title: 'B'));
+    c.recordPlay(
+        const Track(id: '2', uri: 'file:///b', filePath: '/b', title: 'B'));
 
     final month = StatisticsController.monthKey(DateTime.now());
     final monthTotal = _month(isar, month)!;
@@ -157,7 +159,8 @@ void main() {
   });
 
   test('reset 同交易清空明細與月總量兩個 collection', () {
-    controller().recordPlay(const Track(id: '1', uri: 'u', title: 'A'));
+    controller()
+        .recordPlay(const Track(id: '1', uri: 'u', filePath: '/a', title: 'A'));
     controller().reset();
     expect(isar.dailyTrackStatEntitys.countSync(), 0);
     expect(isar.periodStatEntitys.countSync(), 0);

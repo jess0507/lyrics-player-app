@@ -6,6 +6,7 @@ import '../../../l10n/app_localizations.dart';
 import 'lyrics_actions_sheet.dart';
 import 'play_mode_button.dart';
 import 'secondary_controls_menu.dart';
+import 'share_track_button.dart';
 
 /// 次控制列圖示的固定大小。
 const _kIconSize = 20.0;
@@ -41,6 +42,11 @@ class SecondaryControls extends ConsumerWidget {
           PlayModeButton(
             audio: audio,
             enabled: enabled,
+            iconSize: _kIconSize,
+          ),
+          ShareTrackButton(
+            enabled: enabled,
+            trackId: trackId,
             iconSize: _kIconSize,
           ),
           ?lyrics,
