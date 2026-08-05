@@ -314,6 +314,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get common_retry => 'पुनः प्रयास करें';
 
   @override
+  String get common_today => 'आज';
+
+  @override
+  String get common_yesterday => 'कल';
+
+  @override
   String get settings_color => 'थीम रंग';
 
   @override
@@ -550,6 +556,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'पसंदीदा';
+
+  @override
+  String get playlist_recently_played => 'हाल ही में चलाए गए';
+
+  @override
+  String get playlist_clear_recently_played => 'इतिहास साफ़ करें';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'क्या सारा प्लेबैक इतिहास साफ़ करें?';
 
   @override
   String get playlist_new => 'नई प्लेलिस्ट';

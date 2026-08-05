@@ -315,6 +315,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_retry => 'Thử lại';
 
   @override
+  String get common_today => 'Hôm nay';
+
+  @override
+  String get common_yesterday => 'Hôm qua';
+
+  @override
   String get settings_color => 'Màu giao diện';
 
   @override
@@ -548,6 +554,16 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'Yêu thích';
+
+  @override
+  String get playlist_recently_played => 'Đã nghe gần đây';
+
+  @override
+  String get playlist_clear_recently_played => 'Xóa lịch sử';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'Xóa toàn bộ lịch sử phát?';
 
   @override
   String get playlist_new => 'Danh sách phát mới';

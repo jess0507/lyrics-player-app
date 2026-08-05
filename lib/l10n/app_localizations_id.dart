@@ -313,6 +313,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get common_retry => 'Coba lagi';
 
   @override
+  String get common_today => 'Hari ini';
+
+  @override
+  String get common_yesterday => 'Kemarin';
+
+  @override
   String get settings_color => 'Warna tema';
 
   @override
@@ -548,6 +554,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'Favorit';
+
+  @override
+  String get playlist_recently_played => 'Baru Diputar';
+
+  @override
+  String get playlist_clear_recently_played => 'Hapus riwayat';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'Hapus semua riwayat pemutaran?';
 
   @override
   String get playlist_new => 'Playlist baru';

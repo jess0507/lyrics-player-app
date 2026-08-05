@@ -302,6 +302,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get common_retry => '重試';
 
   @override
+  String get common_today => '今天';
+
+  @override
+  String get common_yesterday => '昨天';
+
+  @override
   String get settings_color => '主題顏色';
 
   @override
@@ -512,6 +518,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get playlist_favorites => '我的最愛';
+
+  @override
+  String get playlist_recently_played => '最近播放';
+
+  @override
+  String get playlist_clear_recently_played => '清除最近播放';
+
+  @override
+  String get playlist_clear_recently_played_confirm => '確定要清空最近播放紀錄嗎？';
 
   @override
   String get playlist_new => '新增播放清單';
@@ -898,6 +913,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get common_retry => '重试';
 
   @override
+  String get common_today => '今天';
+
+  @override
+  String get common_yesterday => '昨天';
+
+  @override
   String get settings_color => '主题颜色';
 
   @override
@@ -1108,6 +1129,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get playlist_favorites => '我的收藏';
+
+  @override
+  String get playlist_recently_played => '最近播放';
+
+  @override
+  String get playlist_clear_recently_played => '清除最近播放';
+
+  @override
+  String get playlist_clear_recently_played_confirm => '确定要清空最近播放记录吗？';
 
   @override
   String get playlist_new => '新建播放列表';
@@ -1494,6 +1524,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get common_retry => '重試';
 
   @override
+  String get common_today => '今天';
+
+  @override
+  String get common_yesterday => '昨天';
+
+  @override
   String get settings_color => '主題顏色';
 
   @override
@@ -1704,6 +1740,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlist_favorites => '我的最愛';
+
+  @override
+  String get playlist_recently_played => '最近播放';
+
+  @override
+  String get playlist_clear_recently_played => '清除最近播放';
+
+  @override
+  String get playlist_clear_recently_played_confirm => '確定要清空最近播放紀錄嗎？';
 
   @override
   String get playlist_new => '新增播放清單';

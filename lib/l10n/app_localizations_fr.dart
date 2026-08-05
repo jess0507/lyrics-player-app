@@ -316,6 +316,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get common_retry => 'Réessayer';
 
   @override
+  String get common_today => 'Aujourd\'hui';
+
+  @override
+  String get common_yesterday => 'Hier';
+
+  @override
   String get settings_color => 'Couleur du thème';
 
   @override
@@ -555,6 +561,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'Favoris';
+
+  @override
+  String get playlist_recently_played => 'Écouté récemment';
+
+  @override
+  String get playlist_clear_recently_played => 'Effacer l\'historique';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'Effacer tout l\'historique d\'écoute ?';
 
   @override
   String get playlist_new => 'Nouvelle playlist';

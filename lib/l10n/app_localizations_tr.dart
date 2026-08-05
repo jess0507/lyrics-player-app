@@ -313,6 +313,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get common_retry => 'Yeniden dene';
 
   @override
+  String get common_today => 'Bugün';
+
+  @override
+  String get common_yesterday => 'Dün';
+
+  @override
   String get settings_color => 'Tema rengi';
 
   @override
@@ -550,6 +556,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'Favoriler';
+
+  @override
+  String get playlist_recently_played => 'Son Çalınanlar';
+
+  @override
+  String get playlist_clear_recently_played => 'Geçmişi temizle';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'Tüm çalma geçmişi temizlensin mi?';
 
   @override
   String get playlist_new => 'Yeni çalma listesi';

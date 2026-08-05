@@ -708,6 +708,18 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get common_retry;
 
+  /// No description provided for @common_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get common_today;
+
+  /// No description provided for @common_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get common_yesterday;
+
   /// No description provided for @settings_color.
   ///
   /// In en, this message translates to:
@@ -1127,6 +1139,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Favorites'**
   String get playlist_favorites;
+
+  /// No description provided for @playlist_recently_played.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently Played'**
+  String get playlist_recently_played;
+
+  /// No description provided for @playlist_clear_recently_played.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear recently played'**
+  String get playlist_clear_recently_played;
+
+  /// No description provided for @playlist_clear_recently_played_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all recently played tracks?'**
+  String get playlist_clear_recently_played_confirm;
 
   /// No description provided for @playlist_new.
   ///

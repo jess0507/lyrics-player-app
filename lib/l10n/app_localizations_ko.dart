@@ -305,6 +305,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_retry => '다시 시도';
 
   @override
+  String get common_today => '오늘';
+
+  @override
+  String get common_yesterday => '어제';
+
+  @override
   String get settings_color => '테마 색상';
 
   @override
@@ -522,6 +528,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get playlist_favorites => '즐겨찾기';
+
+  @override
+  String get playlist_recently_played => '최근 재생';
+
+  @override
+  String get playlist_clear_recently_played => '기록 지우기';
+
+  @override
+  String get playlist_clear_recently_played_confirm => '재생 기록을 모두 지우시겠습니까?';
 
   @override
   String get playlist_new => '새 재생목록';

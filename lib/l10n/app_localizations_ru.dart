@@ -311,6 +311,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_retry => 'Повторить';
 
   @override
+  String get common_today => 'Сегодня';
+
+  @override
+  String get common_yesterday => 'Вчера';
+
+  @override
   String get settings_color => 'Цвет темы';
 
   @override
@@ -548,6 +554,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'Избранное';
+
+  @override
+  String get playlist_recently_played => 'Недавно прослушанные';
+
+  @override
+  String get playlist_clear_recently_played => 'Очистить историю';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'Очистить всю историю прослушивания?';
 
   @override
   String get playlist_new => 'Новый плейлист';

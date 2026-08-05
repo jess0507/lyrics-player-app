@@ -304,6 +304,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get common_retry => '再試行';
 
   @override
+  String get common_today => '今日';
+
+  @override
+  String get common_yesterday => '昨日';
+
+  @override
   String get settings_color => 'テーマカラー';
 
   @override
@@ -518,6 +524,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'お気に入り';
+
+  @override
+  String get playlist_recently_played => '最近再生した項目';
+
+  @override
+  String get playlist_clear_recently_played => '履歴を消去';
+
+  @override
+  String get playlist_clear_recently_played_confirm => '再生履歴をすべて消去しますか？';
 
   @override
   String get playlist_new => '新しいプレイリスト';

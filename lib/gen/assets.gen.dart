@@ -39,6 +39,9 @@ class $AssetsIconGen {
   /// File path: assets/icon/music.svg
   SvgGenImage get music => const SvgGenImage('assets/icon/music.svg');
 
+  /// File path: assets/icon/playlist.svg
+  SvgGenImage get playlist => const SvgGenImage('assets/icon/playlist.svg');
+
   /// List of all assets
   List<dynamic> get values => [
     appLogoPng,
@@ -47,6 +50,7 @@ class $AssetsIconGen {
     appLogoAndroid12,
     appLogoIcon,
     music,
+    playlist,
   ];
 }
 

@@ -311,6 +311,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get common_retry => 'إعادة المحاولة';
 
   @override
+  String get common_today => 'اليوم';
+
+  @override
+  String get common_yesterday => 'أمس';
+
+  @override
   String get settings_color => 'لون السمة';
 
   @override
@@ -545,6 +551,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get playlist_favorites => 'المفضلة';
+
+  @override
+  String get playlist_recently_played => 'شُغّل مؤخرًا';
+
+  @override
+  String get playlist_clear_recently_played => 'مسح السجل';
+
+  @override
+  String get playlist_clear_recently_played_confirm =>
+      'هل تريد مسح كل سجل التشغيل؟';
 
   @override
   String get playlist_new => 'قائمة تشغيل جديدة';
