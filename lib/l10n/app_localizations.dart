@@ -210,6 +210,12 @@ abstract class AppLocalizations {
   /// **'Repeat'**
   String get player_loop;
 
+  /// No description provided for @player_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get player_share;
+
   /// No description provided for @player_mode_sequential.
   ///
   /// In en, this message translates to:

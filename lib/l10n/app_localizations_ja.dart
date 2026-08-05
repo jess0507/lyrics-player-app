@@ -51,6 +51,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get player_loop => 'リピート';
 
   @override
+  String get player_share => '共有';
+
+  @override
   String get player_mode_sequential => '順番に再生';
 
   @override

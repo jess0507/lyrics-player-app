@@ -51,6 +51,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get player_loop => 'Tekrarla';
 
   @override
+  String get player_share => 'Paylaş';
+
+  @override
   String get player_mode_sequential => 'Sırayla';
 
   @override

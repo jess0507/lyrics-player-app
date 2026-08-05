@@ -51,6 +51,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get player_loop => 'Lặp lại';
 
   @override
+  String get player_share => 'Chia sẻ';
+
+  @override
   String get player_mode_sequential => 'Tuần tự';
 
   @override

@@ -51,6 +51,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get player_loop => 'Repeat';
 
   @override
+  String get player_share => 'Share';
+
+  @override
   String get player_mode_sequential => 'Sequential';
 
   @override

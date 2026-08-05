@@ -51,6 +51,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get player_loop => 'Ulangi';
 
   @override
+  String get player_share => 'Bagikan';
+
+  @override
   String get player_mode_sequential => 'Berurutan';
 
   @override

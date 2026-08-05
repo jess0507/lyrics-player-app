@@ -51,6 +51,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get player_loop => 'Повтор';
 
   @override
+  String get player_share => 'Поделиться';
+
+  @override
   String get player_mode_sequential => 'По порядку';
 
   @override

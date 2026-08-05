@@ -51,6 +51,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get player_loop => 'दोहराएँ';
 
   @override
+  String get player_share => 'साझा करें';
+
+  @override
   String get player_mode_sequential => 'क्रमवार';
 
   @override
