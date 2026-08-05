@@ -64,7 +64,10 @@ class _AddToPlaylistSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
+    // 「最近播放」由播放行為自動維護,不開放手動加入。
+    final playlists = (ref.watch(playlistsProvider).valueOrNull ?? const [])
+        .where((p) => !p.isRecentlyPlayed)
+        .toList();
 
     return SafeArea(
       child: Column(
@@ -86,19 +89,12 @@ class _AddToPlaylistSheet extends ConsumerWidget {
                 final alreadyIn = playlist.trackIds.contains(track.id);
                 return ListTile(
                   leading: Icon(
-                    playlist.isFavorites
-                        ? Icons.favorite
-                        : Icons.queue_music,
+                    playlist.isFavorites ? Icons.favorite : Icons.queue_music,
                   ),
                   title: Text(displayName, maxLines: 1),
                   trailing: alreadyIn ? const Icon(Icons.check) : null,
-                  onTap: () => _add(
-                    context,
-                    ref,
-                    playlist.id,
-                    displayName,
-                    alreadyIn,
-                  ),
+                  onTap: () =>
+                      _add(context, ref, playlist.id, displayName, alreadyIn),
                 );
               },
             ),

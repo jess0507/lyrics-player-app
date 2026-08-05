@@ -73,8 +73,11 @@ Future<void> main() async {
   // 過期資料;只跑一次。
   await cleanupNonHashTrackIds(isar: isar, prefs: prefs, syncState: syncState);
 
-  // 確保預設「我的最愛」清單存在(DB 內存名僅作 fallback,UI 顯示在地化名稱)。
-  await PlaylistRepository(isar, syncState).ensureDefaultFavorites();
+  // 確保預設「我的最愛」/「最近播放」清單存在(DB 內存名僅作 fallback,
+  // UI 顯示在地化名稱)。
+  final playlistRepository = PlaylistRepository(isar, syncState);
+  await playlistRepository.ensureDefaultFavorites();
+  await playlistRepository.ensureDefaultRecentlyPlayed();
 
   runApp(
     ProviderScope(

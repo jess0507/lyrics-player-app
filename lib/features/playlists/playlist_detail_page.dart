@@ -8,8 +8,10 @@ import 'package:seek_player/features/playlists/models/playlist_display_name.dart
 import 'package:seek_player/features/playlists/playlist_add_tracks_page.dart';
 import 'package:seek_player/features/playlists/providers/playlist_tracks_provider.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
+import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
+import 'package:seek_player/features/playlists/widgets/recently_played_track_list.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
@@ -19,17 +21,60 @@ class PlaylistDetailPage extends ConsumerWidget {
 
   final int playlistId;
 
+  Future<void> _clearRecentlyPlayed(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.playlist_clear_recently_played),
+        content: Text(l10n.playlist_clear_recently_played_confirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.common_cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.common_confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    await ref.read(playlistRepositoryProvider).clearRecentlyPlayed();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
     final playlist = playlists.where((p) => p.id == playlistId).firstOrNull;
-    final tracks = ref.watch(playlistTracksProvider(playlistId));
     final scheme = Theme.of(context).colorScheme;
 
     final title = playlist == null
         ? l10n.tab_playlists
         : playlistDisplayName(playlist, l10n);
+
+    // 「最近播放」是系統清單:不可增加項目 / 排序 / 逐首移除,只能整份清除。
+    if (playlist?.isRecentlyPlayed ?? false) {
+      final recentlyPlayed = ref.watch(recentlyPlayedProvider);
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+          actions: [
+            if (recentlyPlayed.isNotEmpty)
+              IconButton(
+                tooltip: l10n.playlist_clear_recently_played,
+                icon: const Icon(Icons.delete_sweep_outlined),
+                onPressed: () => _clearRecentlyPlayed(context, ref),
+              ),
+          ],
+        ),
+        body: const RecentlyPlayedTrackList(),
+      );
+    }
+
+    final tracks = ref.watch(playlistTracksProvider(playlistId));
 
     return Scaffold(
       appBar: AppBar(
@@ -138,8 +183,8 @@ class PlaylistDetailPage extends ConsumerWidget {
                       onPressed: () => showPlaylistTrackActionsSheet(
                         context,
                         ref,
-                        playlistId,
                         track,
+                        playlistId: playlistId,
                       ),
                     ),
                     onTap: () => ref

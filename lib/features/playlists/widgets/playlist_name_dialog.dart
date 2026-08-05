@@ -20,8 +20,7 @@ Future<String?> showPlaylistNameDialog(
         autofocus: true,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(hintText: l10n.playlist_name_hint),
-        onSubmitted: (value) =>
-            Navigator.of(context).pop(_clean(value)),
+        onSubmitted: (value) => Navigator.of(context).pop(_clean(value)),
       ),
       actions: [
         TextButton(
@@ -29,8 +28,7 @@ Future<String?> showPlaylistNameDialog(
           child: Text(l10n.common_cancel),
         ),
         FilledButton(
-          onPressed: () =>
-              Navigator.of(context).pop(_clean(controller.text)),
+          onPressed: () => Navigator.of(context).pop(_clean(controller.text)),
           child: Text(l10n.common_confirm),
         ),
       ],

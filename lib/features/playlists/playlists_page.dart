@@ -84,19 +84,22 @@ class PlaylistsPage extends ConsumerWidget {
               itemCount: playlists.length,
               itemBuilder: (context, index) {
                 final playlist = playlists[index];
+                final trackCount = playlist.isRecentlyPlayed
+                    ? playlist.recentlyPlayed.length
+                    : playlist.trackIds.length;
                 return ListTile(
                   leading: playlist.isFavorites
                       ? const CircleAvatar(child: Icon(Icons.favorite))
+                      : playlist.isRecentlyPlayed
+                      ? const CircleAvatar(child: Icon(Icons.history))
                       : null,
                   title: Text(
                     playlistDisplayName(playlist, l10n),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  subtitle: Text(
-                    l10n.playlist_track_count(playlist.trackIds.length),
-                  ),
-                  trailing: playlist.isFavorites
+                  subtitle: Text(l10n.playlist_track_count(trackCount)),
+                  trailing: playlist.isFavorites || playlist.isRecentlyPlayed
                       ? null
                       : PopupMenuButton<String>(
                           onSelected: (value) {

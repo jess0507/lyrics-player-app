@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/audio/audio_player_service.dart';
 import '../../music_list/providers/music_library.dart';
 import '../../music_list/models/track.dart';
+import '../../playlists/services/playlist_repository.dart';
 import '../../profile/statistics/services/statistics_service.dart';
 
 /// 串接音樂庫、音訊服務與統計：負責「從某首開始播放」與背景統計收集。
@@ -29,15 +30,17 @@ class PlaybackController {
 
   void _setupListeners() {
     // 切換到某首（含初次載入）時記錄一次播放。
-    _subs.add(_audio.currentIndexStream.listen((index) {
-      if (index == null) return;
-      final queue = _queue;
-      if (index >= 0 && index < queue.length) {
-        ref.read(statisticsControllerProvider.notifier).recordPlay(
-              queue[index],
-            );
-      }
-    }));
+    _subs.add(
+      _audio.currentIndexStream.listen((index) {
+        if (index == null) return;
+        final queue = _queue;
+        if (index >= 0 && index < queue.length) {
+          final track = queue[index];
+          ref.read(statisticsControllerProvider.notifier).recordPlay(track);
+          ref.read(playlistRepositoryProvider).recordRecentlyPlayed(track.id);
+        }
+      }),
+    );
 
     // 以 5 秒取樣累加實際聆聽時長（記在目前播放的曲目上）。
     _listenTimer = Timer.periodic(const Duration(seconds: 5), (_) {

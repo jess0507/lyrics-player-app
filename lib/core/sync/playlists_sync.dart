@@ -40,8 +40,16 @@ class PlaylistsSync {
         (b) => b.set(col.doc('${p.id}'), {
           'name': p.name,
           'isFavorites': p.isFavorites,
+          'isRecentlyPlayed': p.isRecentlyPlayed,
           'createdAt': p.createdAt.millisecondsSinceEpoch,
           'trackIds': p.trackIds,
+          'recentlyPlayed': [
+            for (final e in p.recentlyPlayed)
+              {
+                'trackId': e.trackId,
+                'playedAt': e.playedAt.millisecondsSinceEpoch,
+              },
+          ],
           'updatedAt': FieldValue.serverTimestamp(),
         }),
       );
@@ -73,12 +81,22 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..id = id
           ..name = (doc.data()['name'] as String?) ?? ''
           ..isFavorites = (doc.data()['isFavorites'] as bool?) ?? false
+          ..isRecentlyPlayed =
+              (doc.data()['isRecentlyPlayed'] as bool?) ?? false
           ..createdAt = DateTime.fromMillisecondsSinceEpoch(
             (doc.data()['createdAt'] as num? ?? 0).toInt(),
           )
           ..trackIds = [
-            for (final t in (doc.data()['trackIds'] as List? ?? const []))
-              '$t',
+            for (final t in (doc.data()['trackIds'] as List? ?? const [])) '$t',
+          ]
+          ..recentlyPlayed = [
+            for (final e in (doc.data()['recentlyPlayed'] as List? ?? const []))
+              if (e is Map)
+                RecentlyPlayedEntry()
+                  ..trackId = '${e['trackId']}'
+                  ..playedAt = DateTime.fromMillisecondsSinceEpoch(
+                    (e['playedAt'] as num? ?? 0).toInt(),
+                  ),
           ],
   ];
 }

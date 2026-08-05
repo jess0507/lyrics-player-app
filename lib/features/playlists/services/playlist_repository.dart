@@ -7,6 +7,12 @@ import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 /// 我的最愛清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
 const _defaultFavoritesFallbackName = 'Favorites';
 
+/// 最近播放清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
+const _defaultRecentlyPlayedFallbackName = 'Recently Played';
+
+/// 最近播放上限筆數,超過時捨棄最舊的。
+const _recentlyPlayedLimit = 200;
+
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
 /// SyncService 在回前景 / 登入 / 統計重設時觸發,寫入當下不觸發推送。
@@ -37,6 +43,25 @@ class PlaylistRepository {
         PlaylistEntity()
           ..name = _defaultFavoritesFallbackName
           ..isFavorites = true
+          ..createdAt = DateTime.now(),
+      ),
+    );
+  }
+
+  /// 確保預設「最近播放」清單存在;DB 內存名僅作 fallback,UI 會以
+  /// [isRecentlyPlayed] 覆寫顯示。已存在則 no-op。
+  /// 屬初始化而非使用者變更,不 markModified,避免全新安裝就觸發上傳。
+  Future<void> ensureDefaultRecentlyPlayed() async {
+    final existing = _col
+        .filter()
+        .isRecentlyPlayedEqualTo(true)
+        .findFirstSync();
+    if (existing != null) return;
+    await _isar.writeTxn(
+      () => _col.put(
+        PlaylistEntity()
+          ..name = _defaultRecentlyPlayedFallbackName
+          ..isRecentlyPlayed = true
           ..createdAt = DateTime.now(),
       ),
     );
@@ -107,6 +132,37 @@ class PlaylistRepository {
       final pl = await _col.get(id);
       if (pl == null) return false;
       pl.trackIds = pl.trackIds.where((t) => t != trackId).toList();
+      await _col.put(pl);
+      return true;
+    });
+    if (changed) _syncState.markPlaylistModified();
+  }
+
+  /// 記一筆最近播放:該曲若已在清單中先移除,再插回最前面連同當下時間
+  /// (最新播放永遠在最前),超過 [_recentlyPlayedLimit] 筆時捨棄最舊的。
+  Future<void> recordRecentlyPlayed(String trackId) async {
+    final changed = await _isar.writeTxn(() async {
+      final pl = await _col.filter().isRecentlyPlayedEqualTo(true).findFirst();
+      if (pl == null) return false;
+      final rest = pl.recentlyPlayed.where((e) => e.trackId != trackId);
+      pl.recentlyPlayed = [
+        RecentlyPlayedEntry()
+          ..trackId = trackId
+          ..playedAt = DateTime.now(),
+        ...rest,
+      ].take(_recentlyPlayedLimit).toList();
+      await _col.put(pl);
+      return true;
+    });
+    if (changed) _syncState.markPlaylistModified();
+  }
+
+  /// 清空「最近播放」清單。
+  Future<void> clearRecentlyPlayed() async {
+    final changed = await _isar.writeTxn(() async {
+      final pl = await _col.filter().isRecentlyPlayedEqualTo(true).findFirst();
+      if (pl == null || pl.recentlyPlayed.isEmpty) return false;
+      pl.recentlyPlayed = [];
       await _col.put(pl);
       return true;
     });
