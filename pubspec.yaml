@@ -52,6 +52,10 @@ dependencies:
   # 曲目內容指紋(track id)的 sha1
   crypto: ^3.0.3
 
+  # 線上搜尋歌詞(LRCLIB API)。專案目前無其他 HTTP client 依賴;LRCLIB
+  # 呼叫單純的 GET 請求,不需要 dio 的攔截器 / 進階功能。
+  http: ^1.2.2
+
   # 帳戶（Firebase）
   firebase_core: ^4.10.0
   firebase_auth: ^6.4.0

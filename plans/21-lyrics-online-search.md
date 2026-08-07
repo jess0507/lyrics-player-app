@@ -1,6 +1,7 @@
 # 歌詞功能:上網搜尋歌詞(backlog 1)
 
-狀態:**待實作**(規劃階段;2026-08-04 訂出來源與架構)。
+狀態:**已實作**(2026-08-05;`flutter analyze` 無誤,實機驗證待辦,見文末
+實作備註)。
 相關:`plans/11-lyrics-import.md`(本計畫複用其 `LyricsEntity` / `lyrics_repository` /
 `track_lyrics_provider` 資料層,`LyricsSource.online` 已預留)、
 `plans/10-lyrics-display.md`(顯示端不需改動,消費同一份 `LyricsEntity`)、
@@ -122,3 +123,47 @@
   (例如正規化字串、模糊比對分數)。
 - **版權**:LRCLIB 本身即以「合法免費開放歌詞庫」定位運作,套用其回傳內容
   風險與現有手動匯入相當(使用者自行取得歌詞檔案),不額外引入新風險。
+
+## 實作備註(2026-08-05)
+
+- 依計畫實作,與規劃有以下三處偏離:
+  1. **多一個 provider 檔**:CLAUDE.md「嚴格一檔一 provider」規定 service
+     本體與其 provider 也要分檔,故新增
+     `online/providers/lyrics_online_search_service_provider.dart`
+     (`lyricsOnlineSearchServiceProvider`),`online/services/*.dart` 兩檔
+     只留 class 本體,不像既有 `lyrics_repository.dart` /
+     `lyrics_import_service.dart` 把 provider 跟 class 放同檔(那是舊碼,
+     新檔一律照 CLAUDE.md 拆開)。
+  2. **沒有 `lyrics_online_search_provider.dart`(FutureProvider.family)**:
+     查詢是一次性動作(搜尋 → 選擇 → 套用,無需被畫面 watch 快取),改為
+     `lyrics_online_search_action.dart` 直接 `ref.read(...).search(query)`
+     imperatively 呼叫,比照 `runLyricsImport` 的寫法;省一個檔案。
+  3. **查詢參數(artist/album/durationMs)不是從呼叫端往下傳**:播放頁到
+     `LyricsView`/`SecondaryControls` 這條呼叫鏈原本只傳 `trackId`/`title`
+     字串(`MediaItem` 本身也沒有 album/duration),沒有 `Track` 物件可傳。
+     改為在 `runLyricsOnlineSearch` 內用 `trackId` 查
+     `musicLibraryProvider`(比照 `share_track_button.dart` 既有寫法)取回
+     完整 `Track`,不需改動任何既有 widget 的建構子簽章。
+- 多筆候選一律進 `lyrics_online_search_results_sheet.dart` 選擇(不做
+  「唯一候選且 duration 完全相符直接套用」的自動套用捷徑),避免誤套錯歌詞,
+  也讓程式碼少一個分支。
+- 待辦:實機驗證(常見英文曲命中、華語曲查無結果、多筆候選選擇、離線/
+  逾時錯誤提示、套用後 `LyricsEntity.source == online`)。
+- 6 個新 l10n key 已於 2026-08-07 直接補齊全部 17 個語系 arb(AI 翻譯,
+  各語系沿用既有「歌詞」術語;base `zh` 沿用 zh_TW 字串),gen-l10n 已無
+  untranslated;若仍以 Google Sheet 為翻譯來源,回填 Sheet 時以 arb 現值
+  為準。
+
+## 實作備註(2026-08-07:改為搜尋面板 UI)
+
+- 原「SnackBar 提示搜尋中 → 有結果才開結果 sheet」改為**開啟即顯示完整
+  搜尋面板**(`lyrics_online_search_sheet.dart`,取代原
+  `lyrics_online_search_results_sheet.dart`):上方為預填「曲名 + 演出者」
+  查詢字串的搜尋欄,下方依狀態顯示「搜尋中(spinner)/ 查無結果 / 失敗 /
+  候選列表」,查無結果與錯誤不再彈 SnackBar(僅「已套用」仍用 SnackBar)。
+- 使用者可編輯搜尋欄後重查:改走 LRCLIB `GET /api/search?q=` 關鍵字比對
+  (`LrclibClient.searchByKeyword` / `LyricsOnlineSearchService.searchByKeyword`),
+  不限欄位;開面板後的第一次查詢仍走原結構化參數
+  (title/artist/album/duration,含 `get` 精確查詢)以維持命中率。
+- 不需新增 l10n key:面板標題用 `lyrics_search_online`、載入文字沿用
+  `lyrics_search_online_searching`,其餘 key 原樣沿用。
