@@ -89,6 +89,8 @@ class PlaylistsPage extends ConsumerWidget {
                     : playlist.trackIds.length;
                 return ListTile(
                   minTileHeight: 48,
+                  // 預設左右各 16;去掉右側留白,讓 trailing 選單貼齊右緣。
+                  contentPadding: const EdgeInsetsDirectional.only(start: 16),
                   leading: playlist.isFavorites
                       ? const CircleAvatar(child: Icon(Icons.favorite))
                       : playlist.isRecentlyPlayed
