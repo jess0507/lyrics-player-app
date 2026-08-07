@@ -88,6 +88,7 @@ class PlaylistsPage extends ConsumerWidget {
                     ? playlist.recentlyPlayed.length
                     : playlist.trackIds.length;
                 return ListTile(
+                  minTileHeight: 48,
                   leading: playlist.isFavorites
                       ? const CircleAvatar(child: Icon(Icons.favorite))
                       : playlist.isRecentlyPlayed
