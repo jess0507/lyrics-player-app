@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/playlists/models/playlist_display_name.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
@@ -8,7 +9,9 @@ import 'package:seek_player/features/playlists/services/playlist_repository.dart
 import 'package:seek_player/features/playlists/widgets/playlist_name_dialog.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
-/// 播放清單列表:我的最愛固定在最前,可新增 / 重新命名 / 刪除其他清單。
+/// 播放清單列表:本地音樂、我的最愛、最近播放等系統清單固定在最前,
+/// 可新增 / 重新命名 / 刪除其他使用者清單。
+/// 「本地音樂」是虛擬清單(不落地 Isar):內容即裝置音樂庫,唯讀。
 class PlaylistsPage extends ConsumerWidget {
   const PlaylistsPage({super.key});
 
@@ -70,6 +73,7 @@ class PlaylistsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
+    final libraryCount = ref.watch(musicLibraryProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tab_playlists)),
@@ -81,9 +85,26 @@ class PlaylistsPage extends ConsumerWidget {
       body: playlists.isEmpty
           ? Center(child: Text(l10n.playlists_empty))
           : ListView.builder(
-              itemCount: playlists.length,
+              itemCount: playlists.length + 1,
               itemBuilder: (context, index) {
-                final playlist = playlists[index];
+                // 「本地音樂」虛擬清單固定在最上,其餘清單依序往後排。
+                if (index == 0) {
+                  return ListTile(
+                    minTileHeight: 48,
+                    contentPadding: const EdgeInsetsDirectional.only(start: 16),
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.library_music),
+                    ),
+                    title: Text(
+                      l10n.playlist_local_music,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(l10n.playlist_track_count(libraryCount)),
+                    onTap: () => context.push('/playlists/local'),
+                  );
+                }
+                final playlist = playlists[index - 1];
                 final trackCount = playlist.isRecentlyPlayed
                     ? playlist.recentlyPlayed.length
                     : playlist.trackIds.length;

@@ -12,11 +12,12 @@ import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sh
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
-/// 曲目搜尋頁:從播放清單內容頁右上角進入,輸入關鍵字後過濾該清單內的曲目。
+/// 曲目搜尋頁:從播放清單內容頁進入,輸入關鍵字後過濾該清單內的曲目。
+/// [playlistId] 為 null 代表「本地音樂」虛擬清單,搜尋範圍是整個音樂庫。
 class PlaylistSearchPage extends ConsumerStatefulWidget {
   const PlaylistSearchPage({super.key, required this.playlistId});
 
-  final int playlistId;
+  final int? playlistId;
 
   @override
   ConsumerState<PlaylistSearchPage> createState() =>
@@ -85,13 +86,14 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
       return _SearchHint(message: l10n.playlist_search_no_result);
     }
 
-    // 「最近播放」是唯讀系統清單,動作選單不提供「從清單移除」。
+    // 「最近播放」「本地音樂」是唯讀系統清單,動作選單不提供「從清單移除」。
     final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
     final isRecentlyPlayed = playlists
             .where((p) => p.id == widget.playlistId)
             .firstOrNull
             ?.isRecentlyPlayed ??
         false;
+    final removablePlaylistId = isRecentlyPlayed ? null : widget.playlistId;
 
     final audio = ref.watch(audioPlayerServiceProvider);
     return StreamBuilder<SequenceState?>(
@@ -113,7 +115,7 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
                   context,
                   ref,
                   track,
-                  playlistId: isRecentlyPlayed ? null : widget.playlistId,
+                  playlistId: removablePlaylistId,
                 ),
               ),
               onTap: () => _play(track),
