@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../../lyrics/providers/lyrics_active_job_provider.dart';
-import '../../lyrics/providers/track_lyrics_provider.dart';
-import '../../lyrics/services/lyrics_import_service.dart';
-import '../providers/lyrics_font_scale_controller.dart';
-import 'lyrics_job_status_view.dart';
-import 'lyrics_synced_view.dart';
-import 'lyrics_unsynced_view.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_active_job_provider.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_import_service.dart';
+import 'package:seek_player/features/player/providers/lyrics_font_scale_controller.dart';
+import 'package:seek_player/features/player/widgets/lyrics_job_status_view.dart';
+import 'package:seek_player/features/player/widgets/lyrics_synced_view.dart';
+import 'package:seek_player/features/player/widgets/lyrics_unsynced_view.dart';
 
 /// 完整播放頁的歌詞視圖:依 [trackId] 取歌詞並分派 loading / 空狀態 /
 /// synced(同步捲動)/ unsynced(靜態整篇),滿版顯示。歌詞操作選單移至

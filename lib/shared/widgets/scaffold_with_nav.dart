@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/mini_player/mini_player.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:seek_player/features/mini_player/mini_player.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 三大主頁面的底部導覽容器（使用 go_router 的 StatefulShell 維持各分頁狀態）。
 class ScaffoldWithNav extends StatelessWidget {

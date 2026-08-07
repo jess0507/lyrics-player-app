@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
 
 /// Mini player 頂端的細進度條，反映目前播放位置。
 class MiniProgressBar extends StatelessWidget {

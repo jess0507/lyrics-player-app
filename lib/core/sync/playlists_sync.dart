@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/playlists/models/playlist_entity.dart';
-import '../../features/playlists/services/playlist_repository.dart';
+import 'package:seek_player/features/playlists/models/playlist_entity.dart';
+import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
 /// 播放清單與 `playlist` 子集合（一份清單一份文件，docId 為本機 Isar id）
 /// 的推送與還原（SyncService 調度）。

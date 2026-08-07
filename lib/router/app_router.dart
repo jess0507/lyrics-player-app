@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/music_list/music_list_page.dart';
-import '../features/playlists/playlist_detail_page.dart';
-import '../features/playlists/playlist_search_page.dart';
-import '../features/playlists/playlists_page.dart';
-import '../features/profile/about/about_page.dart';
-import '../features/profile/account/account_page.dart';
-import '../features/profile/profile_page.dart';
-import '../features/profile/settings/language_page.dart';
-import '../features/profile/settings/settings_page.dart';
-import '../features/profile/statistics/statistics_page.dart';
-import '../shared/widgets/scaffold_with_nav.dart';
+import 'package:seek_player/features/music_list/music_list_page.dart';
+import 'package:seek_player/features/playlists/playlist_detail_page.dart';
+import 'package:seek_player/features/playlists/playlist_search_page.dart';
+import 'package:seek_player/features/playlists/playlists_page.dart';
+import 'package:seek_player/features/profile/about/about_page.dart';
+import 'package:seek_player/features/profile/account/account_page.dart';
+import 'package:seek_player/features/profile/profile_page.dart';
+import 'package:seek_player/features/profile/settings/language_page.dart';
+import 'package:seek_player/features/profile/settings/settings_page.dart';
+import 'package:seek_player/features/profile/statistics/statistics_page.dart';
+import 'package:seek_player/shared/widgets/scaffold_with_nav.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../../music_list/models/track.dart';
-import '../models/playlist_display_name.dart';
-import '../services/playlist_repository.dart';
-import '../providers/playlists_provider.dart';
-import 'playlist_name_dialog.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/playlists/models/playlist_display_name.dart';
+import 'package:seek_player/features/playlists/services/playlist_repository.dart';
+import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_name_dialog.dart';
 
 /// 顯示「加入播放清單」底部表單:列出所有清單,點選即把 [track] 加入,
 /// 並提供「新增播放清單」入口。

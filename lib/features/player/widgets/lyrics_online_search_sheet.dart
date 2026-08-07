@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../../lyrics/online/models/lrclib_result.dart';
-import '../../lyrics/online/providers/lyrics_online_search_service_provider.dart';
-import '../../lyrics/online/services/lrclib_client.dart';
-import '../../lyrics/online/services/lyrics_online_search_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
+import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
+import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
+import 'package:seek_player/features/lyrics/online/services/lyrics_online_search_service.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
 /// 下方依狀態顯示「搜尋中 / 查無結果 / 候選結果列表」。開啟後立即以

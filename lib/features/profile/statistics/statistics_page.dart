@@ -6,12 +6,12 @@ import 'package:seek_player/features/profile/statistics/providers/selected_stat_
 import 'package:seek_player/features/profile/statistics/providers/selected_top_tracks_provider.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
-import '../../../core/auth/auth_state_provider.dart';
-import '../../../core/firebase_available_provider.dart';
-import '../../../core/sync/sync_service.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/format.dart';
-import 'widgets/listen_time_chart.dart';
+import 'package:seek_player/core/auth/auth_state_provider.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/format.dart';
+import 'package:seek_player/features/profile/statistics/widgets/listen_time_chart.dart';
 
 class StatisticsPage extends ConsumerWidget {
   const StatisticsPage({super.key});

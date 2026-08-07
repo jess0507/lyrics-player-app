@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../lyrics/background/lyrics_background_running.dart';
-import '../../lyrics/providers/lyrics_active_job_provider.dart';
-import '../../lyrics/providers/lyrics_pending_sync_store.dart';
-import '../../lyrics/providers/track_lyrics_provider.dart';
-import 'lyrics_cancel_job_action.dart';
-import 'lyrics_menu_action.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_active_job_provider.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/widgets/lyrics_cancel_job_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
 
 /// 歌詞按鈕點擊後的底部表單:依目前歌詞狀態列出 [lyricsMenuActions]
 /// (自動產生 / 匯入 / 自動對時 / 字體大小 / 重新匯入 / 刪除)。

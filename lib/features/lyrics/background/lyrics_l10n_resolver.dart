@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/providers/settings_controller.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
 
 /// 依 app 設定(未設則系統語系)解析 l10n;不支援的語系回退英文。供背景歌詞
 /// 流程共用——這些呼叫端(controller / `LyricsPendingSyncService`)本身不是

@@ -2,10 +2,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/format.dart';
-import '../providers/chart_selection_provider.dart';
-import '../providers/chart_series_provider.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/format.dart';
+import 'package:seek_player/features/profile/statistics/providers/chart_selection_provider.dart';
+import 'package:seek_player/features/profile/statistics/providers/chart_series_provider.dart';
 
 /// 聆聽時長折線圖卡片:標題 + 週/月/年視圖切換 + LineChart。
 ///

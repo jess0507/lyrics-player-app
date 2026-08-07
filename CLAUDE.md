@@ -1,5 +1,9 @@
 # Seek Player
 
+## Import 慣例
+- 專案內部檔案一律使用 `package:` import(例如
+  `import 'package:seek_player/features/...';`),不使用相對路徑 import。
+
 ## Widget 檔案組織
 - 當一個 widget 檔案包含多個獨立的 sub-widget,或超過約 200 行時,
   將各 sub-widget 拆到同 feature 下的 `widgets/` 子目錄,一個 widget 一個 file。

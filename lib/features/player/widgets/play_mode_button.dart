@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 整合播放模式的單一 icon button:順序播放、清單循環、單曲循環、隨機播放
 /// 四態,點擊依 [PlayMode.next] 依序循環切換。

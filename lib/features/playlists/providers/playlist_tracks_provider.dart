@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../music_list/providers/music_library.dart';
-import '../../music_list/models/track.dart';
-import 'playlists_provider.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 
 /// 依 playlist id 把有序 trackId 解析成 [Track](回 music library 對齊)。
 /// 來源檔已被移除 / 尚未掃描到的曲目會被略過,保留原順序。隨清單與音樂庫變動。

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../music_list/providers/music_library.dart';
-import '../../music_list/models/track.dart';
-import 'playlists_provider.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 
 /// 一筆已解析的最近播放紀錄:曲目 + 播放當下時間。
 class RecentlyPlayedItem {

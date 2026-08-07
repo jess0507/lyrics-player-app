@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
 
 /// 快進 / 快退按鈕：點擊一下步進 [delta]，持續長按時每 300ms 連續步進。
 class SeekHoldButton extends StatefulWidget {

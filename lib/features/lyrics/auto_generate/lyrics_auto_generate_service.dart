@@ -7,9 +7,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../auto_sync/audio_compressor.dart';
-import '../services/track_audio_resolver.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/lyrics/auto_sync/audio_compressor.dart';
+import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
 const _functionsRegion = 'asia-east1';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../music_list/providers/music_library.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
 
 /// 分享目前曲目的音樂檔案本身（叫出系統分享面板）。
 /// 依 [trackId] 從音樂庫查回曲目取得檔案 uri；查無曲目時不顯示。

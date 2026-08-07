@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/format.dart';
-import '../models/track.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/format.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
 
 /// 顯示曲目詳細資訊的彈出對話框(標題、演出者、時長、檔案位置)。
 Future<void> showTrackInfoDialog(BuildContext context, Track track) {

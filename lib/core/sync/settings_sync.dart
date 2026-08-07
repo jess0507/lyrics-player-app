@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../shared/providers/settings_controller.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
 
 /// 設定與 `setting` 子集合（單一文件 `setting/0`）的推送與還原
 /// （SyncService 調度）。設定僅一份、無需分件，固定 docId 即可。

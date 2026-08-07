@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/auth/auth_service.dart';
-import '../../../core/firebase_available_provider.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../profile/account/account_page.dart';
+import 'package:seek_player/core/auth/auth_service.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/profile/account/account_page.dart';
 
 /// 雲端歌詞功能(自動產生 / 自動對時)執行前的登入關卡。
 ///

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../music_list/models/track.dart';
-import '../../music_list/widgets/track_info_dialog.dart';
-import '../services/playlist_repository.dart';
-import 'add_to_playlist_sheet.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/music_list/widgets/track_info_dialog.dart';
+import 'package:seek_player/features/playlists/services/playlist_repository.dart';
+import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
 
 /// 播放清單內某曲目的操作底部表單:加入其他播放清單、檢視曲目資訊、從本清單移除。
 /// [playlistId] 為 null 時(例如「最近播放」等系統清單)不顯示移除選項。

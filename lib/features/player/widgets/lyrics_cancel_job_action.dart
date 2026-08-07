@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 取消該 trackId 進行中的自動產生/對時工作。只處理本機端:還在本機
 /// 壓縮/上傳/呼叫 callable(僅 Android 前景服務)就中止該階段;後端已經

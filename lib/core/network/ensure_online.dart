@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shared/widgets/app_toast.dart';
-import 'network_status_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/core/network/network_status_service.dart';
 
 /// 需要網路的動作在進入流程前先呼叫本函式守門:
 /// 離線時顯示「請確認網路連線」toast 並回傳 false,呼叫端直接中止;

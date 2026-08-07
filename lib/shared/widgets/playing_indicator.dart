@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../../core/audio/audio_player_service.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
 
 /// 等化器風格的動態播放指示器:數根長條上下跳動,代表「正在播放」。
 ///

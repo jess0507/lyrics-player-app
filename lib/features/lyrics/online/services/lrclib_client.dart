@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/lrclib_result.dart';
+import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 
 /// LRCLIB 查詢失敗(逾時 / 網路錯誤 / 非預期狀態碼)。查無結果不算失敗,
 /// 由呼叫端以空 list / null 判斷。

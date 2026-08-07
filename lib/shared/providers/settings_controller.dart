@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/storage/preferences_service.dart';
-import '../../core/sync/sync_state_store.dart';
-import '../theme/app_theme.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/shared/theme/app_theme.dart';
 
 /// 應用程式偏好：語言、主題模式與主題色（持久化於 SharedPreferences）。
 class SettingsState {

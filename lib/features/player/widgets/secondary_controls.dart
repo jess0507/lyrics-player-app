@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import 'lyrics_actions_sheet.dart';
-import 'play_mode_button.dart';
-import 'secondary_controls_menu.dart';
-import 'share_track_button.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
+import 'package:seek_player/features/player/widgets/play_mode_button.dart';
+import 'package:seek_player/features/player/widgets/secondary_controls_menu.dart';
+import 'package:seek_player/features/player/widgets/share_track_button.dart';
 
 /// 次控制列圖示的固定大小。
 const _kIconSize = 20.0;

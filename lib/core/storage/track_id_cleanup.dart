@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:isar_community/isar.dart';
 
-import '../../features/lyrics/models/lyrics_entity.dart';
-import '../../features/cover/models/track_cover_entity.dart';
-import '../../features/playlists/models/playlist_entity.dart';
-import '../../features/profile/statistics/models/daily_track_stat_entity.dart';
-import '../sync/sync_state_store.dart';
-import 'preferences_service.dart';
+import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
+import 'package:seek_player/features/cover/models/track_cover_entity.dart';
+import 'package:seek_player/features/playlists/models/playlist_entity.dart';
+import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
 
 const _kCleanupDoneKey = 'trackId_cleanup_v1_done';
 

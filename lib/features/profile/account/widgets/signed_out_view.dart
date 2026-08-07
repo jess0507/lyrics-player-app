@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/auth/auth_service.dart';
-import '../../../../core/crash_reporter.dart';
-import '../../../../core/network/ensure_online.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/app_toast.dart';
-import 'country_code_dropdown.dart';
+import 'package:seek_player/core/auth/auth_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/network/ensure_online.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/profile/account/widgets/country_code_dropdown.dart';
 
 /// 未登入:選擇 Google、手機簡訊 OTP 或 Email/密碼登入。
 /// 選擇手機或 Email 後,於登入選項上方顯示對應的輸入表單。

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/app_locales.dart';
-import '../../../shared/providers/settings_controller.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/app_locales.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
 
 class LanguagePage extends ConsumerWidget {
   const LanguagePage({super.key});

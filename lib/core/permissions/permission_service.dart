@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'permission_dialogs.dart';
+import 'package:seek_player/core/permissions/permission_dialogs.dart';
 
 /// 權限請求流程：先顯示自訂說明 Dialog（rationale），再呼叫系統權限請求，
 /// 永久拒絕時引導使用者前往「應用程式設定」。

@@ -9,14 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
-import 'app.dart';
-import 'core/crash_reporter.dart';
-import 'core/firebase_available_provider.dart';
-import 'core/storage/isar_service.dart';
-import 'core/storage/preferences_service.dart';
-import 'core/storage/track_id_cleanup.dart';
-import 'core/sync/sync_state_store.dart';
-import 'firebase_options.dart';
+import 'package:seek_player/app.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/core/storage/isar_service.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
+import 'package:seek_player/core/storage/track_id_cleanup.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

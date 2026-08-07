@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/app_locales.dart';
-import '../../../shared/providers/settings_controller.dart';
-import '../../../shared/theme/app_theme.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/app_locales.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/shared/theme/app_theme.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});

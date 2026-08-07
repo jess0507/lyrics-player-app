@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../shared/widgets/track_list_tile.dart';
-import '../../music_list/models/track.dart';
-import '../services/playlist_repository.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/shared/widgets/track_list_tile.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
 /// 「編輯播放清單」清單:只列出已加入播放清單的曲目([addedTracks],依既有
 /// 順序排列),項目最前面有拖曳排序圖示,或點刪除圖示移出清單。

@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../router/app_router.dart';
-import '../../shared/widgets/app_toast.dart';
-import '../crash_reporter.dart';
-import 'patch_update_controller.dart';
-import 'store_update_controller.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/router/app_router.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/update/patch_update_controller.dart';
+import 'package:seek_player/core/update/store_update_controller.dart';
 
 const _packageId = 'com.js.seek_player';
 

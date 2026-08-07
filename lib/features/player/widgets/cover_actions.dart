@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../../cover/services/cover_import_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/cover/services/cover_import_service.dart';
 
 /// 挑圖並設為曲目自訂封面(新增 / 更換)。成功以 toast 回饋,
 /// 例外映射 l10n 失敗文案;使用者取消選圖不提示。

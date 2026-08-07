@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../router/app_router.dart';
-import '../../music_list/models/track.dart';
-import '../../music_list/providers/music_library.dart';
-import '../../music_list/services/track_fingerprint_service.dart';
-import 'player_sheet_controller.dart';
-import 'playback_controller.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/router/app_router.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/music_list/services/track_fingerprint_service.dart';
+import 'package:seek_player/features/player/providers/player_sheet_controller.dart';
+import 'package:seek_player/features/player/providers/playback_controller.dart';
 
 /// 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔（見 Android
 /// manifest 的 VIEW intent-filter，`audio/*`），計算內容指紋比對音樂庫：

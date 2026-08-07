@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../gen/assets.gen.dart';
-import '../../../l10n/app_localizations.dart';
-import 'providers/app_version_provider.dart';
+import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/profile/about/providers/app_version_provider.dart';
 
 class AboutPage extends ConsumerWidget {
   const AboutPage({super.key});

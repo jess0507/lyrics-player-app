@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../storage/preferences_service.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
 
 /// 雲端同步的本機狀態：設定 / 播放清單 / 統計 / 歌詞各自最後一次本機
 /// 變更的時間，供推 / 拉判斷用；另存一份「上次同步時間」純供帳戶

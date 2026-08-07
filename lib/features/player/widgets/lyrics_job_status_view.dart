@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import 'lyrics_cancel_job_action.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/player/widgets/lyrics_cancel_job_action.dart';
 
 /// 該 trackId 有進行中的自動產生/對齊工作時顯示,layout 比照 [LyricsView] 的
 /// 空狀態(icon + 文字)。是否顯示由呼叫端依 `lyricsActiveJobProvider` 判斷,

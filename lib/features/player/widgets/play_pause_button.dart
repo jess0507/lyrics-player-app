@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../../../core/audio/audio_player_service.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
 
 /// 播放 / 暫停按鈕，載入來源時顯示轉圈進度。
 class PlayPauseButton extends StatelessWidget {

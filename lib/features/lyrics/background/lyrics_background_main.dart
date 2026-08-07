@@ -7,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../core/storage/isar_service.dart';
-import '../../../core/storage/preferences_service.dart';
-import '../../../firebase_options.dart';
-import '../auto_generate/lyrics_auto_generate_service.dart';
-import '../auto_sync/lyrics_auto_sync_service.dart';
-import 'lyrics_background_protocol.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/storage/isar_service.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
+import 'package:seek_player/firebase_options.dart';
+import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
+import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 
 /// LyricsBackgroundService(Android 前景服務)專用的 Dart 進入點:
 /// 服務建立獨立 FlutterEngine 後執行本函式,在背景 isolate 重建

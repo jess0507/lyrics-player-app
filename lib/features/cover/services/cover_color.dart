@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../../core/crash_reporter.dart';
+import 'package:seek_player/core/crash_reporter.dart';
 
 /// 從封面圖檔以 [PaletteGenerator] 抽出主色;圖檔遺失 / 無法解碼等任何
 /// 失敗皆回 null(best-effort,呼叫端據此退回主題色)。

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'chart_selection_provider.dart';
-import 'chart_series_provider.dart';
+import 'package:seek_player/features/profile/statistics/providers/chart_selection_provider.dart';
+import 'package:seek_player/features/profile/statistics/providers/chart_series_provider.dart';
 
 /// _StatCard 要顯示的時長與次數(由圖表選取導出)。
 class SelectedStat {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../lyrics/usage_limit/lyrics_usage_limit_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/lyrics/usage_limit/lyrics_usage_limit_service.dart';
 
 /// 雲端歌詞功能(自動產生 / 自動對時)執行前的用量關卡。
 ///

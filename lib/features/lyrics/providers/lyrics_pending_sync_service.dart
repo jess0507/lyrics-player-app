@@ -5,17 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../../../core/firebase_available_provider.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../background/lyrics_background_protocol.dart';
-import '../background/lyrics_background_runner.dart';
-import '../background/lyrics_l10n_resolver.dart';
-import '../models/lyrics_entity.dart';
-import '../models/lyrics_job_status.dart';
-import '../services/lyrics_repository.dart';
-import 'lyrics_pending_sync_store.dart';
-import 'track_lyrics_provider.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart';
+import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
+import 'package:seek_player/features/lyrics/models/lyrics_job_status.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 
 /// 依 [lyricsPendingSyncStoreProvider] 持久化的 trackId 清單,逐一訂閱其
 /// Firestore 文件(`user/{uid}/lyrics/{trackId}`)。背景任務(queued)送出

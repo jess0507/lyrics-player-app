@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/auth/auth_state_provider.dart';
-import '../../../core/firebase_available_provider.dart';
-import '../../../l10n/app_localizations.dart';
-import 'widgets/signed_out_view.dart';
-import 'widgets/user_info_view.dart';
+import 'package:seek_player/core/auth/auth_state_provider.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/profile/account/widgets/signed_out_view.dart';
+import 'package:seek_player/features/profile/account/widgets/user_info_view.dart';
 
 class AccountPage extends ConsumerWidget {
   const AccountPage({super.key});

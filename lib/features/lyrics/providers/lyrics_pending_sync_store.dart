@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/storage/preferences_service.dart';
-import '../background/lyrics_background_protocol.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 
 const _kPendingSyncJobs = 'lyrics.pendingSyncJobs';
 

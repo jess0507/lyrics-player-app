@@ -4,13 +4,13 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/shared/widgets/marquee_text.dart';
 
-import '../../core/audio/audio_player_service.dart';
-import '../cover/providers/track_artwork_provider.dart';
-import '../player/providers/playback_controller.dart';
-import '../player/providers/player_sheet_controller.dart';
-import 'widgets/mini_play_pause_button.dart';
-import 'widgets/mini_progress_bar.dart';
-import 'widgets/swipe_track_area.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
+import 'package:seek_player/features/player/providers/playback_controller.dart';
+import 'package:seek_player/features/player/providers/player_sheet_controller.dart';
+import 'package:seek_player/features/mini_player/widgets/mini_play_pause_button.dart';
+import 'package:seek_player/features/mini_player/widgets/mini_progress_bar.dart';
+import 'package:seek_player/features/mini_player/widgets/swipe_track_area.dart';
 
 /// 顯示於底部導覽列上方的迷你播放器。
 ///

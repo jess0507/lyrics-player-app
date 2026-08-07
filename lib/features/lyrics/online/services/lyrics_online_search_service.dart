@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/lyrics_entity.dart';
-import '../../providers/track_lyrics_provider.dart';
-import '../../services/lyrics_repository.dart';
-import '../models/lrclib_result.dart';
-import 'lrclib_client.dart';
+import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
+import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
+import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
 
 /// 一次線上搜尋歌詞的查詢參數,皆已存在於現有 `Track` model。
 class LyricsOnlineSearchQuery {

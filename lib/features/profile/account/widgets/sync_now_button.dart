@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/network/ensure_online.dart';
-import '../../../../core/sync/sync_service.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/app_toast.dart';
-import '../providers/last_sync_at_provider.dart';
+import 'package:seek_player/core/network/ensure_online.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/profile/account/providers/last_sync_at_provider.dart';
 
 /// 帳戶頁面「立即同步」ListTile:點擊手動觸發一次上傳,結束後回報
 /// 成功/失敗並刷新上次同步時間顯示(顯示於 trailing)。

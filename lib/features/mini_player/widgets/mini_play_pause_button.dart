@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// Mini player 的播放 / 暫停按鈕，載入來源時顯示 spinner。
 class MiniPlayPauseButton extends StatelessWidget {

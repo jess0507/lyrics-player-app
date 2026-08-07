@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../shared/format.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/shared/format.dart';
 
 /// 播放進度條：顯示目前位置 / 總長度，可拖曳跳轉。
 class SeekBar extends StatelessWidget {

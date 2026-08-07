@@ -3,8 +3,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-import '../crash_reporter.dart';
-import 'shorebird_updater_provider.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/update/shorebird_updater_provider.dart';
 
 /// Shorebird patch 背景更新的進度狀態。
 enum PatchUpdateState {

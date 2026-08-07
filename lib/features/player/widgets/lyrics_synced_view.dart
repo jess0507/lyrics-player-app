@@ -5,8 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../lyrics/models/lyrics.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/lyrics/models/lyrics.dart';
 
 /// 同步歌詞:目前行 highlight + 自動置中捲動 + 點行 seek。
 /// 位置來源 `positionStream`(節流 ~200ms),目前行以二分搜尋定位;

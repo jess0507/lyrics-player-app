@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import '../../music_list/services/track_fingerprint_service.dart';
+import 'package:seek_player/features/music_list/services/track_fingerprint_service.dart';
 
 /// 由 trackId 反查本機音訊檔真實路徑(歌詞自動產生 / 對時共用)。
 ///

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../cover/providers/track_artwork_provider.dart';
-import '../../lyrics/providers/track_lyrics_provider.dart';
-import 'lyrics_view.dart';
-import 'player_artwork.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/widgets/lyrics_view.dart';
+import 'package:seek_player/features/player/widgets/player_artwork.dart';
 
 /// 播放頁中央視覺區:水平 PageView,第一頁專輯封面、第二頁歌詞容器,
 /// 左右滑動切換。歌詞頁已有歌詞時右上角提供進入滿版歌詞的按鈕

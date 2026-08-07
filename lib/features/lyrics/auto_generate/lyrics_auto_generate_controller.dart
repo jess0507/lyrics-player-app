@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/crash_reporter.dart';
-import '../background/lyrics_background_protocol.dart';
-import '../background/lyrics_background_runner.dart';
-import '../background/lyrics_l10n_resolver.dart';
-import '../providers/lyrics_pending_sync_store.dart';
-import 'lyrics_auto_generate_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
+import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
 
 /// 自動產生整體狀態。
 enum LyricsAutoGenerateStatus { idle, running, success, failure, cancelled }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/sync/sync_service.dart';
-import 'core/update/app_update_listener.dart';
-import 'features/lyrics/background/lyrics_background_runner.dart';
-import 'features/lyrics/providers/lyrics_pending_sync_service.dart';
-import 'features/player/providers/external_file_open_service.dart';
-import 'l10n/app_localizations.dart';
-import 'router/app_router.dart';
-import 'shared/providers/settings_controller.dart';
-import 'shared/theme/app_theme.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
+import 'package:seek_player/core/update/app_update_listener.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_service.dart';
+import 'package:seek_player/features/player/providers/external_file_open_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/router/app_router.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/shared/theme/app_theme.dart';
 
 class SeekPlayerApp extends ConsumerWidget {
   const SeekPlayerApp({super.key});

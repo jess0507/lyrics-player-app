@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../background/lyrics_background_running.dart';
-import 'lyrics_pending_sync_store.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
+import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 
 /// 判斷某 trackId 目前是否有進行中的自動產生/對齊工作,決定 `LyricsView`
 /// 要不要顯示處理中畫面([LyricsJobStatusView])。全部依本地記錄判斷,不

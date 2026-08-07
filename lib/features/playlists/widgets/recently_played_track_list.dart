@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/track_list_tile.dart';
-import '../../player/providers/playback_controller.dart';
-import '../providers/recently_played_provider.dart';
-import 'playlist_track_actions_sheet.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/track_list_tile.dart';
+import 'package:seek_player/features/player/providers/playback_controller.dart';
+import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 
 /// 「最近播放」清單內容:依播放日期分組(今天 / 昨天 / 日期)。
 /// 唯讀,不可拖曳排序;每首曲目可開啟操作選單(加入清單、檢視資訊),

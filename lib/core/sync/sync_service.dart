@@ -4,14 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../auth/auth_service.dart';
-import '../crash_reporter.dart';
-import '../firebase_available_provider.dart';
-import 'lyrics_sync.dart';
-import 'playlists_sync.dart';
-import 'settings_sync.dart';
-import 'statistics_sync.dart';
-import 'sync_state_store.dart';
+import 'package:seek_player/core/auth/auth_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/core/sync/lyrics_sync.dart';
+import 'package:seek_player/core/sync/playlists_sync.dart';
+import 'package:seek_player/core/sync/settings_sync.dart';
+import 'package:seek_player/core/sync/statistics_sync.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
 
 class SyncService {
   SyncService(this.ref) {

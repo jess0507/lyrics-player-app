@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'chart_series_provider.dart';
+import 'package:seek_player/features/profile/statistics/providers/chart_series_provider.dart';
 
 /// 統計頁圖表的選取狀態:目前視圖範圍 + 觸碰選中的期間 key。
 ///

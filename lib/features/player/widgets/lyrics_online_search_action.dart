@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../lyrics/online/services/lyrics_online_search_service.dart';
-import '../../music_list/providers/music_library.dart';
-import 'lyrics_online_search_sheet.dart';
+import 'package:seek_player/features/lyrics/online/services/lyrics_online_search_service.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/player/widgets/lyrics_online_search_sheet.dart';
 
 /// 觸發線上搜尋歌詞(LRCLIB):組出查詢參數後直接開
 /// [showLyricsOnlineSearchSheet],查詢進度 / 查無結果 / 錯誤與候選選擇

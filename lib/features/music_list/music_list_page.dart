@@ -7,12 +7,12 @@ import 'package:seek_player/features/music_list/providers/filtered_tracks_provid
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/providers/music_search_query_provider.dart';
 
-import '../../core/audio/audio_player_service.dart';
-import '../../core/permissions/permission_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shared/widgets/track_list_tile.dart';
-import '../player/providers/playback_controller.dart';
-import 'widgets/track_actions_sheet.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/core/permissions/permission_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/track_list_tile.dart';
+import 'package:seek_player/features/player/providers/playback_controller.dart';
+import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 
 class MusicListPage extends ConsumerStatefulWidget {
   const MusicListPage({super.key});

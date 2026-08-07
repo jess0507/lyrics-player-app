@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../l10n/app_localizations.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 輸入播放清單名稱的對話框,建立與重新命名共用。
 /// 回傳整理後的名稱;取消或留空回 null。

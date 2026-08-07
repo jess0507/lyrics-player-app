@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/profile/statistics/models/daily_track_stat_entity.dart';
-import '../../features/profile/statistics/models/period_stat_entity.dart';
-import '../../features/profile/statistics/services/statistics_service.dart';
+import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
+import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
+import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
 /// 統計與 `monthlyStats` 子集合（SyncService 調度）的推送與還原。
 ///

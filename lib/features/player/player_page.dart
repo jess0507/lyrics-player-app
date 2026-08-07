@@ -5,17 +5,17 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/player/widgets/secondary_controls.dart';
 
-import '../../core/audio/audio_player_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shared/providers/settings_controller.dart';
-import '../../shared/widgets/marquee_text.dart';
-import '../lyrics/providers/track_lyrics_provider.dart';
-import 'widgets/lyrics_mode_menu.dart';
-import 'widgets/lyrics_view.dart';
-import 'widgets/player_artwork_panel.dart';
-import 'widgets/player_background.dart';
-import 'widgets/player_controls.dart';
-import 'widgets/seek_bar.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/shared/widgets/marquee_text.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/widgets/lyrics_mode_menu.dart';
+import 'package:seek_player/features/player/widgets/lyrics_view.dart';
+import 'package:seek_player/features/player/widgets/player_artwork_panel.dart';
+import 'package:seek_player/features/player/widgets/player_background.dart';
+import 'package:seek_player/features/player/widgets/player_controls.dart';
+import 'package:seek_player/features/player/widgets/seek_bar.dart';
 
 class PlayerPage extends ConsumerStatefulWidget {
   const PlayerPage({super.key});

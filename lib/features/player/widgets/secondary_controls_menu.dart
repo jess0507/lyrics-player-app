@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../cover/providers/track_cover_provider.dart';
-import '../../music_list/models/track.dart';
-import '../../music_list/providers/music_library.dart';
-import '../../playlists/widgets/add_to_playlist_sheet.dart';
-import 'cover_actions.dart';
-import 'lyrics_menu_action.dart';
-import 'speed_button.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
+import 'package:seek_player/features/player/widgets/cover_actions.dart';
+import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
+import 'package:seek_player/features/player/widgets/speed_button.dart';
 
 /// 次控制列「更多」選單中,播放器層級(非歌詞)的動作項目。
 /// 歌詞相關動作另以共用的 [LyricsMenuAction] 表示。

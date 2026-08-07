@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import 'play_pause_button.dart';
-import 'seek_hold_button.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/player/widgets/play_pause_button.dart';
+import 'package:seek_player/features/player/widgets/seek_hold_button.dart';
 
 /// 快進 / 快退的單次步進量。
 const _kSeekStep = Duration(seconds: 5);

@@ -7,14 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../core/sync/sync_state_store.dart';
-import '../providers/track_lyrics_provider.dart';
-import 'lyrics_background_running.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
 // 靜態參照背景進入點,確保其所在 library 被納入 AOT 編譯
 // (native 端以函式名啟動,若無任何 import 參照會被整包略過)。
 // ignore: unused_import
-import 'lyrics_background_main.dart' show lyricsBackgroundMain;
-import 'lyrics_background_protocol.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_main.dart' show lyricsBackgroundMain;
+import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 
 /// 背景任務的最終結果。
 enum LyricsBackgroundStatus { success, error, cancelled, busy }

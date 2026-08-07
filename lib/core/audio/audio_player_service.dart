@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../features/music_list/models/track.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
 
 /// 進度條所需的合併資料。
 class PositionData {

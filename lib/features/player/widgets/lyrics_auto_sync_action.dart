@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_toast.dart';
-import '../../lyrics/auto_sync/lyrics_auto_sync_controller.dart';
-import '../../lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_controller.dart';
+import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
 
 /// 觸發自動對時:立即以 toast 提示「已在背景對齊歌詞」,進度顯示在
 /// 通知列(前景服務),不再擋 UI。成功時背景流程已寫入並 invalidate

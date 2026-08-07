@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/lyrics/models/lyrics_entity.dart';
-import '../../features/lyrics/providers/track_lyrics_provider.dart';
-import '../../features/lyrics/services/lyrics_repository.dart';
-import 'sync_state_store.dart';
+import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
 
 /// 歌詞與 `user/{uid}/lyrics/{trackId}` 子集合（sync v5）的推送與還原
 /// （SyncService 調度）。歌詞原文放不進主文件的 1 MiB 上限，

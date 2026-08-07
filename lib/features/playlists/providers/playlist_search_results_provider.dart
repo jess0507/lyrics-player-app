@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 
-import 'playlist_search_query_provider.dart';
-import 'playlist_tracks_provider.dart';
-import 'playlists_provider.dart';
-import 'recently_played_provider.dart';
+import 'package:seek_player/features/playlists/providers/playlist_search_query_provider.dart';
+import 'package:seek_player/features/playlists/providers/playlist_tracks_provider.dart';
+import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
+import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
 
 /// 依關鍵字過濾指定播放清單內曲目的搜尋結果（未輸入關鍵字時回空清單）。
 final playlistSearchResultsProvider =

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/audio/audio_player_service.dart';
-import '../../features/music_list/models/track.dart';
-import 'playing_indicator.dart';
-import 'track_leading.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/shared/widgets/playing_indicator.dart';
+import 'package:seek_player/shared/widgets/track_leading.dart';
 
 /// 曲目列表項:縮圖 + 標題(播放中時加上指示器與強調樣式)+ 歌手名，
 /// trailing 與 onTap 交由呼叫端決定（音樂庫、播放清單各自有不同動作）。

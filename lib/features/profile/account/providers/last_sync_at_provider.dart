@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/sync/sync_state_store.dart';
+import 'package:seek_player/core/sync/sync_state_store.dart';
 
 /// 帳戶頁面顯示用:本機最後一次成功上傳同步的時間(取自 SyncStateStore,
 /// 與雲端寫入同一時刻,不需另外向 Firestore 讀取)。

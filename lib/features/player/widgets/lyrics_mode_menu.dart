@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../shared/providers/settings_controller.dart';
-import '../../lyrics/background/lyrics_background_running.dart';
-import '../../lyrics/providers/track_lyrics_provider.dart';
-import 'lyrics_menu_action.dart';
-import 'play_mode_button.dart';
-import 'speed_button.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
+import 'package:seek_player/features/player/widgets/play_mode_button.dart';
+import 'package:seek_player/features/player/widgets/speed_button.dart';
 
 /// 預設播放速度,用來判斷是否顯示選取狀態。
 const double _kDefaultSpeed = 1.0;

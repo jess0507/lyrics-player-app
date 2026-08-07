@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/storage/preferences_service.dart';
+import 'package:seek_player/core/storage/preferences_service.dart';
 
 /// 歌詞字幕的字體縮放倍率(僅完整播放頁的歌詞視圖,持久化於本機
 /// SharedPreferences)。1.0 為基準字級,值夾在 [minScale, maxScale]。

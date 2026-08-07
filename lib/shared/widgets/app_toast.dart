@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../router/app_router.dart';
+import 'package:seek_player/router/app_router.dart';
 
 OverlayEntry? _entry;
 

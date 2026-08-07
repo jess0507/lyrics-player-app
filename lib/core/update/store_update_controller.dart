@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 
-import '../crash_reporter.dart';
+import 'package:seek_player/core/crash_reporter.dart';
 
 /// Google Play 商店版本檢查的狀態。
 enum StoreUpdateState {

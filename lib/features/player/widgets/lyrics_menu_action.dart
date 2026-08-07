@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/network/ensure_online.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../lyrics/auto_sync/lyrics_auto_sync_service.dart';
-import '../../lyrics/providers/track_lyrics_provider.dart';
-import '../../lyrics/services/lyrics_repository.dart';
-import 'lyrics_ai_generate_action.dart';
-import 'lyrics_auto_sync_action.dart';
-import 'lyrics_font_size_sheet.dart';
-import 'lyrics_online_search_action.dart';
-import 'lyrics_sign_in_gate.dart';
-import 'lyrics_usage_limit_gate.dart';
-import 'lyrics_view.dart';
+import 'package:seek_player/core/network/ensure_online.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
+import 'package:seek_player/features/player/widgets/lyrics_ai_generate_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_auto_sync_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
+import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
+import 'package:seek_player/features/player/widgets/lyrics_usage_limit_gate.dart';
+import 'package:seek_player/features/player/widgets/lyrics_view.dart';
 
 /// 歌詞相關的選單動作,供「次控制列更多選單」與「歌詞滿版選單」共用。
 /// 顯示與否由 [lyricsMenuActions] 依狀態決定,動作分派由 [runLyricsMenuAction] 處理。

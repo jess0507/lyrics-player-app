@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../playlists/widgets/add_to_playlist_sheet.dart';
-import '../models/track.dart';
-import 'track_info_dialog.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/music_list/widgets/track_info_dialog.dart';
 
 /// 顯示曲目操作底部表單:檢視曲目資訊、加入播放清單。
 Future<void> showTrackActionsSheet(

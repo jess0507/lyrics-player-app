@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../l10n/app_localizations.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 播放頁共用的調整面板:標題列(含重置按鈕)加上自訂內容(通常是數值
 /// 顯示與滑桿)。播放速度與歌詞字級皆以此呈現,確保兩者外觀一致。

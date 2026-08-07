@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/audio/audio_player_service.dart';
-import '../../../l10n/app_localizations.dart';
-import 'adjustment_bottom_sheet.dart';
+import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/features/player/widgets/adjustment_bottom_sheet.dart';
 
 /// 預設播放速度;重置時回到此值。
 const double _kDefaultSpeed = 1.0;
