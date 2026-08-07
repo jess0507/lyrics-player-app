@@ -80,9 +80,9 @@ List<LyricsMenuAction> lyricsMenuActions({
 }) {
   return [
     // 無歌詞時提供三種取得方式:自動產生、上網搜尋、手動匯入。
-    if (canAiGenerate) LyricsMenuAction.aiGenerate,
     if (!hasLyrics) LyricsMenuAction.searchOnline,
     if (!hasLyrics) LyricsMenuAction.import,
+    if (canAiGenerate) LyricsMenuAction.aiGenerate,
     if (canAutoSync) ...[
       LyricsMenuAction.autoSyncAeneas,
       LyricsMenuAction.autoSyncWhisperX,
