@@ -357,6 +357,26 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_import_empty => '이 파일에서 가사를 찾을 수 없습니다';
 
   @override
+  String get lyrics_search_online => '온라인에서 가사 검색';
+
+  @override
+  String get lyrics_search_online_searching => '가사를 검색하는 중…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      '가사를 찾을 수 없습니다. 다른 키워드로 시도해 보세요.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      '가사를 검색할 수 없습니다. 연결을 확인한 후 다시 시도해 주세요.';
+
+  @override
+  String get lyrics_search_online_select => '일치하는 가사 선택';
+
+  @override
+  String get lyrics_search_online_applied => '가사를 적용했습니다';
+
+  @override
   String get lyrics_empty => '이 곡의 가사가 아직 없습니다';
 
   @override
@@ -434,7 +454,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background => '백그라운드에서 가사를 생성하고 있습니다';
+  String get lyrics_ai_generate_running_background => '백그라운드에서 가사를 생성하고 있습니다';
 
   @override
   String get lyrics_auto_sync_running_background => '백그라운드에서 가사를 정렬하고 있습니다';
@@ -452,41 +472,40 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_sync_network => '연결 문제가 발생했습니다. 나중에 다시 시도하세요';
 
   @override
-  String get lyrics_auto_generate => '가사 자동 생성';
+  String get lyrics_ai_generate => 'AI로 가사 만들기';
 
   @override
-  String get lyrics_auto_generate_compressing => '오디오 준비 중…';
+  String get lyrics_ai_generate_compressing => '오디오 준비 중…';
 
   @override
-  String get lyrics_auto_generate_uploading => '오디오 업로드 중…';
+  String get lyrics_ai_generate_uploading => '오디오 업로드 중…';
 
   @override
-  String get lyrics_auto_generate_transcribing => '가사 생성 중…';
+  String get lyrics_ai_generate_transcribing => '가사 생성 중…';
 
   @override
-  String get lyrics_auto_generate_success => '가사 생성됨 (자동, 오차가 있을 수 있음)';
+  String get lyrics_ai_generate_success => '가사 생성됨 (자동, 오차가 있을 수 있음)';
 
   @override
-  String get lyrics_auto_generate_failed => '가사를 생성할 수 없습니다';
+  String get lyrics_ai_generate_failed => '가사를 생성할 수 없습니다';
 
   @override
-  String get lyrics_auto_generate_request_success => '가사 생성 요청을 보냈습니다';
+  String get lyrics_ai_generate_request_success => '가사 생성 요청을 보냈습니다';
 
   @override
-  String get lyrics_auto_generate_request_failed => '가사 생성 요청 전송 실패';
+  String get lyrics_ai_generate_request_failed => '가사 생성 요청 전송 실패';
 
   @override
-  String get lyrics_auto_generate_need_login => '자동 생성을 사용하려면 로그인하세요';
+  String get lyrics_ai_generate_need_login => '자동 생성을 사용하려면 로그인하세요';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
-      '오늘 생성 한도에 도달했습니다. 내일 다시 시도하세요';
+  String get lyrics_ai_generate_rate_limited => '오늘 생성 한도에 도달했습니다. 내일 다시 시도하세요';
 
   @override
-  String get lyrics_auto_generate_no_audio => '오디오 파일을 찾을 수 없습니다';
+  String get lyrics_ai_generate_no_audio => '오디오 파일을 찾을 수 없습니다';
 
   @override
-  String get lyrics_auto_generate_network => '연결 문제가 발생했습니다. 나중에 다시 시도하세요';
+  String get lyrics_ai_generate_network => '연결 문제가 발생했습니다. 나중에 다시 시도하세요';
 
   @override
   String get lyrics_usage_limit_reached =>

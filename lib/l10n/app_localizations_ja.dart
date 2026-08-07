@@ -355,6 +355,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_import_empty => 'このファイルに歌詞が見つかりません';
 
   @override
+  String get lyrics_search_online => '歌詞をオンラインで検索';
+
+  @override
+  String get lyrics_search_online_searching => '歌詞を検索しています…';
+
+  @override
+  String get lyrics_search_online_no_result => '歌詞が見つかりません。別のキーワードをお試しください。';
+
+  @override
+  String get lyrics_search_online_failed => '歌詞を検索できませんでした。接続を確認してもう一度お試しください。';
+
+  @override
+  String get lyrics_search_online_select => '一致する歌詞を選択';
+
+  @override
+  String get lyrics_search_online_applied => '歌詞を適用しました';
+
+  @override
   String get lyrics_empty => 'この曲の歌詞はまだありません';
 
   @override
@@ -432,7 +450,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background => 'バックグラウンドで歌詞を生成しています';
+  String get lyrics_ai_generate_running_background => 'バックグラウンドで歌詞を生成しています';
 
   @override
   String get lyrics_auto_sync_running_background => 'バックグラウンドで歌詞を同期しています';
@@ -450,40 +468,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_sync_network => '接続に問題があります。後でもう一度お試しください';
 
   @override
-  String get lyrics_auto_generate => '歌詞を自動生成';
+  String get lyrics_ai_generate => 'AIで歌詞を作成';
 
   @override
-  String get lyrics_auto_generate_compressing => '音声を準備中…';
+  String get lyrics_ai_generate_compressing => '音声を準備中…';
 
   @override
-  String get lyrics_auto_generate_uploading => '音声をアップロード中…';
+  String get lyrics_ai_generate_uploading => '音声をアップロード中…';
 
   @override
-  String get lyrics_auto_generate_transcribing => '歌詞を生成中…';
+  String get lyrics_ai_generate_transcribing => '歌詞を生成中…';
 
   @override
-  String get lyrics_auto_generate_success => '歌詞を生成しました(自動、誤差の可能性あり)';
+  String get lyrics_ai_generate_success => '歌詞を生成しました(自動、誤差の可能性あり)';
 
   @override
-  String get lyrics_auto_generate_failed => '歌詞を生成できませんでした';
+  String get lyrics_ai_generate_failed => '歌詞を生成できませんでした';
 
   @override
-  String get lyrics_auto_generate_request_success => '歌詞生成リクエストを送信しました';
+  String get lyrics_ai_generate_request_success => '歌詞生成リクエストを送信しました';
 
   @override
-  String get lyrics_auto_generate_request_failed => '歌詞生成リクエストの送信に失敗しました';
+  String get lyrics_ai_generate_request_failed => '歌詞生成リクエストの送信に失敗しました';
 
   @override
-  String get lyrics_auto_generate_need_login => '自動生成を使うにはログインしてください';
+  String get lyrics_ai_generate_need_login => '自動生成を使うにはログインしてください';
 
   @override
-  String get lyrics_auto_generate_rate_limited => '本日の生成回数の上限に達しました。明日お試しください';
+  String get lyrics_ai_generate_rate_limited => '本日の生成回数の上限に達しました。明日お試しください';
 
   @override
-  String get lyrics_auto_generate_no_audio => '音声ファイルが見つかりません';
+  String get lyrics_ai_generate_no_audio => '音声ファイルが見つかりません';
 
   @override
-  String get lyrics_auto_generate_network => '接続に問題があります。後でもう一度お試しください';
+  String get lyrics_ai_generate_network => '接続に問題があります。後でもう一度お試しください';
 
   @override
   String get lyrics_usage_limit_reached => '今月の無料利用上限に達しました。来月またお試しください';

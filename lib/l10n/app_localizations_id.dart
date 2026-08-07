@@ -367,6 +367,26 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_import_empty => 'Tidak ada lirik di file ini';
 
   @override
+  String get lyrics_search_online => 'Cari lirik online';
+
+  @override
+  String get lyrics_search_online_searching => 'Mencari lirik…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Lirik tidak ditemukan. Coba kata kunci lain.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Tidak dapat mencari lirik. Periksa koneksi Anda lalu coba lagi.';
+
+  @override
+  String get lyrics_search_online_select => 'Pilih lirik yang cocok';
+
+  @override
+  String get lyrics_search_online_applied => 'Lirik diterapkan';
+
+  @override
   String get lyrics_empty => 'Belum ada lirik untuk lagu ini';
 
   @override
@@ -449,7 +469,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Membuat lirik di latar belakang…';
 
   @override
@@ -471,45 +491,45 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_auto_sync_network => 'Masalah koneksi, coba lagi nanti';
 
   @override
-  String get lyrics_auto_generate => 'Buat lirik otomatis';
+  String get lyrics_ai_generate => 'Buat lirik dengan AI';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Menyiapkan audio…';
+  String get lyrics_ai_generate_compressing => 'Menyiapkan audio…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Mengunggah audio…';
+  String get lyrics_ai_generate_uploading => 'Mengunggah audio…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Membuat lirik…';
+  String get lyrics_ai_generate_transcribing => 'Membuat lirik…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Lirik dibuat (otomatis, mungkin kurang tepat)';
 
   @override
-  String get lyrics_auto_generate_failed => 'Tidak dapat membuat lirik';
+  String get lyrics_ai_generate_failed => 'Tidak dapat membuat lirik';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Permintaan pembuatan lirik terkirim';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Permintaan pembuatan lirik gagal';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Masuk untuk menggunakan pembuatan otomatis';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Batas pembuatan harian tercapai, coba lagi besok';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'File audio tidak ditemukan';
+  String get lyrics_ai_generate_no_audio => 'File audio tidak ditemukan';
 
   @override
-  String get lyrics_auto_generate_network => 'Masalah koneksi, coba lagi nanti';
+  String get lyrics_ai_generate_network => 'Masalah koneksi, coba lagi nanti';
 
   @override
   String get lyrics_usage_limit_reached =>

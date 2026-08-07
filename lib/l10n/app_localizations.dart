@@ -810,6 +810,42 @@ abstract class AppLocalizations {
   /// **'No lyrics found in this file'**
   String get lyrics_import_empty;
 
+  /// No description provided for @lyrics_search_online.
+  ///
+  /// In en, this message translates to:
+  /// **'Search lyrics online'**
+  String get lyrics_search_online;
+
+  /// No description provided for @lyrics_search_online_searching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching for lyrics…'**
+  String get lyrics_search_online_searching;
+
+  /// No description provided for @lyrics_search_online_no_result.
+  ///
+  /// In en, this message translates to:
+  /// **'No lyrics found. Try different keywords.'**
+  String get lyrics_search_online_no_result;
+
+  /// No description provided for @lyrics_search_online_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t search for lyrics. Check your connection and try again.'**
+  String get lyrics_search_online_failed;
+
+  /// No description provided for @lyrics_search_online_select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select matching lyrics'**
+  String get lyrics_search_online_select;
+
+  /// No description provided for @lyrics_search_online_applied.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics applied'**
+  String get lyrics_search_online_applied;
+
   /// No description provided for @lyrics_empty.
   ///
   /// In en, this message translates to:
@@ -960,11 +996,11 @@ abstract class AppLocalizations {
   /// **'Please try again later. Currently processing \"{title}\".'**
   String lyrics_background_busy_named(String title);
 
-  /// No description provided for @lyrics_auto_generate_running_background.
+  /// No description provided for @lyrics_ai_generate_running_background.
   ///
   /// In en, this message translates to:
   /// **'Generating lyrics in the background…'**
-  String get lyrics_auto_generate_running_background;
+  String get lyrics_ai_generate_running_background;
 
   /// No description provided for @lyrics_auto_sync_running_background.
   ///
@@ -996,77 +1032,77 @@ abstract class AppLocalizations {
   /// **'Connection problem, try again later'**
   String get lyrics_auto_sync_network;
 
-  /// No description provided for @lyrics_auto_generate.
+  /// No description provided for @lyrics_ai_generate.
   ///
   /// In en, this message translates to:
-  /// **'Auto-generate lyrics'**
-  String get lyrics_auto_generate;
+  /// **'Generate lyrics with AI'**
+  String get lyrics_ai_generate;
 
-  /// No description provided for @lyrics_auto_generate_compressing.
+  /// No description provided for @lyrics_ai_generate_compressing.
   ///
   /// In en, this message translates to:
   /// **'Preparing audio…'**
-  String get lyrics_auto_generate_compressing;
+  String get lyrics_ai_generate_compressing;
 
-  /// No description provided for @lyrics_auto_generate_uploading.
+  /// No description provided for @lyrics_ai_generate_uploading.
   ///
   /// In en, this message translates to:
   /// **'Uploading audio…'**
-  String get lyrics_auto_generate_uploading;
+  String get lyrics_ai_generate_uploading;
 
-  /// No description provided for @lyrics_auto_generate_transcribing.
+  /// No description provided for @lyrics_ai_generate_transcribing.
   ///
   /// In en, this message translates to:
   /// **'Generating lyrics…'**
-  String get lyrics_auto_generate_transcribing;
+  String get lyrics_ai_generate_transcribing;
 
-  /// No description provided for @lyrics_auto_generate_success.
+  /// No description provided for @lyrics_ai_generate_success.
   ///
   /// In en, this message translates to:
   /// **'Lyrics generated (auto, may be imperfect)'**
-  String get lyrics_auto_generate_success;
+  String get lyrics_ai_generate_success;
 
-  /// No description provided for @lyrics_auto_generate_failed.
+  /// No description provided for @lyrics_ai_generate_failed.
   ///
   /// In en, this message translates to:
   /// **'Couldn\'t generate lyrics'**
-  String get lyrics_auto_generate_failed;
+  String get lyrics_ai_generate_failed;
 
-  /// No description provided for @lyrics_auto_generate_request_success.
+  /// No description provided for @lyrics_ai_generate_request_success.
   ///
   /// In en, this message translates to:
   /// **'Generate lyrics request sent'**
-  String get lyrics_auto_generate_request_success;
+  String get lyrics_ai_generate_request_success;
 
-  /// No description provided for @lyrics_auto_generate_request_failed.
+  /// No description provided for @lyrics_ai_generate_request_failed.
   ///
   /// In en, this message translates to:
   /// **'Generate lyrics request failed'**
-  String get lyrics_auto_generate_request_failed;
+  String get lyrics_ai_generate_request_failed;
 
-  /// No description provided for @lyrics_auto_generate_need_login.
+  /// No description provided for @lyrics_ai_generate_need_login.
   ///
   /// In en, this message translates to:
   /// **'Sign in to use auto-generate'**
-  String get lyrics_auto_generate_need_login;
+  String get lyrics_ai_generate_need_login;
 
-  /// No description provided for @lyrics_auto_generate_rate_limited.
+  /// No description provided for @lyrics_ai_generate_rate_limited.
   ///
   /// In en, this message translates to:
   /// **'Daily auto-generate limit reached, try tomorrow'**
-  String get lyrics_auto_generate_rate_limited;
+  String get lyrics_ai_generate_rate_limited;
 
-  /// No description provided for @lyrics_auto_generate_no_audio.
+  /// No description provided for @lyrics_ai_generate_no_audio.
   ///
   /// In en, this message translates to:
   /// **'Audio file not found'**
-  String get lyrics_auto_generate_no_audio;
+  String get lyrics_ai_generate_no_audio;
 
-  /// No description provided for @lyrics_auto_generate_network.
+  /// No description provided for @lyrics_ai_generate_network.
   ///
   /// In en, this message translates to:
   /// **'Connection problem, try again later'**
-  String get lyrics_auto_generate_network;
+  String get lyrics_ai_generate_network;
 
   /// No description provided for @lyrics_usage_limit_reached.
   ///

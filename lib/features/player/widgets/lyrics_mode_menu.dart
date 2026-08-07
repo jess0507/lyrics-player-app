@@ -42,7 +42,7 @@ class LyricsModeMenu extends ConsumerWidget {
     // 對時是「補時間」:只在已有純文字、尚未同步時提供。
     final canAutoSync = hasLyrics && !lyrics.synced;
     final lyricsActions = lyricsMenuActions(
-      canAutoGenerate: !hasLyrics,
+      canAiGenerate: !hasLyrics,
       canAutoSync: canAutoSync,
       hasLyrics: hasLyrics,
     );

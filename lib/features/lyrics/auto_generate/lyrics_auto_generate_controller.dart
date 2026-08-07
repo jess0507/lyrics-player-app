@@ -86,17 +86,17 @@ class LyricsAutoGenerateController
             title: title,
             stepLabels: {
               LyricsAutoGenerateStep.compressing.name:
-                  l10n.lyrics_auto_generate_compressing,
+                  l10n.lyrics_ai_generate_compressing,
               LyricsAutoGenerateStep.uploading.name:
-                  l10n.lyrics_auto_generate_uploading,
+                  l10n.lyrics_ai_generate_uploading,
               LyricsAutoGenerateStep.transcribing.name:
-                  l10n.lyrics_auto_generate_transcribing,
+                  l10n.lyrics_ai_generate_transcribing,
             },
             cancelLabel: l10n.common_cancel,
             // 這裡只代表「callable 呼叫成功 / 失敗」,不是歌詞真的做完了;
             // 真正完成時的確認通知由 LyricsPendingSyncService 另外發。
-            doneLabel: l10n.lyrics_auto_generate_request_success,
-            failedLabel: l10n.lyrics_auto_generate_request_failed,
+            doneLabel: l10n.lyrics_ai_generate_request_success,
+            failedLabel: l10n.lyrics_ai_generate_request_failed,
           ),
           onStep: (stepName) {
             final step = LyricsAutoGenerateStep.values.asNameMap()[stepName];

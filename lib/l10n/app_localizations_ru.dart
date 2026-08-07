@@ -365,6 +365,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_import_empty => 'В этом файле не найден текст';
 
   @override
+  String get lyrics_search_online => 'Искать текст песни в интернете';
+
+  @override
+  String get lyrics_search_online_searching => 'Поиск текста песни…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Текст не найден. Попробуйте другие ключевые слова.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Не удалось выполнить поиск текста. Проверьте подключение и повторите попытку.';
+
+  @override
+  String get lyrics_search_online_select => 'Выберите подходящий текст';
+
+  @override
+  String get lyrics_search_online_applied => 'Текст применён';
+
+  @override
   String get lyrics_empty => 'Для этого трека пока нет текста';
 
   @override
@@ -447,7 +467,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Текст создаётся в фоновом режиме…';
 
   @override
@@ -470,45 +490,45 @@ class AppLocalizationsRu extends AppLocalizations {
       'Проблема с подключением, повторите позже';
 
   @override
-  String get lyrics_auto_generate => 'Автоматически создать текст';
+  String get lyrics_ai_generate => 'Создать текст с помощью ИИ';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Подготовка аудио…';
+  String get lyrics_ai_generate_compressing => 'Подготовка аудио…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Загрузка аудио…';
+  String get lyrics_ai_generate_uploading => 'Загрузка аудио…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Создание текста…';
+  String get lyrics_ai_generate_transcribing => 'Создание текста…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Текст создан (автоматически, возможны неточности)';
 
   @override
-  String get lyrics_auto_generate_failed => 'Не удалось создать текст';
+  String get lyrics_ai_generate_failed => 'Не удалось создать текст';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Запрос на создание текста отправлен';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Не удалось отправить запрос на создание текста';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Войдите, чтобы использовать автосоздание';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Достигнут дневной лимит создания, попробуйте завтра';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'Аудиофайл не найден';
+  String get lyrics_ai_generate_no_audio => 'Аудиофайл не найден';
 
   @override
-  String get lyrics_auto_generate_network =>
+  String get lyrics_ai_generate_network =>
       'Проблема с подключением, повторите позже';
 
   @override

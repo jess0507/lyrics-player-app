@@ -369,6 +369,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_import_empty => 'Kein Liedtext in dieser Datei gefunden';
 
   @override
+  String get lyrics_search_online => 'Liedtext online suchen';
+
+  @override
+  String get lyrics_search_online_searching => 'Liedtext wird gesucht…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Kein Liedtext gefunden. Versuche es mit anderen Suchbegriffen.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Liedtextsuche fehlgeschlagen. Überprüfe deine Verbindung und versuche es erneut.';
+
+  @override
+  String get lyrics_search_online_select => 'Passenden Liedtext auswählen';
+
+  @override
+  String get lyrics_search_online_applied => 'Liedtext übernommen';
+
+  @override
   String get lyrics_empty => 'Noch kein Liedtext für diesen Titel';
 
   @override
@@ -451,7 +471,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Songtext wird im Hintergrund erstellt…';
 
   @override
@@ -474,46 +494,46 @@ class AppLocalizationsDe extends AppLocalizations {
       'Verbindungsproblem, versuche es später erneut';
 
   @override
-  String get lyrics_auto_generate => 'Songtext automatisch erstellen';
+  String get lyrics_ai_generate => 'Songtext mit KI erstellen';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Audio wird vorbereitet…';
+  String get lyrics_ai_generate_compressing => 'Audio wird vorbereitet…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Audio wird hochgeladen…';
+  String get lyrics_ai_generate_uploading => 'Audio wird hochgeladen…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Songtext wird erstellt…';
+  String get lyrics_ai_generate_transcribing => 'Songtext wird erstellt…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Songtext erstellt (automatisch, evtl. ungenau)';
 
   @override
-  String get lyrics_auto_generate_failed =>
+  String get lyrics_ai_generate_failed =>
       'Songtext konnte nicht erstellt werden';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Anfrage zum Erstellen des Songtexts gesendet';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Anfrage zum Erstellen des Songtexts fehlgeschlagen';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Melde dich an, um die automatische Erstellung zu nutzen';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Tageslimit für automatische Erstellung erreicht, versuche es morgen';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'Audiodatei nicht gefunden';
+  String get lyrics_ai_generate_no_audio => 'Audiodatei nicht gefunden';
 
   @override
-  String get lyrics_auto_generate_network =>
+  String get lyrics_ai_generate_network =>
       'Verbindungsproblem, versuche es später erneut';
 
   @override

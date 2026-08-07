@@ -365,6 +365,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_import_empty => 'لم يتم العثور على كلمات في هذا الملف';
 
   @override
+  String get lyrics_search_online => 'البحث عن كلمات الأغنية عبر الإنترنت';
+
+  @override
+  String get lyrics_search_online_searching => 'جارٍ البحث عن كلمات الأغنية…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'لم يتم العثور على كلمات الأغنية، جرّب كلمات مفتاحية أخرى.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'تعذّر البحث عن كلمات الأغنية، تحقّق من اتصالك بالإنترنت ثم أعد المحاولة.';
+
+  @override
+  String get lyrics_search_online_select => 'اختر كلمات الأغنية المطابقة';
+
+  @override
+  String get lyrics_search_online_applied => 'تم تطبيق كلمات الأغنية';
+
+  @override
   String get lyrics_empty => 'لا توجد كلمات لهذا المقطع بعد';
 
   @override
@@ -447,7 +467,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'يتم إنشاء الكلمات في الخلفية…';
 
   @override
@@ -469,45 +489,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_auto_sync_network => 'مشكلة في الاتصال، حاول لاحقًا';
 
   @override
-  String get lyrics_auto_generate => 'إنشاء الكلمات تلقائيًا';
+  String get lyrics_ai_generate => 'إنشاء كلمات الأغنية بالذكاء الاصطناعي';
 
   @override
-  String get lyrics_auto_generate_compressing => 'تجهيز الصوت…';
+  String get lyrics_ai_generate_compressing => 'تجهيز الصوت…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'جارٍ رفع الصوت…';
+  String get lyrics_ai_generate_uploading => 'جارٍ رفع الصوت…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'جارٍ إنشاء الكلمات…';
+  String get lyrics_ai_generate_transcribing => 'جارٍ إنشاء الكلمات…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'تم إنشاء الكلمات (تلقائيًا، قد تكون غير دقيقة)';
 
   @override
-  String get lyrics_auto_generate_failed => 'تعذّر إنشاء الكلمات';
+  String get lyrics_ai_generate_failed => 'تعذّر إنشاء الكلمات';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'تم إرسال طلب إنشاء كلمات الأغنية';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'فشل إرسال طلب إنشاء كلمات الأغنية';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'سجّل الدخول لاستخدام الإنشاء التلقائي';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'تم بلوغ الحد اليومي للإنشاء التلقائي، حاول غدًا';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'لم يتم العثور على ملف الصوت';
+  String get lyrics_ai_generate_no_audio => 'لم يتم العثور على ملف الصوت';
 
   @override
-  String get lyrics_auto_generate_network => 'مشكلة في الاتصال، حاول لاحقًا';
+  String get lyrics_ai_generate_network => 'مشكلة في الاتصال، حاول لاحقًا';
 
   @override
   String get lyrics_usage_limit_reached =>

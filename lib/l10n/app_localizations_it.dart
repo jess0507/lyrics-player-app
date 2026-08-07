@@ -368,6 +368,26 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_import_empty => 'Nessun testo trovato in questo file';
 
   @override
+  String get lyrics_search_online => 'Cerca testo online';
+
+  @override
+  String get lyrics_search_online_searching => 'Ricerca del testo…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Nessun testo trovato. Prova con altre parole chiave.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Impossibile cercare il testo. Controlla la connessione e riprova.';
+
+  @override
+  String get lyrics_search_online_select => 'Seleziona il testo corrispondente';
+
+  @override
+  String get lyrics_search_online_applied => 'Testo applicato';
+
+  @override
   String get lyrics_empty => 'Ancora nessun testo per questo brano';
 
   @override
@@ -450,7 +470,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Generazione del testo in background…';
 
   @override
@@ -473,45 +493,45 @@ class AppLocalizationsIt extends AppLocalizations {
       'Problema di connessione, riprova più tardi';
 
   @override
-  String get lyrics_auto_generate => 'Genera testo automaticamente';
+  String get lyrics_ai_generate => 'Genera testo con l\'IA';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Preparazione audio…';
+  String get lyrics_ai_generate_compressing => 'Preparazione audio…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Caricamento audio…';
+  String get lyrics_ai_generate_uploading => 'Caricamento audio…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Generazione testo…';
+  String get lyrics_ai_generate_transcribing => 'Generazione testo…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Testo generato (automatico, possibili imprecisioni)';
 
   @override
-  String get lyrics_auto_generate_failed => 'Impossibile generare il testo';
+  String get lyrics_ai_generate_failed => 'Impossibile generare il testo';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Richiesta di generazione del testo inviata';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Invio della richiesta di generazione del testo non riuscito';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Accedi per usare la generazione automatica';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Limite giornaliero di generazione raggiunto, riprova domani';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'File audio non trovato';
+  String get lyrics_ai_generate_no_audio => 'File audio non trovato';
 
   @override
-  String get lyrics_auto_generate_network =>
+  String get lyrics_ai_generate_network =>
       'Problema di connessione, riprova più tardi';
 
   @override

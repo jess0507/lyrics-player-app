@@ -369,6 +369,26 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_import_empty => 'Không tìm thấy lời bài hát trong tệp này';
 
   @override
+  String get lyrics_search_online => 'Tìm lời bài hát trực tuyến';
+
+  @override
+  String get lyrics_search_online_searching => 'Đang tìm lời bài hát…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Không tìm thấy lời bài hát. Hãy thử từ khóa khác.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Không thể tìm lời bài hát. Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get lyrics_search_online_select => 'Chọn lời bài hát phù hợp';
+
+  @override
+  String get lyrics_search_online_applied => 'Đã áp dụng lời bài hát';
+
+  @override
   String get lyrics_empty => 'Chưa có lời cho bài hát này';
 
   @override
@@ -450,7 +470,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Đang tạo lời bài hát trong nền…';
 
   @override
@@ -471,45 +491,45 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_sync_network => 'Sự cố kết nối, thử lại sau';
 
   @override
-  String get lyrics_auto_generate => 'Tự động tạo lời';
+  String get lyrics_ai_generate => 'Tạo lời bài hát bằng AI';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Đang chuẩn bị âm thanh…';
+  String get lyrics_ai_generate_compressing => 'Đang chuẩn bị âm thanh…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Đang tải âm thanh lên…';
+  String get lyrics_ai_generate_uploading => 'Đang tải âm thanh lên…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Đang tạo lời…';
+  String get lyrics_ai_generate_transcribing => 'Đang tạo lời…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Đã tạo lời (tự động, có thể chưa chính xác)';
 
   @override
-  String get lyrics_auto_generate_failed => 'Không thể tạo lời';
+  String get lyrics_ai_generate_failed => 'Không thể tạo lời';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Đã gửi yêu cầu tạo lời bài hát';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Gửi yêu cầu tạo lời bài hát không thành công';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Đăng nhập để dùng tự động tạo lời';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Đã đạt giới hạn tạo lời trong ngày, thử lại vào ngày mai';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'Không tìm thấy tệp âm thanh';
+  String get lyrics_ai_generate_no_audio => 'Không tìm thấy tệp âm thanh';
 
   @override
-  String get lyrics_auto_generate_network => 'Sự cố kết nối, thử lại sau';
+  String get lyrics_ai_generate_network => 'Sự cố kết nối, thử lại sau';
 
   @override
   String get lyrics_usage_limit_reached =>

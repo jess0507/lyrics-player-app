@@ -367,6 +367,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_import_empty => 'Bu dosyada şarkı sözü bulunamadı';
 
   @override
+  String get lyrics_search_online => 'Şarkı sözünü çevrimiçi ara';
+
+  @override
+  String get lyrics_search_online_searching => 'Şarkı sözü aranıyor…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'Şarkı sözü bulunamadı. Başka anahtar kelimeler deneyin.';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'Şarkı sözü aranamadı. Bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
+  String get lyrics_search_online_select => 'Eşleşen şarkı sözünü seçin';
+
+  @override
+  String get lyrics_search_online_applied => 'Şarkı sözü uygulandı';
+
+  @override
   String get lyrics_empty => 'Bu parça için henüz şarkı sözü yok';
 
   @override
@@ -449,7 +469,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'Şarkı sözleri arka planda oluşturuluyor…';
 
   @override
@@ -472,45 +492,45 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bağlantı sorunu, daha sonra tekrar deneyin';
 
   @override
-  String get lyrics_auto_generate => 'Sözleri otomatik oluştur';
+  String get lyrics_ai_generate => 'Sözleri yapay zekâ ile oluştur';
 
   @override
-  String get lyrics_auto_generate_compressing => 'Ses hazırlanıyor…';
+  String get lyrics_ai_generate_compressing => 'Ses hazırlanıyor…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'Ses yükleniyor…';
+  String get lyrics_ai_generate_uploading => 'Ses yükleniyor…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'Sözler oluşturuluyor…';
+  String get lyrics_ai_generate_transcribing => 'Sözler oluşturuluyor…';
 
   @override
-  String get lyrics_auto_generate_success =>
+  String get lyrics_ai_generate_success =>
       'Sözler oluşturuldu (otomatik, hatalı olabilir)';
 
   @override
-  String get lyrics_auto_generate_failed => 'Sözler oluşturulamadı';
+  String get lyrics_ai_generate_failed => 'Sözler oluşturulamadı';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'Şarkı sözü oluşturma isteği gönderildi';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'Şarkı sözü oluşturma isteği gönderilemedi';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'Otomatik oluşturmayı kullanmak için giriş yapın';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'Günlük oluşturma sınırına ulaşıldı, yarın tekrar deneyin';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'Ses dosyası bulunamadı';
+  String get lyrics_ai_generate_no_audio => 'Ses dosyası bulunamadı';
 
   @override
-  String get lyrics_auto_generate_network =>
+  String get lyrics_ai_generate_network =>
       'Bağlantı sorunu, daha sonra tekrar deneyin';
 
   @override

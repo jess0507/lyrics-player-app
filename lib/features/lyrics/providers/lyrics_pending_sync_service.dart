@@ -154,8 +154,8 @@ class LyricsPendingSyncService {
   Future<void> _notifyResult(LyricsPendingSyncJob job, {required bool success}) async {
     final l10n = resolveLyricsL10n(_ref);
     final text = switch ((job.mode, success)) {
-      (LyricsBackgroundMode.generate, true) => l10n.lyrics_auto_generate_success,
-      (LyricsBackgroundMode.generate, false) => l10n.lyrics_auto_generate_failed,
+      (LyricsBackgroundMode.generate, true) => l10n.lyrics_ai_generate_success,
+      (LyricsBackgroundMode.generate, false) => l10n.lyrics_ai_generate_failed,
       (LyricsBackgroundMode.align, true) => l10n.lyrics_auto_sync_success,
       (LyricsBackgroundMode.align, false) => l10n.lyrics_auto_sync_failed,
     };

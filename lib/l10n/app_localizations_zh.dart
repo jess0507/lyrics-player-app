@@ -353,6 +353,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_import_empty => '這個檔案沒有歌詞內容';
 
   @override
+  String get lyrics_search_online => '上網搜尋歌詞';
+
+  @override
+  String get lyrics_search_online_searching => '正在搜尋歌詞…';
+
+  @override
+  String get lyrics_search_online_no_result => '找不到歌詞，請嘗試其他關鍵字';
+
+  @override
+  String get lyrics_search_online_failed => '搜尋歌詞失敗,請檢查網路連線後再試';
+
+  @override
+  String get lyrics_search_online_select => '選擇符合的歌詞';
+
+  @override
+  String get lyrics_search_online_applied => '已套用歌詞';
+
+  @override
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
 
   @override
@@ -430,7 +448,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background => '已在背景產生歌詞';
+  String get lyrics_ai_generate_running_background => '已在背景產生歌詞';
 
   @override
   String get lyrics_auto_sync_running_background => '已在背景對齊歌詞';
@@ -448,40 +466,40 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_sync_network => '連線問題,請稍後再試';
 
   @override
-  String get lyrics_auto_generate => '自動產生歌詞';
+  String get lyrics_ai_generate => 'AI製作歌詞';
 
   @override
-  String get lyrics_auto_generate_compressing => '處理音訊中…';
+  String get lyrics_ai_generate_compressing => '處理音訊中…';
 
   @override
-  String get lyrics_auto_generate_uploading => '上傳音訊中…';
+  String get lyrics_ai_generate_uploading => '上傳音訊中…';
 
   @override
-  String get lyrics_auto_generate_transcribing => '產生歌詞中…';
+  String get lyrics_ai_generate_transcribing => '產生歌詞中…';
 
   @override
-  String get lyrics_auto_generate_success => '已產生歌詞(可能有誤)';
+  String get lyrics_ai_generate_success => '已產生歌詞(可能有誤)';
 
   @override
-  String get lyrics_auto_generate_failed => '產生歌詞失敗';
+  String get lyrics_ai_generate_failed => '產生歌詞失敗';
 
   @override
-  String get lyrics_auto_generate_request_success => '發出請求，生成歌詞中...';
+  String get lyrics_ai_generate_request_success => '發出請求，生成歌詞中...';
 
   @override
-  String get lyrics_auto_generate_request_failed => '請求失敗';
+  String get lyrics_ai_generate_request_failed => '請求失敗';
 
   @override
-  String get lyrics_auto_generate_need_login => '請先登入才能使用自動產生歌詞';
+  String get lyrics_ai_generate_need_login => '請先登入才能使用自動產生歌詞';
 
   @override
-  String get lyrics_auto_generate_rate_limited => '今日產生次數已達上限,請明天再試';
+  String get lyrics_ai_generate_rate_limited => '今日產生次數已達上限,請明天再試';
 
   @override
-  String get lyrics_auto_generate_no_audio => '找不到音訊檔';
+  String get lyrics_ai_generate_no_audio => '找不到音訊檔';
 
   @override
-  String get lyrics_auto_generate_network => '連線問題,請稍後再試';
+  String get lyrics_ai_generate_network => '連線問題,請稍後再試';
 
   @override
   String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';
@@ -973,6 +991,24 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_import_empty => '这个文件没有歌词内容';
 
   @override
+  String get lyrics_search_online => '在线搜索歌词';
+
+  @override
+  String get lyrics_search_online_searching => '正在搜索歌词…';
+
+  @override
+  String get lyrics_search_online_no_result => '未找到歌词,请尝试其他关键词';
+
+  @override
+  String get lyrics_search_online_failed => '搜索歌词失败,请检查网络连接后再试';
+
+  @override
+  String get lyrics_search_online_select => '选择匹配的歌词';
+
+  @override
+  String get lyrics_search_online_applied => '已应用歌词';
+
+  @override
   String get lyrics_empty => '尚未导入这首歌的歌词';
 
   @override
@@ -1050,7 +1086,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   }
 
   @override
-  String get lyrics_auto_generate_running_background => '已在后台生成歌词';
+  String get lyrics_ai_generate_running_background => '已在后台生成歌词';
 
   @override
   String get lyrics_auto_sync_running_background => '已在后台对齐歌词';
@@ -1068,40 +1104,40 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_sync_network => '连接问题,请稍后再试';
 
   @override
-  String get lyrics_auto_generate => '自动生成歌词';
+  String get lyrics_ai_generate => 'AI制作歌词';
 
   @override
-  String get lyrics_auto_generate_compressing => '处理音频中…';
+  String get lyrics_ai_generate_compressing => '处理音频中…';
 
   @override
-  String get lyrics_auto_generate_uploading => '上传音频中…';
+  String get lyrics_ai_generate_uploading => '上传音频中…';
 
   @override
-  String get lyrics_auto_generate_transcribing => '生成歌词中…';
+  String get lyrics_ai_generate_transcribing => '生成歌词中…';
 
   @override
-  String get lyrics_auto_generate_success => '已生成歌词(可能有误)';
+  String get lyrics_ai_generate_success => '已生成歌词(可能有误)';
 
   @override
-  String get lyrics_auto_generate_failed => '生成歌词失败';
+  String get lyrics_ai_generate_failed => '生成歌词失败';
 
   @override
-  String get lyrics_auto_generate_request_success => '发出请求，生成歌词中...';
+  String get lyrics_ai_generate_request_success => '发出请求，生成歌词中...';
 
   @override
-  String get lyrics_auto_generate_request_failed => '请求失败';
+  String get lyrics_ai_generate_request_failed => '请求失败';
 
   @override
-  String get lyrics_auto_generate_need_login => '请先登录才能使用自动生成歌词';
+  String get lyrics_ai_generate_need_login => '请先登录才能使用自动生成歌词';
 
   @override
-  String get lyrics_auto_generate_rate_limited => '今日生成次数已达上限,请明天再试';
+  String get lyrics_ai_generate_rate_limited => '今日生成次数已达上限,请明天再试';
 
   @override
-  String get lyrics_auto_generate_no_audio => '找不到音频文件';
+  String get lyrics_ai_generate_no_audio => '找不到音频文件';
 
   @override
-  String get lyrics_auto_generate_network => '连接问题,请稍后再试';
+  String get lyrics_ai_generate_network => '连接问题,请稍后再试';
 
   @override
   String get lyrics_usage_limit_reached => '本月免费额度已用完,请下个月再试';
@@ -1593,6 +1629,24 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_import_empty => '這個檔案沒有歌詞內容';
 
   @override
+  String get lyrics_search_online => '上網搜尋歌詞';
+
+  @override
+  String get lyrics_search_online_searching => '正在搜尋歌詞…';
+
+  @override
+  String get lyrics_search_online_no_result => '找不到歌詞，請嘗試其他關鍵字';
+
+  @override
+  String get lyrics_search_online_failed => '搜尋歌詞失敗,請檢查網路連線後再試';
+
+  @override
+  String get lyrics_search_online_select => '選擇符合的歌詞';
+
+  @override
+  String get lyrics_search_online_applied => '已套用歌詞';
+
+  @override
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
 
   @override
@@ -1670,7 +1724,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   }
 
   @override
-  String get lyrics_auto_generate_running_background => '已在背景產生歌詞';
+  String get lyrics_ai_generate_running_background => '已在背景產生歌詞';
 
   @override
   String get lyrics_auto_sync_running_background => '已在背景對齊歌詞';
@@ -1688,40 +1742,40 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_auto_sync_network => '連線問題,請稍後再試';
 
   @override
-  String get lyrics_auto_generate => '自動產生歌詞';
+  String get lyrics_ai_generate => 'AI製作歌詞';
 
   @override
-  String get lyrics_auto_generate_compressing => '處理音訊中…';
+  String get lyrics_ai_generate_compressing => '處理音訊中…';
 
   @override
-  String get lyrics_auto_generate_uploading => '上傳音訊中…';
+  String get lyrics_ai_generate_uploading => '上傳音訊中…';
 
   @override
-  String get lyrics_auto_generate_transcribing => '產生歌詞中…';
+  String get lyrics_ai_generate_transcribing => '產生歌詞中…';
 
   @override
-  String get lyrics_auto_generate_success => '已產生歌詞(可能有誤)';
+  String get lyrics_ai_generate_success => '已產生歌詞(可能有誤)';
 
   @override
-  String get lyrics_auto_generate_failed => '產生歌詞失敗';
+  String get lyrics_ai_generate_failed => '產生歌詞失敗';
 
   @override
-  String get lyrics_auto_generate_request_success => '發出請求，生成歌詞中...';
+  String get lyrics_ai_generate_request_success => '發出請求，生成歌詞中...';
 
   @override
-  String get lyrics_auto_generate_request_failed => '請求失敗';
+  String get lyrics_ai_generate_request_failed => '請求失敗';
 
   @override
-  String get lyrics_auto_generate_need_login => '請先登入才能使用自動產生歌詞';
+  String get lyrics_ai_generate_need_login => '請先登入才能使用自動產生歌詞';
 
   @override
-  String get lyrics_auto_generate_rate_limited => '今日產生次數已達上限,請明天再試';
+  String get lyrics_ai_generate_rate_limited => '今日產生次數已達上限,請明天再試';
 
   @override
-  String get lyrics_auto_generate_no_audio => '找不到音訊檔';
+  String get lyrics_ai_generate_no_audio => '找不到音訊檔';
 
   @override
-  String get lyrics_auto_generate_network => '連線問題,請稍後再試';
+  String get lyrics_ai_generate_network => '連線問題,請稍後再試';
 
   @override
   String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';

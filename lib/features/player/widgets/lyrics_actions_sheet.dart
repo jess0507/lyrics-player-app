@@ -53,18 +53,18 @@ class _LyricsActionsSheet extends ConsumerWidget {
     final lyrics = ref.watch(trackLyricsProvider(trackId)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
     // 產生是「從音訊辨識歌詞」:只在完全沒有歌詞時提供(與對時互補)。
-    final canAutoGenerate = !hasLyrics;
+    final canAiGenerate = !hasLyrics;
     // 此表單一律提供 align:只要有歌詞就能對時 / 重新對時(已同步者亦可)。
     final canAutoSync = hasLyrics && !lyrics.synced;
     final actions = lyricsMenuActions(
-      canAutoGenerate: canAutoGenerate,
+      canAiGenerate: canAiGenerate,
       canAutoSync: canAutoSync,
       hasLyrics: hasLyrics,
     );
     // 背景任務一次只跑一件:只有選單會顯示自動產生/對時時才需要檢查是否
     // 已有其他工作在跑(前景服務執行中,或已送出、雲端還沒回終態),
     // 執行中時停用這些項目(變淺不可點)。
-    final busy = (canAutoGenerate || canAutoSync)
+    final busy = (canAiGenerate || canAutoSync)
         ? ref.watch(lyricsBackgroundRunningProvider) ||
               ref.watch(lyricsPendingSyncStoreProvider).isNotEmpty
         : false;

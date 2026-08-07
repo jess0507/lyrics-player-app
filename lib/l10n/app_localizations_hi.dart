@@ -368,6 +368,26 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_import_empty => 'इस फ़ाइल में कोई बोल नहीं मिला';
 
   @override
+  String get lyrics_search_online => 'ऑनलाइन बोल खोजें';
+
+  @override
+  String get lyrics_search_online_searching => 'बोल खोजे जा रहे हैं…';
+
+  @override
+  String get lyrics_search_online_no_result =>
+      'बोल नहीं मिले। अन्य कीवर्ड आज़माएँ।';
+
+  @override
+  String get lyrics_search_online_failed =>
+      'बोल खोजे नहीं जा सके। अपना कनेक्शन जाँचें और फिर से कोशिश करें।';
+
+  @override
+  String get lyrics_search_online_select => 'मिलते-जुलते बोल चुनें';
+
+  @override
+  String get lyrics_search_online_applied => 'बोल लागू किए गए';
+
+  @override
   String get lyrics_empty => 'इस ट्रैक के लिए अभी कोई बोल नहीं';
 
   @override
@@ -449,7 +469,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get lyrics_auto_generate_running_background =>
+  String get lyrics_ai_generate_running_background =>
       'बैकग्राउंड में लिरिक्स बनाए जा रहे हैं…';
 
   @override
@@ -472,44 +492,44 @@ class AppLocalizationsHi extends AppLocalizations {
       'कनेक्शन समस्या, बाद में पुनः प्रयास करें';
 
   @override
-  String get lyrics_auto_generate => 'बोल स्वतः बनाएं';
+  String get lyrics_ai_generate => 'AI से बोल बनाएं';
 
   @override
-  String get lyrics_auto_generate_compressing => 'ऑडियो तैयार हो रहा है…';
+  String get lyrics_ai_generate_compressing => 'ऑडियो तैयार हो रहा है…';
 
   @override
-  String get lyrics_auto_generate_uploading => 'ऑडियो अपलोड हो रहा है…';
+  String get lyrics_ai_generate_uploading => 'ऑडियो अपलोड हो रहा है…';
 
   @override
-  String get lyrics_auto_generate_transcribing => 'बोल बन रहे हैं…';
+  String get lyrics_ai_generate_transcribing => 'बोल बन रहे हैं…';
 
   @override
-  String get lyrics_auto_generate_success => 'बोल बन गए (स्वतः, त्रुटि संभव)';
+  String get lyrics_ai_generate_success => 'बोल बन गए (स्वतः, त्रुटि संभव)';
 
   @override
-  String get lyrics_auto_generate_failed => 'बोल नहीं बन सके';
+  String get lyrics_ai_generate_failed => 'बोल नहीं बन सके';
 
   @override
-  String get lyrics_auto_generate_request_success =>
+  String get lyrics_ai_generate_request_success =>
       'बोल बनाने का अनुरोध भेजा गया';
 
   @override
-  String get lyrics_auto_generate_request_failed =>
+  String get lyrics_ai_generate_request_failed =>
       'बोल बनाने का अनुरोध भेजने में विफल';
 
   @override
-  String get lyrics_auto_generate_need_login =>
+  String get lyrics_ai_generate_need_login =>
       'स्वतः निर्माण उपयोग करने के लिए साइन इन करें';
 
   @override
-  String get lyrics_auto_generate_rate_limited =>
+  String get lyrics_ai_generate_rate_limited =>
       'आज की निर्माण सीमा पूरी हो गई, कल पुनः प्रयास करें';
 
   @override
-  String get lyrics_auto_generate_no_audio => 'ऑडियो फ़ाइल नहीं मिली';
+  String get lyrics_ai_generate_no_audio => 'ऑडियो फ़ाइल नहीं मिली';
 
   @override
-  String get lyrics_auto_generate_network =>
+  String get lyrics_ai_generate_network =>
       'कनेक्शन समस्या, बाद में पुनः प्रयास करें';
 
   @override
