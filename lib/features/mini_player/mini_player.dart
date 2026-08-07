@@ -38,73 +38,80 @@ class MiniPlayer extends ConsumerWidget {
             .watch(trackArtworkProvider(currentItem.id))
             .valueOrNull;
 
-        return Material(
-          color: scheme.surfaceContainerHighest,
-          // 整個 mini player 點擊都展開全螢幕播放器；
-          // IconButton 會自行攔截點擊，只觸發各自的播放控制事件。
-          child: InkWell(
-            onTap: () =>
-                ref.read(playerSheetControllerProvider.notifier).open(context),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MiniProgressBar(audio: audio),
-                SizedBox(
-                  height: 60,
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 16),
-                      if (cover != null) ...[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image(
-                            image: cover,
-                            width: 40,
-                            height: 40,
-                            fit: BoxFit.cover,
+        return Padding(
+          // 與左右兩側、下方導覽列保持距離,呈現漂浮卡片效果。
+          padding: const EdgeInsets.fromLTRB(6, 0, 6, 6),
+          child: Material(
+            color: scheme.surfaceContainerHighest,
+            elevation: 1,
+            borderRadius: BorderRadius.circular(8),
+            clipBehavior: Clip.antiAlias,
+            // 整個 mini player 點擊都展開全螢幕播放器；
+            // IconButton 會自行攔截點擊，只觸發各自的播放控制事件。
+            child: InkWell(
+              onTap: () => ref
+                  .read(playerSheetControllerProvider.notifier)
+                  .open(context),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MiniProgressBar(audio: audio),
+                  SizedBox(
+                    height: 52,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 16),
+                        if (cover != null) ...[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image(
+                              image: cover,
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                      ] else
-                        SizedBox.shrink(),
-                      Expanded(
-                        // 曲名 / 歌手區左右滑動切換上 / 下一首（帶跟手位移效果）；
-                        // 點擊（無水平位移）仍由外層 InkWell 展開播放器。
-                        child: SwipeTrackArea(
-                          onPrevious: audio.seekToPrevious,
-                          onNext: audio.seekToNext,
-                          child: Column(
-                            // SwipeTrackArea 已撐滿列高，文字維持垂直置中。
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MarqueeText(
-                                title,
-                                textAlign: TextAlign.start,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: scheme.primary,
-                                    ),
-                              ),
-                              if (artist.isNotEmpty)
-                                Text(
-                                  artist,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: scheme.outline),
+                          const SizedBox(width: 12),
+                        ] else
+                          SizedBox.shrink(),
+                        Expanded(
+                          // 曲名 / 歌手區左右滑動切換上 / 下一首（帶跟手位移效果）；
+                          // 點擊（無水平位移）仍由外層 InkWell 展開播放器。
+                          child: SwipeTrackArea(
+                            onPrevious: audio.seekToPrevious,
+                            onNext: audio.seekToNext,
+                            child: Column(
+                              // SwipeTrackArea 已撐滿列高，文字維持垂直置中。
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                MarqueeText(
+                                  title,
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: scheme.primary,
+                                      ),
                                 ),
-                            ],
+                                if (artist.isNotEmpty)
+                                  Text(
+                                    artist,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(color: scheme.outline),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      MiniPlayPauseButton(audio: audio),
-                      const SizedBox(width: 8),
-                    ],
+                        MiniPlayPauseButton(audio: audio),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

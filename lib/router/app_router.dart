@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/music_list/music_list_page.dart';
 import '../features/playlists/playlist_detail_page.dart';
+import '../features/playlists/playlist_search_page.dart';
 import '../features/playlists/playlists_page.dart';
 import '../features/profile/about/about_page.dart';
 import '../features/profile/account/account_page.dart';
@@ -44,6 +45,31 @@ final routerProvider = Provider<GoRouter>((ref) {
                       playlistId:
                           int.parse(state.pathParameters['id']!),
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'search',
+                        pageBuilder: (context, state) => CustomTransitionPage(
+                          key: state.pageKey,
+                          child: PlaylistSearchPage(
+                            playlistId:
+                                int.parse(state.pathParameters['id']!),
+                          ),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) =>
+                                  SlideTransition(
+                                    position: animation.drive(
+                                      Tween(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).chain(
+                                        CurveTween(curve: Curves.easeOutCubic),
+                                      ),
+                                    ),
+                                    child: child,
+                                  ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

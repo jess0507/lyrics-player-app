@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
@@ -70,7 +71,33 @@ class PlaylistDetailPage extends ConsumerWidget {
               ),
           ],
         ),
-        body: const RecentlyPlayedTrackList(),
+        body: Column(
+          children: [
+            if (recentlyPlayed.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton.icon(
+                    style: TextButton.styleFrom(
+                      backgroundColor: scheme.primaryContainer,
+                      foregroundColor: scheme.onPrimaryContainer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () =>
+                        context.push('/playlists/$playlistId/search'),
+                    icon: const Icon(Icons.search),
+                    label: Text(l10n.music_search),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+            const Expanded(child: RecentlyPlayedTrackList()),
+          ],
+        ),
       );
     }
 
@@ -114,8 +141,9 @@ class PlaylistDetailPage extends ConsumerWidget {
                     icon: const Icon(Icons.add),
                     label: Text(l10n.playlist_add_item),
                   ),
-                  // 清單為空時沒有項目可排序或刪除，不顯示編輯按鈕。
-                  if (tracks.isNotEmpty)
+                  // 清單為空時沒有項目可排序、刪除或搜尋，
+                  // 不顯示編輯與搜尋按鈕。
+                  if (tracks.isNotEmpty) ...[
                     TextButton.icon(
                       style: TextButton.styleFrom(
                         backgroundColor: scheme.primaryContainer,
@@ -132,6 +160,20 @@ class PlaylistDetailPage extends ConsumerWidget {
                       icon: const Icon(Icons.edit),
                       label: Text(l10n.playlist_edit),
                     ),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        backgroundColor: scheme.primaryContainer,
+                        foregroundColor: scheme.onPrimaryContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () =>
+                          context.push('/playlists/$playlistId/search'),
+                      icon: const Icon(Icons.search),
+                      label: Text(l10n.music_search),
+                    ),
+                  ],
                 ],
               ),
             ),
