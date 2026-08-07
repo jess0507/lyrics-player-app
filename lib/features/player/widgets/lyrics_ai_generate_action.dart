@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_controller.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/widgets/app_snack_bar.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
 
-/// 觸發自動產生歌詞:立即以 SnackBar 提示「已在背景產生歌詞」,進度顯示在
+/// 觸發自動產生歌詞:立即以 toast 提示「已在背景產生歌詞」,進度顯示在
 /// 通知列(前景服務),不再擋 UI。成功時背景流程已寫入並 invalidate
 /// `trackLyricsProvider`,歌詞視圖自動顯示產物;結果另以系統通知回報。
-/// 失敗補一則 SnackBar(仍在 app 內時可見);按通知「取消」則靜默收掉。
+/// 失敗補一則 toast(仍在 app 內時可見);按通知「取消」則靜默收掉。
 Future<void> runLyricsAiGenerate(
   BuildContext context,
   WidgetRef ref, {
@@ -16,14 +16,13 @@ Future<void> runLyricsAiGenerate(
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  final messenger = ScaffoldMessenger.of(context);
   if (ref.read(lyricsAutoGenerateControllerProvider(trackId)).isRunning) {
     debugPrint('[LyricsAutoGen] 已在執行中,略過 trackId=$trackId');
     return;
   }
 
   debugPrint('[LyricsAutoGen] 開始 trackId=$trackId title="$title"');
-  messenger.showAppSnackBar(l10n.lyrics_ai_generate_running_background);
+  showAppToast(l10n.lyrics_ai_generate_running_background);
 
   final controller = ref.read(
     lyricsAutoGenerateControllerProvider(trackId).notifier,
@@ -40,7 +39,7 @@ Future<void> runLyricsAiGenerate(
     debugPrint('[LyricsAutoGen] 已取消 trackId=$trackId');
   } else {
     debugPrint('[LyricsAutoGen] 失敗 trackId=$trackId error=${result.error}');
-    messenger.showAppSnackBar(_aiGenerateErrorText(l10n, result));
+    showAppToast(_aiGenerateErrorText(l10n, result));
   }
 }
 

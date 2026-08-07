@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_snack_bar.dart';
+import '../../../shared/widgets/app_toast.dart';
 import '../../lyrics/auto_sync/lyrics_auto_sync_controller.dart';
 import '../../lyrics/auto_sync/lyrics_auto_sync_service.dart';
 
-/// 觸發自動對時:立即以 SnackBar 提示「已在背景對齊歌詞」,進度顯示在
+/// 觸發自動對時:立即以 toast 提示「已在背景對齊歌詞」,進度顯示在
 /// 通知列(前景服務),不再擋 UI。成功時背景流程已寫入並 invalidate
 /// [trackLyricsProvider],歌詞視圖自動切到同步;結果另以系統通知回報。
-/// 失敗補一則 SnackBar(仍在 app 內時可見);按通知「取消」則靜默收掉。
+/// 失敗補一則 toast(仍在 app 內時可見);按通知「取消」則靜默收掉。
 Future<void> runLyricsAutoSync(
   BuildContext context,
   WidgetRef ref, {
@@ -18,14 +18,13 @@ Future<void> runLyricsAutoSync(
   required LyricsAlignEngine engine,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  final messenger = ScaffoldMessenger.of(context);
   final language = Localizations.localeOf(context).toLanguageTag();
   if (ref.read(lyricsAutoSyncControllerProvider(trackId)).isRunning) return;
   final controller = ref.read(
     lyricsAutoSyncControllerProvider(trackId).notifier,
   );
 
-  messenger.showAppSnackBar(l10n.lyrics_auto_sync_running_background);
+  showAppToast(l10n.lyrics_auto_sync_running_background);
 
   final ok = await controller.run(
     title: title,
@@ -40,7 +39,7 @@ Future<void> runLyricsAutoSync(
   if (!ok) {
     if (result.status != LyricsAutoSyncStatus.cancelled) {
       // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。
-      messenger.showAppSnackBar(_autoSyncErrorText(l10n, result));
+      showAppToast(_autoSyncErrorText(l10n, result));
     }
   }
 }

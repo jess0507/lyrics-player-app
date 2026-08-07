@@ -4,7 +4,7 @@ import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 
 import '../../../core/crash_reporter.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_snack_bar.dart';
+import '../../../shared/widgets/app_toast.dart';
 import '../../lyrics/providers/lyrics_active_job_provider.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
 import '../../lyrics/services/lyrics_import_service.dart';
@@ -93,7 +93,7 @@ class _EmptyLyrics extends ConsumerWidget {
   }
 }
 
-/// 觸發匯入並以 SnackBar 回報結果;取消選檔不提示。成功時匯入服務會
+/// 觸發匯入並以 toast 回報結果;取消選檔不提示。成功時匯入服務會
 /// invalidate 對應的 [trackLyricsProvider],視圖自動重讀。空狀態與重新匯入共用。
 Future<void> runLyricsImport(
   BuildContext context,
@@ -102,16 +102,15 @@ Future<void> runLyricsImport(
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  final messenger = ScaffoldMessenger.of(context);
   try {
     final imported = await ref
         .read(lyricsImportServiceProvider)
         .importForTrack(trackId: trackId, title: title);
     if (!imported) return; // 使用者取消
-    messenger.showAppSnackBar(l10n.lyrics_import_success);
+    showAppToast(l10n.lyrics_import_success);
   } on LyricsImportException catch (e, s) {
     reportError(e, s, reason: '匯入歌詞失敗（${e.error.name}）');
-    messenger.showAppSnackBar(_importErrorText(l10n, e.error));
+    showAppToast(_importErrorText(l10n, e.error));
   }
 }
 

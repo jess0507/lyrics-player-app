@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/network/ensure_online.dart';
 import '../../../../core/sync/sync_service.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/app_snack_bar.dart';
+import '../../../../shared/widgets/app_toast.dart';
 import '../providers/last_sync_at_provider.dart';
 
 /// 帳戶頁面「立即同步」ListTile:點擊手動觸發一次上傳,結束後回報
@@ -25,12 +25,11 @@ class _SyncNowButtonState extends ConsumerState<SyncNowButton> {
     if (!mounted) return;
     setState(() => _syncing = true);
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
     final ok = await ref.read(syncServiceProvider).syncNow();
     ref.invalidate(lastSyncAtProvider);
     if (!mounted) return;
     setState(() => _syncing = false);
-    messenger.showAppSnackBar(
+    showAppToast(
       ok ? l10n.account_sync_done : l10n.account_sync_failed,
     );
   }

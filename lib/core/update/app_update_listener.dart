@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../router/app_router.dart';
-import '../../shared/widgets/app_snack_bar.dart';
+import '../../shared/widgets/app_toast.dart';
 import '../crash_reporter.dart';
 import 'patch_update_controller.dart';
 import 'store_update_controller.dart';
@@ -132,9 +132,8 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
             } else {
               // iOS 無法程式化重啟(exit 違反審核指引),
               // 請使用者手動重開。
-              final messenger = ScaffoldMessenger.of(context);
               Navigator.of(context).pop();
-              messenger.showAppSnackBar(l10n.update_restart_manual_hint);
+              showAppToast(l10n.update_restart_manual_hint);
             }
           },
           child: Text(l10n.update_restart_action),

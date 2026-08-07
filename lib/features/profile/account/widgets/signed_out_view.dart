@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/app_snack_bar.dart';
+import '../../../../shared/widgets/app_toast.dart';
 import 'country_code_dropdown.dart';
 
 /// 未登入:選擇 Google、手機簡訊 OTP 或 Email/密碼登入。
@@ -93,7 +93,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
 
   void _showMessage(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showAppSnackBar(message);
+    showAppToast(message);
   }
 
   /// 選擇登入方式(展開對應表單);重新選擇手機時重置驗證碼狀態。
@@ -155,11 +155,10 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
   }
 
   /// 預先取得「登入成功」提示的顯示函式:成功後本視圖會被換成已登入
-  /// 畫面而 unmount,須在進入流程前抓住 messenger 與文字,不依賴 context。
+  /// 畫面而 unmount,須在進入流程前抓住文字,不依賴 context。
   VoidCallback _prepareSignedInMessage() {
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    return () => messenger.showAppSnackBar(l10n.account_sign_in_success);
+    return () => showAppToast(l10n.account_sign_in_success);
   }
 
   /// 以 email/密碼註冊新帳號(成功即自動登入)。

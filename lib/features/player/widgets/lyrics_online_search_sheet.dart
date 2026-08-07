@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_snack_bar.dart';
+import '../../../shared/widgets/app_toast.dart';
 import '../../lyrics/online/models/lrclib_result.dart';
 import '../../lyrics/online/providers/lyrics_online_search_service_provider.dart';
 import '../../lyrics/online/services/lrclib_client.dart';
@@ -253,11 +253,10 @@ class _LyricsOnlineSearchSheetState
 
   Future<void> _apply(LrclibResult result) async {
     final l10n = AppLocalizations.of(widget.parentContext)!;
-    final messenger = ScaffoldMessenger.of(widget.parentContext);
     await widget.parentRef
         .read(lyricsOnlineSearchServiceProvider)
         .apply(trackId: widget.trackId, title: widget.title, result: result);
-    messenger.showAppSnackBar(l10n.lyrics_search_online_applied);
+    showAppToast(l10n.lyrics_search_online_applied);
   }
 }
 

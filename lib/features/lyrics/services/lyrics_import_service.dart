@@ -11,7 +11,7 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 /// 匯入失敗原因,供 UI 映射到對應的 l10n 失敗訊息。
 enum LyricsImportError { tooLarge, unreadable, empty }
 
-/// 匯入失敗;UI 以 [error] 決定 SnackBar 文案。使用者取消選檔不是失敗,
+/// 匯入失敗;UI 以 [error] 決定 toast 文案。使用者取消選檔不是失敗,
 /// 由 [LyricsImportService.importForTrack] 回 false 表示。
 class LyricsImportException implements Exception {
   const LyricsImportException(this.error, {this.message});

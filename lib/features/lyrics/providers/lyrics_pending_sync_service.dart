@@ -7,8 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/crash_reporter.dart';
 import '../../../core/firebase_available_provider.dart';
-import '../../../router/app_router.dart';
-import '../../../shared/widgets/app_snack_bar.dart';
+import '../../../shared/widgets/app_toast.dart';
 import '../background/lyrics_background_protocol.dart';
 import '../background/lyrics_background_runner.dart';
 import '../background/lyrics_l10n_resolver.dart';
@@ -28,7 +27,7 @@ import 'track_lyrics_provider.dart';
 /// 本服務補上這段空窗:狀態轉終態時,done 的話把文件內容直接存回本機
 /// Isar(同一份文件已含 content/format/title,見後端 `_save_lyrics_snapshot`),
 /// 兩種終態(done / failed)都會發最終確認通知(原生通知 + app 內
-/// SnackBar,見 [_notifyResult]),並把該 trackId 從本地待處理清單移除。
+/// toast,見 [_notifyResult]),並把該 trackId 從本地待處理清單移除。
 /// 於 `app.dart` 根層級常駐 watch,不綁定特定頁面,跨 app 重啟也能接續。
 class LyricsPendingSyncService {
   LyricsPendingSyncService(this._ref) {
@@ -149,8 +148,8 @@ class LyricsPendingSyncService {
 
   /// 終態確認:同時嘗試原生通知(前景服務早已結束,走 app 常駐的 launcher
   /// channel,見 [LyricsBackgroundRunner.notifyResult])與 app 內
-  /// SnackBar(app 當下在前景時比通知更即時;不在前景 / navigator 未就緒
-  /// 時 [rootNavigatorKey.currentContext] 為 null,靜默略過)。
+  /// toast(app 當下在前景時比通知更即時;navigator 未就緒時
+  /// [showAppToast] 自行靜默略過)。
   Future<void> _notifyResult(LyricsPendingSyncJob job, {required bool success}) async {
     final l10n = resolveLyricsL10n(_ref);
     final text = switch ((job.mode, success)) {
@@ -165,9 +164,7 @@ class LyricsPendingSyncService {
     await _ref
         .read(lyricsBackgroundRunnerProvider)
         .notifyResult(title: job.title, text: text);
-    final context = rootNavigatorKey.currentContext;
-    if (context == null || !context.mounted) return;
-    ScaffoldMessenger.of(context).showAppSnackBar('${job.title}：$text');
+    showAppToast('${job.title}：$text');
   }
 }
 

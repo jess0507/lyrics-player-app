@@ -12,7 +12,7 @@ import 'package:seek_player/features/cover/services/track_cover_repository.dart'
 /// 設定封面失敗原因,供 UI 映射到對應的 l10n 失敗訊息。
 enum CoverImportError { tooLarge, unreadable }
 
-/// 設定封面失敗;UI 以 [error] 決定 SnackBar 文案。使用者取消選圖不是失敗,
+/// 設定封面失敗;UI 以 [error] 決定 toast 文案。使用者取消選圖不是失敗,
 /// 由 [CoverImportService.pickAndSetForTrack] 回 false 表示。
 class CoverImportException implements Exception {
   const CoverImportException(this.error, {this.message});

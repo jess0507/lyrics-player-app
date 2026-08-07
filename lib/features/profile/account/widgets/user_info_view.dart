@@ -7,7 +7,7 @@ import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
 import '../../../../core/network/ensure_online.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/app_snack_bar.dart';
+import '../../../../shared/widgets/app_toast.dart';
 import 'sync_now_button.dart';
 
 /// 已登入:顯示頭像、Email、同步、登出與刪除帳號。
@@ -78,8 +78,8 @@ class UserInfoView extends ConsumerWidget {
     );
   }
 
-  /// 登出並以 SnackBar 回報結果。成功後 authState 變更,本視圖會被換成
-  /// 登入畫面,messenger 於登出前取得,不依賴本視圖的 context。
+  /// 登出並以 toast 回報結果。成功後 authState 變更,本視圖會被換成
+  /// 登入畫面;toast 掛在 root overlay,不依賴本視圖的 context。
   Future<void> _signOut(
     BuildContext context,
     WidgetRef ref,
@@ -88,13 +88,12 @@ class UserInfoView extends ConsumerWidget {
     if (!await ensureOnline(context, ref)) return;
     if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
     try {
       await auth.signOut();
-      messenger.showAppSnackBar(l10n.account_signed_out);
+      showAppToast(l10n.account_signed_out);
     } catch (e, s) {
       reportError(e, s, reason: '登出失敗');
-      messenger.showAppSnackBar(l10n.account_sign_out_failed);
+      showAppToast(l10n.account_sign_out_failed);
     }
   }
 
@@ -106,7 +105,6 @@ class UserInfoView extends ConsumerWidget {
     if (!await ensureOnline(context, ref)) return;
     if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -127,10 +125,10 @@ class UserInfoView extends ConsumerWidget {
     if (confirmed != true) return;
     try {
       await auth.deleteAccountData();
-      messenger.showAppSnackBar(l10n.account_delete_data_done);
+      showAppToast(l10n.account_delete_data_done);
     } on FirebaseFunctionsException catch (e, s) {
       reportError(e, s, reason: 'delete_account_data 失敗（code=${e.code}）');
-      messenger.showAppSnackBar(l10n.account_operation_failed);
+      showAppToast(l10n.account_operation_failed);
     }
   }
 
@@ -142,7 +140,6 @@ class UserInfoView extends ConsumerWidget {
     if (!await ensureOnline(context, ref)) return;
     if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -165,10 +162,10 @@ class UserInfoView extends ConsumerWidget {
       await auth.deleteAccount();
     } on FirebaseFunctionsException catch (e, s) {
       reportError(e, s, reason: 'delete_account 失敗（code=${e.code}）');
-      messenger.showAppSnackBar(l10n.account_operation_failed);
+      showAppToast(l10n.account_operation_failed);
     } on FirebaseAuthException catch (e, s) {
       reportError(e, s, reason: '刪除帳號後登出失敗（code=${e.code}）');
-      messenger.showAppSnackBar(l10n.account_operation_failed);
+      showAppToast(l10n.account_operation_failed);
     }
   }
 }

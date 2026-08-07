@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../../shared/widgets/app_snack_bar.dart';
+import '../../../shared/widgets/app_toast.dart';
 import '../../music_list/models/track.dart';
 import '../models/playlist_display_name.dart';
 import '../services/playlist_repository.dart';
@@ -36,13 +36,12 @@ class _AddToPlaylistSheet extends ConsumerWidget {
     bool alreadyIn,
   ) async {
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     if (!alreadyIn) {
       await ref.read(playlistRepositoryProvider).addTrack(playlistId, track.id);
     }
     navigator.pop();
-    messenger.showAppSnackBar(
+    showAppToast(
       alreadyIn
           ? l10n.playlist_already_added(displayName)
           : l10n.playlist_added(displayName),
