@@ -202,6 +202,8 @@
   "playlist_remove_track": "Aus Playlist entfernen",
   "playlist_empty": "Noch keine Songs in dieser Playlist",
   "playlists_empty": "Noch keine Playlists",
+  "playlist_search_hint": "Was möchtest du hören?",
+  "playlist_search_no_result": "Keine passenden Songs",
   "playlist_play_all": "Alle abspielen",
   "playlist_track_count": "{count, plural, =0{Keine Songs} =1{1 Song} other{{count} Songs}}",
   "update_later": "Später",

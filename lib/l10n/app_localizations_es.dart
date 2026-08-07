@@ -658,6 +658,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get playlists_empty => 'Aún no hay listas';
 
   @override
+  String get playlist_search_hint => '¿Qué quieres escuchar?';
+
+  @override
+  String get playlist_search_no_result => 'No hay canciones coincidentes';
+
+  @override
   String get playlist_play_all => 'Reproducir todo';
 
   @override

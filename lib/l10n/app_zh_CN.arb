@@ -202,6 +202,8 @@
   "playlist_remove_track": "从列表移除",
   "playlist_empty": "这个播放列表还没有歌曲",
   "playlists_empty": "暂无播放列表",
+  "playlist_search_hint": "想听什么?",
+  "playlist_search_no_result": "没有符合的歌曲",
   "playlist_play_all": "全部播放",
   "playlist_track_count": "{count, plural, =0{没有歌曲} other{{count} 首}}",
   "update_later": "稍后",

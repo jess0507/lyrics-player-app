@@ -202,6 +202,8 @@
   "playlist_remove_track": "Xóa khỏi danh sách phát",
   "playlist_empty": "Danh sách phát này chưa có bài hát nào",
   "playlists_empty": "Chưa có danh sách phát nào",
+  "playlist_search_hint": "Bạn muốn nghe gì?",
+  "playlist_search_no_result": "Không có bài hát phù hợp",
   "playlist_play_all": "Phát tất cả",
   "playlist_track_count": "{count, plural, =0{Không có bài hát} other{{count} bài hát}}",
   "update_later": "Để sau",

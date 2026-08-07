@@ -651,6 +651,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlists_empty => 'Henüz çalma listesi yok';
 
   @override
+  String get playlist_search_hint => 'Ne dinlemek istersiniz?';
+
+  @override
+  String get playlist_search_no_result => 'Eşleşen şarkı bulunamadı';
+
+  @override
   String get playlist_play_all => 'Tümünü çal';
 
   @override

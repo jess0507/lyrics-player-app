@@ -202,6 +202,8 @@
   "playlist_remove_track": "Удалить из плейлиста",
   "playlist_empty": "В этом плейлисте пока нет песен",
   "playlists_empty": "Плейлистов пока нет",
+  "playlist_search_hint": "Что хотите послушать?",
+  "playlist_search_no_result": "Нет подходящих песен",
   "playlist_play_all": "Воспроизвести все",
   "playlist_track_count": "{count, plural, =0{Нет песен} one{{count} песня} few{{count} песни} many{{count} песен} other{{count} песни}}",
   "update_later": "Позже",

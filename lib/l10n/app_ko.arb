@@ -202,6 +202,8 @@
   "playlist_remove_track": "재생목록에서 제거",
   "playlist_empty": "이 재생목록에 아직 곡이 없습니다",
   "playlists_empty": "아직 재생목록이 없습니다",
+  "playlist_search_hint": "무엇을 듣고 싶나요?",
+  "playlist_search_no_result": "일치하는 곡이 없습니다",
   "playlist_play_all": "전체 재생",
   "playlist_track_count": "{count, plural, =0{곡 없음} other{{count}곡}}",
   "update_later": "나중에",

@@ -222,6 +222,8 @@
   "playlist_remove_track": "Remove from playlist",
   "playlist_empty": "No songs in this playlist yet",
   "playlists_empty": "No playlists yet",
+  "playlist_search_hint": "What do you want to listen to?",
+  "playlist_search_no_result": "No matching songs",
   "playlist_play_all": "Play all",
   "playlist_track_count": "{count, plural, =0{No songs} =1{1 song} other{{count} songs}}",
   "@playlist_track_count": {

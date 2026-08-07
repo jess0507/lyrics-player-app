@@ -651,6 +651,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playlists_empty => 'अभी कोई प्लेलिस्ट नहीं है';
 
   @override
+  String get playlist_search_hint => 'आप क्या सुनना चाहते हैं?';
+
+  @override
+  String get playlist_search_no_result => 'कोई मेल खाता गाना नहीं मिला';
+
+  @override
   String get playlist_play_all => 'सभी चलाएं';
 
   @override

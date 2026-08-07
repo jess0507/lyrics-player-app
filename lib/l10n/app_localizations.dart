@@ -1308,6 +1308,18 @@ abstract class AppLocalizations {
   /// **'No playlists yet'**
   String get playlists_empty;
 
+  /// No description provided for @playlist_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to listen to?'**
+  String get playlist_search_hint;
+
+  /// No description provided for @playlist_search_no_result.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching songs'**
+  String get playlist_search_no_result;
+
   /// No description provided for @playlist_play_all.
   ///
   /// In en, this message translates to:

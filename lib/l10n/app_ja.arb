@@ -202,6 +202,8 @@
   "playlist_remove_track": "プレイリストから削除",
   "playlist_empty": "このプレイリストにはまだ曲がありません",
   "playlists_empty": "プレイリストがまだありません",
+  "playlist_search_hint": "何を聴きたいですか?",
+  "playlist_search_no_result": "一致する曲が見つかりません",
   "playlist_play_all": "すべて再生",
   "playlist_track_count": "{count, plural, =0{曲なし} other{{count} 曲}}",
   "update_later": "あとで",

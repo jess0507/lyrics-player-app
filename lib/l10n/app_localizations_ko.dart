@@ -621,6 +621,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlists_empty => '아직 재생목록이 없습니다';
 
   @override
+  String get playlist_search_hint => '무엇을 듣고 싶나요?';
+
+  @override
+  String get playlist_search_no_result => '일치하는 곡이 없습니다';
+
+  @override
   String get playlist_play_all => '전체 재생';
 
   @override

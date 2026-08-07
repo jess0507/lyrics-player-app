@@ -202,6 +202,8 @@
   "playlist_remove_track": "إزالة من قائمة التشغيل",
   "playlist_empty": "لا توجد أغانٍ في قائمة التشغيل هذه بعد",
   "playlists_empty": "لا توجد قوائم تشغيل بعد",
+  "playlist_search_hint": "ماذا تريد أن تسمع؟",
+  "playlist_search_no_result": "لا توجد أغانٍ مطابقة",
   "playlist_play_all": "تشغيل الكل",
   "playlist_track_count": "{count, plural, =0{لا أغاني} =1{أغنية واحدة} =2{أغنيتان} few{{count} أغانٍ} many{{count} أغنية} other{{count} أغنية}}",
   "update_later": "لاحقًا",

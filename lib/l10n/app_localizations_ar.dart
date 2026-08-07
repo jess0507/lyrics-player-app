@@ -647,6 +647,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playlists_empty => 'لا توجد قوائم تشغيل بعد';
 
   @override
+  String get playlist_search_hint => 'ماذا تريد أن تسمع؟';
+
+  @override
+  String get playlist_search_no_result => 'لا توجد أغانٍ مطابقة';
+
+  @override
   String get playlist_play_all => 'تشغيل الكل';
 
   @override

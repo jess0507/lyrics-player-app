@@ -202,6 +202,8 @@
   "playlist_remove_track": "प्लेलिस्ट से हटाएं",
   "playlist_empty": "इस प्लेलिस्ट में अभी कोई गाना नहीं है",
   "playlists_empty": "अभी कोई प्लेलिस्ट नहीं है",
+  "playlist_search_hint": "आप क्या सुनना चाहते हैं?",
+  "playlist_search_no_result": "कोई मेल खाता गाना नहीं मिला",
   "playlist_play_all": "सभी चलाएं",
   "playlist_track_count": "{count, plural, =0{कोई गाना नहीं} =1{1 गाना} other{{count} गाने}}",
   "update_later": "बाद में",

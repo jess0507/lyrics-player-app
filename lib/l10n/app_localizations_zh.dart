@@ -610,6 +610,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlists_empty => '尚無播放清單';
 
   @override
+  String get playlist_search_hint => '想聽什麼?';
+
+  @override
+  String get playlist_search_no_result => '沒有符合的歌曲';
+
+  @override
   String get playlist_play_all => '全部播放';
 
   @override
@@ -1248,6 +1254,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlists_empty => '暂无播放列表';
 
   @override
+  String get playlist_search_hint => '想听什么?';
+
+  @override
+  String get playlist_search_no_result => '没有符合的歌曲';
+
+  @override
   String get playlist_play_all => '全部播放';
 
   @override
@@ -1884,6 +1896,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlists_empty => '尚無播放清單';
+
+  @override
+  String get playlist_search_hint => '想聽什麼?';
+
+  @override
+  String get playlist_search_no_result => '沒有符合的歌曲';
 
   @override
   String get playlist_play_all => '全部播放';

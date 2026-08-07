@@ -202,6 +202,8 @@
   "playlist_remove_track": "Remover da playlist",
   "playlist_empty": "Ainda não há músicas nesta playlist",
   "playlists_empty": "Ainda não há playlists",
+  "playlist_search_hint": "O que você quer ouvir?",
+  "playlist_search_no_result": "Nenhuma música correspondente",
   "playlist_play_all": "Reproduzir tudo",
   "playlist_track_count": "{count, plural, =0{Nenhuma música} =1{1 música} other{{count} músicas}}",
   "update_later": "Mais tarde",

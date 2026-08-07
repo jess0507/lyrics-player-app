@@ -659,6 +659,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get playlists_empty => 'Aucune playlist pour l’instant';
 
   @override
+  String get playlist_search_hint => 'Que voulez-vous écouter ?';
+
+  @override
+  String get playlist_search_no_result => 'Aucune chanson correspondante';
+
+  @override
   String get playlist_play_all => 'Tout lire';
 
   @override

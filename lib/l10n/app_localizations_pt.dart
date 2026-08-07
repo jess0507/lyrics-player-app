@@ -650,6 +650,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get playlists_empty => 'Ainda não há playlists';
 
   @override
+  String get playlist_search_hint => 'O que você quer ouvir?';
+
+  @override
+  String get playlist_search_no_result => 'Nenhuma música correspondente';
+
+  @override
   String get playlist_play_all => 'Reproduzir tudo';
 
   @override

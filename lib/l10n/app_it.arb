@@ -202,6 +202,8 @@
   "playlist_remove_track": "Rimuovi dalla playlist",
   "playlist_empty": "Ancora nessun brano in questa playlist",
   "playlists_empty": "Ancora nessuna playlist",
+  "playlist_search_hint": "Cosa vuoi ascoltare?",
+  "playlist_search_no_result": "Nessun brano corrispondente",
   "playlist_play_all": "Riproduci tutto",
   "playlist_track_count": "{count, plural, =0{Nessun brano} =1{1 brano} other{{count} brani}}",
   "update_later": "Più tardi",

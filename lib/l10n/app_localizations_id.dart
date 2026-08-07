@@ -649,6 +649,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlists_empty => 'Belum ada playlist';
 
   @override
+  String get playlist_search_hint => 'Apa yang ingin Anda dengarkan?';
+
+  @override
+  String get playlist_search_no_result => 'Tidak ada lagu yang cocok';
+
+  @override
   String get playlist_play_all => 'Putar semua';
 
   @override

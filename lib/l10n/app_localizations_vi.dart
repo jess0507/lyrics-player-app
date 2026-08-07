@@ -650,6 +650,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get playlists_empty => 'Chưa có danh sách phát nào';
 
   @override
+  String get playlist_search_hint => 'Bạn muốn nghe gì?';
+
+  @override
+  String get playlist_search_no_result => 'Không có bài hát phù hợp';
+
+  @override
   String get playlist_play_all => 'Phát tất cả';
 
   @override

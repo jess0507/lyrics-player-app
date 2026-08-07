@@ -616,6 +616,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get playlists_empty => 'プレイリストがまだありません';
 
   @override
+  String get playlist_search_hint => '何を聴きたいですか?';
+
+  @override
+  String get playlist_search_no_result => '一致する曲が見つかりません';
+
+  @override
   String get playlist_play_all => 'すべて再生';
 
   @override

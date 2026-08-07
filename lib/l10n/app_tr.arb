@@ -202,6 +202,8 @@
   "playlist_remove_track": "Çalma listesinden kaldır",
   "playlist_empty": "Bu çalma listesinde henüz şarkı yok",
   "playlists_empty": "Henüz çalma listesi yok",
+  "playlist_search_hint": "Ne dinlemek istersiniz?",
+  "playlist_search_no_result": "Eşleşen şarkı bulunamadı",
   "playlist_play_all": "Tümünü çal",
   "playlist_track_count": "{count, plural, =0{Şarkı yok} =1{1 şarkı} other{{count} şarkı}}",
   "update_later": "Daha sonra",

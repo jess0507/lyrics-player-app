@@ -649,6 +649,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playlists_empty => 'Плейлистов пока нет';
 
   @override
+  String get playlist_search_hint => 'Что хотите послушать?';
+
+  @override
+  String get playlist_search_no_result => 'Нет подходящих песен';
+
+  @override
   String get playlist_play_all => 'Воспроизвести все';
 
   @override
