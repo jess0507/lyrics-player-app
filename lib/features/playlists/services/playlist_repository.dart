@@ -16,6 +16,12 @@ const _recentlyPlayedLimit = 200;
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
 /// SyncService 在回前景 / 登入 / 統計重設時觸發,寫入當下不觸發推送。
+///
+/// 交易一律用 writeTxnSync:Isar 禁止 async 交易進行中執行任何 sync
+/// 操作(統計在播放時每 5 秒 writeTxnSync 取樣,async 交易的 await 空檔
+/// 一旦被取樣撞上就丟 "Cannot perform this operation from within an
+/// active transaction");sync 交易同步執行完畢、不讓出 event loop,
+/// 不存在被撞的空檔。清單資料量小,同步寫入不影響 UI。
 class PlaylistRepository {
   PlaylistRepository(this._isar, this._syncState);
 
@@ -38,8 +44,8 @@ class PlaylistRepository {
   Future<void> ensureDefaultFavorites() async {
     final existing = _col.filter().isFavoritesEqualTo(true).findFirstSync();
     if (existing != null) return;
-    await _isar.writeTxn(
-      () => _col.put(
+    _isar.writeTxnSync(
+      () => _col.putSync(
         PlaylistEntity()
           ..name = _defaultFavoritesFallbackName
           ..isFavorites = true
@@ -57,8 +63,8 @@ class PlaylistRepository {
         .isRecentlyPlayedEqualTo(true)
         .findFirstSync();
     if (existing != null) return;
-    await _isar.writeTxn(
-      () => _col.put(
+    _isar.writeTxnSync(
+      () => _col.putSync(
         PlaylistEntity()
           ..name = _defaultRecentlyPlayedFallbackName
           ..isRecentlyPlayed = true
@@ -69,25 +75,26 @@ class PlaylistRepository {
 
   /// 還原雲端備份(整份覆寫本機,含我的最愛)。
   /// 還原不算本機變更:不 markModified,避免還原後馬上又觸發上傳。
-  Future<void> restoreFromRemote(List<PlaylistEntity> playlists) =>
-      _isar.writeTxn(() async {
-        await _col.clear();
-        await _col.putAll(playlists);
-      });
+  Future<void> restoreFromRemote(List<PlaylistEntity> playlists) async {
+    _isar.writeTxnSync(() {
+      _col.clearSync();
+      _col.putAllSync(playlists);
+    });
+  }
 
   /// 新增清單,回傳新 id。
   ///
   /// id 取現有清單最大值 + 1,不吃 Isar 內建 autoIncrement 計數器：
   /// 該計數器不會因 [restoreFromRemote] 寫入的外來 id（雲端 `playlist`
-  /// 子集合 docId）往前跳號，若沿用會導致新清單 id 撞號、覆寫掉剛還原
+  /// 子集合 docId）往前跳號,若沿用會導致新清單 id 撞號、覆寫掉剛還原
   /// 的清單。
   Future<int> create(String name) async {
-    final id = await _isar.writeTxn(() {
+    final id = _isar.writeTxnSync(() {
       final maxId = _col.where().findAllSync().fold<int>(
         0,
         (max, p) => p.id > max ? p.id : max,
       );
-      return _col.put(
+      return _col.putSync(
         PlaylistEntity()
           ..id = maxId + 1
           ..name = name
@@ -100,39 +107,39 @@ class PlaylistRepository {
 
   /// 改名(我的最愛由 UI 擋下,不會走到這裡)。
   Future<void> rename(int id, String name) async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.get(id);
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
       if (pl == null) return false;
       pl.name = name;
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
   }
 
   Future<void> delete(int id) async {
-    final deleted = await _isar.writeTxn(() => _col.delete(id));
+    final deleted = _isar.writeTxnSync(() => _col.deleteSync(id));
     if (deleted) _syncState.markPlaylistModified();
   }
 
   /// 加入一首(已存在則不重覆附加)。
   Future<void> addTrack(int id, String trackId) async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.get(id);
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
       if (pl == null || pl.trackIds.contains(trackId)) return false;
       pl.trackIds = [...pl.trackIds, trackId];
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
   }
 
   Future<void> removeTrack(int id, String trackId) async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.get(id);
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
       if (pl == null) return false;
       pl.trackIds = pl.trackIds.where((t) => t != trackId).toList();
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
@@ -141,8 +148,11 @@ class PlaylistRepository {
   /// 記一筆最近播放:該曲若已在清單中先移除,再插回最前面連同當下時間
   /// (最新播放永遠在最前),超過 [_recentlyPlayedLimit] 筆時捨棄最舊的。
   Future<void> recordRecentlyPlayed(String trackId) async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.filter().isRecentlyPlayedEqualTo(true).findFirst();
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col
+          .filter()
+          .isRecentlyPlayedEqualTo(true)
+          .findFirstSync();
       if (pl == null) return false;
       final rest = pl.recentlyPlayed.where((e) => e.trackId != trackId);
       pl.recentlyPlayed = [
@@ -151,7 +161,7 @@ class PlaylistRepository {
           ..playedAt = DateTime.now(),
         ...rest,
       ].take(_recentlyPlayedLimit).toList();
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
@@ -159,11 +169,14 @@ class PlaylistRepository {
 
   /// 清空「最近播放」清單。
   Future<void> clearRecentlyPlayed() async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.filter().isRecentlyPlayedEqualTo(true).findFirst();
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col
+          .filter()
+          .isRecentlyPlayedEqualTo(true)
+          .findFirstSync();
       if (pl == null || pl.recentlyPlayed.isEmpty) return false;
       pl.recentlyPlayed = [];
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
@@ -171,11 +184,11 @@ class PlaylistRepository {
 
   /// 整批覆寫順序(拖曳排序用)。
   Future<void> setTrackIds(int id, List<String> trackIds) async {
-    final changed = await _isar.writeTxn(() async {
-      final pl = await _col.get(id);
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
       if (pl == null) return false;
       pl.trackIds = trackIds;
-      await _col.put(pl);
+      _col.putSync(pl);
       return true;
     });
     if (changed) _syncState.markPlaylistModified();
