@@ -270,10 +270,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get account_unavailable => '帳戶功能暫時無法使用。';
 
   @override
-  String get account_sign_in_failed => '登入失敗,請再試一次。';
+  String get account_sign_in_failed => '登入失敗,請稍後再試';
 
   @override
   String get account_sign_up_failed => '註冊失敗,請再試一次。';
+
+  @override
+  String get account_sign_in_success => '登入成功';
+
+  @override
+  String get account_invalid_credentials => '帳號或密碼錯誤';
+
+  @override
+  String get account_signed_out => '已登出';
+
+  @override
+  String get account_sign_out_failed => '登出失敗,請稍後再試';
 
   @override
   String get account_operation_failed => '操作失敗,請稍後再試。';
@@ -917,10 +929,22 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get account_unavailable => '账户功能暂时不可用。';
 
   @override
-  String get account_sign_in_failed => '登录失败,请重试。';
+  String get account_sign_in_failed => '登录失败,请稍后再试';
 
   @override
   String get account_sign_up_failed => '注册失败,请重试。';
+
+  @override
+  String get account_sign_in_success => '登录成功';
+
+  @override
+  String get account_invalid_credentials => '账号或密码错误';
+
+  @override
+  String get account_signed_out => '已退出登录';
+
+  @override
+  String get account_sign_out_failed => '退出登录失败,请稍后再试';
 
   @override
   String get account_operation_failed => '操作失败,请稍后再试。';
@@ -1564,10 +1588,22 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get account_unavailable => '帳戶功能暫時無法使用。';
 
   @override
-  String get account_sign_in_failed => '登入失敗,請再試一次。';
+  String get account_sign_in_failed => '登入失敗,請稍後再試';
 
   @override
   String get account_sign_up_failed => '註冊失敗,請再試一次。';
+
+  @override
+  String get account_sign_in_success => '登入成功';
+
+  @override
+  String get account_invalid_credentials => '帳號或密碼錯誤';
+
+  @override
+  String get account_signed_out => '已登出';
+
+  @override
+  String get account_sign_out_failed => '登出失敗,請稍後再試';
 
   @override
   String get account_operation_failed => '操作失敗,請稍後再試。';

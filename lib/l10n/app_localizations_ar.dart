@@ -277,11 +277,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.';
+      'فشل تسجيل الدخول. يرجى المحاولة لاحقًا.';
 
   @override
   String get account_sign_up_failed =>
       'فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get account_sign_in_success => 'تم تسجيل الدخول';
+
+  @override
+  String get account_invalid_credentials => 'الحساب أو كلمة المرور غير صحيحة';
+
+  @override
+  String get account_signed_out => 'تم تسجيل الخروج';
+
+  @override
+  String get account_sign_out_failed =>
+      'فشل تسجيل الخروج. يرجى المحاولة لاحقًا.';
 
   @override
   String get account_operation_failed => 'فشلت العملية. يرجى المحاولة لاحقًا.';

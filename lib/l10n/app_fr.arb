@@ -87,8 +87,12 @@
   "account_reset_sent": "E-mail de réinitialisation du mot de passe envoyé",
   "account_anonymous": "Compte anonyme",
   "account_unavailable": "Les fonctionnalités du compte sont temporairement indisponibles.",
-  "account_sign_in_failed": "Échec de la connexion. Veuillez réessayer.",
+  "account_sign_in_failed": "Échec de la connexion. Réessayez plus tard.",
   "account_sign_up_failed": "Échec de l'inscription. Veuillez réessayer.",
+  "account_sign_in_success": "Connecté",
+  "account_invalid_credentials": "Compte ou mot de passe incorrect",
+  "account_signed_out": "Déconnecté",
+  "account_sign_out_failed": "Échec de la déconnexion. Réessayez plus tard.",
   "account_operation_failed": "L'opération a échoué. Veuillez réessayer plus tard.",
   "account_last_synced": "Dernière synchronisation : {time}",
   "@account_last_synced": {

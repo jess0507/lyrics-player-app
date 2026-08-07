@@ -87,8 +87,12 @@
   "account_reset_sent": "पासवर्ड रीसेट ईमेल भेजा गया",
   "account_anonymous": "अनाम खाता",
   "account_unavailable": "खाता सुविधाएँ अस्थायी रूप से अनुपलब्ध हैं।",
-  "account_sign_in_failed": "साइन इन विफल रहा। कृपया पुनः प्रयास करें।",
+  "account_sign_in_failed": "साइन इन विफल रहा। कृपया बाद में फिर से प्रयास करें।",
   "account_sign_up_failed": "साइन अप विफल रहा। कृपया पुनः प्रयास करें।",
+  "account_sign_in_success": "साइन इन हो गया",
+  "account_invalid_credentials": "खाता या पासवर्ड गलत है",
+  "account_signed_out": "साइन आउट हो गया",
+  "account_sign_out_failed": "साइन आउट विफल रहा। कृपया बाद में फिर से प्रयास करें।",
   "account_operation_failed": "कार्रवाई विफल रही। कृपया बाद में पुनः प्रयास करें।",
   "account_last_synced": "अंतिम सिंक: {time}",
   "@account_last_synced": {

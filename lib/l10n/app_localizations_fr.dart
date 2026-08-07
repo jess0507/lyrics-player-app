@@ -281,11 +281,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'Échec de la connexion. Veuillez réessayer.';
+      'Échec de la connexion. Réessayez plus tard.';
 
   @override
   String get account_sign_up_failed =>
       'Échec de l\'inscription. Veuillez réessayer.';
+
+  @override
+  String get account_sign_in_success => 'Connecté';
+
+  @override
+  String get account_invalid_credentials => 'Compte ou mot de passe incorrect';
+
+  @override
+  String get account_signed_out => 'Déconnecté';
+
+  @override
+  String get account_sign_out_failed =>
+      'Échec de la déconnexion. Réessayez plus tard.';
 
   @override
   String get account_operation_failed =>

@@ -87,8 +87,12 @@
   "account_reset_sent": "Đã gửi email đặt lại mật khẩu",
   "account_anonymous": "Tài khoản ẩn danh",
   "account_unavailable": "Tính năng tài khoản tạm thời không khả dụng.",
-  "account_sign_in_failed": "Đăng nhập không thành công. Vui lòng thử lại.",
+  "account_sign_in_failed": "Đăng nhập thất bại. Vui lòng thử lại sau.",
   "account_sign_up_failed": "Đăng ký không thành công. Vui lòng thử lại.",
+  "account_sign_in_success": "Đã đăng nhập",
+  "account_invalid_credentials": "Tài khoản hoặc mật khẩu không đúng",
+  "account_signed_out": "Đã đăng xuất",
+  "account_sign_out_failed": "Đăng xuất thất bại. Vui lòng thử lại sau.",
   "account_operation_failed": "Thao tác không thành công. Vui lòng thử lại sau.",
   "account_last_synced": "Đồng bộ lần cuối: {time}",
   "@account_last_synced": {

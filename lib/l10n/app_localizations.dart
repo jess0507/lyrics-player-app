@@ -651,7 +651,7 @@ abstract class AppLocalizations {
   /// No description provided for @account_sign_in_failed.
   ///
   /// In en, this message translates to:
-  /// **'Sign-in failed. Please try again.'**
+  /// **'Sign-in failed. Please try again later.'**
   String get account_sign_in_failed;
 
   /// No description provided for @account_sign_up_failed.
@@ -659,6 +659,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign-up failed. Please try again.'**
   String get account_sign_up_failed;
+
+  /// No description provided for @account_sign_in_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get account_sign_in_success;
+
+  /// No description provided for @account_invalid_credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect account or password'**
+  String get account_invalid_credentials;
+
+  /// No description provided for @account_signed_out.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out'**
+  String get account_signed_out;
+
+  /// No description provided for @account_sign_out_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-out failed. Please try again later.'**
+  String get account_sign_out_failed;
 
   /// No description provided for @account_operation_failed.
   ///

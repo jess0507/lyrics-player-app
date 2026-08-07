@@ -87,8 +87,12 @@
   "account_reset_sent": "E-Mail zum Zurücksetzen des Passworts gesendet",
   "account_anonymous": "Anonymes Konto",
   "account_unavailable": "Kontofunktionen sind vorübergehend nicht verfügbar.",
-  "account_sign_in_failed": "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
+  "account_sign_in_failed": "Anmeldung fehlgeschlagen. Bitte versuche es später erneut.",
   "account_sign_up_failed": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
+  "account_sign_in_success": "Erfolgreich angemeldet",
+  "account_invalid_credentials": "Konto oder Passwort falsch",
+  "account_signed_out": "Abgemeldet",
+  "account_sign_out_failed": "Abmeldung fehlgeschlagen. Bitte versuche es später erneut.",
   "account_operation_failed": "Vorgang fehlgeschlagen. Bitte versuche es später erneut.",
   "account_last_synced": "Zuletzt synchronisiert: {time}",
   "@account_last_synced": {

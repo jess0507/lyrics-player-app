@@ -276,11 +276,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get account_unavailable => 'Функции аккаунта временно недоступны.';
 
   @override
-  String get account_sign_in_failed => 'Не удалось войти. Попробуйте ещё раз.';
+  String get account_sign_in_failed =>
+      'Не удалось войти. Повторите попытку позже.';
 
   @override
   String get account_sign_up_failed =>
       'Не удалось зарегистрироваться. Попробуйте ещё раз.';
+
+  @override
+  String get account_sign_in_success => 'Вы вошли в аккаунт';
+
+  @override
+  String get account_invalid_credentials => 'Неверный аккаунт или пароль';
+
+  @override
+  String get account_signed_out => 'Вы вышли из аккаунта';
+
+  @override
+  String get account_sign_out_failed =>
+      'Не удалось выйти. Повторите попытку позже.';
 
   @override
   String get account_operation_failed =>

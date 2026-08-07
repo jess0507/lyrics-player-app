@@ -278,10 +278,24 @@ class AppLocalizationsPt extends AppLocalizations {
       'Os recursos da conta estão temporariamente indisponíveis.';
 
   @override
-  String get account_sign_in_failed => 'Falha ao entrar. Tente novamente.';
+  String get account_sign_in_failed =>
+      'Falha ao entrar. Tente novamente mais tarde.';
 
   @override
   String get account_sign_up_failed => 'Falha ao cadastrar. Tente novamente.';
+
+  @override
+  String get account_sign_in_success => 'Sessão iniciada';
+
+  @override
+  String get account_invalid_credentials => 'Conta ou senha incorreta';
+
+  @override
+  String get account_signed_out => 'Sessão encerrada';
+
+  @override
+  String get account_sign_out_failed =>
+      'Falha ao sair. Tente novamente mais tarde.';
 
   @override
   String get account_operation_failed =>

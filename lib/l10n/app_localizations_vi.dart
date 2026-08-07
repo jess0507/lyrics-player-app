@@ -280,11 +280,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'Đăng nhập không thành công. Vui lòng thử lại.';
+      'Đăng nhập thất bại. Vui lòng thử lại sau.';
 
   @override
   String get account_sign_up_failed =>
       'Đăng ký không thành công. Vui lòng thử lại.';
+
+  @override
+  String get account_sign_in_success => 'Đã đăng nhập';
+
+  @override
+  String get account_invalid_credentials =>
+      'Tài khoản hoặc mật khẩu không đúng';
+
+  @override
+  String get account_signed_out => 'Đã đăng xuất';
+
+  @override
+  String get account_sign_out_failed =>
+      'Đăng xuất thất bại. Vui lòng thử lại sau.';
 
   @override
   String get account_operation_failed =>

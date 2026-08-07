@@ -87,8 +87,12 @@
   "account_reset_sent": "Correo de restablecimiento de contraseña enviado",
   "account_anonymous": "Cuenta anónima",
   "account_unavailable": "Las funciones de cuenta no están disponibles temporalmente.",
-  "account_sign_in_failed": "No se pudo iniciar sesión. Inténtalo de nuevo.",
+  "account_sign_in_failed": "No se pudo iniciar sesión. Inténtalo de nuevo más tarde.",
   "account_sign_up_failed": "No se pudo registrar. Inténtalo de nuevo.",
+  "account_sign_in_success": "Sesión iniciada",
+  "account_invalid_credentials": "Cuenta o contraseña incorrecta",
+  "account_signed_out": "Sesión cerrada",
+  "account_sign_out_failed": "No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.",
   "account_operation_failed": "La operación falló. Inténtalo de nuevo más tarde.",
   "account_last_synced": "Última sincronización: {time}",
   "@account_last_synced": {

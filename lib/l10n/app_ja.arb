@@ -87,8 +87,12 @@
   "account_reset_sent": "パスワード再設定メールを送信しました",
   "account_anonymous": "匿名アカウント",
   "account_unavailable": "アカウント機能は一時的に利用できません。",
-  "account_sign_in_failed": "ログインに失敗しました。もう一度お試しください。",
+  "account_sign_in_failed": "ログインに失敗しました。後でもう一度お試しください。",
   "account_sign_up_failed": "登録に失敗しました。もう一度お試しください。",
+  "account_sign_in_success": "ログインしました",
+  "account_invalid_credentials": "アカウントまたはパスワードが正しくありません",
+  "account_signed_out": "ログアウトしました",
+  "account_sign_out_failed": "ログアウトに失敗しました。後でもう一度お試しください。",
   "account_operation_failed": "処理に失敗しました。しばらくしてからもう一度お試しください。",
   "account_last_synced": "最終同期: {time}",
   "@account_last_synced": {

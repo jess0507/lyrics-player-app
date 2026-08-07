@@ -87,8 +87,12 @@
   "account_reset_sent": "Password reset email sent",
   "account_anonymous": "Anonymous account",
   "account_unavailable": "Account features are temporarily unavailable.",
-  "account_sign_in_failed": "Sign-in failed. Please try again.",
+  "account_sign_in_failed": "Sign-in failed. Please try again later.",
   "account_sign_up_failed": "Sign-up failed. Please try again.",
+  "account_sign_in_success": "Signed in",
+  "account_invalid_credentials": "Incorrect account or password",
+  "account_signed_out": "Signed out",
+  "account_sign_out_failed": "Sign-out failed. Please try again later.",
   "account_operation_failed": "The operation failed. Please try again later.",
   "account_last_synced": "Last synced: {time}",
   "@account_last_synced": {

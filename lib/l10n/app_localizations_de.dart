@@ -280,11 +280,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'Anmeldung fehlgeschlagen. Bitte versuche es erneut.';
+      'Anmeldung fehlgeschlagen. Bitte versuche es später erneut.';
 
   @override
   String get account_sign_up_failed =>
       'Registrierung fehlgeschlagen. Bitte versuche es erneut.';
+
+  @override
+  String get account_sign_in_success => 'Erfolgreich angemeldet';
+
+  @override
+  String get account_invalid_credentials => 'Konto oder Passwort falsch';
+
+  @override
+  String get account_signed_out => 'Abgemeldet';
+
+  @override
+  String get account_sign_out_failed =>
+      'Abmeldung fehlgeschlagen. Bitte versuche es später erneut.';
 
   @override
   String get account_operation_failed =>

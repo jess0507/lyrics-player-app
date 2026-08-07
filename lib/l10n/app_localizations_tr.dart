@@ -278,11 +278,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'Oturum açılamadı. Lütfen tekrar deneyin.';
+      'Giriş yapılamadı. Lütfen daha sonra tekrar deneyin.';
 
   @override
   String get account_sign_up_failed =>
       'Kayıt olunamadı. Lütfen tekrar deneyin.';
+
+  @override
+  String get account_sign_in_success => 'Giriş yapıldı';
+
+  @override
+  String get account_invalid_credentials => 'Hesap veya şifre hatalı';
+
+  @override
+  String get account_signed_out => 'Çıkış yapıldı';
+
+  @override
+  String get account_sign_out_failed =>
+      'Çıkış yapılamadı. Lütfen daha sonra tekrar deneyin.';
 
   @override
   String get account_operation_failed =>

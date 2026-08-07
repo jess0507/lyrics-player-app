@@ -281,11 +281,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'No se pudo iniciar sesión. Inténtalo de nuevo.';
+      'No se pudo iniciar sesión. Inténtalo de nuevo más tarde.';
 
   @override
   String get account_sign_up_failed =>
       'No se pudo registrar. Inténtalo de nuevo.';
+
+  @override
+  String get account_sign_in_success => 'Sesión iniciada';
+
+  @override
+  String get account_invalid_credentials => 'Cuenta o contraseña incorrecta';
+
+  @override
+  String get account_signed_out => 'Sesión cerrada';
+
+  @override
+  String get account_sign_out_failed =>
+      'No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.';
 
   @override
   String get account_operation_failed =>

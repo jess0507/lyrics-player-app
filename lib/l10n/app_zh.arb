@@ -87,8 +87,12 @@
   "account_reset_sent": "已寄出密碼重設信",
   "account_anonymous": "匿名帳號",
   "account_unavailable": "帳戶功能暫時無法使用。",
-  "account_sign_in_failed": "登入失敗,請再試一次。",
+  "account_sign_in_failed": "登入失敗,請稍後再試",
   "account_sign_up_failed": "註冊失敗,請再試一次。",
+  "account_sign_in_success": "登入成功",
+  "account_invalid_credentials": "帳號或密碼錯誤",
+  "account_signed_out": "已登出",
+  "account_sign_out_failed": "登出失敗,請稍後再試",
   "account_operation_failed": "操作失敗,請稍後再試。",
   "account_last_synced": "上次同步：{time}",
   "@account_last_synced": {

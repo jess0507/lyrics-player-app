@@ -280,10 +280,24 @@ class AppLocalizationsIt extends AppLocalizations {
       'Le funzioni dell\'account non sono temporaneamente disponibili.';
 
   @override
-  String get account_sign_in_failed => 'Accesso non riuscito. Riprova.';
+  String get account_sign_in_failed =>
+      'Accesso non riuscito. Riprova più tardi.';
 
   @override
   String get account_sign_up_failed => 'Registrazione non riuscita. Riprova.';
+
+  @override
+  String get account_sign_in_success => 'Accesso effettuato';
+
+  @override
+  String get account_invalid_credentials => 'Account o password errati';
+
+  @override
+  String get account_signed_out => 'Disconnesso';
+
+  @override
+  String get account_sign_out_failed =>
+      'Disconnessione non riuscita. Riprova più tardi.';
 
   @override
   String get account_operation_failed =>

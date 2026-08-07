@@ -279,11 +279,24 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get account_sign_in_failed =>
-      'साइन इन विफल रहा। कृपया पुनः प्रयास करें।';
+      'साइन इन विफल रहा। कृपया बाद में फिर से प्रयास करें।';
 
   @override
   String get account_sign_up_failed =>
       'साइन अप विफल रहा। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get account_sign_in_success => 'साइन इन हो गया';
+
+  @override
+  String get account_invalid_credentials => 'खाता या पासवर्ड गलत है';
+
+  @override
+  String get account_signed_out => 'साइन आउट हो गया';
+
+  @override
+  String get account_sign_out_failed =>
+      'साइन आउट विफल रहा। कृपया बाद में फिर से प्रयास करें।';
 
   @override
   String get account_operation_failed =>

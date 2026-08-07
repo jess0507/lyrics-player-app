@@ -87,8 +87,12 @@
   "account_reset_sent": "تم إرسال بريد إعادة تعيين كلمة المرور",
   "account_anonymous": "حساب مجهول",
   "account_unavailable": "ميزات الحساب غير متاحة مؤقتاً.",
-  "account_sign_in_failed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "account_sign_in_failed": "فشل تسجيل الدخول. يرجى المحاولة لاحقًا.",
   "account_sign_up_failed": "فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.",
+  "account_sign_in_success": "تم تسجيل الدخول",
+  "account_invalid_credentials": "الحساب أو كلمة المرور غير صحيحة",
+  "account_signed_out": "تم تسجيل الخروج",
+  "account_sign_out_failed": "فشل تسجيل الخروج. يرجى المحاولة لاحقًا.",
   "account_operation_failed": "فشلت العملية. يرجى المحاولة لاحقًا.",
   "account_last_synced": "آخر مزامنة: {time}",
   "@account_last_synced": {

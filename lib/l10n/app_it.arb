@@ -87,8 +87,12 @@
   "account_reset_sent": "Email per la reimpostazione della password inviata",
   "account_anonymous": "Account anonimo",
   "account_unavailable": "Le funzioni dell'account non sono temporaneamente disponibili.",
-  "account_sign_in_failed": "Accesso non riuscito. Riprova.",
+  "account_sign_in_failed": "Accesso non riuscito. Riprova più tardi.",
   "account_sign_up_failed": "Registrazione non riuscita. Riprova.",
+  "account_sign_in_success": "Accesso effettuato",
+  "account_invalid_credentials": "Account o password errati",
+  "account_signed_out": "Disconnesso",
+  "account_sign_out_failed": "Disconnessione non riuscita. Riprova più tardi.",
   "account_operation_failed": "Operazione non riuscita. Riprova più tardi.",
   "account_last_synced": "Ultima sincronizzazione: {time}",
   "@account_last_synced": {

@@ -278,10 +278,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Account features are temporarily unavailable.';
 
   @override
-  String get account_sign_in_failed => 'Sign-in failed. Please try again.';
+  String get account_sign_in_failed =>
+      'Sign-in failed. Please try again later.';
 
   @override
   String get account_sign_up_failed => 'Sign-up failed. Please try again.';
+
+  @override
+  String get account_sign_in_success => 'Signed in';
+
+  @override
+  String get account_invalid_credentials => 'Incorrect account or password';
+
+  @override
+  String get account_signed_out => 'Signed out';
+
+  @override
+  String get account_sign_out_failed =>
+      'Sign-out failed. Please try again later.';
 
   @override
   String get account_operation_failed =>

@@ -87,8 +87,12 @@
   "account_reset_sent": "E-mail de redefinição de senha enviado",
   "account_anonymous": "Conta anônima",
   "account_unavailable": "Os recursos da conta estão temporariamente indisponíveis.",
-  "account_sign_in_failed": "Falha ao entrar. Tente novamente.",
+  "account_sign_in_failed": "Falha ao entrar. Tente novamente mais tarde.",
   "account_sign_up_failed": "Falha ao cadastrar. Tente novamente.",
+  "account_sign_in_success": "Sessão iniciada",
+  "account_invalid_credentials": "Conta ou senha incorreta",
+  "account_signed_out": "Sessão encerrada",
+  "account_sign_out_failed": "Falha ao sair. Tente novamente mais tarde.",
   "account_operation_failed": "A operação falhou. Tente novamente mais tarde.",
   "account_last_synced": "Última sincronização: {time}",
   "@account_last_synced": {

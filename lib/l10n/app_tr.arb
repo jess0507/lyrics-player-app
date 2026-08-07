@@ -87,8 +87,12 @@
   "account_reset_sent": "Parola sıfırlama e-postası gönderildi",
   "account_anonymous": "Anonim hesap",
   "account_unavailable": "Hesap özellikleri geçici olarak kullanılamıyor.",
-  "account_sign_in_failed": "Oturum açılamadı. Lütfen tekrar deneyin.",
+  "account_sign_in_failed": "Giriş yapılamadı. Lütfen daha sonra tekrar deneyin.",
   "account_sign_up_failed": "Kayıt olunamadı. Lütfen tekrar deneyin.",
+  "account_sign_in_success": "Giriş yapıldı",
+  "account_invalid_credentials": "Hesap veya şifre hatalı",
+  "account_signed_out": "Çıkış yapıldı",
+  "account_sign_out_failed": "Çıkış yapılamadı. Lütfen daha sonra tekrar deneyin.",
   "account_operation_failed": "İşlem başarısız oldu. Lütfen daha sonra tekrar deneyin.",
   "account_last_synced": "Son senkronizasyon: {time}",
   "@account_last_synced": {

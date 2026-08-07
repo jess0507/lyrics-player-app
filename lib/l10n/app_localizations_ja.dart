@@ -272,10 +272,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get account_unavailable => 'アカウント機能は一時的に利用できません。';
 
   @override
-  String get account_sign_in_failed => 'ログインに失敗しました。もう一度お試しください。';
+  String get account_sign_in_failed => 'ログインに失敗しました。後でもう一度お試しください。';
 
   @override
   String get account_sign_up_failed => '登録に失敗しました。もう一度お試しください。';
+
+  @override
+  String get account_sign_in_success => 'ログインしました';
+
+  @override
+  String get account_invalid_credentials => 'アカウントまたはパスワードが正しくありません';
+
+  @override
+  String get account_signed_out => 'ログアウトしました';
+
+  @override
+  String get account_sign_out_failed => 'ログアウトに失敗しました。後でもう一度お試しください。';
 
   @override
   String get account_operation_failed => '処理に失敗しました。しばらくしてからもう一度お試しください。';

@@ -87,8 +87,12 @@
   "account_reset_sent": "Письмо для сброса пароля отправлено",
   "account_anonymous": "Анонимный аккаунт",
   "account_unavailable": "Функции аккаунта временно недоступны.",
-  "account_sign_in_failed": "Не удалось войти. Попробуйте ещё раз.",
+  "account_sign_in_failed": "Не удалось войти. Повторите попытку позже.",
   "account_sign_up_failed": "Не удалось зарегистрироваться. Попробуйте ещё раз.",
+  "account_sign_in_success": "Вы вошли в аккаунт",
+  "account_invalid_credentials": "Неверный аккаунт или пароль",
+  "account_signed_out": "Вы вышли из аккаунта",
+  "account_sign_out_failed": "Не удалось выйти. Повторите попытку позже.",
   "account_operation_failed": "Не удалось выполнить операцию. Повторите попытку позже.",
   "account_last_synced": "Последняя синхронизация: {time}",
   "@account_last_synced": {
