@@ -45,8 +45,20 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
 
   AuthService get _auth => ref.read(authServiceProvider);
 
+  /// 屬於「帳號或密碼錯誤」的 FirebaseAuthException code。
+  /// 新版 SDK 為避免帳號列舉,帳密錯誤一律回報 invalid-credential;
+  /// 舊版則分為 wrong-password / user-not-found。
+  static const _badCredentialCodes = {
+    'invalid-credential',
+    'wrong-password',
+    'user-not-found',
+    'invalid-email',
+    'INVALID_LOGIN_CREDENTIALS',
+  };
+
   /// 執行 [action],成功回傳 true、失敗顯示錯誤並回傳 false。
-  /// 未指定 [failureMessage] 時預設顯示「登入失敗」。
+  /// 未指定 [failureMessage] 時視為登入流程:帳密錯誤顯示專屬訊息,
+  /// 其他錯誤顯示「登入失敗」。
   Future<bool> _run(
     Future<void> Function() action, {
     String? failureMessage,
@@ -61,7 +73,13 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
         '[Account] FirebaseAuthException code=${e.code} '
         'message=${e.message}\n$s',
       );
-      _showMessage(failureMessage ?? l10n.account_sign_in_failed);
+      final isBadCredential =
+          failureMessage == null && _badCredentialCodes.contains(e.code);
+      _showMessage(
+        isBadCredential
+            ? l10n.account_invalid_credentials
+            : failureMessage ?? l10n.account_sign_in_failed,
+      );
       return false;
     } catch (e, s) {
       debugPrint('[Account] 登入流程錯誤:$e\n$s');
@@ -112,7 +130,9 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     final code = _smsCode.text.trim();
     if (id == null || code.isEmpty) return;
     // 成功後 authState 變更,畫面自動切換為已登入。
-    await _run(() => _auth.signInWithSmsCode(id, code));
+    final notifySignedIn = _prepareSignedInMessage();
+    final ok = await _run(() => _auth.signInWithSmsCode(id, code));
+    if (ok) notifySignedIn();
   }
 
   /// Email/密碼登入。成功後 authState 變更,畫面自動切換為已登入。
@@ -120,7 +140,26 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     final email = _email.text.trim();
     final password = _password.text;
     if (email.isEmpty || password.isEmpty) return;
-    await _run(() => _auth.signInWithEmail(email, password));
+    final notifySignedIn = _prepareSignedInMessage();
+    final ok = await _run(() => _auth.signInWithEmail(email, password));
+    if (ok) notifySignedIn();
+  }
+
+  /// Google 登入。使用者於選帳號畫面取消時不算成功也不算失敗,
+  /// 以 currentUser 是否存在區分,避免取消也跳「登入成功」。
+  Future<void> _signInGoogle() async {
+    final auth = _auth;
+    final notifySignedIn = _prepareSignedInMessage();
+    final ok = await _run(auth.signInWithGoogle);
+    if (ok && auth.currentUser != null) notifySignedIn();
+  }
+
+  /// 預先取得「登入成功」提示的顯示函式:成功後本視圖會被換成已登入
+  /// 畫面而 unmount,須在進入流程前抓住 messenger 與文字,不依賴 context。
+  VoidCallback _prepareSignedInMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
+    return () => messenger.showAppSnackBar(l10n.account_sign_in_success);
   }
 
   /// 以 email/密碼註冊新帳號(成功即自動登入)。
@@ -169,7 +208,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
         ],
         // 登入方式選項:Google → Facebook → 手機 OTP → Email 登入連結。
         OutlinedButton.icon(
-          onPressed: _busy ? null : () => _run(_auth.signInWithGoogle),
+          onPressed: _busy ? null : _signInGoogle,
           icon: const Icon(Icons.account_circle),
           label: Text(l10n.account_sign_in_google),
         ),

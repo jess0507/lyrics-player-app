@@ -52,10 +52,7 @@ class UserInfoView extends ConsumerWidget {
         ListTile(
           leading: const Icon(Icons.logout),
           title: Text(l10n.account_sign_out),
-          onTap: () async {
-            if (!await ensureOnline(context, ref)) return;
-            await auth.signOut();
-          },
+          onTap: () => _signOut(context, ref, auth),
         ),
         const Divider(height: 1),
         const SizedBox(height: 32),
@@ -79,6 +76,26 @@ class UserInfoView extends ConsumerWidget {
         const Divider(height: 1),
       ],
     );
+  }
+
+  /// 登出並以 SnackBar 回報結果。成功後 authState 變更,本視圖會被換成
+  /// 登入畫面,messenger 於登出前取得,不依賴本視圖的 context。
+  Future<void> _signOut(
+    BuildContext context,
+    WidgetRef ref,
+    AuthService auth,
+  ) async {
+    if (!await ensureOnline(context, ref)) return;
+    if (!context.mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await auth.signOut();
+      messenger.showAppSnackBar(l10n.account_signed_out);
+    } catch (e, s) {
+      reportError(e, s, reason: '登出失敗');
+      messenger.showAppSnackBar(l10n.account_sign_out_failed);
+    }
   }
 
   Future<void> _confirmDeleteData(
