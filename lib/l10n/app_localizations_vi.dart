@@ -606,6 +606,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get playlist_recently_played => 'Đã nghe gần đây';
 
   @override
+  String get playlist_local_music => 'Nhạc trên máy';
+
+  @override
   String get playlist_clear_recently_played => 'Xóa lịch sử';
 
   @override

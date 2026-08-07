@@ -606,6 +606,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playlist_recently_played => 'Недавно прослушанные';
 
   @override
+  String get playlist_local_music => 'Локальная музыка';
+
+  @override
   String get playlist_clear_recently_played => 'Очистить историю';
 
   @override

@@ -189,6 +189,7 @@
   "tab_playlists": "Playlists",
   "playlist_favorites": "Favoris",
   "playlist_recently_played": "Écouté récemment",
+  "playlist_local_music": "Musique locale",
   "playlist_clear_recently_played": "Effacer l'historique",
   "playlist_clear_recently_played_confirm": "Effacer tout l'historique d'écoute ?",
   "playlist_new": "Nouvelle playlist",

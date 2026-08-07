@@ -610,6 +610,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get playlist_recently_played => 'Ascoltati di recente';
 
   @override
+  String get playlist_local_music => 'Musica locale';
+
+  @override
   String get playlist_clear_recently_played => 'Cancella cronologia';
 
   @override

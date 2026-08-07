@@ -189,6 +189,7 @@
   "tab_playlists": "Çalma listeleri",
   "playlist_favorites": "Favoriler",
   "playlist_recently_played": "Son Çalınanlar",
+  "playlist_local_music": "Yerel Müzik",
   "playlist_clear_recently_played": "Geçmişi temizle",
   "playlist_clear_recently_played_confirm": "Tüm çalma geçmişi temizlensin mi?",
   "playlist_new": "Yeni çalma listesi",

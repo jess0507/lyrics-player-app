@@ -194,6 +194,7 @@
   "tab_playlists": "Playlists",
   "playlist_favorites": "Favorites",
   "playlist_recently_played": "Recently Played",
+  "playlist_local_music": "Local Music",
   "playlist_clear_recently_played": "Clear recently played",
   "playlist_clear_recently_played_confirm": "Clear all recently played tracks?",
   "playlist_new": "New playlist",

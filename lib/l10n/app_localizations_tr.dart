@@ -607,6 +607,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlist_recently_played => 'Son Çalınanlar';
 
   @override
+  String get playlist_local_music => 'Yerel Müzik';
+
+  @override
   String get playlist_clear_recently_played => 'Geçmişi temizle';
 
   @override

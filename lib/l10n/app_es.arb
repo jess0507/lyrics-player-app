@@ -189,6 +189,7 @@
   "tab_playlists": "Listas",
   "playlist_favorites": "Favoritos",
   "playlist_recently_played": "Reproducido recientemente",
+  "playlist_local_music": "Música local",
   "playlist_clear_recently_played": "Borrar historial",
   "playlist_clear_recently_played_confirm": "¿Borrar todo el historial de reproducción?",
   "playlist_new": "Nueva lista",

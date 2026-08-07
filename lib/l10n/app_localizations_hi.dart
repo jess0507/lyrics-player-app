@@ -607,6 +607,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playlist_recently_played => 'हाल ही में चलाए गए';
 
   @override
+  String get playlist_local_music => 'स्थानीय संगीत';
+
+  @override
   String get playlist_clear_recently_played => 'इतिहास साफ़ करें';
 
   @override

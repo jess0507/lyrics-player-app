@@ -189,6 +189,7 @@
   "tab_playlists": "재생목록",
   "playlist_favorites": "즐겨찾기",
   "playlist_recently_played": "최근 재생",
+  "playlist_local_music": "로컬 음악",
   "playlist_clear_recently_played": "기록 지우기",
   "playlist_clear_recently_played_confirm": "재생 기록을 모두 지우시겠습니까?",
   "playlist_new": "새 재생목록",

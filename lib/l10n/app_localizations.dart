@@ -1230,6 +1230,12 @@ abstract class AppLocalizations {
   /// **'Recently Played'**
   String get playlist_recently_played;
 
+  /// No description provided for @playlist_local_music.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Music'**
+  String get playlist_local_music;
+
   /// No description provided for @playlist_clear_recently_played.
   ///
   /// In en, this message translates to:

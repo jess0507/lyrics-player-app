@@ -189,6 +189,7 @@
   "tab_playlists": "プレイリスト",
   "playlist_favorites": "お気に入り",
   "playlist_recently_played": "最近再生した項目",
+  "playlist_local_music": "ローカルの音楽",
   "playlist_clear_recently_played": "履歴を消去",
   "playlist_clear_recently_played_confirm": "再生履歴をすべて消去しますか？",
   "playlist_new": "新しいプレイリスト",

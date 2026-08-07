@@ -565,6 +565,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlist_recently_played => '最近播放';
 
   @override
+  String get playlist_local_music => '本地音乐';
+
+  @override
   String get playlist_clear_recently_played => '清除最近播放';
 
   @override
@@ -1224,6 +1227,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlist_recently_played => '最近播放';
 
   @override
+  String get playlist_local_music => '本地音乐';
+
+  @override
   String get playlist_clear_recently_played => '清除最近播放';
 
   @override
@@ -1881,6 +1887,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlist_recently_played => '最近播放';
+
+  @override
+  String get playlist_local_music => '本地音樂';
 
   @override
   String get playlist_clear_recently_played => '清除最近播放';

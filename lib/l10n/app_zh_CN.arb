@@ -189,6 +189,7 @@
   "tab_playlists": "播放列表",
   "playlist_favorites": "我的收藏",
   "playlist_recently_played": "最近播放",
+  "playlist_local_music": "本地音乐",
   "playlist_clear_recently_played": "清除最近播放",
   "playlist_clear_recently_played_confirm": "确定要清空最近播放记录吗？",
   "playlist_new": "新建播放列表",

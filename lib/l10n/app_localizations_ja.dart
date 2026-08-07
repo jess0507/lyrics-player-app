@@ -571,6 +571,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get playlist_recently_played => '最近再生した項目';
 
   @override
+  String get playlist_local_music => 'ローカルの音楽';
+
+  @override
   String get playlist_clear_recently_played => '履歴を消去';
 
   @override

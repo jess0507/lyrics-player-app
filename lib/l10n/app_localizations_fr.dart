@@ -613,6 +613,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get playlist_recently_played => 'Écouté récemment';
 
   @override
+  String get playlist_local_music => 'Musique locale';
+
+  @override
   String get playlist_clear_recently_played => 'Effacer l\'historique';
 
   @override

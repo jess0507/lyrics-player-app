@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seek_player/features/music_list/music_list_page.dart';
+import 'package:seek_player/features/playlists/local_music_playlist_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/playlist_search_page.dart';
 import 'package:seek_player/features/playlists/playlists_page.dart';
@@ -15,6 +16,27 @@ import 'package:seek_player/features/profile/statistics/statistics_page.dart';
 import 'package:seek_player/shared/widgets/scaffold_with_nav.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
+
+/// 由右往左滑入的轉場頁(播放清單搜尋頁共用)。
+CustomTransitionPage<void> _slideInPage({
+  required LocalKey key,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    key: key,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        SlideTransition(
+          position: animation.drive(
+            Tween(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).chain(CurveTween(curve: Curves.easeOutCubic)),
+          ),
+          child: child,
+        ),
+  );
+}
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -39,6 +61,23 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/playlists',
                 builder: (context, state) => const PlaylistsPage(),
                 routes: [
+                  // 「本地音樂」虛擬清單無 int id,須排在 ':id' 之前,
+                  // 否則會被 ':id' 吃掉並在 int.parse 時丟例外。
+                  GoRoute(
+                    path: 'local',
+                    builder: (context, state) =>
+                        const LocalMusicPlaylistPage(),
+                    routes: [
+                      GoRoute(
+                        path: 'search',
+                        pageBuilder: (context, state) => _slideInPage(
+                          key: state.pageKey,
+                          // playlistId 為 null 代表「本地音樂」虛擬清單。
+                          child: const PlaylistSearchPage(playlistId: null),
+                        ),
+                      ),
+                    ],
+                  ),
                   GoRoute(
                     path: ':id',
                     builder: (context, state) => PlaylistDetailPage(
@@ -48,25 +87,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: 'search',
-                        pageBuilder: (context, state) => CustomTransitionPage(
+                        pageBuilder: (context, state) => _slideInPage(
                           key: state.pageKey,
                           child: PlaylistSearchPage(
                             playlistId:
                                 int.parse(state.pathParameters['id']!),
                           ),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) =>
-                                  SlideTransition(
-                                    position: animation.drive(
-                                      Tween(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).chain(
-                                        CurveTween(curve: Curves.easeOutCubic),
-                                      ),
-                                    ),
-                                    child: child,
-                                  ),
                         ),
                       ),
                     ],

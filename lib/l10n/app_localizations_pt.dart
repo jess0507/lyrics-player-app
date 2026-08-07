@@ -607,6 +607,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get playlist_recently_played => 'Tocadas recentemente';
 
   @override
+  String get playlist_local_music => 'Música local';
+
+  @override
   String get playlist_clear_recently_played => 'Limpar histórico';
 
   @override

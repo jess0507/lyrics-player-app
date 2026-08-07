@@ -604,6 +604,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlist_recently_played => 'Baru Diputar';
 
   @override
+  String get playlist_local_music => 'Musik Lokal';
+
+  @override
   String get playlist_clear_recently_played => 'Hapus riwayat';
 
   @override

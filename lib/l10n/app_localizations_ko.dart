@@ -576,6 +576,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlist_recently_played => '최근 재생';
 
   @override
+  String get playlist_local_music => '로컬 음악';
+
+  @override
   String get playlist_clear_recently_played => '기록 지우기';
 
   @override

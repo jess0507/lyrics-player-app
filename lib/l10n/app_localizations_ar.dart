@@ -602,6 +602,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playlist_recently_played => 'شُغّل مؤخرًا';
 
   @override
+  String get playlist_local_music => 'الموسيقى المحلية';
+
+  @override
   String get playlist_clear_recently_played => 'مسح السجل';
 
   @override
