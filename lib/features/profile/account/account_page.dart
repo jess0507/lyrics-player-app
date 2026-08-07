@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/auth/auth_state_provider.dart';
 import '../../../core/firebase_available_provider.dart';
 import '../../../l10n/app_localizations.dart';
-import 'widgets/signed_in_view.dart';
 import 'widgets/signed_out_view.dart';
+import 'widgets/user_info_view.dart';
 
 class AccountPage extends ConsumerWidget {
   const AccountPage({super.key});

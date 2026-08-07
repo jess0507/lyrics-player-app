@@ -80,6 +80,9 @@ dependencies:
   # 分享音樂檔案（叫出系統分享面板）
   share_plus: ^12.0.2
 
+  # 網路連線狀態檢查（離線時擋下需要網路的歌詞功能）
+  connectivity_plus: ^6.1.0
+
   # 接收「分享」／「開啟工具」叫進本 App 的音訊檔（見 ExternalFileOpenService）。
   # 鎖 1.8.1：1.9.0 起原生端 compileSdk 提高到 37，本機 Android SDK 該
   # platform 用新的分數版號（android-37.0）命名，AGP 目前解析不到，會建置失敗。

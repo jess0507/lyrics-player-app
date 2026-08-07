@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
+import '../../../../core/network/ensure_online.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_snack_bar.dart';
 import 'sync_now_button.dart';
@@ -51,14 +52,17 @@ class UserInfoView extends ConsumerWidget {
         ListTile(
           leading: const Icon(Icons.logout),
           title: Text(l10n.account_sign_out),
-          onTap: () => auth.signOut(),
+          onTap: () async {
+            if (!await ensureOnline(context, ref)) return;
+            await auth.signOut();
+          },
         ),
         const Divider(height: 1),
         const SizedBox(height: 32),
         ListTile(
           leading: const Icon(Icons.cleaning_services_outlined),
           title: Text(l10n.account_delete_data),
-          onTap: () => _confirmDeleteData(context, auth),
+          onTap: () => _confirmDeleteData(context, ref, auth),
         ),
         const Divider(height: 1),
         ListTile(
@@ -70,7 +74,7 @@ class UserInfoView extends ConsumerWidget {
             l10n.account_delete,
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
-          onTap: () => _confirmDelete(context, auth),
+          onTap: () => _confirmDelete(context, ref, auth),
         ),
         const Divider(height: 1),
       ],
@@ -79,8 +83,11 @@ class UserInfoView extends ConsumerWidget {
 
   Future<void> _confirmDeleteData(
     BuildContext context,
+    WidgetRef ref,
     AuthService auth,
   ) async {
+    if (!await ensureOnline(context, ref)) return;
+    if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
     final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(
@@ -110,7 +117,13 @@ class UserInfoView extends ConsumerWidget {
     }
   }
 
-  Future<void> _confirmDelete(BuildContext context, AuthService auth) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    AuthService auth,
+  ) async {
+    if (!await ensureOnline(context, ref)) return;
+    if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
     final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(

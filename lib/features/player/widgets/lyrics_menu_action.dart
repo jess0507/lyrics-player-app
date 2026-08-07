@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/network/ensure_online.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../lyrics/auto_sync/lyrics_auto_sync_service.dart';
 import '../../lyrics/providers/track_lyrics_provider.dart';
@@ -58,6 +59,17 @@ enum LyricsMenuAction {
     _ => false,
   };
 
+  /// 是否需要網路連線(雲端服務 / 線上搜尋):
+  /// 離線時點選只提示確認連線,不進入後續流程。
+  bool get needsNetwork => switch (this) {
+    aiGenerate ||
+    searchOnline ||
+    import ||
+    autoSyncAeneas ||
+    autoSyncWhisperX => true,
+    _ => false,
+  };
+
   String label(AppLocalizations l10n) => switch (this) {
     aiGenerate => l10n.lyrics_ai_generate,
     searchOnline => l10n.lyrics_search_online,
@@ -104,6 +116,12 @@ Future<void> runLyricsMenuAction(
   required String title,
   VoidCallback? onDeleted,
 }) async {
+  // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
+  if (action.needsNetwork) {
+    if (!await ensureOnline(context, ref)) return;
+    if (!context.mounted) return;
+  }
+
   // 自動產生 / 自動對時走雲端服務,需登入;未登入時先詢問並導向登入頁。
   if (action == LyricsMenuAction.aiGenerate ||
       action == LyricsMenuAction.autoSyncAeneas ||
