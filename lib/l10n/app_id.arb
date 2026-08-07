@@ -105,6 +105,7 @@
   "common_ok": "OK",
   "common_delete": "Hapus",
   "common_retry": "Coba lagi",
+  "common_network_offline": "Periksa koneksi jaringan Anda dan coba lagi.",
   "common_today": "Hari ini",
   "common_yesterday": "Kemarin",
   "settings_color": "Warna tema",

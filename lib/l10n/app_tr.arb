@@ -105,6 +105,7 @@
   "common_ok": "Tamam",
   "common_delete": "Sil",
   "common_retry": "Yeniden dene",
+  "common_network_offline": "Lütfen ağ bağlantınızı kontrol edip tekrar deneyin.",
   "common_today": "Bugün",
   "common_yesterday": "Dün",
   "settings_color": "Tema rengi",

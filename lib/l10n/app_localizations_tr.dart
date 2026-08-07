@@ -322,6 +322,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get common_retry => 'Yeniden dene';
 
   @override
+  String get common_network_offline =>
+      'Lütfen ağ bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
   String get common_today => 'Bugün';
 
   @override

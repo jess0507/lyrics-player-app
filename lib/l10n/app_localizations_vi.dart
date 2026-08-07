@@ -324,6 +324,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_retry => 'Thử lại';
 
   @override
+  String get common_network_offline =>
+      'Vui lòng kiểm tra kết nối mạng và thử lại.';
+
+  @override
   String get common_today => 'Hôm nay';
 
   @override

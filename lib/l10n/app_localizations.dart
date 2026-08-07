@@ -726,6 +726,12 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get common_retry;
 
+  /// No description provided for @common_network_offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your network connection and try again.'**
+  String get common_network_offline;
+
   /// No description provided for @common_today.
   ///
   /// In en, this message translates to:

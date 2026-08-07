@@ -105,6 +105,7 @@
   "common_ok": "ОК",
   "common_delete": "Удалить",
   "common_retry": "Повторить",
+  "common_network_offline": "Проверьте подключение к сети и попробуйте снова.",
   "common_today": "Сегодня",
   "common_yesterday": "Вчера",
   "settings_color": "Цвет темы",

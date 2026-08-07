@@ -313,6 +313,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get common_retry => '再試行';
 
   @override
+  String get common_network_offline => 'ネットワーク接続を確認して、もう一度お試しください';
+
+  @override
   String get common_today => '今日';
 
   @override

@@ -325,6 +325,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get common_retry => 'Réessayer';
 
   @override
+  String get common_network_offline =>
+      'Vérifiez votre connexion réseau et réessayez.';
+
+  @override
   String get common_today => 'Aujourd\'hui';
 
   @override

@@ -105,6 +105,7 @@
   "common_ok": "OK",
   "common_delete": "Elimina",
   "common_retry": "Riprova",
+  "common_network_offline": "Controlla la connessione di rete e riprova.",
   "common_today": "Oggi",
   "common_yesterday": "Ieri",
   "settings_color": "Colore del tema",

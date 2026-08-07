@@ -322,6 +322,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get common_retry => 'Coba lagi';
 
   @override
+  String get common_network_offline =>
+      'Periksa koneksi jaringan Anda dan coba lagi.';
+
+  @override
   String get common_today => 'Hari ini';
 
   @override

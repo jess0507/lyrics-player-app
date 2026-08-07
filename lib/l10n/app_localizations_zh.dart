@@ -311,6 +311,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get common_retry => '重試';
 
   @override
+  String get common_network_offline => '請確認網路連線,並再試一次';
+
+  @override
   String get common_today => '今天';
 
   @override
@@ -955,6 +958,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get common_retry => '重试';
 
   @override
+  String get common_network_offline => '请确认网络连接,并再试一次';
+
+  @override
   String get common_today => '今天';
 
   @override
@@ -1597,6 +1603,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get common_retry => '重試';
+
+  @override
+  String get common_network_offline => '請確認網路連線,並再試一次';
 
   @override
   String get common_today => '今天';

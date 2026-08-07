@@ -105,6 +105,7 @@
   "common_ok": "OK",
   "common_delete": "Xóa",
   "common_retry": "Thử lại",
+  "common_network_offline": "Vui lòng kiểm tra kết nối mạng và thử lại.",
   "common_today": "Hôm nay",
   "common_yesterday": "Hôm qua",
   "settings_color": "Màu giao diện",

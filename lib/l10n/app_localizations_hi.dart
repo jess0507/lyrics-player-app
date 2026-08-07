@@ -323,6 +323,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get common_retry => 'पुनः प्रयास करें';
 
   @override
+  String get common_network_offline =>
+      'कृपया अपना नेटवर्क कनेक्शन जाँचें और फिर से प्रयास करें।';
+
+  @override
   String get common_today => 'आज';
 
   @override

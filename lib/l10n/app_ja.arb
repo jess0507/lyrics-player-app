@@ -105,6 +105,7 @@
   "common_ok": "OK",
   "common_delete": "削除",
   "common_retry": "再試行",
+  "common_network_offline": "ネットワーク接続を確認して、もう一度お試しください",
   "common_today": "今日",
   "common_yesterday": "昨日",
   "settings_color": "テーマカラー",

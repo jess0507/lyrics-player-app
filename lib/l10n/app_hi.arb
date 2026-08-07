@@ -105,6 +105,7 @@
   "common_ok": "ठीक है",
   "common_delete": "हटाएँ",
   "common_retry": "पुनः प्रयास करें",
+  "common_network_offline": "कृपया अपना नेटवर्क कनेक्शन जाँचें और फिर से प्रयास करें।",
   "common_today": "आज",
   "common_yesterday": "कल",
   "settings_color": "थीम रंग",

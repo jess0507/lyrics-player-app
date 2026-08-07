@@ -105,6 +105,7 @@
   "common_ok": "好",
   "common_delete": "删除",
   "common_retry": "重试",
+  "common_network_offline": "请确认网络连接,并再试一次",
   "common_today": "今天",
   "common_yesterday": "昨天",
   "settings_color": "主题颜色",

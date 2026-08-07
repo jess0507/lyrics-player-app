@@ -314,6 +314,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_retry => '다시 시도';
 
   @override
+  String get common_network_offline => '네트워크 연결을 확인한 후 다시 시도해 주세요';
+
+  @override
   String get common_today => '오늘';
 
   @override

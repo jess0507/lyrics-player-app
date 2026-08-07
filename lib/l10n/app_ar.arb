@@ -105,6 +105,7 @@
   "common_ok": "موافق",
   "common_delete": "حذف",
   "common_retry": "إعادة المحاولة",
+  "common_network_offline": "يرجى التحقق من اتصال الشبكة والمحاولة مرة أخرى.",
   "common_today": "اليوم",
   "common_yesterday": "أمس",
   "settings_color": "لون السمة",

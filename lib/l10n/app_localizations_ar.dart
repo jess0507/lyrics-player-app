@@ -320,6 +320,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get common_retry => 'إعادة المحاولة';
 
   @override
+  String get common_network_offline =>
+      'يرجى التحقق من اتصال الشبكة والمحاولة مرة أخرى.';
+
+  @override
   String get common_today => 'اليوم';
 
   @override

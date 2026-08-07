@@ -320,6 +320,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_retry => 'Повторить';
 
   @override
+  String get common_network_offline =>
+      'Проверьте подключение к сети и попробуйте снова.';
+
+  @override
   String get common_today => 'Сегодня';
 
   @override
