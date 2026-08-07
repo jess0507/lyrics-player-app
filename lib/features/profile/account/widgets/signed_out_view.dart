@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/auth/auth_service.dart';
 import '../../../../core/crash_reporter.dart';
+import '../../../../core/network/ensure_online.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_toast.dart';
 import 'country_code_dropdown.dart';
@@ -57,12 +58,14 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
   };
 
   /// 執行 [action],成功回傳 true、失敗顯示錯誤並回傳 false。
+  /// 離線時顯示提示並直接中止,不進入流程。
   /// 未指定 [failureMessage] 時視為登入流程:帳密錯誤顯示專屬訊息,
   /// 其他錯誤顯示「登入失敗」。
   Future<bool> _run(
     Future<void> Function() action, {
     String? failureMessage,
   }) async {
+    if (!await ensureOnline(context, ref) || !mounted) return false;
     final l10n = AppLocalizations.of(context)!;
     setState(() => _busy = true);
     try {
@@ -96,8 +99,10 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     showAppToast(message);
   }
 
-  /// 選擇登入方式(展開對應表單);重新選擇手機時重置驗證碼狀態。
-  void _select(_Method method) {
+  /// 選擇登入方式(展開對應表單);離線時提示並不展開,
+  /// 重新選擇手機時重置驗證碼狀態。
+  Future<void> _select(_Method method) async {
+    if (!await ensureOnline(context, ref)) return;
     setState(() {
       _method = method;
       if (method != _Method.phone) _verificationId = null;
