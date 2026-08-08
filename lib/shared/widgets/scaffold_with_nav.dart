@@ -13,10 +13,6 @@ class ScaffoldWithNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      // 鍵盤出現時讓它直接蓋住 mini player 與導覽列,不要把整條頂上去
-      // (否則每次開關鍵盤,底部整條與各分頁都會跟著跳動)。
-      // 需要避開鍵盤的頁面(搜尋、登入)由各自的 Scaffold 處理。
-      resizeToAvoidBottomInset: false,
       body: navigationShell,
       // 底部導覽不含播放器；mini player 疊在導覽列上方。
       bottomNavigationBar: Column(

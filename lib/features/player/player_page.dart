@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:seek_player/features/player/providers/playback_controller.dart';
-import 'package:seek_player/features/player/widgets/secondary_controls.dart';
-
 import 'package:seek_player/core/audio/audio_player_service.dart';
-import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/providers/settings_controller.dart';
-import 'package:seek_player/shared/widgets/marquee_text.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/player/widgets/lyrics_mode_menu.dart';
 import 'package:seek_player/features/player/widgets/lyrics_view.dart';
 import 'package:seek_player/features/player/widgets/player_artwork_panel.dart';
 import 'package:seek_player/features/player/widgets/player_background.dart';
 import 'package:seek_player/features/player/widgets/player_controls.dart';
+import 'package:seek_player/features/player/widgets/secondary_controls.dart';
 import 'package:seek_player/features/player/widgets/seek_bar.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/shared/widgets/marquee_text.dart';
 
 class PlayerPage extends ConsumerStatefulWidget {
   const PlayerPage({super.key});
@@ -77,10 +76,6 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
             trackId: mediaItem?.id,
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              // 鍵盤只會出現在覆蓋其上的 bottom sheet(線上搜尋歌詞),
-              // sheet 自己以 viewInsets 抬高;本頁不需隨鍵盤壓縮,
-              // 否則固定高度的封面 / 控制列會 overflow,且每 frame 重新 layout 造成卡頓。
-              resizeToAvoidBottomInset: false,
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 centerTitle: true,
