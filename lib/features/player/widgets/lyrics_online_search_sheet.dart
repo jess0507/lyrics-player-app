@@ -4,14 +4,13 @@ import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
 import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
-import 'package:seek_player/features/lyrics/online/services/lyrics_online_search_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
-/// 下方依狀態顯示「搜尋中 / 查無結果 / 候選結果列表」。開啟後立即以
-/// [query] 的結構化參數(title/artist/album/duration)做第一次查詢;
-/// 使用者改字重查時改走關鍵字比對([LyricsOnlineSearchService.searchByKeyword])。
+/// 下方依狀態顯示「搜尋中 / 查無結果 / 候選結果列表」。第一次查詢與重查
+/// 都走 LRCLIB 的關鍵字比對(`q=`),不用結構化欄位查詢——欄位查詢對
+/// tag metadata(album、檔名式標題)過於敏感,常整批 miss。
 ///
 /// 同名曲(尤其翻唱、live 版)可能有多筆候選,不自動選第一筆,交由使用者
 /// 確認以免套錯歌詞。後續套用以呼叫端的 [context]/[ref] 執行,避免本表單
@@ -21,7 +20,7 @@ Future<void> showLyricsOnlineSearchSheet(
   WidgetRef ref, {
   required String trackId,
   required String title,
-  required LyricsOnlineSearchQuery query,
+  String? artist,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -32,7 +31,7 @@ Future<void> showLyricsOnlineSearchSheet(
       parentRef: ref,
       trackId: trackId,
       title: title,
-      query: query,
+      artist: artist,
     ),
   );
 }
@@ -43,14 +42,14 @@ class _LyricsOnlineSearchSheet extends ConsumerStatefulWidget {
     required this.parentRef,
     required this.trackId,
     required this.title,
-    required this.query,
+    required this.artist,
   });
 
   final BuildContext parentContext;
   final WidgetRef parentRef;
   final String trackId;
   final String title;
-  final LyricsOnlineSearchQuery query;
+  final String? artist;
 
   @override
   ConsumerState<_LyricsOnlineSearchSheet> createState() =>
@@ -62,7 +61,7 @@ class _LyricsOnlineSearchSheetState
   late final TextEditingController _keywordController;
 
   /// 上一次查詢用的字串;查詢字串沒變就不重查(失敗後重試除外)。
-  /// 初值為預填字串,因為開面板時已用它(的結構化參數版本)查過一次。
+  /// 初值為預填字串,因為開面板時已用它查過一次。
   late String _lastKeyword;
   var _searching = true;
   var _failed = false;
@@ -74,7 +73,9 @@ class _LyricsOnlineSearchSheetState
     _lastKeyword = _initialKeyword;
     _keywordController = TextEditingController(text: _lastKeyword);
     _search(
-      () => ref.read(lyricsOnlineSearchServiceProvider).search(widget.query),
+      () => ref
+          .read(lyricsOnlineSearchServiceProvider)
+          .searchByKeyword(_lastKeyword),
     );
   }
 
@@ -85,12 +86,17 @@ class _LyricsOnlineSearchSheetState
   }
 
   /// 搜尋欄預填的查詢字串:曲名 + 演出者(重查時作為關鍵字使用)。
+  /// 標點符號以空格取代,避免檔名式標題(如「A - B」「A_B」)影響關鍵字比對。
   String get _initialKeyword {
-    final artist = widget.query.artist;
-    return [
-      widget.query.title,
+    final artist = widget.artist;
+    final keyword = [
+      widget.title,
       if (artist != null && artist.isNotEmpty) artist,
     ].join(' ');
+    return keyword
+        .replaceAll(RegExp(r'[\p{P}\p{S}]', unicode: true), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
   }
 
   Future<void> _searchByKeyword() async {

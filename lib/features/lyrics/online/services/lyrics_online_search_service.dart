@@ -6,21 +6,6 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
 
-/// 一次線上搜尋歌詞的查詢參數,皆已存在於現有 `Track` model。
-class LyricsOnlineSearchQuery {
-  const LyricsOnlineSearchQuery({
-    required this.title,
-    this.artist,
-    this.album,
-    this.durationMs,
-  });
-
-  final String title;
-  final String? artist;
-  final String? album;
-  final int? durationMs;
-}
-
 /// 組合層:查詢 LRCLIB 候選結果 → 使用者選定後轉存 `LyricsEntity`
 /// (`source = LyricsSource.online`)並呼叫既有 `lyricsRepositoryProvider.save`,
 /// 行為與手動匯入完全一致。
@@ -30,32 +15,8 @@ class LyricsOnlineSearchService {
   final LrclibClient _client;
   final Ref _ref;
 
-  /// 查詢候選結果:有 artist 時先試精確 `get`,命中且有歌詞內容直接回單筆;
-  /// 否則退回模糊 `search`,過濾掉純演奏曲 / 無歌詞內容的候選。
-  Future<List<LrclibResult>> search(LyricsOnlineSearchQuery query) async {
-    final durationSeconds = query.durationMs == null
-        ? null
-        : query.durationMs! ~/ 1000;
-    final artist = query.artist;
-    if (artist != null && artist.isNotEmpty) {
-      final exact = await _client.get(
-        trackName: query.title,
-        artistName: artist,
-        albumName: query.album,
-        durationSeconds: durationSeconds,
-      );
-      if (exact != null && exact.hasLyrics) return [exact];
-    }
-    final results = await _client.search(
-      trackName: query.title,
-      artistName: query.artist,
-      albumName: query.album,
-    );
-    return results.where((r) => r.hasLyrics).toList();
-  }
-
-  /// 使用者自行編輯查詢字串後的重查:改走 LRCLIB 的 `q` 關鍵字比對
-  /// (不限欄位),同樣過濾掉純演奏曲 / 無歌詞內容的候選。
+  /// 查詢候選結果:走 LRCLIB 的 `q` 關鍵字比對(不限欄位),
+  /// 過濾掉純演奏曲 / 無歌詞內容的候選。
   Future<List<LrclibResult>> searchByKeyword(String keyword) async {
     final results = await _client.searchByKeyword(keyword);
     return results.where((r) => r.hasLyrics).toList();
