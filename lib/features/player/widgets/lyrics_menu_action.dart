@@ -8,6 +8,7 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/player/widgets/lyrics_ai_generate_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_auto_sync_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_download_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
@@ -38,6 +39,9 @@ enum LyricsMenuAction {
   /// 重新匯入歌詞;已有歌詞時顯示。
   reimport,
 
+  /// 下載歌詞(匯出成檔案);已有歌詞時顯示。
+  download,
+
   /// 刪除歌詞;已有歌詞時顯示。
   delete;
 
@@ -49,6 +53,7 @@ enum LyricsMenuAction {
     autoSyncWhisperX => Icons.auto_awesome,
     fontSize => Icons.text_fields,
     reimport => Icons.file_open_outlined,
+    download => Icons.download_outlined,
     delete => Icons.delete_outline,
   };
 
@@ -78,6 +83,7 @@ enum LyricsMenuAction {
     autoSyncWhisperX => '${l10n.lyrics_auto_sync} · WhisperX',
     fontSize => l10n.lyrics_font_size,
     reimport => l10n.lyrics_reimport,
+    download => l10n.lyrics_download,
     delete => l10n.lyrics_delete,
   };
 }
@@ -102,6 +108,7 @@ List<LyricsMenuAction> lyricsMenuActions({
     if (hasLyrics) ...[
       LyricsMenuAction.fontSize,
       LyricsMenuAction.reimport,
+      LyricsMenuAction.download,
       LyricsMenuAction.delete,
     ],
   ];
@@ -166,6 +173,8 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.import:
     case LyricsMenuAction.reimport:
       await runLyricsImport(context, ref, trackId: trackId, title: title);
+    case LyricsMenuAction.download:
+      await runLyricsDownload(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.delete:
       await _confirmDelete(context, ref, trackId, onDeleted);
     case LyricsMenuAction.aiGenerate:
