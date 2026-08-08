@@ -8,7 +8,7 @@ import 'package:seek_player/router/app_router.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/services/track_fingerprint_service.dart';
-import 'package:seek_player/features/player/providers/player_sheet_controller.dart';
+import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 
 /// 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔（見 Android
@@ -81,7 +81,7 @@ class ExternalFileOpenService {
         ),
       ], 0);
     }
-    await _openPlayerSheet();
+    await _openPlayerPage();
   }
 
   String _titleFromPath(String path) {
@@ -90,10 +90,10 @@ class ExternalFileOpenService {
     return dot > 0 ? name.substring(0, dot) : name;
   }
 
-  Future<void> _openPlayerSheet() async {
+  Future<void> _openPlayerPage() async {
     final context = rootNavigatorKey.currentContext;
     if (context == null || !context.mounted) return;
-    await _ref.read(playerSheetControllerProvider.notifier).open(context);
+    await _ref.read(playerPageControllerProvider.notifier).open(context);
   }
 }
 

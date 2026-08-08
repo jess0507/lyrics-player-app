@@ -7,7 +7,7 @@ import 'package:seek_player/shared/widgets/marquee_text.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
-import 'package:seek_player/features/player/providers/player_sheet_controller.dart';
+import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/mini_player/widgets/mini_play_pause_button.dart';
 import 'package:seek_player/features/mini_player/widgets/mini_progress_bar.dart';
 import 'package:seek_player/features/mini_player/widgets/swipe_track_area.dart';
@@ -50,7 +50,7 @@ class MiniPlayer extends ConsumerWidget {
             // IconButton 會自行攔截點擊，只觸發各自的播放控制事件。
             child: InkWell(
               onTap: () => ref
-                  .read(playerSheetControllerProvider.notifier)
+                  .read(playerPageControllerProvider.notifier)
                   .open(context),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

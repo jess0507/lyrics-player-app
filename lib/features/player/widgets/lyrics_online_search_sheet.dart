@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
 import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
 import 'package:seek_player/features/lyrics/online/services/lyrics_online_search_service.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
 /// 下方依狀態顯示「搜尋中 / 查無結果 / 候選結果列表」。開啟後立即以
@@ -136,11 +135,13 @@ class _LyricsOnlineSearchSheetState
     final l10n = AppLocalizations.of(context)!;
     return Padding(
       // 搜尋欄取得焦點時把面板整體抬到鍵盤上方。
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.viewInsetsOf(context).bottom,
+      ),
       child: SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.7,
+            maxHeight: MediaQuery.sizeOf(context).height * 0.7,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -213,7 +214,6 @@ class _LyricsOnlineSearchSheetState
         ),
         Flexible(
           child: ListView.builder(
-            shrinkWrap: true,
             itemCount: _results.length,
             itemBuilder: (context, index) {
               final result = _results[index];

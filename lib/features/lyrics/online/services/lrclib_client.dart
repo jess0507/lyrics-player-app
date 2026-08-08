@@ -1,8 +1,18 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
+
+/// search 回應每筆候選都內含完整 plain / synced 歌詞全文,整包可達數百 KB;
+/// 在背景 isolate 解析,避免 jsonDecode 卡住 UI thread 一整個 frame。
+List<LrclibResult> _parseSearchResults(String body) {
+  final list = jsonDecode(body) as List<dynamic>;
+  return list
+      .map((e) => LrclibResult.fromJson(e as Map<String, dynamic>))
+      .toList();
+}
 
 /// LRCLIB 查詢失敗(逾時 / 網路錯誤 / 非預期狀態碼)。查無結果不算失敗,
 /// 由呼叫端以空 list / null 判斷。
@@ -75,10 +85,7 @@ class LrclibClient {
     ).replace(queryParameters: queryParameters);
     final response = await _send(uri);
     _checkStatus(response);
-    final list = jsonDecode(response.body) as List<dynamic>;
-    return list
-        .map((e) => LrclibResult.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return compute(_parseSearchResults, response.body);
   }
 
   Future<http.Response> _send(Uri uri) async {

@@ -76,6 +76,9 @@ class PlaylistsPage extends ConsumerWidget {
     final libraryCount = ref.watch(musicLibraryProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
+      // 本頁唯一的鍵盤來源是新增 / 重新命名對話框,對話框會自行避開鍵盤;
+      // 列表與 FAB 不需隨鍵盤壓縮,避免開關鍵盤時整頁跳動。
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text(l10n.tab_playlists)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _create(context, ref),

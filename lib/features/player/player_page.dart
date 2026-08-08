@@ -40,19 +40,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
     ref.watch(playbackControllerProvider);
     final audio = ref.watch(audioPlayerServiceProvider);
 
-    // 滿版 sheet(useSafeArea: false)會被 Flutter 以 removeTop 清掉頂部 inset
-    // (padding.top 與 viewPadding.top 都歸零),使 AppBar / 歌詞貼到狀態列 /
-    // 相機底下。背景仍要鋪滿整個螢幕,但須還原頂部 inset:直接從底層 View 讀
-    // 裝置真正的硬體 padding(不受 removePadding 影響),把 padding.top 補回,
-    // 讓按鈕與歌詞落在狀態列 / 相機下方。
-    final media = MediaQuery.of(context);
-    final devicePadding = MediaQueryData.fromView(View.of(context)).padding;
-    final restoredMedia = media.copyWith(
-      padding: media.padding.copyWith(top: devicePadding.top),
-    );
-
-    return MediaQuery(
-      data: restoredMedia,
+    return _FrozenViewInsets(
       child: StreamBuilder<SequenceState?>(
         stream: audio.player.sequenceStateStream,
         builder: (context, snapshot) {
@@ -89,6 +77,10 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
             trackId: mediaItem?.id,
             child: Scaffold(
               backgroundColor: Colors.transparent,
+              // 鍵盤只會出現在覆蓋其上的 bottom sheet(線上搜尋歌詞),
+              // sheet 自己以 viewInsets 抬高;本頁不需隨鍵盤壓縮,
+              // 否則固定高度的封面 / 控制列會 overflow,且每 frame 重新 layout 造成卡頓。
+              resizeToAvoidBottomInset: false,
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 centerTitle: true,
@@ -129,7 +121,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
                     ),
                 ],
               ),
-              // 滿版時 sheet 已覆蓋整個螢幕;頂部由 AppBar 處理,
+              // 頂部由 AppBar 處理;
               // 底部 / 左右系統列留白交給 SafeArea(top: false)。
               body: SafeArea(
                 top: false,
@@ -160,6 +152,25 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
           );
         },
       ),
+    );
+  }
+}
+
+/// 把 viewInsets 凍結為零:鍵盤只服務覆蓋其上的 bottom sheet(線上搜尋
+/// 歌詞),播放頁子樹用不到鍵盤 inset。抽成獨立 widget 讓 MediaQuery 依賴
+/// 止於此層——鍵盤動畫期間只有本 widget 重建;[child] 是同一個實例、提供
+/// 的 data 值也不變,整個播放頁子樹(AppBar / 封面 / 控制列)維持靜止,
+/// 不會每 frame 重建。
+class _FrozenViewInsets extends StatelessWidget {
+  const _FrozenViewInsets({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
+      child: child,
     );
   }
 }

@@ -137,7 +137,7 @@ class PlaylistDetailPage extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () =>
-                        showPlaylistAddTracksSheet(context, playlistId),
+                        showPlaylistAddTracksPage(context, playlistId),
                     icon: const Icon(Icons.add),
                     label: Text(l10n.playlist_add_item),
                   ),
@@ -152,7 +152,7 @@ class PlaylistDetailPage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () => showPlaylistAddTracksSheet(
+                      onPressed: () => showPlaylistAddTracksPage(
                         context,
                         playlistId,
                         reorderable: true,
