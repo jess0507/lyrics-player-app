@@ -398,6 +398,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_reimport => '다시 가져오기';
 
   @override
+  String get lyrics_download => '가사 다운로드';
+
+  @override
+  String get lyrics_download_success => '가사를 저장했습니다';
+
+  @override
+  String get lyrics_download_failed => '가사를 저장할 수 없습니다';
+
+  @override
   String get lyrics_delete => '가사 삭제';
 
   @override

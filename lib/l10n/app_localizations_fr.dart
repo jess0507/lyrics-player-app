@@ -415,6 +415,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_reimport => 'Réimporter';
 
   @override
+  String get lyrics_download => 'Télécharger les paroles';
+
+  @override
+  String get lyrics_download_success => 'Paroles enregistrées';
+
+  @override
+  String get lyrics_download_failed => 'Impossible d\'enregistrer les paroles';
+
+  @override
   String get lyrics_delete => 'Supprimer les paroles';
 
   @override

@@ -413,6 +413,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_reimport => 'Nhập lại';
 
   @override
+  String get lyrics_download => 'Tải lời bài hát xuống';
+
+  @override
+  String get lyrics_download_success => 'Đã lưu lời bài hát';
+
+  @override
+  String get lyrics_download_failed => 'Không thể lưu lời bài hát';
+
+  @override
   String get lyrics_delete => 'Xóa lời bài hát';
 
   @override

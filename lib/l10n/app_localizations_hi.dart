@@ -411,6 +411,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_reimport => 'फिर से आयात करें';
 
   @override
+  String get lyrics_download => 'बोल डाउनलोड करें';
+
+  @override
+  String get lyrics_download_success => 'बोल सहेजे गए';
+
+  @override
+  String get lyrics_download_failed => 'बोल सहेजे नहीं जा सके';
+
+  @override
   String get lyrics_delete => 'बोल हटाएँ';
 
   @override

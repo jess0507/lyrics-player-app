@@ -410,6 +410,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lyrics_reimport => 'Reimportar';
 
   @override
+  String get lyrics_download => 'Baixar letra';
+
+  @override
+  String get lyrics_download_success => 'Letra salva';
+
+  @override
+  String get lyrics_download_failed => 'Não foi possível salvar a letra';
+
+  @override
   String get lyrics_delete => 'Excluir letra';
 
   @override

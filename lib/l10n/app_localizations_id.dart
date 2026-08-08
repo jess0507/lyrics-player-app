@@ -409,6 +409,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_reimport => 'Impor ulang';
 
   @override
+  String get lyrics_download => 'Unduh lirik';
+
+  @override
+  String get lyrics_download_success => 'Lirik disimpan';
+
+  @override
+  String get lyrics_download_failed => 'Tidak dapat menyimpan lirik';
+
+  @override
   String get lyrics_delete => 'Hapus lirik';
 
   @override

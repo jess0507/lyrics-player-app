@@ -408,6 +408,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_reimport => 'إعادة الاستيراد';
 
   @override
+  String get lyrics_download => 'تنزيل كلمات الأغنية';
+
+  @override
+  String get lyrics_download_success => 'تم حفظ كلمات الأغنية';
+
+  @override
+  String get lyrics_download_failed => 'تعذّر حفظ كلمات الأغنية';
+
+  @override
   String get lyrics_delete => 'حذف كلمات الأغنية';
 
   @override

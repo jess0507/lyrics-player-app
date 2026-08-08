@@ -410,6 +410,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_reimport => 'Yeniden içe aktar';
 
   @override
+  String get lyrics_download => 'Şarkı sözünü indir';
+
+  @override
+  String get lyrics_download_success => 'Şarkı sözü kaydedildi';
+
+  @override
+  String get lyrics_download_failed => 'Şarkı sözü kaydedilemedi';
+
+  @override
   String get lyrics_delete => 'Şarkı sözünü sil';
 
   @override

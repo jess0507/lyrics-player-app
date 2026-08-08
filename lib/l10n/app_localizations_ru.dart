@@ -409,6 +409,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_reimport => 'Импортировать заново';
 
   @override
+  String get lyrics_download => 'Скачать текст';
+
+  @override
+  String get lyrics_download_success => 'Текст сохранён';
+
+  @override
+  String get lyrics_download_failed => 'Не удалось сохранить текст';
+
+  @override
   String get lyrics_delete => 'Удалить текст';
 
   @override

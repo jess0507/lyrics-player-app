@@ -392,6 +392,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_reimport => '重新匯入';
 
   @override
+  String get lyrics_download => '下載歌詞';
+
+  @override
+  String get lyrics_download_success => '歌詞已儲存';
+
+  @override
+  String get lyrics_download_failed => '無法儲存歌詞';
+
+  @override
   String get lyrics_delete => '刪除歌詞';
 
   @override
@@ -1054,6 +1063,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_reimport => '重新导入';
 
   @override
+  String get lyrics_download => '下载歌词';
+
+  @override
+  String get lyrics_download_success => '歌词已保存';
+
+  @override
+  String get lyrics_download_failed => '无法保存歌词';
+
+  @override
   String get lyrics_delete => '删除歌词';
 
   @override
@@ -1714,6 +1732,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_reimport => '重新匯入';
+
+  @override
+  String get lyrics_download => '下載歌詞';
+
+  @override
+  String get lyrics_download_success => '歌詞已儲存';
+
+  @override
+  String get lyrics_download_failed => '無法儲存歌詞';
 
   @override
   String get lyrics_delete => '刪除歌詞';

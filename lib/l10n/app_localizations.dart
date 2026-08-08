@@ -888,6 +888,24 @@ abstract class AppLocalizations {
   /// **'Re-import'**
   String get lyrics_reimport;
 
+  /// No description provided for @lyrics_download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download lyrics'**
+  String get lyrics_download;
+
+  /// No description provided for @lyrics_download_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics saved'**
+  String get lyrics_download_success;
+
+  /// No description provided for @lyrics_download_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save lyrics'**
+  String get lyrics_download_failed;
+
   /// No description provided for @lyrics_delete.
   ///
   /// In en, this message translates to:

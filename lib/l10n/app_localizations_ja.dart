@@ -394,6 +394,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_reimport => '再インポート';
 
   @override
+  String get lyrics_download => '歌詞をダウンロード';
+
+  @override
+  String get lyrics_download_success => '歌詞を保存しました';
+
+  @override
+  String get lyrics_download_failed => '歌詞を保存できませんでした';
+
+  @override
   String get lyrics_delete => '歌詞を削除';
 
   @override

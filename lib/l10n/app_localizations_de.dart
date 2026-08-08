@@ -412,6 +412,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_reimport => 'Erneut importieren';
 
   @override
+  String get lyrics_download => 'Liedtext herunterladen';
+
+  @override
+  String get lyrics_download_success => 'Liedtext gespeichert';
+
+  @override
+  String get lyrics_download_failed =>
+      'Liedtext konnte nicht gespeichert werden';
+
+  @override
   String get lyrics_delete => 'Liedtext löschen';
 
   @override
