@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:seek_player/features/music_list/music_list_page.dart';
 import 'package:seek_player/features/playlists/local_music_playlist_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/playlist_search_page.dart';
@@ -41,20 +39,20 @@ CustomTransitionPage<void> _slideInPage({
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/music',
+    initialLocation: '/playlists',
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             ScaffoldWithNav(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/music',
-                builder: (context, state) => const MusicListPage(),
-              ),
-            ],
-          ),
+          // StatefulShellBranch(
+          //   routes: [
+          //     GoRoute(
+          //       path: '/music',
+          //       builder: (context, state) => const MusicListPage(),
+          //     ),
+          //   ],
+          // ),
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -65,8 +63,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   // 否則會被 ':id' 吃掉並在 int.parse 時丟例外。
                   GoRoute(
                     path: 'local',
-                    builder: (context, state) =>
-                        const LocalMusicPlaylistPage(),
+                    builder: (context, state) => const LocalMusicPlaylistPage(),
                     routes: [
                       GoRoute(
                         path: 'search',
@@ -81,8 +78,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: ':id',
                     builder: (context, state) => PlaylistDetailPage(
-                      playlistId:
-                          int.parse(state.pathParameters['id']!),
+                      playlistId: int.parse(state.pathParameters['id']!),
                     ),
                     routes: [
                       GoRoute(
@@ -90,8 +86,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                         pageBuilder: (context, state) => _slideInPage(
                           key: state.pageKey,
                           child: PlaylistSearchPage(
-                            playlistId:
-                                int.parse(state.pathParameters['id']!),
+                            playlistId: int.parse(state.pathParameters['id']!),
                           ),
                         ),
                       ),

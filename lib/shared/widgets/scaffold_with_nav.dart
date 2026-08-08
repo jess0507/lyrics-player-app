@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:seek_player/features/mini_player/mini_player.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
@@ -28,11 +27,11 @@ class ScaffoldWithNav extends StatelessWidget {
             onDestinationSelected: (index) =>
                 navigationShell.goBranch(index, initialLocation: true),
             destinations: [
-              NavigationDestination(
-                icon: const Icon(Icons.library_music_outlined),
-                selectedIcon: const Icon(Icons.library_music),
-                label: l10n.tab_music_list,
-              ),
+              // NavigationDestination(
+              //   icon: const Icon(Icons.library_music_outlined),
+              //   selectedIcon: const Icon(Icons.library_music),
+              //   label: l10n.tab_music_list,
+              // ),
               NavigationDestination(
                 icon: const Icon(Icons.queue_music_outlined),
                 selectedIcon: const Icon(Icons.queue_music),
