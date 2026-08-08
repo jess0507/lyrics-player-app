@@ -1,5 +1,10 @@
 # Seek Player
 
+## Plan 文件慣例
+- 每次擬定實作計畫(plan)時,一律存放在 `plans/` 目錄,
+  以「編號-主題」命名(例如 `22-online-music-youtube-embed.md`),
+  編號接續目錄內現有的最大編號。
+
 ## Import 慣例
 - 專案內部檔案一律使用 `package:` import(例如
   `import 'package:seek_player/features/...';`),不使用相對路徑 import。
