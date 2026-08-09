@@ -6,6 +6,7 @@ import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/profile/account/widgets/country_code_dropdown.dart';
 
@@ -267,6 +268,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
                 controller: _phone,
                 enabled: !codeSent,
                 keyboardType: TextInputType.phone,
+                onTapOutside: dismissKeyboardOnTapOutside,
                 decoration: InputDecoration(
                   labelText: l10n.account_phone,
                   border: const OutlineInputBorder(),
@@ -286,6 +288,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
           TextField(
             controller: _smsCode,
             keyboardType: TextInputType.number,
+            onTapOutside: dismissKeyboardOnTapOutside,
             decoration: InputDecoration(
               labelText: l10n.account_sms_code,
               border: const OutlineInputBorder(),
@@ -310,6 +313,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
           controller: _email,
           keyboardType: TextInputType.emailAddress,
           autocorrect: false,
+          onTapOutside: dismissKeyboardOnTapOutside,
           decoration: InputDecoration(
             labelText: l10n.account_email,
             border: const OutlineInputBorder(),
@@ -319,6 +323,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
         TextField(
           controller: _password,
           obscureText: true,
+          onTapOutside: dismissKeyboardOnTapOutside,
           decoration: InputDecoration(
             labelText: l10n.account_password,
             border: const OutlineInputBorder(),

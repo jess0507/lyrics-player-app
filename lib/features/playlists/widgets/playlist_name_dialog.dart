@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/keyboard.dart';
 
 /// 輸入播放清單名稱的對話框,建立與重新命名共用。
 /// 回傳整理後的名稱;取消或留空回 null。
@@ -19,6 +20,7 @@ Future<String?> showPlaylistNameDialog(
         controller: controller,
         autofocus: true,
         textCapitalization: TextCapitalization.sentences,
+        onTapOutside: dismissKeyboardOnTapOutside,
         decoration: InputDecoration(hintText: l10n.playlist_name_hint),
         onSubmitted: (value) => Navigator.of(context).pop(_clean(value)),
       ),

@@ -10,6 +10,7 @@ import 'package:seek_player/features/playlists/providers/playlist_search_results
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 曲目搜尋頁:從播放清單內容頁進入,輸入關鍵字後過濾該清單內的曲目。
@@ -52,6 +53,7 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
           controller: _searchController,
           autofocus: true,
           textInputAction: TextInputAction.search,
+          onTapOutside: dismissKeyboardOnTapOutside,
           decoration: InputDecoration(
             hintText: l10n.playlist_search_hint,
             border: InputBorder.none,

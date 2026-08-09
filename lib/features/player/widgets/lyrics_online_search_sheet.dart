@@ -5,6 +5,7 @@ import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
 import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
@@ -168,6 +169,7 @@ class _LyricsOnlineSearchSheetState
                   controller: _keywordController,
                   textInputAction: TextInputAction.search,
                   onSubmitted: (_) => _searchByKeyword(),
+                  onTapOutside: dismissKeyboardOnTapOutside,
                   decoration: InputDecoration(
                     isDense: true,
                     border: const OutlineInputBorder(),

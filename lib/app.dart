@@ -8,6 +8,7 @@ import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_servic
 import 'package:seek_player/features/player/providers/external_file_open_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/router/app_router.dart';
+import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 import 'package:seek_player/shared/theme/app_theme.dart';
 
@@ -40,8 +41,14 @@ class SeekPlayerApp extends ConsumerWidget {
       darkTheme: AppTheme.dark(settings.seedColor),
       themeMode: settings.themeMode,
       routerConfig: router,
+      // 點擊輸入 UI 以外的空白處就收鍵盤(各 TextField 另外用
+      // onTapOutside 處理會吃掉手勢的元件,見 dismissKeyboardOnTapOutside)。
       // 更新提示:Google Play 新版本優先,其次 Shorebird patch 重啟提示。
-      builder: (context, child) => AppUpdateListener(child: child!),
+      builder: (context, child) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: dismissKeyboard,
+        child: AppUpdateListener(child: child!),
+      ),
     );
   }
 }
