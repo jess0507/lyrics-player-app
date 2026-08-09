@@ -12,6 +12,7 @@ import 'package:seek_player/features/player/widgets/lyrics_download_action.dart'
 import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
+import 'package:seek_player/features/player/widgets/lyrics_text_align_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_usage_limit_gate.dart';
 import 'package:seek_player/features/player/widgets/lyrics_view.dart';
 
@@ -36,6 +37,9 @@ enum LyricsMenuAction {
   /// 字體大小;已有歌詞時顯示。
   fontSize,
 
+  /// 對齊方式(左 / 中 / 右);已有歌詞時顯示(排在 [fontSize] 之後)。
+  textAlign,
+
   /// 重新匯入歌詞;已有歌詞時顯示。
   reimport,
 
@@ -52,6 +56,7 @@ enum LyricsMenuAction {
     autoSyncAeneas => Icons.auto_fix_high,
     autoSyncWhisperX => Icons.auto_awesome,
     fontSize => Icons.text_fields,
+    textAlign => Icons.format_align_left,
     reimport => Icons.file_open_outlined,
     download => Icons.download_outlined,
     delete => Icons.delete_outline,
@@ -82,6 +87,7 @@ enum LyricsMenuAction {
     autoSyncAeneas => '${l10n.lyrics_auto_sync} · aeneas',
     autoSyncWhisperX => '${l10n.lyrics_auto_sync} · WhisperX',
     fontSize => l10n.lyrics_font_size,
+    textAlign => l10n.lyrics_text_align,
     reimport => l10n.lyrics_reimport,
     download => l10n.lyrics_download,
     delete => l10n.lyrics_delete,
@@ -107,6 +113,7 @@ List<LyricsMenuAction> lyricsMenuActions({
     ],
     if (hasLyrics) ...[
       LyricsMenuAction.fontSize,
+      LyricsMenuAction.textAlign,
       LyricsMenuAction.reimport,
       LyricsMenuAction.download,
       LyricsMenuAction.delete,
@@ -168,6 +175,8 @@ Future<void> runLyricsMenuAction(
       );
     case LyricsMenuAction.fontSize:
       showLyricsFontSizeSheet(context);
+    case LyricsMenuAction.textAlign:
+      showLyricsTextAlignSheet(context);
     case LyricsMenuAction.searchOnline:
       await runLyricsOnlineSearch(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.import:

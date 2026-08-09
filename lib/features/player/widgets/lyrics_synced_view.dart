@@ -12,9 +12,16 @@ import 'package:seek_player/features/lyrics/models/lyrics.dart';
 /// 位置來源 `positionStream`(節流 ~200ms),目前行以二分搜尋定位;
 /// 使用者手動捲動時暫停自動置中數秒後恢復。
 class LyricsSyncedView extends ConsumerStatefulWidget {
-  const LyricsSyncedView({super.key, required this.lyrics});
+  const LyricsSyncedView({
+    super.key,
+    required this.lyrics,
+    this.textAlign = TextAlign.left,
+  });
 
   final Lyrics lyrics;
+
+  /// 歌詞的水平對齊方式,由 [LyricsView] 依使用者設定傳入。
+  final TextAlign textAlign;
 
   @override
   ConsumerState<LyricsSyncedView> createState() => _LyricsSyncedViewState();
@@ -158,7 +165,7 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Text(
                 line.text.isEmpty ? ' ' : line.text,
-                textAlign: TextAlign.center,
+                textAlign: widget.textAlign,
                 style:
                     (active
                             ? theme.textTheme.titleMedium

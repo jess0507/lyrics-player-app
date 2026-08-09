@@ -9,6 +9,7 @@ import 'package:seek_player/features/lyrics/providers/lyrics_active_job_provider
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_import_service.dart';
 import 'package:seek_player/features/player/providers/lyrics_font_scale_controller.dart';
+import 'package:seek_player/features/player/providers/lyrics_text_align_controller.dart';
 import 'package:seek_player/features/player/widgets/lyrics_job_status_view.dart';
 import 'package:seek_player/features/player/widgets/lyrics_synced_view.dart';
 import 'package:seek_player/features/player/widgets/lyrics_unsynced_view.dart';
@@ -39,14 +40,15 @@ class LyricsView extends ConsumerWidget {
           return _EmptyLyrics(trackId: trackId, title: title);
         }
         final scale = ref.watch(lyricsFontScaleProvider);
+        final align = ref.watch(lyricsTextAlignProvider).textAlign;
         return MediaQuery(
           // 僅縮放歌詞文字,不影響版面間距。
           data: MediaQuery.of(
             context,
           ).copyWith(textScaler: TextScaler.linear(scale)),
           child: lyrics.synced
-              ? LyricsSyncedView(lyrics: lyrics)
-              : LyricsUnsyncedView(lyrics: lyrics),
+              ? LyricsSyncedView(lyrics: lyrics, textAlign: align)
+              : LyricsUnsyncedView(lyrics: lyrics, textAlign: align),
         );
       },
     );
