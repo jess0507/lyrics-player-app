@@ -428,7 +428,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_show => 'Show lyrics';
 
   @override
-  String get lyrics_hide => 'Show artwork';
+  String get lyrics_hide => 'Exit full-screen lyrics';
 
   @override
   String get cover_edit => 'Edit cover';
@@ -456,6 +456,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Font size';
+
+  @override
+  String get lyrics_text_align => 'Text alignment';
+
+  @override
+  String get lyrics_text_align_left => 'Left';
+
+  @override
+  String get lyrics_text_align_center => 'Center';
+
+  @override
+  String get lyrics_text_align_right => 'Right';
 
   @override
   String get lyrics_auto_sync => 'Sync lyrics';

@@ -428,7 +428,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_show => 'Şarkı sözünü göster';
 
   @override
-  String get lyrics_hide => 'Albüm kapağını göster';
+  String get lyrics_hide => 'Tam ekran şarkı sözlerinden çık';
 
   @override
   String get cover_edit => 'Kapağı düzenle';
@@ -456,6 +456,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Yazı tipi boyutu';
+
+  @override
+  String get lyrics_text_align => 'Metin hizalama';
+
+  @override
+  String get lyrics_text_align_left => 'Sola';
+
+  @override
+  String get lyrics_text_align_center => 'Ortala';
+
+  @override
+  String get lyrics_text_align_right => 'Sağa';
 
   @override
   String get lyrics_auto_sync => 'Şarkı sözlerini eşitle';

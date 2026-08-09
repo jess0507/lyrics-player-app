@@ -431,7 +431,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_show => 'Hiện lời bài hát';
 
   @override
-  String get lyrics_hide => 'Hiện ảnh bìa';
+  String get lyrics_hide => 'Thoát lời bài hát toàn màn hình';
 
   @override
   String get cover_edit => 'Chỉnh sửa ảnh bìa';
@@ -459,6 +459,18 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Cỡ chữ';
+
+  @override
+  String get lyrics_text_align => 'Căn chỉnh văn bản';
+
+  @override
+  String get lyrics_text_align_left => 'Trái';
+
+  @override
+  String get lyrics_text_align_center => 'Giữa';
+
+  @override
+  String get lyrics_text_align_right => 'Phải';
 
   @override
   String get lyrics_auto_sync => 'Đồng bộ lời bài hát';

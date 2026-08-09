@@ -410,7 +410,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_show => '顯示歌詞';
 
   @override
-  String get lyrics_hide => '顯示封面';
+  String get lyrics_hide => '退出滿版歌詞';
 
   @override
   String get cover_edit => '編輯封面';
@@ -438,6 +438,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lyrics_font_size => '字體大小';
+
+  @override
+  String get lyrics_text_align => '對齊方式';
+
+  @override
+  String get lyrics_text_align_left => '置左';
+
+  @override
+  String get lyrics_text_align_center => '置中';
+
+  @override
+  String get lyrics_text_align_right => '置右';
 
   @override
   String get lyrics_auto_sync => '同步歌詞';
@@ -1081,7 +1093,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_show => '显示歌词';
 
   @override
-  String get lyrics_hide => '显示封面';
+  String get lyrics_hide => '退出全屏歌词';
 
   @override
   String get cover_edit => '编辑封面';
@@ -1109,6 +1121,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get lyrics_font_size => '字体大小';
+
+  @override
+  String get lyrics_text_align => '对齐方式';
+
+  @override
+  String get lyrics_text_align_left => '左对齐';
+
+  @override
+  String get lyrics_text_align_center => '居中';
+
+  @override
+  String get lyrics_text_align_right => '右对齐';
 
   @override
   String get lyrics_auto_sync => '同步歌词';
@@ -1752,7 +1776,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_show => '顯示歌詞';
 
   @override
-  String get lyrics_hide => '顯示封面';
+  String get lyrics_hide => '退出滿版歌詞';
 
   @override
   String get cover_edit => '編輯封面';
@@ -1780,6 +1804,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_font_size => '字體大小';
+
+  @override
+  String get lyrics_text_align => '對齊方式';
+
+  @override
+  String get lyrics_text_align_left => '置左';
+
+  @override
+  String get lyrics_text_align_center => '置中';
+
+  @override
+  String get lyrics_text_align_right => '置右';
 
   @override
   String get lyrics_auto_sync => '同步歌詞';

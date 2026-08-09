@@ -416,7 +416,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_show => '가사 표시';
 
   @override
-  String get lyrics_hide => '앨범 아트 표시';
+  String get lyrics_hide => '전체 화면 가사 종료';
 
   @override
   String get cover_edit => '커버 편집';
@@ -444,6 +444,18 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lyrics_font_size => '글자 크기';
+
+  @override
+  String get lyrics_text_align => '정렬';
+
+  @override
+  String get lyrics_text_align_left => '왼쪽';
+
+  @override
+  String get lyrics_text_align_center => '가운데';
+
+  @override
+  String get lyrics_text_align_right => '오른쪽';
 
   @override
   String get lyrics_auto_sync => '가사 동기화';

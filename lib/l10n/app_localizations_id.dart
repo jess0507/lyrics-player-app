@@ -427,7 +427,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_show => 'Tampilkan lirik';
 
   @override
-  String get lyrics_hide => 'Tampilkan sampul';
+  String get lyrics_hide => 'Keluar dari lirik layar penuh';
 
   @override
   String get cover_edit => 'Edit sampul';
@@ -455,6 +455,18 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Ukuran font';
+
+  @override
+  String get lyrics_text_align => 'Perataan teks';
+
+  @override
+  String get lyrics_text_align_left => 'Kiri';
+
+  @override
+  String get lyrics_text_align_center => 'Tengah';
+
+  @override
+  String get lyrics_text_align_right => 'Kanan';
 
   @override
   String get lyrics_auto_sync => 'Sinkronkan lirik';

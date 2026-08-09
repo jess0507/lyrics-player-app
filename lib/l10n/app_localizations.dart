@@ -927,7 +927,7 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_hide.
   ///
   /// In en, this message translates to:
-  /// **'Show artwork'**
+  /// **'Exit full-screen lyrics'**
   String get lyrics_hide;
 
   /// No description provided for @cover_edit.
@@ -983,6 +983,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Font size'**
   String get lyrics_font_size;
+
+  /// No description provided for @lyrics_text_align.
+  ///
+  /// In en, this message translates to:
+  /// **'Text alignment'**
+  String get lyrics_text_align;
+
+  /// No description provided for @lyrics_text_align_left.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get lyrics_text_align_left;
+
+  /// No description provided for @lyrics_text_align_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get lyrics_text_align_center;
+
+  /// No description provided for @lyrics_text_align_right.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get lyrics_text_align_right;
 
   /// No description provided for @lyrics_auto_sync.
   ///

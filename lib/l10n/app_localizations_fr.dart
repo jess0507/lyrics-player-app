@@ -433,7 +433,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_show => 'Afficher les paroles';
 
   @override
-  String get lyrics_hide => 'Afficher la pochette';
+  String get lyrics_hide => 'Quitter les paroles plein écran';
 
   @override
   String get cover_edit => 'Modifier la pochette';
@@ -461,6 +461,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Taille de police';
+
+  @override
+  String get lyrics_text_align => 'Alignement du texte';
+
+  @override
+  String get lyrics_text_align_left => 'Gauche';
+
+  @override
+  String get lyrics_text_align_center => 'Centre';
+
+  @override
+  String get lyrics_text_align_right => 'Droite';
 
   @override
   String get lyrics_auto_sync => 'Synchroniser les paroles';

@@ -429,7 +429,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_show => 'बोल दिखाएँ';
 
   @override
-  String get lyrics_hide => 'आर्टवर्क दिखाएँ';
+  String get lyrics_hide => 'फ़ुल-स्क्रीन लिरिक्स से बाहर निकलें';
 
   @override
   String get cover_edit => 'कवर संपादित करें';
@@ -457,6 +457,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'फ़ॉन्ट आकार';
+
+  @override
+  String get lyrics_text_align => 'टेक्स्ट संरेखण';
+
+  @override
+  String get lyrics_text_align_left => 'बाएँ';
+
+  @override
+  String get lyrics_text_align_center => 'मध्य';
+
+  @override
+  String get lyrics_text_align_right => 'दाएँ';
 
   @override
   String get lyrics_auto_sync => 'बोल सिंक करें';

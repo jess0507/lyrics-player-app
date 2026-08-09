@@ -412,7 +412,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_show => '歌詞を表示';
 
   @override
-  String get lyrics_hide => 'アートワークを表示';
+  String get lyrics_hide => '全画面歌詞を終了';
 
   @override
   String get cover_edit => 'カバーを編集';
@@ -440,6 +440,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lyrics_font_size => '文字サイズ';
+
+  @override
+  String get lyrics_text_align => '文字の配置';
+
+  @override
+  String get lyrics_text_align_left => '左揃え';
+
+  @override
+  String get lyrics_text_align_center => '中央揃え';
+
+  @override
+  String get lyrics_text_align_right => '右揃え';
 
   @override
   String get lyrics_auto_sync => '歌詞を同期';

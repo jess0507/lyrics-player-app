@@ -426,7 +426,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_show => 'عرض كلمات الأغنية';
 
   @override
-  String get lyrics_hide => 'عرض صورة الغلاف';
+  String get lyrics_hide => 'إنهاء كلمات الأغنية بملء الشاشة';
 
   @override
   String get cover_edit => 'تعديل الغلاف';
@@ -454,6 +454,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'حجم الخط';
+
+  @override
+  String get lyrics_text_align => 'محاذاة النص';
+
+  @override
+  String get lyrics_text_align_left => 'يسار';
+
+  @override
+  String get lyrics_text_align_center => 'وسط';
+
+  @override
+  String get lyrics_text_align_right => 'يمين';
 
   @override
   String get lyrics_auto_sync => 'مزامنة الكلمات';

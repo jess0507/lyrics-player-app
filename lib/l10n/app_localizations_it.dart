@@ -430,7 +430,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_show => 'Mostra testo';
 
   @override
-  String get lyrics_hide => 'Mostra copertina';
+  String get lyrics_hide => 'Esci dal testo a schermo intero';
 
   @override
   String get cover_edit => 'Modifica copertina';
@@ -458,6 +458,18 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Dimensione del carattere';
+
+  @override
+  String get lyrics_text_align => 'Allineamento del testo';
+
+  @override
+  String get lyrics_text_align_left => 'Sinistra';
+
+  @override
+  String get lyrics_text_align_center => 'Centro';
+
+  @override
+  String get lyrics_text_align_right => 'Destra';
 
   @override
   String get lyrics_auto_sync => 'Sincronizza testo';

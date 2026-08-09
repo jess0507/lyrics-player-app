@@ -431,7 +431,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_show => 'Liedtext anzeigen';
 
   @override
-  String get lyrics_hide => 'Cover anzeigen';
+  String get lyrics_hide => 'Vollbild-Songtext beenden';
 
   @override
   String get cover_edit => 'Cover bearbeiten';
@@ -459,6 +459,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Schriftgröße';
+
+  @override
+  String get lyrics_text_align => 'Textausrichtung';
+
+  @override
+  String get lyrics_text_align_left => 'Links';
+
+  @override
+  String get lyrics_text_align_center => 'Mitte';
+
+  @override
+  String get lyrics_text_align_right => 'Rechts';
 
   @override
   String get lyrics_auto_sync => 'Liedtext synchronisieren';

@@ -427,7 +427,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_show => 'Показать текст';
 
   @override
-  String get lyrics_hide => 'Показать обложку';
+  String get lyrics_hide => 'Выйти из полноэкранного текста';
 
   @override
   String get cover_edit => 'Изменить обложку';
@@ -455,6 +455,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_font_size => 'Размер шрифта';
+
+  @override
+  String get lyrics_text_align => 'Выравнивание текста';
+
+  @override
+  String get lyrics_text_align_left => 'Слева';
+
+  @override
+  String get lyrics_text_align_center => 'По центру';
+
+  @override
+  String get lyrics_text_align_right => 'Справа';
 
   @override
   String get lyrics_auto_sync => 'Синхронизация текста';
