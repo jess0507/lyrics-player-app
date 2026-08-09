@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Splash 背景：深色主題=黑（覆寫 values/colors.xml 的白） -->
-    <color name="splash_background">#000000</color>
-</resources>

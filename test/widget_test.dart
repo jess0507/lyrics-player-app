@@ -14,7 +14,7 @@ class _FakeMusicLibrary extends MusicLibrary {
 }
 
 void main() {
-  testWidgets('App boots to the music tab', (tester) async {
+  testWidgets('App boots to the playlists tab', (tester) async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await PreferencesService.create();
 
@@ -29,9 +29,11 @@ void main() {
     );
     await tester.pump();
 
-    // 預設語系 en：底部導覽應只剩音樂與個人兩個分頁（播放器已改為 mini player + sheet）。
-    expect(find.text('Music'), findsWidgets);
+    // 預設語系 en：底部導覽只剩播放清單與個人兩個分頁
+    // （播放器已改為 mini player + sheet；音樂清單分頁已併入播放清單的「本地音樂」）。
+    expect(find.text('Playlists'), findsWidgets);
     expect(find.text('Profile'), findsWidgets);
     expect(find.text('Player'), findsNothing);
+    expect(find.text('Music'), findsNothing);
   });
 }

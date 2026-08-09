@@ -32,6 +32,14 @@ class $AssetsIconGen {
   AssetGenImage get appLogoAndroid12 =>
       const AssetGenImage('assets/icon/app_logo_android12.png');
 
+  /// File path: assets/icon/app_logo_android12_dark.png
+  AssetGenImage get appLogoAndroid12Dark =>
+      const AssetGenImage('assets/icon/app_logo_android12_dark.png');
+
+  /// File path: assets/icon/app_logo_dark.png
+  AssetGenImage get appLogoDark =>
+      const AssetGenImage('assets/icon/app_logo_dark.png');
+
   /// File path: assets/icon/app_logo_icon.png
   AssetGenImage get appLogoIcon =>
       const AssetGenImage('assets/icon/app_logo_icon.png');
@@ -48,6 +56,8 @@ class $AssetsIconGen {
     appLogoSvg,
     appLogo512,
     appLogoAndroid12,
+    appLogoAndroid12Dark,
+    appLogoDark,
     appLogoIcon,
     music,
     playlist,

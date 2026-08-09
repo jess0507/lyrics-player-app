@@ -138,14 +138,23 @@ flutter_launcher_icons:
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/icon/app_logo.png"
 
-# App 啟動畫面設定：白底 + logo 置中
+# App 啟動畫面設定：淺色=白底、深色=黑底，logo 置中
 # 產生指令：dart run flutter_native_splash:create
+# 注意：該指令會覆寫 android/app/src/main/res/values*/styles.xml，
+#   沖掉手動加的 edge-to-edge / forceDarkAllowed / windowLayoutInDisplayCutoutMode
+#   等設定。重跑後務必比對 git diff 並把那些項目補回。
 flutter_native_splash:
   color: "#FFFFFF"
   image: "assets/icon/app_logo.png"
+  # 深色模式：黑底 + 白線版 logo（*_dark.png 是把黑色線條改成白色的版本，
+  # 直接沿用淺色版會讓黑線在黑底上整個消失）。
+  color_dark: "#000000"
+  image_dark: "assets/icon/app_logo_dark.png"
   # Android 12+ 啟動畫面 API（圖示會被圓形遮罩，使用留白較多的版本）
   android_12:
     color: "#FFFFFF"
     image: "assets/icon/app_logo_android12.png"
+    color_dark: "#000000"
+    image_dark: "assets/icon/app_logo_android12_dark.png"
   android: true
   ios: true

@@ -22,6 +22,9 @@ class AboutPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final version = ref.watch(appVersionProvider).valueOrNull ?? '';
+    // logo 的橫線在淺色版是黑色、深色版是白色（綠色音符兩版相同）。
+    // 背景透明直接疊在 Scaffold 上，深色模式沿用淺色版會讓橫線幾乎看不見。
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profile_about)),
       body: ListView(
@@ -31,7 +34,9 @@ class AboutPage extends ConsumerWidget {
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.transparent,
-              backgroundImage: Assets.icon.appLogoPng.provider(),
+              backgroundImage:
+                  (isDark ? Assets.icon.appLogoDark : Assets.icon.appLogoPng)
+                      .provider(),
             ),
           ),
           const SizedBox(height: 12),

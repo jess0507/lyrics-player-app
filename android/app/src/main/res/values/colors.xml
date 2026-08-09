@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
-    <!-- Splash 背景：淺色主題=白；深色由 values-night/colors.xml 覆寫為黑 -->
-    <color name="splash_background">#FFFFFF</color>
+    <!-- Splash 背景不在這裡定義：API<31 由 drawable{,-night}/background.png 決定，
+         API 31+ 由 values{,-night}-v31/styles.xml 的 windowSplashScreenBackground 決定，
+         兩者都由 flutter_native_splash 依 pubspec 的 color / color_dark 產生。 -->
 </resources>

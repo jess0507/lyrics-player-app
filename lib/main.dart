@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show FlutterError, kReleaseMode;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
@@ -20,6 +21,19 @@ import 'package:seek_player/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 無邊框(edge-to-edge)顯示：targetSdk 36 讓 Android 15+ 由系統強制開啟，
+  // 但 Android 14 以下不會，Play Console 會警告「不會向所有使用者顯示無邊框
+  // 畫面」。這裡明確開啟並把系統列塗成透明，讓各版本表現一致。
+  // (Android 15+ 已忽略 statusBarColor / navigationBarColor，僅對舊版生效。)
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+    ),
+  );
 
   // 背景播放 / 通知列控制。
   await JustAudioBackground.init(
