@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,6 +39,14 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
   String? _verificationId;
 
   @override
+  void initState() {
+    super.initState();
+    // 進入登入頁就探一次網路:離線時送出離線事件,由 OfflineToastListener
+    // 顯示提示,使用者不必等到按下登入才發現連不上。
+    unawaited(ensureOnline(ref));
+  }
+
+  @override
   void dispose() {
     _email.dispose();
     _password.dispose();
@@ -60,7 +70,6 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
 
   /// 執行 [action],成功回傳 true、失敗顯示錯誤並回傳 false。
   /// 進入流程前先收起鍵盤,避免鍵盤擋住等待中的畫面與結果提示。
-  /// 離線時顯示提示並直接中止,不進入流程。
   /// 未指定 [failureMessage] 時視為登入流程:帳密錯誤顯示專屬訊息,
   /// 其他錯誤顯示「登入失敗」。
   Future<bool> _run(
@@ -68,7 +77,6 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     String? failureMessage,
   }) async {
     dismissKeyboard();
-    if (!await ensureOnline(context, ref) || !mounted) return false;
     final l10n = AppLocalizations.of(context)!;
     setState(() => _busy = true);
     try {
@@ -102,10 +110,8 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     showAppToast(message);
   }
 
-  /// 選擇登入方式(展開對應表單);離線時提示並不展開,
-  /// 重新選擇手機時重置驗證碼狀態。
-  Future<void> _select(_Method method) async {
-    if (!await ensureOnline(context, ref)) return;
+  /// 選擇登入方式(展開對應表單);重新選擇手機時重置驗證碼狀態。
+  void _select(_Method method) {
     setState(() {
       _method = method;
       if (method != _Method.phone) _verificationId = null;

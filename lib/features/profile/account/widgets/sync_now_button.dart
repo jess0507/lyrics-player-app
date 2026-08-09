@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/core/sync/sync_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
@@ -21,8 +20,6 @@ class _SyncNowButtonState extends ConsumerState<SyncNowButton> {
   bool _syncing = false;
 
   Future<void> _handleTap() async {
-    if (!await ensureOnline(context, ref)) return;
-    if (!mounted) return;
     setState(() => _syncing = true);
     final l10n = AppLocalizations.of(context)!;
     final ok = await ref.read(syncServiceProvider).syncNow();

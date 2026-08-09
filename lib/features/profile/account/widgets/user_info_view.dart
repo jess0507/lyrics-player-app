@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +13,29 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/profile/account/widgets/sync_now_button.dart';
 
 /// 已登入:顯示頭像、Email、同步、登出與刪除帳號。
-class UserInfoView extends ConsumerWidget {
+class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key, required this.user});
 
   final User user;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<UserInfoView> createState() => _UserInfoViewState();
+}
+
+class _UserInfoViewState extends ConsumerState<UserInfoView> {
+  @override
+  void initState() {
+    super.initState();
+    // 進入本頁就探一次網路:離線時送出離線事件,由 OfflineToastListener
+    // 顯示提示,各動作本身不再各自守門。
+    unawaited(ensureOnline(ref));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final auth = ref.read(authServiceProvider);
+    final user = widget.user;
     final photo = user.photoURL;
 
     return ListView(
@@ -52,14 +68,14 @@ class UserInfoView extends ConsumerWidget {
         ListTile(
           leading: const Icon(Icons.logout),
           title: Text(l10n.account_sign_out),
-          onTap: () => _signOut(context, ref, auth),
+          onTap: () => _signOut(context, auth),
         ),
         const Divider(height: 1),
         const SizedBox(height: 32),
         ListTile(
           leading: const Icon(Icons.cleaning_services_outlined),
           title: Text(l10n.account_delete_data),
-          onTap: () => _confirmDeleteData(context, ref, auth),
+          onTap: () => _confirmDeleteData(context, auth),
         ),
         const Divider(height: 1),
         ListTile(
@@ -71,7 +87,7 @@ class UserInfoView extends ConsumerWidget {
             l10n.account_delete,
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
-          onTap: () => _confirmDelete(context, ref, auth),
+          onTap: () => _confirmDelete(context, auth),
         ),
         const Divider(height: 1),
       ],
@@ -80,13 +96,7 @@ class UserInfoView extends ConsumerWidget {
 
   /// 登出並以 toast 回報結果。成功後 authState 變更,本視圖會被換成
   /// 登入畫面;toast 掛在 root overlay,不依賴本視圖的 context。
-  Future<void> _signOut(
-    BuildContext context,
-    WidgetRef ref,
-    AuthService auth,
-  ) async {
-    if (!await ensureOnline(context, ref)) return;
-    if (!context.mounted) return;
+  Future<void> _signOut(BuildContext context, AuthService auth) async {
     final l10n = AppLocalizations.of(context)!;
     try {
       await auth.signOut();
@@ -99,11 +109,8 @@ class UserInfoView extends ConsumerWidget {
 
   Future<void> _confirmDeleteData(
     BuildContext context,
-    WidgetRef ref,
     AuthService auth,
   ) async {
-    if (!await ensureOnline(context, ref)) return;
-    if (!context.mounted) return;
     final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -132,13 +139,7 @@ class UserInfoView extends ConsumerWidget {
     }
   }
 
-  Future<void> _confirmDelete(
-    BuildContext context,
-    WidgetRef ref,
-    AuthService auth,
-  ) async {
-    if (!await ensureOnline(context, ref)) return;
-    if (!context.mounted) return;
+  Future<void> _confirmDelete(BuildContext context, AuthService auth) async {
     final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,

@@ -125,7 +125,7 @@ Future<void> runLyricsMenuAction(
 }) async {
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
   if (action.needsNetwork) {
-    if (!await ensureOnline(context, ref)) return;
+    if (!await ensureOnline(ref)) return;
     if (!context.mounted) return;
   }
 

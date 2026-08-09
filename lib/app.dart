@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/network/offline_toast_listener.dart';
 import 'package:seek_player/core/sync/sync_service.dart';
 import 'package:seek_player/core/update/app_update_listener.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
@@ -44,10 +45,11 @@ class SeekPlayerApp extends ConsumerWidget {
       // 點擊輸入 UI 以外的空白處就收鍵盤(各 TextField 另外用
       // onTapOutside 處理會吃掉手勢的元件,見 dismissKeyboardOnTapOutside)。
       // 更新提示:Google Play 新版本優先,其次 Shorebird patch 重啟提示。
+      // 離線提示:各頁面呼叫 ensureOnline 送出的離線事件在此統一顯示 toast。
       builder: (context, child) => GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: dismissKeyboard,
-        child: AppUpdateListener(child: child!),
+        child: OfflineToastListener(child: AppUpdateListener(child: child!)),
       ),
     );
   }
