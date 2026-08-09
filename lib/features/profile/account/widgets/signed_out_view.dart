@@ -193,6 +193,26 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    return Stack(
+      children: [
+        _signInList(l10n),
+        // 處理中時以半透明遮罩疊在整頁上方,同時擋住重複操作。
+        if (_busy)
+          Positioned.fill(
+            child: AbsorbPointer(
+              child: ColoredBox(
+                color: Theme.of(
+                  context,
+                ).colorScheme.scrim.withValues(alpha: 0.32),
+                child: const Center(child: CircularProgressIndicator()),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _signInList(AppLocalizations l10n) {
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
@@ -239,10 +259,6 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
           icon: const Icon(Icons.mail_outline),
           label: Text(l10n.account_method_email),
         ),
-        if (_busy) ...[
-          const SizedBox(height: 24),
-          const Center(child: CircularProgressIndicator()),
-        ],
       ],
     );
   }
