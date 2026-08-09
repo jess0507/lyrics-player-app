@@ -59,6 +59,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
   };
 
   /// 執行 [action],成功回傳 true、失敗顯示錯誤並回傳 false。
+  /// 進入流程前先收起鍵盤,避免鍵盤擋住等待中的畫面與結果提示。
   /// 離線時顯示提示並直接中止,不進入流程。
   /// 未指定 [failureMessage] 時視為登入流程:帳密錯誤顯示專屬訊息,
   /// 其他錯誤顯示「登入失敗」。
@@ -66,6 +67,7 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     Future<void> Function() action, {
     String? failureMessage,
   }) async {
+    dismissKeyboard();
     if (!await ensureOnline(context, ref) || !mounted) return false;
     final l10n = AppLocalizations.of(context)!;
     setState(() => _busy = true);
