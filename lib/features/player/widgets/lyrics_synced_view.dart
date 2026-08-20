@@ -94,9 +94,15 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
   }
 
   void _scrollToCurrent() {
-    if (_currentIndex < 0) return;
+    final index = _currentIndex;
+    if (index < 0 || index >= _lineKeys.length) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final ctx = _lineKeys[_currentIndex].currentContext;
+      // 這一幀之間可能換曲(keys 重建、_currentIndex 重設為 -1)或位置跳到
+      // 首行之前,因此以排程當下的 index 重新驗證,避免越界。
+      if (!mounted || index != _currentIndex || index >= _lineKeys.length) {
+        return;
+      }
+      final ctx = _lineKeys[index].currentContext;
       if (ctx == null) return; // 目前行未在快取範圍內,跳過(下次更新再追)
       Scrollable.ensureVisible(
         ctx,
