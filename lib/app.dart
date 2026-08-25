@@ -9,6 +9,7 @@ import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_servic
 import 'package:seek_player/features/player/providers/external_file_open_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/router/app_router.dart';
+import 'package:seek_player/router/back_button_dispatcher_provider.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 import 'package:seek_player/shared/theme/app_theme.dart';
@@ -31,6 +32,9 @@ class SeekPlayerApp extends ConsumerWidget {
     ref.watch(externalFileOpenServiceProvider);
     final settings = ref.watch(settingsControllerProvider);
     final router = ref.watch(routerProvider);
+    // 不用 routerConfig,改分別傳入以換掉返回鍵 dispatcher,
+    // 見 SafeRootBackButtonDispatcher。
+    final backButtonDispatcher = ref.watch(backButtonDispatcherProvider);
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.app_title,
@@ -41,7 +45,10 @@ class SeekPlayerApp extends ConsumerWidget {
       theme: AppTheme.light(settings.seedColor),
       darkTheme: AppTheme.dark(settings.seedColor),
       themeMode: settings.themeMode,
-      routerConfig: router,
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      backButtonDispatcher: backButtonDispatcher,
       // 點擊輸入 UI 以外的空白處就收鍵盤(各 TextField 另外用
       // onTapOutside 處理會吃掉手勢的元件,見 dismissKeyboardOnTapOutside)。
       // 更新提示:Google Play 新版本優先,其次 Shorebird patch 重啟提示。
