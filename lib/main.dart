@@ -75,8 +75,8 @@ Future<void> main() async {
     bindCrashUserIdentifier();
 
     firebaseAvailable = true;
-  } catch (e) {
-    debugPrint('Firebase 初始化失敗，帳戶功能停用：$e');
+  } catch (e, s) {
+    reportError(e, s, reason: 'Firebase 初始化失敗，帳戶功能停用');
   }
 
   final prefs = await PreferencesService.create();

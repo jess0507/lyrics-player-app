@@ -154,7 +154,6 @@ Future<void> lyricsBackgroundMain() async {
       activeTitle: e.activeTitle,
     );
   } catch (e, s) {
-    debugPrint('[LyricsBg] 未預期錯誤: $e');
     reportError(e, s, reason: '背景歌詞處理：未預期錯誤');
     resultText = request.failedLabel;
     emit(LyricsBackgroundEventType.error, errorName: 'unknown');

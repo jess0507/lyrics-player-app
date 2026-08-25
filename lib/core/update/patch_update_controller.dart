@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
@@ -57,7 +56,6 @@ class PatchUpdateController extends Notifier<PatchUpdateState> {
           state = PatchUpdateState.upToDate;
       }
     } catch (e, s) {
-      debugPrint('Shorebird patch 更新失敗：$e');
       reportError(e, s, reason: 'Shorebird patch 更新失敗');
       state = PatchUpdateState.error;
     }

@@ -148,14 +148,15 @@ class LyricsAutoGenerateService {
         '[LyricsAutoGenerateService] trackId:$trackId, 已送出 generate_lyrics',
       );
     } on FirebaseFunctionsException catch (e, s) {
-      debugPrint('Firebase Funcion generate_lyrics: $e');
       final exception = _toException(e);
       // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿 / 已有其他
-      // 曲目正在處理都屬於使用者狀態非 bug,不上報。
+      // 曲目正在處理都屬於使用者狀態非 bug,不上報,只留本機 log。
       if (e.code != 'unauthenticated' &&
           e.code != 'resource-exhausted' &&
           exception.error != LyricsAutoGenerateError.busy) {
         reportError(e, s, reason: 'generate_lyrics 失敗(code=${e.code})');
+      } else {
+        debugPrint('Firebase Funcion generate_lyrics: $e');
       }
       throw exception;
     }

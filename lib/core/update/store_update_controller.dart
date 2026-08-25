@@ -50,7 +50,6 @@ class StoreUpdateController extends Notifier<StoreUpdateState> {
           ? StoreUpdateState.updateAvailable
           : StoreUpdateState.upToDate;
     } catch (e, s) {
-      debugPrint('Google Play 版本檢查失敗：$e');
       reportError(e, s, reason: 'Google Play 版本檢查失敗');
       state = StoreUpdateState.error;
     }

@@ -96,7 +96,6 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
       );
       return false;
     } catch (e, s) {
-      debugPrint('[Account] 登入流程錯誤:$e\n$s');
       reportError(e, s, reason: '登入流程未預期錯誤');
       _showMessage(failureMessage ?? l10n.account_sign_in_failed);
       return false;

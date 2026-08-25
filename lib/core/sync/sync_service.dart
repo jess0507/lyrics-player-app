@@ -67,7 +67,6 @@ class SyncService {
     try {
       await _restoreFromCloud(uid);
     } catch (e, s) {
-      debugPrint('[Sync] 還原失敗，略過：$e');
       reportError(e, s, reason: '登入後從雲端還原失敗');
     }
     await _maybeUpload(uid);
@@ -291,7 +290,6 @@ class SyncService {
       return true;
     } catch (e, s) {
       // 離線、權限、逾時等：靜默略過，下次啟動自然再試。
-      debugPrint('[Sync] 上傳失敗，略過：$e');
       reportError(e, s, reason: '統計 / 設定上傳失敗');
       return false;
     }
