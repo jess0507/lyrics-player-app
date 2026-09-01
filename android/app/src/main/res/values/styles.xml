@@ -23,5 +23,14 @@
          This Theme is only used starting with V2 of Flutter's Android embedding. -->
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
+        <!-- 無邊框(edge-to-edge):Flutter 起動後會把 Activity theme 由 LaunchTheme
+             換成 NormalTheme,所以同一組屬性這裡必須再設一次。parent 的舊版
+             Theme.Light/Black.NoTitleBar 預設 windowDrawsSystemBarBackgrounds=false,
+             少了它 Android 11~14(引擎只在 API<30 自行補旗標)的
+             setStatusBarColor/setNavigationBarColor 會失效、系統列維持不透明。 -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 </resources>

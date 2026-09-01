@@ -1,7 +1,10 @@
 package com.js.seek_player
 
 import android.content.Intent
+import android.os.Bundle
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -9,6 +12,21 @@ import io.flutter.plugin.common.MethodChannel
 // audio_service / just_audio_background 需要 Activity 繼承 AudioServiceActivity，
 // 以提供正確的 FlutterEngine 給背景播放服務。
 class MainActivity : AudioServiceActivity() {
+    // 無邊框(edge-to-edge):在 Flutter 首幀之前就由原生端開啟,不依賴 Dart 端
+    // main() 的執行時機。Android 15+ 由系統強制;以下版本靠這裡加上
+    // FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS(引擎只在 API<30 自行補),
+    // 系統列顏色才吃得到 styles.xml / SystemChrome 設的透明值。
+    @Suppress("DEPRECATION")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+        )
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         // 背景歌詞處理:Dart 端(lyrics_background_runner.dart)由此啟動
