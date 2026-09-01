@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/playlists/models/playlist_display_name.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
+import 'package:seek_player/features/playlists/providers/playlist_tracks_provider.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
+import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_name_dialog.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -106,9 +108,11 @@ class PlaylistsPage extends ConsumerWidget {
                   );
                 }
                 final playlist = playlists[index - 1];
+                // 曲數只計 music library 找得到的曲目(來源檔已移除 / 尚未
+                // 掃描到的略過),與詳頁實際顯示的清單一致。
                 final trackCount = playlist.isRecentlyPlayed
-                    ? playlist.recentlyPlayed.length
-                    : playlist.trackIds.length;
+                    ? ref.watch(recentlyPlayedProvider).length
+                    : ref.watch(playlistTracksProvider(playlist.id)).length;
                 return ListTile(
                   minTileHeight: 48,
                   // 預設左右各 16;去掉右側留白,讓 trailing 選單貼齊右緣。
