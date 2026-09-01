@@ -23,6 +23,8 @@
   "common_reset": "Đặt lại",
   "player_nothing_playing": "Không có gì đang phát",
   "music_import": "Nhập nhạc",
+  "music_import_done": "Đã nhập {count} bài",
+  "music_empty_import": "Chưa có nhạc. Nhấn Nhập nhạc, hoặc thêm tệp âm thanh vào thư mục của ứng dụng này trong ứng dụng Tệp.",
   "music_search": "Tìm kiếm",
   "music_empty": "Không tìm thấy nhạc",
   "music_remove": "Xóa",

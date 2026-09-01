@@ -1,24 +1,22 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:seek_player/features/cover/services/cover_import_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
-import 'package:seek_player/features/music_list/services/track_fingerprint_service.dart';
+import 'package:seek_player/features/music_list/providers/music_library_source_provider.dart';
 
-/// 本機音樂庫：直接掃描裝置 MediaStore（不複製檔案、不另存資料庫）。
-///
-/// 曲目以 MediaStore 的 content URI 播放，因此無需把檔案複製到 App 私有目錄；
-/// 缺點是來源檔被刪除／移走後，重新掃描即不再出現（屬預期）。
+/// 本機音樂庫:掃描來源依平台(musicLibrarySourceProvider),
+/// Android 掃 MediaStore、iOS 掃 app Documents;曲目清單不落地資料庫,
+/// 每次即時掃描。來源檔被刪除/移走後,重新掃描即不再出現(屬預期)。
 class MusicLibrary extends AsyncNotifier<List<Track>> {
-  final OnAudioQuery _audioQuery = OnAudioQuery();
-
   @override
   Future<List<Track>> build() async {
-    // build 不主動彈權限對話框；已授權才掃描，否則回空清單，
+    // build 不主動彈權限對話框;已授權才掃描,否則回空清單,
     // 待使用者於列表頁透過 refresh() 觸發授權流程。
-    if (await Permission.audio.isGranted) {
+    // iOS 掃自家沙盒,無需權限,一律直接掃。
+    if (Platform.isIOS || await Permission.audio.isGranted) {
       final tracks = await _scan();
       _backfillCoverColors();
       return tracks;
@@ -26,43 +24,9 @@ class MusicLibrary extends AsyncNotifier<List<Track>> {
     return const [];
   }
 
-  /// 查詢裝置上所有音樂並映射為 [Track]。
-  ///
-  /// track id 以檔案內容指紋為準(跨裝置 / 重掃穩定);讀不到檔案內容時
-  /// 退回 MediaStore id(僅該曲維持裝置綁定)。
-  Future<List<Track>> _scan() async {
-    final songs = await _audioQuery.querySongs(
-      sortType: SongSortType.TITLE,
-      orderType: OrderType.ASC_OR_SMALLER,
-      uriType: UriType.EXTERNAL,
-      ignoreCase: true,
-    );
-    final musicSongs = [
-      for (final s in songs)
-        if (s.isMusic ?? true) s,
-    ];
-    final fingerprints = await ref
-        .read(trackFingerprintServiceProvider)
-        .fingerprints([for (final s in musicSongs) s.data]);
+  Future<List<Track>> _scan() => ref.read(musicLibrarySourceProvider).scan();
 
-    return [
-      for (final s in musicSongs)
-        Track(
-          id: fingerprints[s.data] ?? s.id.toString(),
-          uri: s.uri ?? Uri.file(s.data).toString(),
-          filePath: s.data,
-          title: s.title,
-          artist: (s.artist == null || s.artist == '<unknown>')
-              ? null
-              : s.artist,
-          album: (s.album == null || s.album == '<unknown>') ? null : s.album,
-          albumId: s.albumId,
-          durationMs: s.duration,
-        ),
-    ];
-  }
-
-  /// 重新掃描裝置音樂庫（權限應由呼叫端先確保）。
+  /// 重新掃描音樂庫(權限應由呼叫端先確保)。
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(_scan);

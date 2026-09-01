@@ -23,6 +23,8 @@
   "common_reset": "Sıfırla",
   "player_nothing_playing": "Çalan bir şey yok",
   "music_import": "Müzik içe aktar",
+  "music_import_done": "{count} parça içe aktarıldı",
+  "music_empty_import": "Henüz müzik yok. Müzik içe aktar'a dokunun veya Dosyalar uygulamasından bu uygulamanın klasörüne ses dosyaları ekleyin.",
   "music_search": "Ara",
   "music_empty": "Müzik bulunamadı",
   "music_remove": "Kaldır",

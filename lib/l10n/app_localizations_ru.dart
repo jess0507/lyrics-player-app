@@ -78,6 +78,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get music_import => 'Импорт музыки';
 
   @override
+  String music_import_done(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Импортировано $count трека',
+      many: 'Импортировано $count треков',
+      few: 'Импортировано $count трека',
+      one: 'Импортирован $count трек',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get music_empty_import =>
+      'Музыки пока нет. Нажмите «Импорт музыки» или добавьте аудиофайлы в папку приложения через приложение «Файлы».';
+
+  @override
   String get music_search => 'Поиск';
 
   @override

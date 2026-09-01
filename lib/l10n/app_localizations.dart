@@ -264,6 +264,18 @@ abstract class AppLocalizations {
   /// **'Import music'**
   String get music_import;
 
+  /// No description provided for @music_import_done.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Imported 1 track} other{Imported {count} tracks}}'**
+  String music_import_done(int count);
+
+  /// No description provided for @music_empty_import.
+  ///
+  /// In en, this message translates to:
+  /// **'No music yet. Tap Import music, or drop audio files into this app\'s folder in the Files app.'**
+  String get music_empty_import;
+
   /// No description provided for @music_search.
   ///
   /// In en, this message translates to:

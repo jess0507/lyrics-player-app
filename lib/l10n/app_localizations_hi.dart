@@ -78,6 +78,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get music_import => 'संगीत आयात करें';
 
   @override
+  String music_import_done(int count) {
+    return '$count ट्रैक आयात किए गए';
+  }
+
+  @override
+  String get music_empty_import =>
+      'अभी कोई संगीत नहीं है। «संगीत आयात करें» पर टैप करें, या Files ऐप से इस ऐप के फ़ोल्डर में ऑडियो फ़ाइलें डालें।';
+
+  @override
   String get music_search => 'खोजें';
 
   @override

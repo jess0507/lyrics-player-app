@@ -78,6 +78,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get music_import => 'Importer de la musique';
 
   @override
+  String music_import_done(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count morceaux importés',
+      one: '1 morceau importé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get music_empty_import =>
+      'Pas encore de musique. Touchez « Importer de la musique » ou déposez des fichiers audio dans le dossier de cette app via l\'app Fichiers.';
+
+  @override
   String get music_search => 'Rechercher';
 
   @override

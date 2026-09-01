@@ -23,6 +23,8 @@
   "common_reset": "Reimposta",
   "player_nothing_playing": "Nessuna riproduzione in corso",
   "music_import": "Importa musica",
+  "music_import_done": "{count, plural, =1{1 brano importato} other{{count} brani importati}}",
+  "music_empty_import": "Ancora nessuna musica. Tocca «Importa musica» oppure aggiungi file audio nella cartella di questa app tramite l'app File.",
   "music_search": "Cerca",
   "music_empty": "Nessuna musica trovata",
   "music_remove": "Rimuovi",

@@ -23,6 +23,8 @@
   "common_reset": "إعادة تعيين",
   "player_nothing_playing": "لا يوجد تشغيل حالي",
   "music_import": "استيراد الموسيقى",
+  "music_import_done": "{count, plural, =1{تم استيراد مقطع واحد} other{تم استيراد {count} من المقاطع}}",
+  "music_empty_import": "لا توجد موسيقى بعد. اضغط على «استيراد الموسيقى» أو أضف ملفات صوتية إلى مجلد هذا التطبيق عبر تطبيق «الملفات».",
   "music_search": "بحث",
   "music_empty": "لم يتم العثور على موسيقى",
   "music_remove": "إزالة",

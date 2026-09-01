@@ -23,6 +23,8 @@
   "common_reset": "Redefinir",
   "player_nothing_playing": "Nada em reprodução",
   "music_import": "Importar música",
+  "music_import_done": "{count, plural, =1{1 faixa importada} other{{count} faixas importadas}}",
+  "music_empty_import": "Ainda não há músicas. Toque em Importar música ou adicione arquivos de áudio à pasta deste app no app Arquivos.",
   "music_search": "Pesquisar",
   "music_empty": "Nenhuma música encontrada",
   "music_remove": "Remover",

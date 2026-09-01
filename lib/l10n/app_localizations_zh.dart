@@ -78,6 +78,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get music_import => '匯入音樂';
 
   @override
+  String music_import_done(int count) {
+    return '已匯入 $count 首';
+  }
+
+  @override
+  String get music_empty_import => '尚無音樂。點擊「匯入音樂」，或在「檔案」app 中將音訊檔放入本 app 的資料夾。';
+
+  @override
   String get music_search => '搜尋';
 
   @override
@@ -761,6 +769,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get music_import => '导入音乐';
 
   @override
+  String music_import_done(int count) {
+    return '已导入 $count 首';
+  }
+
+  @override
+  String get music_empty_import =>
+      '尚无音乐。点击「导入音乐」，或在「文件」app 中将音频文件放入本 app 的文件夹。';
+
+  @override
   String get music_search => '搜索';
 
   @override
@@ -1442,6 +1459,14 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get music_import => '匯入音樂';
+
+  @override
+  String music_import_done(int count) {
+    return '已匯入 $count 首';
+  }
+
+  @override
+  String get music_empty_import => '尚無音樂。點擊「匯入音樂」，或在「檔案」app 中將音訊檔放入本 app 的資料夾。';
 
   @override
   String get music_search => '搜尋';

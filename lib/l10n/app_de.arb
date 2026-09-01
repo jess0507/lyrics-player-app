@@ -23,6 +23,8 @@
   "common_reset": "Zurücksetzen",
   "player_nothing_playing": "Nichts wird abgespielt",
   "music_import": "Musik importieren",
+  "music_import_done": "{count, plural, =1{1 Titel importiert} other{{count} Titel importiert}}",
+  "music_empty_import": "Noch keine Musik. Tippe auf „Musik importieren“ oder lege Audiodateien im Ordner dieser App in der Dateien-App ab.",
   "music_search": "Suchen",
   "music_empty": "Keine Musik gefunden",
   "music_remove": "Entfernen",

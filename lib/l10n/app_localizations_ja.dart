@@ -78,6 +78,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get music_import => '音楽をインポート';
 
   @override
+  String music_import_done(int count) {
+    return '$count曲をインポートしました';
+  }
+
+  @override
+  String get music_empty_import =>
+      'まだ音楽がありません。「音楽をインポート」をタップするか、「ファイル」アプリでこのアプリのフォルダに音声ファイルを追加してください。';
+
+  @override
   String get music_search => '検索';
 
   @override

@@ -23,6 +23,13 @@
   "common_reset": "Reset",
   "player_nothing_playing": "Nothing playing",
   "music_import": "Import music",
+  "music_import_done": "{count, plural, =1{Imported 1 track} other{Imported {count} tracks}}",
+  "@music_import_done": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "music_empty_import": "No music yet. Tap Import music, or drop audio files into this app's folder in the Files app.",
   "music_search": "Search",
   "music_empty": "No music found. Tap rescan to load songs from your device.",
   "music_remove": "Remove",

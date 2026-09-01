@@ -23,6 +23,8 @@
   "common_reset": "リセット",
   "player_nothing_playing": "再生中の曲はありません",
   "music_import": "音楽をインポート",
+  "music_import_done": "{count}曲をインポートしました",
+  "music_empty_import": "まだ音楽がありません。「音楽をインポート」をタップするか、「ファイル」アプリでこのアプリのフォルダに音声ファイルを追加してください。",
   "music_search": "検索",
   "music_empty": "音楽が見つかりません",
   "music_remove": "削除",

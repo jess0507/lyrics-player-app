@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:seek_player/features/cover/models/track_cover_entity.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 import 'package:seek_player/features/music_list/models/track_fingerprint_entity.dart';
+import 'package:seek_player/features/music_list/models/track_metadata_entity.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
@@ -21,6 +22,7 @@ Future<Isar> openIsar() async {
       PlaylistEntitySchema,
       TrackCoverEntitySchema,
       TrackFingerprintEntitySchema,
+      TrackMetadataEntitySchema,
     ],
     directory: dir.path,
     name: 'seek_player',

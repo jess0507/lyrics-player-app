@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -10,6 +12,10 @@ class PermissionService {
 
   /// 確保已取得讀取本機音訊的權限。回傳是否已授權。
   Future<bool> ensureAudioPermission(BuildContext context) async {
+    // iOS 音樂庫掃 app 自家 Documents(方案 A,見 plans/23-ios-support.md),
+    // 不碰系統音樂庫,無需權限。
+    if (Platform.isIOS) return true;
+
     final permission = Permission.audio;
     var status = await permission.status;
     if (status.isGranted || status.isLimited) return true;

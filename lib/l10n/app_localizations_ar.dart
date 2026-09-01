@@ -78,6 +78,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get music_import => 'استيراد الموسيقى';
 
   @override
+  String music_import_done(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count من المقاطع',
+      one: 'تم استيراد مقطع واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get music_empty_import =>
+      'لا توجد موسيقى بعد. اضغط على «استيراد الموسيقى» أو أضف ملفات صوتية إلى مجلد هذا التطبيق عبر تطبيق «الملفات».';
+
+  @override
   String get music_search => 'بحث';
 
   @override

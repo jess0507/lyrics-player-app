@@ -78,6 +78,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get music_import => 'Müzik içe aktar';
 
   @override
+  String music_import_done(int count) {
+    return '$count parça içe aktarıldı';
+  }
+
+  @override
+  String get music_empty_import =>
+      'Henüz müzik yok. Müzik içe aktar\'a dokunun veya Dosyalar uygulamasından bu uygulamanın klasörüne ses dosyaları ekleyin.';
+
+  @override
   String get music_search => 'Ara';
 
   @override

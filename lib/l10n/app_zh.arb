@@ -23,6 +23,8 @@
   "common_reset": "重設",
   "player_nothing_playing": "目前沒有播放中的曲目",
   "music_import": "匯入音樂",
+  "music_import_done": "已匯入 {count} 首",
+  "music_empty_import": "尚無音樂。點擊「匯入音樂」，或在「檔案」app 中將音訊檔放入本 app 的資料夾。",
   "music_search": "搜尋",
   "music_empty": "尚無音樂，點擊重新掃描以載入裝置音樂。",
   "music_remove": "移除",

@@ -78,6 +78,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get music_import => 'Nhập nhạc';
 
   @override
+  String music_import_done(int count) {
+    return 'Đã nhập $count bài';
+  }
+
+  @override
+  String get music_empty_import =>
+      'Chưa có nhạc. Nhấn Nhập nhạc, hoặc thêm tệp âm thanh vào thư mục của ứng dụng này trong ứng dụng Tệp.';
+
+  @override
   String get music_search => 'Tìm kiếm';
 
   @override

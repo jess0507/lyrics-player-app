@@ -78,6 +78,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get music_import => '음악 가져오기';
 
   @override
+  String music_import_done(int count) {
+    return '$count곡을 가져왔습니다';
+  }
+
+  @override
+  String get music_empty_import =>
+      '아직 음악이 없습니다. \'음악 가져오기\'를 탭하거나 \'파일\' 앱에서 이 앱의 폴더에 오디오 파일을 추가하세요.';
+
+  @override
   String get music_search => '검색';
 
   @override

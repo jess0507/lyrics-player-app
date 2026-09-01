@@ -78,6 +78,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get music_import => 'Impor musik';
 
   @override
+  String music_import_done(int count) {
+    return '$count lagu diimpor';
+  }
+
+  @override
+  String get music_empty_import =>
+      'Belum ada musik. Ketuk Impor musik, atau tambahkan file audio ke folder aplikasi ini lewat aplikasi Files.';
+
+  @override
   String get music_search => 'Cari';
 
   @override

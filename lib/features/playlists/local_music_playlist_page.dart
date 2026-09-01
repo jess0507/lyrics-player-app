@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/permissions/permission_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/music_list/services/music_import_service.dart';
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -28,6 +31,7 @@ class LocalMusicPlaylistPage extends ConsumerStatefulWidget {
 class _LocalMusicPlaylistPageState
     extends ConsumerState<LocalMusicPlaylistPage> {
   bool _scanning = false;
+  bool _importing = false;
 
   /// 確保權限後重新掃描裝置音樂庫。
   Future<void> _rescan() async {
@@ -39,6 +43,27 @@ class _LocalMusicPlaylistPageState
       await ref.read(musicLibraryProvider.notifier).refresh();
     } finally {
       if (mounted) setState(() => _scanning = false);
+    }
+  }
+
+  /// iOS:以文件選擇器匯入音訊檔到 app Documents,完成後重新掃描。
+  Future<void> _importMusic() async {
+    setState(() => _importing = true);
+    try {
+      final count = await ref
+          .read(musicImportServiceProvider)
+          .importFromPicker();
+      if (count > 0) {
+        await ref.read(musicLibraryProvider.notifier).refresh();
+        if (mounted) {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.music_import_done(count))),
+          );
+        }
+      }
+    } finally {
+      if (mounted) setState(() => _importing = false);
     }
   }
 
@@ -83,6 +108,21 @@ class _LocalMusicPlaylistPageState
                 spacing: 8,
                 runSpacing: 8,
                 children: [
+                  // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
+                  // Android 掃 MediaStore,無匯入需求。
+                  if (Platform.isIOS)
+                    TextButton.icon(
+                      style: systemButtonStyle,
+                      onPressed: _importing ? null : _importMusic,
+                      icon: _importing
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.add),
+                      label: Text(l10n.music_import),
+                    ),
                   TextButton.icon(
                     style: systemButtonStyle,
                     onPressed: _scanning ? null : _rescan,
@@ -113,7 +153,9 @@ class _LocalMusicPlaylistPageState
                     child: Padding(
                       padding: const EdgeInsets.all(32),
                       child: Text(
-                        l10n.music_empty,
+                        Platform.isIOS
+                            ? l10n.music_empty_import
+                            : l10n.music_empty,
                         textAlign: TextAlign.center,
                       ),
                     ),
