@@ -34,6 +34,8 @@ class SettingsSync {
           useGradient: raw['useGradient'] as bool?,
           gradientFromCover: raw['gradientFromCover'] as bool?,
           playerDefaultTab: raw['playerDefaultTab'] as String?,
+          // Firestore 數值可能以 double 回傳,統一轉 int。
+          seekStepSeconds: (raw['seekStepSeconds'] as num?)?.toInt(),
           // ignore: deprecated_member_use_from_same_package
           autoFullScreenLyrics: raw['autoFullScreenLyrics'] as bool?,
         );

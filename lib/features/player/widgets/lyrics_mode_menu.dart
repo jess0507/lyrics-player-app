@@ -9,17 +9,18 @@ import 'package:seek_player/features/lyrics/background/lyrics_background_running
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
 import 'package:seek_player/features/player/widgets/play_mode_button.dart';
+import 'package:seek_player/features/player/widgets/seek_step_slider.dart';
 import 'package:seek_player/features/player/widgets/speed_button.dart';
 
 /// 預設播放速度,用來判斷是否顯示選取狀態。
 const double _kDefaultSpeed = 1.0;
 
-/// 歌詞滿版模式專有的選單動作(播放模式、播放速度與「顯示封面」)。
+/// 歌詞滿版模式專有的選單動作(播放模式、播放速度、快進退秒數與「顯示封面」)。
 /// 歌詞相關動作另以共用的 [LyricsMenuAction] 表示。
-enum _LyricsModeAction { hideLyrics, playMode, speed }
+enum _LyricsModeAction { hideLyrics, playMode, speed, seekStep }
 
 /// 歌詞滿版模式下的 AppBar 選單:整合「顯示封面(關閉歌詞)」、次控制列功能
-/// (隨機、循環、播放速度),以及歌詞操作(字體大小、重新匯入、刪除)。
+/// (隨機、循環、播放速度、快進退秒數),以及歌詞操作(字體大小、重新匯入、刪除)。
 /// 字體大小 / 重新匯入 / 刪除僅在已有歌詞時出現。
 class LyricsModeMenu extends ConsumerWidget {
   const LyricsModeMenu({
@@ -47,6 +48,9 @@ class LyricsModeMenu extends ConsumerWidget {
     );
     // 背景任務一次只跑一件:執行中時停用「自動產生 / 自動對時」(變淺不可點)。
     final backgroundRunning = ref.watch(lyricsBackgroundRunningProvider);
+    final seekStepSeconds = ref.watch(
+      settingsControllerProvider.select((s) => s.seekStepSeconds),
+    );
 
     return PopupMenuButton<Object>(
       icon: const Icon(Icons.more_vert),
@@ -86,6 +90,15 @@ class LyricsModeMenu extends ConsumerWidget {
             },
           ),
         ),
+        PopupMenuItem(
+          value: _LyricsModeAction.seekStep,
+          child: _MenuRow(
+            icon: Icons.fast_forward,
+            label: l10n.player_seek_step,
+            trailing: '${seekStepSeconds}s',
+            selected: seekStepSeconds != SettingsState.kDefaultSeekStepSeconds,
+          ),
+        ),
         if (lyricsActions.isNotEmpty) ...[
           const PopupMenuDivider(),
           for (final action in lyricsActions)
@@ -115,6 +128,8 @@ class LyricsModeMenu extends ConsumerWidget {
         audio.setPlayMode(audio.playMode.next);
       case _LyricsModeAction.speed:
         showSpeedSheet(context, audio);
+      case _LyricsModeAction.seekStep:
+        showSeekStepSheet(context);
     }
   }
 

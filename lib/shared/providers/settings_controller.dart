@@ -15,7 +15,13 @@ class SettingsState {
     this.useGradient = true,
     this.gradientFromCover = true,
     this.playerDefaultTab = PlayerDefaultTab.artwork,
+    this.seekStepSeconds = kDefaultSeekStepSeconds,
   });
+
+  /// 快進 / 快退單次步進秒數的預設值與可調範圍。
+  static const int kDefaultSeekStepSeconds = 5;
+  static const int kMinSeekStepSeconds = 1;
+  static const int kMaxSeekStepSeconds = 60;
 
   /// null 代表「跟隨系統語言」。
   final Locale? locale;
@@ -31,6 +37,16 @@ class SettingsState {
   /// 進入播放頁時預設顯示的分頁(封面 / 歌詞 / 滿版歌詞)。
   final PlayerDefaultTab playerDefaultTab;
 
+  /// 播放頁快進 / 快退按鈕單次步進的秒數。
+  final int seekStepSeconds;
+
+  /// [seekStepSeconds] 對應的 [Duration],供快進 / 快退直接使用。
+  Duration get seekStep => Duration(seconds: seekStepSeconds);
+
+  /// 把任意秒數夾在允許範圍內;非法值（含 null）回到預設。
+  static int clampSeekStep(int? seconds) => (seconds ?? kDefaultSeekStepSeconds)
+      .clamp(kMinSeekStepSeconds, kMaxSeekStepSeconds);
+
   SettingsState copyWith({
     Object? locale = _sentinel,
     ThemeMode? themeMode,
@@ -38,6 +54,7 @@ class SettingsState {
     bool? useGradient,
     bool? gradientFromCover,
     PlayerDefaultTab? playerDefaultTab,
+    int? seekStepSeconds,
   }) {
     return SettingsState(
       locale: identical(locale, _sentinel) ? this.locale : locale as Locale?,
@@ -46,6 +63,7 @@ class SettingsState {
       useGradient: useGradient ?? this.useGradient,
       gradientFromCover: gradientFromCover ?? this.gradientFromCover,
       playerDefaultTab: playerDefaultTab ?? this.playerDefaultTab,
+      seekStepSeconds: seekStepSeconds ?? this.seekStepSeconds,
     );
   }
 
@@ -57,6 +75,7 @@ class SettingsState {
     'useGradient': useGradient,
     'gradientFromCover': gradientFromCover,
     'playerDefaultTab': playerDefaultTab.name,
+    'seekStepSeconds': seekStepSeconds,
     // 舊版欄位,讓尚未更新的裝置仍能還原「是否滿版」。
     'autoFullScreenLyrics':
         playerDefaultTab == PlayerDefaultTab.fullScreenLyrics,
@@ -72,6 +91,7 @@ class SettingsController extends Notifier<SettingsState> {
   static const _kUseGradient = 'settings.useGradient';
   static const _kGradientFromCover = 'settings.gradientFromCover';
   static const _kPlayerDefaultTab = 'settings.playerDefaultTab';
+  static const _kSeekStepSeconds = 'settings.seekStepSeconds';
 
   /// 舊版布林設定;首次讀到新 key 缺值時用它推導預設分頁。
   @Deprecated('已由 _kPlayerDefaultTab 取代,僅供舊資料遷移讀取')
@@ -88,6 +108,9 @@ class SettingsController extends Notifier<SettingsState> {
       useGradient: _prefs.getBool(_kUseGradient) ?? true,
       gradientFromCover: _prefs.getBool(_kGradientFromCover) ?? true,
       playerDefaultTab: _readPlayerDefaultTab(),
+      seekStepSeconds: SettingsState.clampSeekStep(
+        _prefs.getInt(_kSeekStepSeconds),
+      ),
     );
   }
 
@@ -140,6 +163,13 @@ class SettingsController extends Notifier<SettingsState> {
     _markModified();
   }
 
+  void setSeekStepSeconds(int seconds) {
+    final clamped = SettingsState.clampSeekStep(seconds);
+    state = state.copyWith(seekStepSeconds: clamped);
+    _prefs.setInt(_kSeekStepSeconds, clamped);
+    _markModified();
+  }
+
   /// 還原雲端備份的設定（套用並落地 prefs）。
   ///
   /// 讀取容錯：缺欄位 / 未知值 fallback 預設。還原不算本機變更，
@@ -151,6 +181,7 @@ class SettingsController extends Notifier<SettingsState> {
     bool? useGradient,
     bool? gradientFromCover,
     String? playerDefaultTab,
+    int? seekStepSeconds,
     @Deprecated('已由 playerDefaultTab 取代,僅供舊版雲端備份還原') bool? autoFullScreenLyrics,
   }) {
     state = SettingsState(
@@ -165,6 +196,7 @@ class SettingsController extends Notifier<SettingsState> {
           : (autoFullScreenLyrics ?? false)
           ? PlayerDefaultTab.fullScreenLyrics
           : PlayerDefaultTab.artwork,
+      seekStepSeconds: SettingsState.clampSeekStep(seekStepSeconds),
     );
     final restored = state.locale;
     if (restored == null) {
@@ -177,6 +209,7 @@ class SettingsController extends Notifier<SettingsState> {
     _prefs.setBool(_kUseGradient, state.useGradient);
     _prefs.setBool(_kGradientFromCover, state.gradientFromCover);
     _prefs.setString(_kPlayerDefaultTab, state.playerDefaultTab.name);
+    _prefs.setInt(_kSeekStepSeconds, state.seekStepSeconds);
   }
 
   void _markModified() =>

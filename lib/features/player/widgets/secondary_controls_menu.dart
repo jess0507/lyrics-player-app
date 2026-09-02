@@ -1,53 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seek_player/core/audio/audio_player_service.dart';
-import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
-import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
 import 'package:seek_player/features/player/widgets/cover_actions.dart';
-import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
+import 'package:seek_player/features/player/widgets/seek_step_slider.dart';
 import 'package:seek_player/features/player/widgets/speed_button.dart';
+import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
+import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 次控制列「更多」選單中,播放器層級(非歌詞)的動作項目。
-/// 歌詞相關動作另以共用的 [LyricsMenuAction] 表示。
 enum _PlayerMenuAction {
-  /// 加入播放清單;能在音樂庫對應到曲目時顯示。
+  speed,
+
+  seekStep,
+
   addToPlaylist,
 
-  /// 新增 / 更換自訂封面;有曲目時顯示,文案依是否已有自訂封面切換。
   setCover,
 
-  /// 移除自訂封面;僅在已有自訂封面時顯示(內嵌封面移不掉,不算在內)。
-  removeCover,
-
-  /// 播放速度;一律顯示。
-  speed;
+  removeCover;
 
   IconData get icon => switch (this) {
+    speed => Icons.speed,
+    seekStep => Icons.fast_forward,
     addToPlaylist => Icons.playlist_add,
     setCover => Icons.add_photo_alternate_outlined,
     removeCover => Icons.delete_outline,
-    speed => Icons.speed,
   };
 
   String label(AppLocalizations l10n, {bool hasCover = false}) =>
       switch (this) {
+        speed => l10n.player_speed,
+        seekStep => l10n.player_seek_step,
         addToPlaylist => l10n.playlist_add_to,
         setCover => hasCover ? l10n.cover_change : l10n.cover_add,
         removeCover => l10n.cover_remove,
-        speed => l10n.player_speed,
       };
+
+  /// 依目前曲目狀態決定是否顯示此項目。
+  bool isVisible({
+    required Track? track,
+    required String? trackId,
+    required bool hasCover,
+  }) => switch (this) {
+    speed || seekStep => true,
+    addToPlaylist => track != null,
+    setCover => trackId != null,
+    removeCover => hasCover,
+  };
+
+  /// 執行此項目的動作。呼叫端應傳入選單外(控制列)的 [context]/[ref],
+  /// 因為後續面板 / 對話框會在選單關閉後才開啟。
+  void run(
+    BuildContext context,
+    WidgetRef ref, {
+    required AudioPlayerService audio,
+    Track? track,
+    String? trackId,
+  }) {
+    switch (this) {
+      case speed:
+        showSpeedSheet(context, audio);
+      case seekStep:
+        showSeekStepSheet(context);
+      case addToPlaylist:
+        if (track != null) showAddToPlaylistSheet(context, ref, track);
+      case setCover:
+        if (trackId != null) setTrackCover(context, ref, trackId);
+      case removeCover:
+        if (trackId != null) removeTrackCover(context, ref, trackId);
+    }
+  }
 }
 
-/// 次控制列「更多」選單:把較不常用的動作(加入播放清單、播放速度、歌詞操作)
-/// 收進此底部表單,讓控制列只保留高頻操作。對應 [LyricsModeMenu] 的選單,但不含
-/// 「顯示封面(關閉歌詞)」—— 該動作只屬於歌詞滿版模式。
-///
-/// 後續動作(各面板 / 對話框)以呼叫端的 [context]/[ref] 開啟,
-/// 避免本表單關閉後沿用已失效的 context。
 void showSecondaryControlsMenuSheet(
   BuildContext context,
   WidgetRef ref, {
@@ -103,52 +130,25 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (track != null)
-            _playerTile(context, _PlayerMenuAction.addToPlaylist, l10n, track),
-          if (id != null)
-            _playerTile(context, _PlayerMenuAction.setCover, l10n, null,
-                hasCover),
-          if (hasCover)
-            _playerTile(context, _PlayerMenuAction.removeCover, l10n),
-          _playerTile(context, _PlayerMenuAction.speed, l10n),
+          for (final action in _PlayerMenuAction.values)
+            if (action.isVisible(track: track, trackId: id, hasCover: hasCover))
+              ListTile(
+                leading: Icon(action.icon),
+                title: Text(action.label(l10n, hasCover: hasCover)),
+                // 先關閉選單,再以呼叫端 context/ref 執行對應動作。
+                onTap: () {
+                  Navigator.of(context).pop();
+                  action.run(
+                    parentContext,
+                    parentRef,
+                    audio: audio,
+                    track: track,
+                    trackId: trackId,
+                  );
+                },
+              ),
         ],
       ),
     );
-  }
-
-  Widget _playerTile(
-    BuildContext sheetContext,
-    _PlayerMenuAction action,
-    AppLocalizations l10n, [
-    Track? track,
-    bool hasCover = false,
-  ]) {
-    return ListTile(
-      leading: Icon(action.icon),
-      title: Text(action.label(l10n, hasCover: hasCover)),
-      onTap: () => _selectPlayer(sheetContext, action, track),
-    );
-  }
-
-  /// 先關閉選單,再以呼叫端 context/ref 執行對應動作。
-  void _selectPlayer(
-    BuildContext sheetContext,
-    _PlayerMenuAction action,
-    Track? track,
-  ) {
-    Navigator.of(sheetContext).pop();
-    final id = trackId;
-    switch (action) {
-      case _PlayerMenuAction.addToPlaylist:
-        if (track != null) {
-          showAddToPlaylistSheet(parentContext, parentRef, track);
-        }
-      case _PlayerMenuAction.setCover:
-        if (id != null) setTrackCover(parentContext, parentRef, id);
-      case _PlayerMenuAction.removeCover:
-        if (id != null) removeTrackCover(parentContext, parentRef, id);
-      case _PlayerMenuAction.speed:
-        showSpeedSheet(parentContext, audio);
-    }
   }
 }

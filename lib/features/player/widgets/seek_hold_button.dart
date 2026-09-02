@@ -18,7 +18,9 @@ class SeekHoldButton extends StatefulWidget {
   final AudioPlayerService audio;
   final bool enabled;
   final Duration delta;
-  final IconData icon;
+
+  /// 按鈕圖示(通常為 [SeekStepIcon])。
+  final Widget icon;
   final String tooltip;
 
   @override
@@ -58,7 +60,7 @@ class _SeekHoldButtonState extends State<SeekHoldButton> {
         onPressed: widget.enabled
             ? () => widget.audio.seekRelative(widget.delta)
             : null,
-        icon: Icon(widget.icon),
+        icon: widget.icon,
       ),
     );
   }
