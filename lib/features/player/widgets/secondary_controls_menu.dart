@@ -51,8 +51,6 @@ enum _PlayerMenuAction {
     removeCover => hasCover,
   };
 
-  /// 執行此項目的動作。呼叫端應傳入選單外(控制列)的 [context]/[ref],
-  /// 因為後續面板 / 對話框會在選單關閉後才開啟。
   void run(
     BuildContext context,
     WidgetRef ref, {
