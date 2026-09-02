@@ -377,11 +377,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use the current cover\'s color for the player gradient';
 
   @override
-  String get settings_auto_lyrics => 'Auto full-screen lyrics';
+  String get settings_player_tab => 'Player default tab';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Show full-screen lyrics automatically for tracks that have lyrics';
+  String get settings_player_tab_desc => 'Tab shown when opening the player';
+
+  @override
+  String get settings_player_tab_artwork => 'Cover';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Lyrics';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Full-screen lyrics';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Falls back to the cover for tracks without lyrics';
 
   @override
   String get lyrics_import => 'Import lyrics';

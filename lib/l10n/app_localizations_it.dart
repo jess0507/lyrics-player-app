@@ -379,11 +379,24 @@ class AppLocalizationsIt extends AppLocalizations {
       'Usa il colore della copertina attuale per la sfumatura del lettore';
 
   @override
-  String get settings_auto_lyrics => 'Testi a schermo intero automatici';
+  String get settings_player_tab => 'Scheda predefinita del lettore';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Mostra automaticamente i testi a schermo intero per i brani che li hanno';
+  String get settings_player_tab_desc =>
+      'Scheda mostrata all\'apertura del lettore';
+
+  @override
+  String get settings_player_tab_artwork => 'Copertina';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Testo';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Testo a schermo intero';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'I brani senza testo mostrano la copertina';
 
   @override
   String get lyrics_import => 'Importa testo';

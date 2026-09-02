@@ -370,11 +370,24 @@ class AppLocalizationsId extends AppLocalizations {
       'Gunakan warna sampul saat ini untuk gradien pemutar';
 
   @override
-  String get settings_auto_lyrics => 'Lirik layar penuh otomatis';
+  String get settings_player_tab => 'Tab default pemutar';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Tampilkan lirik layar penuh otomatis untuk lagu yang memiliki lirik';
+  String get settings_player_tab_desc =>
+      'Tab yang ditampilkan saat membuka pemutar';
+
+  @override
+  String get settings_player_tab_artwork => 'Sampul';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Lirik';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Lirik layar penuh';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Lagu tanpa lirik menampilkan sampul';
 
   @override
   String get lyrics_import => 'Impor lirik';

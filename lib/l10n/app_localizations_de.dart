@@ -379,11 +379,24 @@ class AppLocalizationsDe extends AppLocalizations {
       'Farbe des aktuellen Covers für den Player-Farbverlauf verwenden';
 
   @override
-  String get settings_auto_lyrics => 'Songtexte automatisch im Vollbild';
+  String get settings_player_tab => 'Standard-Tab des Players';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Songtexte für Titel mit Text automatisch im Vollbild anzeigen';
+  String get settings_player_tab_desc =>
+      'Tab, der beim Öffnen des Players angezeigt wird';
+
+  @override
+  String get settings_player_tab_artwork => 'Cover';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Songtext';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Songtext im Vollbild';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Titel ohne Songtext zeigen das Cover';
 
   @override
   String get lyrics_import => 'Liedtext importieren';

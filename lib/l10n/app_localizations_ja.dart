@@ -358,10 +358,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settings_gradient_cover_desc => 'プレーヤーのグラデーションに現在のカバーの色を使用します';
 
   @override
-  String get settings_auto_lyrics => '歌詞を自動で全画面表示';
+  String get settings_player_tab => '再生画面の既定タブ';
 
   @override
-  String get settings_auto_lyrics_desc => '歌詞のある曲は再生画面で自動的に歌詞を全画面表示します';
+  String get settings_player_tab_desc => '再生画面を開いたときに表示するタブ';
+
+  @override
+  String get settings_player_tab_artwork => 'ジャケット';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => '歌詞';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => '歌詞を全画面表示';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      '歌詞のない曲はジャケットを表示します';
 
   @override
   String get lyrics_import => '歌詞をインポート';

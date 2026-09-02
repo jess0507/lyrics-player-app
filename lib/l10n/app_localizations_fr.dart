@@ -380,11 +380,24 @@ class AppLocalizationsFr extends AppLocalizations {
       'Utiliser la couleur de la pochette actuelle pour le dégradé du lecteur';
 
   @override
-  String get settings_auto_lyrics => 'Paroles plein écran auto';
+  String get settings_player_tab => 'Onglet par défaut du lecteur';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Afficher automatiquement les paroles en plein écran pour les titres qui en ont';
+  String get settings_player_tab_desc =>
+      'Onglet affiché à l\'ouverture du lecteur';
+
+  @override
+  String get settings_player_tab_artwork => 'Pochette';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Paroles';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Paroles plein écran';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Les titres sans paroles affichent la pochette';
 
   @override
   String get lyrics_import => 'Importer les paroles';

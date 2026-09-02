@@ -371,11 +371,24 @@ class AppLocalizationsTr extends AppLocalizations {
       'Oynatıcı gradyanında geçerli kapağın rengini kullan';
 
   @override
-  String get settings_auto_lyrics => 'Otomatik tam ekran şarkı sözü';
+  String get settings_player_tab => 'Oynatıcı varsayılan sekmesi';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Sözü olan parçalarda şarkı sözünü otomatik olarak tam ekran göster';
+  String get settings_player_tab_desc =>
+      'Oynatıcı açıldığında gösterilen sekme';
+
+  @override
+  String get settings_player_tab_artwork => 'Kapak';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Şarkı sözü';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Tam ekran şarkı sözü';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Sözü olmayan parçalarda kapak gösterilir';
 
   @override
   String get lyrics_import => 'Şarkı sözü içe aktar';

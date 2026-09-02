@@ -378,11 +378,24 @@ class AppLocalizationsRu extends AppLocalizations {
       'Использовать цвет текущей обложки для градиента плеера';
 
   @override
-  String get settings_auto_lyrics => 'Авто-полноэкранный текст';
+  String get settings_player_tab => 'Вкладка плеера по умолчанию';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Автоматически показывать текст на весь экран для треков с текстом';
+  String get settings_player_tab_desc =>
+      'Вкладка, открываемая при входе в плеер';
+
+  @override
+  String get settings_player_tab_artwork => 'Обложка';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Текст';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'Текст на весь экран';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Для треков без текста показывается обложка';
 
   @override
   String get lyrics_import => 'Импортировать текст';

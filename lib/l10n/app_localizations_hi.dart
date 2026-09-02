@@ -372,11 +372,23 @@ class AppLocalizationsHi extends AppLocalizations {
       'प्लेयर ग्रेडिएंट के लिए वर्तमान कवर के रंग का उपयोग करें';
 
   @override
-  String get settings_auto_lyrics => 'स्वतः पूर्ण-स्क्रीन गीत';
+  String get settings_player_tab => 'प्लेयर का डिफ़ॉल्ट टैब';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'जिन ट्रैक में गीत हैं उनके लिए स्वतः पूर्ण-स्क्रीन गीत दिखाएँ';
+  String get settings_player_tab_desc => 'प्लेयर खोलने पर दिखने वाला टैब';
+
+  @override
+  String get settings_player_tab_artwork => 'कवर';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'गीत';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'पूर्ण-स्क्रीन गीत';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'बिना गीत वाले ट्रैक में कवर दिखेगा';
 
   @override
   String get lyrics_import => 'बोल आयात करें';

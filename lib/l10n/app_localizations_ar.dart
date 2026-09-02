@@ -375,11 +375,23 @@ class AppLocalizationsAr extends AppLocalizations {
       'استخدام لون الغلاف الحالي لتدرج المشغل';
 
   @override
-  String get settings_auto_lyrics => 'كلمات بملء الشاشة تلقائيًا';
+  String get settings_player_tab => 'التبويب الافتراضي للمشغّل';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'عرض الكلمات بملء الشاشة تلقائيًا للمقاطع التي تحتوي على كلمات';
+  String get settings_player_tab_desc => 'التبويب المعروض عند فتح المشغّل';
+
+  @override
+  String get settings_player_tab_artwork => 'الغلاف';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'الكلمات';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics => 'الكلمات بملء الشاشة';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'المقاطع بلا كلمات تعرض الغلاف';
 
   @override
   String get lyrics_import => 'استيراد كلمات الأغنية';

@@ -810,17 +810,41 @@ abstract class AppLocalizations {
   /// **'Use the current cover\'s color for the player gradient'**
   String get settings_gradient_cover_desc;
 
-  /// No description provided for @settings_auto_lyrics.
+  /// No description provided for @settings_player_tab.
   ///
   /// In en, this message translates to:
-  /// **'Auto full-screen lyrics'**
-  String get settings_auto_lyrics;
+  /// **'Player default tab'**
+  String get settings_player_tab;
 
-  /// No description provided for @settings_auto_lyrics_desc.
+  /// No description provided for @settings_player_tab_desc.
   ///
   /// In en, this message translates to:
-  /// **'Show full-screen lyrics automatically for tracks that have lyrics'**
-  String get settings_auto_lyrics_desc;
+  /// **'Tab shown when opening the player'**
+  String get settings_player_tab_desc;
+
+  /// No description provided for @settings_player_tab_artwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover'**
+  String get settings_player_tab_artwork;
+
+  /// No description provided for @settings_player_tab_embedded_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get settings_player_tab_embedded_lyrics;
+
+  /// No description provided for @settings_player_tab_full_screen_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Full-screen lyrics'**
+  String get settings_player_tab_full_screen_lyrics;
+
+  /// No description provided for @settings_player_tab_full_screen_lyrics_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Falls back to the cover for tracks without lyrics'**
+  String get settings_player_tab_full_screen_lyrics_desc;
 
   /// No description provided for @lyrics_import.
   ///

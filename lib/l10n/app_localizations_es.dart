@@ -380,11 +380,25 @@ class AppLocalizationsEs extends AppLocalizations {
       'Usar el color de la portada actual para el degradado del reproductor';
 
   @override
-  String get settings_auto_lyrics => 'Letras a pantalla completa automática';
+  String get settings_player_tab => 'Pestaña predeterminada del reproductor';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Mostrar automáticamente las letras a pantalla completa en las pistas que las tengan';
+  String get settings_player_tab_desc =>
+      'Pestaña mostrada al abrir el reproductor';
+
+  @override
+  String get settings_player_tab_artwork => 'Portada';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Letra';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics =>
+      'Letra a pantalla completa';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Las pistas sin letra muestran la portada';
 
   @override
   String get lyrics_import => 'Importar letra';

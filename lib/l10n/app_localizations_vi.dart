@@ -374,11 +374,24 @@ class AppLocalizationsVi extends AppLocalizations {
       'Dùng màu ảnh bìa hiện tại cho nền chuyển sắc của trình phát';
 
   @override
-  String get settings_auto_lyrics => 'Tự động lời bài hát toàn màn hình';
+  String get settings_player_tab => 'Tab mặc định của trình phát';
 
   @override
-  String get settings_auto_lyrics_desc =>
-      'Tự động hiển thị lời toàn màn hình cho các bài hát có lời';
+  String get settings_player_tab_desc => 'Tab hiển thị khi mở trình phát';
+
+  @override
+  String get settings_player_tab_artwork => 'Ảnh bìa';
+
+  @override
+  String get settings_player_tab_embedded_lyrics => 'Lời bài hát';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics =>
+      'Lời bài hát toàn màn hình';
+
+  @override
+  String get settings_player_tab_full_screen_lyrics_desc =>
+      'Bài hát không có lời sẽ hiển thị ảnh bìa';
 
   @override
   String get lyrics_import => 'Nhập lời bài hát';
