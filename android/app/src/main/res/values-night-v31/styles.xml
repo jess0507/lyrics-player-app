@@ -9,6 +9,8 @@
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!-- 關閉 Android 8+ 對取得焦點 View 的預設焦點高亮:實體鍵盤按鍵會讓填滿視窗的 FlutterView 四周出現綠框(flutter/flutter#162743)。 -->
+        <item name="android:defaultFocusHighlightEnabled">false</item>
         <item name="android:windowSplashScreenBackground">#000000</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/android12splash</item>
     </style>
@@ -29,5 +31,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!-- 關閉 Android 8+ 對取得焦點 View 的預設焦點高亮:實體鍵盤按鍵會讓填滿視窗的 FlutterView 四周出現綠框(flutter/flutter#162743)。 -->
+        <item name="android:defaultFocusHighlightEnabled">false</item>
     </style>
 </resources>
