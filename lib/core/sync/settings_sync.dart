@@ -1,14 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seek_player/shared/providers/settings_controller.dart';
 
-/// 設定與 `setting` 子集合（單一文件 `setting/0`）的推送與還原
-/// （SyncService 調度）。設定僅一份、無需分件，固定 docId 即可。
-///
-/// `setting/0` 同時也是 SyncService 存放四個領域（設定 / 播放清單 /
-/// 統計 / 歌詞）各自 *UpdatedAt 時戳的地方，故這裡的寫入一律 merge，
-/// 避免覆寫掉其他領域的時戳欄位。
+/// 單一文件 `setting/0`的推送與還原
 class SettingsSync {
   SettingsSync(this._ref);
 
@@ -39,6 +33,8 @@ class SettingsSync {
           seedColor: raw['seedColor'] as String?,
           useGradient: raw['useGradient'] as bool?,
           gradientFromCover: raw['gradientFromCover'] as bool?,
+          playerDefaultTab: raw['playerDefaultTab'] as String?,
+          // ignore: deprecated_member_use_from_same_package
           autoFullScreenLyrics: raw['autoFullScreenLyrics'] as bool?,
         );
   }

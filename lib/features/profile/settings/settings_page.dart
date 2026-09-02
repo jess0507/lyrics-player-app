@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/app_locales.dart';
+import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 import 'package:seek_player/shared/theme/app_theme.dart';
 
@@ -88,16 +89,40 @@ class SettingsPage extends ConsumerWidget {
             subtitle: Text(l10n.settings_gradient_cover_desc),
             value: settings.gradientFromCover,
             // 僅在漸層開啟時可調整;關閉漸層時整列灰階停用。
-            onChanged:
-                settings.useGradient ? controller.setGradientFromCover : null,
+            onChanged: settings.useGradient
+                ? controller.setGradientFromCover
+                : null,
           ),
           const Divider(height: 1),
-          SwitchListTile(
-            secondary: const Icon(Icons.lyrics_outlined),
-            title: Text(l10n.settings_auto_lyrics),
-            subtitle: Text(l10n.settings_auto_lyrics_desc),
-            value: settings.autoFullScreenLyrics,
-            onChanged: controller.setAutoFullScreenLyrics,
+          ListTile(
+            leading: const Icon(Icons.lyrics_outlined),
+            title: Text(l10n.settings_player_tab),
+            subtitle: Text(l10n.settings_player_tab_desc),
+          ),
+          RadioGroup<PlayerDefaultTab>(
+            groupValue: settings.playerDefaultTab,
+            onChanged: (tab) {
+              if (tab != null) controller.setPlayerDefaultTab(tab);
+            },
+            child: Column(
+              children: [
+                RadioListTile<PlayerDefaultTab>(
+                  value: PlayerDefaultTab.artwork,
+                  title: Text(l10n.settings_player_tab_artwork),
+                ),
+                RadioListTile<PlayerDefaultTab>(
+                  value: PlayerDefaultTab.embeddedLyrics,
+                  title: Text(l10n.settings_player_tab_embedded_lyrics),
+                ),
+                RadioListTile<PlayerDefaultTab>(
+                  value: PlayerDefaultTab.fullScreenLyrics,
+                  title: Text(l10n.settings_player_tab_full_screen_lyrics),
+                  subtitle: Text(
+                    l10n.settings_player_tab_full_screen_lyrics_desc,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -105,10 +130,10 @@ class SettingsPage extends ConsumerWidget {
   }
 
   String _themeLabel(ThemeMode mode, AppLocalizations l10n) => switch (mode) {
-        ThemeMode.light => l10n.settings_theme_light,
-        ThemeMode.dark => l10n.settings_theme_dark,
-        ThemeMode.system => l10n.settings_theme_system,
-      };
+    ThemeMode.light => l10n.settings_theme_light,
+    ThemeMode.dark => l10n.settings_theme_dark,
+    ThemeMode.system => l10n.settings_theme_system,
+  };
 
   String _localeLabel(Locale? locale, AppLocalizations l10n) {
     if (locale == null) return l10n.settings_language_system;
@@ -175,7 +200,8 @@ class _ColorSwatch extends StatelessWidget {
           child: selected
               ? Icon(
                   Icons.check,
-                  color: seed.isMono ||
+                  color:
+                      seed.isMono ||
                           ThemeData.estimateBrightnessForColor(color) ==
                               Brightness.dark
                       ? Colors.white

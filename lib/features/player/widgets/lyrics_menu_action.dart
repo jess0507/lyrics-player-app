@@ -121,14 +121,13 @@ List<LyricsMenuAction> lyricsMenuActions({
   ];
 }
 
-/// 執行歌詞選單動作。[onDeleted] 於成功刪除歌詞後呼叫(例如退回封面)。
+/// 執行歌詞選單動作。
 Future<void> runLyricsMenuAction(
   BuildContext context,
   WidgetRef ref,
   LyricsMenuAction action, {
   required String trackId,
   required String title,
-  VoidCallback? onDeleted,
 }) async {
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
   if (action.needsNetwork) {
@@ -185,7 +184,7 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.download:
       await runLyricsDownload(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.delete:
-      await _confirmDelete(context, ref, trackId, onDeleted);
+      await _confirmDelete(context, ref, trackId);
     case LyricsMenuAction.aiGenerate:
       await runLyricsAiGenerate(context, ref, trackId: trackId, title: title);
   }
@@ -195,7 +194,6 @@ Future<void> _confirmDelete(
   BuildContext context,
   WidgetRef ref,
   String trackId,
-  VoidCallback? onDeleted,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   final ok = await showDialog<bool>(
@@ -217,5 +215,4 @@ Future<void> _confirmDelete(
   if (ok != true || !context.mounted) return;
   await ref.read(lyricsRepositoryProvider).deleteByTrackId(trackId);
   ref.invalidate(trackLyricsProvider(trackId));
-  onDeleted?.call();
 }

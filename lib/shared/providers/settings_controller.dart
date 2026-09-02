@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/theme/app_theme.dart';
 
 /// 應用程式偏好：語言、主題模式與主題色（持久化於 SharedPreferences）。
@@ -13,7 +14,7 @@ class SettingsState {
     this.seedColor = AppColorSeed.defaultSeed,
     this.useGradient = true,
     this.gradientFromCover = true,
-    this.autoFullScreenLyrics = false,
+    this.playerDefaultTab = PlayerDefaultTab.artwork,
   });
 
   /// null 代表「跟隨系統語言」。
@@ -27,8 +28,8 @@ class SettingsState {
   /// 漸層是否改用目前曲目封面的主色(僅在 [useGradient] 開啟時生效)。
   final bool gradientFromCover;
 
-  /// 進入播放頁時,若曲目有歌詞則自動切到滿版歌詞模式。
-  final bool autoFullScreenLyrics;
+  /// 進入播放頁時預設顯示的分頁(封面 / 歌詞 / 滿版歌詞)。
+  final PlayerDefaultTab playerDefaultTab;
 
   SettingsState copyWith({
     Object? locale = _sentinel,
@@ -36,7 +37,7 @@ class SettingsState {
     AppColorSeed? seedColor,
     bool? useGradient,
     bool? gradientFromCover,
-    bool? autoFullScreenLyrics,
+    PlayerDefaultTab? playerDefaultTab,
   }) {
     return SettingsState(
       locale: identical(locale, _sentinel) ? this.locale : locale as Locale?,
@@ -44,7 +45,7 @@ class SettingsState {
       seedColor: seedColor ?? this.seedColor,
       useGradient: useGradient ?? this.useGradient,
       gradientFromCover: gradientFromCover ?? this.gradientFromCover,
-      autoFullScreenLyrics: autoFullScreenLyrics ?? this.autoFullScreenLyrics,
+      playerDefaultTab: playerDefaultTab ?? this.playerDefaultTab,
     );
   }
 
@@ -55,7 +56,10 @@ class SettingsState {
     'seedColor': seedColor.name,
     'useGradient': useGradient,
     'gradientFromCover': gradientFromCover,
-    'autoFullScreenLyrics': autoFullScreenLyrics,
+    'playerDefaultTab': playerDefaultTab.name,
+    // 舊版欄位,讓尚未更新的裝置仍能還原「是否滿版」。
+    'autoFullScreenLyrics':
+        playerDefaultTab == PlayerDefaultTab.fullScreenLyrics,
   };
 
   static const Object _sentinel = Object();
@@ -67,6 +71,10 @@ class SettingsController extends Notifier<SettingsState> {
   static const _kSeedColor = 'settings.seedColor';
   static const _kUseGradient = 'settings.useGradient';
   static const _kGradientFromCover = 'settings.gradientFromCover';
+  static const _kPlayerDefaultTab = 'settings.playerDefaultTab';
+
+  /// 舊版布林設定;首次讀到新 key 缺值時用它推導預設分頁。
+  @Deprecated('已由 _kPlayerDefaultTab 取代,僅供舊資料遷移讀取')
   static const _kAutoFullScreenLyrics = 'settings.autoFullScreenLyrics';
 
   PreferencesService get _prefs => ref.read(preferencesServiceProvider);
@@ -79,8 +87,17 @@ class SettingsController extends Notifier<SettingsState> {
       seedColor: AppColorSeed.fromName(_prefs.getString(_kSeedColor)),
       useGradient: _prefs.getBool(_kUseGradient) ?? true,
       gradientFromCover: _prefs.getBool(_kGradientFromCover) ?? true,
-      autoFullScreenLyrics: _prefs.getBool(_kAutoFullScreenLyrics) ?? false,
+      playerDefaultTab: _readPlayerDefaultTab(),
     );
+  }
+
+  PlayerDefaultTab _readPlayerDefaultTab() {
+    final name = _prefs.getString(_kPlayerDefaultTab);
+    if (name != null) return PlayerDefaultTab.fromName(name);
+    // ignore: deprecated_member_use_from_same_package
+    return _prefs.getBool(_kAutoFullScreenLyrics) ?? false
+        ? PlayerDefaultTab.fullScreenLyrics
+        : PlayerDefaultTab.artwork;
   }
 
   void setLocale(Locale? locale) {
@@ -117,9 +134,9 @@ class SettingsController extends Notifier<SettingsState> {
     _markModified();
   }
 
-  void setAutoFullScreenLyrics(bool value) {
-    state = state.copyWith(autoFullScreenLyrics: value);
-    _prefs.setBool(_kAutoFullScreenLyrics, value);
+  void setPlayerDefaultTab(PlayerDefaultTab tab) {
+    state = state.copyWith(playerDefaultTab: tab);
+    _prefs.setString(_kPlayerDefaultTab, tab.name);
     _markModified();
   }
 
@@ -133,7 +150,8 @@ class SettingsController extends Notifier<SettingsState> {
     String? seedColor,
     bool? useGradient,
     bool? gradientFromCover,
-    bool? autoFullScreenLyrics,
+    String? playerDefaultTab,
+    @Deprecated('已由 playerDefaultTab 取代,僅供舊版雲端備份還原') bool? autoFullScreenLyrics,
   }) {
     state = SettingsState(
       locale: _decodeLocale(locale),
@@ -141,7 +159,12 @@ class SettingsController extends Notifier<SettingsState> {
       seedColor: AppColorSeed.fromName(seedColor),
       useGradient: useGradient ?? true,
       gradientFromCover: gradientFromCover ?? true,
-      autoFullScreenLyrics: autoFullScreenLyrics ?? false,
+      playerDefaultTab: playerDefaultTab != null
+          ? PlayerDefaultTab.fromName(playerDefaultTab)
+          // 舊版備份只有布林欄位。
+          : (autoFullScreenLyrics ?? false)
+          ? PlayerDefaultTab.fullScreenLyrics
+          : PlayerDefaultTab.artwork,
     );
     final restored = state.locale;
     if (restored == null) {
@@ -153,7 +176,7 @@ class SettingsController extends Notifier<SettingsState> {
     _prefs.setString(_kSeedColor, state.seedColor.name);
     _prefs.setBool(_kUseGradient, state.useGradient);
     _prefs.setBool(_kGradientFromCover, state.gradientFromCover);
-    _prefs.setBool(_kAutoFullScreenLyrics, state.autoFullScreenLyrics);
+    _prefs.setString(_kPlayerDefaultTab, state.playerDefaultTab.name);
   }
 
   void _markModified() =>

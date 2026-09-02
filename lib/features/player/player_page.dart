@@ -13,27 +13,15 @@ import 'package:seek_player/features/player/widgets/player_controls.dart';
 import 'package:seek_player/features/player/widgets/secondary_controls.dart';
 import 'package:seek_player/features/player/widgets/seek_bar.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 import 'package:seek_player/shared/widgets/marquee_text.dart';
 
-class PlayerPage extends ConsumerStatefulWidget {
+class PlayerPage extends ConsumerWidget {
   const PlayerPage({super.key});
 
   @override
-  ConsumerState<PlayerPage> createState() => _PlayerPageState();
-}
-
-class _PlayerPageState extends ConsumerState<PlayerPage> {
-  /// 使用者對目前曲目的手動選擇:true=滿版歌詞、false=封面。
-  /// null 表示尚未手動切換,沿用「自動滿版歌詞」設定的預設值。
-  /// 切換曲目時重設為 null,讓新曲目重新套用自動規則。
-  bool? _lyricsOverride;
-
-  /// 上一次處理過的曲目 id,用來偵測換曲以重設 [_lyricsOverride]。
-  String? _lastTrackId;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     // 確保背景統計 / 監聽器已啟動。
     ref.watch(playbackControllerProvider);
@@ -47,17 +35,8 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
           final mediaItem = currentItem is MediaItem ? currentItem : null;
           final hasTrack = mediaItem != null;
 
-          // 換曲時清掉上一首的手動選擇,讓新曲目重新套用自動規則。
-          final trackId = mediaItem?.id;
-          if (trackId != _lastTrackId) {
-            _lastTrackId = trackId;
-            _lyricsOverride = null;
-          }
-
-          // 自動滿版:設定開啟且目前曲目有歌詞時,預設進入滿版歌詞;
-          // 使用者一旦手動切換(_lyricsOverride 非 null)即以其選擇為準。
-          final autoLyrics = ref.watch(
-            settingsControllerProvider.select((s) => s.autoFullScreenLyrics),
+          final defaultTab = ref.watch(
+            settingsControllerProvider.select((s) => s.playerDefaultTab),
           );
           final hasLyrics =
               hasTrack &&
@@ -67,7 +46,9 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
                       ?.isNotEmpty ??
                   false);
           final showLyrics =
-              hasTrack && (_lyricsOverride ?? (autoLyrics && hasLyrics));
+              hasTrack &&
+              defaultTab == PlayerDefaultTab.fullScreenLyrics &&
+              hasLyrics;
 
           final title = mediaItem?.title ?? l10n.player_nothing_playing;
           final artist = mediaItem?.artist ?? '';
@@ -111,8 +92,6 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
                       audio: audio,
                       trackId: mediaItem.id,
                       title: mediaItem.title,
-                      onHideLyrics: () =>
-                          setState(() => _lyricsOverride = false),
                     ),
                 ],
               ),
@@ -131,15 +110,13 @@ class _PlayerPageState extends ConsumerState<PlayerPage> {
                         hasTrack: hasTrack,
                         trackId: mediaItem?.id,
                         title: mediaItem?.title,
-                        // 點擊進入滿版歌詞時,同步開啟「自動滿版歌詞」設定,
-                        // 讓之後有歌詞的曲目預設直接進滿版。
+                        initialTab: defaultTab,
                         onShowLyrics: hasTrack
-                            ? () {
-                                setState(() => _lyricsOverride = true);
-                                ref
-                                    .read(settingsControllerProvider.notifier)
-                                    .setAutoFullScreenLyrics(true);
-                              }
+                            ? () => ref
+                                  .read(settingsControllerProvider.notifier)
+                                  .setPlayerDefaultTab(
+                                    PlayerDefaultTab.fullScreenLyrics,
+                                  )
                             : null,
                       ),
               ),
@@ -171,13 +148,15 @@ class _FrozenViewInsets extends StatelessWidget {
 }
 
 /// 一般播放版面:封面 / 歌詞 PageView、次控制列、進度條、主控制列。
-/// 持有封面面板的 [PageController],讓次控制列的歌詞按鈕也能切到歌詞頁。
+/// 持有封面面板的 [PageController],讓次控制列的歌詞按鈕也能切到歌詞頁;
+/// 起始頁由 [initialTab] 決定(內嵌歌詞分頁 → 第二頁,其餘 → 封面)。
 class _PlayerLayout extends StatefulWidget {
   const _PlayerLayout({
     required this.audio,
     required this.hasTrack,
     required this.trackId,
     required this.title,
+    required this.initialTab,
     required this.onShowLyrics,
   });
 
@@ -185,6 +164,7 @@ class _PlayerLayout extends StatefulWidget {
   final bool hasTrack;
   final String? trackId;
   final String? title;
+  final PlayerDefaultTab initialTab;
   final VoidCallback? onShowLyrics;
 
   @override
@@ -192,7 +172,9 @@ class _PlayerLayout extends StatefulWidget {
 }
 
 class _PlayerLayoutState extends State<_PlayerLayout> {
-  final _pageController = PageController();
+  late final _pageController = PageController(
+    initialPage: widget.initialTab == PlayerDefaultTab.embeddedLyrics ? 1 : 0,
+  );
 
   @override
   void dispose() {

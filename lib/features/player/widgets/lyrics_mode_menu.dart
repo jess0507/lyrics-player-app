@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
@@ -26,13 +27,11 @@ class LyricsModeMenu extends ConsumerWidget {
     required this.audio,
     required this.trackId,
     required this.title,
-    required this.onHideLyrics,
   });
 
   final AudioPlayerService audio;
   final String trackId;
   final String title;
-  final VoidCallback onHideLyrics;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -106,15 +105,7 @@ class LyricsModeMenu extends ConsumerWidget {
 
   void _onSelected(BuildContext context, WidgetRef ref, Object value) {
     if (value is LyricsMenuAction) {
-      runLyricsMenuAction(
-        context,
-        ref,
-        value,
-        trackId: trackId,
-        title: title,
-        // 刪除歌詞後自動退回封面。
-        onDeleted: onHideLyrics,
-      );
+      runLyricsMenuAction(context, ref, value, trackId: trackId, title: title);
       return;
     }
     switch (value as _LyricsModeAction) {
@@ -127,15 +118,13 @@ class LyricsModeMenu extends ConsumerWidget {
     }
   }
 
-  /// 手動關閉歌詞:同時關閉「自動滿版歌詞」設定,
-  /// 避免切歌後又自動跳回滿版。
+  /// 手動退出滿版 = 把預設分頁設回封面;播放頁依設定退回封面,
+  /// 切歌後也不會再自動跳回滿版。
   void _hideLyrics(WidgetRef ref) {
     ref
         .read(settingsControllerProvider.notifier)
-        .setAutoFullScreenLyrics(false);
-    onHideLyrics();
+        .setPlayerDefaultTab(PlayerDefaultTab.artwork);
   }
-
 }
 
 /// 選單列:圖示 + 文字,選取時上色,可選右側狀態文字(如速度倍率)。
