@@ -60,13 +60,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get player_mode_repeat_one => 'Повтор одного';
 
   @override
-  String get player_forward => 'Вперёд 5с';
+  String player_forward(int seconds) {
+    return 'Вперёд $secondsс';
+  }
 
   @override
-  String get player_rewind => 'Назад 5с';
+  String player_rewind(int seconds) {
+    return 'Назад $secondsс';
+  }
 
   @override
   String get player_speed => 'Скорость воспроизведения';
+
+  @override
+  String get player_seek_step => 'Шаг перемотки';
 
   @override
   String get common_reset => 'Сброс';

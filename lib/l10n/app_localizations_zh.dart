@@ -60,13 +60,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get player_mode_repeat_one => '單曲循環';
 
   @override
-  String get player_forward => '快進5秒';
+  String player_forward(int seconds) {
+    return '快進$seconds秒';
+  }
 
   @override
-  String get player_rewind => '快退5秒';
+  String player_rewind(int seconds) {
+    return '快退$seconds秒';
+  }
 
   @override
   String get player_speed => '播放速度';
+
+  @override
+  String get player_seek_step => '快進 / 快退秒數';
 
   @override
   String get common_reset => '重設';
@@ -763,13 +770,20 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get player_mode_repeat_one => '单曲循环';
 
   @override
-  String get player_forward => '快进5秒';
+  String player_forward(int seconds) {
+    return '快进$seconds秒';
+  }
 
   @override
-  String get player_rewind => '快退5秒';
+  String player_rewind(int seconds) {
+    return '快退$seconds秒';
+  }
 
   @override
   String get player_speed => '播放速度';
+
+  @override
+  String get player_seek_step => '快进 / 快退秒数';
 
   @override
   String get common_reset => '重置';
@@ -1467,13 +1481,20 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get player_mode_repeat_one => '單曲循環';
 
   @override
-  String get player_forward => '快進5秒';
+  String player_forward(int seconds) {
+    return '快進$seconds秒';
+  }
 
   @override
-  String get player_rewind => '快退5秒';
+  String player_rewind(int seconds) {
+    return '快退$seconds秒';
+  }
 
   @override
   String get player_speed => '播放速度';
+
+  @override
+  String get player_seek_step => '快進 / 快退秒數';
 
   @override
   String get common_reset => '重設';

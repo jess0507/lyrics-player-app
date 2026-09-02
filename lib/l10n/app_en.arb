@@ -17,9 +17,20 @@
   "player_share": "Share",
   "player_mode_sequential": "Sequential",
   "player_mode_repeat_one": "Repeat one",
-  "player_forward": "Forward 5s",
-  "player_rewind": "Rewind 5s",
+  "player_forward": "Forward {seconds}s",
+  "@player_forward": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "player_rewind": "Rewind {seconds}s",
+  "@player_rewind": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
   "player_speed": "Playback speed",
+  "player_seek_step": "Skip interval",
   "common_reset": "Reset",
   "player_nothing_playing": "Nothing playing",
   "music_import": "Import music",

@@ -231,20 +231,26 @@ abstract class AppLocalizations {
   /// No description provided for @player_forward.
   ///
   /// In en, this message translates to:
-  /// **'Forward 5s'**
-  String get player_forward;
+  /// **'Forward {seconds}s'**
+  String player_forward(int seconds);
 
   /// No description provided for @player_rewind.
   ///
   /// In en, this message translates to:
-  /// **'Rewind 5s'**
-  String get player_rewind;
+  /// **'Rewind {seconds}s'**
+  String player_rewind(int seconds);
 
   /// No description provided for @player_speed.
   ///
   /// In en, this message translates to:
   /// **'Playback speed'**
   String get player_speed;
+
+  /// No description provided for @player_seek_step.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip interval'**
+  String get player_seek_step;
 
   /// No description provided for @common_reset.
   ///

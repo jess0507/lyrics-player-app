@@ -60,13 +60,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get player_mode_repeat_one => '한 곡 반복';
 
   @override
-  String get player_forward => '5초 앞으로';
+  String player_forward(int seconds) {
+    return '$seconds초 앞으로';
+  }
 
   @override
-  String get player_rewind => '5초 뒤로';
+  String player_rewind(int seconds) {
+    return '$seconds초 뒤로';
+  }
 
   @override
   String get player_speed => '재생 속도';
+
+  @override
+  String get player_seek_step => '건너뛰기 간격';
 
   @override
   String get common_reset => '초기화';

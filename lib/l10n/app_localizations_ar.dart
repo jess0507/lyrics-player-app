@@ -60,13 +60,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get player_mode_repeat_one => 'تكرار واحد';
 
   @override
-  String get player_forward => 'تقديم ٥ ثوانٍ';
+  String player_forward(int seconds) {
+    return 'تقديم $seconds ثوانٍ';
+  }
 
   @override
-  String get player_rewind => 'ترجيع ٥ ثوانٍ';
+  String player_rewind(int seconds) {
+    return 'ترجيع $seconds ثوانٍ';
+  }
 
   @override
   String get player_speed => 'سرعة التشغيل';
+
+  @override
+  String get player_seek_step => 'فاصل التخطي';
 
   @override
   String get common_reset => 'إعادة تعيين';

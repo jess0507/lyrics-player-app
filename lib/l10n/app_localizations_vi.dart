@@ -60,13 +60,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get player_mode_repeat_one => 'Lặp lại một bài';
 
   @override
-  String get player_forward => 'Tua tới 5 giây';
+  String player_forward(int seconds) {
+    return 'Tua tới $seconds giây';
+  }
 
   @override
-  String get player_rewind => 'Tua lại 5 giây';
+  String player_rewind(int seconds) {
+    return 'Tua lại $seconds giây';
+  }
 
   @override
   String get player_speed => 'Tốc độ phát';
+
+  @override
+  String get player_seek_step => 'Khoảng tua';
 
   @override
   String get common_reset => 'Đặt lại';

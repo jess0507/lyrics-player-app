@@ -60,13 +60,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get player_mode_repeat_one => 'Répéter un titre';
 
   @override
-  String get player_forward => 'Avancer 5s';
+  String player_forward(int seconds) {
+    return 'Avancer ${seconds}s';
+  }
 
   @override
-  String get player_rewind => 'Reculer 5s';
+  String player_rewind(int seconds) {
+    return 'Reculer ${seconds}s';
+  }
 
   @override
   String get player_speed => 'Vitesse de lecture';
+
+  @override
+  String get player_seek_step => 'Intervalle de saut';
 
   @override
   String get common_reset => 'Réinitialiser';

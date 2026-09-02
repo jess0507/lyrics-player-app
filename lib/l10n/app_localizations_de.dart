@@ -60,13 +60,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get player_mode_repeat_one => 'Einzeltitel wiederholen';
 
   @override
-  String get player_forward => '5s vor';
+  String player_forward(int seconds) {
+    return '${seconds}s vor';
+  }
 
   @override
-  String get player_rewind => '5s zurück';
+  String player_rewind(int seconds) {
+    return '${seconds}s zurück';
+  }
 
   @override
   String get player_speed => 'Wiedergabegeschwindigkeit';
+
+  @override
+  String get player_seek_step => 'Sprungintervall';
 
   @override
   String get common_reset => 'Zurücksetzen';

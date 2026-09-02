@@ -60,13 +60,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get player_mode_repeat_one => 'Ulangi satu';
 
   @override
-  String get player_forward => 'Maju 5d';
+  String player_forward(int seconds) {
+    return 'Maju ${seconds}d';
+  }
 
   @override
-  String get player_rewind => 'Mundur 5d';
+  String player_rewind(int seconds) {
+    return 'Mundur ${seconds}d';
+  }
 
   @override
   String get player_speed => 'Kecepatan pemutaran';
+
+  @override
+  String get player_seek_step => 'Interval lompat';
 
   @override
   String get common_reset => 'Atur ulang';

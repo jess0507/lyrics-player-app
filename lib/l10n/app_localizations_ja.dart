@@ -60,13 +60,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get player_mode_repeat_one => '1曲リピート';
 
   @override
-  String get player_forward => '5秒進む';
+  String player_forward(int seconds) {
+    return '$seconds秒進む';
+  }
 
   @override
-  String get player_rewind => '5秒戻る';
+  String player_rewind(int seconds) {
+    return '$seconds秒戻る';
+  }
 
   @override
   String get player_speed => '再生速度';
+
+  @override
+  String get player_seek_step => 'スキップ秒数';
 
   @override
   String get common_reset => 'リセット';
