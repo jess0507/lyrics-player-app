@@ -22,6 +22,8 @@ void showLyricsActionsSheet(
   showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
+    // 解除預設最大高度(螢幕 9/16),依內容撐高,項目多時不會 overflow。
+    isScrollControlled: true,
     builder: (sheetContext) => _LyricsActionsSheet(
       parentContext: context,
       parentRef: ref,
