@@ -1,5 +1,7 @@
 package com.js.seek_player
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
@@ -29,6 +31,22 @@ class MainActivity : AudioServiceActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        // 「更多 → 重置」:等同系統設定「應用程式資訊 → 儲存空間 → 清除資料」,
+        // 系統清空整個 app 沙盒(Isar、SharedPreferences、cache、Firebase 登入)
+        // 並立刻終止 process,因此成功時 Dart 端收不到回傳;只有失敗會回 false。
+        // Android 的音樂走 MediaStore,沙盒內沒有使用者的多媒體檔案。
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "seek_player/app_data",
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "clear" -> {
+                    val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                    result.success(am.clearApplicationUserData())
+                }
+                else -> result.notImplemented()
+            }
+        }
         // 背景歌詞處理:Dart 端(lyrics_background_runner.dart)由此啟動
         // LyricsBackgroundService。一次僅允許一件任務,重複啟動回 false。
         MethodChannel(

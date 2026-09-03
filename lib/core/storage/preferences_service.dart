@@ -30,6 +30,9 @@ class PreferencesService {
       _prefs.setStringList(key, value);
 
   Future<void> remove(String key) => _prefs.remove(key);
+
+  /// 清空全部 key(「重置」用)。
+  Future<void> clear() => _prefs.clear();
 }
 
 /// 於 main() 以 overrideWithValue 注入實體。
