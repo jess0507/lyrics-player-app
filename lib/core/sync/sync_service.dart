@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/auth/auth_service.dart';
+// import 'package:seek_player/core/auth/auth_service.dart'; // 暫停雲端同步
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/core/firebase_available_provider.dart';
+// import 'package:seek_player/core/firebase_available_provider.dart'; // 暫停雲端同步
 import 'package:seek_player/core/sync/lyrics_sync.dart';
 import 'package:seek_player/core/sync/playlists_sync.dart';
 import 'package:seek_player/core/sync/settings_sync.dart';
@@ -35,34 +35,38 @@ class SyncService {
       _userDoc(uid).collection('setting').doc('0');
 
   void _init() {
-    if (!ref.read(firebaseAvailableProvider)) {
-      debugPrint('[Sync] Firebase 不可用，停用同步');
-      return;
-    }
-    _lyricsSync.markExistingPending();
-    final sub = ref.read(authServiceProvider).authStateChanges().listen((user) {
-      if (user == null) {
-        debugPrint('[Sync] auth 事件：未登入，不同步');
-        return;
-      }
-      debugPrint('[Sync] auth 事件：uid=${user.uid}');
-      unawaited(_onSignedIn(user.uid));
-    });
-    ref.onDispose(sub.cancel);
-
-    final lifecycle = AppLifecycleListener(
-      onResume: () {
-        final uid = ref.read(authServiceProvider).currentUser?.uid;
-        if (uid == null) return;
-        debugPrint('[Sync] App 回前景，檢查是否上傳');
-        unawaited(_maybeUpload(uid));
-      },
-    );
-    ref.onDispose(lifecycle.dispose);
+    // 暫時停用雲端同步：資料先只寫本機 Isar，不推 / 拉 Firebase。
+    // 要恢復時把下面整段（與 app.dart 的 ref.watch(syncServiceProvider)、
+    // uploadAfterReset / syncNow 的呼叫）解除註解即可。
+    // if (!ref.read(firebaseAvailableProvider)) {
+    //   debugPrint('[Sync] Firebase 不可用，停用同步');
+    //   return;
+    // }
+    // _lyricsSync.markExistingPending();
+    // final sub = ref.read(authServiceProvider).authStateChanges().listen((user) {
+    //   if (user == null) {
+    //     debugPrint('[Sync] auth 事件：未登入，不同步');
+    //     return;
+    //   }
+    //   debugPrint('[Sync] auth 事件：uid=${user.uid}');
+    //   unawaited(_onSignedIn(user.uid));
+    // });
+    // ref.onDispose(sub.cancel);
+    //
+    // final lifecycle = AppLifecycleListener(
+    //   onResume: () {
+    //     final uid = ref.read(authServiceProvider).currentUser?.uid;
+    //     if (uid == null) return;
+    //     debugPrint('[Sync] App 回前景，檢查是否上傳');
+    //     unawaited(_maybeUpload(uid));
+    //   },
+    // );
+    // ref.onDispose(lifecycle.dispose);
   }
 
   /// 登入成功當下：先依遠端 / 本機時戳決定是否還原，還原後（或跳過）
   /// 仍接著跑一次上傳判斷，讓本機較新的部分補推上雲端。
+  // ignore: unused_element -- 暫停雲端同步期間未被 _init 呼叫
   Future<void> _onSignedIn(String uid) async {
     try {
       await _restoreFromCloud(uid);
@@ -192,16 +196,18 @@ class SyncService {
   /// 統計重設後呼叫：立即上傳歸零快照（tracks 清空、settings 維持現值），
   /// 不等下次同步班次。未登入 / Firebase 不可用時為 no-op。
   Future<void> uploadAfterReset() async {
-    if (!ref.read(firebaseAvailableProvider)) {
-      debugPrint('[Sync] Firebase 不可用，重設後不上傳');
-      return;
-    }
-    final uid = ref.read(authServiceProvider).currentUser?.uid;
-    if (uid == null) {
-      debugPrint('[Sync] 未登入，重設後不上傳');
-      return;
-    }
-    await _upload(uid);
+    // 暫時停用雲端同步（見 _init）。
+    debugPrint('[Sync] 雲端同步已停用，重設後不上傳');
+    // if (!ref.read(firebaseAvailableProvider)) {
+    //   debugPrint('[Sync] Firebase 不可用，重設後不上傳');
+    //   return;
+    // }
+    // final uid = ref.read(authServiceProvider).currentUser?.uid;
+    // if (uid == null) {
+    //   debugPrint('[Sync] 未登入，重設後不上傳');
+    //   return;
+    // }
+    // await _upload(uid);
   }
 
   /// 帳戶頁面「立即同步」手動觸發：不看變更判斷，直接跑一次上傳
@@ -209,16 +215,19 @@ class SyncService {
   /// 讓使用者能主動確認資料已送上雲端。
   /// 未登入 / Firebase 不可用時回傳 false（no-op）。
   Future<bool> syncNow() async {
-    if (!ref.read(firebaseAvailableProvider)) {
-      debugPrint('[Sync] Firebase 不可用，略過手動同步');
-      return false;
-    }
-    final uid = ref.read(authServiceProvider).currentUser?.uid;
-    if (uid == null) {
-      debugPrint('[Sync] 未登入，略過手動同步');
-      return false;
-    }
-    return _upload(uid);
+    // 暫時停用雲端同步（見 _init）。
+    debugPrint('[Sync] 雲端同步已停用，略過手動同步');
+    return false;
+    // if (!ref.read(firebaseAvailableProvider)) {
+    //   debugPrint('[Sync] Firebase 不可用，略過手動同步');
+    //   return false;
+    // }
+    // final uid = ref.read(authServiceProvider).currentUser?.uid;
+    // if (uid == null) {
+    //   debugPrint('[Sync] 未登入，略過手動同步');
+    //   return false;
+    // }
+    // return _upload(uid);
   }
 
   Future<bool> _upload(String uid) async {

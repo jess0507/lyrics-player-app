@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/network/offline_toast_listener.dart';
-import 'package:seek_player/core/sync/sync_service.dart';
+// import 'package:seek_player/core/sync/sync_service.dart'; // 暫停雲端同步
 import 'package:seek_player/core/update/app_update_listener.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_service.dart';
@@ -20,7 +20,8 @@ class SeekPlayerApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 啟動雲端同步（App 啟動 / 登入時依條件上傳或還原）。
-    ref.watch(syncServiceProvider);
+    // 暫時停用：資料先只寫本機 Isar，不同步到 Firebase（見 SyncService._init）。
+    // ref.watch(syncServiceProvider);
     // 註冊背景歌詞任務的事件 port:即使任務是上個 app instance 發起
     // (滑掉後由前景服務續跑),完成事件也能刷新歌詞與同步 flag。
     ref.watch(lyricsBackgroundRunnerProvider);
