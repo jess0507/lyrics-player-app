@@ -97,7 +97,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get music_search => '검색';
 
   @override
-  String get music_empty => '음악을 찾을 수 없습니다';
+  String get music_empty => '음악이 없습니다. 기기의 곡을 다시 불러오세요.';
 
   @override
   String get music_remove => '제거';

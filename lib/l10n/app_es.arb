@@ -27,7 +27,7 @@
   "music_import_done": "{count, plural, =1{1 pista importada} other{{count} pistas importadas}}",
   "music_empty_import": "Aún no hay música. Toca «Importar música» o coloca archivos de audio en la carpeta de esta app desde la app Archivos.",
   "music_search": "Buscar",
-  "music_empty": "No se encontró música",
+  "music_empty": "Aún no hay música. Vuelve a cargar las canciones del dispositivo.",
   "music_remove": "Quitar",
   "music_rescan": "Volver a escanear",
   "music_track_info": "Información de la pista",

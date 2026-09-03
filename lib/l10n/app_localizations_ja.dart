@@ -97,7 +97,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get music_search => '検索';
 
   @override
-  String get music_empty => '音楽が見つかりません';
+  String get music_empty => '音楽がありません。端末の曲を再読み込みしてください。';
 
   @override
   String get music_remove => '削除';

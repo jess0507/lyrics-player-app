@@ -97,7 +97,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get music_search => 'Ara';
 
   @override
-  String get music_empty => 'Müzik bulunamadı';
+  String get music_empty =>
+      'Henüz müzik yok. Lütfen cihazınızdaki şarkıları yeniden yükleyin.';
 
   @override
   String get music_remove => 'Kaldır';

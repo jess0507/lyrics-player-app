@@ -27,7 +27,7 @@
   "music_import_done": "Đã nhập {count} bài",
   "music_empty_import": "Chưa có nhạc. Nhấn Nhập nhạc, hoặc thêm tệp âm thanh vào thư mục của ứng dụng này trong ứng dụng Tệp.",
   "music_search": "Tìm kiếm",
-  "music_empty": "Không tìm thấy nhạc",
+  "music_empty": "Chưa có nhạc. Vui lòng tải lại bài hát từ thiết bị.",
   "music_remove": "Xóa",
   "music_rescan": "Quét lại",
   "music_track_info": "Thông tin bản nhạc",

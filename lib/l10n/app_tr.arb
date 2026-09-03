@@ -27,7 +27,7 @@
   "music_import_done": "{count} parça içe aktarıldı",
   "music_empty_import": "Henüz müzik yok. Müzik içe aktar'a dokunun veya Dosyalar uygulamasından bu uygulamanın klasörüne ses dosyaları ekleyin.",
   "music_search": "Ara",
-  "music_empty": "Müzik bulunamadı",
+  "music_empty": "Henüz müzik yok. Lütfen cihazınızdaki şarkıları yeniden yükleyin.",
   "music_remove": "Kaldır",
   "music_rescan": "Yeniden tara",
   "music_track_info": "Parça bilgisi",

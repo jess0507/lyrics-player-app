@@ -104,7 +104,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get music_empty =>
-      'No music found. Tap rescan to load songs from your device.';
+      'No music yet. Please reload songs from your device.';
 
   @override
   String get music_remove => 'Remove';

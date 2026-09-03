@@ -96,7 +96,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get music_search => '搜尋';
 
   @override
-  String get music_empty => '尚無音樂，點擊重新掃描以載入裝置音樂。';
+  String get music_empty => '尚無音樂，請重新載入裝置音樂。';
 
   @override
   String get music_remove => '移除';
@@ -807,7 +807,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get music_search => '搜索';
 
   @override
-  String get music_empty => '找不到音乐，点击重新扫描以加载设备音乐。';
+  String get music_empty => '尚无音乐，请重新加载设备音乐。';
 
   @override
   String get music_remove => '移除';
@@ -1517,7 +1517,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get music_search => '搜尋';
 
   @override
-  String get music_empty => '找不到音樂，點擊重新掃描以載入裝置音樂。';
+  String get music_empty => '尚無音樂，請重新載入裝置音樂。';
 
   @override
   String get music_remove => '移除';

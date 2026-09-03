@@ -27,7 +27,7 @@
   "music_import_done": "{count, plural, =1{1 faixa importada} other{{count} faixas importadas}}",
   "music_empty_import": "Ainda não há músicas. Toque em Importar música ou adicione arquivos de áudio à pasta deste app no app Arquivos.",
   "music_search": "Pesquisar",
-  "music_empty": "Nenhuma música encontrada",
+  "music_empty": "Ainda não há músicas. Recarregue as músicas do dispositivo.",
   "music_remove": "Remover",
   "music_rescan": "Verificar novamente",
   "music_track_info": "Informações da faixa",

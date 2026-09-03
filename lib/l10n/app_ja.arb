@@ -27,7 +27,7 @@
   "music_import_done": "{count}曲をインポートしました",
   "music_empty_import": "まだ音楽がありません。「音楽をインポート」をタップするか、「ファイル」アプリでこのアプリのフォルダに音声ファイルを追加してください。",
   "music_search": "検索",
-  "music_empty": "音楽が見つかりません",
+  "music_empty": "音楽がありません。端末の曲を再読み込みしてください。",
   "music_remove": "削除",
   "music_rescan": "再スキャン",
   "music_track_info": "トラック情報",

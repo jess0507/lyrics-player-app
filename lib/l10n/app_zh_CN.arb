@@ -27,7 +27,7 @@
   "music_import_done": "已导入 {count} 首",
   "music_empty_import": "尚无音乐。点击「导入音乐」，或在「文件」app 中将音频文件放入本 app 的文件夹。",
   "music_search": "搜索",
-  "music_empty": "找不到音乐，点击重新扫描以加载设备音乐。",
+  "music_empty": "尚无音乐，请重新加载设备音乐。",
   "music_remove": "移除",
   "music_rescan": "重新扫描",
   "music_track_info": "曲目信息",

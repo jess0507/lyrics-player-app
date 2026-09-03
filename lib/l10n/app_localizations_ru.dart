@@ -105,7 +105,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get music_search => 'Поиск';
 
   @override
-  String get music_empty => 'Музыка не найдена';
+  String get music_empty =>
+      'Музыки пока нет. Загрузите песни с устройства заново.';
 
   @override
   String get music_remove => 'Удалить';

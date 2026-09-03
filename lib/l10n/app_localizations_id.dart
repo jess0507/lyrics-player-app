@@ -97,7 +97,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get music_search => 'Cari';
 
   @override
-  String get music_empty => 'Musik tidak ditemukan';
+  String get music_empty =>
+      'Belum ada musik. Silakan muat ulang lagu dari perangkat.';
 
   @override
   String get music_remove => 'Hapus';

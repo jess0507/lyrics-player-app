@@ -97,7 +97,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get music_search => 'खोजें';
 
   @override
-  String get music_empty => 'कोई संगीत नहीं मिला';
+  String get music_empty =>
+      'अभी कोई संगीत नहीं है। कृपया डिवाइस से गाने फिर से लोड करें।';
 
   @override
   String get music_remove => 'हटाएँ';

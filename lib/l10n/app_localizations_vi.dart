@@ -97,7 +97,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get music_search => 'Tìm kiếm';
 
   @override
-  String get music_empty => 'Không tìm thấy nhạc';
+  String get music_empty =>
+      'Chưa có nhạc. Vui lòng tải lại bài hát từ thiết bị.';
 
   @override
   String get music_remove => 'Xóa';

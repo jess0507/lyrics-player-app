@@ -103,7 +103,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get music_search => 'Cerca';
 
   @override
-  String get music_empty => 'Nessuna musica trovata';
+  String get music_empty => 'Nessuna musica. Ricarica i brani dal dispositivo.';
 
   @override
   String get music_remove => 'Rimuovi';

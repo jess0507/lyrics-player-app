@@ -27,7 +27,7 @@
   "music_import_done": "{count} lagu diimpor",
   "music_empty_import": "Belum ada musik. Ketuk Impor musik, atau tambahkan file audio ke folder aplikasi ini lewat aplikasi Files.",
   "music_search": "Cari",
-  "music_empty": "Musik tidak ditemukan",
+  "music_empty": "Belum ada musik. Silakan muat ulang lagu dari perangkat.",
   "music_remove": "Hapus",
   "music_rescan": "Pindai ulang",
   "music_track_info": "Info trek",

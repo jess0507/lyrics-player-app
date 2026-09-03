@@ -42,7 +42,7 @@
   },
   "music_empty_import": "No music yet. Tap Import music, or drop audio files into this app's folder in the Files app.",
   "music_search": "Search",
-  "music_empty": "No music found. Tap rescan to load songs from your device.",
+  "music_empty": "No music yet. Please reload songs from your device.",
   "music_remove": "Remove",
   "music_rescan": "Rescan",
   "music_track_info": "Track info",

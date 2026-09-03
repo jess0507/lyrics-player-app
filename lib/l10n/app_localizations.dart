@@ -291,7 +291,7 @@ abstract class AppLocalizations {
   /// No description provided for @music_empty.
   ///
   /// In en, this message translates to:
-  /// **'No music found. Tap rescan to load songs from your device.'**
+  /// **'No music yet. Please reload songs from your device.'**
   String get music_empty;
 
   /// No description provided for @music_remove.

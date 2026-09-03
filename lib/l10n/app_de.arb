@@ -27,7 +27,7 @@
   "music_import_done": "{count, plural, =1{1 Titel importiert} other{{count} Titel importiert}}",
   "music_empty_import": "Noch keine Musik. Tippe auf „Musik importieren“ oder lege Audiodateien im Ordner dieser App in der Dateien-App ab.",
   "music_search": "Suchen",
-  "music_empty": "Keine Musik gefunden",
+  "music_empty": "Noch keine Musik. Bitte lade die Songs vom Gerät neu.",
   "music_remove": "Entfernen",
   "music_rescan": "Erneut scannen",
   "music_track_info": "Titelinfo",
