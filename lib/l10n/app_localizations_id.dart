@@ -36,6 +36,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get profile_about => 'Tentang';
 
   @override
+  String get profile_reset => 'Atur ulang';
+
+  @override
+  String get profile_reset_title => 'Atur ulang aplikasi?';
+
+  @override
+  String get profile_reset_message =>
+      'Hanya data aplikasi yang akan diatur ulang. File media di perangkat ini tidak akan dihapus.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Berhasil diatur ulang. Tutup aplikasi sepenuhnya lalu buka kembali.';
+
+  @override
   String get player_play => 'Putar';
 
   @override

@@ -36,6 +36,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profile_about => 'Sobre';
 
   @override
+  String get profile_reset => 'Redefinir';
+
+  @override
+  String get profile_reset_title => 'Redefinir o aplicativo?';
+
+  @override
+  String get profile_reset_message =>
+      'Apenas os dados do aplicativo serão redefinidos. Os arquivos de mídia neste dispositivo não serão excluídos.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Redefinido. Feche completamente o aplicativo e abra-o novamente.';
+
+  @override
   String get player_play => 'Reproduzir';
 
   @override

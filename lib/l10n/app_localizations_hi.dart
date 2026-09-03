@@ -36,6 +36,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profile_about => 'परिचय';
 
   @override
+  String get profile_reset => 'रीसेट करें';
+
+  @override
+  String get profile_reset_title => 'ऐप रीसेट करें?';
+
+  @override
+  String get profile_reset_message =>
+      'केवल ऐप डेटा रीसेट होगा। इस डिवाइस की मीडिया फ़ाइलें नहीं हटाई जाएँगी।';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'रीसेट हो गया। कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।';
+
+  @override
   String get player_play => 'चलाएँ';
 
   @override

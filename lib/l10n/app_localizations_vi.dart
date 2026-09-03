@@ -36,6 +36,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_about => 'Giới thiệu';
 
   @override
+  String get profile_reset => 'Đặt lại';
+
+  @override
+  String get profile_reset_title => 'Đặt lại ứng dụng?';
+
+  @override
+  String get profile_reset_message =>
+      'Chỉ dữ liệu ứng dụng được đặt lại. Các tệp phương tiện trên thiết bị này sẽ không bị xóa.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Đã đặt lại. Vui lòng đóng hoàn toàn ứng dụng và mở lại.';
+
+  @override
   String get player_play => 'Phát';
 
   @override

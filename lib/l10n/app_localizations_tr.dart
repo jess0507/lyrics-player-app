@@ -36,6 +36,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile_about => 'Hakkında';
 
   @override
+  String get profile_reset => 'Sıfırla';
+
+  @override
+  String get profile_reset_title => 'Uygulama sıfırlansın mı?';
+
+  @override
+  String get profile_reset_message =>
+      'Yalnızca uygulama verileri sıfırlanır. Bu cihazdaki medya dosyaları silinmez.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Sıfırlandı. Lütfen uygulamayı tamamen kapatıp yeniden açın.';
+
+  @override
   String get player_play => 'Oynat';
 
   @override

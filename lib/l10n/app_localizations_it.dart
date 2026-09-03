@@ -36,6 +36,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get profile_about => 'Informazioni';
 
   @override
+  String get profile_reset => 'Ripristina';
+
+  @override
+  String get profile_reset_title => 'Ripristinare l\'app?';
+
+  @override
+  String get profile_reset_message =>
+      'Verranno ripristinati solo i dati dell\'app. I file multimediali su questo dispositivo non verranno eliminati.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Ripristino completato. Chiudi completamente l\'app e riaprila.';
+
+  @override
   String get player_play => 'Riproduci';
 
   @override

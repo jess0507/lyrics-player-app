@@ -36,6 +36,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_about => '정보';
 
   @override
+  String get profile_reset => '초기화';
+
+  @override
+  String get profile_reset_title => '초기화하시겠습니까?';
+
+  @override
+  String get profile_reset_message => '앱 데이터만 초기화되며, 기기의 미디어 파일은 삭제되지 않습니다.';
+
+  @override
+  String get profile_reset_restart_hint => '초기화되었습니다. 앱을 완전히 종료한 후 다시 실행해 주세요.';
+
+  @override
   String get player_play => '재생';
 
   @override

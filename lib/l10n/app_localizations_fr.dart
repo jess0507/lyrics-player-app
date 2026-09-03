@@ -36,6 +36,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profile_about => 'À propos';
 
   @override
+  String get profile_reset => 'Réinitialiser';
+
+  @override
+  String get profile_reset_title => 'Réinitialiser l\'application ?';
+
+  @override
+  String get profile_reset_message =>
+      'Seules les données de l\'application seront réinitialisées. Les fichiers multimédias de cet appareil ne seront pas supprimés.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Réinitialisation terminée. Veuillez fermer complètement l\'application et la rouvrir.';
+
+  @override
   String get player_play => 'Lire';
 
   @override

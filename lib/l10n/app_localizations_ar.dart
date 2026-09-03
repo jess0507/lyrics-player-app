@@ -36,6 +36,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_about => 'حول';
 
   @override
+  String get profile_reset => 'إعادة تعيين';
+
+  @override
+  String get profile_reset_title => 'هل تريد إعادة تعيين التطبيق؟';
+
+  @override
+  String get profile_reset_message =>
+      'سيتم إعادة تعيين بيانات التطبيق فقط. لن يتم حذف ملفات الوسائط على هذا الجهاز.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'تمت إعادة التعيين. يرجى إغلاق التطبيق بالكامل ثم إعادة فتحه.';
+
+  @override
   String get player_play => 'تشغيل';
 
   @override

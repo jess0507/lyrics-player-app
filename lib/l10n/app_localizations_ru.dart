@@ -36,6 +36,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_about => 'О приложении';
 
   @override
+  String get profile_reset => 'Сбросить';
+
+  @override
+  String get profile_reset_title => 'Сбросить приложение?';
+
+  @override
+  String get profile_reset_message =>
+      'Будут сброшены только данные приложения. Медиафайлы на этом устройстве не будут удалены.';
+
+  @override
+  String get profile_reset_restart_hint =>
+      'Сброс выполнен. Полностью закройте приложение и откройте его снова.';
+
+  @override
   String get player_play => 'Воспроизвести';
 
   @override

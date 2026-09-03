@@ -180,6 +180,30 @@ abstract class AppLocalizations {
   /// **'About'**
   String get profile_about;
 
+  /// No description provided for @profile_reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get profile_reset;
+
+  /// No description provided for @profile_reset_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset the app?'**
+  String get profile_reset_title;
+
+  /// No description provided for @profile_reset_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Only app data will be reset. Media files on this device will not be deleted.'**
+  String get profile_reset_message;
+
+  /// No description provided for @profile_reset_restart_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset complete. Please fully close and reopen the app.'**
+  String get profile_reset_restart_hint;
+
   /// No description provided for @player_play.
   ///
   /// In en, this message translates to:

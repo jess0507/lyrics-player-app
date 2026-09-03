@@ -36,6 +36,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_about => 'アプリについて';
 
   @override
+  String get profile_reset => 'リセット';
+
+  @override
+  String get profile_reset_title => 'リセットしますか？';
+
+  @override
+  String get profile_reset_message => 'アプリのデータのみリセットされます。端末内のメディアファイルは削除されません。';
+
+  @override
+  String get profile_reset_restart_hint => 'リセットしました。アプリを完全に終了して再起動してください。';
+
+  @override
   String get player_play => '再生';
 
   @override

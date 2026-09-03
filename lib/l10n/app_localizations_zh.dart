@@ -36,6 +36,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_about => '關於';
 
   @override
+  String get profile_reset => '重置';
+
+  @override
+  String get profile_reset_title => '確定要重置嗎？';
+
+  @override
+  String get profile_reset_message => '只會重置應用程式資料，不會刪除本機多媒體檔案。';
+
+  @override
+  String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
+
+  @override
   String get player_play => '播放';
 
   @override
@@ -747,6 +759,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get profile_about => '关于';
+
+  @override
+  String get profile_reset => '重置';
+
+  @override
+  String get profile_reset_title => '确定要重置吗？';
+
+  @override
+  String get profile_reset_message => '只会重置应用数据，不会删除本机多媒体文件。';
+
+  @override
+  String get profile_reset_restart_hint => '已重置，请完全关闭并重新打开 App。';
 
   @override
   String get player_play => '播放';
@@ -1461,6 +1485,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get profile_about => '關於';
+
+  @override
+  String get profile_reset => '重置';
+
+  @override
+  String get profile_reset_title => '確定要重置嗎？';
+
+  @override
+  String get profile_reset_message => '只會重置應用程式資料，不會刪除本機多媒體檔案。';
+
+  @override
+  String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
 
   @override
   String get player_play => '播放';
