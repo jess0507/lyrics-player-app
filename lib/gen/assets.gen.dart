@@ -64,10 +64,22 @@ class $AssetsIconGen {
   ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/empty_state.svg
+  SvgGenImage get emptyState =>
+      const SvgGenImage('assets/images/empty_state.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [emptyState];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsIconGen icon = $AssetsIconGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const String shorebird = 'shorebird.yaml';
 
   /// List of all assets

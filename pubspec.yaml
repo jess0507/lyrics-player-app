@@ -114,6 +114,7 @@ flutter:
   generate: true
   assets:
     - assets/icon/
+    - assets/images/
     - shorebird.yaml
 
 # Asset type-safe 引用產生設定(flutter_gen)

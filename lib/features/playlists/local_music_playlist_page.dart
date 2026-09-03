@@ -14,6 +14,7 @@ import 'package:seek_player/features/music_list/services/music_import_service.da
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/empty_state_view.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 「本地音樂」系統清單:內容即裝置音樂庫全部曲目,不落地 Isar、不參與
@@ -98,72 +99,80 @@ class _LocalMusicPlaylistPageState
       ),
       body: Column(
         children: [
-          // 重新掃描永遠可用(清單為空時最需要);搜尋在無曲目時沒有意義,
-          // 不顯示。
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
-                  // Android 掃 MediaStore,無匯入需求。
-                  if (Platform.isIOS)
-                    TextButton.icon(
-                      style: systemButtonStyle,
-                      onPressed: _importing ? null : _importMusic,
-                      icon: _importing
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.add),
-                      label: Text(l10n.music_import),
-                    ),
-                  TextButton.icon(
-                    style: systemButtonStyle,
-                    onPressed: _scanning ? null : _rescan,
-                    icon: _scanning
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.refresh),
-                    label: Text(l10n.music_rescan),
-                  ),
-                  if (tracks.isNotEmpty)
-                    TextButton.icon(
-                      style: systemButtonStyle,
-                      onPressed: () => context.push('/playlists/local/search'),
-                      icon: const Icon(Icons.search),
-                      label: Text(l10n.music_search),
-                    ),
-                ],
+          // 有曲目時顯示重新掃描與搜尋;清單為空時兩者都不放在這裡,
+          // 重新掃描改由下方空狀態提供。Android 空清單時整列沒有按鈕,
+          // 連同留白一併隱藏。
+          if (Platform.isIOS || tracks.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
+                    // Android 掃 MediaStore,無匯入需求。
+                    if (Platform.isIOS)
+                      TextButton.icon(
+                        style: systemButtonStyle,
+                        onPressed: _importing ? null : _importMusic,
+                        icon: _importing
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Icon(Icons.add),
+                        label: Text(l10n.music_import),
+                      ),
+                    // 清單為空時重新掃描移到空狀態插圖下方,這裡不重複顯示。
+                    if (tracks.isNotEmpty) ...[
+                      _rescanButton(systemButtonStyle, l10n),
+                      TextButton.icon(
+                        style: systemButtonStyle,
+                        onPressed: () =>
+                            context.push('/playlists/local/search'),
+                        icon: const Icon(Icons.search),
+                        label: Text(l10n.music_search),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
+            const SizedBox(height: 8),
+          ],
           Expanded(
             child: tracks.isEmpty
-                ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: Text(
-                        Platform.isIOS
-                            ? l10n.music_empty_import
-                            : l10n.music_empty,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                ? EmptyStateView(
+                    message: Platform.isIOS
+                        ? l10n.music_empty_import
+                        : l10n.music_empty,
+                    action: _rescanButton(systemButtonStyle, l10n),
                   )
                 : _buildTrackList(tracks),
           ),
         ],
       ),
+    );
+  }
+
+  /// 重新掃描按鈕;掃描中顯示進度並停用。
+  Widget _rescanButton(ButtonStyle style, AppLocalizations l10n) {
+    return TextButton.icon(
+      style: style,
+      onPressed: _scanning ? null : _rescan,
+      icon: _scanning
+          ? const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.refresh),
+      label: Text(l10n.music_rescan),
     );
   }
 
