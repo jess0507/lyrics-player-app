@@ -7,6 +7,7 @@ import 'package:seek_player/features/playlists/playlist_search_page.dart';
 import 'package:seek_player/features/playlists/playlists_page.dart';
 import 'package:seek_player/features/profile/about/about_page.dart';
 import 'package:seek_player/features/profile/account/account_page.dart';
+import 'package:seek_player/features/profile/backup/backup_page.dart';
 import 'package:seek_player/features/profile/profile_page.dart';
 import 'package:seek_player/features/profile/settings/language_page.dart';
 import 'package:seek_player/features/profile/settings/settings_page.dart';
@@ -105,6 +106,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'account',
                     builder: (context, state) => const AccountPage(),
+                  ),
+                  GoRoute(
+                    path: 'backup',
+                    builder: (context, state) => const BackupPage(),
                   ),
                   GoRoute(
                     path: 'statistics',

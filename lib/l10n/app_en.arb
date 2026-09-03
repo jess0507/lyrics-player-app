@@ -7,7 +7,31 @@
   "tab_more": "More",
   "profile_account": "Account",
   "profile_backup": "Backup",
-  "profile_backup_need_login": "Sign in to use backup.",
+  "backup_link": "Link Google Drive",
+  "backup_unlink": "Unlink",
+  "backup_relink": "Relink",
+  "backup_not_linked": "Not linked",
+  "backup_linked_as": "Linked as {email}",
+  "@backup_linked_as": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_needs_relink": "Authorization expired. Please relink Google Drive.",
+  "backup_link_failed": "Linking failed. Please try again.",
+  "backup_unlink_confirm": "Backup will stop after unlinking. Backup files on Google Drive are kept.",
+  "backup_sync_to_cloud": "Sync to cloud",
+  "backup_sync_to_local": "Sync to this device",
+  "backup_sync_to_local_confirm": "Settings, playlists, listening statistics and lyrics on this device will be overwritten by the Google Drive backup.",
+  "backup_never_synced": "Not synced yet",
+  "backup_done": "Synced to cloud",
+  "backup_restored": "Synced to this device",
+  "backup_failed": "Sync failed. Please check your connection and try again.",
+  "backup_drive_full": "Your Google Drive is full. Free up space and try again.",
+  "backup_nothing_to_restore": "No backup found on Google Drive.",
+  "backup_description": "Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.",
   "profile_statistics": "Statistics",
   "profile_settings": "Settings",
   "profile_about": "About",
@@ -27,13 +51,17 @@
   "player_forward": "Forward {seconds}s",
   "@player_forward": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "player_rewind": "Rewind {seconds}s",
   "@player_rewind": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "player_speed": "Playback speed",
@@ -44,7 +72,9 @@
   "music_import_done": "{count, plural, =1{Imported 1 track} other{Imported {count} tracks}}",
   "@music_import_done": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "music_empty_import": "No music yet. Tap Import music, or drop audio files into this app's folder in the Files app.",
@@ -119,16 +149,6 @@
   "account_signed_out": "Signed out",
   "account_sign_out_failed": "Sign-out failed. Please try again later.",
   "account_operation_failed": "The operation failed. Please try again later.",
-  "account_last_synced": "Last synced: {time}",
-  "@account_last_synced": {
-    "placeholders": {
-      "time": { "type": "String" }
-    }
-  },
-  "account_never_synced": "Not synced yet",
-  "account_sync_now": "Sync now",
-  "account_sync_done": "Synced",
-  "account_sync_failed": "Sync failed. Please check your connection and try again.",
   "common_cancel": "Cancel",
   "common_confirm": "Confirm",
   "common_ok": "OK",
@@ -193,7 +213,9 @@
   "lyrics_background_busy_named": "Please try again later. Currently processing \"{title}\".",
   "@lyrics_background_busy_named": {
     "placeholders": {
-      "title": { "type": "String" }
+      "title": {
+        "type": "String"
+      }
     }
   },
   "lyrics_ai_generate_running_background": "Generating lyrics in the background…",
@@ -240,7 +262,9 @@
   "playlist_delete_confirm": "Delete \"{name}\"?",
   "@playlist_delete_confirm": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "playlist_add_to": "Add to playlist",
@@ -252,13 +276,17 @@
   "playlist_added": "Added to \"{name}\"",
   "@playlist_added": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "playlist_already_added": "Already in \"{name}\"",
   "@playlist_already_added": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "playlist_remove_track": "Remove from playlist",
@@ -270,7 +298,9 @@
   "playlist_track_count": "{count, plural, =0{No songs} =1{1 song} other{{count} songs}}",
   "@playlist_track_count": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "update_later": "Later",

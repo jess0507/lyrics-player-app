@@ -168,11 +168,113 @@ abstract class AppLocalizations {
   /// **'Backup'**
   String get profile_backup;
 
-  /// No description provided for @profile_backup_need_login.
+  /// No description provided for @backup_link.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to use backup.'**
-  String get profile_backup_need_login;
+  /// **'Link Google Drive'**
+  String get backup_link;
+
+  /// No description provided for @backup_unlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink'**
+  String get backup_unlink;
+
+  /// No description provided for @backup_relink.
+  ///
+  /// In en, this message translates to:
+  /// **'Relink'**
+  String get backup_relink;
+
+  /// No description provided for @backup_not_linked.
+  ///
+  /// In en, this message translates to:
+  /// **'Not linked'**
+  String get backup_not_linked;
+
+  /// No description provided for @backup_linked_as.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked as {email}'**
+  String backup_linked_as(String email);
+
+  /// No description provided for @backup_needs_relink.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization expired. Please relink Google Drive.'**
+  String get backup_needs_relink;
+
+  /// No description provided for @backup_link_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Linking failed. Please try again.'**
+  String get backup_link_failed;
+
+  /// No description provided for @backup_unlink_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup will stop after unlinking. Backup files on Google Drive are kept.'**
+  String get backup_unlink_confirm;
+
+  /// No description provided for @backup_sync_to_cloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync to cloud'**
+  String get backup_sync_to_cloud;
+
+  /// No description provided for @backup_sync_to_local.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync to this device'**
+  String get backup_sync_to_local;
+
+  /// No description provided for @backup_sync_to_local_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings, playlists, listening statistics and lyrics on this device will be overwritten by the Google Drive backup.'**
+  String get backup_sync_to_local_confirm;
+
+  /// No description provided for @backup_never_synced.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get backup_never_synced;
+
+  /// No description provided for @backup_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced to cloud'**
+  String get backup_done;
+
+  /// No description provided for @backup_restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced to this device'**
+  String get backup_restored;
+
+  /// No description provided for @backup_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed. Please check your connection and try again.'**
+  String get backup_failed;
+
+  /// No description provided for @backup_drive_full.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Google Drive is full. Free up space and try again.'**
+  String get backup_drive_full;
+
+  /// No description provided for @backup_nothing_to_restore.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup found on Google Drive.'**
+  String get backup_nothing_to_restore;
+
+  /// No description provided for @backup_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.'**
+  String get backup_description;
 
   /// No description provided for @profile_statistics.
   ///
@@ -749,36 +851,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The operation failed. Please try again later.'**
   String get account_operation_failed;
-
-  /// No description provided for @account_last_synced.
-  ///
-  /// In en, this message translates to:
-  /// **'Last synced: {time}'**
-  String account_last_synced(String time);
-
-  /// No description provided for @account_never_synced.
-  ///
-  /// In en, this message translates to:
-  /// **'Not synced yet'**
-  String get account_never_synced;
-
-  /// No description provided for @account_sync_now.
-  ///
-  /// In en, this message translates to:
-  /// **'Sync now'**
-  String get account_sync_now;
-
-  /// No description provided for @account_sync_done.
-  ///
-  /// In en, this message translates to:
-  /// **'Synced'**
-  String get account_sync_done;
-
-  /// No description provided for @account_sync_failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Sync failed. Please check your connection and try again.'**
-  String get account_sync_failed;
 
   /// No description provided for @common_cancel.
   ///

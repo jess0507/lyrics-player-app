@@ -30,7 +30,62 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_backup => '備份';
 
   @override
-  String get profile_backup_need_login => '登入後才能使用備份。';
+  String get backup_link => '連結 Google 雲端硬碟';
+
+  @override
+  String get backup_unlink => '解除連結';
+
+  @override
+  String get backup_relink => '重新連結';
+
+  @override
+  String get backup_not_linked => '尚未連結';
+
+  @override
+  String backup_linked_as(String email) {
+    return '已連結 $email';
+  }
+
+  @override
+  String get backup_needs_relink => '授權已失效，請重新連結 Google 雲端硬碟。';
+
+  @override
+  String get backup_link_failed => '連結失敗，請再試一次。';
+
+  @override
+  String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
+
+  @override
+  String get backup_sync_to_cloud => '同步到雲端';
+
+  @override
+  String get backup_sync_to_local => '同步到本地';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      '將以 Google 雲端硬碟的備份覆寫此裝置上的設定、播放清單、聆聽統計與歌詞。';
+
+  @override
+  String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_done => '已同步到雲端';
+
+  @override
+  String get backup_restored => '已同步到本地';
+
+  @override
+  String get backup_failed => '同步失敗，請檢查網路連線後再試一次。';
+
+  @override
+  String get backup_drive_full => 'Google 雲端硬碟空間已滿，請清出空間後再試。';
+
+  @override
+  String get backup_nothing_to_restore => 'Google 雲端硬碟上沒有備份。';
+
+  @override
+  String get backup_description =>
+      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get profile_statistics => '統計數據';
@@ -325,23 +380,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get account_operation_failed => '操作失敗,請稍後再試。';
-
-  @override
-  String account_last_synced(String time) {
-    return '上次同步：$time';
-  }
-
-  @override
-  String get account_never_synced => '尚未同步';
-
-  @override
-  String get account_sync_now => '立即同步';
-
-  @override
-  String get account_sync_done => '已同步';
-
-  @override
-  String get account_sync_failed => '同步失敗,請檢查網路連線後再試一次。';
 
   @override
   String get common_cancel => '取消';
@@ -761,7 +799,62 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get profile_backup => '备份';
 
   @override
-  String get profile_backup_need_login => '登录后才能使用备份。';
+  String get backup_link => '关联 Google 云端硬盘';
+
+  @override
+  String get backup_unlink => '解除关联';
+
+  @override
+  String get backup_relink => '重新关联';
+
+  @override
+  String get backup_not_linked => '尚未关联';
+
+  @override
+  String backup_linked_as(String email) {
+    return '已关联 $email';
+  }
+
+  @override
+  String get backup_needs_relink => '授权已失效，请重新关联 Google 云端硬盘。';
+
+  @override
+  String get backup_link_failed => '关联失败，请再试一次。';
+
+  @override
+  String get backup_unlink_confirm => '解除关联后将停止备份；Google 云端硬盘上的备份文件会保留。';
+
+  @override
+  String get backup_sync_to_cloud => '同步到云端';
+
+  @override
+  String get backup_sync_to_local => '同步到本地';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      '将以 Google 云端硬盘的备份覆盖此设备上的设置、播放列表、收听统计与歌词。';
+
+  @override
+  String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_done => '已同步到云端';
+
+  @override
+  String get backup_restored => '已同步到本地';
+
+  @override
+  String get backup_failed => '同步失败，请检查网络连接后再试一次。';
+
+  @override
+  String get backup_drive_full => 'Google 云端硬盘空间已满，请清理空间后再试。';
+
+  @override
+  String get backup_nothing_to_restore => 'Google 云端硬盘上没有备份。';
+
+  @override
+  String get backup_description =>
+      '备份内容包含设置、播放列表、收听统计与歌词，音乐文件不会上传。备份存放在你自己的 Google 云端硬盘的应用数据区，可在云端硬盘设置 → 管理应用 查看或删除。';
 
   @override
   String get profile_statistics => '统计数据';
@@ -1057,23 +1150,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get account_operation_failed => '操作失败,请稍后再试。';
-
-  @override
-  String account_last_synced(String time) {
-    return '上次同步：$time';
-  }
-
-  @override
-  String get account_never_synced => '尚未同步';
-
-  @override
-  String get account_sync_now => '立即同步';
-
-  @override
-  String get account_sync_done => '已同步';
-
-  @override
-  String get account_sync_failed => '同步失败,请检查网络连接后再试一次。';
 
   @override
   String get common_cancel => '取消';
@@ -1493,7 +1569,62 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get profile_backup => '備份';
 
   @override
-  String get profile_backup_need_login => '登入後才能使用備份。';
+  String get backup_link => '連結 Google 雲端硬碟';
+
+  @override
+  String get backup_unlink => '解除連結';
+
+  @override
+  String get backup_relink => '重新連結';
+
+  @override
+  String get backup_not_linked => '尚未連結';
+
+  @override
+  String backup_linked_as(String email) {
+    return '已連結 $email';
+  }
+
+  @override
+  String get backup_needs_relink => '授權已失效，請重新連結 Google 雲端硬碟。';
+
+  @override
+  String get backup_link_failed => '連結失敗，請再試一次。';
+
+  @override
+  String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
+
+  @override
+  String get backup_sync_to_cloud => '同步到雲端';
+
+  @override
+  String get backup_sync_to_local => '同步到本地';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      '將以 Google 雲端硬碟的備份覆寫此裝置上的設定、播放清單、聆聽統計與歌詞。';
+
+  @override
+  String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_done => '已同步到雲端';
+
+  @override
+  String get backup_restored => '已同步到本地';
+
+  @override
+  String get backup_failed => '同步失敗，請檢查網路連線後再試一次。';
+
+  @override
+  String get backup_drive_full => 'Google 雲端硬碟空間已滿，請清出空間後再試。';
+
+  @override
+  String get backup_nothing_to_restore => 'Google 雲端硬碟上沒有備份。';
+
+  @override
+  String get backup_description =>
+      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get profile_statistics => '統計數據';
@@ -1788,23 +1919,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get account_operation_failed => '操作失敗,請稍後再試。';
-
-  @override
-  String account_last_synced(String time) {
-    return '上次同步：$time';
-  }
-
-  @override
-  String get account_never_synced => '尚未同步';
-
-  @override
-  String get account_sync_now => '立即同步';
-
-  @override
-  String get account_sync_done => '已同步';
-
-  @override
-  String get account_sync_failed => '同步失敗,請檢查網路連線後再試一次。';
 
   @override
   String get common_cancel => '取消';

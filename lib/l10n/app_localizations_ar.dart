@@ -30,8 +30,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_backup => 'النسخ الاحتياطي';
 
   @override
-  String get profile_backup_need_login =>
-      'سجّل الدخول لاستخدام النسخ الاحتياطي.';
+  String get backup_link => 'ربط Google Drive';
+
+  @override
+  String get backup_unlink => 'إلغاء الربط';
+
+  @override
+  String get backup_relink => 'إعادة الربط';
+
+  @override
+  String get backup_not_linked => 'غير مرتبط';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'مرتبط بحساب $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'انتهت صلاحية التفويض. يرجى إعادة ربط Google Drive.';
+
+  @override
+  String get backup_link_failed => 'فشل الربط. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'سيتوقف النسخ الاحتياطي بعد إلغاء الربط. سيتم الاحتفاظ بملفات النسخ الاحتياطي على Google Drive.';
+
+  @override
+  String get backup_sync_to_cloud => 'مزامنة إلى السحابة';
+
+  @override
+  String get backup_sync_to_local => 'مزامنة إلى هذا الجهاز';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'سيتم استبدال الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني على هذا الجهاز بالنسخة الاحتياطية من Google Drive.';
+
+  @override
+  String get backup_never_synced => 'لم تتم المزامنة بعد';
+
+  @override
+  String get backup_done => 'تمت المزامنة إلى السحابة';
+
+  @override
+  String get backup_restored => 'تمت المزامنة إلى هذا الجهاز';
+
+  @override
+  String get backup_failed => 'فشلت المزامنة. تحقق من اتصالك وحاول مرة أخرى.';
+
+  @override
+  String get backup_drive_full =>
+      'مساحة Google Drive ممتلئة. حرّر بعض المساحة وحاول مرة أخرى.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'لم يتم العثور على نسخة احتياطية على Google Drive.';
+
+  @override
+  String get backup_description =>
+      'تشمل النسخة الاحتياطية الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني. لا يتم رفع ملفات الموسيقى. تُحفظ النسخ الاحتياطية في منطقة بيانات التطبيق ضمن Google Drive الخاص بك؛ يمكنك عرضها أو حذفها من إعدادات Google Drive ← إدارة التطبيقات.';
 
   @override
   String get profile_statistics => 'الإحصائيات';
@@ -345,24 +403,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get account_operation_failed => 'فشلت العملية. يرجى المحاولة لاحقًا.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'آخر مزامنة: $time';
-  }
-
-  @override
-  String get account_never_synced => 'لم تتم المزامنة بعد';
-
-  @override
-  String get account_sync_now => 'مزامنة الآن';
-
-  @override
-  String get account_sync_done => 'تمت المزامنة';
-
-  @override
-  String get account_sync_failed =>
-      'فشلت المزامنة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.';
 
   @override
   String get common_cancel => 'إلغاء';

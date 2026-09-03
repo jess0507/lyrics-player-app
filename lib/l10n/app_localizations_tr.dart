@@ -30,8 +30,67 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile_backup => 'Yedekleme';
 
   @override
-  String get profile_backup_need_login =>
-      'Yedeklemeyi kullanmak için giriş yapın.';
+  String get backup_link => 'Google Drive\'ı bağla';
+
+  @override
+  String get backup_unlink => 'Bağlantıyı kaldır';
+
+  @override
+  String get backup_relink => 'Yeniden bağla';
+
+  @override
+  String get backup_not_linked => 'Bağlı değil';
+
+  @override
+  String backup_linked_as(String email) {
+    return '$email olarak bağlı';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Yetkilendirme süresi doldu. Lütfen Google Drive\'ı yeniden bağlayın.';
+
+  @override
+  String get backup_link_failed =>
+      'Bağlantı başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Bağlantı kaldırıldıktan sonra yedekleme durur. Google Drive\'daki yedek dosyaları korunur.';
+
+  @override
+  String get backup_sync_to_cloud => 'Buluta eşitle';
+
+  @override
+  String get backup_sync_to_local => 'Bu cihaza eşitle';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Bu cihazdaki ayarlar, çalma listeleri, dinleme istatistikleri ve şarkı sözleri Google Drive yedeğiyle üzerine yazılacak.';
+
+  @override
+  String get backup_never_synced => 'Henüz eşitlenmedi';
+
+  @override
+  String get backup_done => 'Buluta eşitlendi';
+
+  @override
+  String get backup_restored => 'Bu cihaza eşitlendi';
+
+  @override
+  String get backup_failed =>
+      'Eşitleme başarısız oldu. Bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
+  String get backup_drive_full =>
+      'Google Drive\'ınız dolu. Yer açıp tekrar deneyin.';
+
+  @override
+  String get backup_nothing_to_restore => 'Google Drive\'da yedek bulunamadı.';
+
+  @override
+  String get backup_description =>
+      'Yedek; ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini içerir. Müzik dosyaları yüklenmez. Yedekler kendi Google Drive\'ınızın uygulama verileri alanında saklanır; Google Drive ayarları → Uygulamaları yönet bölümünden görüntüleyebilir veya silebilirsiniz.';
 
   @override
   String get profile_statistics => 'İstatistikler';
@@ -341,24 +400,6 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'İşlem başarısız oldu. Lütfen daha sonra tekrar deneyin.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Son senkronizasyon: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Henüz senkronize edilmedi';
-
-  @override
-  String get account_sync_now => 'Şimdi senkronize et';
-
-  @override
-  String get account_sync_done => 'Senkronize edildi';
-
-  @override
-  String get account_sync_failed =>
-      'Senkronizasyon başarısız oldu. Bağlantınızı kontrol edip tekrar deneyin.';
 
   @override
   String get common_cancel => 'İptal';

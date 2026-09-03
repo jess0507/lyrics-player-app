@@ -30,8 +30,68 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profile_backup => 'Sicherung';
 
   @override
-  String get profile_backup_need_login =>
-      'Melde dich an, um die Sicherung zu nutzen.';
+  String get backup_link => 'Google Drive verknüpfen';
+
+  @override
+  String get backup_unlink => 'Verknüpfung aufheben';
+
+  @override
+  String get backup_relink => 'Erneut verknüpfen';
+
+  @override
+  String get backup_not_linked => 'Nicht verknüpft';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Verknüpft als $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Autorisierung abgelaufen. Bitte Google Drive erneut verknüpfen.';
+
+  @override
+  String get backup_link_failed =>
+      'Verknüpfung fehlgeschlagen. Bitte erneut versuchen.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Nach dem Aufheben der Verknüpfung wird nicht mehr gesichert. Sicherungsdateien auf Google Drive bleiben erhalten.';
+
+  @override
+  String get backup_sync_to_cloud => 'In die Cloud synchronisieren';
+
+  @override
+  String get backup_sync_to_local => 'Auf dieses Gerät synchronisieren';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Einstellungen, Playlists, Hörstatistiken und Songtexte auf diesem Gerät werden durch die Google-Drive-Sicherung überschrieben.';
+
+  @override
+  String get backup_never_synced => 'Noch nicht synchronisiert';
+
+  @override
+  String get backup_done => 'In die Cloud synchronisiert';
+
+  @override
+  String get backup_restored => 'Auf dieses Gerät synchronisiert';
+
+  @override
+  String get backup_failed =>
+      'Synchronisierung fehlgeschlagen. Bitte Verbindung prüfen und erneut versuchen.';
+
+  @override
+  String get backup_drive_full =>
+      'Dein Google Drive ist voll. Bitte Speicherplatz freigeben und erneut versuchen.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Keine Sicherung auf Google Drive gefunden.';
+
+  @override
+  String get backup_description =>
+      'Die Sicherung umfasst Einstellungen, Playlists, Hörstatistiken und Songtexte. Musikdateien werden nicht hochgeladen. Sicherungen werden im App-Datenbereich deines eigenen Google Drive gespeichert; du kannst sie unter Google Drive Einstellungen → Apps verwalten einsehen oder löschen.';
 
   @override
   String get profile_statistics => 'Statistiken';
@@ -349,24 +409,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'Vorgang fehlgeschlagen. Bitte versuche es später erneut.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Zuletzt synchronisiert: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Noch nicht synchronisiert';
-
-  @override
-  String get account_sync_now => 'Jetzt synchronisieren';
-
-  @override
-  String get account_sync_done => 'Synchronisiert';
-
-  @override
-  String get account_sync_failed =>
-      'Synchronisierung fehlgeschlagen. Bitte überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String get common_cancel => 'Abbrechen';

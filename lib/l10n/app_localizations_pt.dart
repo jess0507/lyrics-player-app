@@ -30,7 +30,67 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profile_backup => 'Backup';
 
   @override
-  String get profile_backup_need_login => 'Faça login para usar o backup.';
+  String get backup_link => 'Vincular Google Drive';
+
+  @override
+  String get backup_unlink => 'Desvincular';
+
+  @override
+  String get backup_relink => 'Vincular novamente';
+
+  @override
+  String get backup_not_linked => 'Não vinculado';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Vinculado como $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'A autorização expirou. Vincule o Google Drive novamente.';
+
+  @override
+  String get backup_link_failed => 'Falha ao vincular. Tente novamente.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'O backup será interrompido após desvincular. Os arquivos de backup no Google Drive são mantidos.';
+
+  @override
+  String get backup_sync_to_cloud => 'Sincronizar com a nuvem';
+
+  @override
+  String get backup_sync_to_local => 'Sincronizar com este dispositivo';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Configurações, playlists, estatísticas de audição e letras deste dispositivo serão substituídas pelo backup do Google Drive.';
+
+  @override
+  String get backup_never_synced => 'Ainda não sincronizado';
+
+  @override
+  String get backup_done => 'Sincronizado com a nuvem';
+
+  @override
+  String get backup_restored => 'Sincronizado com este dispositivo';
+
+  @override
+  String get backup_failed =>
+      'Falha na sincronização. Verifique sua conexão e tente novamente.';
+
+  @override
+  String get backup_drive_full =>
+      'Seu Google Drive está cheio. Libere espaço e tente novamente.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Nenhum backup encontrado no Google Drive.';
+
+  @override
+  String get backup_description =>
+      'O backup inclui configurações, playlists, estatísticas de audição e letras. Arquivos de música não são enviados. Os backups ficam na área de dados do app do seu próprio Google Drive; você pode vê-los ou excluí-los em Configurações do Google Drive → Gerenciar apps.';
 
   @override
   String get profile_statistics => 'Estatísticas';
@@ -346,24 +406,6 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'A operação falhou. Tente novamente mais tarde.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Última sincronização: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Ainda não sincronizado';
-
-  @override
-  String get account_sync_now => 'Sincronizar agora';
-
-  @override
-  String get account_sync_done => 'Sincronizado';
-
-  @override
-  String get account_sync_failed =>
-      'Falha na sincronização. Verifique sua conexão e tente novamente.';
 
   @override
   String get common_cancel => 'Cancelar';

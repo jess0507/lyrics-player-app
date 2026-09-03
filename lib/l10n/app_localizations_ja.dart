@@ -30,7 +30,63 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_backup => 'バックアップ';
 
   @override
-  String get profile_backup_need_login => 'バックアップを使うにはサインインしてください。';
+  String get backup_link => 'Google ドライブを連携';
+
+  @override
+  String get backup_unlink => '連携を解除';
+
+  @override
+  String get backup_relink => '再連携';
+
+  @override
+  String get backup_not_linked => '未連携';
+
+  @override
+  String backup_linked_as(String email) {
+    return '$email と連携中';
+  }
+
+  @override
+  String get backup_needs_relink => '認証が失効しました。Google ドライブを再連携してください。';
+
+  @override
+  String get backup_link_failed => '連携に失敗しました。もう一度お試しください。';
+
+  @override
+  String get backup_unlink_confirm =>
+      '連携を解除するとバックアップは停止します。Google ドライブ上のバックアップファイルは保持されます。';
+
+  @override
+  String get backup_sync_to_cloud => 'クラウドへ同期';
+
+  @override
+  String get backup_sync_to_local => 'この端末へ同期';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'この端末の設定・プレイリスト・再生統計・歌詞は Google ドライブのバックアップで上書きされます。';
+
+  @override
+  String get backup_never_synced => '未同期';
+
+  @override
+  String get backup_done => 'クラウドへ同期しました';
+
+  @override
+  String get backup_restored => 'この端末へ同期しました';
+
+  @override
+  String get backup_failed => '同期に失敗しました。ネットワーク接続を確認してもう一度お試しください。';
+
+  @override
+  String get backup_drive_full => 'Google ドライブの容量がいっぱいです。空き容量を確保してからお試しください。';
+
+  @override
+  String get backup_nothing_to_restore => 'Google ドライブにバックアップがありません。';
+
+  @override
+  String get backup_description =>
+      'バックアップには設定・プレイリスト・再生統計・歌詞が含まれます。音楽ファイルはアップロードされません。バックアップはご自身の Google ドライブのアプリデータ領域に保存され、Google ドライブの設定 → アプリの管理 から確認・削除できます。';
 
   @override
   String get profile_statistics => '統計';
@@ -328,23 +384,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get account_operation_failed => '処理に失敗しました。しばらくしてからもう一度お試しください。';
-
-  @override
-  String account_last_synced(String time) {
-    return '最終同期: $time';
-  }
-
-  @override
-  String get account_never_synced => 'まだ同期されていません';
-
-  @override
-  String get account_sync_now => '今すぐ同期';
-
-  @override
-  String get account_sync_done => '同期しました';
-
-  @override
-  String get account_sync_failed => '同期に失敗しました。接続を確認してもう一度お試しください。';
 
   @override
   String get common_cancel => 'キャンセル';

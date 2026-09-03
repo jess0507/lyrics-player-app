@@ -30,7 +30,64 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_backup => '백업';
 
   @override
-  String get profile_backup_need_login => '백업을 사용하려면 로그인하세요.';
+  String get backup_link => 'Google 드라이브 연결';
+
+  @override
+  String get backup_unlink => '연결 해제';
+
+  @override
+  String get backup_relink => '다시 연결';
+
+  @override
+  String get backup_not_linked => '연결되지 않음';
+
+  @override
+  String backup_linked_as(String email) {
+    return '$email(으)로 연결됨';
+  }
+
+  @override
+  String get backup_needs_relink => '인증이 만료되었습니다. Google 드라이브를 다시 연결해 주세요.';
+
+  @override
+  String get backup_link_failed => '연결에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get backup_unlink_confirm =>
+      '연결을 해제하면 백업이 중지됩니다. Google 드라이브의 백업 파일은 유지됩니다.';
+
+  @override
+  String get backup_sync_to_cloud => '클라우드로 동기화';
+
+  @override
+  String get backup_sync_to_local => '이 기기로 동기화';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      '이 기기의 설정, 재생목록, 감상 통계, 가사가 Google 드라이브 백업으로 덮어써집니다.';
+
+  @override
+  String get backup_never_synced => '아직 동기화되지 않음';
+
+  @override
+  String get backup_done => '클라우드로 동기화됨';
+
+  @override
+  String get backup_restored => '이 기기로 동기화됨';
+
+  @override
+  String get backup_failed => '동기화에 실패했습니다. 네트워크 연결을 확인한 후 다시 시도해 주세요.';
+
+  @override
+  String get backup_drive_full =>
+      'Google 드라이브 저장 공간이 가득 찼습니다. 공간을 확보한 후 다시 시도해 주세요.';
+
+  @override
+  String get backup_nothing_to_restore => 'Google 드라이브에 백업이 없습니다.';
+
+  @override
+  String get backup_description =>
+      '백업에는 설정, 재생목록, 감상 통계, 가사가 포함됩니다. 음악 파일은 업로드되지 않습니다. 백업은 본인의 Google 드라이브 앱 데이터 영역에 저장되며, Google 드라이브 설정 → 앱 관리에서 확인하거나 삭제할 수 있습니다.';
 
   @override
   String get profile_statistics => '통계';
@@ -329,23 +386,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get account_operation_failed => '작업에 실패했습니다. 나중에 다시 시도해 주세요.';
-
-  @override
-  String account_last_synced(String time) {
-    return '마지막 동기화: $time';
-  }
-
-  @override
-  String get account_never_synced => '아직 동기화되지 않음';
-
-  @override
-  String get account_sync_now => '지금 동기화';
-
-  @override
-  String get account_sync_done => '동기화됨';
-
-  @override
-  String get account_sync_failed => '동기화에 실패했습니다. 연결 상태를 확인한 후 다시 시도해 주세요.';
 
   @override
   String get common_cancel => '취소';

@@ -30,8 +30,68 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profile_backup => 'Sauvegarde';
 
   @override
-  String get profile_backup_need_login =>
-      'Connectez-vous pour utiliser la sauvegarde.';
+  String get backup_link => 'Associer Google Drive';
+
+  @override
+  String get backup_unlink => 'Dissocier';
+
+  @override
+  String get backup_relink => 'Réassocier';
+
+  @override
+  String get backup_not_linked => 'Non associé';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Associé en tant que $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'L\'autorisation a expiré. Veuillez réassocier Google Drive.';
+
+  @override
+  String get backup_link_failed =>
+      'Échec de l\'association. Veuillez réessayer.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'La sauvegarde s\'arrêtera après la dissociation. Les fichiers de sauvegarde sur Google Drive sont conservés.';
+
+  @override
+  String get backup_sync_to_cloud => 'Synchroniser vers le cloud';
+
+  @override
+  String get backup_sync_to_local => 'Synchroniser vers cet appareil';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Les réglages, playlists, statistiques d\'écoute et paroles de cet appareil seront remplacés par la sauvegarde Google Drive.';
+
+  @override
+  String get backup_never_synced => 'Pas encore synchronisé';
+
+  @override
+  String get backup_done => 'Synchronisé vers le cloud';
+
+  @override
+  String get backup_restored => 'Synchronisé vers cet appareil';
+
+  @override
+  String get backup_failed =>
+      'Échec de la synchronisation. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get backup_drive_full =>
+      'Votre Google Drive est plein. Libérez de l\'espace et réessayez.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Aucune sauvegarde trouvée sur Google Drive.';
+
+  @override
+  String get backup_description =>
+      'La sauvegarde comprend les réglages, playlists, statistiques d\'écoute et paroles. Les fichiers musicaux ne sont pas envoyés. Les sauvegardes sont stockées dans l\'espace de données d\'application de votre propre Google Drive ; vous pouvez les consulter ou les supprimer dans Paramètres Google Drive → Gérer les applications.';
 
   @override
   String get profile_statistics => 'Statistiques';
@@ -350,24 +410,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'L\'opération a échoué. Veuillez réessayer plus tard.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Dernière synchronisation : $time';
-  }
-
-  @override
-  String get account_never_synced => 'Pas encore synchronisé';
-
-  @override
-  String get account_sync_now => 'Synchroniser maintenant';
-
-  @override
-  String get account_sync_done => 'Synchronisé';
-
-  @override
-  String get account_sync_failed =>
-      'Échec de la synchronisation. Vérifiez votre connexion et réessayez.';
 
   @override
   String get common_cancel => 'Annuler';

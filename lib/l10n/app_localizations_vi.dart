@@ -30,7 +30,67 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_backup => 'Sao lưu';
 
   @override
-  String get profile_backup_need_login => 'Đăng nhập để sử dụng sao lưu.';
+  String get backup_link => 'Liên kết Google Drive';
+
+  @override
+  String get backup_unlink => 'Hủy liên kết';
+
+  @override
+  String get backup_relink => 'Liên kết lại';
+
+  @override
+  String get backup_not_linked => 'Chưa liên kết';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Đã liên kết với $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Ủy quyền đã hết hạn. Vui lòng liên kết lại Google Drive.';
+
+  @override
+  String get backup_link_failed => 'Liên kết thất bại. Vui lòng thử lại.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Sau khi hủy liên kết, sao lưu sẽ dừng. Các tệp sao lưu trên Google Drive vẫn được giữ lại.';
+
+  @override
+  String get backup_sync_to_cloud => 'Đồng bộ lên đám mây';
+
+  @override
+  String get backup_sync_to_local => 'Đồng bộ về thiết bị này';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Cài đặt, danh sách phát, thống kê nghe và lời bài hát trên thiết bị này sẽ bị ghi đè bằng bản sao lưu trên Google Drive.';
+
+  @override
+  String get backup_never_synced => 'Chưa đồng bộ';
+
+  @override
+  String get backup_done => 'Đã đồng bộ lên đám mây';
+
+  @override
+  String get backup_restored => 'Đã đồng bộ về thiết bị này';
+
+  @override
+  String get backup_failed =>
+      'Đồng bộ thất bại. Vui lòng kiểm tra kết nối mạng rồi thử lại.';
+
+  @override
+  String get backup_drive_full =>
+      'Google Drive của bạn đã đầy. Hãy giải phóng dung lượng rồi thử lại.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Không tìm thấy bản sao lưu trên Google Drive.';
+
+  @override
+  String get backup_description =>
+      'Bản sao lưu gồm cài đặt, danh sách phát, thống kê nghe và lời bài hát. Tệp nhạc không được tải lên. Bản sao lưu được lưu trong vùng dữ liệu ứng dụng của Google Drive của chính bạn; bạn có thể xem hoặc xóa trong Cài đặt Google Drive → Quản lý ứng dụng.';
 
   @override
   String get profile_statistics => 'Thống kê';
@@ -343,24 +403,6 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'Thao tác không thành công. Vui lòng thử lại sau.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Đồng bộ lần cuối: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Chưa đồng bộ';
-
-  @override
-  String get account_sync_now => 'Đồng bộ ngay';
-
-  @override
-  String get account_sync_done => 'Đã đồng bộ';
-
-  @override
-  String get account_sync_failed =>
-      'Đồng bộ thất bại. Vui lòng kiểm tra kết nối và thử lại.';
 
   @override
   String get common_cancel => 'Hủy';

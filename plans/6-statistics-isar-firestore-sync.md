@@ -1,6 +1,8 @@
 # 統計改存 Isar + 同步 Firestore（users/{uid}）
 
-狀態：**已實作**（2026-06-12 決策記錄並完成實作，見文末「實作記錄」）。
+狀態：**已由 plan 26 取代**（2026-09-03 起雲端備份改存使用者自己的 Google Drive，
+見 `plans/26-google-drive-backup.md`；Isar 本機儲存的部分仍有效）。
+原狀態：已實作（2026-06-12 決策記錄並完成實作，見文末「實作記錄」）。
 影響範圍：`lib/features/profile/statistics/`、`lib/features/player/playback_controller.dart`、
 `lib/shared/providers/settings_controller.dart`、`pubspec.yaml`、`firestore.rules`、`android/build.gradle.kts`
 相關：`tasks/account-deletion-cloud-functions.md`（刪除帳號已涵蓋 `users/{uid}` 遞迴刪除）

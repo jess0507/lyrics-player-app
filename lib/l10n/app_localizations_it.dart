@@ -30,7 +30,67 @@ class AppLocalizationsIt extends AppLocalizations {
   String get profile_backup => 'Backup';
 
   @override
-  String get profile_backup_need_login => 'Accedi per usare il backup.';
+  String get backup_link => 'Collega Google Drive';
+
+  @override
+  String get backup_unlink => 'Scollega';
+
+  @override
+  String get backup_relink => 'Ricollega';
+
+  @override
+  String get backup_not_linked => 'Non collegato';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Collegato come $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Autorizzazione scaduta. Ricollega Google Drive.';
+
+  @override
+  String get backup_link_failed => 'Collegamento non riuscito. Riprova.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Dopo lo scollegamento il backup si interrompe. I file di backup su Google Drive vengono conservati.';
+
+  @override
+  String get backup_sync_to_cloud => 'Sincronizza sul cloud';
+
+  @override
+  String get backup_sync_to_local => 'Sincronizza su questo dispositivo';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Impostazioni, playlist, statistiche di ascolto e testi su questo dispositivo verranno sovrascritti dal backup di Google Drive.';
+
+  @override
+  String get backup_never_synced => 'Non ancora sincronizzato';
+
+  @override
+  String get backup_done => 'Sincronizzato sul cloud';
+
+  @override
+  String get backup_restored => 'Sincronizzato su questo dispositivo';
+
+  @override
+  String get backup_failed =>
+      'Sincronizzazione non riuscita. Controlla la connessione e riprova.';
+
+  @override
+  String get backup_drive_full =>
+      'Il tuo Google Drive è pieno. Libera spazio e riprova.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Nessun backup trovato su Google Drive.';
+
+  @override
+  String get backup_description =>
+      'Il backup include impostazioni, playlist, statistiche di ascolto e testi. I file musicali non vengono caricati. I backup sono salvati nell\'area dati dell\'app del tuo Google Drive; puoi visualizzarli o eliminarli in Impostazioni di Google Drive → Gestisci app.';
 
   @override
   String get profile_statistics => 'Statistiche';
@@ -347,24 +407,6 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'Operazione non riuscita. Riprova più tardi.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Ultima sincronizzazione: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Non ancora sincronizzato';
-
-  @override
-  String get account_sync_now => 'Sincronizza ora';
-
-  @override
-  String get account_sync_done => 'Sincronizzato';
-
-  @override
-  String get account_sync_failed =>
-      'Sincronizzazione non riuscita. Controlla la connessione e riprova.';
 
   @override
   String get common_cancel => 'Annulla';

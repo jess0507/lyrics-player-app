@@ -30,7 +30,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_backup => 'Backup';
 
   @override
-  String get profile_backup_need_login => 'Sign in to use backup.';
+  String get backup_link => 'Link Google Drive';
+
+  @override
+  String get backup_unlink => 'Unlink';
+
+  @override
+  String get backup_relink => 'Relink';
+
+  @override
+  String get backup_not_linked => 'Not linked';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Linked as $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Authorization expired. Please relink Google Drive.';
+
+  @override
+  String get backup_link_failed => 'Linking failed. Please try again.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Backup will stop after unlinking. Backup files on Google Drive are kept.';
+
+  @override
+  String get backup_sync_to_cloud => 'Sync to cloud';
+
+  @override
+  String get backup_sync_to_local => 'Sync to this device';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Settings, playlists, listening statistics and lyrics on this device will be overwritten by the Google Drive backup.';
+
+  @override
+  String get backup_never_synced => 'Not synced yet';
+
+  @override
+  String get backup_done => 'Synced to cloud';
+
+  @override
+  String get backup_restored => 'Synced to this device';
+
+  @override
+  String get backup_failed =>
+      'Sync failed. Please check your connection and try again.';
+
+  @override
+  String get backup_drive_full =>
+      'Your Google Drive is full. Free up space and try again.';
+
+  @override
+  String get backup_nothing_to_restore => 'No backup found on Google Drive.';
+
+  @override
+  String get backup_description =>
+      'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.';
 
   @override
   String get profile_statistics => 'Statistics';
@@ -345,24 +404,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'The operation failed. Please try again later.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Last synced: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Not synced yet';
-
-  @override
-  String get account_sync_now => 'Sync now';
-
-  @override
-  String get account_sync_done => 'Synced';
-
-  @override
-  String get account_sync_failed =>
-      'Sync failed. Please check your connection and try again.';
 
   @override
   String get common_cancel => 'Cancel';

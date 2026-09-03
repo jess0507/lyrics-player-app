@@ -30,8 +30,67 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profile_backup => 'बैकअप';
 
   @override
-  String get profile_backup_need_login =>
-      'बैकअप का उपयोग करने के लिए साइन इन करें।';
+  String get backup_link => 'Google Drive लिंक करें';
+
+  @override
+  String get backup_unlink => 'लिंक हटाएँ';
+
+  @override
+  String get backup_relink => 'फिर से लिंक करें';
+
+  @override
+  String get backup_not_linked => 'लिंक नहीं है';
+
+  @override
+  String backup_linked_as(String email) {
+    return '$email के रूप में लिंक किया गया';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'अनुमति समाप्त हो गई है। कृपया Google Drive फिर से लिंक करें।';
+
+  @override
+  String get backup_link_failed => 'लिंक नहीं हो सका। कृपया फिर से कोशिश करें।';
+
+  @override
+  String get backup_unlink_confirm =>
+      'लिंक हटाने के बाद बैकअप रुक जाएगा। Google Drive पर मौजूद बैकअप फ़ाइलें बनी रहेंगी।';
+
+  @override
+  String get backup_sync_to_cloud => 'क्लाउड पर सिंक करें';
+
+  @override
+  String get backup_sync_to_local => 'इस डिवाइस पर सिंक करें';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'इस डिवाइस की सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल Google Drive के बैकअप से बदल दिए जाएँगे।';
+
+  @override
+  String get backup_never_synced => 'अभी तक सिंक नहीं हुआ';
+
+  @override
+  String get backup_done => 'क्लाउड पर सिंक हो गया';
+
+  @override
+  String get backup_restored => 'इस डिवाइस पर सिंक हो गया';
+
+  @override
+  String get backup_failed =>
+      'सिंक नहीं हो सका। कृपया अपना कनेक्शन जाँचें और फिर से कोशिश करें।';
+
+  @override
+  String get backup_drive_full =>
+      'आपका Google Drive भर गया है। जगह खाली करके फिर से कोशिश करें।';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'Google Drive पर कोई बैकअप नहीं मिला।';
+
+  @override
+  String get backup_description =>
+      'बैकअप में सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल शामिल हैं। संगीत फ़ाइलें अपलोड नहीं होतीं। बैकअप आपके अपने Google Drive के ऐप डेटा क्षेत्र में रखा जाता है; आप इसे Google Drive सेटिंग → ऐप्स प्रबंधित करें में देख या हटा सकते हैं।';
 
   @override
   String get profile_statistics => 'आँकड़े';
@@ -342,24 +401,6 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'कार्रवाई विफल रही। कृपया बाद में पुनः प्रयास करें।';
-
-  @override
-  String account_last_synced(String time) {
-    return 'अंतिम सिंक: $time';
-  }
-
-  @override
-  String get account_never_synced => 'अभी तक सिंक नहीं हुआ';
-
-  @override
-  String get account_sync_now => 'अभी सिंक करें';
-
-  @override
-  String get account_sync_done => 'सिंक हो गया';
-
-  @override
-  String get account_sync_failed =>
-      'सिंक विफल रहा। कृपया अपना कनेक्शन जाँचें और फिर से प्रयास करें।';
 
   @override
   String get common_cancel => 'रद्द करें';

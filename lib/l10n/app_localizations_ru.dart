@@ -30,8 +30,67 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_backup => 'Резервная копия';
 
   @override
-  String get profile_backup_need_login =>
-      'Войдите, чтобы использовать резервное копирование.';
+  String get backup_link => 'Связать с Google Диском';
+
+  @override
+  String get backup_unlink => 'Отвязать';
+
+  @override
+  String get backup_relink => 'Связать заново';
+
+  @override
+  String get backup_not_linked => 'Не связано';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Связано как $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Срок авторизации истёк. Свяжите Google Диск заново.';
+
+  @override
+  String get backup_link_failed => 'Не удалось связать. Попробуйте ещё раз.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'После отвязки резервное копирование прекратится. Файлы резервных копий на Google Диске сохранятся.';
+
+  @override
+  String get backup_sync_to_cloud => 'Синхронизировать с облаком';
+
+  @override
+  String get backup_sync_to_local => 'Синхронизировать на это устройство';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Настройки, плейлисты, статистика прослушивания и тексты песен на этом устройстве будут заменены резервной копией из Google Диска.';
+
+  @override
+  String get backup_never_synced => 'Ещё не синхронизировано';
+
+  @override
+  String get backup_done => 'Синхронизировано с облаком';
+
+  @override
+  String get backup_restored => 'Синхронизировано на это устройство';
+
+  @override
+  String get backup_failed =>
+      'Ошибка синхронизации. Проверьте подключение и попробуйте ещё раз.';
+
+  @override
+  String get backup_drive_full =>
+      'Ваш Google Диск заполнен. Освободите место и попробуйте ещё раз.';
+
+  @override
+  String get backup_nothing_to_restore =>
+      'На Google Диске нет резервной копии.';
+
+  @override
+  String get backup_description =>
+      'Резервная копия включает настройки, плейлисты, статистику прослушивания и тексты песен. Музыкальные файлы не загружаются. Копии хранятся в области данных приложения вашего собственного Google Диска; просмотреть или удалить их можно в настройках Google Диска → Управление приложениями.';
 
   @override
   String get profile_statistics => 'Статистика';
@@ -348,24 +407,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'Не удалось выполнить операцию. Повторите попытку позже.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Последняя синхронизация: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Ещё не синхронизировано';
-
-  @override
-  String get account_sync_now => 'Синхронизировать сейчас';
-
-  @override
-  String get account_sync_done => 'Синхронизировано';
-
-  @override
-  String get account_sync_failed =>
-      'Не удалось синхронизировать. Проверьте подключение и попробуйте снова.';
 
   @override
   String get common_cancel => 'Отмена';

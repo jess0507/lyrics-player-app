@@ -30,7 +30,66 @@ class AppLocalizationsId extends AppLocalizations {
   String get profile_backup => 'Cadangan';
 
   @override
-  String get profile_backup_need_login => 'Masuk untuk menggunakan cadangan.';
+  String get backup_link => 'Tautkan Google Drive';
+
+  @override
+  String get backup_unlink => 'Putuskan tautan';
+
+  @override
+  String get backup_relink => 'Tautkan ulang';
+
+  @override
+  String get backup_not_linked => 'Belum ditautkan';
+
+  @override
+  String backup_linked_as(String email) {
+    return 'Ditautkan sebagai $email';
+  }
+
+  @override
+  String get backup_needs_relink =>
+      'Otorisasi kedaluwarsa. Silakan tautkan ulang Google Drive.';
+
+  @override
+  String get backup_link_failed => 'Gagal menautkan. Silakan coba lagi.';
+
+  @override
+  String get backup_unlink_confirm =>
+      'Pencadangan akan berhenti setelah tautan diputus. File cadangan di Google Drive tetap disimpan.';
+
+  @override
+  String get backup_sync_to_cloud => 'Sinkronkan ke cloud';
+
+  @override
+  String get backup_sync_to_local => 'Sinkronkan ke perangkat ini';
+
+  @override
+  String get backup_sync_to_local_confirm =>
+      'Pengaturan, playlist, statistik mendengarkan, dan lirik di perangkat ini akan ditimpa dengan cadangan Google Drive.';
+
+  @override
+  String get backup_never_synced => 'Belum disinkronkan';
+
+  @override
+  String get backup_done => 'Disinkronkan ke cloud';
+
+  @override
+  String get backup_restored => 'Disinkronkan ke perangkat ini';
+
+  @override
+  String get backup_failed =>
+      'Sinkronisasi gagal. Periksa koneksi Anda lalu coba lagi.';
+
+  @override
+  String get backup_drive_full =>
+      'Google Drive Anda penuh. Kosongkan ruang lalu coba lagi.';
+
+  @override
+  String get backup_nothing_to_restore => 'Tidak ada cadangan di Google Drive.';
+
+  @override
+  String get backup_description =>
+      'Cadangan mencakup pengaturan, playlist, statistik mendengarkan, dan lirik. File musik tidak diunggah. Cadangan disimpan di area data aplikasi Google Drive Anda sendiri; Anda dapat melihat atau menghapusnya di Setelan Google Drive → Kelola aplikasi.';
 
   @override
   String get profile_statistics => 'Statistik';
@@ -339,24 +398,6 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get account_operation_failed =>
       'Operasi gagal. Silakan coba lagi nanti.';
-
-  @override
-  String account_last_synced(String time) {
-    return 'Sinkronisasi terakhir: $time';
-  }
-
-  @override
-  String get account_never_synced => 'Belum disinkronkan';
-
-  @override
-  String get account_sync_now => 'Sinkronkan sekarang';
-
-  @override
-  String get account_sync_done => 'Berhasil disinkronkan';
-
-  @override
-  String get account_sync_failed =>
-      'Sinkronisasi gagal. Periksa koneksi Anda dan coba lagi.';
 
   @override
   String get common_cancel => 'Batal';
