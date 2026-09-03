@@ -6,6 +6,8 @@
   "tab_profile": "我的",
   "tab_more": "更多",
   "profile_account": "账户",
+  "profile_backup": "备份",
+  "profile_backup_need_login": "登录后才能使用备份。",
   "profile_statistics": "统计数据",
   "profile_settings": "设置",
   "profile_about": "关于",

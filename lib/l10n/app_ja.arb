@@ -6,6 +6,8 @@
   "tab_profile": "マイページ",
   "tab_more": "その他",
   "profile_account": "アカウント",
+  "profile_backup": "バックアップ",
+  "profile_backup_need_login": "バックアップを使うにはサインインしてください。",
   "profile_statistics": "統計",
   "profile_settings": "設定",
   "profile_about": "アプリについて",

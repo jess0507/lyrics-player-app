@@ -27,6 +27,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profile_account => 'खाता';
 
   @override
+  String get profile_backup => 'बैकअप';
+
+  @override
+  String get profile_backup_need_login =>
+      'बैकअप का उपयोग करने के लिए साइन इन करें।';
+
+  @override
   String get profile_statistics => 'आँकड़े';
 
   @override

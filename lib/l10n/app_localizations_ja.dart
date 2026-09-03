@@ -27,6 +27,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_account => 'アカウント';
 
   @override
+  String get profile_backup => 'バックアップ';
+
+  @override
+  String get profile_backup_need_login => 'バックアップを使うにはサインインしてください。';
+
+  @override
   String get profile_statistics => '統計';
 
   @override

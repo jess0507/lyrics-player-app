@@ -6,6 +6,8 @@
   "tab_profile": "Профиль",
   "tab_more": "Ещё",
   "profile_account": "Аккаунт",
+  "profile_backup": "Резервная копия",
+  "profile_backup_need_login": "Войдите, чтобы использовать резервное копирование.",
   "profile_statistics": "Статистика",
   "profile_settings": "Настройки",
   "profile_about": "О приложении",

@@ -6,6 +6,8 @@
   "tab_profile": "Perfil",
   "tab_more": "Más",
   "profile_account": "Cuenta",
+  "profile_backup": "Copia de seguridad",
+  "profile_backup_need_login": "Inicia sesión para usar la copia de seguridad.",
   "profile_statistics": "Estadísticas",
   "profile_settings": "Ajustes",
   "profile_about": "Acerca de",

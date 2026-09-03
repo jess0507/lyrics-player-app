@@ -6,6 +6,8 @@
   "tab_profile": "Profile",
   "tab_more": "More",
   "profile_account": "Account",
+  "profile_backup": "Backup",
+  "profile_backup_need_login": "Sign in to use backup.",
   "profile_statistics": "Statistics",
   "profile_settings": "Settings",
   "profile_about": "About",

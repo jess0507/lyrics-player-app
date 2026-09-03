@@ -27,6 +27,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_account => 'Tài khoản';
 
   @override
+  String get profile_backup => 'Sao lưu';
+
+  @override
+  String get profile_backup_need_login => 'Đăng nhập để sử dụng sao lưu.';
+
+  @override
   String get profile_statistics => 'Thống kê';
 
   @override

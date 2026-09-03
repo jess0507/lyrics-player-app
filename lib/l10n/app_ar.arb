@@ -6,6 +6,8 @@
   "tab_profile": "حسابي",
   "tab_more": "المزيد",
   "profile_account": "الحساب",
+  "profile_backup": "النسخ الاحتياطي",
+  "profile_backup_need_login": "سجّل الدخول لاستخدام النسخ الاحتياطي.",
   "profile_statistics": "الإحصائيات",
   "profile_settings": "الإعدادات",
   "profile_about": "حول",

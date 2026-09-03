@@ -27,6 +27,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_account => 'Аккаунт';
 
   @override
+  String get profile_backup => 'Резервная копия';
+
+  @override
+  String get profile_backup_need_login =>
+      'Войдите, чтобы использовать резервное копирование.';
+
+  @override
   String get profile_statistics => 'Статистика';
 
   @override

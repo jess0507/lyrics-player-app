@@ -27,6 +27,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_account => '帳戶';
 
   @override
+  String get profile_backup => '備份';
+
+  @override
+  String get profile_backup_need_login => '登入後才能使用備份。';
+
+  @override
   String get profile_statistics => '統計數據';
 
   @override
@@ -750,6 +756,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get profile_account => '账户';
+
+  @override
+  String get profile_backup => '备份';
+
+  @override
+  String get profile_backup_need_login => '登录后才能使用备份。';
 
   @override
   String get profile_statistics => '统计数据';
@@ -1476,6 +1488,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get profile_account => '帳戶';
+
+  @override
+  String get profile_backup => '備份';
+
+  @override
+  String get profile_backup_need_login => '登入後才能使用備份。';
 
   @override
   String get profile_statistics => '統計數據';

@@ -27,6 +27,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get profile_account => 'Account';
 
   @override
+  String get profile_backup => 'Backup';
+
+  @override
+  String get profile_backup_need_login => 'Accedi per usare il backup.';
+
+  @override
   String get profile_statistics => 'Statistiche';
 
   @override

@@ -27,6 +27,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_account => '계정';
 
   @override
+  String get profile_backup => '백업';
+
+  @override
+  String get profile_backup_need_login => '백업을 사용하려면 로그인하세요.';
+
+  @override
   String get profile_statistics => '통계';
 
   @override

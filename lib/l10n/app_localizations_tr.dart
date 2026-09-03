@@ -27,6 +27,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile_account => 'Hesap';
 
   @override
+  String get profile_backup => 'Yedekleme';
+
+  @override
+  String get profile_backup_need_login =>
+      'Yedeklemeyi kullanmak için giriş yapın.';
+
+  @override
   String get profile_statistics => 'İstatistikler';
 
   @override

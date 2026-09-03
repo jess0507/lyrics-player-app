@@ -27,6 +27,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_account => 'الحساب';
 
   @override
+  String get profile_backup => 'النسخ الاحتياطي';
+
+  @override
+  String get profile_backup_need_login =>
+      'سجّل الدخول لاستخدام النسخ الاحتياطي.';
+
+  @override
   String get profile_statistics => 'الإحصائيات';
 
   @override

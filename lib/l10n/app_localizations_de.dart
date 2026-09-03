@@ -27,6 +27,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profile_account => 'Konto';
 
   @override
+  String get profile_backup => 'Sicherung';
+
+  @override
+  String get profile_backup_need_login =>
+      'Melde dich an, um die Sicherung zu nutzen.';
+
+  @override
   String get profile_statistics => 'Statistiken';
 
   @override

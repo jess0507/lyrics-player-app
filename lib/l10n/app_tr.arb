@@ -6,6 +6,8 @@
   "tab_profile": "Profil",
   "tab_more": "Daha Fazla",
   "profile_account": "Hesap",
+  "profile_backup": "Yedekleme",
+  "profile_backup_need_login": "Yedeklemeyi kullanmak için giriş yapın.",
   "profile_statistics": "İstatistikler",
   "profile_settings": "Ayarlar",
   "profile_about": "Hakkında",

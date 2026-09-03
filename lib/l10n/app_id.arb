@@ -6,6 +6,8 @@
   "tab_profile": "Profil",
   "tab_more": "Lainnya",
   "profile_account": "Akun",
+  "profile_backup": "Cadangan",
+  "profile_backup_need_login": "Masuk untuk menggunakan cadangan.",
   "profile_statistics": "Statistik",
   "profile_settings": "Pengaturan",
   "profile_about": "Tentang",

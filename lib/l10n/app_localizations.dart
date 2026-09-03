@@ -162,6 +162,18 @@ abstract class AppLocalizations {
   /// **'Account'**
   String get profile_account;
 
+  /// No description provided for @profile_backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get profile_backup;
+
+  /// No description provided for @profile_backup_need_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use backup.'**
+  String get profile_backup_need_login;
+
   /// No description provided for @profile_statistics.
   ///
   /// In en, this message translates to:
