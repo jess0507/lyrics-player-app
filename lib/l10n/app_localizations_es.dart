@@ -21,6 +21,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tab_profile => 'Perfil';
 
   @override
+  String get tab_more => 'Más';
+
+  @override
   String get profile_account => 'Cuenta';
 
   @override

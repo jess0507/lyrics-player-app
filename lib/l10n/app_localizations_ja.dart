@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tab_profile => 'マイページ';
 
   @override
+  String get tab_more => 'その他';
+
+  @override
   String get profile_account => 'アカウント';
 
   @override

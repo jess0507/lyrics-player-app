@@ -21,6 +21,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tab_profile => '我的';
 
   @override
+  String get tab_more => '更多';
+
+  @override
   String get profile_account => '帳戶';
 
   @override
@@ -729,6 +732,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tab_profile => '我的';
+
+  @override
+  String get tab_more => '更多';
 
   @override
   String get profile_account => '账户';
@@ -1440,6 +1446,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tab_profile => '我的';
+
+  @override
+  String get tab_more => '更多';
 
   @override
   String get profile_account => '帳戶';

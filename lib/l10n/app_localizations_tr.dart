@@ -21,6 +21,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tab_profile => 'Profil';
 
   @override
+  String get tab_more => 'Daha Fazla';
+
+  @override
   String get profile_account => 'Hesap';
 
   @override

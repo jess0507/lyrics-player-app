@@ -21,6 +21,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get tab_profile => 'Profil';
 
   @override
+  String get tab_more => 'Lainnya';
+
+  @override
   String get profile_account => 'Akun';
 
   @override

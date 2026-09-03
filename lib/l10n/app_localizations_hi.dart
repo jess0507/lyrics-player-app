@@ -21,6 +21,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tab_profile => 'प्रोफ़ाइल';
 
   @override
+  String get tab_more => 'अधिक';
+
+  @override
   String get profile_account => 'खाता';
 
   @override

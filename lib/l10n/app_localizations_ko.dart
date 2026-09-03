@@ -21,6 +21,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tab_profile => '마이';
 
   @override
+  String get tab_more => '더보기';
+
+  @override
   String get profile_account => '계정';
 
   @override

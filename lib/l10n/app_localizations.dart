@@ -150,6 +150,12 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get tab_profile;
 
+  /// No description provided for @tab_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get tab_more;
+
   /// No description provided for @profile_account.
   ///
   /// In en, this message translates to:
