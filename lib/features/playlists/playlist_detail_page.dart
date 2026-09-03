@@ -15,6 +15,8 @@ import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sh
 import 'package:seek_player/features/playlists/widgets/recently_played_track_list.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
+import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 單一播放清單內容:播放全部、逐首播放、移除、拖曳排序。
 class PlaylistDetailPage extends ConsumerWidget {
@@ -88,7 +90,7 @@ class PlaylistDetailPage extends ConsumerWidget {
                     ),
                     onPressed: () =>
                         context.push('/playlists/$playlistId/search'),
-                    icon: const Icon(Icons.search),
+                    icon: SvgIcon(Assets.icon.search),
                     label: Text(l10n.music_search),
                   ),
                 ),
@@ -170,7 +172,7 @@ class PlaylistDetailPage extends ConsumerWidget {
                       ),
                       onPressed: () =>
                           context.push('/playlists/$playlistId/search'),
-                      icon: const Icon(Icons.search),
+                      icon: SvgIcon(Assets.icon.search),
                       label: Text(l10n.music_search),
                     ),
                   ],

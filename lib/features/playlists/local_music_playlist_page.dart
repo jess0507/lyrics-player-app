@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/permissions/permission_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -13,8 +12,10 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/services/music_import_service.dart';
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
+import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/empty_state_view.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 「本地音樂」系統清單:內容即裝置音樂庫全部曲目,不落地 Isar、不參與
@@ -135,7 +136,7 @@ class _LocalMusicPlaylistPageState
                         style: systemButtonStyle,
                         onPressed: () =>
                             context.push('/playlists/local/search'),
-                        icon: const Icon(Icons.search),
+                        icon: SvgIcon(Assets.icon.search),
                         label: Text(l10n.music_search),
                       ),
                     ],

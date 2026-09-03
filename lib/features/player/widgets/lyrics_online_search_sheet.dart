@@ -7,6 +7,8 @@ import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
+import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
 /// 下方依狀態顯示「搜尋中 / 查無結果 / 候選結果列表」。第一次查詢與重查
@@ -142,9 +144,7 @@ class _LyricsOnlineSearchSheetState
     final l10n = AppLocalizations.of(context)!;
     return Padding(
       // 搜尋欄取得焦點時把面板整體抬到鍵盤上方。
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -174,7 +174,7 @@ class _LyricsOnlineSearchSheetState
                     isDense: true,
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
+                      icon: SvgIcon(Assets.icon.search),
                       onPressed: _searchByKeyword,
                     ),
                   ),

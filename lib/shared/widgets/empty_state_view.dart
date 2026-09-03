@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seek_player/gen/assets.gen.dart';
-import 'package:seek_player/shared/widgets/themed_illustration.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
-/// 清單無內容時的空狀態:插圖在上、說明文字在下,置中顯示。
+/// 清單無內容時的空狀態:搜尋 icon 在上、說明文字在下,置中顯示。
 class EmptyStateView extends StatelessWidget {
   const EmptyStateView({super.key, required this.message, this.action});
 
@@ -21,11 +21,8 @@ class EmptyStateView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ThemedIllustration(
-              image: Assets.images.emptyState,
-              width: 200,
-              height: 160,
-            ),
+            SvgIcon(Assets.icon.search, size: 64, color: scheme.outline),
+            const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,

@@ -12,6 +12,8 @@ import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sh
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
+import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 曲目搜尋頁:從播放清單內容頁進入,輸入關鍵字後過濾該清單內的曲目。
 /// [playlistId] 為 null 代表「本地音樂」虛擬清單,搜尋範圍是整個音樂庫。
@@ -21,8 +23,7 @@ class PlaylistSearchPage extends ConsumerStatefulWidget {
   final int? playlistId;
 
   @override
-  ConsumerState<PlaylistSearchPage> createState() =>
-      _PlaylistSearchPageState();
+  ConsumerState<PlaylistSearchPage> createState() => _PlaylistSearchPageState();
 }
 
 class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
@@ -90,7 +91,8 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
 
     // 「最近播放」「本地音樂」是唯讀系統清單,動作選單不提供「從清單移除」。
     final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
-    final isRecentlyPlayed = playlists
+    final isRecentlyPlayed =
+        playlists
             .where((p) => p.id == widget.playlistId)
             .firstOrNull
             ?.isRecentlyPlayed ??
@@ -142,8 +144,8 @@ class _SearchHint extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.search,
+            SvgIcon(
+              Assets.icon.search,
               size: 64,
               color: Theme.of(context).colorScheme.outline,
             ),

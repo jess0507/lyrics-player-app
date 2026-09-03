@@ -50,6 +50,9 @@ class $AssetsIconGen {
   /// File path: assets/icon/playlist.svg
   SvgGenImage get playlist => const SvgGenImage('assets/icon/playlist.svg');
 
+  /// File path: assets/icon/search.svg
+  SvgGenImage get search => const SvgGenImage('assets/icon/search.svg');
+
   /// List of all assets
   List<dynamic> get values => [
     appLogoPng,
@@ -61,6 +64,7 @@ class $AssetsIconGen {
     appLogoIcon,
     music,
     playlist,
+    search,
   ];
 }
 
