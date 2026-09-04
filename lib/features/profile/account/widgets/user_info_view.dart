@@ -76,7 +76,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           onTap: () => _signOut(context, auth),
         ),
         const Divider(height: 1),
-        const SizedBox(height: 20),
+        const SizedBox(height: 32),
         // 危險操作
         const Divider(height: 1),
         ListTile(
@@ -97,7 +97,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           onTap: () => _confirmDelete(context, auth),
         ),
         const Divider(height: 1),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
       ],
     );
   }
