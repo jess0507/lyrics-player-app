@@ -42,6 +42,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backup_not_linked => 'غير مرتبط';
 
   @override
+  String get backup_busy => 'المزامنة جارية. يرجى الانتظار قليلاً.';
+
+  @override
   String backup_linked_as(String email) {
     return 'مرتبط بحساب $email';
   }
@@ -58,17 +61,28 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيتوقف النسخ الاحتياطي بعد إلغاء الربط. سيتم الاحتفاظ بملفات النسخ الاحتياطي على Google Drive.';
 
   @override
-  String get backup_sync_to_cloud => 'مزامنة إلى السحابة';
+  String get backup_cloud_found_title =>
+      'تم العثور على نسخة احتياطية في Google Drive';
 
   @override
-  String get backup_sync_to_local => 'مزامنة إلى هذا الجهاز';
+  String get backup_cloud_found_message =>
+      'يحتوي Google Drive لديك على نسخة احتياطية بالفعل. هل تريد استبدال الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني على هذا الجهاز بها، أم الاحتفاظ ببيانات هذا الجهاز والكتابة فوق النسخة الاحتياطية؟';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'سيتم استبدال الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني على هذا الجهاز بالنسخة الاحتياطية من Google Drive.';
+  String get backup_use_cloud => 'استخدام النسخة الاحتياطية';
+
+  @override
+  String get backup_keep_local => 'الاحتفاظ ببيانات الجهاز';
+
+  @override
+  String get backup_last_synced => 'آخر نسخة احتياطية';
 
   @override
   String get backup_never_synced => 'لم تتم المزامنة بعد';
+
+  @override
+  String get backup_description =>
+      'تشمل النسخة الاحتياطية الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني. لا يتم رفع ملفات الموسيقى. تُحفظ النسخ الاحتياطية في منطقة بيانات التطبيق ضمن Google Drive الخاص بك؛ يمكنك عرضها أو حذفها من إعدادات Google Drive ← إدارة التطبيقات.';
 
   @override
   String get backup_done => 'تمت المزامنة إلى السحابة';
@@ -82,14 +96,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'مساحة Google Drive ممتلئة. حرّر بعض المساحة وحاول مرة أخرى.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'لم يتم العثور على نسخة احتياطية على Google Drive.';
-
-  @override
-  String get backup_description =>
-      'تشمل النسخة الاحتياطية الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني. لا يتم رفع ملفات الموسيقى. تُحفظ النسخ الاحتياطية في منطقة بيانات التطبيق ضمن Google Drive الخاص بك؛ يمكنك عرضها أو حذفها من إعدادات Google Drive ← إدارة التطبيقات.';
 
   @override
   String get profile_statistics => 'الإحصائيات';

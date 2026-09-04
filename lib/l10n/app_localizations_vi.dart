@@ -42,6 +42,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get backup_not_linked => 'Chưa liên kết';
 
   @override
+  String get backup_busy => 'Đang đồng bộ. Vui lòng đợi một chút.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Đã liên kết với $email';
   }
@@ -58,17 +61,28 @@ class AppLocalizationsVi extends AppLocalizations {
       'Sau khi hủy liên kết, sao lưu sẽ dừng. Các tệp sao lưu trên Google Drive vẫn được giữ lại.';
 
   @override
-  String get backup_sync_to_cloud => 'Đồng bộ lên đám mây';
+  String get backup_cloud_found_title =>
+      'Đã tìm thấy bản sao lưu trên Google Drive';
 
   @override
-  String get backup_sync_to_local => 'Đồng bộ về thiết bị này';
+  String get backup_cloud_found_message =>
+      'Google Drive của bạn đã có bản sao lưu. Bạn muốn thay thế cài đặt, danh sách phát, thống kê nghe và lời bài hát trên thiết bị này bằng bản sao lưu, hay giữ dữ liệu của thiết bị này và ghi đè bản sao lưu?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Cài đặt, danh sách phát, thống kê nghe và lời bài hát trên thiết bị này sẽ bị ghi đè bằng bản sao lưu trên Google Drive.';
+  String get backup_use_cloud => 'Dùng bản sao lưu';
+
+  @override
+  String get backup_keep_local => 'Giữ dữ liệu thiết bị';
+
+  @override
+  String get backup_last_synced => 'Sao lưu gần nhất';
 
   @override
   String get backup_never_synced => 'Chưa đồng bộ';
+
+  @override
+  String get backup_description =>
+      'Bản sao lưu gồm cài đặt, danh sách phát, thống kê nghe và lời bài hát. Tệp nhạc không được tải lên. Bản sao lưu được lưu trong vùng dữ liệu ứng dụng của Google Drive của chính bạn; bạn có thể xem hoặc xóa trong Cài đặt Google Drive → Quản lý ứng dụng.';
 
   @override
   String get backup_done => 'Đã đồng bộ lên đám mây';
@@ -83,14 +97,6 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Google Drive của bạn đã đầy. Hãy giải phóng dung lượng rồi thử lại.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'Không tìm thấy bản sao lưu trên Google Drive.';
-
-  @override
-  String get backup_description =>
-      'Bản sao lưu gồm cài đặt, danh sách phát, thống kê nghe và lời bài hát. Tệp nhạc không được tải lên. Bản sao lưu được lưu trong vùng dữ liệu ứng dụng của Google Drive của chính bạn; bạn có thể xem hoặc xóa trong Cài đặt Google Drive → Quản lý ứng dụng.';
 
   @override
   String get profile_statistics => 'Thống kê';

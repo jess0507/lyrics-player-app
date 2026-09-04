@@ -42,6 +42,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backup_not_linked => 'Não vinculado';
 
   @override
+  String get backup_busy => 'Sincronização em andamento. Aguarde um momento.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Vinculado como $email';
   }
@@ -58,17 +61,27 @@ class AppLocalizationsPt extends AppLocalizations {
       'O backup será interrompido após desvincular. Os arquivos de backup no Google Drive são mantidos.';
 
   @override
-  String get backup_sync_to_cloud => 'Sincronizar com a nuvem';
+  String get backup_cloud_found_title => 'Backup encontrado no Google Drive';
 
   @override
-  String get backup_sync_to_local => 'Sincronizar com este dispositivo';
+  String get backup_cloud_found_message =>
+      'Seu Google Drive já tem um backup. Deseja substituir as configurações, playlists, estatísticas de reprodução e letras deste dispositivo por ele, ou manter os dados deste dispositivo e sobrescrever o backup?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Configurações, playlists, estatísticas de audição e letras deste dispositivo serão substituídas pelo backup do Google Drive.';
+  String get backup_use_cloud => 'Usar o backup';
+
+  @override
+  String get backup_keep_local => 'Manter dados do dispositivo';
+
+  @override
+  String get backup_last_synced => 'Último backup';
 
   @override
   String get backup_never_synced => 'Ainda não sincronizado';
+
+  @override
+  String get backup_description =>
+      'O backup inclui configurações, playlists, estatísticas de audição e letras. Arquivos de música não são enviados. Os backups ficam na área de dados do app do seu próprio Google Drive; você pode vê-los ou excluí-los em Configurações do Google Drive → Gerenciar apps.';
 
   @override
   String get backup_done => 'Sincronizado com a nuvem';
@@ -83,14 +96,6 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Seu Google Drive está cheio. Libere espaço e tente novamente.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'Nenhum backup encontrado no Google Drive.';
-
-  @override
-  String get backup_description =>
-      'O backup inclui configurações, playlists, estatísticas de audição e letras. Arquivos de música não são enviados. Os backups ficam na área de dados do app do seu próprio Google Drive; você pode vê-los ou excluí-los em Configurações do Google Drive → Gerenciar apps.';
 
   @override
   String get profile_statistics => 'Estatísticas';

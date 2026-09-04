@@ -42,6 +42,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get backup_not_linked => 'Belum ditautkan';
 
   @override
+  String get backup_busy =>
+      'Sinkronisasi sedang berjalan. Mohon tunggu sebentar.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Ditautkan sebagai $email';
   }
@@ -58,17 +62,27 @@ class AppLocalizationsId extends AppLocalizations {
       'Pencadangan akan berhenti setelah tautan diputus. File cadangan di Google Drive tetap disimpan.';
 
   @override
-  String get backup_sync_to_cloud => 'Sinkronkan ke cloud';
+  String get backup_cloud_found_title => 'Cadangan ditemukan di Google Drive';
 
   @override
-  String get backup_sync_to_local => 'Sinkronkan ke perangkat ini';
+  String get backup_cloud_found_message =>
+      'Google Drive Anda sudah memiliki cadangan. Ganti pengaturan, daftar putar, statistik pemutaran, dan lirik di perangkat ini dengan cadangan tersebut, atau pertahankan data perangkat ini dan timpa cadangannya?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Pengaturan, playlist, statistik mendengarkan, dan lirik di perangkat ini akan ditimpa dengan cadangan Google Drive.';
+  String get backup_use_cloud => 'Gunakan cadangan';
+
+  @override
+  String get backup_keep_local => 'Pertahankan data perangkat';
+
+  @override
+  String get backup_last_synced => 'Cadangan terakhir';
 
   @override
   String get backup_never_synced => 'Belum disinkronkan';
+
+  @override
+  String get backup_description =>
+      'Cadangan mencakup pengaturan, playlist, statistik mendengarkan, dan lirik. File musik tidak diunggah. Cadangan disimpan di area data aplikasi Google Drive Anda sendiri; Anda dapat melihat atau menghapusnya di Setelan Google Drive → Kelola aplikasi.';
 
   @override
   String get backup_done => 'Disinkronkan ke cloud';
@@ -83,13 +97,6 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Google Drive Anda penuh. Kosongkan ruang lalu coba lagi.';
-
-  @override
-  String get backup_nothing_to_restore => 'Tidak ada cadangan di Google Drive.';
-
-  @override
-  String get backup_description =>
-      'Cadangan mencakup pengaturan, playlist, statistik mendengarkan, dan lirik. File musik tidak diunggah. Cadangan disimpan di area data aplikasi Google Drive Anda sendiri; Anda dapat melihat atau menghapusnya di Setelan Google Drive → Kelola aplikasi.';
 
   @override
   String get profile_statistics => 'Statistik';

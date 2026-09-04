@@ -42,6 +42,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backup_not_linked => '未連携';
 
   @override
+  String get backup_busy => '同期中です。しばらくお待ちください。';
+
+  @override
   String backup_linked_as(String email) {
     return '$email と連携中';
   }
@@ -57,17 +60,27 @@ class AppLocalizationsJa extends AppLocalizations {
       '連携を解除するとバックアップは停止します。Google ドライブ上のバックアップファイルは保持されます。';
 
   @override
-  String get backup_sync_to_cloud => 'クラウドへ同期';
+  String get backup_cloud_found_title => 'バックアップが見つかりました';
 
   @override
-  String get backup_sync_to_local => 'この端末へ同期';
+  String get backup_cloud_found_message =>
+      'Google ドライブにすでにバックアップがあります。この端末の設定・プレイリスト・再生統計・歌詞をバックアップで置き換えますか？それともこの端末のデータを残してバックアップを上書きしますか？';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'この端末の設定・プレイリスト・再生統計・歌詞は Google ドライブのバックアップで上書きされます。';
+  String get backup_use_cloud => 'バックアップを使う';
+
+  @override
+  String get backup_keep_local => 'この端末のデータを残す';
+
+  @override
+  String get backup_last_synced => '最終バックアップ';
 
   @override
   String get backup_never_synced => '未同期';
+
+  @override
+  String get backup_description =>
+      'バックアップには設定・プレイリスト・再生統計・歌詞が含まれます。音楽ファイルはアップロードされません。バックアップはご自身の Google ドライブのアプリデータ領域に保存され、Google ドライブの設定 → アプリの管理 から確認・削除できます。';
 
   @override
   String get backup_done => 'クラウドへ同期しました';
@@ -80,13 +93,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get backup_drive_full => 'Google ドライブの容量がいっぱいです。空き容量を確保してからお試しください。';
-
-  @override
-  String get backup_nothing_to_restore => 'Google ドライブにバックアップがありません。';
-
-  @override
-  String get backup_description =>
-      'バックアップには設定・プレイリスト・再生統計・歌詞が含まれます。音楽ファイルはアップロードされません。バックアップはご自身の Google ドライブのアプリデータ領域に保存され、Google ドライブの設定 → アプリの管理 から確認・削除できます。';
 
   @override
   String get profile_statistics => '統計';

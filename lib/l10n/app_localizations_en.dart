@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backup_not_linked => 'Not linked';
 
   @override
+  String get backup_busy => 'Sync in progress. Please wait a moment.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Linked as $email';
   }
@@ -58,17 +61,27 @@ class AppLocalizationsEn extends AppLocalizations {
       'Backup will stop after unlinking. Backup files on Google Drive are kept.';
 
   @override
-  String get backup_sync_to_cloud => 'Sync to cloud';
+  String get backup_cloud_found_title => 'Backup found on Google Drive';
 
   @override
-  String get backup_sync_to_local => 'Sync to this device';
+  String get backup_cloud_found_message =>
+      'Your Google Drive already has a backup. Replace the settings, playlists, listening statistics and lyrics on this device with it, or keep this device\'s data and overwrite the backup?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Settings, playlists, listening statistics and lyrics on this device will be overwritten by the Google Drive backup.';
+  String get backup_use_cloud => 'Use cloud backup';
+
+  @override
+  String get backup_keep_local => 'Keep this device\'s data';
+
+  @override
+  String get backup_last_synced => 'Last backup';
 
   @override
   String get backup_never_synced => 'Not synced yet';
+
+  @override
+  String get backup_description =>
+      'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.';
 
   @override
   String get backup_done => 'Synced to cloud';
@@ -83,13 +96,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Your Google Drive is full. Free up space and try again.';
-
-  @override
-  String get backup_nothing_to_restore => 'No backup found on Google Drive.';
-
-  @override
-  String get backup_description =>
-      'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.';
 
   @override
   String get profile_statistics => 'Statistics';

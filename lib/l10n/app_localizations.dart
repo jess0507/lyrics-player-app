@@ -192,6 +192,12 @@ abstract class AppLocalizations {
   /// **'Not linked'**
   String get backup_not_linked;
 
+  /// No description provided for @backup_busy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync in progress. Please wait a moment.'**
+  String get backup_busy;
+
   /// No description provided for @backup_linked_as.
   ///
   /// In en, this message translates to:
@@ -216,29 +222,47 @@ abstract class AppLocalizations {
   /// **'Backup will stop after unlinking. Backup files on Google Drive are kept.'**
   String get backup_unlink_confirm;
 
-  /// No description provided for @backup_sync_to_cloud.
+  /// No description provided for @backup_cloud_found_title.
   ///
   /// In en, this message translates to:
-  /// **'Sync to cloud'**
-  String get backup_sync_to_cloud;
+  /// **'Backup found on Google Drive'**
+  String get backup_cloud_found_title;
 
-  /// No description provided for @backup_sync_to_local.
+  /// No description provided for @backup_cloud_found_message.
   ///
   /// In en, this message translates to:
-  /// **'Sync to this device'**
-  String get backup_sync_to_local;
+  /// **'Your Google Drive already has a backup. Replace the settings, playlists, listening statistics and lyrics on this device with it, or keep this device\'s data and overwrite the backup?'**
+  String get backup_cloud_found_message;
 
-  /// No description provided for @backup_sync_to_local_confirm.
+  /// No description provided for @backup_use_cloud.
   ///
   /// In en, this message translates to:
-  /// **'Settings, playlists, listening statistics and lyrics on this device will be overwritten by the Google Drive backup.'**
-  String get backup_sync_to_local_confirm;
+  /// **'Use cloud backup'**
+  String get backup_use_cloud;
+
+  /// No description provided for @backup_keep_local.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this device\'s data'**
+  String get backup_keep_local;
+
+  /// No description provided for @backup_last_synced.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup'**
+  String get backup_last_synced;
 
   /// No description provided for @backup_never_synced.
   ///
   /// In en, this message translates to:
   /// **'Not synced yet'**
   String get backup_never_synced;
+
+  /// No description provided for @backup_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.'**
+  String get backup_description;
 
   /// No description provided for @backup_done.
   ///
@@ -263,18 +287,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Google Drive is full. Free up space and try again.'**
   String get backup_drive_full;
-
-  /// No description provided for @backup_nothing_to_restore.
-  ///
-  /// In en, this message translates to:
-  /// **'No backup found on Google Drive.'**
-  String get backup_nothing_to_restore;
-
-  /// No description provided for @backup_description.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.'**
-  String get backup_description;
 
   /// No description provided for @profile_statistics.
   ///

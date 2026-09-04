@@ -42,6 +42,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backup_not_linked => 'लिंक नहीं है';
 
   @override
+  String get backup_busy => 'सिंक चल रहा है। कृपया थोड़ी देर प्रतीक्षा करें।';
+
+  @override
   String backup_linked_as(String email) {
     return '$email के रूप में लिंक किया गया';
   }
@@ -58,17 +61,27 @@ class AppLocalizationsHi extends AppLocalizations {
       'लिंक हटाने के बाद बैकअप रुक जाएगा। Google Drive पर मौजूद बैकअप फ़ाइलें बनी रहेंगी।';
 
   @override
-  String get backup_sync_to_cloud => 'क्लाउड पर सिंक करें';
+  String get backup_cloud_found_title => 'Google Drive पर बैकअप मिला';
 
   @override
-  String get backup_sync_to_local => 'इस डिवाइस पर सिंक करें';
+  String get backup_cloud_found_message =>
+      'आपके Google Drive पर पहले से एक बैकअप मौजूद है। क्या इस डिवाइस की सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और लिरिक्स को उससे बदलें, या इस डिवाइस का डेटा रखकर बैकअप को ओवरराइट करें?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'इस डिवाइस की सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल Google Drive के बैकअप से बदल दिए जाएँगे।';
+  String get backup_use_cloud => 'बैकअप का उपयोग करें';
+
+  @override
+  String get backup_keep_local => 'इस डिवाइस का डेटा रखें';
+
+  @override
+  String get backup_last_synced => 'पिछला बैकअप';
 
   @override
   String get backup_never_synced => 'अभी तक सिंक नहीं हुआ';
+
+  @override
+  String get backup_description =>
+      'बैकअप में सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल शामिल हैं। संगीत फ़ाइलें अपलोड नहीं होतीं। बैकअप आपके अपने Google Drive के ऐप डेटा क्षेत्र में रखा जाता है; आप इसे Google Drive सेटिंग → ऐप्स प्रबंधित करें में देख या हटा सकते हैं।';
 
   @override
   String get backup_done => 'क्लाउड पर सिंक हो गया';
@@ -83,14 +96,6 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'आपका Google Drive भर गया है। जगह खाली करके फिर से कोशिश करें।';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'Google Drive पर कोई बैकअप नहीं मिला।';
-
-  @override
-  String get backup_description =>
-      'बैकअप में सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल शामिल हैं। संगीत फ़ाइलें अपलोड नहीं होतीं। बैकअप आपके अपने Google Drive के ऐप डेटा क्षेत्र में रखा जाता है; आप इसे Google Drive सेटिंग → ऐप्स प्रबंधित करें में देख या हटा सकते हैं।';
 
   @override
   String get profile_statistics => 'आँकड़े';

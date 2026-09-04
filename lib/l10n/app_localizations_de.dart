@@ -42,6 +42,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get backup_not_linked => 'Nicht verknüpft';
 
   @override
+  String get backup_busy =>
+      'Synchronisierung läuft. Bitte einen Moment warten.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Verknüpft als $email';
   }
@@ -59,17 +63,27 @@ class AppLocalizationsDe extends AppLocalizations {
       'Nach dem Aufheben der Verknüpfung wird nicht mehr gesichert. Sicherungsdateien auf Google Drive bleiben erhalten.';
 
   @override
-  String get backup_sync_to_cloud => 'In die Cloud synchronisieren';
+  String get backup_cloud_found_title => 'Sicherung in Google Drive gefunden';
 
   @override
-  String get backup_sync_to_local => 'Auf dieses Gerät synchronisieren';
+  String get backup_cloud_found_message =>
+      'In Google Drive ist bereits eine Sicherung vorhanden. Sollen Einstellungen, Wiedergabelisten, Hörstatistiken und Songtexte auf diesem Gerät damit ersetzt werden, oder möchtest du die Daten dieses Geräts behalten und die Sicherung überschreiben?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Einstellungen, Playlists, Hörstatistiken und Songtexte auf diesem Gerät werden durch die Google-Drive-Sicherung überschrieben.';
+  String get backup_use_cloud => 'Sicherung verwenden';
+
+  @override
+  String get backup_keep_local => 'Gerätedaten behalten';
+
+  @override
+  String get backup_last_synced => 'Letzte Sicherung';
 
   @override
   String get backup_never_synced => 'Noch nicht synchronisiert';
+
+  @override
+  String get backup_description =>
+      'Die Sicherung umfasst Einstellungen, Playlists, Hörstatistiken und Songtexte. Musikdateien werden nicht hochgeladen. Sicherungen werden im App-Datenbereich deines eigenen Google Drive gespeichert; du kannst sie unter Google Drive Einstellungen → Apps verwalten einsehen oder löschen.';
 
   @override
   String get backup_done => 'In die Cloud synchronisiert';
@@ -84,14 +98,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Dein Google Drive ist voll. Bitte Speicherplatz freigeben und erneut versuchen.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'Keine Sicherung auf Google Drive gefunden.';
-
-  @override
-  String get backup_description =>
-      'Die Sicherung umfasst Einstellungen, Playlists, Hörstatistiken und Songtexte. Musikdateien werden nicht hochgeladen. Sicherungen werden im App-Datenbereich deines eigenen Google Drive gespeichert; du kannst sie unter Google Drive Einstellungen → Apps verwalten einsehen oder löschen.';
 
   @override
   String get profile_statistics => 'Statistiken';

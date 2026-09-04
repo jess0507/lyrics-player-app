@@ -42,6 +42,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get backup_not_linked => 'Non associé';
 
   @override
+  String get backup_busy => 'Synchronisation en cours. Veuillez patienter.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Associé en tant que $email';
   }
@@ -59,17 +62,27 @@ class AppLocalizationsFr extends AppLocalizations {
       'La sauvegarde s\'arrêtera après la dissociation. Les fichiers de sauvegarde sur Google Drive sont conservés.';
 
   @override
-  String get backup_sync_to_cloud => 'Synchroniser vers le cloud';
+  String get backup_cloud_found_title => 'Sauvegarde trouvée sur Google Drive';
 
   @override
-  String get backup_sync_to_local => 'Synchroniser vers cet appareil';
+  String get backup_cloud_found_message =>
+      'Votre Google Drive contient déjà une sauvegarde. Voulez-vous remplacer les réglages, playlists, statistiques d\'écoute et paroles de cet appareil par cette sauvegarde, ou conserver les données de cet appareil et écraser la sauvegarde ?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Les réglages, playlists, statistiques d\'écoute et paroles de cet appareil seront remplacés par la sauvegarde Google Drive.';
+  String get backup_use_cloud => 'Utiliser la sauvegarde';
+
+  @override
+  String get backup_keep_local => 'Garder les données de l\'appareil';
+
+  @override
+  String get backup_last_synced => 'Dernière sauvegarde';
 
   @override
   String get backup_never_synced => 'Pas encore synchronisé';
+
+  @override
+  String get backup_description =>
+      'La sauvegarde comprend les réglages, playlists, statistiques d\'écoute et paroles. Les fichiers musicaux ne sont pas envoyés. Les sauvegardes sont stockées dans l\'espace de données d\'application de votre propre Google Drive ; vous pouvez les consulter ou les supprimer dans Paramètres Google Drive → Gérer les applications.';
 
   @override
   String get backup_done => 'Synchronisé vers le cloud';
@@ -84,14 +97,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Votre Google Drive est plein. Libérez de l\'espace et réessayez.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'Aucune sauvegarde trouvée sur Google Drive.';
-
-  @override
-  String get backup_description =>
-      'La sauvegarde comprend les réglages, playlists, statistiques d\'écoute et paroles. Les fichiers musicaux ne sont pas envoyés. Les sauvegardes sont stockées dans l\'espace de données d\'application de votre propre Google Drive ; vous pouvez les consulter ou les supprimer dans Paramètres Google Drive → Gérer les applications.';
 
   @override
   String get profile_statistics => 'Statistiques';

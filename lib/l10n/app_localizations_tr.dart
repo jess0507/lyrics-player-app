@@ -42,6 +42,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backup_not_linked => 'Bağlı değil';
 
   @override
+  String get backup_busy => 'Eşitleme devam ediyor. Lütfen biraz bekleyin.';
+
+  @override
   String backup_linked_as(String email) {
     return '$email olarak bağlı';
   }
@@ -59,17 +62,27 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bağlantı kaldırıldıktan sonra yedekleme durur. Google Drive\'daki yedek dosyaları korunur.';
 
   @override
-  String get backup_sync_to_cloud => 'Buluta eşitle';
+  String get backup_cloud_found_title => 'Google Drive\'da yedek bulundu';
 
   @override
-  String get backup_sync_to_local => 'Bu cihaza eşitle';
+  String get backup_cloud_found_message =>
+      'Google Drive\'ınızda zaten bir yedek var. Bu cihazdaki ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini yedekle değiştirmek mi, yoksa bu cihazın verilerini koruyup yedeğin üzerine yazmak mı istersiniz?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Bu cihazdaki ayarlar, çalma listeleri, dinleme istatistikleri ve şarkı sözleri Google Drive yedeğiyle üzerine yazılacak.';
+  String get backup_use_cloud => 'Yedeği kullan';
+
+  @override
+  String get backup_keep_local => 'Cihaz verilerini koru';
+
+  @override
+  String get backup_last_synced => 'Son yedekleme';
 
   @override
   String get backup_never_synced => 'Henüz eşitlenmedi';
+
+  @override
+  String get backup_description =>
+      'Yedek; ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini içerir. Müzik dosyaları yüklenmez. Yedekler kendi Google Drive\'ınızın uygulama verileri alanında saklanır; Google Drive ayarları → Uygulamaları yönet bölümünden görüntüleyebilir veya silebilirsiniz.';
 
   @override
   String get backup_done => 'Buluta eşitlendi';
@@ -84,13 +97,6 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Google Drive\'ınız dolu. Yer açıp tekrar deneyin.';
-
-  @override
-  String get backup_nothing_to_restore => 'Google Drive\'da yedek bulunamadı.';
-
-  @override
-  String get backup_description =>
-      'Yedek; ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini içerir. Müzik dosyaları yüklenmez. Yedekler kendi Google Drive\'ınızın uygulama verileri alanında saklanır; Google Drive ayarları → Uygulamaları yönet bölümünden görüntüleyebilir veya silebilirsiniz.';
 
   @override
   String get profile_statistics => 'İstatistikler';

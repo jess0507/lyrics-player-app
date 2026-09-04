@@ -42,6 +42,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get backup_not_linked => 'Не связано';
 
   @override
+  String get backup_busy => 'Идёт синхронизация. Подождите немного.';
+
+  @override
   String backup_linked_as(String email) {
     return 'Связано как $email';
   }
@@ -58,17 +61,28 @@ class AppLocalizationsRu extends AppLocalizations {
       'После отвязки резервное копирование прекратится. Файлы резервных копий на Google Диске сохранятся.';
 
   @override
-  String get backup_sync_to_cloud => 'Синхронизировать с облаком';
+  String get backup_cloud_found_title =>
+      'В Google Диске найдена резервная копия';
 
   @override
-  String get backup_sync_to_local => 'Синхронизировать на это устройство';
+  String get backup_cloud_found_message =>
+      'В Google Диске уже есть резервная копия. Заменить ею настройки, плейлисты, статистику прослушивания и тексты песен на этом устройстве или сохранить данные устройства и перезаписать копию?';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      'Настройки, плейлисты, статистика прослушивания и тексты песен на этом устройстве будут заменены резервной копией из Google Диска.';
+  String get backup_use_cloud => 'Использовать копию';
+
+  @override
+  String get backup_keep_local => 'Оставить данные устройства';
+
+  @override
+  String get backup_last_synced => 'Последняя копия';
 
   @override
   String get backup_never_synced => 'Ещё не синхронизировано';
+
+  @override
+  String get backup_description =>
+      'Резервная копия включает настройки, плейлисты, статистику прослушивания и тексты песен. Музыкальные файлы не загружаются. Копии хранятся в области данных приложения вашего собственного Google Диска; просмотреть или удалить их можно в настройках Google Диска → Управление приложениями.';
 
   @override
   String get backup_done => 'Синхронизировано с облаком';
@@ -83,14 +97,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get backup_drive_full =>
       'Ваш Google Диск заполнен. Освободите место и попробуйте ещё раз.';
-
-  @override
-  String get backup_nothing_to_restore =>
-      'На Google Диске нет резервной копии.';
-
-  @override
-  String get backup_description =>
-      'Резервная копия включает настройки, плейлисты, статистику прослушивания и тексты песен. Музыкальные файлы не загружаются. Копии хранятся в области данных приложения вашего собственного Google Диска; просмотреть или удалить их можно в настройках Google Диска → Управление приложениями.';
 
   @override
   String get profile_statistics => 'Статистика';

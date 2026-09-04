@@ -42,6 +42,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backup_not_linked => '尚未連結';
 
   @override
+  String get backup_busy => '同步進行中，請稍候。';
+
+  @override
   String backup_linked_as(String email) {
     return '已連結 $email';
   }
@@ -56,17 +59,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
 
   @override
-  String get backup_sync_to_cloud => '同步到雲端';
+  String get backup_cloud_found_title => '雲端已有備份';
 
   @override
-  String get backup_sync_to_local => '同步到本地';
+  String get backup_cloud_found_message =>
+      '你的 Google 雲端硬碟已有一份備份。要用它取代此裝置上的設定、播放清單、聆聽統計與歌詞，還是保留此裝置的資料並覆寫雲端備份？';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      '將以 Google 雲端硬碟的備份覆寫此裝置上的設定、播放清單、聆聽統計與歌詞。';
+  String get backup_use_cloud => '使用雲端備份';
+
+  @override
+  String get backup_keep_local => '保留本機資料';
+
+  @override
+  String get backup_last_synced => '上次備份';
 
   @override
   String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_description =>
+      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get backup_done => '已同步到雲端';
@@ -79,13 +92,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get backup_drive_full => 'Google 雲端硬碟空間已滿，請清出空間後再試。';
-
-  @override
-  String get backup_nothing_to_restore => 'Google 雲端硬碟上沒有備份。';
-
-  @override
-  String get backup_description =>
-      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get profile_statistics => '統計數據';
@@ -811,6 +817,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get backup_not_linked => '尚未关联';
 
   @override
+  String get backup_busy => '同步进行中，请稍候。';
+
+  @override
   String backup_linked_as(String email) {
     return '已关联 $email';
   }
@@ -825,17 +834,27 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get backup_unlink_confirm => '解除关联后将停止备份；Google 云端硬盘上的备份文件会保留。';
 
   @override
-  String get backup_sync_to_cloud => '同步到云端';
+  String get backup_cloud_found_title => '云端已有备份';
 
   @override
-  String get backup_sync_to_local => '同步到本地';
+  String get backup_cloud_found_message =>
+      '你的 Google 云端硬盘已有一份备份。要用它替换此设备上的设置、播放列表、收听统计与歌词，还是保留此设备的数据并覆盖云端备份？';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      '将以 Google 云端硬盘的备份覆盖此设备上的设置、播放列表、收听统计与歌词。';
+  String get backup_use_cloud => '使用云端备份';
+
+  @override
+  String get backup_keep_local => '保留本机数据';
+
+  @override
+  String get backup_last_synced => '上次备份';
 
   @override
   String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_description =>
+      '备份内容包含设置、播放列表、收听统计与歌词，音乐文件不会上传。备份存放在你自己的 Google 云端硬盘的应用数据区，可在云端硬盘设置 → 管理应用 查看或删除。';
 
   @override
   String get backup_done => '已同步到云端';
@@ -848,13 +867,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get backup_drive_full => 'Google 云端硬盘空间已满，请清理空间后再试。';
-
-  @override
-  String get backup_nothing_to_restore => 'Google 云端硬盘上没有备份。';
-
-  @override
-  String get backup_description =>
-      '备份内容包含设置、播放列表、收听统计与歌词，音乐文件不会上传。备份存放在你自己的 Google 云端硬盘的应用数据区，可在云端硬盘设置 → 管理应用 查看或删除。';
 
   @override
   String get profile_statistics => '统计数据';
@@ -1581,6 +1593,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get backup_not_linked => '尚未連結';
 
   @override
+  String get backup_busy => '同步進行中，請稍候。';
+
+  @override
   String backup_linked_as(String email) {
     return '已連結 $email';
   }
@@ -1595,17 +1610,27 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
 
   @override
-  String get backup_sync_to_cloud => '同步到雲端';
+  String get backup_cloud_found_title => '雲端已有備份';
 
   @override
-  String get backup_sync_to_local => '同步到本地';
+  String get backup_cloud_found_message =>
+      '你的 Google 雲端硬碟已有一份備份。要用它取代此裝置上的設定、播放清單、聆聽統計與歌詞，還是保留此裝置的資料並覆寫雲端備份？';
 
   @override
-  String get backup_sync_to_local_confirm =>
-      '將以 Google 雲端硬碟的備份覆寫此裝置上的設定、播放清單、聆聽統計與歌詞。';
+  String get backup_use_cloud => '使用雲端備份';
+
+  @override
+  String get backup_keep_local => '保留本機資料';
+
+  @override
+  String get backup_last_synced => '上次備份';
 
   @override
   String get backup_never_synced => '尚未同步';
+
+  @override
+  String get backup_description =>
+      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get backup_done => '已同步到雲端';
@@ -1618,13 +1643,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get backup_drive_full => 'Google 雲端硬碟空間已滿，請清出空間後再試。';
-
-  @override
-  String get backup_nothing_to_restore => 'Google 雲端硬碟上沒有備份。';
-
-  @override
-  String get backup_description =>
-      '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
   @override
   String get profile_statistics => '統計數據';
