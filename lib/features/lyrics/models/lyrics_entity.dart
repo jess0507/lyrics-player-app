@@ -3,8 +3,8 @@ import 'package:isar_community/isar.dart';
 part 'lyrics_entity.g.dart';
 
 /// 一首曲目的歌詞「原始內文」。存原文不存解析結果——編輯(backlog 7)與
-/// parser 演進都不被內部模型綁死,顯示時即時 parse(很快)。登入時由
-/// SyncService 備份至 `user/{uid}/lyrics/{trackId}` 子集合(sync v5;
+/// parser 演進都不被內部模型綁死,顯示時即時 parse(很快)。連結 Google Drive 後由
+/// SyncGoogleDriveService 備份至使用者 Drive 的 `lyrics.json`(plan 26;
 /// 推翻 v1「純本機不同步」決策,換機不再遺失歌詞)。
 @collection
 class LyricsEntity {

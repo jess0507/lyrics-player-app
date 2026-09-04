@@ -10,9 +10,8 @@ import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
-import 'package:seek_player/features/profile/account/widgets/sync_now_button.dart';
 
-/// 已登入:顯示頭像、Email、同步、登出與刪除帳號。
+/// 已登入:顯示頭像、Email、登出與刪除帳號(備份改在「更多 → 備份」,與登入無關)。
 class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key, required this.user});
 
@@ -63,7 +62,6 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           Center(child: Text(user.email!)),
         ],
         const SizedBox(height: 32),
-        const SyncNowButton(),
         const Divider(height: 1),
         ListTile(
           leading: const Icon(Icons.logout),

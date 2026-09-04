@@ -218,7 +218,7 @@ class StatisticsController extends Notifier<StatisticsData> {
   }
 
   /// 清空本機統計（明細與期間 totals 同交易清空）。
-  /// 雲端備份的刪除由呼叫端透過 SyncService 處理。
+  /// 雲端備份的刪除由呼叫端透過 SyncGoogleDriveService 處理。
   void reset() {
     _isar.writeTxnSync(() {
       _days.clearSync();

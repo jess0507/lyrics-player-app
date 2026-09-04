@@ -6,10 +6,9 @@ import 'package:seek_player/core/storage/preferences_service.dart';
 /// 變更的時間，供推 / 拉判斷用；另存一份「上次同步時間」純供帳戶
 /// 頁面顯示。
 ///
-/// 推 / 拉方向一律由 SyncService 直接比對 Firestore 當下
-/// `user/{uid}/setting/0` 裡的 settingUpdatedAt / playlistUpdatedAt /
-/// statsUpdatedAt / lyricsUpdatedAt 與這裡對應的 *ModifiedAt 決定（見
-/// SyncService._shouldPull / _shouldPush），本機不另存一份「上次同步
+/// 推 / 拉方向一律由 SyncGoogleDriveService 直接比對 Google Drive 當下
+/// 各領域備份檔的 `modifiedTime`(伺服器時鐘)與這裡對應的 *ModifiedAt
+/// 決定（見 SyncGoogleDriveService._shouldPull / _shouldPush），本機不另存一份「上次同步
 /// 時間」鏡射參與判斷，避免兩邊出現落差。四個領域各自獨立比對、
 /// 獨立推送，互不牽動（例如統計每次播放的變更不會連帶重推設定或歌詞）。
 class SyncStateStore {

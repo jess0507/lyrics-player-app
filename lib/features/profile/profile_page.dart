@@ -13,6 +13,7 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 /// 頁面本身只負責依序畫成 ListTile。
 enum _ProfileEntry {
   account(Icons.account_circle_outlined, path: 'account'),
+  backup(Icons.cloud_upload_outlined, path: 'backup'),
   statistics(Icons.insights_outlined, path: 'statistics'),
   settings(Icons.settings_outlined, path: 'settings'),
   about(Icons.info_outline, path: 'about'),
@@ -29,6 +30,7 @@ enum _ProfileEntry {
 
   String label(AppLocalizations l10n) => switch (this) {
     account => l10n.profile_account,
+    backup => l10n.profile_backup,
     statistics => l10n.profile_statistics,
     settings => l10n.profile_settings,
     about => l10n.profile_about,
@@ -37,7 +39,8 @@ enum _ProfileEntry {
 
   Future<void> onTap(BuildContext context, WidgetRef ref) async {
     switch (this) {
-      case account || statistics || settings || about:
+      // 備份走 Google Drive 授權,與帳戶登入無關(plan 26),直接進頁。
+      case account || backup || statistics || settings || about:
         context.go('/profile/$path');
       case reset:
         await _confirmReset(context, ref);

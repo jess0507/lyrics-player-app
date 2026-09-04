@@ -5,16 +5,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:seek_player/core/auth/google_sign_in_provider.dart';
+
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
 const _functionsRegion = 'asia-east1';
 
 /// Firebase Authentication 封裝：Email/密碼 / 手機 OTP / Google / Facebook。
 class AuthService {
-  AuthService(this._auth, this._functions);
+  AuthService(this._auth, this._functions, this._googleSignIn);
 
   final FirebaseAuth _auth;
   final FirebaseFunctions _functions;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  /// 與 Drive 備份連結共用的實例(見 googleSignInProvider)。
+  final GoogleSignIn _googleSignIn;
 
   User? get currentUser => _auth.currentUser;
   Stream<User?> authStateChanges() => _auth.authStateChanges();
@@ -32,7 +36,13 @@ class AuthService {
       _auth.sendPasswordResetEmail(email: email);
 
   /// Google 登入。需在 Firebase Console 設定 SHA-1 並產生 OAuth client，否則會失敗。
+  ///
+  /// 先清掉既有 Google session 再 signIn,帳號選擇器才會每次都出現
+  /// (session 可能是 Drive 備份連結留下的;signOut 不撤銷授權,
+  /// 選同一個帳號時備份照常可用,選別的帳號時由 GoogleDriveAccount
+  /// 比對 email 後標記需重新連結)。
   Future<void> signInWithGoogle() async {
+    await _googleSignIn.signOut();
     final account = await _googleSignIn.signIn();
     if (account == null) return; // 使用者取消
     final auth = await account.authentication;
@@ -93,10 +103,11 @@ class AuthService {
     return _auth.signInWithCredential(credential);
   }
 
-  Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
-  }
+  /// 只登出 Firebase,不登出 Google session:同一個 GoogleSignIn 實例也
+  /// 承載 Google Drive 備份連結(見 GoogleDriveAccount),連帶登出會讓
+  /// 背景備份到下次啟動前都拿不到 token。帳號選擇器由
+  /// [signInWithGoogle] 登入前清 session 保證出現,不靠這裡。
+  Future<void> signOut() => _auth.signOut();
 
   /// 只刪除使用者的雲端資料(Firestore `user/{uid}`),保留登入帳號。
   ///
@@ -119,5 +130,6 @@ final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService(
     FirebaseAuth.instance,
     FirebaseFunctions.instanceFor(region: _functionsRegion),
+    ref.watch(googleSignInProvider),
   );
 });

@@ -15,7 +15,7 @@ const _recentlyPlayedLimit = 200;
 
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
-/// SyncService 在回前景 / 登入 / 統計重設時觸發,寫入當下不觸發推送。
+/// SyncGoogleDriveService 在回前景 / 連結 Drive / 統計重設時觸發,寫入當下不觸發推送。
 ///
 /// 交易一律用 writeTxnSync:Isar 禁止 async 交易進行中執行任何 sync
 /// 操作(統計在播放時每 5 秒 writeTxnSync 取樣,async 交易的 await 空檔
@@ -34,7 +34,7 @@ class PlaylistRepository {
   Stream<List<PlaylistEntity>> watchAll() =>
       _col.where().watch(fireImmediately: true);
 
-  /// 同步讀取全部清單(SyncService 上傳快照用)。
+  /// 同步讀取全部清單(SyncGoogleDriveService 上傳快照用)。
   List<PlaylistEntity> getAllSync() => _col.where().findAllSync();
 
   /// 確保預設「我的最愛」清單存在;DB 內存名僅作 fallback(初始化時無
