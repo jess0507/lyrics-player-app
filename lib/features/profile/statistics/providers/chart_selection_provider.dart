@@ -21,8 +21,7 @@ class ChartSelectionController extends Notifier<ChartSelection> {
   ChartSelection build() => const ChartSelection(range: ChartRange.week);
 
   /// 切換視圖範圍;清除已選節點,回到該範圍的彙總。
-  void selectRange(ChartRange range) =>
-      state = ChartSelection(range: range);
+  void selectRange(ChartRange range) => state = ChartSelection(range: range);
 
   /// 觸碰選中某期間(放開不呼叫此方法,故保留最後選取)。
   void touchPeriod(String period) =>

@@ -57,10 +57,7 @@ class CountryCodeDropdown extends StatelessWidget {
       decoration: const InputDecoration(border: OutlineInputBorder()),
       items: [
         for (final c in kDialCodes)
-          DropdownMenuItem(
-            value: c,
-            child: Text('${c.iso} ${c.code}'),
-          ),
+          DropdownMenuItem(value: c, child: Text('${c.iso} ${c.code}')),
       ],
       onChanged: enabled
           ? (c) {

@@ -58,9 +58,8 @@ class ListenTimeChart extends ConsumerWidget {
             child: _LineChart(
               range: range,
               points: points,
-              onTouchPeriod: (period) => ref
-                  .read(chartSelectionProvider.notifier)
-                  .touchPeriod(period),
+              onTouchPeriod: (period) =>
+                  ref.read(chartSelectionProvider.notifier).touchPeriod(period),
             ),
           ),
         ),
@@ -84,10 +83,10 @@ class _LineChart extends StatelessWidget {
 
   /// 橫軸標籤密度:週視圖逐天、月視圖每 7 天、年視圖隔月。
   double get _bottomInterval => switch (range) {
-        ChartRange.week => 1,
-        ChartRange.month => 7,
-        ChartRange.year => 2,
-      };
+    ChartRange.week => 1,
+    ChartRange.month => 7,
+    ChartRange.year => 2,
+  };
 
   /// 期間 key 轉橫軸標籤:day `yyyy-MM-dd` → `M/d`、month `yyyy-MM` → `M`。
   String _bottomLabel(String period) {
@@ -108,8 +107,9 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final labelStyle =
-        Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.outline);
+    final labelStyle = Theme.of(
+      context,
+    ).textTheme.bodySmall?.copyWith(color: scheme.outline);
     final spots = [
       for (var i = 0; i < points.length; i++)
         FlSpot(i.toDouble(), points[i].listenTime.inSeconds / 60),
@@ -164,8 +164,10 @@ class _LineChart extends StatelessWidget {
                 }
                 return SideTitleWidget(
                   axisSide: meta.axisSide,
-                  child: Text(_bottomLabel(points[i].period),
-                      style: labelStyle),
+                  child: Text(
+                    _bottomLabel(points[i].period),
+                    style: labelStyle,
+                  ),
                 );
               },
             ),
