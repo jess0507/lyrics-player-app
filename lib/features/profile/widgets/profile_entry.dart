@@ -37,7 +37,8 @@ enum ProfileEntry {
 
   Future<void> onTap(BuildContext context, WidgetRef ref) async {
     switch (this) {
-      // 備份走 Google Drive 授權,與帳戶登入無關(plan 26),直接進頁。
+      // 備份走 Google Drive 授權,與帳戶登入無關(plan 26),直接進頁;
+      // 已登入者在帳戶頁最上方也能看到同一份備份區塊。
       case account || backup || statistics || settings || about:
         context.go('/profile/$path');
       case reset:

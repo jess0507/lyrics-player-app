@@ -8,10 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
+import 'package:seek_player/features/profile/backup/widgets/backup_section.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
-/// 已登入:顯示頭像、Email、登出與刪除帳號(備份改在「更多 → 備份」,與登入無關)。
+/// 已登入:最上方先放備份區塊(Google Drive 連結、上次備份),
+/// 接著是頭像、Email、登出與刪除帳號。備份授權與 Firebase 登入彼此獨立(plan 26)。
 class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key, required this.user});
 
@@ -39,7 +41,9 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
 
     return ListView(
       children: [
-        const SizedBox(height: 16),
+        const BackupSection(),
+        const Divider(height: 1),
+        const SizedBox(height: 24),
         Center(
           child: CircleAvatar(
             radius: 36,
