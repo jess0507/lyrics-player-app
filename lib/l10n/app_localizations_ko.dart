@@ -117,6 +117,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_reset_restart_hint => '초기화되었습니다. 앱을 완전히 종료한 후 다시 실행해 주세요.';
 
   @override
+  String get profile_feedback => '피드백';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return '메일 앱을 찾을 수 없습니다. $email로 직접 메일을 보내 주세요.';
+  }
+
+  @override
   String get player_play => '재생';
 
   @override

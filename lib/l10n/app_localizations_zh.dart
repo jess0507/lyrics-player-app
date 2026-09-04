@@ -115,6 +115,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
 
   @override
+  String get profile_feedback => '意見回饋';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return '找不到郵件 App，請直接寄信至 $email。';
+  }
+
+  @override
   String get player_play => '播放';
 
   @override
@@ -888,6 +896,14 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get profile_reset_restart_hint => '已重置，请完全关闭并重新打开 App。';
+
+  @override
+  String get profile_feedback => '意见反馈';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return '找不到邮件 App，请直接发送邮件至 $email。';
+  }
 
   @override
   String get player_play => '播放';
@@ -1664,6 +1680,14 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
+
+  @override
+  String get profile_feedback => '意見回饋';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return '找不到郵件 App，請直接寄信至 $email。';
+  }
 
   @override
   String get player_play => '播放';

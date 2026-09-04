@@ -122,6 +122,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'Restablecido. Cierra la aplicación por completo y vuelve a abrirla.';
 
   @override
+  String get profile_feedback => 'Comentarios';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'No se encontró ninguna app de correo. Escribe directamente a $email.';
+  }
+
+  @override
   String get player_play => 'Reproducir';
 
   @override

@@ -121,6 +121,14 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ripristino completato. Chiudi completamente l\'app e riaprila.';
 
   @override
+  String get profile_feedback => 'Feedback';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Nessuna app di posta trovata. Scrivi direttamente a $email.';
+  }
+
+  @override
   String get player_play => 'Riproduci';
 
   @override

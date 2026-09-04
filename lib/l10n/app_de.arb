@@ -34,6 +34,8 @@
   "profile_reset_title": "App zurücksetzen?",
   "profile_reset_message": "Nur die App-Daten werden zurückgesetzt. Mediendateien auf diesem Gerät werden nicht gelöscht.",
   "profile_reset_restart_hint": "Zurückgesetzt. Bitte schließe die App vollständig und öffne sie erneut.",
+  "profile_feedback": "Feedback",
+  "profile_feedback_no_mail_app": "Keine Mail-App gefunden. Bitte schreibe direkt an {email}.",
   "player_play": "Wiedergabe",
   "player_pause": "Pause",
   "player_next": "Weiter",

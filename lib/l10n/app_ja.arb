@@ -34,6 +34,8 @@
   "profile_reset_title": "リセットしますか？",
   "profile_reset_message": "アプリのデータのみリセットされます。端末内のメディアファイルは削除されません。",
   "profile_reset_restart_hint": "リセットしました。アプリを完全に終了して再起動してください。",
+  "profile_feedback": "フィードバック",
+  "profile_feedback_no_mail_app": "メールアプリが見つかりません。{email} 宛に直接メールしてください。",
   "player_play": "再生",
   "player_pause": "一時停止",
   "player_next": "次へ",

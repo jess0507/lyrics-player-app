@@ -34,6 +34,8 @@
   "profile_reset_title": "Đặt lại ứng dụng?",
   "profile_reset_message": "Chỉ dữ liệu ứng dụng được đặt lại. Các tệp phương tiện trên thiết bị này sẽ không bị xóa.",
   "profile_reset_restart_hint": "Đã đặt lại. Vui lòng đóng hoàn toàn ứng dụng và mở lại.",
+  "profile_feedback": "Góp ý",
+  "profile_feedback_no_mail_app": "Không tìm thấy ứng dụng thư. Vui lòng gửi email trực tiếp đến {email}.",
   "player_play": "Phát",
   "player_pause": "Tạm dừng",
   "player_next": "Tiếp theo",

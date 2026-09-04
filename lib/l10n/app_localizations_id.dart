@@ -122,6 +122,14 @@ class AppLocalizationsId extends AppLocalizations {
       'Berhasil diatur ulang. Tutup aplikasi sepenuhnya lalu buka kembali.';
 
   @override
+  String get profile_feedback => 'Masukan';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Aplikasi email tidak ditemukan. Silakan kirim email langsung ke $email.';
+  }
+
+  @override
   String get player_play => 'Putar';
 
   @override

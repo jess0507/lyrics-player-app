@@ -122,6 +122,14 @@ class AppLocalizationsFr extends AppLocalizations {
       'Réinitialisation terminée. Veuillez fermer complètement l\'application et la rouvrir.';
 
   @override
+  String get profile_feedback => 'Commentaires';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Aucune application de messagerie trouvée. Écrivez directement à $email.';
+  }
+
+  @override
   String get player_play => 'Lire';
 
   @override

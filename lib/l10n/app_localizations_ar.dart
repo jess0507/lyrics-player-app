@@ -121,6 +121,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'تمت إعادة التعيين. يرجى إغلاق التطبيق بالكامل ثم إعادة فتحه.';
 
   @override
+  String get profile_feedback => 'ملاحظات';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'لم يتم العثور على تطبيق بريد. يرجى مراسلة $email مباشرةً.';
+  }
+
+  @override
   String get player_play => 'تشغيل';
 
   @override

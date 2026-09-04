@@ -121,6 +121,14 @@ class AppLocalizationsHi extends AppLocalizations {
       'रीसेट हो गया। कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।';
 
   @override
+  String get profile_feedback => 'प्रतिक्रिया';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'कोई मेल ऐप नहीं मिला। कृपया सीधे $email पर ईमेल करें।';
+  }
+
+  @override
   String get player_play => 'चलाएँ';
 
   @override

@@ -122,6 +122,14 @@ class AppLocalizationsVi extends AppLocalizations {
       'Đã đặt lại. Vui lòng đóng hoàn toàn ứng dụng và mở lại.';
 
   @override
+  String get profile_feedback => 'Góp ý';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Không tìm thấy ứng dụng thư. Vui lòng gửi email trực tiếp đến $email.';
+  }
+
+  @override
   String get player_play => 'Phát';
 
   @override

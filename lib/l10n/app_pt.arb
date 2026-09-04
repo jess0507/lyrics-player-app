@@ -34,6 +34,8 @@
   "profile_reset_title": "Redefinir o aplicativo?",
   "profile_reset_message": "Apenas os dados do aplicativo serão redefinidos. Os arquivos de mídia neste dispositivo não serão excluídos.",
   "profile_reset_restart_hint": "Redefinido. Feche completamente o aplicativo e abra-o novamente.",
+  "profile_feedback": "Feedback",
+  "profile_feedback_no_mail_app": "Nenhum app de e-mail encontrado. Envie um e-mail diretamente para {email}.",
   "player_play": "Reproduzir",
   "player_pause": "Pausar",
   "player_next": "Próxima",

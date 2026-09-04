@@ -121,6 +121,14 @@ class AppLocalizationsPt extends AppLocalizations {
       'Redefinido. Feche completamente o aplicativo e abra-o novamente.';
 
   @override
+  String get profile_feedback => 'Feedback';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Nenhum app de e-mail encontrado. Envie um e-mail diretamente para $email.';
+  }
+
+  @override
   String get player_play => 'Reproduzir';
 
   @override

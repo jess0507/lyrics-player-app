@@ -34,6 +34,8 @@
   "profile_reset_title": "ऐप रीसेट करें?",
   "profile_reset_message": "केवल ऐप डेटा रीसेट होगा। इस डिवाइस की मीडिया फ़ाइलें नहीं हटाई जाएँगी।",
   "profile_reset_restart_hint": "रीसेट हो गया। कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।",
+  "profile_feedback": "प्रतिक्रिया",
+  "profile_feedback_no_mail_app": "कोई मेल ऐप नहीं मिला। कृपया सीधे {email} पर ईमेल करें।",
   "player_play": "चलाएँ",
   "player_pause": "रोकें",
   "player_next": "अगला",

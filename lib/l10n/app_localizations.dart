@@ -330,6 +330,18 @@ abstract class AppLocalizations {
   /// **'Reset complete. Please fully close and reopen the app.'**
   String get profile_reset_restart_hint;
 
+  /// No description provided for @profile_feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get profile_feedback;
+
+  /// No description provided for @profile_feedback_no_mail_app.
+  ///
+  /// In en, this message translates to:
+  /// **'No mail app found. Please email {email} directly.'**
+  String profile_feedback_no_mail_app(String email);
+
   /// No description provided for @player_play.
   ///
   /// In en, this message translates to:

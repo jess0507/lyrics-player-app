@@ -34,6 +34,8 @@
   "profile_reset_title": "Réinitialiser l'application ?",
   "profile_reset_message": "Seules les données de l'application seront réinitialisées. Les fichiers multimédias de cet appareil ne seront pas supprimés.",
   "profile_reset_restart_hint": "Réinitialisation terminée. Veuillez fermer complètement l'application et la rouvrir.",
+  "profile_feedback": "Commentaires",
+  "profile_feedback_no_mail_app": "Aucune application de messagerie trouvée. Écrivez directement à {email}.",
   "player_play": "Lire",
   "player_pause": "Pause",
   "player_next": "Suivant",

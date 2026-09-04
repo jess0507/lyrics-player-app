@@ -34,6 +34,8 @@
   "profile_reset_title": "Ripristinare l'app?",
   "profile_reset_message": "Verranno ripristinati solo i dati dell'app. I file multimediali su questo dispositivo non verranno eliminati.",
   "profile_reset_restart_hint": "Ripristino completato. Chiudi completamente l'app e riaprila.",
+  "profile_feedback": "Feedback",
+  "profile_feedback_no_mail_app": "Nessuna app di posta trovata. Scrivi direttamente a {email}.",
   "player_play": "Riproduci",
   "player_pause": "Pausa",
   "player_next": "Successivo",

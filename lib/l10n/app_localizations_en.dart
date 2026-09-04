@@ -121,6 +121,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Reset complete. Please fully close and reopen the app.';
 
   @override
+  String get profile_feedback => 'Feedback';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'No mail app found. Please email $email directly.';
+  }
+
+  @override
   String get player_play => 'Play';
 
   @override

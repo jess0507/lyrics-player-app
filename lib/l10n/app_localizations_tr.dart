@@ -122,6 +122,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sıfırlandı. Lütfen uygulamayı tamamen kapatıp yeniden açın.';
 
   @override
+  String get profile_feedback => 'Geri bildirim';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Posta uygulaması bulunamadı. Lütfen doğrudan $email adresine yazın.';
+  }
+
+  @override
   String get player_play => 'Oynat';
 
   @override

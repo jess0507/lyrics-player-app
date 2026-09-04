@@ -34,6 +34,8 @@
   "profile_reset_title": "Uygulama sıfırlansın mı?",
   "profile_reset_message": "Yalnızca uygulama verileri sıfırlanır. Bu cihazdaki medya dosyaları silinmez.",
   "profile_reset_restart_hint": "Sıfırlandı. Lütfen uygulamayı tamamen kapatıp yeniden açın.",
+  "profile_feedback": "Geri bildirim",
+  "profile_feedback_no_mail_app": "Posta uygulaması bulunamadı. Lütfen doğrudan {email} adresine yazın.",
   "player_play": "Oynat",
   "player_pause": "Duraklat",
   "player_next": "Sonraki",

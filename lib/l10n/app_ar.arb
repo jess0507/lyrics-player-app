@@ -34,6 +34,8 @@
   "profile_reset_title": "هل تريد إعادة تعيين التطبيق؟",
   "profile_reset_message": "سيتم إعادة تعيين بيانات التطبيق فقط. لن يتم حذف ملفات الوسائط على هذا الجهاز.",
   "profile_reset_restart_hint": "تمت إعادة التعيين. يرجى إغلاق التطبيق بالكامل ثم إعادة فتحه.",
+  "profile_feedback": "ملاحظات",
+  "profile_feedback_no_mail_app": "لم يتم العثور على تطبيق بريد. يرجى مراسلة {email} مباشرةً.",
   "player_play": "تشغيل",
   "player_pause": "إيقاف مؤقت",
   "player_next": "التالي",

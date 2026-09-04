@@ -123,6 +123,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zurückgesetzt. Bitte schließe die App vollständig und öffne sie erneut.';
 
   @override
+  String get profile_feedback => 'Feedback';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Keine Mail-App gefunden. Bitte schreibe direkt an $email.';
+  }
+
+  @override
   String get player_play => 'Wiedergabe';
 
   @override

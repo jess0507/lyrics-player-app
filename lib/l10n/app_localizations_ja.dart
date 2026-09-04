@@ -116,6 +116,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_reset_restart_hint => 'リセットしました。アプリを完全に終了して再起動してください。';
 
   @override
+  String get profile_feedback => 'フィードバック';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'メールアプリが見つかりません。$email 宛に直接メールしてください。';
+  }
+
+  @override
   String get player_play => '再生';
 
   @override

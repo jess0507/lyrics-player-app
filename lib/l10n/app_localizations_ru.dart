@@ -122,6 +122,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Сброс выполнен. Полностью закройте приложение и откройте его снова.';
 
   @override
+  String get profile_feedback => 'Обратная связь';
+
+  @override
+  String profile_feedback_no_mail_app(String email) {
+    return 'Почтовое приложение не найдено. Напишите напрямую на $email.';
+  }
+
+  @override
   String get player_play => 'Воспроизвести';
 
   @override

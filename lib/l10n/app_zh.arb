@@ -34,6 +34,8 @@
   "profile_reset_title": "確定要重置嗎？",
   "profile_reset_message": "只會重置應用程式資料，不會刪除本機多媒體檔案。",
   "profile_reset_restart_hint": "已重置，請完全關閉並重新開啟 App。",
+  "profile_feedback": "意見回饋",
+  "profile_feedback_no_mail_app": "找不到郵件 App，請直接寄信至 {email}。",
   "player_play": "播放",
   "player_pause": "暫停",
   "player_next": "下一首",

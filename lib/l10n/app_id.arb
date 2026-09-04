@@ -34,6 +34,8 @@
   "profile_reset_title": "Atur ulang aplikasi?",
   "profile_reset_message": "Hanya data aplikasi yang akan diatur ulang. File media di perangkat ini tidak akan dihapus.",
   "profile_reset_restart_hint": "Berhasil diatur ulang. Tutup aplikasi sepenuhnya lalu buka kembali.",
+  "profile_feedback": "Masukan",
+  "profile_feedback_no_mail_app": "Aplikasi email tidak ditemukan. Silakan kirim email langsung ke {email}.",
   "player_play": "Putar",
   "player_pause": "Jeda",
   "player_next": "Berikutnya",
