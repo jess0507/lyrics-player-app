@@ -730,17 +730,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playlist_favorites => 'Favorites';
 
   @override
-  String get playlist_recently_played => 'Recently Played';
+  String get playlist_recently_played => 'History';
 
   @override
   String get playlist_local_music => 'Local Music';
 
   @override
-  String get playlist_clear_recently_played => 'Clear recently played';
+  String get playlist_clear_recently_played => 'Clear history';
 
   @override
   String get playlist_clear_recently_played_confirm =>
-      'Clear all recently played tracks?';
+      'Clear all playback history?';
 
   @override
   String get playlist_new => 'New playlist';

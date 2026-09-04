@@ -219,7 +219,7 @@
   "lyrics_job_error_unknown": "बोल प्रोसेस नहीं हो सके।",
   "tab_playlists": "प्लेलिस्ट",
   "playlist_favorites": "पसंदीदा",
-  "playlist_recently_played": "हाल ही में चलाए गए",
+  "playlist_recently_played": "इतिहास",
   "playlist_local_music": "स्थानीय संगीत",
   "playlist_clear_recently_played": "इतिहास साफ़ करें",
   "playlist_clear_recently_played_confirm": "क्या सारा प्लेबैक इतिहास साफ़ करें?",

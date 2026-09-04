@@ -730,7 +730,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playlist_favorites => 'المفضلة';
 
   @override
-  String get playlist_recently_played => 'شُغّل مؤخرًا';
+  String get playlist_recently_played => 'سجل التشغيل';
 
   @override
   String get playlist_local_music => 'الموسيقى المحلية';

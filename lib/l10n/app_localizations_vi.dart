@@ -730,7 +730,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get playlist_favorites => 'Yêu thích';
 
   @override
-  String get playlist_recently_played => 'Đã nghe gần đây';
+  String get playlist_recently_played => 'Lịch sử phát';
 
   @override
   String get playlist_local_music => 'Nhạc trên máy';

@@ -219,7 +219,7 @@
   "lyrics_job_error_unknown": "Impossibile elaborare il testo.",
   "tab_playlists": "Playlist",
   "playlist_favorites": "Preferiti",
-  "playlist_recently_played": "Ascoltati di recente",
+  "playlist_recently_played": "Cronologia",
   "playlist_local_music": "Musica locale",
   "playlist_clear_recently_played": "Cancella cronologia",
   "playlist_clear_recently_played_confirm": "Cancellare tutta la cronologia di riproduzione?",

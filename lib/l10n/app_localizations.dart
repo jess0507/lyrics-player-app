@@ -1443,7 +1443,7 @@ abstract class AppLocalizations {
   /// No description provided for @playlist_recently_played.
   ///
   /// In en, this message translates to:
-  /// **'Recently Played'**
+  /// **'History'**
   String get playlist_recently_played;
 
   /// No description provided for @playlist_local_music.
@@ -1455,13 +1455,13 @@ abstract class AppLocalizations {
   /// No description provided for @playlist_clear_recently_played.
   ///
   /// In en, this message translates to:
-  /// **'Clear recently played'**
+  /// **'Clear history'**
   String get playlist_clear_recently_played;
 
   /// No description provided for @playlist_clear_recently_played_confirm.
   ///
   /// In en, this message translates to:
-  /// **'Clear all recently played tracks?'**
+  /// **'Clear all playback history?'**
   String get playlist_clear_recently_played_confirm;
 
   /// No description provided for @playlist_new.

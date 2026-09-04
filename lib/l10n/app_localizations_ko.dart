@@ -694,7 +694,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlist_favorites => '즐겨찾기';
 
   @override
-  String get playlist_recently_played => '최근 재생';
+  String get playlist_recently_played => '재생 기록';
 
   @override
   String get playlist_local_music => '로컬 음악';

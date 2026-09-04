@@ -219,7 +219,7 @@
   "lyrics_job_error_unknown": "Não foi possível processar a letra.",
   "tab_playlists": "Playlists",
   "playlist_favorites": "Favoritos",
-  "playlist_recently_played": "Tocadas recentemente",
+  "playlist_recently_played": "Histórico",
   "playlist_local_music": "Música local",
   "playlist_clear_recently_played": "Limpar histórico",
   "playlist_clear_recently_played_confirm": "Limpar todo o histórico de reprodução?",

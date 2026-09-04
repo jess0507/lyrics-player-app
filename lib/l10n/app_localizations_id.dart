@@ -728,7 +728,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlist_favorites => 'Favorit';
 
   @override
-  String get playlist_recently_played => 'Baru Diputar';
+  String get playlist_recently_played => 'Riwayat';
 
   @override
   String get playlist_local_music => 'Musik Lokal';

@@ -729,7 +729,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playlist_favorites => 'पसंदीदा';
 
   @override
-  String get playlist_recently_played => 'हाल ही में चलाए गए';
+  String get playlist_recently_played => 'इतिहास';
 
   @override
   String get playlist_local_music => 'स्थानीय संगीत';

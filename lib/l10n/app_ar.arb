@@ -219,7 +219,7 @@
   "lyrics_job_error_unknown": "تعذّرت معالجة كلمات الأغنية.",
   "tab_playlists": "قوائم التشغيل",
   "playlist_favorites": "المفضلة",
-  "playlist_recently_played": "شُغّل مؤخرًا",
+  "playlist_recently_played": "سجل التشغيل",
   "playlist_local_music": "الموسيقى المحلية",
   "playlist_clear_recently_played": "مسح السجل",
   "playlist_clear_recently_played_confirm": "هل تريد مسح كل سجل التشغيل؟",

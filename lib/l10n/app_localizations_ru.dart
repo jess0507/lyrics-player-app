@@ -738,7 +738,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playlist_favorites => 'Избранное';
 
   @override
-  String get playlist_recently_played => 'Недавно прослушанные';
+  String get playlist_recently_played => 'История';
 
   @override
   String get playlist_local_music => 'Локальная музыка';

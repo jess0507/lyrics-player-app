@@ -689,7 +689,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get playlist_favorites => 'お気に入り';
 
   @override
-  String get playlist_recently_played => '最近再生した項目';
+  String get playlist_recently_played => '再生履歴';
 
   @override
   String get playlist_local_music => 'ローカルの音楽';

@@ -680,16 +680,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlist_favorites => '我的最愛';
 
   @override
-  String get playlist_recently_played => '最近播放';
+  String get playlist_recently_played => '播放紀錄';
 
   @override
   String get playlist_local_music => '本地音乐';
 
   @override
-  String get playlist_clear_recently_played => '清除最近播放';
+  String get playlist_clear_recently_played => '清除播放紀錄';
 
   @override
-  String get playlist_clear_recently_played_confirm => '確定要清空最近播放紀錄嗎？';
+  String get playlist_clear_recently_played_confirm => '確定要清空播放紀錄嗎？';
 
   @override
   String get playlist_new => '新增播放清單';
@@ -1461,16 +1461,16 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlist_favorites => '我的收藏';
 
   @override
-  String get playlist_recently_played => '最近播放';
+  String get playlist_recently_played => '播放记录';
 
   @override
   String get playlist_local_music => '本地音乐';
 
   @override
-  String get playlist_clear_recently_played => '清除最近播放';
+  String get playlist_clear_recently_played => '清除播放记录';
 
   @override
-  String get playlist_clear_recently_played_confirm => '确定要清空最近播放记录吗？';
+  String get playlist_clear_recently_played_confirm => '确定要清空播放记录吗？';
 
   @override
   String get playlist_new => '新建播放列表';
@@ -2241,16 +2241,16 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get playlist_favorites => '我的最愛';
 
   @override
-  String get playlist_recently_played => '最近播放';
+  String get playlist_recently_played => '播放紀錄';
 
   @override
   String get playlist_local_music => '本地音樂';
 
   @override
-  String get playlist_clear_recently_played => '清除最近播放';
+  String get playlist_clear_recently_played => '清除播放紀錄';
 
   @override
-  String get playlist_clear_recently_played_confirm => '確定要清空最近播放紀錄嗎？';
+  String get playlist_clear_recently_played_confirm => '確定要清空播放紀錄嗎？';
 
   @override
   String get playlist_new => '新增播放清單';
