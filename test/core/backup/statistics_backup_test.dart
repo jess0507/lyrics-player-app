@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seek_player/core/sync/statistics_backup.dart';
+import 'package:seek_player/core/backup/statistics_backup.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
 

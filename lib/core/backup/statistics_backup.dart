@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/domain_backup.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/domain_backup.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
@@ -24,7 +24,7 @@ class StatisticsBackup implements DomainBackup {
 
   @override
   DateTime? get localModifiedAt =>
-      _ref.read(syncStateStoreProvider).statsModifiedAt;
+      _ref.read(backupStateStoreProvider).statsModifiedAt;
 
   @override
   Map<String, dynamic> encode() => encodeStatistics(

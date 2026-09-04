@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
 // 靜態參照背景進入點,確保其所在 library 被納入 AOT 編譯
@@ -138,7 +138,7 @@ class LyricsBackgroundRunner {
         // 不論任務是否由本 app instance 發起都要刷新:結果已由背景
         // isolate 寫入 Isar,這裡讓 UI 重讀並標記歌詞待推(回前景時備份)。
         _ref.invalidate(trackLyricsProvider(event.trackId));
-        _ref.read(syncStateStoreProvider).markLyricsModified();
+        _ref.read(backupStateStoreProvider).markLyricsModified();
         _complete(const LyricsBackgroundResult(LyricsBackgroundStatus.success));
       case LyricsBackgroundEventType.error:
         // 不在此上報 Crashlytics:service 層(compress / upload / callable /

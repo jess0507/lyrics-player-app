@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seek_player/core/sync/lyrics_backup.dart';
+import 'package:seek_player/core/backup/lyrics_backup.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 
 void main() {

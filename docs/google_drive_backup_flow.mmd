@@ -1,11 +1,11 @@
 flowchart TD
 %% Google Drive 備份流程(plan 26)
 %% 對應程式:
-%%   lib/core/sync/sync_google_drive_service.dart   調度(afterLink / _onResume / uploadAfterReset / _upload / _restore)
-%%   lib/core/sync/drive_link_controller.dart       連結狀態(DriveNotLinked / DriveLinked / DriveNeedsRelink)
-%%   lib/core/sync/google_drive_account.dart        Google 登入 + drive.appdata 授權 + session
-%%   lib/core/sync/google_drive_client.dart         appDataFolder REST(list / upload / download / delete)
-%%   lib/core/sync/sync_state_store.dart            各領域 *ModifiedAt 與 lastSyncAt(prefs)
+%%   lib/core/backup/google_drive_backup_service.dart   調度(afterLink / _onResume / uploadAfterReset / _upload / _restore)
+%%   lib/core/backup/drive_link_controller.dart       連結狀態(DriveNotLinked / DriveLinked / DriveNeedsRelink)
+%%   lib/core/backup/google_drive_account.dart        Google 登入 + drive.appdata 授權 + session
+%%   lib/core/backup/google_drive_client.dart         appDataFolder REST(list / upload / download / delete)
+%%   lib/core/backup/backup_state_store.dart            各領域 *ModifiedAt 與 lastBackupAt(prefs)
 %%   lib/features/profile/backup/widgets/drive_link_tile.dart      備份頁連結列
 %%   lib/features/profile/backup/widgets/cloud_backup_found_dialog.dart 雲端已有備份對話框
 %% -
@@ -15,7 +15,7 @@ flowchart TD
     %% 觸發點
     %% =========================================================
     subgraph triggers["觸發點"]
-        T_launch["App 啟動<br/>syncGoogleDriveServiceProvider 建立"]
+        T_launch["App 啟動<br/>googleDriveBackupServiceProvider 建立"]
         T_resume["App 回前景<br/>AppLifecycleListener.onResume"]
         T_link["備份頁按「連結 / 重新連結」<br/>DriveLinkTile._link"]
         T_reset["統計頁重設統計<br/>uploadAfterReset()"]
@@ -36,7 +36,7 @@ flowchart TD
     %% =========================================================
     %% 連結流程
     %% =========================================================
-    T_link --> K0{"_working 或 syncBusy?"}
+    T_link --> K0{"_working 或 backupBusy?"}
     K0 -- 是 --> K0t["toast: backup_busy"]
     K0 -- 否 --> K1["GoogleDriveAccount.link()<br/>currentUser → signInSilently → signIn(帳號選擇器)"]
     K1 --> K2{"使用者取消登入?"}
@@ -50,8 +50,8 @@ flowchart TD
     %% =========================================================
     %% afterLink:連結後首次同步
     %% =========================================================
-    A0 --> X_link{"_exclusive:<br/>syncBusy 已為 true?"}
-    X_link -- 是 --> A_busy["SyncOutcome.busy"]
+    A0 --> X_link{"_exclusive:<br/>backupBusy 已為 true?"}
+    X_link -- 是 --> A_busy["BackupOutcome.busy"]
     X_link -- 否 --> A1["busy = true"]
     A1 --> A2["_listRemote()<br/>GET files?spaces=appDataFolder<br/>同名多份取 modifiedTime 最新、其餘刪除"]
     A2 -- GoogleDriveException --> ERR
@@ -67,7 +67,7 @@ flowchart TD
     %% =========================================================
     T_resume --> R1{"state is DriveLinked?"}
     R1 -- 否 --> R1x["不動作"]
-    R1 -- 是 --> X_auto{"_exclusive:<br/>syncBusy 已為 true?"}
+    R1 -- 是 --> X_auto{"_exclusive:<br/>backupBusy 已為 true?"}
     T_reset --> R2{"state is DriveLinked?"}
     R2 -- 否 --> R1x
     R2 -- 是 --> X_auto
@@ -93,11 +93,11 @@ flowchart TD
     U7 -- 否 --> U8["reportError,failed = true<br/>繼續下一領域"] --> U1
     U5 -- "其他例外(離線 / 逾時)" --> U8
     U1 -- 全部跑完 --> U9{"uploadedAny?"}
-    U9 -- 是 --> MS["_markSynced()<br/>SyncStateStore.markSynced()<br/>lastSyncAtProvider.refresh()"]
+    U9 -- 是 --> MS["_markBackedUp()<br/>BackupStateStore.markBackedUp()<br/>lastBackupAtProvider.refresh()"]
     U9 -- 否 --> U10{"failed?"}
     MS --> U10
-    U10 -- 是 --> O_failed["SyncOutcome.failed"]
-    U10 -- 否 --> O_done["SyncOutcome.done"]
+    U10 -- 是 --> O_failed["BackupOutcome.failed"]
+    U10 -- 否 --> O_done["BackupOutcome.done"]
 
     %% =========================================================
     %% _restore:逐領域整份覆寫本機(僅連結時 useCloud)
@@ -121,8 +121,8 @@ flowchart TD
     %% Drive 錯誤分類
     %% =========================================================
     ERR{"_handleDriveError<br/>GoogleDriveException.kind"}
-    ERR -- "unauthorized(401,已重試一次)<br/>insufficientScope(403)" --> E1["DriveLinkController.markNeedsRelink()<br/>state = DriveNeedsRelink"] --> O_relink["SyncOutcome.needsRelink"]
-    ERR -- "quotaExceeded(403)" --> O_full["SyncOutcome.driveFull"]
+    ERR -- "unauthorized(401,已重試一次)<br/>insufficientScope(403)" --> E1["DriveLinkController.markNeedsRelink()<br/>state = DriveNeedsRelink"] --> O_relink["BackupOutcome.needsRelink"]
+    ERR -- "quotaExceeded(403)" --> O_full["BackupOutcome.driveFull"]
     ERR -- "其他(apiNotEnabled / notFound / other)" --> O_failed
 
     %% =========================================================
@@ -133,13 +133,13 @@ flowchart TD
     O_relink --> FIN
     O_full --> FIN
     FIN --> FIN2{"來源?"}
-    FIN2 -- "afterLink(連結流程)" --> TOAST["showSyncOutcomeToast<br/>done → useCloud: backup_restored / keepLocal: backup_done<br/>busy / needsRelink / driveFull / failed 各自文案"]
-    FIN2 -- "回前景 / 統計重設" --> SILENT["靜默結束<br/>備份頁的「上次備份」由 lastSyncAtProvider 自動刷新"]
+    FIN2 -- "afterLink(連結流程)" --> TOAST["showBackupOutcomeToast<br/>done → useCloud: backup_restored / keepLocal: backup_done<br/>busy / needsRelink / driveFull / failed 各自文案"]
+    FIN2 -- "回前景 / 統計重設" --> SILENT["靜默結束<br/>備份頁的「上次備份」由 lastBackupAtProvider 自動刷新"]
 
     %% =========================================================
     %% 解除連結
     %% =========================================================
-    T_unlink --> D0{"_working 或 syncBusy?"}
+    T_unlink --> D0{"_working 或 backupBusy?"}
     D0 -- 是 --> K0t
     D0 -- 否 --> D1["確認對話框"]
     D1 -- 取消 --> R1x

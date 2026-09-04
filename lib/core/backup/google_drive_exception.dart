@@ -1,4 +1,4 @@
-/// Drive API 錯誤分類(SyncGoogleDriveService / 備份頁據此決定重試、
+/// Drive API 錯誤分類(GoogleDriveBackupService / 備份頁據此決定重試、
 /// 標記需重新連結或顯示文案)。
 enum GoogleDriveErrorKind {
   /// 401:token 失效且清快取重試一次仍失敗,或 Google session 不可用 /

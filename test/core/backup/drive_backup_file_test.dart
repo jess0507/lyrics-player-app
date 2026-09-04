@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seek_player/core/sync/drive_backup_file.dart';
+import 'package:seek_player/core/backup/drive_backup_file.dart';
 
 void main() {
   test('fromJson 解析 id / name / modifiedTime(轉 UTC)/ schemaVersion', () {

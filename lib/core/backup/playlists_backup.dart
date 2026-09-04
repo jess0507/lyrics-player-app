@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/domain_backup.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/domain_backup.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
@@ -22,7 +22,7 @@ class PlaylistsBackup implements DomainBackup {
 
   @override
   DateTime? get localModifiedAt =>
-      _ref.read(syncStateStoreProvider).playlistModifiedAt;
+      _ref.read(backupStateStoreProvider).playlistModifiedAt;
 
   @override
   Map<String, dynamic> encode() =>

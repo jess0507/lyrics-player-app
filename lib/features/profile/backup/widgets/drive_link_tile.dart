@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/drive_link_controller.dart';
-import 'package:seek_player/core/sync/drive_link_state.dart';
-import 'package:seek_player/core/sync/link_choice.dart';
-import 'package:seek_player/core/sync/sync_busy_provider.dart';
-import 'package:seek_player/core/sync/sync_google_drive_service.dart';
+import 'package:seek_player/core/backup/drive_link_controller.dart';
+import 'package:seek_player/core/backup/drive_link_state.dart';
+import 'package:seek_player/core/backup/link_choice.dart';
+import 'package:seek_player/core/backup/backup_busy_provider.dart';
+import 'package:seek_player/core/backup/google_drive_backup_service.dart';
 import 'package:seek_player/features/profile/backup/widgets/cloud_backup_found_dialog.dart';
-import 'package:seek_player/features/profile/backup/widgets/sync_outcome_toast.dart';
+import 'package:seek_player/features/profile/backup/widgets/backup_outcome_toast.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 備份頁最上方的 Google Drive 連結狀態列:
-/// - 未連結 → 「連結」:授權成功後立即跑 [SyncGoogleDriveService.afterLink]
+/// - 未連結 → 「連結」:授權成功後立即跑 [GoogleDriveBackupService.afterLink]
 ///   (雲端沒備份直接推;有備份先問要用雲端還是保留本機)。
 /// - 已連結顯示 email → 「解除連結」(先確認)。
 /// - 授權失效 → 「重新連結」,流程同連結。
@@ -31,7 +31,7 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
   /// 任何同步(連結流程、回前景自動上傳)進行中再按一次:只跳 toast,
   /// 不重複執行。
   bool _rejectIfBusy(AppLocalizations l10n) {
-    if (!_working && !ref.read(syncBusyProvider)) return false;
+    if (!_working && !ref.read(backupBusyProvider)) return false;
     showAppToast(l10n.backup_busy);
     return true;
   }
@@ -54,7 +54,7 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
     // 拿到 busy,雲端備份才不會在使用者選擇前被本機資料蓋掉。
     var choice = LinkChoice.keepLocal;
     final outcome = await ref
-        .read(syncGoogleDriveServiceProvider)
+        .read(googleDriveBackupServiceProvider)
         .afterLink(
           chooseWhenCloudHasBackup: () async {
             if (!mounted) return LinkChoice.keepLocal;
@@ -63,7 +63,7 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
         );
     if (!mounted) return;
     setState(() => _working = false);
-    showSyncOutcomeToast(
+    showBackupOutcomeToast(
       l10n,
       outcome,
       doneMessage: switch (choice) {
@@ -105,7 +105,7 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
     final state = ref.watch(driveLinkStateProvider);
     // 同步中按鈕仍可按,但只會跳 toast(見 _rejectIfBusy);leading 換成
     // spinner 讓使用者知道正在跑。
-    final syncing = _working || ref.watch(syncBusyProvider);
+    final syncing = _working || ref.watch(backupBusyProvider);
     final theme = Theme.of(context);
 
     final (

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/storage/preferences_service.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/theme/app_theme.dart';
 
@@ -213,7 +213,7 @@ class SettingsController extends Notifier<SettingsState> {
   }
 
   void _markModified() =>
-      ref.read(syncStateStoreProvider).markSettingModified();
+      ref.read(backupStateStoreProvider).markSettingModified();
 
   static String _encodeLocale(Locale locale) {
     return locale.countryCode == null

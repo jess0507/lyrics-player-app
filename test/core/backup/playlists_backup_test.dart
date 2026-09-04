@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seek_player/core/sync/playlists_backup.dart';
+import 'package:seek_player/core/backup/playlists_backup.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 
 void main() {

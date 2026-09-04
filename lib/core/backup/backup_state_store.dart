@@ -2,32 +2,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/storage/preferences_service.dart';
 
-/// 雲端同步的本機狀態：設定 / 播放清單 / 統計 / 歌詞各自最後一次本機
+/// Google Drive 備份的本機狀態：設定 / 播放清單 / 統計 / 歌詞各自最後一次本機
 /// 變更的時間，供推 / 拉判斷用；另存一份「上次同步時間」純供帳戶
 /// 頁面顯示。
 ///
-/// 推 / 拉方向一律由 SyncGoogleDriveService 直接比對 Google Drive 當下
+/// 推 / 拉方向一律由 GoogleDriveBackupService 直接比對 Google Drive 當下
 /// 各領域備份檔的 `modifiedTime`(伺服器時鐘)與這裡對應的 *ModifiedAt
-/// 決定（見 SyncGoogleDriveService._shouldPull / _shouldPush），本機不另存一份「上次同步
+/// 決定（見 GoogleDriveBackupService._shouldPull / _shouldPush），本機不另存一份「上次同步
 /// 時間」鏡射參與判斷，避免兩邊出現落差。四個領域各自獨立比對、
 /// 獨立推送，互不牽動（例如統計每次播放的變更不會連帶重推設定或歌詞）。
-class SyncStateStore {
-  SyncStateStore(this._prefs);
+class BackupStateStore {
+  BackupStateStore(this._prefs);
 
-  static const _kLastSyncAt = 'sync.lastSyncAt';
-  static const _kSettingModifiedAt = 'sync.settingModifiedAt';
-  static const _kPlaylistModifiedAt = 'sync.playlistModifiedAt';
-  static const _kStatsModifiedAt = 'sync.statsModifiedAt';
-  static const _kLyricsModifiedAt = 'sync.lyricsModifiedAt';
+  static const _kLastBackupAt = 'backup.lastBackupAt';
+  static const _kSettingModifiedAt = 'backup.settingModifiedAt';
+  static const _kPlaylistModifiedAt = 'backup.playlistModifiedAt';
+  static const _kStatsModifiedAt = 'backup.statsModifiedAt';
+  static const _kLyricsModifiedAt = 'backup.lyricsModifiedAt';
 
   final PreferencesService _prefs;
 
   /// 上次成功同步（上傳或還原）的時間；null 表示從未同步。純供帳戶
   /// 頁面顯示，不參與推 / 拉判斷。
-  DateTime? get lastSyncAt => _read(_kLastSyncAt);
+  DateTime? get lastBackupAt => _read(_kLastBackupAt);
 
-  /// 上傳成功（或還原完成）時呼叫，更新 lastSyncAt 供帳戶頁面顯示。
-  void markSynced() => _write(_kLastSyncAt, DateTime.now());
+  /// 上傳成功（或還原完成）時呼叫，更新 lastBackupAt 供帳戶頁面顯示。
+  void markBackedUp() => _write(_kLastBackupAt, DateTime.now());
 
   /// 設定最後一次本機變更的時間；null 表示從未變更。
   DateTime? get settingModifiedAt => _read(_kSettingModifiedAt);
@@ -62,6 +62,6 @@ class SyncStateStore {
       _prefs.setInt(key, value.millisecondsSinceEpoch);
 }
 
-final syncStateStoreProvider = Provider<SyncStateStore>(
-  (ref) => SyncStateStore(ref.watch(preferencesServiceProvider)),
+final backupStateStoreProvider = Provider<BackupStateStore>(
+  (ref) => BackupStateStore(ref.watch(preferencesServiceProvider)),
 );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:seek_player/core/sync/link_choice.dart';
+import 'package:seek_player/core/backup/link_choice.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 連結 Google Drive 後發現雲端已有備份:問使用者要用雲端備份覆寫本機,

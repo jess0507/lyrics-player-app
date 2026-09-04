@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
 import 'package:seek_player/core/storage/isar_service.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 
 /// 我的最愛清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
@@ -15,7 +15,7 @@ const _recentlyPlayedLimit = 200;
 
 /// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
-/// SyncGoogleDriveService 在回前景 / 連結 Drive / 統計重設時觸發,寫入當下不觸發推送。
+/// GoogleDriveBackupService 在回前景 / 連結 Drive / 統計重設時觸發,寫入當下不觸發推送。
 ///
 /// 交易一律用 writeTxnSync:Isar 禁止 async 交易進行中執行任何 sync
 /// 操作(統計在播放時每 5 秒 writeTxnSync 取樣,async 交易的 await 空檔
@@ -23,10 +23,10 @@ const _recentlyPlayedLimit = 200;
 /// active transaction");sync 交易同步執行完畢、不讓出 event loop,
 /// 不存在被撞的空檔。清單資料量小,同步寫入不影響 UI。
 class PlaylistRepository {
-  PlaylistRepository(this._isar, this._syncState);
+  PlaylistRepository(this._isar, this._backupState);
 
   final Isar _isar;
-  final SyncStateStore _syncState;
+  final BackupStateStore _backupState;
 
   IsarCollection<PlaylistEntity> get _col => _isar.playlistEntitys;
 
@@ -34,7 +34,7 @@ class PlaylistRepository {
   Stream<List<PlaylistEntity>> watchAll() =>
       _col.where().watch(fireImmediately: true);
 
-  /// 同步讀取全部清單(SyncGoogleDriveService 上傳快照用)。
+  /// 同步讀取全部清單(GoogleDriveBackupService 上傳快照用)。
   List<PlaylistEntity> getAllSync() => _col.where().findAllSync();
 
   /// 確保預設「我的最愛」清單存在;DB 內存名僅作 fallback(初始化時無
@@ -101,7 +101,7 @@ class PlaylistRepository {
           ..createdAt = DateTime.now(),
       );
     });
-    _syncState.markPlaylistModified();
+    _backupState.markPlaylistModified();
     return id;
   }
 
@@ -114,12 +114,12 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 
   Future<void> delete(int id) async {
     final deleted = _isar.writeTxnSync(() => _col.deleteSync(id));
-    if (deleted) _syncState.markPlaylistModified();
+    if (deleted) _backupState.markPlaylistModified();
   }
 
   /// 加入一首(已存在則不重覆附加)。
@@ -131,7 +131,7 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 
   Future<void> removeTrack(int id, String trackId) async {
@@ -142,7 +142,7 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 
   /// 記一筆最近播放:該曲若已在清單中先移除,再插回最前面連同當下時間
@@ -164,7 +164,7 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 
   /// 清空「最近播放」清單。
@@ -179,7 +179,7 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 
   /// 整批覆寫順序(拖曳排序用)。
@@ -191,13 +191,13 @@ class PlaylistRepository {
       _col.putSync(pl);
       return true;
     });
-    if (changed) _syncState.markPlaylistModified();
+    if (changed) _backupState.markPlaylistModified();
   }
 }
 
 final playlistRepositoryProvider = Provider<PlaylistRepository>(
   (ref) => PlaylistRepository(
     ref.watch(isarProvider),
-    ref.watch(syncStateStoreProvider),
+    ref.watch(backupStateStoreProvider),
   ),
 );

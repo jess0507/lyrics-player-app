@@ -4,7 +4,7 @@ part 'playlist_entity.g.dart';
 
 /// 一個使用者播放清單。曲目以 trackId(檔案內容指紋)的有序清單保存;
 /// 顯示時再回 music library 解析成 [Track]。
-/// 隨 Google Drive 備份連結備份至使用者的 Drive `playlists.json`(見 SyncGoogleDriveService)。
+/// 隨 Google Drive 備份連結備份至使用者的 Drive `playlists.json`(見 GoogleDriveBackupService)。
 @collection
 class PlaylistEntity {
   Id id = Isar.autoIncrement;

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/domain_backup.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/domain_backup.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
@@ -23,15 +23,15 @@ class LyricsBackup implements DomainBackup {
 
   @override
   DateTime? get localModifiedAt =>
-      _ref.read(syncStateStoreProvider).lyricsModifiedAt;
+      _ref.read(backupStateStoreProvider).lyricsModifiedAt;
 
-  /// 一次性補記,讓下一個同步班次把存量歌詞推上雲端(SyncGoogleDriveService 的
+  /// 一次性補記,讓下一個同步班次把存量歌詞推上雲端(GoogleDriveBackupService 的
   /// 推送判斷:本機 lyricsModifiedAt 為 null 時不會觸發推送)。
   void markExistingPending() {
-    final store = _ref.read(syncStateStoreProvider);
+    final store = _ref.read(backupStateStoreProvider);
     if (store.lyricsModifiedAt != null) return;
     if (_ref.read(lyricsRepositoryProvider).getAllSync().isEmpty) return;
-    debugPrint('[Sync] 補記存量歌詞為待推送');
+    debugPrint('[Backup] 補記存量歌詞為待推送');
     store.markLyricsModified();
   }
 

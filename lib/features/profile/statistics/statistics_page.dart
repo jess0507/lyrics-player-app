@@ -6,9 +6,9 @@ import 'package:seek_player/features/profile/statistics/providers/selected_stat_
 import 'package:seek_player/features/profile/statistics/providers/selected_top_tracks_provider.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
-import 'package:seek_player/core/sync/drive_link_controller.dart';
-import 'package:seek_player/core/sync/drive_link_state.dart';
-import 'package:seek_player/core/sync/sync_google_drive_service.dart';
+import 'package:seek_player/core/backup/drive_link_controller.dart';
+import 'package:seek_player/core/backup/drive_link_state.dart';
+import 'package:seek_player/core/backup/google_drive_backup_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/format.dart';
 import 'package:seek_player/features/profile/statistics/widgets/listen_time_chart.dart';
@@ -45,7 +45,7 @@ class StatisticsPage extends ConsumerWidget {
     if (confirmed != true) return;
     ref.read(statisticsControllerProvider.notifier).reset();
     // 背景覆寫雲端備份為歸零快照；失敗等下次同步達成最終一致。
-    unawaited(ref.read(syncGoogleDriveServiceProvider).uploadAfterReset());
+    unawaited(ref.read(googleDriveBackupServiceProvider).uploadAfterReset());
   }
 
   @override

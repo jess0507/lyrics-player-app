@@ -5,7 +5,7 @@ import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 import 'package:seek_player/features/cover/models/track_cover_entity.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 
 const _kCleanupDoneKey = 'trackId_cleanup_v1_done';
@@ -19,7 +19,7 @@ final _hashTrackIdPattern = RegExp(r'^[0-9a-f]{40}$');
 Future<void> cleanupNonHashTrackIds({
   required Isar isar,
   required PreferencesService prefs,
-  required SyncStateStore syncState,
+  required BackupStateStore backupState,
 }) async {
   if (prefs.getBool(_kCleanupDoneKey) ?? false) return;
 
@@ -29,7 +29,7 @@ Future<void> cleanupNonHashTrackIds({
   ];
   if (invalidLyricsIds.isNotEmpty) {
     await isar.writeTxn(() => isar.lyricsEntitys.deleteAll(invalidLyricsIds));
-    syncState.markLyricsModified();
+    backupState.markLyricsModified();
   }
 
   final invalidCoverIds = [
@@ -50,7 +50,7 @@ Future<void> cleanupNonHashTrackIds({
     await isar.writeTxn(
       () => isar.dailyTrackStatEntitys.deleteAll(invalidStatIds),
     );
-    syncState.markStatsModified();
+    backupState.markStatsModified();
   }
 
   var removedPlaylistEntries = 0;
@@ -61,7 +61,7 @@ Future<void> cleanupNonHashTrackIds({
     pl.trackIds = filtered;
     await isar.writeTxn(() => isar.playlistEntitys.put(pl));
   }
-  if (removedPlaylistEntries > 0) syncState.markPlaylistModified();
+  if (removedPlaylistEntries > 0) backupState.markPlaylistModified();
 
   debugPrint(
     'trackId cleanup: lyrics=${invalidLyricsIds.length}, '

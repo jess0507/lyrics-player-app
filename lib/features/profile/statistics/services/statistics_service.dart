@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
 import 'package:seek_player/core/storage/isar_service.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
@@ -218,14 +218,14 @@ class StatisticsController extends Notifier<StatisticsData> {
   }
 
   /// 清空本機統計（明細與期間 totals 同交易清空）。
-  /// 雲端備份的刪除由呼叫端透過 SyncGoogleDriveService 處理。
+  /// 雲端備份的刪除由呼叫端透過 GoogleDriveBackupService 處理。
   void reset() {
     _isar.writeTxnSync(() {
       _days.clearSync();
       _periods.clearSync();
     });
     state = const StatisticsData([]);
-    ref.read(syncStateStoreProvider).markStatsModified();
+    ref.read(backupStateStoreProvider).markStatsModified();
   }
 
   /// 還原雲端備份（整份覆寫本機）。
@@ -296,7 +296,7 @@ class StatisticsController extends Notifier<StatisticsData> {
       days.add(entity); // 新記錄必為今天，接在升冪清單尾端即仍有序
     }
     state = StatisticsData(days);
-    ref.read(syncStateStoreProvider).markStatsModified();
+    ref.read(backupStateStoreProvider).markStatsModified();
   }
 }
 

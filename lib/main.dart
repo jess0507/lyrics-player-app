@@ -16,7 +16,7 @@ import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/core/storage/isar_service.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/core/storage/track_id_cleanup.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/firebase_options.dart';
 
 Future<void> main() async {
@@ -81,15 +81,15 @@ Future<void> main() async {
 
   final prefs = await PreferencesService.create();
   final isar = await openIsar();
-  final syncState = SyncStateStore(prefs);
+  final backupState = BackupStateStore(prefs);
 
   // 清掉指紋化(sync v5)前留下的舊資料——trackId 非 sha1 hash 格式一律視為
   // 過期資料;只跑一次。
-  await cleanupNonHashTrackIds(isar: isar, prefs: prefs, syncState: syncState);
+  await cleanupNonHashTrackIds(isar: isar, prefs: prefs, backupState: backupState);
 
   // 確保預設「我的最愛」/「最近播放」清單存在(DB 內存名僅作 fallback,
   // UI 顯示在地化名稱)。
-  final playlistRepository = PlaylistRepository(isar, syncState);
+  final playlistRepository = PlaylistRepository(isar, backupState);
   await playlistRepository.ensureDefaultFavorites();
   await playlistRepository.ensureDefaultRecentlyPlayed();
 

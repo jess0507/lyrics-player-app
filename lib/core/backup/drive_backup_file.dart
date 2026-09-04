@@ -1,5 +1,5 @@
 /// Google Drive `appDataFolder` 裡一個備份檔的 metadata(`files.list` /
-/// 上傳回應的子集),供 SyncGoogleDriveService 比對時戳與 schemaVersion 用。
+/// 上傳回應的子集),供 GoogleDriveBackupService 比對時戳與 schemaVersion 用。
 class DriveBackupFile {
   const DriveBackupFile({
     required this.id,

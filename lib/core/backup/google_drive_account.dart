@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:seek_player/core/auth/google_sign_in_provider.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
-import 'package:seek_player/core/sync/google_drive_exception.dart';
+import 'package:seek_player/core/backup/google_drive_exception.dart';
 
 /// Google Drive 備份用的 Google 帳號授權:連結 / 解除 / 啟動時取回 session
 /// / 供 GoogleDriveClient 取 Authorization header。
@@ -115,7 +115,7 @@ class GoogleDriveAccount {
   }
 
   /// Authorization header(google_sign_in 會視需要換新 access token)。
-  /// session 不可用或不是連結的帳號時丟 unauthorized,SyncGoogleDriveService
+  /// session 不可用或不是連結的帳號時丟 unauthorized,GoogleDriveBackupService
   /// 據此標記需重新連結。
   Future<Map<String, String>> authHeaders() async {
     final account = await _ensureSession();

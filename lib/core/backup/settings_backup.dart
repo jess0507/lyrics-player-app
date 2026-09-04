@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/domain_backup.dart';
-import 'package:seek_player/core/sync/sync_state_store.dart';
+import 'package:seek_player/core/backup/domain_backup.dart';
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 
 /// 個人化設定 ↔ `settings.json`(欄位即 `SettingsState.toRemoteMap()`)。
@@ -18,7 +18,7 @@ class SettingsBackup implements DomainBackup {
 
   @override
   DateTime? get localModifiedAt =>
-      _ref.read(syncStateStoreProvider).settingModifiedAt;
+      _ref.read(backupStateStoreProvider).settingModifiedAt;
 
   @override
   Map<String, dynamic> encode() =>

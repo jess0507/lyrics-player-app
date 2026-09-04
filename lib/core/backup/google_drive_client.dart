@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:seek_player/core/sync/drive_backup_file.dart';
-import 'package:seek_player/core/sync/google_drive_account.dart';
-import 'package:seek_player/core/sync/google_drive_exception.dart';
+import 'package:seek_player/core/backup/drive_backup_file.dart';
+import 'package:seek_player/core/backup/google_drive_account.dart';
+import 'package:seek_player/core/backup/google_drive_exception.dart';
 
 /// Google Drive `appDataFolder` 專用的最小 REST client:列出 / 上傳 /
 /// 下載 / 刪除,直接用 `http` 打五個端點,不引入 googleapis。

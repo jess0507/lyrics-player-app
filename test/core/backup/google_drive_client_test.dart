@@ -5,9 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-import 'package:seek_player/core/sync/drive_backup_file.dart';
-import 'package:seek_player/core/sync/google_drive_client.dart';
-import 'package:seek_player/core/sync/google_drive_exception.dart';
+import 'package:seek_player/core/backup/drive_backup_file.dart';
+import 'package:seek_player/core/backup/google_drive_client.dart';
+import 'package:seek_player/core/backup/google_drive_exception.dart';
 
 /// 以 MockClient 驗證五個端點的請求形狀、401 重試與錯誤分類。
 void main() {
