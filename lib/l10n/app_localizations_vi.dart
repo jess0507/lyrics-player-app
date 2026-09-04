@@ -24,7 +24,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tab_more => 'Thêm';
 
   @override
-  String get profile_account => 'Tài khoản';
+  String get profile_account => 'Tài khoản và đồng bộ';
 
   @override
   String get profile_backup => 'Sao lưu';

@@ -24,7 +24,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tab_more => 'Plus';
 
   @override
-  String get profile_account => 'Compte';
+  String get profile_account => 'Compte et synchronisation';
 
   @override
   String get profile_backup => 'Sauvegarde';

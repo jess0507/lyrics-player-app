@@ -24,7 +24,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tab_more => 'Mehr';
 
   @override
-  String get profile_account => 'Konto';
+  String get profile_account => 'Konto & Synchronisierung';
 
   @override
   String get profile_backup => 'Sicherung';

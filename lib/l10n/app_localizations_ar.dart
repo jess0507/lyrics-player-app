@@ -24,7 +24,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tab_more => 'المزيد';
 
   @override
-  String get profile_account => 'الحساب';
+  String get profile_account => 'الحساب والمزامنة';
 
   @override
   String get profile_backup => 'النسخ الاحتياطي';

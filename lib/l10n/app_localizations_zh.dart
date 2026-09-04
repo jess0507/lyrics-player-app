@@ -24,7 +24,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tab_more => '更多';
 
   @override
-  String get profile_account => '帳戶';
+  String get profile_account => '帳戶同步';
 
   @override
   String get profile_backup => '備份';
@@ -807,7 +807,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get tab_more => '更多';
 
   @override
-  String get profile_account => '账户';
+  String get profile_account => '账户同步';
 
   @override
   String get profile_backup => '备份';
@@ -1591,7 +1591,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get tab_more => '更多';
 
   @override
-  String get profile_account => '帳戶';
+  String get profile_account => '帳戶同步';
 
   @override
   String get profile_backup => '備份';

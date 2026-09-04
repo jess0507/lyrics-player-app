@@ -24,7 +24,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tab_more => 'Daha Fazla';
 
   @override
-  String get profile_account => 'Hesap';
+  String get profile_account => 'Hesap ve senkronizasyon';
 
   @override
   String get profile_backup => 'Yedekleme';

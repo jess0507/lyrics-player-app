@@ -24,7 +24,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get tab_more => 'Lainnya';
 
   @override
-  String get profile_account => 'Akun';
+  String get profile_account => 'Akun & sinkronisasi';
 
   @override
   String get profile_backup => 'Cadangan';

@@ -24,7 +24,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tab_more => '더보기';
 
   @override
-  String get profile_account => '계정';
+  String get profile_account => '계정 및 동기화';
 
   @override
   String get profile_backup => '백업';

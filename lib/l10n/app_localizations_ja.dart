@@ -24,7 +24,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tab_more => 'その他';
 
   @override
-  String get profile_account => 'アカウント';
+  String get profile_account => 'アカウントと同期';
 
   @override
   String get profile_backup => 'バックアップ';

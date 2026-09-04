@@ -159,7 +159,7 @@ abstract class AppLocalizations {
   /// No description provided for @profile_account.
   ///
   /// In en, this message translates to:
-  /// **'Account'**
+  /// **'Account & Sync'**
   String get profile_account;
 
   /// No description provided for @profile_backup.

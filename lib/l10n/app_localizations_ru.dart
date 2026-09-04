@@ -24,7 +24,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tab_more => 'Ещё';
 
   @override
-  String get profile_account => 'Аккаунт';
+  String get profile_account => 'Аккаунт и синхронизация';
 
   @override
   String get profile_backup => 'Резервная копия';
