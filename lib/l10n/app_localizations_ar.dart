@@ -75,10 +75,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backup_keep_local => 'الاحتفاظ ببيانات الجهاز';
 
   @override
-  String get backup_last_synced => 'آخر نسخة احتياطية';
+  String get backup_last_backed_up => 'آخر نسخة احتياطية';
 
   @override
-  String get backup_never_synced => 'لم تتم المزامنة بعد';
+  String get backup_never_backed_up => 'لم تتم المزامنة بعد';
 
   @override
   String get backup_description =>

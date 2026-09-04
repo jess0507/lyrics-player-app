@@ -75,10 +75,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get backup_keep_local => 'Pertahankan data perangkat';
 
   @override
-  String get backup_last_synced => 'Cadangan terakhir';
+  String get backup_last_backed_up => 'Cadangan terakhir';
 
   @override
-  String get backup_never_synced => 'Belum disinkronkan';
+  String get backup_never_backed_up => 'Belum disinkronkan';
 
   @override
   String get backup_description =>

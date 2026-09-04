@@ -72,10 +72,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backup_keep_local => '保留本機資料';
 
   @override
-  String get backup_last_synced => '上次備份';
+  String get backup_last_backed_up => '上次備份';
 
   @override
-  String get backup_never_synced => '尚未同步';
+  String get backup_never_backed_up => '尚未同步';
 
   @override
   String get backup_description =>
@@ -847,10 +847,10 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get backup_keep_local => '保留本机数据';
 
   @override
-  String get backup_last_synced => '上次备份';
+  String get backup_last_backed_up => '上次备份';
 
   @override
-  String get backup_never_synced => '尚未同步';
+  String get backup_never_backed_up => '尚未同步';
 
   @override
   String get backup_description =>
@@ -1623,10 +1623,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get backup_keep_local => '保留本機資料';
 
   @override
-  String get backup_last_synced => '上次備份';
+  String get backup_last_backed_up => '上次備份';
 
   @override
-  String get backup_never_synced => '尚未同步';
+  String get backup_never_backed_up => '尚未同步';
 
   @override
   String get backup_description =>

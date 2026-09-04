@@ -73,10 +73,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get backup_keep_local => '이 기기 데이터 유지';
 
   @override
-  String get backup_last_synced => '마지막 백업';
+  String get backup_last_backed_up => '마지막 백업';
 
   @override
-  String get backup_never_synced => '아직 동기화되지 않음';
+  String get backup_never_backed_up => '아직 동기화되지 않음';
 
   @override
   String get backup_description =>

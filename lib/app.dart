@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/network/offline_toast_listener.dart';
-import 'package:seek_player/core/sync/sync_google_drive_service.dart';
+import 'package:seek_player/core/backup/google_drive_backup_service.dart';
 import 'package:seek_player/core/update/app_update_listener.dart';
 import 'package:seek_player/core/user_record/user_record_service.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
@@ -19,7 +19,7 @@ class SeekPlayerApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(syncGoogleDriveServiceProvider);
+    ref.watch(googleDriveBackupServiceProvider);
     // 開 App 時把登入使用者的設定與 App 版本單向記錄到 Firestore(見 UserRecordService)。
     ref.watch(userRecordServiceProvider);
     // 註冊背景歌詞任務的事件 port:即使任務是上個 app instance 發起

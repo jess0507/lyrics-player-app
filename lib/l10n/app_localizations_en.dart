@@ -74,10 +74,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backup_keep_local => 'Keep this device\'s data';
 
   @override
-  String get backup_last_synced => 'Last backup';
+  String get backup_last_backed_up => 'Last backup';
 
   @override
-  String get backup_never_synced => 'Not synced yet';
+  String get backup_never_backed_up => 'Not synced yet';
 
   @override
   String get backup_description =>

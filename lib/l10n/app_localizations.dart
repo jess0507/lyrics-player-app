@@ -246,17 +246,17 @@ abstract class AppLocalizations {
   /// **'Keep this device\'s data'**
   String get backup_keep_local;
 
-  /// No description provided for @backup_last_synced.
+  /// No description provided for @backup_last_backed_up.
   ///
   /// In en, this message translates to:
   /// **'Last backup'**
-  String get backup_last_synced;
+  String get backup_last_backed_up;
 
-  /// No description provided for @backup_never_synced.
+  /// No description provided for @backup_never_backed_up.
   ///
   /// In en, this message translates to:
   /// **'Not synced yet'**
-  String get backup_never_synced;
+  String get backup_never_backed_up;
 
   /// No description provided for @backup_description.
   ///

@@ -75,10 +75,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backup_keep_local => 'Cihaz verilerini koru';
 
   @override
-  String get backup_last_synced => 'Son yedekleme';
+  String get backup_last_backed_up => 'Son yedekleme';
 
   @override
-  String get backup_never_synced => 'Henüz eşitlenmedi';
+  String get backup_never_backed_up => 'Henüz eşitlenmedi';
 
   @override
   String get backup_description =>

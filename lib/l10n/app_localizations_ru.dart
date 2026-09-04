@@ -75,10 +75,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get backup_keep_local => 'Оставить данные устройства';
 
   @override
-  String get backup_last_synced => 'Последняя копия';
+  String get backup_last_backed_up => 'Последняя копия';
 
   @override
-  String get backup_never_synced => 'Ещё не синхронизировано';
+  String get backup_never_backed_up => 'Ещё не синхронизировано';
 
   @override
   String get backup_description =>

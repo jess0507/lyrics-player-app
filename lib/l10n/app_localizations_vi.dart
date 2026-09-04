@@ -75,10 +75,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get backup_keep_local => 'Giữ dữ liệu thiết bị';
 
   @override
-  String get backup_last_synced => 'Sao lưu gần nhất';
+  String get backup_last_backed_up => 'Sao lưu gần nhất';
 
   @override
-  String get backup_never_synced => 'Chưa đồng bộ';
+  String get backup_never_backed_up => 'Chưa đồng bộ';
 
   @override
   String get backup_description =>

@@ -73,10 +73,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backup_keep_local => 'この端末のデータを残す';
 
   @override
-  String get backup_last_synced => '最終バックアップ';
+  String get backup_last_backed_up => '最終バックアップ';
 
   @override
-  String get backup_never_synced => '未同期';
+  String get backup_never_backed_up => '未同期';
 
   @override
   String get backup_description =>

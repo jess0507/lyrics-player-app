@@ -74,10 +74,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backup_keep_local => 'इस डिवाइस का डेटा रखें';
 
   @override
-  String get backup_last_synced => 'पिछला बैकअप';
+  String get backup_last_backed_up => 'पिछला बैकअप';
 
   @override
-  String get backup_never_synced => 'अभी तक सिंक नहीं हुआ';
+  String get backup_never_backed_up => 'अभी तक सिंक नहीं हुआ';
 
   @override
   String get backup_description =>
