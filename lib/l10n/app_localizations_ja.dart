@@ -27,9 +27,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_account => 'アカウントと同期';
 
   @override
-  String get profile_backup => 'バックアップ';
-
-  @override
   String get backup_link => 'Google ドライブを連携';
 
   @override

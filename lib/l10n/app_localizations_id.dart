@@ -27,9 +27,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get profile_account => 'Akun & sinkronisasi';
 
   @override
-  String get profile_backup => 'Cadangan';
-
-  @override
   String get backup_link => 'Tautkan Google Drive';
 
   @override

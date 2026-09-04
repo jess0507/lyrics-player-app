@@ -27,9 +27,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get profile_account => 'Account e sincronizzazione';
 
   @override
-  String get profile_backup => 'Backup';
-
-  @override
   String get backup_link => 'Collega Google Drive';
 
   @override

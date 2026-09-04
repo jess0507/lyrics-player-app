@@ -27,9 +27,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profile_account => 'Konto & Synchronisierung';
 
   @override
-  String get profile_backup => 'Sicherung';
-
-  @override
   String get backup_link => 'Google Drive verknüpfen';
 
   @override

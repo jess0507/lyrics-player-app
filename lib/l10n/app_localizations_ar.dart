@@ -27,9 +27,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_account => 'الحساب والمزامنة';
 
   @override
-  String get profile_backup => 'النسخ الاحتياطي';
-
-  @override
   String get backup_link => 'ربط Google Drive';
 
   @override

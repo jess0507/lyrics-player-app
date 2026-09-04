@@ -27,9 +27,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_account => '계정 및 동기화';
 
   @override
-  String get profile_backup => '백업';
-
-  @override
   String get backup_link => 'Google 드라이브 연결';
 
   @override

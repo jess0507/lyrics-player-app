@@ -27,9 +27,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile_account => 'Hesap ve senkronizasyon';
 
   @override
-  String get profile_backup => 'Yedekleme';
-
-  @override
   String get backup_link => 'Google Drive\'ı bağla';
 
   @override

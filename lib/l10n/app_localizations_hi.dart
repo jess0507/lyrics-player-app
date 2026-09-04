@@ -27,9 +27,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profile_account => 'खाता और सिंक';
 
   @override
-  String get profile_backup => 'बैकअप';
-
-  @override
   String get backup_link => 'Google Drive लिंक करें';
 
   @override

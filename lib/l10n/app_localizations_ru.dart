@@ -27,9 +27,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_account => 'Аккаунт и синхронизация';
 
   @override
-  String get profile_backup => 'Резервная копия';
-
-  @override
   String get backup_link => 'Связать с Google Диском';
 
   @override

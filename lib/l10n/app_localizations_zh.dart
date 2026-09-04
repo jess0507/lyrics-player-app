@@ -27,9 +27,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_account => '帳戶同步';
 
   @override
-  String get profile_backup => '備份';
-
-  @override
   String get backup_link => '連結 Google 雲端硬碟';
 
   @override
@@ -808,9 +805,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get profile_account => '账户同步';
-
-  @override
-  String get profile_backup => '备份';
 
   @override
   String get backup_link => '关联 Google 云端硬盘';
@@ -1592,9 +1586,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get profile_account => '帳戶同步';
-
-  @override
-  String get profile_backup => '備份';
 
   @override
   String get backup_link => '連結 Google 雲端硬碟';

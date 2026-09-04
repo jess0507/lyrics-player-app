@@ -27,9 +27,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_account => 'Tài khoản và đồng bộ';
 
   @override
-  String get profile_backup => 'Sao lưu';
-
-  @override
   String get backup_link => 'Liên kết Google Drive';
 
   @override
