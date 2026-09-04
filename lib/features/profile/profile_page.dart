@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:seek_player/features/profile/reset/app_data_reset_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -17,7 +19,8 @@ enum _ProfileEntry {
   statistics(Icons.insights_outlined, path: 'statistics'),
   settings(Icons.settings_outlined, path: 'settings'),
   about(Icons.info_outline, path: 'about'),
-  reset(Icons.restart_alt);
+  reset(Icons.restart_alt),
+  feedback(Icons.mail_outline);
 
   const _ProfileEntry(this.icon, {this.path});
 
@@ -35,6 +38,7 @@ enum _ProfileEntry {
     settings => l10n.profile_settings,
     about => l10n.profile_about,
     reset => l10n.profile_reset,
+    feedback => l10n.profile_feedback,
   };
 
   Future<void> onTap(BuildContext context, WidgetRef ref) async {
@@ -44,6 +48,8 @@ enum _ProfileEntry {
         context.go('/profile/$path');
       case reset:
         await _confirmReset(context, ref);
+      case feedback:
+        await _sendFeedback(context);
     }
   }
 }
@@ -77,6 +83,29 @@ Future<void> _confirmReset(BuildContext context, WidgetRef ref) async {
     await Restart.restartApp(mode: RestartMode.process);
   } else {
     showAppToast(l10n.profile_reset_restart_hint);
+  }
+}
+
+/// 意見回饋收件信箱。
+const _feedbackEmail = 'merukoo0507@gmail.com';
+
+/// 以 mailto 開啟系統郵件 App;裝置沒有可處理的 App(或平台拒絕)時
+/// 改用 toast 提示信箱,讓使用者自行寄信。
+Future<void> _sendFeedback(BuildContext context) async {
+  final l10n = AppLocalizations.of(context)!;
+  final uri = Uri(
+    scheme: 'mailto',
+    path: _feedbackEmail,
+    query: 'subject=${Uri.encodeComponent('Seek Player Feedback')}',
+  );
+  var launched = false;
+  try {
+    launched = await launchUrl(uri);
+  } on PlatformException {
+    launched = false;
+  }
+  if (!launched) {
+    showAppToast(l10n.profile_feedback_no_mail_app(_feedbackEmail));
   }
 }
 
