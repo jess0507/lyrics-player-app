@@ -10,7 +10,7 @@ import 'package:seek_player/features/profile/statistics/services/statistics_serv
 /// `{ "months": { "yyyy-MM": { "days": { "yyyy-MM-dd": { trackId: {title,
 /// playCount, listenMs} } }, "playCount", "listenMs" } } }`。
 /// 按月分桶只是沿用既有 `monthlyTotals()` 的結構(月粒度以雲端為準,
-/// 見 StatisticsController.restoreFromRemote),不再有 Firestore 的大小考量。
+/// 見 StatisticsController.restoreFromRemote)。
 class StatisticsBackup implements DomainBackup {
   StatisticsBackup(this._ref);
 
@@ -25,10 +25,6 @@ class StatisticsBackup implements DomainBackup {
   @override
   DateTime? get localModifiedAt =>
       _ref.read(syncStateStoreProvider).statsModifiedAt;
-
-  /// 讀一次統計 provider,確保 prefs -> Isar 遷移已執行
-  /// (遷移視為本機變更,會更新 statsModifiedAt)。上傳判斷前呼叫。
-  void ensureMigrated() => _ref.read(statisticsControllerProvider);
 
   @override
   Map<String, dynamic> encode() => encodeStatistics(

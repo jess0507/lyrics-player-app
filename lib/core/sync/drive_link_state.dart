@@ -1,4 +1,4 @@
-/// Google Drive 備份連結的 UI 狀態(備份頁顯示、SyncService 據此決定
+/// Google Drive 備份連結的 UI 狀態(備份頁顯示、SyncGoogleDriveService 據此決定
 /// 是否可同步)。
 sealed class DriveLinkState {
   const DriveLinkState();

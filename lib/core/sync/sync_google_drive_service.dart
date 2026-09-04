@@ -12,19 +12,23 @@ import 'package:seek_player/core/sync/drive_link_controller.dart';
 import 'package:seek_player/core/sync/drive_link_state.dart';
 import 'package:seek_player/core/sync/google_drive_client.dart';
 import 'package:seek_player/core/sync/google_drive_exception.dart';
+import 'package:seek_player/core/sync/last_sync_at_provider.dart';
+import 'package:seek_player/core/sync/link_choice.dart';
 import 'package:seek_player/core/sync/lyrics_backup.dart';
 import 'package:seek_player/core/sync/playlists_backup.dart';
 import 'package:seek_player/core/sync/settings_backup.dart';
 import 'package:seek_player/core/sync/statistics_backup.dart';
+import 'package:seek_player/core/sync/sync_busy_provider.dart';
 import 'package:seek_player/core/sync/sync_outcome.dart';
 import 'package:seek_player/core/sync/sync_state_store.dart';
 
 /// 四個領域(設定 / 播放清單 / 統計 / 歌詞)與使用者自己的 Google Drive
-/// `appDataFolder` 之間的備份調度(plan 26,取代 Firestore 的 SyncService)。
+/// `appDataFolder` 之間的備份調度(plan 26)。
 ///
-/// 每個領域一個 JSON 檔;推 / 拉方向由 Drive 回傳的 `modifiedTime`
-/// (伺服器時鐘)與本機 SyncStateStore 的 *ModifiedAt 逐領域比對決定,
-/// 互不牽動;整份快照語意、多裝置 last-write-wins、不合併。
+/// 每個領域一個 JSON 檔。自動推:回前景時以 Drive 回傳的 `modifiedTime`
+/// (伺服器時鐘)與本機 SyncStateStore 的 *ModifiedAt 逐領域比對,只推本機
+/// 較新的。拉只發生在連結當下使用者選「使用雲端備份」([afterLink]),
+/// 雲端有檔就整份覆寫。整份快照語意、多裝置 last-write-wins、不合併。
 class SyncGoogleDriveService {
   SyncGoogleDriveService(this.ref) {
     _init();
@@ -32,8 +36,7 @@ class SyncGoogleDriveService {
 
   final Ref ref;
 
-  /// Drive 備份格式版號(寫進每個檔的 appProperties)。與舊 Firestore 的
-  /// v7 無關,兩者不互通。
+  /// Drive 備份格式版號(寫進每個檔的 appProperties)。
   static const schemaVersion = 1;
 
   SyncStateStore get _store => ref.read(syncStateStoreProvider);
@@ -49,112 +52,95 @@ class SyncGoogleDriveService {
     ref.read(lyricsBackupProvider),
   ];
 
-  /// 同步一次只跑一件事:啟動、回前景、使用者手動觸發可能重疊,
-  /// 串成佇列依序執行。
-  Future<void> _queue = Future.value();
+  SyncBusyController get _busy => ref.read(syncBusyProvider.notifier);
 
   void _init() {
     ref.read(lyricsBackupProvider).markExistingPending();
 
-    // 連結狀態轉為可用(使用者剛連結、或啟動時取回 session)→ 先拉後推。
-    ref.listen<DriveLinkState>(driveLinkStateProvider, (prev, next) {
-      if (next is DriveLinked && prev is! DriveLinked) {
-        debugPrint('[Sync] Drive 已連結(${next.email}),開始同步');
-        unawaited(_serialized(_restoreThenUpload));
-      }
-    });
-    unawaited(_onStartup());
+    // 啟動只負責取回 session 讓狀態轉為 DriveLinked,不自動同步。
+    unawaited(_link.restoreSession());
 
-    final lifecycle = AppLifecycleListener(
-      onResume: () {
-        if (ref.read(driveLinkStateProvider) is! DriveLinked) return;
-        debugPrint('[Sync] App 回前景,檢查是否上傳');
-        unawaited(_serialized(_upload));
-      },
-    );
+    final lifecycle = AppLifecycleListener(onResume: _onResume);
     ref.onDispose(lifecycle.dispose);
   }
 
-  Future<void> _onStartup() async {
-    // build() 已是 DriveLinked(session 早就在)時 restoreSession 不會再
-    // 觸發狀態轉移,要自己補跑一次同步。
-    final alreadyLinked = ref.read(driveLinkStateProvider) is DriveLinked;
-    final ok = await _link.restoreSession();
-    if (ok && alreadyLinked) unawaited(_serialized(_restoreThenUpload));
+  void _onResume() {
+    if (ref.read(driveLinkStateProvider) is! DriveLinked) return;
+    debugPrint('[Sync] App 回前景,檢查是否上傳');
+    unawaited(_exclusive(_upload));
   }
 
-  Future<T> _serialized<T>(Future<T> Function() task) {
-    final result = _queue.then((_) => task());
-    _queue = result.then((_) {}, onError: (_) {});
-    return result;
+  /// 同步一次只跑一件事:回前景、使用者手動觸發可能重疊。
+  /// 已有任務在跑時新的觸發直接略過、不排隊(避免連跑多輪耗電),
+  /// 回傳 null 表示被略過;執行期間 [syncBusyProvider] 為 true。
+  Future<T?> _exclusive<T>(Future<T> Function() task) async {
+    if (ref.read(syncBusyProvider)) {
+      debugPrint('[Sync] 同步進行中,略過本次觸發');
+      return null;
+    }
+    _busy.busy = true;
+    try {
+      return await task();
+    } finally {
+      _busy.busy = false;
+    }
   }
 
   // ---------------------------------------------------------------------------
-  // 對外 API(備份頁 / 統計重設)
+  // 對外 API(更多頁的備份列 / 統計重設)
 
-  /// 備份頁「同步到雲端」:直接跑一次上傳(四領域仍各自依時戳判斷是否真的
-  /// 要推),讓使用者主動確認資料已送上雲端。
-  Future<SyncOutcome> syncToCloud() => _serialized(() async {
-    if (ref.read(driveLinkStateProvider) is! DriveLinked) {
-      return SyncOutcome.notLinked;
-    }
-    return _upload();
-  });
-
-  /// 備份頁「同步到本地」:不比時戳,雲端有的檔全部拉下來覆寫本機
-  /// (換機 / 誤刪後手動救回)。
-  Future<SyncOutcome> syncToLocal() => _serialized(() async {
-    if (ref.read(driveLinkStateProvider) is! DriveLinked) {
-      return SyncOutcome.notLinked;
-    }
-    try {
-      final remote = await _listRemote();
-      if (remote.isEmpty) return SyncOutcome.nothingToRestore;
-      return _restore(remote, force: true);
-    } on GoogleDriveException catch (e, s) {
-      return _handleDriveError(e, s, reason: '同步到本地失敗');
-    } catch (e, s) {
-      reportError(e, s, reason: '同步到本地失敗');
-      return SyncOutcome.failed;
-    }
-  });
+  /// 連結成功後由 UI 立即呼叫(中間不可有 await,確保先於回前景的自動
+  /// 上傳搶到 busy):
+  /// - 雲端沒有備份 → 直接把本機四領域推上去。
+  /// - 雲端已有備份 → 由 [chooseWhenCloudHasBackup] 問使用者:
+  ///   [LinkChoice.useCloud] 整份拉下來覆寫本機;
+  ///   [LinkChoice.keepLocal] 不比時戳整份推上去覆寫雲端。
+  /// 問答期間持續持有 busy,回前景不會插進來上傳。
+  Future<SyncOutcome> afterLink({
+    required Future<LinkChoice> Function() chooseWhenCloudHasBackup,
+  }) async {
+    final outcome = await _exclusive(() async {
+      if (ref.read(driveLinkStateProvider) is! DriveLinked) {
+        return SyncOutcome.notLinked;
+      }
+      Map<String, DriveBackupFile> remote;
+      try {
+        remote = await _listRemote();
+      } on GoogleDriveException catch (e, s) {
+        return _handleDriveError(e, s, reason: '列出 Drive 備份失敗');
+      } catch (e, s) {
+        reportError(e, s, reason: '列出 Drive 備份失敗');
+        return SyncOutcome.failed;
+      }
+      if (remote.isEmpty) {
+        debugPrint('[Sync] 雲端沒有備份,推本機資料');
+        return _upload(remote: remote);
+      }
+      final choice = await chooseWhenCloudHasBackup();
+      debugPrint('[Sync] 雲端已有備份,使用者選擇 $choice');
+      return switch (choice) {
+        LinkChoice.useCloud => _restore(remote),
+        LinkChoice.keepLocal => _upload(remote: remote, force: true),
+      };
+    });
+    return outcome ?? SyncOutcome.busy;
+  }
 
   /// 統計重設後呼叫:立即推統計歸零快照,不等下次同步班次。
-  /// 未連結時為 no-op。
+  /// 未連結或已有同步在跑時為 no-op(後者下次班次會再推)。
   Future<void> uploadAfterReset() async {
     if (ref.read(driveLinkStateProvider) is! DriveLinked) {
       debugPrint('[Sync] 未連結 Drive,重設後不上傳');
       return;
     }
-    await _serialized(_upload);
+    await _exclusive(_upload);
   }
 
   // ---------------------------------------------------------------------------
   // 內部流程
 
-  /// 連結成功 / 啟動取回 session 當下:先依時戳把雲端較新的領域拉下來,
-  /// 再把本機較新的領域推上去。
-  Future<void> _restoreThenUpload() async {
-    Map<String, DriveBackupFile> remote;
-    try {
-      remote = await _listRemote();
-    } on GoogleDriveException catch (e, s) {
-      _handleDriveError(e, s, reason: '列出 Drive 備份失敗');
-      return;
-    } catch (e, s) {
-      reportError(e, s, reason: '列出 Drive 備份失敗');
-      return;
-    }
-    final pulled = await _restore(remote, force: false);
-    if (pulled == SyncOutcome.needsRelink) return;
-    await _upload(remote: remote);
-  }
-
-  /// 逐領域還原。[force] 為 false 時只拉雲端較新的;true 時雲端有檔就拉。
-  Future<SyncOutcome> _restore(
-    Map<String, DriveBackupFile> remote, {
-    required bool force,
-  }) async {
+  /// 逐領域還原:雲端有檔就拉、覆寫本機,不比時戳(連結時選「使用雲端備份」)。
+  Future<SyncOutcome> _restore(Map<String, DriveBackupFile> remote) async {
     var restoredAny = false;
     var failed = false;
     for (final domain in _domains) {
@@ -168,14 +154,6 @@ class SyncGoogleDriveService {
           '[Sync] 雲端 ${domain.label} schemaVersion ${file.schemaVersion} '
           '較新(本機 App 尚未升級),跳過還原',
         );
-        continue;
-      }
-      if (!force &&
-          !_shouldPull(
-            remote: file.modifiedTime,
-            local: domain.localModifiedAt,
-          )) {
-        debugPrint('[Sync] 本機 ${domain.label} 較新,跳過還原');
         continue;
       }
       try {
@@ -201,13 +179,16 @@ class SyncGoogleDriveService {
       }
     }
     // 還原後更新顯示用的「上次同步時間」;各 *ModifiedAt 不動(還原不算本機變更)。
-    if (restoredAny) _store.markSynced();
+    if (restoredAny) _markSynced();
     return failed ? SyncOutcome.failed : SyncOutcome.done;
   }
 
-  /// 逐領域上傳本機較新(或雲端沒有)的檔。[remote] 未提供時先 list 一次。
-  Future<SyncOutcome> _upload({Map<String, DriveBackupFile>? remote}) async {
-    ref.read(statisticsBackupProvider).ensureMigrated();
+  /// 逐領域上傳本機較新(或雲端沒有)的檔;[force] 為 true 時不比時戳全推
+  /// (連結時選「保留本機資料」)。[remote] 未提供時先 list 一次。
+  Future<SyncOutcome> _upload({
+    Map<String, DriveBackupFile>? remote,
+    bool force = false,
+  }) async {
     try {
       remote ??= await _listRemote();
     } on GoogleDriveException catch (e, s) {
@@ -228,10 +209,11 @@ class SyncGoogleDriveService {
         );
         continue;
       }
-      if (!_shouldPush(
-        remote: file?.modifiedTime,
-        local: domain.localModifiedAt,
-      )) {
+      if (!force &&
+          !_shouldPush(
+            remote: file?.modifiedTime,
+            local: domain.localModifiedAt,
+          )) {
         continue;
       }
       try {
@@ -261,9 +243,15 @@ class SyncGoogleDriveService {
         failed = true;
       }
     }
-    if (uploadedAny) _store.markSynced();
+    if (uploadedAny) _markSynced();
     if (!uploadedAny && !failed) debugPrint('[Sync] 雲端已是最新,跳過上傳');
     return failed ? SyncOutcome.failed : SyncOutcome.done;
+  }
+
+  /// 更新「上次同步時間」並通知備份頁刷新。
+  void _markSynced() {
+    _store.markSynced();
+    ref.read(lastSyncAtProvider.notifier).refresh();
   }
 
   /// 列出 appDataFolder,以檔名為 key。同名多份(上傳中斷後重試才可能
@@ -309,15 +297,6 @@ class SyncGoogleDriveService {
     };
   }
 
-  static bool _shouldPull({
-    required DateTime? remote,
-    required DateTime? local,
-  }) {
-    if (remote == null) return false;
-    if (local == null) return true;
-    return remote.isAfter(local);
-  }
-
   static bool _shouldPush({
     required DateTime? remote,
     required DateTime? local,
@@ -328,7 +307,7 @@ class SyncGoogleDriveService {
   }
 }
 
-/// 於 App 根 widget watch 一次以啟動同步(建立後自行監聽連結狀態與 lifecycle)。
+/// 於 App 根 widget watch 一次以啟動同步(建立後自行取回 session 並監聽 lifecycle)。
 final syncGoogleDriveServiceProvider = Provider<SyncGoogleDriveService>(
   (ref) => SyncGoogleDriveService(ref),
 );

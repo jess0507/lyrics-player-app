@@ -1,5 +1,5 @@
 /// Google Drive `appDataFolder` 裡一個備份檔的 metadata(`files.list` /
-/// 上傳回應的子集),供 SyncService 比對時戳與 schemaVersion 用。
+/// 上傳回應的子集),供 SyncGoogleDriveService 比對時戳與 schemaVersion 用。
 class DriveBackupFile {
   const DriveBackupFile({
     required this.id,
@@ -14,8 +14,8 @@ class DriveBackupFile {
   /// 檔名,對應四個領域(`settings.json` 等)。
   final String name;
 
-  /// Drive 伺服器時鐘的最後修改時間(UTC),對應原 Firestore 的
-  /// `*UpdatedAt` server timestamp。
+  /// Drive 伺服器時鐘的最後修改時間(UTC),推 / 拉時與本機
+  /// `*ModifiedAt` 比對。
   final DateTime modifiedTime;
 
   /// `appProperties.schemaVersion`;缺或非數字時為 null(視為最舊版)。

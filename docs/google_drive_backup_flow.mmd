@@ -1,0 +1,159 @@
+flowchart TD
+%% Google Drive 備份流程(plan 26)
+%% 對應程式:
+%%   lib/core/sync/sync_google_drive_service.dart   調度(afterLink / _onResume / uploadAfterReset / _upload / _restore)
+%%   lib/core/sync/drive_link_controller.dart       連結狀態(DriveNotLinked / DriveLinked / DriveNeedsRelink)
+%%   lib/core/sync/google_drive_account.dart        Google 登入 + drive.appdata 授權 + session
+%%   lib/core/sync/google_drive_client.dart         appDataFolder REST(list / upload / download / delete)
+%%   lib/core/sync/sync_state_store.dart            各領域 *ModifiedAt 與 lastSyncAt(prefs)
+%%   lib/features/profile/backup/widgets/drive_link_tile.dart      備份頁連結列
+%%   lib/features/profile/backup/widgets/cloud_backup_found_dialog.dart 雲端已有備份對話框
+%% -
+%% 語意:四個領域(settings / playlists / statistics / lyrics)各一個 JSON 檔,
+%% 整份快照、多裝置 last-write-wins、不合併。拉只發生在連結當下選「使用雲端備份」。
+    %% =========================================================
+    %% 觸發點
+    %% =========================================================
+    subgraph triggers["觸發點"]
+        T_launch["App 啟動<br/>syncGoogleDriveServiceProvider 建立"]
+        T_resume["App 回前景<br/>AppLifecycleListener.onResume"]
+        T_link["備份頁按「連結 / 重新連結」<br/>DriveLinkTile._link"]
+        T_reset["統計頁重設統計<br/>uploadAfterReset()"]
+        T_unlink["備份頁按「解除連結」<br/>DriveLinkTile._unlink"]
+    end
+
+    %% =========================================================
+    %% App 啟動:只取回 session,不同步
+    %% =========================================================
+    T_launch --> L1["lyricsBackup.markExistingPending()<br/>DriveLinkController.restoreSession()"]
+    L1 --> L2{"prefs 曾連結?<br/>backup.driveLinked"}
+    L2 -- 否 --> S_notLinked(["DriveNotLinked"])
+    L2 -- 是 --> L3["GoogleSignIn.signInSilently()"]
+    L3 --> L4{"取回 session<br/>且 email == 連結時的帳號?"}
+    L4 -- 是 --> S_linked(["DriveLinked(email)"])
+    L4 -- 否 --> S_relink(["DriveNeedsRelink(lastEmail)<br/>備份頁顯示「需重新連結」"])
+
+    %% =========================================================
+    %% 連結流程
+    %% =========================================================
+    T_link --> K0{"_working 或 syncBusy?"}
+    K0 -- 是 --> K0t["toast: backup_busy"]
+    K0 -- 否 --> K1["GoogleDriveAccount.link()<br/>currentUser → signInSilently → signIn(帳號選擇器)"]
+    K1 --> K2{"使用者取消登入?"}
+    K2 -- 是 --> K2x["回 null,狀態不變,不跳 toast"]
+    K2 -- 否 --> K3["requestScopes(drive.appdata)<br/>增量授權"]
+    K3 --> K4{"授權通過?"}
+    K4 -- 否 --> K2x
+    K4 -- 是 --> K5["prefs 寫入 driveLinked=true、driveEmail<br/>state = DriveLinked(email)"]
+    K5 --> A0["立即呼叫 afterLink()<br/>(中間不可 await,先於回前景搶到 busy)"]
+
+    %% =========================================================
+    %% afterLink:連結後首次同步
+    %% =========================================================
+    A0 --> X_link{"_exclusive:<br/>syncBusy 已為 true?"}
+    X_link -- 是 --> A_busy["SyncOutcome.busy"]
+    X_link -- 否 --> A1["busy = true"]
+    A1 --> A2["_listRemote()<br/>GET files?spaces=appDataFolder<br/>同名多份取 modifiedTime 最新、其餘刪除"]
+    A2 -- GoogleDriveException --> ERR
+    A2 --> A3{"雲端有備份檔?"}
+    A3 -- 否 --> UP["_upload(remote)"]
+    A3 -- 是 --> A4["showCloudBackupFoundDialog<br/>不可點外面關閉"]
+    A4 --> A5{"LinkChoice"}
+    A5 -- "keepLocal 保留本機" --> UPF["_upload(remote, force: true)<br/>不比時戳,四領域全推"]
+    A5 -- "useCloud 使用雲端備份" --> RS["_restore(remote)"]
+
+    %% =========================================================
+    %% 回前景 / 統計重設:只推
+    %% =========================================================
+    T_resume --> R1{"state is DriveLinked?"}
+    R1 -- 否 --> R1x["不動作"]
+    R1 -- 是 --> X_auto{"_exclusive:<br/>syncBusy 已為 true?"}
+    T_reset --> R2{"state is DriveLinked?"}
+    R2 -- 否 --> R1x
+    R2 -- 是 --> X_auto
+    X_auto -- 是 --> X_skip["略過本次觸發,不排隊"]
+    X_auto -- 否 --> UP
+
+    %% =========================================================
+    %% _upload:逐領域推本機較新的
+    %% =========================================================
+    UP --> U0["remote ??= _listRemote()"]
+    UPF --> U0
+    U0 --> U1["for domain in<br/>settings / playlists / statistics / lyrics"]
+    U1 --> U2{"雲端檔 schemaVersion<br/>> 本機 schemaVersion(1)?"}
+    U2 -- 是 --> U2s["跳過該領域(App 尚未升級)"] --> U1
+    U2 -- 否 --> U3{"force?"}
+    U3 -- 是 --> U5
+    U3 -- 否 --> U4{"_shouldPush<br/>雲端無檔 → 推<br/>本機從未變更 → 不推<br/>否則 localModifiedAt > modifiedTime → 推"}
+    U4 -- 不推 --> U1
+    U4 -- 推 --> U5["domain.encode() → JSON bytes<br/>GoogleDriveClient.upload()<br/>新檔:POST metadata 取 id → PATCH media<br/>既有:PATCH media(schemaVersion 變才補 PATCH metadata)"]
+    U5 -- 成功 --> U6["uploadedAny = true"] --> U1
+    U5 -- "GoogleDriveException" --> U7{"needsRelink 或 driveFull?"}
+    U7 -- 是 --> ERR
+    U7 -- 否 --> U8["reportError,failed = true<br/>繼續下一領域"] --> U1
+    U5 -- "其他例外(離線 / 逾時)" --> U8
+    U1 -- 全部跑完 --> U9{"uploadedAny?"}
+    U9 -- 是 --> MS["_markSynced()<br/>SyncStateStore.markSynced()<br/>lastSyncAtProvider.refresh()"]
+    U9 -- 否 --> U10{"failed?"}
+    MS --> U10
+    U10 -- 是 --> O_failed["SyncOutcome.failed"]
+    U10 -- 否 --> O_done["SyncOutcome.done"]
+
+    %% =========================================================
+    %% _restore:逐領域整份覆寫本機(僅連結時 useCloud)
+    %% =========================================================
+    RS --> S1["for domain in 四領域"]
+    S1 --> S2{"雲端有該領域檔?"}
+    S2 -- 否 --> S1
+    S2 -- 是 --> S3{"schemaVersion > 本機?"}
+    S3 -- 是 --> S3s["跳過該領域"] --> S1
+    S3 -- 否 --> S4["GoogleDriveClient.download(id)<br/>jsonDecode → domain.restore(json)<br/>整份覆寫、容錯讀取<br/>不更新 *ModifiedAt(還原不算本機變更)"]
+    S4 -- 成功 --> S5["restoredAny = true"] --> S1
+    S4 -- "GoogleDriveException" --> S6{"needsRelink?"}
+    S6 -- 是 --> ERR
+    S6 -- 否 --> S7["reportError,failed = true"] --> S1
+    S4 -- "其他例外" --> S7
+    S1 -- 全部跑完 --> S8{"restoredAny?"}
+    S8 -- 是 --> MS
+    S8 -- 否 --> U10
+
+    %% =========================================================
+    %% Drive 錯誤分類
+    %% =========================================================
+    ERR{"_handleDriveError<br/>GoogleDriveException.kind"}
+    ERR -- "unauthorized(401,已重試一次)<br/>insufficientScope(403)" --> E1["DriveLinkController.markNeedsRelink()<br/>state = DriveNeedsRelink"] --> O_relink["SyncOutcome.needsRelink"]
+    ERR -- "quotaExceeded(403)" --> O_full["SyncOutcome.driveFull"]
+    ERR -- "其他(apiNotEnabled / notFound / other)" --> O_failed
+
+    %% =========================================================
+    %% 結果回到 UI
+    %% =========================================================
+    O_done --> FIN["busy = false"]
+    O_failed --> FIN
+    O_relink --> FIN
+    O_full --> FIN
+    FIN --> FIN2{"來源?"}
+    FIN2 -- "afterLink(連結流程)" --> TOAST["showSyncOutcomeToast<br/>done → useCloud: backup_restored / keepLocal: backup_done<br/>busy / needsRelink / driveFull / failed 各自文案"]
+    FIN2 -- "回前景 / 統計重設" --> SILENT["靜默結束<br/>備份頁的「上次備份」由 lastSyncAtProvider 自動刷新"]
+
+    %% =========================================================
+    %% 解除連結
+    %% =========================================================
+    T_unlink --> D0{"_working 或 syncBusy?"}
+    D0 -- 是 --> K0t
+    D0 -- 否 --> D1["確認對話框"]
+    D1 -- 取消 --> R1x
+    D1 -- 確認 --> D2["GoogleDriveAccount.unlink()<br/>GoogleSignIn.disconnect()(失敗則 signOut)<br/>prefs 清 driveLinked / driveEmail"]
+    D2 --> D3(["DriveNotLinked<br/>Drive 上的備份檔保留,再連結同帳號可還原"])
+
+    %% =========================================================
+    %% 樣式
+    %% =========================================================
+    classDef trigger fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef state fill:#fff8e1,stroke:#f9a825,color:#5d4037
+    classDef outcome fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef error fill:#ffebee,stroke:#c62828,color:#b71c1c
+    class T_launch,T_resume,T_link,T_reset,T_unlink trigger
+    class S_notLinked,S_linked,S_relink,D3 state
+    class O_done,O_failed,O_relink,O_full,A_busy outcome
+    class ERR,E1 error

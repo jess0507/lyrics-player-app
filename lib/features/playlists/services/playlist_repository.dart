@@ -85,8 +85,8 @@ class PlaylistRepository {
   /// 新增清單,回傳新 id。
   ///
   /// id 取現有清單最大值 + 1,不吃 Isar 內建 autoIncrement 計數器：
-  /// 該計數器不會因 [restoreFromRemote] 寫入的外來 id（雲端 `playlist`
-  /// 子集合 docId）往前跳號,若沿用會導致新清單 id 撞號、覆寫掉剛還原
+  /// 該計數器不會因 [restoreFromRemote] 寫入的外來 id（雲端備份檔內的
+  /// 清單 id）往前跳號,若沿用會導致新清單 id 撞號、覆寫掉剛還原
   /// 的清單。
   Future<int> create(String name) async {
     final id = _isar.writeTxnSync(() {

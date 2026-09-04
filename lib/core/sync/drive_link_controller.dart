@@ -6,7 +6,7 @@ import 'package:seek_player/core/sync/drive_link_state.dart';
 import 'package:seek_player/core/sync/google_drive_account.dart';
 
 /// Google Drive 備份連結狀態的單一來源:備份頁 watch 它畫 UI,
-/// SyncService watch 它決定何時同步(見 SyncService._init)。
+/// SyncGoogleDriveService 讀它決定能否同步(回前景時推;手動連結不觸發)。
 ///
 /// 初始狀態依 prefs 判斷:曾連結者先給 [DriveNeedsRelink],待
 /// [restoreSession] 取回 session 後才轉 [DriveLinked];避免 UI 在 session
@@ -22,7 +22,7 @@ class DriveLinkController extends Notifier<DriveLinkState> {
     return DriveNeedsRelink(account.linkedEmail);
   }
 
-  /// App 啟動時由 SyncService 呼叫:嘗試取回 session,回傳是否可同步。
+  /// App 啟動時由 SyncGoogleDriveService 呼叫:嘗試取回 session,回傳是否可同步。
   Future<bool> restoreSession() async {
     if (!_account.isLinked) return false;
     final ok = await _account.restoreSession();
@@ -53,7 +53,7 @@ class DriveLinkController extends Notifier<DriveLinkState> {
     state = const DriveNotLinked();
   }
 
-  /// Drive API 回 401 / 403(scope 被撤銷)時由 SyncService 呼叫。
+  /// Drive API 回 401 / 403(scope 被撤銷)時由 SyncGoogleDriveService 呼叫。
   void markNeedsRelink() {
     if (state is! DriveLinked) return;
     state = DriveNeedsRelink(_account.linkedEmail);

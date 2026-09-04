@@ -9,7 +9,7 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
 /// 歌詞 ↔ `lyrics.json`:
 /// `{ "lyrics": [ {trackId, title, format, source, content, updatedAt} ] }`。
-/// 一個檔裝全部歌詞(Drive 單檔無 Firestore 1 MiB 限制,不再有跳過上限)。
+/// 一個檔裝全部歌詞,沒有筆數上限。
 class LyricsBackup implements DomainBackup {
   LyricsBackup(this._ref);
 
@@ -25,7 +25,7 @@ class LyricsBackup implements DomainBackup {
   DateTime? get localModifiedAt =>
       _ref.read(syncStateStoreProvider).lyricsModifiedAt;
 
-  /// 一次性補記,讓下一個同步班次把存量歌詞推上雲端(SyncService 的
+  /// 一次性補記,讓下一個同步班次把存量歌詞推上雲端(SyncGoogleDriveService 的
   /// 推送判斷:本機 lyricsModifiedAt 為 null 時不會觸發推送)。
   void markExistingPending() {
     final store = _ref.read(syncStateStoreProvider);

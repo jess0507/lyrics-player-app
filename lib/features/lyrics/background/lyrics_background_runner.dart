@@ -46,7 +46,7 @@ class _ActiveTask {
 /// - 常駐監聽背景 isolate 的事件 port;即使發起任務的 app instance 已被
 ///   滑掉、之後重新開啟,done 事件仍會 invalidate 歌詞 provider 並補記
 ///   同步 flag(背景 isolate 寫的 SharedPreferences 不會反映到 main
-///   isolate 的快取,故這裡再 mark 一次,讓 SyncService 能即時推送)。
+///   isolate 的快取,故這裡再 mark 一次,下次回前景 Drive 備份才會推)。
 ///
 /// app.dart 以 `ref.watch` 令本 provider 隨 app 啟動即註冊事件 port。
 class LyricsBackgroundRunner {
@@ -136,7 +136,7 @@ class LyricsBackgroundRunner {
         if (step != null) _active?.onStep?.call(step);
       case LyricsBackgroundEventType.done:
         // 不論任務是否由本 app instance 發起都要刷新:結果已由背景
-        // isolate 寫入 Isar,這裡讓 UI 重讀並讓 SyncService 立即備份。
+        // isolate 寫入 Isar,這裡讓 UI 重讀並標記歌詞待推(回前景時備份)。
         _ref.invalidate(trackLyricsProvider(event.trackId));
         _ref.read(syncStateStoreProvider).markLyricsModified();
         _complete(const LyricsBackgroundResult(LyricsBackgroundStatus.success));

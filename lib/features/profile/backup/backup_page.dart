@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/profile/backup/widgets/drive_link_tile.dart';
-import 'package:seek_player/features/profile/backup/widgets/sync_to_cloud_tile.dart';
-import 'package:seek_player/features/profile/backup/widgets/sync_to_local_tile.dart';
+import 'package:seek_player/features/profile/backup/widgets/last_backup_tile.dart';
 
-/// 備份頁:Google Drive 連結狀態 + 「同步到雲端」「同步到本地」兩個動作。
-/// 與帳戶登入無關(見 plan 26),未連結時兩個動作 disabled。
+/// 備份頁:Google Drive 連結列 + 上次備份時間 + 說明文字。與帳戶登入無關(見 plan 26)。
+/// 連結當下的首次同步與之後回前景的自動上傳都由 service 處理,
+/// 頁面不提供手動同步。
 class BackupPage extends ConsumerWidget {
   const BackupPage({super.key});
 
@@ -21,9 +21,7 @@ class BackupPage extends ConsumerWidget {
         children: [
           const DriveLinkTile(),
           const Divider(height: 1),
-          const SyncToCloudTile(),
-          const Divider(height: 1),
-          const SyncToLocalTile(),
+          const LastBackupTile(),
           const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
