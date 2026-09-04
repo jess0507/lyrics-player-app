@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seek_player/core/network/offline_toast_listener.dart';
 import 'package:seek_player/core/sync/sync_google_drive_service.dart';
 import 'package:seek_player/core/update/app_update_listener.dart';
+import 'package:seek_player/core/user_record/user_record_service.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_service.dart';
 import 'package:seek_player/features/player/providers/external_file_open_service.dart';
@@ -19,9 +19,9 @@ class SeekPlayerApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 啟動 Google Drive 備份同步(App 啟動 / 連結時依時戳還原或上傳,
-    // 見 SyncService._init)。
     ref.watch(syncGoogleDriveServiceProvider);
+    // 開 App 時把登入使用者的設定與 App 版本單向記錄到 Firestore(見 UserRecordService)。
+    ref.watch(userRecordServiceProvider);
     // 註冊背景歌詞任務的事件 port:即使任務是上個 app instance 發起
     // (滑掉後由前景服務續跑),完成事件也能刷新歌詞與同步 flag。
     ref.watch(lyricsBackgroundRunnerProvider);
