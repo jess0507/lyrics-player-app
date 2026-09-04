@@ -9,7 +9,6 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// 頁面本身只負責依序畫成 ListTile。
 enum ProfileEntry {
   account(Icons.account_circle_outlined, path: 'account'),
-  backup(Icons.cloud_upload_outlined, path: 'backup'),
   settings(Icons.settings_outlined, path: 'settings'),
   statistics(Icons.insights_outlined, path: 'statistics'),
   feedback(Icons.mail_outline),
@@ -27,7 +26,6 @@ enum ProfileEntry {
 
   String label(AppLocalizations l10n) => switch (this) {
     account => l10n.profile_account,
-    backup => l10n.profile_backup,
     statistics => l10n.profile_statistics,
     settings => l10n.profile_settings,
     about => l10n.profile_about,
@@ -37,9 +35,8 @@ enum ProfileEntry {
 
   Future<void> onTap(BuildContext context, WidgetRef ref) async {
     switch (this) {
-      // 備份走 Google Drive 授權,與帳戶登入無關(plan 26),直接進頁;
-      // 已登入者在帳戶頁最上方也能看到同一份備份區塊。
-      case account || backup || statistics || settings || about:
+      // 備份區塊放在帳戶頁最上方(登入後顯示),不再獨立成入口。
+      case account || statistics || settings || about:
         context.go('/profile/$path');
       case reset:
         await confirmAndResetApp(context, ref);

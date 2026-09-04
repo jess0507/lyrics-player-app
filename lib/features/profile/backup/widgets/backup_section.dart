@@ -5,8 +5,8 @@ import 'package:seek_player/features/profile/backup/widgets/last_backup_tile.dar
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 備份區塊:Google Drive 連結列 + 上次備份時間 + 說明文字。
-/// 同時用在獨立的備份頁,以及已登入帳戶頁的最上方;本身不捲動,
-/// 由外層的 ListView 排版。
+/// 放在已登入帳戶頁的最上方;本身不捲動,由外層的 ListView 排版。
+/// 備份授權(Google Drive)與 Firebase 登入彼此獨立(plan 26)。
 class BackupSection extends StatelessWidget {
   const BackupSection({super.key});
 

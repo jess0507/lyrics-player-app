@@ -4,7 +4,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
@@ -12,8 +11,8 @@ import 'package:seek_player/features/profile/backup/widgets/backup_section.dart'
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
-/// 已登入:最上方先放備份區塊(Google Drive 連結、上次備份),
-/// 接著是頭像、Email、登出與刪除帳號。備份授權與 Firebase 登入彼此獨立(plan 26)。
+/// 已登入:最上方是頭像、名稱與 Email,接著是備份區塊(Google Drive 連結、
+/// 上次備份),最後是登出與刪除資料/刪除帳號。備份授權與 Firebase 登入彼此獨立(plan 26)。
 class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key, required this.user});
 
@@ -39,10 +38,9 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
     final user = widget.user;
     final photo = user.photoURL;
 
-    return ListView(
+    return Column(
       children: [
-        const BackupSection(),
-        const Divider(height: 1),
+        // 使用者資訊
         const SizedBox(height: 24),
         Center(
           child: CircleAvatar(
@@ -65,7 +63,12 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           const SizedBox(height: 4),
           Center(child: Text(user.email!)),
         ],
-        const SizedBox(height: 32),
+        const SizedBox(height: 24),
+        // 備份
+        const Divider(height: 1),
+        const BackupSection(),
+        Spacer(),
+        // 登出
         const Divider(height: 1),
         ListTile(
           leading: const Icon(Icons.logout),
@@ -73,7 +76,9 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           onTap: () => _signOut(context, auth),
         ),
         const Divider(height: 1),
-        const SizedBox(height: 32),
+        const SizedBox(height: 20),
+        // 危險操作
+        const Divider(height: 1),
         ListTile(
           leading: const Icon(Icons.cleaning_services_outlined),
           title: Text(l10n.account_delete_data),
@@ -92,6 +97,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           onTap: () => _confirmDelete(context, auth),
         ),
         const Divider(height: 1),
+        const SizedBox(height: 24),
       ],
     );
   }
