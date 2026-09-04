@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:seek_player/features/profile/feedback/send_feedback_action.dart';
 import 'package:seek_player/features/profile/reset/reset_app_action.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -11,11 +10,11 @@ import 'package:seek_player/l10n/app_localizations.dart';
 enum ProfileEntry {
   account(Icons.account_circle_outlined, path: 'account'),
   backup(Icons.cloud_upload_outlined, path: 'backup'),
-  statistics(Icons.insights_outlined, path: 'statistics'),
   settings(Icons.settings_outlined, path: 'settings'),
-  about(Icons.info_outline, path: 'about'),
+  statistics(Icons.insights_outlined, path: 'statistics'),
+  feedback(Icons.mail_outline),
   reset(Icons.restart_alt),
-  feedback(Icons.mail_outline);
+  about(Icons.info_outline, path: 'about');
 
   const ProfileEntry(this.icon, {this.path});
 
