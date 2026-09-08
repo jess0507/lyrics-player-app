@@ -46,13 +46,38 @@ Future<Color?> extractCoverColor(File file) async {
   }
 }
 
-/// 將封面主色正規化為「只保留色相,飽和度 / 明度固定為 100%」的純色。
+/// 將封面主色正規化為「只保留色相」的純色;飽和度 / 明度依主題明暗固定。
 ///
 /// 封面主色的明暗與飽和度會隨圖片劇烈變化(從近黑到近白、從鮮豔到灰
 /// 濁都有),直接套用會讓漸層在某些曲目過暗、過曝或顯得髒。故只取色相
-/// 表達曲目個性,飽和度與明度一律拉滿,得到該色相最鮮明的純色;深 /
-/// 淺色主題的明暗差異交由呼叫端的疊加比例處理。
-Color normalizeCoverColor(Color color) {
+/// 表達曲目個性,飽和度與明度一律固定,讓不同封面得到一致的鮮明度。
+///
+/// 兩種主題各自有一組常數,可獨立微調:
+/// - [Brightness.dark](預設):[darkModeSaturation] / [darkModeValue]。
+///   深色 surface 上需要足夠亮度才看得出色彩,但拉滿 100% 仍會刺眼,故
+///   略為壓低。
+/// - [Brightness.light]:[lightModeSaturation] / [lightModeValue]。純色疊
+///   在近白的 surface 上更容易刺眼,故明度壓得比深色主題更低。
+Color normalizeCoverColor(
+  Color color, {
+  Brightness brightness = Brightness.dark,
+}) {
   final hsv = HSVColor.fromColor(color);
-  return hsv.withSaturation(1.0).withValue(1.0).toColor();
+  final (saturation, value) = switch (brightness) {
+    Brightness.dark => (darkModeSaturation, darkModeValue),
+    Brightness.light => (lightModeSaturation, lightModeValue),
+  };
+  return hsv.withSaturation(saturation).withValue(value).toColor();
 }
+
+/// 深色主題下封面色的明度(HSV value);見 [normalizeCoverColor]。
+const double darkModeValue = 0.85;
+
+/// 深色主題下封面色的飽和度;見 [normalizeCoverColor]。
+const double darkModeSaturation = 0.9;
+
+/// 淺色主題下封面色的明度(HSV value);見 [normalizeCoverColor]。
+const double lightModeValue = 0.72;
+
+/// 淺色主題下封面色的飽和度;見 [normalizeCoverColor]。
+const double lightModeSaturation = 0.9;

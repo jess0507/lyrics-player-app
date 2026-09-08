@@ -23,15 +23,15 @@ void main() {
   group('normalizeCoverColor', () {
     const source = Color(0xFFD7A6B2); // 低飽和度的馬卡龍粉
 
-    test('保留色相,飽和度 / 明度拉滿為 100%', () {
+    test('深色主題(預設):保留色相,飽和度 / 明度固定為深色常數', () {
       final result = normalizeCoverColor(source);
       final src = HSVColor.fromColor(source);
       final out = HSVColor.fromColor(result);
       // 低飽和度(接近灰)的顏色,RGB 三通道只差幾個刻度,轉回 8-bit 時的
       // 四捨五入會讓色相偏移數度,故色相容差放寬到 5°。
       expect(out.hue, closeTo(src.hue, 5));
-      expect(out.saturation, closeTo(1.0, 0.01));
-      expect(out.value, closeTo(1.0, 0.01));
+      expect(out.saturation, closeTo(darkModeSaturation, 0.01));
+      expect(out.value, closeTo(darkModeValue, 0.01));
     });
 
     test('不同明度 / 飽和度的同色相輸入,正規化後結果相同', () {
@@ -44,16 +44,39 @@ void main() {
       expect(a.hue, closeTo(b.hue, 3));
     });
 
-    test('已是純色的輸入原樣輸出', () {
-      const pure = Color(0xFF00FF00);
+    test('淺色主題:保留色相,明度壓到 lightModeValue、飽和度略降', () {
+      final result = normalizeCoverColor(source, brightness: Brightness.light);
+      final src = HSVColor.fromColor(source);
+      final out = HSVColor.fromColor(result);
+      expect(out.hue, closeTo(src.hue, 5));
+      expect(out.saturation, closeTo(lightModeSaturation, 0.01));
+      expect(out.value, closeTo(lightModeValue, 0.01));
+      // 淺色主題的結果必須比深色主題暗,才不會在近白 surface 上刺眼。
+      final dark = HSVColor.fromColor(
+        normalizeCoverColor(source, brightness: Brightness.dark),
+      );
+      expect(out.value, lessThan(dark.value));
+    });
+
+    test('已符合深色常數的輸入原樣輸出', () {
+      final pure = HSVColor.fromAHSV(
+        1.0,
+        120,
+        darkModeSaturation,
+        darkModeValue,
+      ).toColor();
       expect(normalizeCoverColor(pure).toARGB32(), pure.toARGB32());
     });
 
     test('近黑 / 近白封面不會造成過暗或過曝', () {
       for (final extreme in const [Color(0xFF000000), Color(0xFFFFFFFF)]) {
         final out = HSVColor.fromColor(normalizeCoverColor(extreme));
-        expect(out.saturation, closeTo(1.0, 0.01), reason: '$extreme');
-        expect(out.value, closeTo(1.0, 0.01), reason: '$extreme');
+        expect(
+          out.saturation,
+          closeTo(darkModeSaturation, 0.01),
+          reason: '$extreme',
+        );
+        expect(out.value, closeTo(darkModeValue, 0.01), reason: '$extreme');
       }
     });
 
