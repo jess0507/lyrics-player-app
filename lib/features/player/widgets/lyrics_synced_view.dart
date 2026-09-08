@@ -144,16 +144,12 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final lines = widget.lyrics.lines;
-    // 非當前行的顏色:light theme 用 onSurface(近黑)壓 0.8,讓歌詞在淺底
-    // 上夠深、清楚;dark theme 維持 onSurfaceVariant 的柔和度避免過亮刺眼。
-    final inactiveColor = theme.brightness == Brightness.light
-        ? theme.colorScheme.onSurface.withValues(alpha: 0.8)
-        : theme.colorScheme.onSurfaceVariant;
-    // 當前行文字色:light mode 用深色(onSurface),避免封面色偏淺時看不清;
-    // dark mode 維持 primary 作為高亮色。
-    final activeColor = theme.brightness == Brightness.light
-        ? theme.colorScheme.onSurface
-        : theme.colorScheme.primary;
+    // 歌詞顏色固定不隨封面色或 colorScheme 變動:light mode 當前行純黑、
+    // 其他行 #666666;dark mode 當前行純白、其他行 #CCCCCC。
+    final isLight = theme.brightness == Brightness.light;
+    final activeColor = isLight ? Colors.black : Colors.white;
+    final inactiveColor =
+        isLight ? const Color(0xFF666666) : const Color(0xFFCCCCCC);
     return NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotification,
       child: ListView.builder(
@@ -177,10 +173,9 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
                             ? theme.textTheme.titleMedium
                             : theme.textTheme.bodyMedium)
                         ?.copyWith(
+                          fontSize: active ? 20 : 18,
                           color: active ? activeColor : inactiveColor,
-                          fontWeight: active
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: FontWeight.w600,
                         ),
               ),
             ),

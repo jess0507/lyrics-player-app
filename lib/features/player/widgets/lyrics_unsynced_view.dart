@@ -18,6 +18,10 @@ class LyricsUnsyncedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // 無高亮行,整篇固定 light mode 純黑、dark mode 純白。
+    final color = theme.brightness == Brightness.light
+        ? Colors.black
+        : Colors.white;
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
       itemCount: lyrics.lines.length,
@@ -29,7 +33,11 @@ class LyricsUnsyncedView extends StatelessWidget {
           child: Text(
             text.isEmpty ? ' ' : text,
             textAlign: textAlign,
-            style: theme.textTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
           ),
         );
       },
