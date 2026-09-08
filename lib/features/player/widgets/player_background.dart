@@ -41,10 +41,10 @@ class PlayerBackground extends ConsumerWidget {
     final id = trackId;
     if (fromCover && id != null) {
       final raw = ref.watch(trackCoverColorProvider(id)).valueOrNull;
-      // 只取封面色的色相 / 飽和度,明度依當前主題固定,避免不同封面造成
-      // 漸層忽明忽暗。
+      // 只取封面色的色相,飽和度 / 明度拉滿為純色,避免不同封面造成
+      // 漸層忽明忽暗或顯得灰濁。
       if (raw != null) {
-        coverColor = normalizeCoverColor(raw, Theme.of(context).brightness);
+        coverColor = normalizeCoverColor(raw);
       }
     }
     final accent = coverColor ?? scheme.primary;

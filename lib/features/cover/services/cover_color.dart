@@ -46,22 +46,13 @@ Future<Color?> extractCoverColor(File file) async {
   }
 }
 
-/// 深 / 淺色主題下封面色採用的固定明度(HSV value)。
+/// 將封面主色正規化為「只保留色相,飽和度 / 明度固定為 100%」的純色。
 ///
-/// 封面主色的明暗會隨圖片而劇烈變化(從近黑到近白都有),直接套用會讓
-/// 漸層在某些曲目過暗或過曝。故只保留封面色的「色相 / 飽和度」表達曲目
-/// 個性,明度則依當前主題固定:淺色主題取較高明度貼近背景、深色主題取
-/// 較低明度避免刺眼。
-const double _coverValueLight = 0.92;
-const double _coverValueDark = 0.55;
-
-/// 將封面主色正規化為「保留色相 / 飽和度、明度固定」的顏色。
-///
-/// 明度依 [brightness](當前主題)選用 [_coverValueLight] / [_coverValueDark]。
-Color normalizeCoverColor(Color color, Brightness brightness) {
+/// 封面主色的明暗與飽和度會隨圖片劇烈變化(從近黑到近白、從鮮豔到灰
+/// 濁都有),直接套用會讓漸層在某些曲目過暗、過曝或顯得髒。故只取色相
+/// 表達曲目個性,飽和度與明度一律拉滿,得到該色相最鮮明的純色;深 /
+/// 淺色主題的明暗差異交由呼叫端的疊加比例處理。
+Color normalizeCoverColor(Color color) {
   final hsv = HSVColor.fromColor(color);
-  final value = brightness == Brightness.dark
-      ? _coverValueDark
-      : _coverValueLight;
-  return hsv.withValue(value).toColor();
+  return hsv.withSaturation(1.0).withValue(1.0).toColor();
 }
