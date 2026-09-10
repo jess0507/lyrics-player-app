@@ -35,25 +35,27 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- 關閉 Flutter 3.27+ 預設開啟的 deep linking：否則 VIEW intent 的
+                 content://… 會被當成初始路由塞給 go_router 而出錯。
+                 外部開啟的 intent 改由 ExternalOpenChannel 自行處理。 -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!-- 從檔案管理員等 App 以「開啟工具」開啟音訊檔：content:// 為主流，
-                 file:// 保留給少數舊版 App／裝置。接收與播放邏輯見
-                 ExternalFileOpenService（receive_sharing_intent）。 -->
+            <!-- 從檔案管理員等 App 以「開啟工具」開啟音訊檔。不寫 scheme 時系統
+                 預設同時比對 content:// 與 file://。原生端接收見 ExternalOpenChannel，
+                 Dart 端播放邏輯見 ExternalFileOpenService。 -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="audio/*" android:scheme="content"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="audio/*" android:scheme="file"/>
+                <data android:mimeType="audio/*"/>
             </intent-filter>
             <!-- 從別的 App 的分享面板選 Seek Player 分享音訊檔進來，
-                 接收與播放邏輯同上，見 ExternalFileOpenService。 -->
+                 接收與播放邏輯同上。 -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>

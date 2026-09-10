@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
@@ -67,7 +68,7 @@ class PlaybackController {
     if (index < 0 || index >= tracks.length) return;
     _queue = tracks;
     await _audio.setPlaylist(tracks, initialIndex: index);
-    await _audio.play();
+    _startPlaying();
   }
 
   Future<void> playTrack(Track track) async {
@@ -81,7 +82,20 @@ class PlaybackController {
     if (index < 0 || index >= tracks.length) return;
     _queue = List.unmodifiable(tracks);
     await _audio.setPlaylist(tracks, initialIndex: index);
-    await _audio.play();
+    _startPlaying();
+  }
+
+  /// just_audio 的 `play()` 回傳的 Future 要等到「播放完畢／暫停／停止」
+  /// 才完成,不是「開始播放」;await 它會把呼叫端卡到整首歌結束
+  /// (外部開檔後要接著開播放頁就會卡死)。載入失敗已在 [setPlaylist]
+  /// 丟出,這裡只需觸發播放並吞掉之後的錯誤。
+  void _startPlaying() {
+    unawaited(
+      _audio.play().catchError(
+        (Object e, StackTrace s) =>
+            reportError(e, s, reason: 'PlaybackController 播放失敗'),
+      ),
+    );
   }
 }
 

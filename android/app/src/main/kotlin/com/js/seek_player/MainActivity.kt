@@ -14,6 +14,9 @@ import io.flutter.plugin.common.MethodChannel
 // audio_service / just_audio_background 需要 Activity 繼承 AudioServiceActivity，
 // 以提供正確的 FlutterEngine 給背景播放服務。
 class MainActivity : AudioServiceActivity() {
+    // 外部「開啟工具」／分享進來的音訊檔,見 ExternalOpenChannel。
+    private var externalOpen: ExternalOpenChannel? = null
+
     // 無邊框(edge-to-edge):在 Flutter 首幀之前就由原生端開啟,不依賴 Dart 端
     // main() 的執行時機。Android 15+ 由系統強制;以下版本靠這裡加上
     // FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS(引擎只在 API<30 自行補),
@@ -29,8 +32,17 @@ class MainActivity : AudioServiceActivity() {
         )
     }
 
+    // singleTask:app 已在前景時再開一個檔會走這裡而非 onCreate;
+    // 滑掉後(Activity 銷毀、engine 仍在)再開則走 onCreate,由 Dart 在
+    // resume 時 takeLaunchIntent 取回,見 ExternalOpenChannel。
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        externalOpen?.onNewIntent(intent)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        externalOpen = ExternalOpenChannel(this, flutterEngine.dartExecutor.binaryMessenger)
         // 「更多 → 重置」:等同系統設定「應用程式資訊 → 儲存空間 → 清除資料」,
         // 系統清空整個 app 沙盒(Isar、SharedPreferences、cache、Firebase 登入)
         // 並立刻終止 process,因此成功時 Dart 端收不到回傳;只有失敗會回 false。

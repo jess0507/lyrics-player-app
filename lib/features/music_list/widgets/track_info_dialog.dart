@@ -25,7 +25,11 @@ Future<void> showTrackInfoDialog(BuildContext context, Track track) {
                 ? l10n.common_unknown
                 : formatDuration(track.duration!),
           ),
-          _InfoRow(label: l10n.track_info_location, value: track.uri),
+          // 有實體路徑就顯示路徑,還原不到(外部開啟的 content URI)才退回 URI。
+          _InfoRow(
+            label: l10n.track_info_location,
+            value: track.filePath.isNotEmpty ? track.filePath : track.uri,
+          ),
         ],
       ),
       actions: [
