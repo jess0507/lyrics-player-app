@@ -7,9 +7,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
-import 'package:seek_player/shared/providers/settings_controller.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
+// import 'package:seek_player/shared/providers/settings_controller.dart'; // 設定改由 SettingsSync 推送
 
-/// 開 App 時把登入使用者的個人化設定與 App 版本單向記錄到 Firestore。
+/// 開 App 時把登入使用者的 App 版本單向記錄到 Firestore 主文件 `user/{uid}`。
+///
+/// 個人化設定改由 SyncService / SettingsSync 推送到 `setting/0`:那份文件的
+/// `settingUpdatedAt` 是同步的推 / 拉依據,這裡不能再每次啟動都蓋一次
+/// server timestamp,否則本機設定永遠會被判成「較舊」。
 ///
 /// 於 App 根 widget watch 一次以註冊:建立當下即執行一次 [record]。
 class UserRecordService {
@@ -26,11 +31,11 @@ class UserRecordService {
   final FirebaseFirestore _firestore;
   final Future<PackageInfo> Function() _loadPackageInfo;
 
-  static const schemaVersion = 8;
+  static const schemaVersion = SyncService.schemaVersion;
 
   static const _userCollection = 'user';
-  static const _settingCollection = 'setting';
-  static const _settingDocId = '0';
+  // static const _settingCollection = 'setting'; // 設定改由 SettingsSync 推送
+  // static const _settingDocId = '0';
 
   Future<void> record() async {
     if (!_ref.read(firebaseAvailableProvider)) {
@@ -59,16 +64,12 @@ class UserRecordService {
   DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
       _firestore.collection(_userCollection).doc(uid);
 
-  DocumentReference<Map<String, dynamic>> _settingDoc(String uid) =>
-      _userDoc(uid).collection(_settingCollection).doc(_settingDocId);
+  // DocumentReference<Map<String, dynamic>> _settingDoc(String uid) =>
+  //     _userDoc(uid).collection(_settingCollection).doc(_settingDocId);
 
-  /// 主文件與設定文件一次 batch 寫入,避免只寫到一半;皆 merge 不動其他欄位。
-  Future<void> _write(String uid, PackageInfo info) {
-    final batch = _firestore.batch()
-      ..set(_userDoc(uid), _userDocData(info), SetOptions(merge: true))
-      ..set(_settingDoc(uid), _settingDocData(), SetOptions(merge: true));
-    return batch.commit();
-  }
+  /// 只寫主文件(merge,不動 SyncService 寫的 schemaVersion 以外欄位)。
+  Future<void> _write(String uid, PackageInfo info) =>
+      _userDoc(uid).set(_userDocData(info), SetOptions(merge: true));
 
   // ---------------------------------------------------------------------------
   // 文件內容
@@ -80,10 +81,11 @@ class UserRecordService {
     'recordedAt': FieldValue.serverTimestamp(),
   };
 
-  Map<String, dynamic> _settingDocData() => {
-    ..._ref.read(settingsControllerProvider).toRemoteMap(),
-    'settingUpdatedAt': FieldValue.serverTimestamp(),
-  };
+  // 設定改由 SettingsSync 推送(見類別註解)。
+  // Map<String, dynamic> _settingDocData() => {
+  //   ..._ref.read(settingsControllerProvider).toRemoteMap(),
+  //   'settingUpdatedAt': FieldValue.serverTimestamp(),
+  // };
 }
 
 final userRecordServiceProvider = Provider<UserRecordService>(

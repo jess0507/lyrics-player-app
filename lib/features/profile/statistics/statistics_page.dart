@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/auth/auth_state_provider.dart';
+import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
 import 'package:seek_player/features/profile/statistics/providers/selected_stat_provider.dart';
 import 'package:seek_player/features/profile/statistics/providers/selected_top_tracks_provider.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
-import 'package:seek_player/core/backup/drive_link_controller.dart';
-import 'package:seek_player/core/backup/drive_link_state.dart';
-import 'package:seek_player/core/backup/google_drive_backup_service.dart';
+// import 'package:seek_player/core/backup/drive_link_controller.dart'; // Google Drive 備份暫停
+// import 'package:seek_player/core/backup/drive_link_state.dart'; // Google Drive 備份暫停
+// import 'package:seek_player/core/backup/google_drive_backup_service.dart'; // Google Drive 備份暫停
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/format.dart';
 import 'package:seek_player/features/profile/statistics/widgets/listen_time_chart.dart';
@@ -16,17 +19,21 @@ import 'package:seek_player/features/profile/statistics/widgets/listen_time_char
 class StatisticsPage extends ConsumerWidget {
   const StatisticsPage({super.key});
 
-  /// 重設前先跳確認 dialog(已連結 Google Drive 時警告雲端備份也會刪除),
+  /// 重設前先跳確認 dialog(已登入時警告雲端備份也會刪除),
   /// 確認後清空本機並立即上傳歸零快照覆寫雲端。
   Future<void> _confirmReset(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context)!;
-    final driveLinked = ref.read(driveLinkStateProvider) is DriveLinked;
+    // Google Drive 備份暫停,改看 Firebase 登入狀態。
+    // final driveLinked = ref.read(driveLinkStateProvider) is DriveLinked;
+    final signedIn =
+        ref.read(firebaseAvailableProvider) &&
+        ref.read(authStateProvider).valueOrNull != null;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l10n.statistics_reset_title),
         content: Text(
-          driveLinked
+          signedIn
               ? l10n.statistics_reset_message_cloud
               : l10n.statistics_reset_message,
         ),
@@ -45,7 +52,8 @@ class StatisticsPage extends ConsumerWidget {
     if (confirmed != true) return;
     ref.read(statisticsControllerProvider.notifier).reset();
     // 背景覆寫雲端備份為歸零快照；失敗等下次同步達成最終一致。
-    unawaited(ref.read(googleDriveBackupServiceProvider).uploadAfterReset());
+    // unawaited(ref.read(googleDriveBackupServiceProvider).uploadAfterReset());
+    unawaited(ref.read(syncServiceProvider).uploadAfterReset());
   }
 
   @override
