@@ -96,6 +96,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get backup_never_backed_up => 'Pas encore synchronisé';
 
   @override
+  String get backup_sync_now => 'Synchroniser maintenant';
+
+  @override
   String get backup_description =>
       'La sauvegarde comprend les réglages, playlists, statistiques d\'écoute et paroles. Les fichiers musicaux ne sont pas envoyés. Les sauvegardes sont stockées dans l\'espace de données d\'application de votre propre Google Drive ; vous pouvez les consulter ou les supprimer dans Paramètres Google Drive → Gérer les applications.';
 

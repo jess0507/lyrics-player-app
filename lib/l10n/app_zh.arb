@@ -27,6 +27,7 @@
   "backup_keep_local": "保留本機資料",
   "backup_last_backed_up": "上次備份",
   "backup_never_backed_up": "尚未同步",
+  "backup_sync_now": "立即同步",
   "backup_description": "備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。",
   "backup_done": "已同步到雲端",
   "backup_restored": "已同步到本地",

@@ -94,6 +94,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get backup_never_backed_up => '아직 동기화되지 않음';
 
   @override
+  String get backup_sync_now => '지금 동기화';
+
+  @override
   String get backup_description =>
       '백업에는 설정, 재생목록, 감상 통계, 가사가 포함됩니다. 음악 파일은 업로드되지 않습니다. 백업은 본인의 Google 드라이브 앱 데이터 영역에 저장되며, Google 드라이브 설정 → 앱 관리에서 확인하거나 삭제할 수 있습니다.';
 

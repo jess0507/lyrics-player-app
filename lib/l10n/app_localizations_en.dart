@@ -95,6 +95,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backup_never_backed_up => 'Not synced yet';
 
   @override
+  String get backup_sync_now => 'Sync now';
+
+  @override
   String get backup_description =>
       'Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.';
 

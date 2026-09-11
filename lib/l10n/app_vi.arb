@@ -27,6 +27,7 @@
   "backup_keep_local": "Giữ dữ liệu thiết bị",
   "backup_last_backed_up": "Sao lưu gần nhất",
   "backup_never_backed_up": "Chưa đồng bộ",
+  "backup_sync_now": "Đồng bộ ngay",
   "backup_description": "Bản sao lưu gồm cài đặt, danh sách phát, thống kê nghe và lời bài hát. Tệp nhạc không được tải lên. Bản sao lưu được lưu trong vùng dữ liệu ứng dụng của Google Drive của chính bạn; bạn có thể xem hoặc xóa trong Cài đặt Google Drive → Quản lý ứng dụng.",
   "backup_done": "Đã đồng bộ lên đám mây",
   "backup_restored": "Đã đồng bộ về thiết bị này",

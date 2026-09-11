@@ -96,6 +96,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backup_never_backed_up => 'Henüz eşitlenmedi';
 
   @override
+  String get backup_sync_now => 'Şimdi eşitle';
+
+  @override
   String get backup_description =>
       'Yedek; ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini içerir. Müzik dosyaları yüklenmez. Yedekler kendi Google Drive\'ınızın uygulama verileri alanında saklanır; Google Drive ayarları → Uygulamaları yönet bölümünden görüntüleyebilir veya silebilirsiniz.';
 

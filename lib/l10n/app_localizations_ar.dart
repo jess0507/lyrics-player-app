@@ -95,6 +95,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backup_never_backed_up => 'لم تتم المزامنة بعد';
 
   @override
+  String get backup_sync_now => 'المزامنة الآن';
+
+  @override
   String get backup_description =>
       'تشمل النسخة الاحتياطية الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني. لا يتم رفع ملفات الموسيقى. تُحفظ النسخ الاحتياطية في منطقة بيانات التطبيق ضمن Google Drive الخاص بك؛ يمكنك عرضها أو حذفها من إعدادات Google Drive ← إدارة التطبيقات.';
 

@@ -27,6 +27,7 @@
   "backup_keep_local": "Cihaz verilerini koru",
   "backup_last_backed_up": "Son yedekleme",
   "backup_never_backed_up": "Henüz eşitlenmedi",
+  "backup_sync_now": "Şimdi eşitle",
   "backup_description": "Yedek; ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini içerir. Müzik dosyaları yüklenmez. Yedekler kendi Google Drive'ınızın uygulama verileri alanında saklanır; Google Drive ayarları → Uygulamaları yönet bölümünden görüntüleyebilir veya silebilirsiniz.",
   "backup_done": "Buluta eşitlendi",
   "backup_restored": "Bu cihaza eşitlendi",

@@ -96,6 +96,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get backup_never_backed_up => 'Belum disinkronkan';
 
   @override
+  String get backup_sync_now => 'Sinkronkan sekarang';
+
+  @override
   String get backup_description =>
       'Cadangan mencakup pengaturan, playlist, statistik mendengarkan, dan lirik. File musik tidak diunggah. Cadangan disimpan di area data aplikasi Google Drive Anda sendiri; Anda dapat melihat atau menghapusnya di Setelan Google Drive → Kelola aplikasi.';
 

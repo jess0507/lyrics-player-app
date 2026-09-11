@@ -92,6 +92,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backup_never_backed_up => '尚未同步';
 
   @override
+  String get backup_sync_now => '立即同步';
+
+  @override
   String get backup_description =>
       '備份內容包含設定、播放清單、聆聽統計與歌詞，音樂檔案不會上傳。備份存放在你自己的 Google 雲端硬碟的應用程式資料區，可在雲端硬碟設定 → 管理應用程式 查看或刪除。';
 
@@ -887,6 +890,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get backup_never_backed_up => '尚未同步';
+
+  @override
+  String get backup_sync_now => '立即同步';
 
   @override
   String get backup_description =>
@@ -1685,6 +1691,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get backup_never_backed_up => '尚未同步';
+
+  @override
+  String get backup_sync_now => '立即同步';
 
   @override
   String get backup_description =>

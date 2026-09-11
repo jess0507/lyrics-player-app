@@ -27,6 +27,7 @@
   "backup_keep_local": "Conservar datos del dispositivo",
   "backup_last_backed_up": "Última copia de seguridad",
   "backup_never_backed_up": "Aún no sincronizado",
+  "backup_sync_now": "Sincronizar ahora",
   "backup_description": "La copia incluye ajustes, listas de reproducción, estadísticas de escucha y letras. Los archivos de música no se suben. Las copias se guardan en el área de datos de la app de tu propio Google Drive; puedes verlas o eliminarlas en Ajustes de Google Drive → Gestionar aplicaciones.",
   "backup_done": "Sincronizado con la nube",
   "backup_restored": "Sincronizado con este dispositivo",

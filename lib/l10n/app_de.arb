@@ -27,6 +27,7 @@
   "backup_keep_local": "Gerätedaten behalten",
   "backup_last_backed_up": "Letzte Sicherung",
   "backup_never_backed_up": "Noch nicht synchronisiert",
+  "backup_sync_now": "Jetzt synchronisieren",
   "backup_description": "Die Sicherung umfasst Einstellungen, Playlists, Hörstatistiken und Songtexte. Musikdateien werden nicht hochgeladen. Sicherungen werden im App-Datenbereich deines eigenen Google Drive gespeichert; du kannst sie unter Google Drive Einstellungen → Apps verwalten einsehen oder löschen.",
   "backup_done": "In die Cloud synchronisiert",
   "backup_restored": "Auf dieses Gerät synchronisiert",

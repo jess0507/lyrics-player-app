@@ -288,6 +288,12 @@ abstract class AppLocalizations {
   /// **'Not synced yet'**
   String get backup_never_backed_up;
 
+  /// No description provided for @backup_sync_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get backup_sync_now;
+
   /// No description provided for @backup_description.
   ///
   /// In en, this message translates to:

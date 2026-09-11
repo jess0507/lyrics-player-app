@@ -95,6 +95,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get backup_never_backed_up => 'Ещё не синхронизировано';
 
   @override
+  String get backup_sync_now => 'Синхронизировать сейчас';
+
+  @override
   String get backup_description =>
       'Резервная копия включает настройки, плейлисты, статистику прослушивания и тексты песен. Музыкальные файлы не загружаются. Копии хранятся в области данных приложения вашего собственного Google Диска; просмотреть или удалить их можно в настройках Google Диска → Управление приложениями.';
 

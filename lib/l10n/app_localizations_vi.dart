@@ -95,6 +95,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get backup_never_backed_up => 'Chưa đồng bộ';
 
   @override
+  String get backup_sync_now => 'Đồng bộ ngay';
+
+  @override
   String get backup_description =>
       'Bản sao lưu gồm cài đặt, danh sách phát, thống kê nghe và lời bài hát. Tệp nhạc không được tải lên. Bản sao lưu được lưu trong vùng dữ liệu ứng dụng của Google Drive của chính bạn; bạn có thể xem hoặc xóa trong Cài đặt Google Drive → Quản lý ứng dụng.';
 

@@ -27,6 +27,7 @@
   "backup_keep_local": "Garder les données de l'appareil",
   "backup_last_backed_up": "Dernière sauvegarde",
   "backup_never_backed_up": "Pas encore synchronisé",
+  "backup_sync_now": "Synchroniser maintenant",
   "backup_description": "La sauvegarde comprend les réglages, playlists, statistiques d'écoute et paroles. Les fichiers musicaux ne sont pas envoyés. Les sauvegardes sont stockées dans l'espace de données d'application de votre propre Google Drive ; vous pouvez les consulter ou les supprimer dans Paramètres Google Drive → Gérer les applications.",
   "backup_done": "Synchronisé vers le cloud",
   "backup_restored": "Synchronisé vers cet appareil",

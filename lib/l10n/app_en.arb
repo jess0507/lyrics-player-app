@@ -34,6 +34,7 @@
   "backup_keep_local": "Keep this device's data",
   "backup_last_backed_up": "Last backup",
   "backup_never_backed_up": "Not synced yet",
+  "backup_sync_now": "Sync now",
   "backup_description": "Backup includes settings, playlists, listening statistics and lyrics. Music files are not uploaded. Backups are stored in the app data area of your own Google Drive; you can view or delete them in Google Drive settings → Manage apps.",
   "backup_done": "Synced to cloud",
   "backup_restored": "Synced to this device",

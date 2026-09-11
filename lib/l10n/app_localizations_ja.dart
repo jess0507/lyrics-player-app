@@ -94,6 +94,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backup_never_backed_up => '未同期';
 
   @override
+  String get backup_sync_now => '今すぐ同期';
+
+  @override
   String get backup_description =>
       'バックアップには設定・プレイリスト・再生統計・歌詞が含まれます。音楽ファイルはアップロードされません。バックアップはご自身の Google ドライブのアプリデータ領域に保存され、Google ドライブの設定 → アプリの管理 から確認・削除できます。';
 

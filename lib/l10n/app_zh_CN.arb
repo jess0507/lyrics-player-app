@@ -27,6 +27,7 @@
   "backup_keep_local": "保留本机数据",
   "backup_last_backed_up": "上次备份",
   "backup_never_backed_up": "尚未同步",
+  "backup_sync_now": "立即同步",
   "backup_description": "备份内容包含设置、播放列表、收听统计与歌词，音乐文件不会上传。备份存放在你自己的 Google 云端硬盘的应用数据区，可在云端硬盘设置 → 管理应用 查看或删除。",
   "backup_done": "已同步到云端",
   "backup_restored": "已同步到本地",

@@ -95,6 +95,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backup_never_backed_up => 'अभी तक सिंक नहीं हुआ';
 
   @override
+  String get backup_sync_now => 'अभी सिंक करें';
+
+  @override
   String get backup_description =>
       'बैकअप में सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और बोल शामिल हैं। संगीत फ़ाइलें अपलोड नहीं होतीं। बैकअप आपके अपने Google Drive के ऐप डेटा क्षेत्र में रखा जाता है; आप इसे Google Drive सेटिंग → ऐप्स प्रबंधित करें में देख या हटा सकते हैं।';
 
