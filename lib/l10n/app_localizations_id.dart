@@ -59,11 +59,29 @@ class AppLocalizationsId extends AppLocalizations {
       'Pencadangan akan berhenti setelah tautan diputus. File cadangan di Google Drive tetap disimpan.';
 
   @override
-  String get backup_cloud_found_title => 'Cadangan ditemukan di Google Drive';
+  String get backup_cloud_found_title => 'Pilih data cadangan';
 
   @override
   String get backup_cloud_found_message =>
-      'Google Drive Anda sudah memiliki cadangan. Ganti pengaturan, daftar putar, statistik pemutaran, dan lirik di perangkat ini dengan cadangan tersebut, atau pertahankan data perangkat ini dan timpa cadangannya?';
+      'Sudah ada cadangan di cloud. Pilih untuk menggunakan data cloud atau mempertahankan data perangkat ini.';
+
+  @override
+  String get backup_cloud_found_more => 'Selengkapnya';
+
+  @override
+  String get backup_cloud_found_includes => 'Cadangan mencakup:';
+
+  @override
+  String get backup_item_settings => 'Pengaturan';
+
+  @override
+  String get backup_item_playlists => 'Daftar putar';
+
+  @override
+  String get backup_item_statistics => 'Statistik pemutaran';
+
+  @override
+  String get backup_item_lyrics => 'Lirik';
 
   @override
   String get backup_use_cloud => 'Gunakan cadangan';

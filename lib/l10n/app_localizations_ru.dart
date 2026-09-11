@@ -58,12 +58,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'После отвязки резервное копирование прекратится. Файлы резервных копий на Google Диске сохранятся.';
 
   @override
-  String get backup_cloud_found_title =>
-      'В Google Диске найдена резервная копия';
+  String get backup_cloud_found_title => 'Выберите данные резервной копии';
 
   @override
   String get backup_cloud_found_message =>
-      'В Google Диске уже есть резервная копия. Заменить ею настройки, плейлисты, статистику прослушивания и тексты песен на этом устройстве или сохранить данные устройства и перезаписать копию?';
+      'В облаке уже есть резервная копия. Выберите: использовать данные из облака или сохранить данные этого устройства.';
+
+  @override
+  String get backup_cloud_found_more => 'Подробнее';
+
+  @override
+  String get backup_cloud_found_includes => 'Резервная копия включает:';
+
+  @override
+  String get backup_item_settings => 'Настройки';
+
+  @override
+  String get backup_item_playlists => 'Плейлисты';
+
+  @override
+  String get backup_item_statistics => 'Статистика прослушивания';
+
+  @override
+  String get backup_item_lyrics => 'Тексты песен';
 
   @override
   String get backup_use_cloud => 'Использовать копию';

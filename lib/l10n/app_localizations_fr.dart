@@ -59,11 +59,29 @@ class AppLocalizationsFr extends AppLocalizations {
       'La sauvegarde s\'arrêtera après la dissociation. Les fichiers de sauvegarde sur Google Drive sont conservés.';
 
   @override
-  String get backup_cloud_found_title => 'Sauvegarde trouvée sur Google Drive';
+  String get backup_cloud_found_title => 'Choisir les données de sauvegarde';
 
   @override
   String get backup_cloud_found_message =>
-      'Votre Google Drive contient déjà une sauvegarde. Voulez-vous remplacer les réglages, playlists, statistiques d\'écoute et paroles de cet appareil par cette sauvegarde, ou conserver les données de cet appareil et écraser la sauvegarde ?';
+      'Une sauvegarde existe déjà dans le cloud. Choisissez d\'utiliser les données du cloud ou de conserver les données de cet appareil.';
+
+  @override
+  String get backup_cloud_found_more => 'Plus';
+
+  @override
+  String get backup_cloud_found_includes => 'La sauvegarde comprend :';
+
+  @override
+  String get backup_item_settings => 'Réglages';
+
+  @override
+  String get backup_item_playlists => 'Playlists';
+
+  @override
+  String get backup_item_statistics => 'Statistiques d\'écoute';
+
+  @override
+  String get backup_item_lyrics => 'Paroles';
 
   @override
   String get backup_use_cloud => 'Utiliser la sauvegarde';

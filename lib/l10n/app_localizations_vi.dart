@@ -58,12 +58,29 @@ class AppLocalizationsVi extends AppLocalizations {
       'Sau khi hủy liên kết, sao lưu sẽ dừng. Các tệp sao lưu trên Google Drive vẫn được giữ lại.';
 
   @override
-  String get backup_cloud_found_title =>
-      'Đã tìm thấy bản sao lưu trên Google Drive';
+  String get backup_cloud_found_title => 'Chọn dữ liệu sao lưu';
 
   @override
   String get backup_cloud_found_message =>
-      'Google Drive của bạn đã có bản sao lưu. Bạn muốn thay thế cài đặt, danh sách phát, thống kê nghe và lời bài hát trên thiết bị này bằng bản sao lưu, hay giữ dữ liệu của thiết bị này và ghi đè bản sao lưu?';
+      'Đã có bản sao lưu trên đám mây. Hãy chọn dùng dữ liệu đám mây hoặc giữ dữ liệu của thiết bị này.';
+
+  @override
+  String get backup_cloud_found_more => 'Thêm';
+
+  @override
+  String get backup_cloud_found_includes => 'Bản sao lưu bao gồm:';
+
+  @override
+  String get backup_item_settings => 'Cài đặt';
+
+  @override
+  String get backup_item_playlists => 'Danh sách phát';
+
+  @override
+  String get backup_item_statistics => 'Thống kê nghe';
+
+  @override
+  String get backup_item_lyrics => 'Lời bài hát';
 
   @override
   String get backup_use_cloud => 'Dùng bản sao lưu';

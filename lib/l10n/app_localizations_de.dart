@@ -60,11 +60,29 @@ class AppLocalizationsDe extends AppLocalizations {
       'Nach dem Aufheben der Verknüpfung wird nicht mehr gesichert. Sicherungsdateien auf Google Drive bleiben erhalten.';
 
   @override
-  String get backup_cloud_found_title => 'Sicherung in Google Drive gefunden';
+  String get backup_cloud_found_title => 'Sicherungsdaten wählen';
 
   @override
   String get backup_cloud_found_message =>
-      'In Google Drive ist bereits eine Sicherung vorhanden. Sollen Einstellungen, Wiedergabelisten, Hörstatistiken und Songtexte auf diesem Gerät damit ersetzt werden, oder möchtest du die Daten dieses Geräts behalten und die Sicherung überschreiben?';
+      'In der Cloud ist bereits eine Sicherung vorhanden. Wähle, ob du die Cloud-Daten verwenden oder die Daten dieses Geräts behalten möchtest.';
+
+  @override
+  String get backup_cloud_found_more => 'Mehr';
+
+  @override
+  String get backup_cloud_found_includes => 'Die Sicherung umfasst:';
+
+  @override
+  String get backup_item_settings => 'Einstellungen';
+
+  @override
+  String get backup_item_playlists => 'Wiedergabelisten';
+
+  @override
+  String get backup_item_statistics => 'Hörstatistiken';
+
+  @override
+  String get backup_item_lyrics => 'Songtexte';
 
   @override
   String get backup_use_cloud => 'Sicherung verwenden';

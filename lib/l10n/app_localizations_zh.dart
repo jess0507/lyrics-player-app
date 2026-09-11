@@ -56,11 +56,28 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
 
   @override
-  String get backup_cloud_found_title => '雲端已有備份';
+  String get backup_cloud_found_title => '選擇備份資料';
 
   @override
-  String get backup_cloud_found_message =>
-      '你的 Google 雲端硬碟已有一份備份。要用它取代此裝置上的設定、播放清單、聆聽統計與歌詞，還是保留此裝置的資料並覆寫雲端備份？';
+  String get backup_cloud_found_message => '發現雲端已有備份，請選擇要使用雲端資料，或保留本機資料。';
+
+  @override
+  String get backup_cloud_found_more => '更多';
+
+  @override
+  String get backup_cloud_found_includes => '備份包含：';
+
+  @override
+  String get backup_item_settings => '設定';
+
+  @override
+  String get backup_item_playlists => '播放清單';
+
+  @override
+  String get backup_item_statistics => '聆聽統計';
+
+  @override
+  String get backup_item_lyrics => '歌詞';
 
   @override
   String get backup_use_cloud => '使用雲端備份';
@@ -836,11 +853,28 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get backup_unlink_confirm => '解除关联后将停止备份；Google 云端硬盘上的备份文件会保留。';
 
   @override
-  String get backup_cloud_found_title => '云端已有备份';
+  String get backup_cloud_found_title => '选择备份数据';
 
   @override
-  String get backup_cloud_found_message =>
-      '你的 Google 云端硬盘已有一份备份。要用它替换此设备上的设置、播放列表、收听统计与歌词，还是保留此设备的数据并覆盖云端备份？';
+  String get backup_cloud_found_message => '发现云端已有备份，请选择要使用云端数据，或保留本机数据。';
+
+  @override
+  String get backup_cloud_found_more => '更多';
+
+  @override
+  String get backup_cloud_found_includes => '备份包含：';
+
+  @override
+  String get backup_item_settings => '设置';
+
+  @override
+  String get backup_item_playlists => '播放列表';
+
+  @override
+  String get backup_item_statistics => '收听统计';
+
+  @override
+  String get backup_item_lyrics => '歌词';
 
   @override
   String get backup_use_cloud => '使用云端备份';
@@ -1617,11 +1651,28 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get backup_unlink_confirm => '解除連結後將停止備份；Google 雲端硬碟上的備份檔會保留。';
 
   @override
-  String get backup_cloud_found_title => '雲端已有備份';
+  String get backup_cloud_found_title => '選擇備份資料';
 
   @override
-  String get backup_cloud_found_message =>
-      '你的 Google 雲端硬碟已有一份備份。要用它取代此裝置上的設定、播放清單、聆聽統計與歌詞，還是保留此裝置的資料並覆寫雲端備份？';
+  String get backup_cloud_found_message => '發現雲端已有備份，請選擇要使用雲端資料，或保留本機資料。';
+
+  @override
+  String get backup_cloud_found_more => '更多';
+
+  @override
+  String get backup_cloud_found_includes => '備份包含：';
+
+  @override
+  String get backup_item_settings => '設定';
+
+  @override
+  String get backup_item_playlists => '播放清單';
+
+  @override
+  String get backup_item_statistics => '聆聽統計';
+
+  @override
+  String get backup_item_lyrics => '歌詞';
 
   @override
   String get backup_use_cloud => '使用雲端備份';

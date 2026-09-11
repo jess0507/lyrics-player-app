@@ -58,12 +58,29 @@ class AppLocalizationsEs extends AppLocalizations {
       'Al desvincular se detendrá la copia de seguridad. Los archivos de copia en Google Drive se conservan.';
 
   @override
-  String get backup_cloud_found_title =>
-      'Se encontró una copia en Google Drive';
+  String get backup_cloud_found_title => 'Elegir datos de la copia';
 
   @override
   String get backup_cloud_found_message =>
-      'Tu Google Drive ya tiene una copia de seguridad. ¿Quieres reemplazar los ajustes, listas de reproducción, estadísticas de escucha y letras de este dispositivo con ella, o conservar los datos de este dispositivo y sobrescribir la copia?';
+      'Ya existe una copia de seguridad en la nube. Elige si usar los datos de la nube o conservar los datos de este dispositivo.';
+
+  @override
+  String get backup_cloud_found_more => 'Más';
+
+  @override
+  String get backup_cloud_found_includes => 'La copia incluye:';
+
+  @override
+  String get backup_item_settings => 'Ajustes';
+
+  @override
+  String get backup_item_playlists => 'Listas de reproducción';
+
+  @override
+  String get backup_item_statistics => 'Estadísticas de escucha';
+
+  @override
+  String get backup_item_lyrics => 'Letras';
 
   @override
   String get backup_use_cloud => 'Usar la copia';

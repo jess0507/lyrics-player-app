@@ -57,11 +57,29 @@ class AppLocalizationsKo extends AppLocalizations {
       '연결을 해제하면 백업이 중지됩니다. Google 드라이브의 백업 파일은 유지됩니다.';
 
   @override
-  String get backup_cloud_found_title => '기존 백업이 있습니다';
+  String get backup_cloud_found_title => '백업 데이터 선택';
 
   @override
   String get backup_cloud_found_message =>
-      'Google 드라이브에 이미 백업이 있습니다. 이 기기의 설정, 재생목록, 청취 통계, 가사를 백업으로 교체할까요, 아니면 이 기기의 데이터를 유지하고 백업을 덮어쓸까요?';
+      '클라우드에 이미 백업이 있습니다. 클라우드 데이터를 사용할지, 이 기기의 데이터를 유지할지 선택하세요.';
+
+  @override
+  String get backup_cloud_found_more => '더보기';
+
+  @override
+  String get backup_cloud_found_includes => '백업 포함 항목:';
+
+  @override
+  String get backup_item_settings => '설정';
+
+  @override
+  String get backup_item_playlists => '재생목록';
+
+  @override
+  String get backup_item_statistics => '청취 통계';
+
+  @override
+  String get backup_item_lyrics => '가사';
 
   @override
   String get backup_use_cloud => '백업 사용';

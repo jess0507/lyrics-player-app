@@ -58,12 +58,29 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيتوقف النسخ الاحتياطي بعد إلغاء الربط. سيتم الاحتفاظ بملفات النسخ الاحتياطي على Google Drive.';
 
   @override
-  String get backup_cloud_found_title =>
-      'تم العثور على نسخة احتياطية في Google Drive';
+  String get backup_cloud_found_title => 'اختيار بيانات النسخة الاحتياطية';
 
   @override
   String get backup_cloud_found_message =>
-      'يحتوي Google Drive لديك على نسخة احتياطية بالفعل. هل تريد استبدال الإعدادات وقوائم التشغيل وإحصاءات الاستماع وكلمات الأغاني على هذا الجهاز بها، أم الاحتفاظ ببيانات هذا الجهاز والكتابة فوق النسخة الاحتياطية؟';
+      'توجد نسخة احتياطية في السحابة بالفعل. اختر استخدام بيانات السحابة أو الاحتفاظ ببيانات هذا الجهاز.';
+
+  @override
+  String get backup_cloud_found_more => 'المزيد';
+
+  @override
+  String get backup_cloud_found_includes => 'تتضمن النسخة الاحتياطية:';
+
+  @override
+  String get backup_item_settings => 'الإعدادات';
+
+  @override
+  String get backup_item_playlists => 'قوائم التشغيل';
+
+  @override
+  String get backup_item_statistics => 'إحصاءات الاستماع';
+
+  @override
+  String get backup_item_lyrics => 'كلمات الأغاني';
 
   @override
   String get backup_use_cloud => 'استخدام النسخة الاحتياطية';

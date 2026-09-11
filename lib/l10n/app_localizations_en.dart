@@ -58,11 +58,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'Backup will stop after unlinking. Backup files on Google Drive are kept.';
 
   @override
-  String get backup_cloud_found_title => 'Backup found on Google Drive';
+  String get backup_cloud_found_title => 'Choose backup data';
 
   @override
   String get backup_cloud_found_message =>
-      'Your Google Drive already has a backup. Replace the settings, playlists, listening statistics and lyrics on this device with it, or keep this device\'s data and overwrite the backup?';
+      'A backup already exists in the cloud. Choose whether to use the cloud data or keep this device\'s data.';
+
+  @override
+  String get backup_cloud_found_more => 'More';
+
+  @override
+  String get backup_cloud_found_includes => 'Backup includes:';
+
+  @override
+  String get backup_item_settings => 'Settings';
+
+  @override
+  String get backup_item_playlists => 'Playlists';
+
+  @override
+  String get backup_item_statistics => 'Listening statistics';
+
+  @override
+  String get backup_item_lyrics => 'Lyrics';
 
   @override
   String get backup_use_cloud => 'Use cloud backup';

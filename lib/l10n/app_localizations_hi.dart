@@ -58,11 +58,29 @@ class AppLocalizationsHi extends AppLocalizations {
       'लिंक हटाने के बाद बैकअप रुक जाएगा। Google Drive पर मौजूद बैकअप फ़ाइलें बनी रहेंगी।';
 
   @override
-  String get backup_cloud_found_title => 'Google Drive पर बैकअप मिला';
+  String get backup_cloud_found_title => 'बैकअप डेटा चुनें';
 
   @override
   String get backup_cloud_found_message =>
-      'आपके Google Drive पर पहले से एक बैकअप मौजूद है। क्या इस डिवाइस की सेटिंग, प्लेलिस्ट, सुनने के आँकड़े और लिरिक्स को उससे बदलें, या इस डिवाइस का डेटा रखकर बैकअप को ओवरराइट करें?';
+      'क्लाउड पर पहले से एक बैकअप मौजूद है। चुनें कि क्लाउड डेटा का उपयोग करना है या इस डिवाइस का डेटा रखना है।';
+
+  @override
+  String get backup_cloud_found_more => 'अधिक';
+
+  @override
+  String get backup_cloud_found_includes => 'बैकअप में शामिल है:';
+
+  @override
+  String get backup_item_settings => 'सेटिंग';
+
+  @override
+  String get backup_item_playlists => 'प्लेलिस्ट';
+
+  @override
+  String get backup_item_statistics => 'सुनने के आँकड़े';
+
+  @override
+  String get backup_item_lyrics => 'लिरिक्स';
 
   @override
   String get backup_use_cloud => 'बैकअप का उपयोग करें';

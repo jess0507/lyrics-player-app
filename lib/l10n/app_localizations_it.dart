@@ -58,11 +58,29 @@ class AppLocalizationsIt extends AppLocalizations {
       'Dopo lo scollegamento il backup si interrompe. I file di backup su Google Drive vengono conservati.';
 
   @override
-  String get backup_cloud_found_title => 'Backup trovato su Google Drive';
+  String get backup_cloud_found_title => 'Scegli i dati del backup';
 
   @override
   String get backup_cloud_found_message =>
-      'Il tuo Google Drive ha già un backup. Vuoi sostituire impostazioni, playlist, statistiche di ascolto e testi di questo dispositivo con il backup, oppure conservare i dati di questo dispositivo e sovrascrivere il backup?';
+      'Esiste già un backup nel cloud. Scegli se usare i dati del cloud o conservare i dati di questo dispositivo.';
+
+  @override
+  String get backup_cloud_found_more => 'Altro';
+
+  @override
+  String get backup_cloud_found_includes => 'Il backup include:';
+
+  @override
+  String get backup_item_settings => 'Impostazioni';
+
+  @override
+  String get backup_item_playlists => 'Playlist';
+
+  @override
+  String get backup_item_statistics => 'Statistiche di ascolto';
+
+  @override
+  String get backup_item_lyrics => 'Testi';
 
   @override
   String get backup_use_cloud => 'Usa il backup';

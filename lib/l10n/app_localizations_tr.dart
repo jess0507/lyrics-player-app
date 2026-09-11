@@ -59,11 +59,29 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bağlantı kaldırıldıktan sonra yedekleme durur. Google Drive\'daki yedek dosyaları korunur.';
 
   @override
-  String get backup_cloud_found_title => 'Google Drive\'da yedek bulundu';
+  String get backup_cloud_found_title => 'Yedek verisini seçin';
 
   @override
   String get backup_cloud_found_message =>
-      'Google Drive\'ınızda zaten bir yedek var. Bu cihazdaki ayarları, çalma listelerini, dinleme istatistiklerini ve şarkı sözlerini yedekle değiştirmek mi, yoksa bu cihazın verilerini koruyup yedeğin üzerine yazmak mı istersiniz?';
+      'Bulutta zaten bir yedek var. Bulut verisini kullanmayı veya bu cihazın verilerini korumayı seçin.';
+
+  @override
+  String get backup_cloud_found_more => 'Daha fazla';
+
+  @override
+  String get backup_cloud_found_includes => 'Yedek şunları içerir:';
+
+  @override
+  String get backup_item_settings => 'Ayarlar';
+
+  @override
+  String get backup_item_playlists => 'Çalma listeleri';
+
+  @override
+  String get backup_item_statistics => 'Dinleme istatistikleri';
+
+  @override
+  String get backup_item_lyrics => 'Şarkı sözleri';
 
   @override
   String get backup_use_cloud => 'Yedeği kullan';

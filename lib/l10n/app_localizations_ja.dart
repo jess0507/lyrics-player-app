@@ -57,11 +57,29 @@ class AppLocalizationsJa extends AppLocalizations {
       '連携を解除するとバックアップは停止します。Google ドライブ上のバックアップファイルは保持されます。';
 
   @override
-  String get backup_cloud_found_title => 'バックアップが見つかりました';
+  String get backup_cloud_found_title => 'バックアップデータを選択';
 
   @override
   String get backup_cloud_found_message =>
-      'Google ドライブにすでにバックアップがあります。この端末の設定・プレイリスト・再生統計・歌詞をバックアップで置き換えますか？それともこの端末のデータを残してバックアップを上書きしますか？';
+      'クラウドにすでにバックアップがあります。クラウドのデータを使うか、この端末のデータを残すかを選んでください。';
+
+  @override
+  String get backup_cloud_found_more => '詳細';
+
+  @override
+  String get backup_cloud_found_includes => 'バックアップに含まれるもの：';
+
+  @override
+  String get backup_item_settings => '設定';
+
+  @override
+  String get backup_item_playlists => 'プレイリスト';
+
+  @override
+  String get backup_item_statistics => '再生統計';
+
+  @override
+  String get backup_item_lyrics => '歌詞';
 
   @override
   String get backup_use_cloud => 'バックアップを使う';

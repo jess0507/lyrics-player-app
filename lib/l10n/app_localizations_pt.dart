@@ -58,11 +58,29 @@ class AppLocalizationsPt extends AppLocalizations {
       'O backup será interrompido após desvincular. Os arquivos de backup no Google Drive são mantidos.';
 
   @override
-  String get backup_cloud_found_title => 'Backup encontrado no Google Drive';
+  String get backup_cloud_found_title => 'Escolher dados do backup';
 
   @override
   String get backup_cloud_found_message =>
-      'Seu Google Drive já tem um backup. Deseja substituir as configurações, playlists, estatísticas de reprodução e letras deste dispositivo por ele, ou manter os dados deste dispositivo e sobrescrever o backup?';
+      'Já existe um backup na nuvem. Escolha usar os dados da nuvem ou manter os dados deste dispositivo.';
+
+  @override
+  String get backup_cloud_found_more => 'Mais';
+
+  @override
+  String get backup_cloud_found_includes => 'O backup inclui:';
+
+  @override
+  String get backup_item_settings => 'Configurações';
+
+  @override
+  String get backup_item_playlists => 'Playlists';
+
+  @override
+  String get backup_item_statistics => 'Estatísticas de reprodução';
+
+  @override
+  String get backup_item_lyrics => 'Letras';
 
   @override
   String get backup_use_cloud => 'Usar o backup';

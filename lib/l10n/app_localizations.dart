@@ -219,14 +219,50 @@ abstract class AppLocalizations {
   /// No description provided for @backup_cloud_found_title.
   ///
   /// In en, this message translates to:
-  /// **'Backup found on Google Drive'**
+  /// **'Choose backup data'**
   String get backup_cloud_found_title;
 
   /// No description provided for @backup_cloud_found_message.
   ///
   /// In en, this message translates to:
-  /// **'Your Google Drive already has a backup. Replace the settings, playlists, listening statistics and lyrics on this device with it, or keep this device\'s data and overwrite the backup?'**
+  /// **'A backup already exists in the cloud. Choose whether to use the cloud data or keep this device\'s data.'**
   String get backup_cloud_found_message;
+
+  /// No description provided for @backup_cloud_found_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get backup_cloud_found_more;
+
+  /// No description provided for @backup_cloud_found_includes.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup includes:'**
+  String get backup_cloud_found_includes;
+
+  /// No description provided for @backup_item_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get backup_item_settings;
+
+  /// No description provided for @backup_item_playlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlists'**
+  String get backup_item_playlists;
+
+  /// No description provided for @backup_item_statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening statistics'**
+  String get backup_item_statistics;
+
+  /// No description provided for @backup_item_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get backup_item_lyrics;
 
   /// No description provided for @backup_use_cloud.
   ///
