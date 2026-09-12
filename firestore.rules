@@ -7,7 +7,15 @@ service cloud.firestore {
     match /user/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
 
-      // 子集合（若日後 tracks 改為 subcollection）一併限定本人。
+      // user/{uid}/lyrics/{trackId} 是後端歌詞任務（對時 / 產生）的投遞點，
+      // client 只能讀；client 自己的歌詞備份走 user/{uid}/backupLyrics。
+      match /lyrics/{trackId} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow write: if false;
+      }
+
+      // 其餘子集合（setting / playlist / monthlyStats / backupLyrics）
+      // 一併限定本人。
       match /{document=**} {
         allow read, write: if request.auth != null && request.auth.uid == uid;
       }

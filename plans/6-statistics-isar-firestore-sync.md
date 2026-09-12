@@ -251,7 +251,7 @@ users/{uid}                     # 使用者根文件
 
 - **子集合而非主文件欄位**：歌詞原文一首可達數 KB～1 MiB（匯入上限），
   塞進 `users/{uid}` 主文件會撞單一文件 1 MiB 上限，
-  改存 `users/{uid}/lyrics/{trackId}` 逐曲一份文件
+  改存 `user/{uid}/backupLyrics/{trackId}` 逐曲一份文件
   （欄位：`title` / `format` / `source` / `content` / `addedAt`）。
   單曲內文 > 900 KiB 者跳過不上傳（留欄位餘裕，避免整批失敗）。
 - **主文件升 v5**：v5+ 的文件以子集合為歌詞權威來源（空集合也整份覆寫

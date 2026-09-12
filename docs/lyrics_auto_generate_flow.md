@@ -130,7 +130,7 @@ LyricsAutoGenerateController.run()
 | 類別 | 檔案 | 職責 |
 |---|---|---|
 | `LyricsEntity` | `lib/features/lyrics/models/lyrics_entity.dart` | Isar `@collection`，以 `trackId` 為唯一索引（upsert/replace）。產生成功的歌詞會存成 `source=generated`, `format=lrc`。 |
-| `LyricsRepository` | `lib/features/lyrics/services/lyrics_repository.dart` | `save()` 對 `LyricsEntity` 做 upsert，並呼叫 `markLyricsModified()` 觸發 SyncService 把歌詞備份到雲端（`users/{uid}/lyrics/{trackId}`）。此步驟發生在**背景 isolate**內。 |
+| `LyricsRepository` | `lib/features/lyrics/services/lyrics_repository.dart` | `save()` 對 `LyricsEntity` 做 upsert，並呼叫 `markLyricsModified()` 觸發 SyncService 把歌詞備份到雲端（`user/{uid}/backupLyrics/{trackId}`）。此步驟發生在**背景 isolate**內。 |
 | `LyricsBackgroundRunner._onEvent`（`lyrics_background_runner.dart`） | 同上 | main isolate 收到背景 isolate 傳回的 `done` 事件後，**再次**呼叫 `invalidate(trackLyricsProvider)` 與 `markLyricsModified()`（因為背景 isolate 與 main isolate 是各自獨立的 Dart VM，provider 快取不會互通），接著讓等待中的 `Completer` 完成。 |
 | `trackLyricsProvider` | `lib/features/lyrics/providers/track_lyrics_provider.dart` | `FutureProvider.family<Lyrics?, String>`。被 invalidate 後重新讀取 Isar 並解析歌詞內容，畫面自動切到剛產生好的同步 LRC。 |
 | `LyricsAutoGenerateController`（結果回填） | `lib/features/lyrics/auto_generate/lyrics_auto_generate_controller.dart` | `_runInBackground` 依 `Completer` 回傳的 `result.status`（success / cancelled / busy / failure）更新 `LyricsAutoGenerateState`，failure 時附上 `LyricsAutoGenerateError`。 |

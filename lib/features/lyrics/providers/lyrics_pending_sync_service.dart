@@ -21,8 +21,8 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 /// Firestore 文件(`user/{uid}/lyrics/{trackId}`)。背景任務(queued)送出
 /// 後,Cloud Run 端完成的結果原本只寫進 Firestore——要等使用者剛好再次對
 /// 同一 trackId 觸發命中 cached 分支,或重新登入觸發全量還原,才會回到
-/// 本機。這段空窗期若中間有其他歌詞變更觸發全量推送,雲端這份快照會被
-/// `LyricsSync.push` 當「本機沒有的多餘文件」誤刪。
+/// 本機。這個子集合是後端專屬的投遞點,client 只讀不寫(client 自己的
+/// 備份走 `user/{uid}/backupLyrics`,見 LyricsSync)。
 ///
 /// 本服務補上這段空窗:狀態轉終態時,done 的話把文件內容直接存回本機
 /// Isar(同一份文件已含 content/format/title,見後端 `_save_lyrics_snapshot`),

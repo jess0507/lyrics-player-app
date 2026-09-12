@@ -6,23 +6,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
-import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
-/// 歌詞與 `user/{uid}/lyrics/{trackId}` 子集合的推送與還原(SyncService
+/// 歌詞與 `user/{uid}/backupLyrics/{trackId}` 子集合的推送與還原(SyncService
 /// 調度)。歌詞原文放不進主文件的 1 MiB 上限,逐曲一份文件;完整快照語意
 /// (last-write-wins)。
 ///
-/// 同一份文件也是後端對時 / 產生任務的狀態文件(`status` 欄位,見
-/// LyricsPendingSyncService),所以:
-/// - 寫入一律 merge,不清掉後端寫的 `status` 等欄位;
-/// - 還在 [lyricsPendingSyncStoreProvider] 裡等終態的 trackId 不推也不刪,
-///   避免把進行中的任務文件當「本機沒有的多餘文件」誤刪。
+/// 刻意與 `user/{uid}/lyrics/{trackId}` 分開:那個子集合是後端對時 / 產生
+/// 任務的投遞點(含 `status` 欄位,由 LyricsPendingSyncService 監聽),
+/// client 只讀不寫(firestore.rules 亦封鎖 client 寫入)。備份集合完全由
+/// client 擁有,所以可以放心整份覆寫、刪除本機沒有的多餘文件。
 class LyricsSync {
   LyricsSync(this._ref);
 
   final Ref _ref;
+
+  /// client 備份歌詞的子集合名稱。
+  static const collectionName = 'backupLyrics';
 
   /// 單曲歌詞內文超過此位元組數不上傳(Firestore 單一文件 1 MiB 上限,
   /// 留欄位與編碼餘裕)。匯入端上限同為 1 MiB,極端值可能超標。
@@ -39,12 +40,11 @@ class LyricsSync {
     _store.markLyricsModified();
   }
 
-  /// 歌詞全量推送 [userDoc] 的 `lyrics` 子集合:先刪本機沒有的雲端文件,
-  /// 再整批重寫本機所有歌詞(進行中任務的 trackId 略過,見類別註解)。
+  /// 歌詞全量推送 [userDoc] 的 `backupLyrics` 子集合:先刪本機沒有的雲端
+  /// 文件,再整批重寫本機所有歌詞。
   Future<void> push(DocumentReference<Map<String, dynamic>> userDoc) async {
     final local = _ref.read(lyricsRepositoryProvider).getAllSync();
-    final pending = _ref.read(lyricsPendingSyncStoreProvider).keys.toSet();
-    final col = userDoc.collection('lyrics');
+    final col = userDoc.collection(collectionName);
     final cloudIds = (await col.get()).docs.map((d) => d.id).toSet();
 
     // WriteBatch 上限 500 個操作,分批送出。
@@ -60,16 +60,12 @@ class LyricsSync {
     }
 
     final localIds = {for (final e in local) e.trackId};
-    final stale = cloudIds.difference(localIds).difference(pending);
+    final stale = cloudIds.difference(localIds);
     for (final id in stale) {
       await addOp((b) => b.delete(col.doc(id)));
     }
     var skipped = 0;
     for (final e in local) {
-      if (pending.contains(e.trackId)) {
-        skipped++;
-        continue;
-      }
       if (utf8.encode(e.content).length > _maxContentBytes) {
         skipped++;
         debugPrint('[Sync] 歌詞過大跳過上傳:trackId=${e.trackId}');
@@ -82,7 +78,7 @@ class LyricsSync {
           'source': e.source.name,
           'content': e.content,
           'updatedAt': e.addedAt.millisecondsSinceEpoch,
-        }, SetOptions(merge: true)),
+        }),
       );
     }
     if (pendingOps > 0) await batch.commit();
@@ -92,10 +88,9 @@ class LyricsSync {
     );
   }
 
-  /// 以 [userDoc] 的 `lyrics` 子集合整份覆寫本機歌詞(空集合也覆寫)。
-  /// 沒有 `content` 的文件(後端任務尚未完成)自然被解碼端跳過。
+  /// 以 [userDoc] 的 `backupLyrics` 子集合整份覆寫本機歌詞(空集合也覆寫)。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {
-    final docs = await userDoc.collection('lyrics').get();
+    final docs = await userDoc.collection(collectionName).get();
     await _ref
         .read(lyricsRepositoryProvider)
         .restoreFromRemote(docs.toLyricsEntities());
@@ -106,7 +101,7 @@ class LyricsSync {
 
 final lyricsSyncProvider = Provider<LyricsSync>((ref) => LyricsSync(ref));
 
-/// 雲端 `lyrics` 子集合快照 -> 歌詞實體的解碼,容錯:缺欄位給預設值、
+/// 雲端 `backupLyrics` 子集合快照 -> 歌詞實體的解碼,容錯:缺欄位給預設值、
 /// 沒有內文的文件跳過(原文是解析的唯一依據,空內文無意義)。
 extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
   List<LyricsEntity> toLyricsEntities() {
