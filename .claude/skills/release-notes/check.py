@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""驗證 docs/release-notes/X.Y.Z.md 是否符合 Play Console 貼上格式。"""
+"""驗證 docs/release-notes/vX.Y.Z.md 是否符合 Play Console 貼上格式。"""
 import re
 import sys
 
@@ -52,6 +52,6 @@ def main(path: str) -> int:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("用法:check.py docs/release-notes/X.Y.Z.md")
+        print("用法:check.py docs/release-notes/vX.Y.Z.md")
         sys.exit(2)
     sys.exit(main(sys.argv[1]))

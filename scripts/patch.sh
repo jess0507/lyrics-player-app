@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 #
 # patch.sh
-# 把本地 master 推上 GitHub，觸發 patch.yml：
+# 確認本地 master 已推上 GitHub 後，以 gh workflow run 手動觸發 patch.yml：
 #   對「最新 tag 對應的 release 版本」下 shorebird patch，
 #   純 Dart 變更數分鐘內 OTA 出貨，不經 Play Store 審查。
+#
+# 直接 git push origin master 不會觸發 Shorebird，一定要跑這支 script 才會出貨。
 #
 # 用法（從專案根目錄執行）：
 #   ./scripts/patch.sh
 #
 # 注意：
+# - 需要安裝並登入 gh CLI（brew install gh && gh auth login）。
 # - 動到 native（gradle / AndroidManifest / 含 native code 的 plugin / Flutter 升版）
 #   無法 patch，CI 會偵測並失敗——此時請改跑 ./scripts/release.sh 打新版上架。
 # - 需要至少一個已 release 的 v* tag 當 baseline。
@@ -50,13 +53,13 @@ if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
   exit 1
 fi
 
-VERSION_NAME=${LATEST_TAG#v}
+VERSION_NAME=${LATEST_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
 BUILD_NUMBER=$(git rev-list "$LATEST_TAG" --count)
 AHEAD=$(git rev-list "$LATEST_TAG"..HEAD --count)
 
 echo ""
 echo "🩹 即將 OTA patch："
-echo "   目標 release : ${VERSION_NAME}+${BUILD_NUMBER}（tag ${LATEST_TAG}，領先 ${AHEAD} commits）"
+echo "   目標 release : ${LATEST_TAG}（shorebird 識別：${VERSION_NAME}+${BUILD_NUMBER}，領先 ${AHEAD} commits）"
 echo "   commit       : $(git log -1 --oneline)"
 echo ""
 read -r -p "確認出貨？[y/N] " REPLY
@@ -66,27 +69,25 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 # --- 觸發 workflow -----------------------------------------------------------
-# 正常流程：有未推的 commit，push 即觸發 patch.yml。
-# 若 HEAD 已在 origin/master 上（無東西可推），表示上次 push 時 patch 已觸發過，
-# 屬預期外狀況，先擋下——要重跑失敗的 CI 請直接到 Actions 頁面 re-run。
-if [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/master)" ]]; then
-  echo "❌ master 已是最新（無新 commit 可推），上次 push 應已觸發過 patch。" >&2
-  echo "   若要重跑失敗的 run，請到 Actions 頁面 re-run 該 workflow。" >&2
+# patch.yml 只接受 workflow_dispatch,push master 本身不會觸發。
+# 先確保 origin/master 與本地一致(有未推的 commit 就先推),再手動 dispatch。
+if ! command -v gh >/dev/null 2>&1; then
+  echo "❌ 需要 gh CLI 才能觸發 patch.yml（brew install gh && gh auth login）。" >&2
   exit 1
 fi
 
-git push origin master
-echo "✅ 已推送 master，patch workflow 啟動中。"
+if [[ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]]; then
+  git push origin master
+  echo "✅ 已推送 master。"
+fi
 
-# （備用）已推過但仍想重新觸發時，可改走 workflow_dispatch：
-# gh workflow run patch.yml
+gh workflow run patch.yml --ref master
+echo "✅ 已觸發 patch workflow。"
 
 REPO_URL=$(git remote get-url origin | sed -E 's#^git@github.com:#https://github.com/#; s#\.git$##')
 echo "   $REPO_URL/actions/workflows/patch.yml"
 
-if command -v gh >/dev/null 2>&1; then
-  sleep 8
-  RUN_URL=$(gh run list --workflow=patch.yml --limit 1 --json url --jq '.[0].url' 2>/dev/null || true)
-  [[ -n "$RUN_URL" ]] && echo "   本次 run：$RUN_URL"
-  echo "   即時追蹤：gh run watch"
-fi
+sleep 8
+RUN_URL=$(gh run list --workflow=patch.yml --limit 1 --json url --jq '.[0].url' 2>/dev/null || true)
+[[ -n "$RUN_URL" ]] && echo "   本次 run：$RUN_URL"
+echo "   即時追蹤：gh run watch"

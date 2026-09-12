@@ -2,33 +2,37 @@
 
 兩條出貨路徑：
 
-- **`release.yml`** — 在 master 上推送 `v*` tag（例如 `v1.2.0`）時觸發，
+- **`release.yml`** — 在 master 上推送版本 tag（`vX.Y.Z`，例如 `v1.2.13`）時觸發，
   以 `shorebird release` 建置已簽章 AAB 與 APK（同時向 Shorebird 註冊 baseline），
   AAB 上傳到 Play Store 的 internal 軌道；兩者皆上傳為 GitHub Actions artifact，
   下載連結顯示在該 run 的 summary 頁面（APK 可直接側載測試）。
-- **`patch.yml`** — master 有新 push 時觸發，對「最新 tag 對應的 release 版本」
-  下 `shorebird patch`，純 Dart 變更以 OTA 出貨，不經商店審查。
+- **`patch.yml`** — 僅手動觸發（`workflow_dispatch`，由 `./scripts/patch.sh` 呼叫），
+  對「最新 tag 對應的 release 版本」下 `shorebird patch`，純 Dart 變更以 OTA 出貨，
+  不經商店審查。
+
+> 直接 `git push origin master` **不會**觸發任何 Shorebird 動作，
+> 要出貨一定要明確跑 `release.sh` 或 `patch.sh`。
 
 ## 日常操作（用 script，不必記指令）
 
 - **上架新版**：`./scripts/release.sh`（patch bump；也可 `minor` / `major` / 直接給 `1.4.0`）。
-  會檢查 master 乾淨且同步後打 tag，並與 master 一次 atomic push
-  （避免 master 的 push 事件先多觸發一次 OTA patch），最後印出 Actions run 連結。
-- **OTA 出貨**：`./scripts/patch.sh`。推 master 觸發 patch.yml；
-  若 master 已推過（如重跑失敗的 CI），改走 `gh workflow run` 手動觸發。
+  會檢查 master 乾淨且同步後打 tag，並與 master 一次 atomic push，最後印出 Actions run 連結。
+- **OTA 出貨**：`./scripts/patch.sh`。確認 master 已推上遠端後，
+  以 `gh workflow run patch.yml` 手動觸發（需安裝並登入 gh CLI）。
 
 ## 版號規則
 
 版號完全由 git 推導、錨定在最新 tag 的 commit（pubspec.yaml 的 `version:`
 僅為 placeholder，CI 一律以 `--build-name/--build-number` 覆寫）：
 
-- `versionName` = tag 本身去掉 `v` 前綴（tag `v1.2.0` → `1.2.0`），
-  即使用者看到的版本，不含 versionCode
+- 版本號 = tag = `vX.Y.Z`（例如 `v1.2.13`），release notes 檔名與之同名
+- `versionName` = 版本號去掉 `v`（`v1.2.13` → `1.2.13`），
+  因 Flutter `--build-name` 與 Play Console 要求 `X.Y.Z` 數字格式，由 CI 自動處理
 - `versionCode` = 到最新 tag 為止的總 commit 數（單調遞增），
   唯一用途是給 Play Console 當遞增識別碼
 
-例：`v1.2.0` 打在第 127 個 commit → versionName `1.2.0`、versionCode `127`
-（Shorebird CLI 內部以 `1.2.0+127` 格式識別此 release，僅用於 patch 指令）。
+例：`v1.2.13` 打在第 127 個 commit → versionName `1.2.13`、versionCode `127`
+（Shorebird CLI 內部以 `1.2.13+127` 格式識別此 release，僅用於 patch 指令）。
 
 因為錨定在 tag 而非 HEAD，tag 之間的每次 push 版號不變，
 patch 才有固定的 release 版本可以綁定。
@@ -37,18 +41,19 @@ patch 才有固定的 release 版本可以綁定。
 
 ```bash
 # 出新 release（上架 Play Store）：在 master 最新 commit 打 tag
-git tag v1.2.0
-git push origin master v1.2.0   # 一起 push,patch job 會偵測 HEAD 是 tag 而自動跳過
+git tag v1.2.13
+git push --atomic origin master v1.2.13
 
-# 出 OTA patch（純 Dart 修改）：照常 push master 即可
+# 出 OTA patch（純 Dart 修改）：master 推上去後手動 dispatch
 git push origin master
+gh workflow run patch.yml --ref master
 ```
 
 > - release.yml 會檢查 tag 指向的 commit 是否在 `origin/master` 上，否則中止。
 > - 動到 native（gradle / AndroidManifest / 含 native code 的 plugin / Flutter 升版）
 >   的變更無法 patch，patch job 會失敗——此時打新 tag 走 release。
 > - 首次導入：在打出第一個以 `shorebird release` 建置的 tag 之前，
->   master push 的 patch job 會因找不到 baseline 而失敗，屬預期行為。
+>   patch job 會因找不到 baseline 而失敗，屬預期行為。
 > - 裝置需先從 Play 安裝到該 release 版本，之後才收得到對應 patch。
 
 ## 必要的 Repository Secrets

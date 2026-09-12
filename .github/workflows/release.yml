@@ -1,12 +1,14 @@
 name: Release to Play Store
 
-# 打 v* tag 時觸發：以 shorebird release 建置已簽章 AAB(向 Shorebird 註冊
+# 打版本 tag（vX.Y.Z）時觸發：以 shorebird release 建置已簽章 AAB(向 Shorebird 註冊
 # baseline,之後才能對此版本下 OTA patch),上傳為 artifact 後由獨立 deploy job
-# 上架 Play Store。master 的日常 push 改走 patch.yml 以 OTA 出貨,不經商店。
+# 上架 Play Store。純 Dart 小改動則手動觸發 patch.yml（./scripts/patch.sh）以 OTA 出貨,
+# 不經商店;直接 push master 不會觸發任何 Shorebird 動作。
 # 拆兩段的好處：build 一定能產出可下載的 AAB；deploy 失敗時可單獨 re-run，不必重 build。
 #
 # 版號規則（錨定在最新 tag 的 commit,tag 之間不變,patch 才有固定目標）：
-#   versionName = tag 本身去掉 v 前綴（例 v1.2.0 → 1.2.0）
+#   版本號 = tag 本身（vX.Y.Z，例 v1.2.0）
+#   versionName = 版本號去掉 v（Flutter --build-name 與 Play Console 要求 X.Y.Z 數字格式）
 #   versionCode = 到 tag 為止的總 commit 數（單調遞增,符合 Play Store 要求）
 on:
   push:
@@ -38,8 +40,8 @@ jobs:
       - name: Compute version
         id: version
         run: |
-          RAW_TAG=$(git describe --tags --abbrev=0)
-          VERSION_NAME=${RAW_TAG#v}
+          RAW_TAG=$(git describe --tags --abbrev=0 --match 'v*')
+          VERSION_NAME=${RAW_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
           BUILD_NUMBER=$(git rev-list "$RAW_TAG" --count)
           echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
           echo "build=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"

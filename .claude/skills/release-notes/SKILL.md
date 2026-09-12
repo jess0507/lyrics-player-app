@@ -1,6 +1,6 @@
 ---
 name: release-notes
-description: 產生 Google Play「版本資訊」多語言文案(docs/release-notes/X.Y.Z.md),必須帶版本號參數。當使用者要「產生 release notes」「寫版本資訊」「準備 Play Console what's new」時使用。
+description: 產生 Google Play「版本資訊」多語言文案(docs/release-notes/vX.Y.Z.md),必須帶版本號參數。當使用者要「產生 release notes」「寫版本資訊」「準備 Play Console what's new」時使用。
 ---
 
 # Release Notes 產生流程
@@ -11,23 +11,25 @@ Play Console「這個版本有什麼新功能」欄位。格式規範以 `docs/r
 
 ## 1. 版本號(必填)
 
-- 版本號**必須由使用者指定**,格式 `X.Y.Z`(例如 `/release-notes 1.2.12`)。
-- 沒有帶版本號、或格式不是 `X.Y.Z` 時,**不要產生任何檔案**,只回覆:
-  「請帶版本號,例如 `/release-notes 1.2.12`」,然後結束。
+- 版本號**必須由使用者指定**,格式 `vX.Y.Z`(例如 `/release-notes v1.2.12`)。
+- **只接受帶 `v` 的版本號**。沒帶 `v`(如 `/release-notes 1.2.12`)、沒帶版本號、
+  或格式不是 `vX.Y.Z` 時,**不要產生任何檔案**、不要自動補 `v`,只回覆:
+  「請帶版本號,必須以 v 開頭,例如 `/release-notes v1.2.12`」,然後結束。
 - 不要自行從 git tag 推斷版本。
+- 版本號與 git tag 名稱一致,都是 `vX.Y.Z`。
 
-檔名為 `docs/release-notes/X.Y.Z.md`(**不加 `v`**)。
+檔名為 `docs/release-notes/vX.Y.Z.md`(**帶 `v`**,與 tag 同名)。
 若檔案已存在,先讀出來,改寫而非重建。
 
 ## 2. 蒐集本版變更
 
 - 唯一來源是 git 歷史。先找出上一個版本檔對應的 tag:
-  `docs/release-notes/` 內最大的既有版本號 `A.B.C`(不含本次要產生的檔),對應 tag `vA.B.C`。
+  `docs/release-notes/` 內最大的既有版本號 `vA.B.C`(不含本次要產生的檔),tag 同名。
 - 執行 `git log vA.B.C..HEAD --oneline`(若 tag `vX.Y.Z` 已存在,改用 `vA.B.C..vX.Y.Z`)。
   找不到任何既有版本檔時,用 `git describe --tags --abbrev=0 --match 'v*'` 取最新 tag 作為起點。
 - 忽略 `localization`、`chore`、`refactor`、`test`、`docs`、merge 類 commit,
   只留使用者可感知的功能與修正。commit 訊息不清楚時,用 `git show --stat <hash>` 看改了哪些 feature 目錄。
-- 過去版本檔(例如 `1.2.11.md`)當語氣與用詞範本。
+- 過去版本檔(例如 `v1.2.11.md`)當語氣與用詞範本。
 
 ## 3. 撰寫規則
 
@@ -46,7 +48,7 @@ Play Console「這個版本有什麼新功能」欄位。格式規範以 `docs/r
 寫完後執行(從專案根目錄):
 
 ```
-python3 .claude/skills/release-notes/check.py docs/release-notes/X.Y.Z.md
+python3 .claude/skills/release-notes/check.py docs/release-notes/vX.Y.Z.md
 ```
 
 會檢查:17 種語言齊全且順序正確、tag 獨立成行、無 Markdown 標題/程式碼區塊、每語言最多 500 個 Unicode 字元。
@@ -57,7 +59,7 @@ python3 .claude/skills/release-notes/check.py docs/release-notes/X.Y.Z.md
 在 `docs/release-notes/README.md` 的「## 檔案」清單**最下方**新增一行,格式:
 
 ```
-- [`X.Y.Z.md`](X.Y.Z.md) — 一句話摘要本版重點
+- [`vX.Y.Z.md`](vX.Y.Z.md) — 一句話摘要本版重點
 ```
 
 ## 6. 收尾

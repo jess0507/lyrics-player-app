@@ -22,9 +22,19 @@
   stream / filtered provider 也要分別成檔)。
 - 檔名對應該 provider 的職責(例如 `player_sheet_controller.dart`)。
 
+## 版本號慣例
+- 專案的版本號**一律以 `v` 開頭**,形式為 `vX.Y.Z`(例如 `v1.2.12`):
+  git tag、release notes 檔名(`docs/release-notes/vX.Y.Z.md`)、文件、
+  對話中提到的版本號都用這個形式。
+- **只接受帶 `v` 的版本號**:`v1.2.12` 原樣使用,不要再加一個 `v`;
+  沒帶 `v` 的(如 `1.2.12`)視為格式錯誤直接拒絕,不要自動幫忙補 `v`。
+- 唯一例外是 Android 的 versionName / pubspec `version:` / `--build-name`,
+  平台要求 `X.Y.Z` 數字格式,由 CI 與 script 自動去掉 `v`,不要手動改。
+- tag 由 `scripts/release.sh` 打,不要手動打 tag。
+
 ## Release Notes(Play Console 版本資訊)
-- 要產生新版本的 Play Console 多語言版本資訊時,使用 `/release-notes X.Y.Z` skill
+- 要產生新版本的 Play Console 多語言版本資訊時,使用 `/release-notes vX.Y.Z` skill
   (定義在 `.claude/skills/release-notes/`),它會依上一版 tag 以來的 git log 產生
-  `docs/release-notes/X.Y.Z.md`、跑格式檢查並更新 README 清單。
+  `docs/release-notes/vX.Y.Z.md`、跑格式檢查並更新 README 清單。
 - 版本號必填,沒帶版本號就不產生;每種語言最多 500 個 Unicode 字元。
 - 格式規範以 `docs/release-notes/README.md` 為準,skill 有變動時兩邊要同步。

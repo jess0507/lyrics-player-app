@@ -1,23 +1,23 @@
 name: OTA Patch (Shorebird)
 
-# master 有新 push 時,對「最新 tag 對應的 release 版本」下 Shorebird patch,
+# 只能手動觸發(workflow_dispatch,通常由 ./scripts/patch.sh 呼叫),
+# 對「最新 tag 對應的 release 版本」下 Shorebird patch,
 # 純 Dart 變更數分鐘內 OTA 出貨,不經 Play Store。
+# 直接 git push origin master 不會觸發任何 Shorebird 動作,
+# 要出貨必須明確執行 ./scripts/patch.sh(或 gh workflow run patch.yml)。
 # 版號與 release.yml 用同一套規則、同樣錨定在最新 tag 計算,
-# 所以 tag 之間的每次 push 算出的目標版本都相同,patch 才打得到 baseline。
+# 所以 tag 之間的每次 patch 算出的目標版本都相同,patch 才打得到 baseline。
 #
 # 注意:
 # - 動到 native(gradle / AndroidManifest / 含 native code 的 plugin / Flutter 升版)
 #   的變更無法 patch,shorebird 會偵測並讓此 job 失敗(勿加 --force),
 #   此時請打新 tag 走 release.yml 上架。
 # - 最新 tag 必須已用 shorebird release 建過(即已跑過新版 release.yml),
-#   否則 patch 找不到 baseline 會失敗——首次導入時屬預期行為,先打一個 tag 即可。
+#   否則 patch 找不到 baseline 會失敗。
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
-# patch 依序執行,避免連續 push 時亂序。
+# patch 依序執行,避免連續觸發時亂序。
 concurrency:
   group: shorebird-patch
   cancel-in-progress: false
@@ -39,19 +39,19 @@ jobs:
       - name: Compute version
         id: version
         run: |
-          RAW_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          RAW_TAG=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo "")
           if [ -z "$RAW_TAG" ]; then
             echo "尚無任何 tag,沒有可 patch 的 release,跳過。"
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # HEAD 本身就是 tag(tag 與 master 同時 push)→ 由 release.yml 處理,不 patch。
+          # HEAD 本身就是 tag → 該 commit 已由 release.yml 上架,沒有新變更可 patch。
           if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
-            echo "HEAD 即 tag $RAW_TAG,交給 release workflow,跳過 patch。"
+            echo "HEAD 即 tag $RAW_TAG,已是 release 本身,跳過 patch。"
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          VERSION_NAME=${RAW_TAG#v}
+          VERSION_NAME=${RAW_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
           BUILD_NUMBER=$(git rev-list "$RAW_TAG" --count)
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"

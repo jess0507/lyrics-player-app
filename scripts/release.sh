@@ -9,7 +9,7 @@
 #   ./scripts/release.sh           # patch bump（1.2.0 → 1.2.1）
 #   ./scripts/release.sh minor     # minor bump（1.2.0 → 1.3.0）
 #   ./scripts/release.sh major     # major bump（1.2.0 → 2.0.0）
-#   ./scripts/release.sh 1.4.0     # 直接指定版本
+#   ./scripts/release.sh v1.4.0    # 直接指定版本（必須以 v 開頭，1.4.0 會被拒絕）
 #
 # 純 Dart 的小改動不必上架，改用 ./scripts/patch.sh 走 OTA。
 #
@@ -42,39 +42,46 @@ if ! git merge-base --is-ancestor origin/master HEAD; then
 fi
 
 # --- 計算新版本 --------------------------------------------------------------
+# 版本號 = tag 名稱 = vX.Y.Z。
 LATEST_TAG=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo "")
 
-if [[ "$BUMP" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  NEW_VERSION="$BUMP"
+if [[ "$BUMP" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  NEW_VERSION="$BUMP"                 # 已是 vX.Y.Z，原樣使用，不再加 v
+elif [[ "$BUMP" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "❌ 版本號必須以 v 開頭：${BUMP} → v${BUMP}" >&2
+  exit 1
 elif [[ -z "$LATEST_TAG" ]]; then
-  NEW_VERSION="1.0.0"
-  echo "ℹ️  尚無任何 v* tag，首個版本預設 ${NEW_VERSION}（也可直接指定：./scripts/release.sh 0.1.0）"
+  NEW_VERSION="v1.0.0"
+  echo "ℹ️  尚無任何 v* tag，首個版本預設 ${NEW_VERSION}（也可直接指定：./scripts/release.sh v0.1.0）"
 else
   IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG#v}"
   case "$BUMP" in
-    major) NEW_VERSION="$((MAJOR + 1)).0.0" ;;
-    minor) NEW_VERSION="$MAJOR.$((MINOR + 1)).0" ;;
-    patch) NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))" ;;
+    major) NEW_VERSION="v$((MAJOR + 1)).0.0" ;;
+    minor) NEW_VERSION="v$MAJOR.$((MINOR + 1)).0" ;;
+    patch) NEW_VERSION="v$MAJOR.$MINOR.$((PATCH + 1))" ;;
     *)
-      echo "❌ 無效參數：${BUMP}（可用 major / minor / patch 或 X.Y.Z）" >&2
+      echo "❌ 無效參數：${BUMP}（可用 major / minor / patch 或 vX.Y.Z）" >&2
       exit 1
       ;;
   esac
 fi
 
-NEW_TAG="v$NEW_VERSION"
+NEW_TAG="$NEW_VERSION"
 if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
   echo "❌ tag $NEW_TAG 已存在。" >&2
   exit 1
 fi
+
+# Android versionName 需為 X.Y.Z 數字格式（Flutter --build-name / Play Console），故去掉 v。
+VERSION_NAME="${NEW_VERSION#v}"
 
 # versionCode 規則與 CI 相同：到 tag 為止的總 commit 數（tag 會打在 HEAD）。
 BUILD_NUMBER=$(git rev-list HEAD --count)
 
 echo ""
 echo "📦 即將 release："
-echo "   tag          : ${NEW_TAG}（目前最新：${LATEST_TAG:-無}）"
-echo "   versionName  : $NEW_VERSION"
+echo "   版本號 / tag : ${NEW_TAG}（目前最新：${LATEST_TAG:-無}）"
+echo "   versionName  : $VERSION_NAME（Android 顯示用，去掉 v）"
 echo "   versionCode  : $BUILD_NUMBER"
 echo "   commit       : $(git log -1 --oneline)"
 echo ""
@@ -85,9 +92,9 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 # --- 打 tag 並 atomic push ---------------------------------------------------
-# master 與 tag 必須同一次 push：patch.yml 看到 HEAD 已是 tag 才會跳過，
-# 分開推會讓 master 的 push 先多觸發一次 OTA patch。
-git tag -a "$NEW_TAG" -m "Release $NEW_VERSION"
+# master 與 tag 一次 atomic push：兩者同時成功或同時失敗，
+# 避免 tag 推上去了 master 卻沒更新（release.yml 會檢查 tag 必須在 origin/master 上）。
+git tag -a "$NEW_TAG" -m "Release $NEW_TAG"
 git push --atomic origin master "refs/tags/$NEW_TAG"
 
 REPO_URL=$(git remote get-url origin | sed -E 's#^git@github.com:#https://github.com/#; s#\.git$##')
