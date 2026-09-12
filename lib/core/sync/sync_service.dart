@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/backup/backup_state_store.dart';
@@ -22,6 +23,8 @@ import 'package:seek_player/core/sync/statistics_sync.dart';
 ///   覆寫本機;接著再跑一次上傳判斷,本機較新的部分補推上雲端。
 /// - 回前景:只推本機較新的領域。
 /// - 整份快照語意、多裝置 last-write-wins、不合併。
+/// - 每次上傳順便把 App 版本(appVersion / buildNumber / recordedAt)寫進
+///   主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
 ///
 /// Google Drive 備份(GoogleDriveBackupService)暫時停用,改回本機制;
 /// 兩者共用同一個 [BackupStateStore] 作為本機變更時戳來源。
@@ -32,8 +35,7 @@ class SyncService {
 
   final Ref ref;
 
-  /// 雲端 `user/{uid}` 主文件的 schema 版號;UserRecordService 寫主文件時
-  /// 也用同一個值,避免彼此把對方判成「較新」而跳過上傳。
+  /// 雲端 `user/{uid}` 主文件的 schema 版號。
   static const schemaVersion = 8;
 
   BackupStateStore get _store => ref.read(backupStateStoreProvider);
@@ -265,9 +267,7 @@ class SyncService {
         local: _store.lyricsModifiedAt,
       );
 
-      await userDoc.set({
-        'schemaVersion': schemaVersion,
-      }, SetOptions(merge: true));
+      await userDoc.set(await _userDocData(), SetOptions(merge: true));
       // 更新本機顯示用的「上次同步時間」(帳戶頁面),不影響推 / 拉判斷
       // (一律直接讀 Firestore,見上)。
       _markSynced();
@@ -306,6 +306,17 @@ class SyncService {
       reportError(e, s, reason: 'Firestore 同步上傳失敗');
       return false;
     }
+  }
+
+  /// 主文件內容:schema 版號 + 這台裝置的 App 版本與寫入時間(merge)。
+  Future<Map<String, dynamic>> _userDocData() async {
+    final info = await PackageInfo.fromPlatform();
+    return {
+      'schemaVersion': schemaVersion,
+      'appVersion': info.version,
+      'buildNumber': info.buildNumber,
+      'recordedAt': FieldValue.serverTimestamp(),
+    };
   }
 
   /// 更新「上次同步時間」並通知帳戶頁刷新。
