@@ -111,6 +111,9 @@ Future<void> lyricsBackgroundMain() async {
 
   // 結束時要顯示的結果通知文字;成功 / 失敗各異,取消(null)不發。
   String? resultText;
+  // 送出請求失敗時通知要出聲 / 震動;送出成功只是「已排隊」,保持靜音,
+  // 真正完成的提醒由 main isolate 的 LyricsPendingSyncService 另發。
+  var alert = false;
   try {
     switch (request.mode) {
       case LyricsBackgroundMode.generate:
@@ -140,6 +143,7 @@ Future<void> lyricsBackgroundMain() async {
   } on LyricsAutoGenerateException catch (e) {
     debugPrint('[LyricsBg] 失敗(generate): ${e.error.name}');
     resultText = request.failedLabel;
+    alert = true;
     emit(
       LyricsBackgroundEventType.error,
       errorName: e.error.name,
@@ -148,6 +152,7 @@ Future<void> lyricsBackgroundMain() async {
   } on LyricsAutoSyncException catch (e) {
     debugPrint('[LyricsBg] 失敗(align): ${e.error.name}');
     resultText = request.failedLabel;
+    alert = true;
     emit(
       LyricsBackgroundEventType.error,
       errorName: e.error.name,
@@ -156,12 +161,16 @@ Future<void> lyricsBackgroundMain() async {
   } catch (e, s) {
     reportError(e, s, reason: '背景歌詞處理：未預期錯誤');
     resultText = request.failedLabel;
+    alert = true;
     emit(LyricsBackgroundEventType.error, errorName: 'unknown');
   } finally {
     container.dispose();
     // 取消流程可能已請 stop、服務已收掉,channel 呼叫失敗屬預期。
     try {
-      await channel.invokeMethod<void>('stop', {'text': resultText});
+      await channel.invokeMethod<void>('stop', {
+        'text': resultText,
+        'alert': alert,
+      });
     } catch (_) {}
   }
 }

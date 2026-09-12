@@ -5,6 +5,8 @@
         android:maxSdkVersion="32"/>
     <!-- 通知列播放控制（Android 13+） -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- 歌詞任務結果通知在 API 24–25 以 DEFAULT_VIBRATE 震動需此權限;26+ 由頻道處理 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- 背景播放（audio_service / just_audio_background） -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>

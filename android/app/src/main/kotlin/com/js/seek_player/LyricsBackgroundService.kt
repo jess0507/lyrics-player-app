@@ -44,6 +44,9 @@ class LyricsBackgroundService : Service() {
 
         private const val METHOD_CHANNEL = "seek_player/lyrics_background"
         private const val CHANNEL_ID = "lyrics_background"
+        // 結果通知專用頻道:進度頻道是 IMPORTANCE_LOW(靜音),而任務完成 /
+        // 失敗要有聲音與震動提醒,頻道重要度建立後不能改,故獨立一個。
+        private const val RESULT_CHANNEL_ID = "lyrics_result"
         // 與 just_audio_background 的通知(頻道 com.example.seek_player.audio)
         // 各自獨立;id 避開其預設值。
         private const val NOTIFICATION_ID = 2001
@@ -75,6 +78,14 @@ class LyricsBackgroundService : Service() {
                     NotificationManager.IMPORTANCE_LOW,
                 ),
             )
+            manager.createNotificationChannel(
+                NotificationChannel(
+                    RESULT_CHANNEL_ID,
+                    "Lyrics results",
+                    // DEFAULT 才會出聲;震動另外開。使用者可在系統設定自行關閉。
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                ).apply { enableVibration(true) },
+            )
         }
 
         /**
@@ -83,19 +94,37 @@ class LyricsBackgroundService : Service() {
          * `MainActivity` 的 launcher channel(`notifyResult`)呼叫本方法,
          * 這時前景服務通常早就 stop 了。沿用同一個 [RESULT_NOTIFICATION_ID]
          * 直接覆蓋掉服務結束時貼的「已送出請求」那則。
+         *
+         * [alert] 為 true 走結果頻道(有聲音與震動),用於任務真正完成 / 失敗;
+         * false 走靜音的進度頻道,用於「已送出請求」這種中途狀態。
          */
-        fun postResultNotification(context: Context, title: String, text: String) {
+        fun postResultNotification(
+            context: Context,
+            title: String,
+            text: String,
+            alert: Boolean,
+        ) {
             ensureChannel(context)
             val contentIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.let {
                 PendingIntent.getActivity(context, 3, it, PendingIntent.FLAG_IMMUTABLE)
             }
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            val builder = NotificationCompat.Builder(
+                context,
+                if (alert) RESULT_CHANNEL_ID else CHANNEL_ID,
+            )
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
                 .setContentIntent(contentIntent)
-                .build()
+            if (alert) {
+                // API 26+ 由頻道決定聲音 / 震動;priority 與 defaults 供 API 24–25
+                // (minSdk 24,尚無頻道)使用。
+                builder
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setDefaults(NotificationCompat.DEFAULT_SOUND or NotificationCompat.DEFAULT_VIBRATE)
+            }
+            val notification = builder.build()
             context.getSystemService(NotificationManager::class.java)
                 .notify(RESULT_NOTIFICATION_ID, notification)
         }
@@ -168,9 +197,14 @@ class LyricsBackgroundService : Service() {
                     }
                     "stop" -> {
                         // 帶 text 時先發結果通知(成功 / 失敗;取消不帶)再收服務。
+                        // alert:送出請求失敗時提醒;成功只是「已排隊」,靜音即可,
+                        // 真正完成的提醒由 LyricsPendingSyncService 另發。
                         val text = call.argument<String>("text")
-                        Log.i(TAG, "Dart 請求 stop,結束服務(結果通知: ${text != null})")
-                        if (text != null) postResultNotification(this@LyricsBackgroundService, title, text)
+                        val alert = call.argument<Boolean>("alert") ?: false
+                        Log.i(TAG, "Dart 請求 stop,結束服務(結果通知: ${text != null}, alert=$alert)")
+                        if (text != null) {
+                            postResultNotification(this@LyricsBackgroundService, title, text, alert)
+                        }
                         result.success(null)
                         stopSelf()
                     }

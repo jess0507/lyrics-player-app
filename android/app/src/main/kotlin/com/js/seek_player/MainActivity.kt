@@ -96,7 +96,8 @@ class MainActivity : AudioServiceActivity() {
                     val args = call.arguments as? Map<*, *>
                     val title = args?.get("title") as? String ?: ""
                     val text = args?.get("text") as? String ?: ""
-                    LyricsBackgroundService.postResultNotification(this, title, text)
+                    // 任務真正完成 / 失敗:出聲音與震動提醒。
+                    LyricsBackgroundService.postResultNotification(this, title, text, alert = true)
                     result.success(null)
                 }
                 else -> result.notImplemented()
