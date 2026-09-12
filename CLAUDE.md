@@ -21,3 +21,10 @@
   包含 service 本體與其衍生 provider(例如 service provider 與其衍生的
   stream / filtered provider 也要分別成檔)。
 - 檔名對應該 provider 的職責(例如 `player_sheet_controller.dart`)。
+
+## Release Notes(Play Console 版本資訊)
+- 要產生新版本的 Play Console 多語言版本資訊時,使用 `/release-notes X.Y.Z` skill
+  (定義在 `.claude/skills/release-notes/`),它會依上一版 tag 以來的 git log 產生
+  `docs/release-notes/X.Y.Z.md`、跑格式檢查並更新 README 清單。
+- 版本號必填,沒帶版本號就不產生;每種語言最多 500 個 Unicode 字元。
+- 格式規範以 `docs/release-notes/README.md` 為準,skill 有變動時兩邊要同步。
