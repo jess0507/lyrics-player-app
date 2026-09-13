@@ -75,15 +75,31 @@ fi
 # Android versionName 需為 X.Y.Z 數字格式（Flutter --build-name / Play Console），故去掉 v。
 VERSION_NAME="${NEW_VERSION#v}"
 
+# --- 版本資訊（Play Console「這個版本有什麼新功能」）------------------------
+# release.yml 會把 docs/release-notes/<tag>.md 隨 AAB 送上 Play Console，
+# 缺檔或格式不符 CI 會失敗，所以打 tag 前先在本機擋下來。
+NOTES="docs/release-notes/${NEW_TAG}.md"
+if [[ ! -f "$NOTES" ]]; then
+  echo "❌ 找不到 ${NOTES}。" >&2
+  echo "   請先在 Claude Code 執行  /release-notes ${NEW_TAG}  產生版本資訊並 commit 後再 release。" >&2
+  exit 1
+fi
+echo "📝 檢查版本資訊 ${NOTES}..."
+python3 scripts/release_notes.py "$NOTES" "$(mktemp -d)" >/dev/null || {
+  echo "❌ ${NOTES} 格式不符，請執行 python3 scripts/release_notes.py ${NOTES} /tmp/whatsnew 查看錯誤。" >&2
+  exit 1
+}
+
 # versionCode 規則與 CI 相同：到 tag 為止的總 commit 數（tag 會打在 HEAD）。
 BUILD_NUMBER=$(git rev-list HEAD --count)
 
 echo ""
 echo "📦 即將 release："
 echo "   版本號 / tag : ${NEW_TAG}（目前最新：${LATEST_TAG:-無}）"
-echo "   versionName  : $VERSION_NAME（Android 顯示用，去掉 v）"
+echo "   versionName  : ${VERSION_NAME}（Android 顯示用，去掉 v）"
 echo "   versionCode  : $BUILD_NUMBER"
 echo "   commit       : $(git log -1 --oneline)"
+echo "   版本資訊     : $NOTES"
 echo ""
 read -r -p "確認打 tag 並觸發上架？[y/N] " REPLY
 if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then

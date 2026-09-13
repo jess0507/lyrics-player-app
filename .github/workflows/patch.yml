@@ -56,7 +56,7 @@ jobs:
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
           echo "build=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "patch 目標: $VERSION_NAME+$BUILD_NUMBER（tag: $RAW_TAG,落後 $(git rev-list "$RAW_TAG"..HEAD --count) commits）"
+          echo "patch 目標: $VERSION_NAME+${BUILD_NUMBER}（tag: $RAW_TAG,落後 $(git rev-list "$RAW_TAG"..HEAD --count) commits）"
 
   patch:
     name: Shorebird patch

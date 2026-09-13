@@ -8,6 +8,7 @@
 | [`release.sh`](release.sh) | 打新版本 tag 並上架 Play Store | 會，觸發 `release.yml` |
 | [`patch.sh`](patch.sh) | 對最新 release 下 Shorebird OTA patch | 會，手動觸發 `patch.yml` |
 | [`gen_app_assets.sh`](gen_app_assets.sh) | 由 SVG 重新產生 App 圖示與啟動畫面 | 不會，純本機 |
+| [`release_notes.py`](release_notes.py) | 把 `docs/release-notes/vX.Y.Z.md` 拆成 Play 上傳用的 whatsnew 目錄 | 不會，由 `release.sh` 與 `release.yml` 內部呼叫 |
 | [`store_listing.py`](store_listing.py) | 把 `docs/store-listing/` 商店文案推到 Play Console | 會，直接改 Play Console listing（CI 也會在 push master 時自動跑） |
 
 > **直接 `git push origin master` 不會觸發任何 Shorebird / 上架動作。**
@@ -27,7 +28,8 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 
 1. `shorebird release` 建置已簽章的 AAB 與 APK，同時向 Shorebird 註冊這個版本為
    OTA baseline（之後的 `patch.sh` 才有目標可以 patch）。
-2. AAB 上架 Play Store **internal** 軌道。
+2. AAB 上架 Play Store **internal** 軌道，並把 `docs/release-notes/vX.Y.Z.md`
+   （與 tag 同名）作為該版本的「這個版本有什麼新功能」一起送上去。
 3. APK 上傳到 GCS 與 GitHub Release，下載連結顯示在該 run 的 summary 頁。
 
 ```bash
@@ -39,7 +41,9 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 
 指定版本時**必須帶 `v`**，`1.4.0` 會被拒絕並提示改成 `v1.4.0`。
 
-執行前會印出即將使用的版本號（tag）、versionName、versionCode 與 commit，
+執行前會先確認 `docs/release-notes/vX.Y.Z.md` 存在且格式正確（17 語系、每語系 ≤500 字元），
+**缺檔就不打 tag**——請先用 `/release-notes vX.Y.Z` 產生並 commit。
+接著印出即將使用的版本號（tag）、versionName、versionCode、commit 與版本資訊檔，
 按 `y` 才會真的打 tag 並 push。
 
 **什麼時候用：**
@@ -108,6 +112,21 @@ LOGO_SIZE=900 LOGO_SIZE_ANDROID12=640 ./scripts/gen_app_assets.sh
 **需求：** Google Chrome 或 Chromium（headless 渲染 SVG）、Flutter SDK。
 
 產出的圖片與平台資源都會進 git，跑完記得一起 commit。
+
+---
+
+## release_notes.py — 版本資訊轉 Play 上傳格式
+
+把 `docs/release-notes/vX.Y.Z.md` 的 `<語言碼>…</語言碼>` 區塊拆成
+`r0adkll/upload-google-play` 需要的 `whatsnew-<語言碼>` 檔案（17 個），
+拆之前會先跑 `.claude/skills/release-notes/check.py` 的格式檢查。
+
+```bash
+python3 scripts/release_notes.py docs/release-notes/v1.2.13.md build/whatsnew
+```
+
+平常不用手動跑：`release.sh` 打 tag 前用它驗格式，`release.yml` 的 deploy job 用它產生
+上傳目錄。版本資訊的撰寫規範見 `docs/release-notes/README.md`。
 
 ---
 

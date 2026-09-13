@@ -5,6 +5,8 @@ name: Release to Play Store
 # 上架 Play Store。純 Dart 小改動則手動觸發 patch.yml（./scripts/patch.sh）以 OTA 出貨,
 # 不經商店;直接 push master 不會觸發任何 Shorebird 動作。
 # 拆兩段的好處：build 一定能產出可下載的 AAB；deploy 失敗時可單獨 re-run，不必重 build。
+# Play Console 的「這個版本有什麼新功能」取自 docs/release-notes/vX.Y.Z.md（與 tag 同名），
+# 檔案不存在或格式不符時 build 一開始就失敗，不會浪費時間建置。
 #
 # 版號規則（錨定在最新 tag 的 commit,tag 之間不變,patch 才有固定目標）：
 #   版本號 = tag 本身（vX.Y.Z，例 v1.2.0）
@@ -55,6 +57,17 @@ jobs:
             echo "| versionCode | \`$BUILD_NUMBER\` |"
             echo "| tag | \`$RAW_TAG\` |"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # 版本資訊必須與 tag 同名存在，deploy job 會把它送上 Play Console。
+      # 這裡先驗格式，缺檔或超過 500 字元就直接失敗，不進入 13 分鐘的建置。
+      - name: Ensure release notes exist
+        run: |
+          NOTES="docs/release-notes/v${{ steps.version.outputs.name }}.md"
+          if [[ ! -f "$NOTES" ]]; then
+            echo "::error::找不到 ${NOTES}，請先執行 /release-notes v${{ steps.version.outputs.name }} 產生版本資訊後再 release。"
+            exit 1
+          fi
+          python3 scripts/release_notes.py "$NOTES" /tmp/whatsnew-check
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -188,11 +201,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download AAB artifact
         uses: actions/download-artifact@v4
         with:
           name: app-release-aab-${{ needs.build.outputs.name }}
           path: release
+
+      # docs/release-notes/vX.Y.Z.md → whatsnew/whatsnew-<語言碼>（17 語系），
+      # 作為 Play Console 這個版本的「這個版本有什麼新功能」。
+      - name: Build what's new from release notes
+        run: python3 scripts/release_notes.py "docs/release-notes/v${{ needs.build.outputs.name }}.md" whatsnew
 
       - name: Upload to Play Store (internal track)
         uses: r0adkll/upload-google-play@v1
@@ -200,5 +221,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.js.seek_player
           releaseFiles: release/app-release.aab
+          releaseName: v${{ needs.build.outputs.name }}
+          whatsNewDirectory: whatsnew
           track: internal
           status: completed

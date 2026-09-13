@@ -37,6 +37,13 @@
 因為錨定在 tag 而非 HEAD，tag 之間的每次 push 版號不變，
 patch 才有固定的 release 版本可以綁定。
 
+## 版本資訊（What's new）
+
+deploy job 會把 `docs/release-notes/vX.Y.Z.md`（與 tag 同名）經 `scripts/release_notes.py` 拆成
+17 個語系檔，透過 `whatsNewDirectory` 隨 AAB 送上 Play Console。
+build job 一開始就檢查該檔存在且格式正確，缺檔直接失敗；`scripts/release.sh` 打 tag 前也會先擋。
+出新版前先執行 `/release-notes vX.Y.Z` 產生並 commit。
+
 ## 觸發方式
 
 ```bash
