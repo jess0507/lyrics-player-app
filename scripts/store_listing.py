@@ -19,7 +19,7 @@ store_listing.py
   python3 scripts/store_listing.py --dry-run   # 只看會改哪些語系
   python3 scripts/store_listing.py             # 真的推上去
 
-需求:python3 ≥ 3.9;若走服務帳號 JSON 需 `pip install google-auth`;
+需求:python3 ≥ 3.9;若走服務帳號 JSON 需 `pip install google-auth requests`;
      走 impersonation 只需 gcloud CLI。
 """
 
@@ -119,8 +119,9 @@ def access_token() -> str:
         try:
             from google.auth.transport.requests import Request  # type: ignore
             from google.oauth2 import service_account  # type: ignore
-        except ImportError:
-            raise SystemExit("❌ 需要 google-auth:pip install google-auth")
+        except ImportError as e:
+            # google.auth.transport.requests 另外依賴 requests,google-auth 不會自動帶上。
+            raise SystemExit(f"❌ 缺少套件({e}):pip install google-auth requests")
         if sa_json:
             creds = service_account.Credentials.from_service_account_info(
                 json.loads(sa_json), scopes=[SCOPE]

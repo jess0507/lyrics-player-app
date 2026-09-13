@@ -33,7 +33,8 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install --quiet google-auth
+        # google.auth.transport.requests 需要 requests,google-auth 不會自動安裝它。
+        run: pip install --quiet google-auth requests
 
       - name: Update store listing
         env:

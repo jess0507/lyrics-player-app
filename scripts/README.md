@@ -157,7 +157,7 @@ gcloud iam service-accounts add-iam-policy-binding \
   --role=roles/iam.serviceAccountTokenCreator
 ```
 
-也可設定 `GOOGLE_APPLICATION_CREDENTIALS=<服務帳號 JSON 路徑>` 改走 key 檔（需 `pip install google-auth`）。
+也可設定 `GOOGLE_APPLICATION_CREDENTIALS=<服務帳號 JSON 路徑>` 改走 key 檔（需 `pip install google-auth requests`）。
 
 **注意：**
 - 檔名 → Play 語系代碼的對應表在 script 內的 `LOCALES`（`es.md` 同時餵 `es-ES` 與 `es-419`）。
