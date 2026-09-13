@@ -11,9 +11,10 @@ Letras por IA, importar, alinear y sincronizar; 2.º plano, avance, velocidad.
 ## 完整說明（貼到 Full description，≤4000 字元）
 
 ```
+Reproductor de letras:
 ✨ Sin anuncios
 🎤 Letras generadas por IA, importación, alineación y visualización sincronizada
-🎵 Música local, sin conexión y en segundo plano
+🎵 Música local sin conexión y en segundo plano
 ⏩ Avance rápido, retroceso y velocidad de reproducción
 🔁 Modos de reproducción
 📊 Estadísticas de reproducción

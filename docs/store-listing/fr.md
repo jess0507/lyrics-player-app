@@ -11,10 +11,11 @@ Paroles par IA, import, alignement et synchro ; arrière-plan, avance, vitesse.
 ## 完整說明（貼到 Full description，≤4000 字元）
 
 ```
+Lecteur de paroles :
 ✨ Sans publicité
 🎤 Paroles générées par IA, import, alignement et affichage synchronisé
-🎵 Musique locale, hors ligne et en arrière-plan
-⏩ Avance rapide, retour rapide et vitesse de lecture
+🎵 Lecture hors ligne et en arrière-plan de votre musique locale
+⏩ Avance rapide, retour rapide, vitesse de lecture
 🔁 Modes de lecture
 📊 Statistiques d'écoute
 🌍 16 langues

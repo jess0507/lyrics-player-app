@@ -11,10 +11,11 @@ Lời bài hát AI, nhập, căn chỉnh và đồng bộ; phát trong nền, tu
 ## 完整說明（貼到 Full description，≤4000 字元）
 
 ```
+Trình phát lời bài hát:
 ✨ Không quảng cáo
 🎤 Lời bài hát tạo bằng AI, nhập, căn chỉnh và hiển thị đồng bộ
-🎵 Phát nhạc trên máy ngoại tuyến và trong nền
-⏩ Tua tới, tua lui, tốc độ phát
+🎵 Phát nhạc trong máy ngoại tuyến và chạy nền
+⏩ Tua đi, tua lại, tốc độ phát
 🔁 Chế độ phát
 📊 Thống kê nghe nhạc
 🌍 16 ngôn ngữ

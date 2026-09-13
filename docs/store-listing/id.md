@@ -11,13 +11,14 @@ Lirik AI, impor, selaraskan & sinkron; putar di latar, maju/mundur, kecepatan.
 ## 完整說明（貼到 Full description，≤4000 字元）
 
 ```
+Pemutar Lirik-Lyrics Player:
 ✨ Tanpa iklan
-🎤 Lirik buatan AI, impor, penyelarasan, dan tampilan tersinkron
-🎵 Musik lokal offline dan di latar belakang
+🎤 Lirik hasil AI, impor, penyelarasan & tampilan sinkron
+🎵 Putar musik lokal secara offline & di latar belakang
 ⏩ Maju cepat, mundur, kecepatan putar
 🔁 Mode pemutaran
 📊 Statistik pemutaran
 🌍 16 bahasa
 🎨 Warna tema personal
-🔐 Utamakan privasi
+🔐 Privasi diutamakan
 ```

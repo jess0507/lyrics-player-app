@@ -11,13 +11,14 @@ Yapay zekâ sözler, aktarma, hizalama, eşzamanlı gösterim; arka plan, sarma,
 ## 完整說明（貼到 Full description，≤4000 字元）
 
 ```
+Şarkı Sözü Oynatıcı:
 ✨ Reklamsız
-🎤 Yapay zekâ ile söz oluşturma, içe aktarma, hizalama ve eşzamanlı gösterim
+🎤 Yapay zekâ ile şarkı sözü oluşturma, içe aktarma, hizalama ve eşzamanlı gösterim
 🎵 Yerel müziği çevrimdışı ve arka planda çalma
 ⏩ İleri sarma, geri sarma, oynatma hızı
 🔁 Oynatma modları
 📊 Dinleme istatistikleri
 🌍 16 dil
 🎨 Kişisel tema renkleri
-🔐 Gizliliğe önem verir
+🔐 Gizlilik önceliğimiz
 ```
