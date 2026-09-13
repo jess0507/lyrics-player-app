@@ -2,6 +2,10 @@
 
 Google Play 商店文案的各語系版本。每個語言一個檔案,內含該語系的**簡短說明**(≤80 字元)與**完整說明**(≤4000 字元),可直接貼到 Play Console 對應語系的 listing。
 
+**不必手動貼：** 改完 push 到 `master` 後,`.github/workflows/store-listing.yml` 會自動用
+`scripts/store_listing.py` 推到 Play Console(只更新有差異的語系)。本機可先跑
+`python3 scripts/store_listing.py --dry-run` 看差異;檔名與 Play 語系代碼的對應表在 script 內的 `LOCALES`。
+
 - 主打賣點:歌詞 AI 產生、匯入、對齊與同步顯示;無廣告、離線背景播放。
 - 完整說明不支援 Markdown,僅支援少量 HTML;這裡以「emoji + 一句話」條列排版,以 zh-TW 為母版,其他語言逐條對齊,複製程式碼區塊內容即可貼上。
 - App 名稱以 zh-TW 的「歌詞播放器-Lyrics Player」為準;非拉丁字母語系加「-Lyrics Player」後綴,拉丁字母語系因 30 字上限只保留在地名稱。

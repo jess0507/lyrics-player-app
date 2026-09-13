@@ -1,0 +1,41 @@
+name: Store Listing
+
+# docs/store-listing/ 的商店文案(App 名稱 / 簡短說明 / 完整說明)推到 master 時,
+# 以 scripts/store_listing.py 透過 Play Developer API 更新 Play Console 各語系 listing。
+# 只更新與線上內容有差異的語系;完全一致時不建立任何變更。
+# 不涉及 AAB / 版本,與 release.yml、patch.yml 互不影響。
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'docs/store-listing/**'
+      - 'scripts/store_listing.py'
+      - '.github/workflows/store-listing.yml'
+  workflow_dispatch:
+
+# 同一時間只跑一個,避免兩個 Play edit 互相覆蓋。
+concurrency:
+  group: store-listing
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Update Play Console listing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet google-auth
+
+      - name: Update store listing
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: python3 scripts/store_listing.py

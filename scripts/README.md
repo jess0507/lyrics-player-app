@@ -8,9 +8,11 @@
 | [`release.sh`](release.sh) | 打新版本 tag 並上架 Play Store | 會，觸發 `release.yml` |
 | [`patch.sh`](patch.sh) | 對最新 release 下 Shorebird OTA patch | 會，手動觸發 `patch.yml` |
 | [`gen_app_assets.sh`](gen_app_assets.sh) | 由 SVG 重新產生 App 圖示與啟動畫面 | 不會，純本機 |
+| [`store_listing.py`](store_listing.py) | 把 `docs/store-listing/` 商店文案推到 Play Console | 會，直接改 Play Console listing（CI 也會在 push master 時自動跑） |
 
 > **直接 `git push origin master` 不會觸發任何 Shorebird / 上架動作。**
 > 要出貨一定要明確跑 `release.sh` 或 `patch.sh`。
+> 唯一例外是 `docs/store-listing/` 的商店文案：push master 就會由 `store-listing.yml` 自動推到 Play Console（不含 AAB）。
 > 兩者都要求：在 `master` 分支、working tree 乾淨、本地不落後 `origin/master`。
 
 **版本號慣例：** 版本號一律以 `v` 開頭（`vX.Y.Z`，例如 `v1.2.13`），git tag 與 release notes 檔名同名。
@@ -106,3 +108,41 @@ LOGO_SIZE=900 LOGO_SIZE_ANDROID12=640 ./scripts/gen_app_assets.sh
 **需求：** Google Chrome 或 Chromium（headless 渲染 SVG）、Flutter SDK。
 
 產出的圖片與平台資源都會進 git，跑完記得一起 commit。
+
+---
+
+## store_listing.py — 更新 Play Console 商店文案
+
+把 `docs/store-listing/<語言>.md` 的 **App 名稱 / 簡短說明 / 完整說明** 透過
+Play Developer API 推到 Play Console 各語系 listing。只更新與線上有差異的語系，
+完全一致時不會建立任何變更。
+
+```bash
+python3 scripts/store_listing.py --dry-run   # 只列出哪些語系會被更新
+python3 scripts/store_listing.py             # 寫入、validate、commit
+```
+
+**CI 自動執行：** `docs/store-listing/` 有變更並 push 到 `master` 時，
+`.github/workflows/store-listing.yml` 會自動跑同一支 script（用 `PLAY_SERVICE_ACCOUNT_JSON` secret 認證）。
+平常改完文案直接 push master 即可，不必在本機跑；本機主要用 `--dry-run` 先看差異。
+
+**本機認證：** 不需要下載服務帳號 key，script 會用 gcloud impersonate
+`play-publisher@seek-player-f724e.iam.gserviceaccount.com`。
+第一次使用需先授權自己的帳號（只需一次）：
+
+```bash
+gcloud iam service-accounts add-iam-policy-binding \
+  play-publisher@seek-player-f724e.iam.gserviceaccount.com \
+  --project seek-player-f724e \
+  --member=user:<你的 Google 帳號> \
+  --role=roles/iam.serviceAccountTokenCreator
+```
+
+也可設定 `GOOGLE_APPLICATION_CREDENTIALS=<服務帳號 JSON 路徑>` 改走 key 檔（需 `pip install google-auth`）。
+
+**注意：**
+- 檔名 → Play 語系代碼的對應表在 script 內的 `LOCALES`（`es.md` 同時餵 `es-ES` 與 `es-419`）。
+  Play Console 新增語系時要一併加上，否則該語系不會被更新。
+- 字數上限（名稱 30 / 簡短說明 80 / 完整說明 4000）超過會直接失敗，不會送出任何變更。
+- 服務帳號需在 Play Console「使用者和權限」擁有「管理商店資訊」權限。
+- 文案變更一樣要經 Google 審查，通常數小時到數天後才會在商店頁面生效。

@@ -66,7 +66,7 @@ gh workflow run patch.yml --ref master
 | `KEYSTORE_PASSWORD` | keystore 密碼（storePassword） |
 | `KEY_ALIAS` | 金鑰別名 |
 | `KEY_PASSWORD` | 金鑰密碼 |
-| `PLAY_SERVICE_ACCOUNT_JSON` | Google Play Console 服務帳號 JSON（需有「發布應用程式」權限） |
+| `PLAY_SERVICE_ACCOUNT_JSON` | Google Play Console 服務帳號 JSON（`play-publisher@seek-player-f724e`；需有「發布應用程式到測試軌道」與「管理商店資訊」權限，後者供 `store-listing.yml` 更新商店文案） |
 | `SHOREBIRD_TOKEN` | Shorebird CI token（console.shorebird.dev 建立 API key） |
 | `APK_GCS_SERVICE_ACCOUNT` | GCP 服務帳號 `github-release-upload@seek-player-f724e.iam.gserviceaccount.com` 的 JSON key（僅有 `seek-player-f724e-apk` bucket 的 Storage Object Admin），供 CI 上傳 APK 到 GCS |
 
