@@ -33,11 +33,23 @@ Future<Color?> extractCoverColor(File file) async {
 
     // fromByteData 為純 Dart 運算,可在背景 isolate 安全執行(不需引擎)。
     final argb = await Isolate.run<int?>(() async {
+      final encoded = EncodedImage(byteData, width: width, height: height);
+      // 預設濾鏡會丟掉近黑 / 近白像素,避免彩色封面的黑邊或白底搶走主色。
       final palette = await PaletteGenerator.fromByteData(
-        EncodedImage(byteData, width: width, height: height),
+        encoded,
         maximumColorCount: 16,
       );
-      return palette.dominantColor?.color.toARGB32();
+      final dominant = palette.dominantColor;
+      if (dominant != null) return dominant.color.toARGB32();
+      // 整張圖都被濾掉,代表封面本身就是純黑 / 純白(或極接近);改以不加
+      // 濾鏡重新取色,讓這類封面得到灰階主色,由 [normalizeCoverColor]
+      // 呈現為灰色漸層,而非退回主題色。
+      final unfiltered = await PaletteGenerator.fromByteData(
+        encoded,
+        maximumColorCount: 16,
+        filters: const <PaletteFilter>[],
+      );
+      return unfiltered.dominantColor?.color.toARGB32();
     });
     return argb == null ? null : Color(argb);
   } catch (e, s) {
@@ -58,6 +70,10 @@ Future<Color?> extractCoverColor(File file) async {
 ///   略為壓低。
 /// - [Brightness.light]:[lightModeSaturation] / [lightModeValue]。純色疊
 ///   在近白的 surface 上更容易刺眼,故明度壓得比深色主題更低。
+///
+/// 灰階封面(黑 / 白 / 灰,飽和度低於 [grayscaleSaturationThreshold])
+/// 沒有有意義的色相(HSV 會回 0°,若照常套飽和度會變成鮮紅),故保持
+/// 飽和度 0,只套用主題明度,呈現為灰色漸層。
 Color normalizeCoverColor(
   Color color, {
   Brightness brightness = Brightness.dark,
@@ -67,8 +83,17 @@ Color normalizeCoverColor(
     Brightness.dark => (darkModeSaturation, darkModeValue),
     Brightness.light => (lightModeSaturation, lightModeValue),
   };
-  return hsv.withSaturation(saturation).withValue(value).toColor();
+  final isGrayscale = hsv.saturation < grayscaleSaturationThreshold;
+  return hsv
+      .withSaturation(isGrayscale ? 0.0 : saturation)
+      .withValue(value)
+      .toColor();
 }
+
+/// 封面主色的飽和度低於此值即視為灰階(黑 / 白 / 灰),不套用色相;
+/// 見 [normalizeCoverColor]。門檻略高於 0 以容忍 JPEG 壓縮與量化造成的
+/// 微小偏色。
+const double grayscaleSaturationThreshold = 0.1;
 
 /// 深色主題下封面色的明度(HSV value);見 [normalizeCoverColor]。
 const double darkModeValue = 0.85;

@@ -68,16 +68,43 @@ void main() {
       expect(normalizeCoverColor(pure).toARGB32(), pure.toARGB32());
     });
 
-    test('近黑 / 近白封面不會造成過暗或過曝', () {
-      for (final extreme in const [Color(0xFF000000), Color(0xFFFFFFFF)]) {
-        final out = HSVColor.fromColor(normalizeCoverColor(extreme));
-        expect(
-          out.saturation,
-          closeTo(darkModeSaturation, 0.01),
-          reason: '$extreme',
+    test('黑 / 白 / 灰封面 → 飽和度 0 的灰色,明度依主題固定', () {
+      for (final gray in const [
+        Color(0xFF000000),
+        Color(0xFFFFFFFF),
+        Color(0xFF808080),
+        Color(0xFF1A1A1A),
+      ]) {
+        final dark = HSVColor.fromColor(normalizeCoverColor(gray));
+        expect(dark.saturation, 0.0, reason: '$gray');
+        expect(dark.value, closeTo(darkModeValue, 0.01), reason: '$gray');
+
+        final light = HSVColor.fromColor(
+          normalizeCoverColor(gray, brightness: Brightness.light),
         );
-        expect(out.value, closeTo(darkModeValue, 0.01), reason: '$extreme');
+        expect(light.saturation, 0.0, reason: '$gray');
+        expect(light.value, closeTo(lightModeValue, 0.01), reason: '$gray');
       }
+    });
+
+    test('略帶偏色的灰(飽和度低於門檻)仍視為灰階,不會變成紅色', () {
+      // JPEG 壓縮 / 量化常讓灰階封面帶一點偏色,飽和度約 0.02~0.05。
+      const tintedGray = Color(0xFF848080); // 飽和度約 0.03
+      final out = HSVColor.fromColor(normalizeCoverColor(tintedGray));
+      expect(out.saturation, 0.0);
+      expect(out.value, closeTo(darkModeValue, 0.01));
+    });
+
+    test('飽和度達門檻的低彩度色仍保留色相並套用主題飽和度', () {
+      final source = HSVColor.fromAHSV(
+        1.0,
+        200,
+        grayscaleSaturationThreshold + 0.05,
+        0.6,
+      ).toColor();
+      final out = HSVColor.fromColor(normalizeCoverColor(source));
+      expect(out.hue, closeTo(200, 5));
+      expect(out.saturation, closeTo(darkModeSaturation, 0.01));
     });
 
     test('透明度原樣保留(取色結果本就不透明,函式不另行處理 alpha)', () {
@@ -121,6 +148,24 @@ void main() {
       final color = await extractCoverColor(file);
 
       expect(color, closeToColor(green));
+    });
+
+    test('純黑封面 → 主色為黑(不因濾鏡而退回 null)', () async {
+      const black = Color(0xFF000000);
+      final file = await writeSolidColorPng('${tempDir.path}/black.png', black);
+
+      final color = await extractCoverColor(file);
+
+      expect(color, closeToColor(black));
+    });
+
+    test('純白封面 → 主色為白(不因濾鏡而退回 null)', () async {
+      const white = Color(0xFFFFFFFF);
+      final file = await writeSolidColorPng('${tempDir.path}/white.png', white);
+
+      final color = await extractCoverColor(file);
+
+      expect(color, closeToColor(white));
     });
 
     test('圖檔不存在 → null', () async {

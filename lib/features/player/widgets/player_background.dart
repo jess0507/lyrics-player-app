@@ -42,7 +42,8 @@ class PlayerBackground extends ConsumerWidget {
     if (fromCover && id != null) {
       final raw = ref.watch(trackCoverColorProvider(id)).valueOrNull;
       // 只取封面色的色相,飽和度 / 明度依主題明暗固定,避免不同封面造成
-      // 漸層忽明忽暗或顯得灰濁;淺色主題另壓低明度以免刺眼。
+      // 漸層忽明忽暗或顯得灰濁;淺色主題另壓低明度以免刺眼。黑 / 白 / 灰
+      // 封面則呈現為灰色漸層。
       if (raw != null) {
         coverColor = normalizeCoverColor(raw, brightness: scheme.brightness);
       }
