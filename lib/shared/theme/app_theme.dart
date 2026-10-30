@@ -58,6 +58,28 @@ class AppTheme {
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
+      // 底部導覽仿 VLC:選中項不畫指示器外框,只把 icon 與 label 換成主色。
+      navigationBarTheme: NavigationBarThemeData(
+        indicatorColor: Colors.transparent,
+        // 指示器已透明,其 32px 高度本身已在 icon 上下各留 4px;
+        // 去掉 label 預設的 top 4px,讓 icon 與文字更貼近。
+        labelPadding: EdgeInsets.zero,
+        iconTheme: WidgetStateProperty.resolveWith(
+          (states) => IconThemeData(
+            color: states.contains(WidgetState.selected)
+                ? scheme.primary
+                : scheme.onSurfaceVariant,
+          ),
+        ),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return TextStyle(
+            fontSize: 12,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            color: selected ? scheme.primary : scheme.onSurfaceVariant,
+          );
+        }),
+      ),
     );
   }
 
