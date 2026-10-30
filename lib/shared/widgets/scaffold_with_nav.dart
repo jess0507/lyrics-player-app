@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seek_player/features/mini_player/mini_player.dart';
+import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 各主分頁的底部導覽容器（使用 go_router 的 StatefulShell 維持各分頁狀態）。
 class ScaffoldWithNav extends StatelessWidget {
@@ -37,14 +39,14 @@ class ScaffoldWithNav extends StatelessWidget {
                 selectedIcon: const Icon(Icons.auto_fix_high),
                 label: l10n.tab_tools,
               ),
+              // SVG 沒有實心版,選中與否共用同一張,顏色由導覽列的 IconTheme 切換。
               NavigationDestination(
-                icon: const Icon(Icons.library_music_outlined),
-                selectedIcon: const Icon(Icons.library_music),
+                icon: SvgIcon(Assets.icon.music),
                 label: l10n.playlist_local_music,
               ),
+              // 播放清單用 app logo 的形狀;SVG 經 SvgIcon 單色化,隨 IconTheme 換色。
               NavigationDestination(
-                icon: const Icon(Icons.queue_music_outlined),
-                selectedIcon: const Icon(Icons.queue_music),
+                icon: SvgIcon(Assets.icon.appLogoSvg),
                 label: l10n.tab_playlists,
               ),
               NavigationDestination(
