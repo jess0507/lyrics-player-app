@@ -11,6 +11,9 @@ import 'package:seek_player/features/profile/profile_page.dart';
 import 'package:seek_player/features/profile/settings/language_page.dart';
 import 'package:seek_player/features/profile/settings/settings_page.dart';
 import 'package:seek_player/features/profile/statistics/statistics_page.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
+import 'package:seek_player/features/tools/tool_track_picker_page.dart';
+import 'package:seek_player/features/tools/tools_page.dart';
 import 'package:seek_player/shared/widgets/scaffold_with_nav.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -53,7 +56,29 @@ final routerProvider = Provider<GoRouter>((ref) {
           //     ),
           //   ],
           // ),
-          // 「本地音樂」獨立成第一個分頁。
+          // 「工具」分頁:先選工具,再進選曲頁對單首曲目執行。
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/tools',
+                builder: (context, state) => const ToolsPage(),
+                routes: [
+                  GoRoute(
+                    path: ':tool',
+                    // 未知的工具名稱退回工具頁。
+                    redirect: (context, state) =>
+                        ToolKind.fromName(state.pathParameters['tool']) == null
+                        ? '/tools'
+                        : null,
+                    builder: (context, state) => ToolTrackPickerPage(
+                      tool: ToolKind.fromName(state.pathParameters['tool'])!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          // 「本地音樂」分頁。
           StatefulShellBranch(
             routes: [
               GoRoute(

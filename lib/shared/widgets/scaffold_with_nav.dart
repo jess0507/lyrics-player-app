@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:seek_player/features/mini_player/mini_player.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
-/// 三大主頁面的底部導覽容器（使用 go_router 的 StatefulShell 維持各分頁狀態）。
+/// 各主分頁的底部導覽容器（使用 go_router 的 StatefulShell 維持各分頁狀態）。
 class ScaffoldWithNav extends StatelessWidget {
   const ScaffoldWithNav({super.key, required this.navigationShell});
 
@@ -32,6 +32,11 @@ class ScaffoldWithNav extends StatelessWidget {
               //   selectedIcon: const Icon(Icons.library_music),
               //   label: l10n.tab_music_list,
               // ),
+              NavigationDestination(
+                icon: const Icon(Icons.auto_fix_high_outlined),
+                selectedIcon: const Icon(Icons.auto_fix_high),
+                label: l10n.tab_tools,
+              ),
               NavigationDestination(
                 icon: const Icon(Icons.library_music_outlined),
                 selectedIcon: const Icon(Icons.library_music),
