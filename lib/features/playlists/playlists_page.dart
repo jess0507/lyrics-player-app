@@ -116,7 +116,7 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
         ref.watch(musicLibraryProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.tab_playlists)),
+      appBar: AppBar(title: Text(l10n.tab_library)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _create(context, ref),
         tooltip: l10n.playlist_new,
