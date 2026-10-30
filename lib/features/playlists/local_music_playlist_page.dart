@@ -88,6 +88,28 @@ class _LocalMusicPlaylistPageState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        // 有曲目時搜尋與重新掃描放在頂欄右側;清單為空時重新掃描改由
+        // 下方空狀態提供,搜尋則無意義,兩者都不顯示。
+        actions: [
+          if (tracks.isNotEmpty) ...[
+            IconButton(
+              tooltip: l10n.music_search,
+              onPressed: () => context.push('/playlists/local/search'),
+              icon: SvgIcon(Assets.icon.search),
+            ),
+            IconButton(
+              tooltip: l10n.music_rescan,
+              onPressed: _scanning ? null : _rescan,
+              icon: _scanning
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.refresh),
+            ),
+          ],
+        ],
       ),
       // 全部播放改用 FAB,清單為空時不顯示。
       floatingActionButton: tracks.isEmpty
@@ -100,47 +122,24 @@ class _LocalMusicPlaylistPageState
             ),
       body: Column(
         children: [
-          // 有曲目時顯示重新掃描與搜尋;清單為空時兩者都不放在這裡,
-          // 重新掃描改由下方空狀態提供。Android 空清單時整列沒有按鈕,
-          // 連同留白一併隱藏。
-          if (Platform.isIOS || tracks.isNotEmpty) ...[
+          // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
+          // Android 掃 MediaStore,無匯入需求,整列連同留白一併隱藏。
+          if (Platform.isIOS) ...[
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
-                    // Android 掃 MediaStore,無匯入需求。
-                    if (Platform.isIOS)
-                      TextButton.icon(
-                        style: systemButtonStyle,
-                        onPressed: _importing ? null : _importMusic,
-                        icon: _importing
-                            ? const SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.add),
-                        label: Text(l10n.music_import),
-                      ),
-                    // 清單為空時重新掃描移到空狀態插圖下方,這裡不重複顯示。
-                    if (tracks.isNotEmpty) ...[
-                      _rescanButton(systemButtonStyle, l10n),
-                      TextButton.icon(
-                        style: systemButtonStyle,
-                        onPressed: () =>
-                            context.push('/playlists/local/search'),
-                        icon: SvgIcon(Assets.icon.search),
-                        label: Text(l10n.music_search),
-                      ),
-                    ],
-                  ],
+                child: TextButton.icon(
+                  style: systemButtonStyle,
+                  onPressed: _importing ? null : _importMusic,
+                  icon: _importing
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.add),
+                  label: Text(l10n.music_import),
                 ),
               ),
             ),

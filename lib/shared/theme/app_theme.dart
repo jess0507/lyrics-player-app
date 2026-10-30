@@ -61,6 +61,10 @@ class AppTheme {
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
+      // FAB 改為圓形,取代 M3 預設的圓角方形。
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        shape: CircleBorder(),
+      ),
       // 底部導覽仿 VLC:選中項不畫指示器外框,只把 icon 與 label 換成主色。
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: Colors.transparent,
