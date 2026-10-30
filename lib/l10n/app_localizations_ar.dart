@@ -830,6 +830,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playlist_play_all => 'تشغيل الكل';
 
   @override
+  String get music_folder_all => 'الكل';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

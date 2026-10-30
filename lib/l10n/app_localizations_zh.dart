@@ -778,6 +778,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlist_play_all => '全部播放';
 
   @override
+  String get music_folder_all => '全部';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1582,6 +1585,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlist_play_all => '全部播放';
 
   @override
+  String get music_folder_all => '全部';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2383,6 +2389,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlist_play_all => '全部播放';
+
+  @override
+  String get music_folder_all => '全部';
 
   @override
   String playlist_track_count(int count) {

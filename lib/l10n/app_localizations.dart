@@ -1626,6 +1626,12 @@ abstract class AppLocalizations {
   /// **'Play all'**
   String get playlist_play_all;
 
+  /// No description provided for @music_folder_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get music_folder_all;
+
   /// No description provided for @playlist_track_count.
   ///
   /// In en, this message translates to:

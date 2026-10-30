@@ -830,6 +830,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playlist_play_all => 'Play all';
 
   @override
+  String get music_folder_all => 'All';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

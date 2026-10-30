@@ -793,6 +793,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlist_play_all => '전체 재생';
 
   @override
+  String get music_folder_all => '전체';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -250,6 +250,7 @@
   "playlist_search_hint": "Cosa vuoi ascoltare?",
   "playlist_search_no_result": "Nessun brano corrispondente",
   "playlist_play_all": "Riproduci tutto",
+  "music_folder_all": "Tutti",
   "playlist_track_count": "{count, plural, =0{Nessun brano} =1{1 brano} other{{count} brani}}",
   "update_later": "Più tardi",
   "update_ready_message": "Una nuova versione è pronta",

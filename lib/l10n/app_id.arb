@@ -250,6 +250,7 @@
   "playlist_search_hint": "Apa yang ingin Anda dengarkan?",
   "playlist_search_no_result": "Tidak ada lagu yang cocok",
   "playlist_play_all": "Putar semua",
+  "music_folder_all": "Semua",
   "playlist_track_count": "{count, plural, =0{Tidak ada lagu} other{{count} lagu}}",
   "update_later": "Nanti",
   "update_ready_message": "Versi baru sudah siap",

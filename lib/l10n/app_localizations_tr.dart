@@ -831,6 +831,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlist_play_all => 'Tümünü çal';
 
   @override
+  String get music_folder_all => 'Tümü';
+
+  @override
   String playlist_track_count(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
