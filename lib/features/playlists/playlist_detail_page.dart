@@ -113,6 +113,9 @@ class PlaylistDetailPage extends ConsumerWidget {
       floatingActionButton: tracks.isEmpty
           ? null
           : FloatingActionButton(
+              // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
+              // 衝突;FAB 不需要 hero 轉場,直接關掉。
+              heroTag: null,
               tooltip: l10n.playlist_play_all,
               onPressed: () =>
                   ref.read(playbackControllerProvider).playTracksAt(tracks, 0),

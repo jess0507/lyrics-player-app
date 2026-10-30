@@ -121,6 +121,9 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
         title: Text(l10n.tab_playlists),
       ),
       floatingActionButton: FloatingActionButton(
+        // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
+        // 衝突;FAB 不需要 hero 轉場,直接關掉。
+        heroTag: null,
         onPressed: () => _create(context, ref),
         tooltip: l10n.playlist_new,
         child: const Icon(Icons.add),
