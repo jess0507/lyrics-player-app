@@ -47,6 +47,10 @@ class AppTheme {
     final scheme = seed.isMono
         ? _monoScheme(brightness)
         : ColorScheme.fromSeed(seedColor: seed.color, brightness: brightness);
+    // 底部導覽選中項(icon 與 label)直接用種子色(fromSeed 推導的 primary
+    // 色調會偏淡 / 偏暗);單色主題的種子是固定灰,深色模式下看不清,
+    // 改用隨亮度翻轉的 primary。
+    final navSelected = seed.isMono ? scheme.primary : seed.color;
     return ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
@@ -74,16 +78,18 @@ class AppTheme {
         iconTheme: WidgetStateProperty.resolveWith(
           (states) => IconThemeData(
             color: states.contains(WidgetState.selected)
-                ? scheme.primary
+                ? navSelected
                 : scheme.onSurfaceVariant,
           ),
         ),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return TextStyle(
-            fontSize: 12,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-            color: selected ? scheme.primary : scheme.onSurfaceVariant,
+            // 中文字型只有一般 / 粗體兩檔,字重差異在小字上不明顯,
+            // 選中項再放大 1sp 加強區別。
+            fontSize: selected ? 13 : 12,
+            fontWeight: selected ? FontWeight.bold : FontWeight.w500,
+            color: selected ? navSelected : scheme.onSurfaceVariant,
           );
         }),
       ),

@@ -23,7 +23,7 @@ class ToolsPage extends StatelessWidget {
         children: [
           for (final tool in ToolKind.values)
             ListTile(
-              leading: CircleAvatar(child: Icon(tool.icon)),
+              leading: Icon(tool.icon),
               title: Text(tool.label(l10n)),
               subtitle: Text(tool.description(l10n)),
               trailing: const Icon(Icons.chevron_right),
