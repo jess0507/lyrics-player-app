@@ -88,16 +88,16 @@ class _LocalMusicPlaylistPageState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        actions: [
-          if (tracks.isNotEmpty)
-            IconButton(
+      ),
+      // 全部播放改用 FAB,清單為空時不顯示。
+      floatingActionButton: tracks.isEmpty
+          ? null
+          : FloatingActionButton(
               tooltip: l10n.playlist_play_all,
-              icon: const Icon(Icons.play_arrow_rounded),
               onPressed: () =>
                   ref.read(playbackControllerProvider).playTracksAt(tracks, 0),
+              child: const Icon(Icons.play_arrow_rounded),
             ),
-        ],
-      ),
       body: Column(
         children: [
           // 有曲目時顯示重新掃描與搜尋;清單為空時兩者都不放在這裡,
@@ -185,6 +185,8 @@ class _LocalMusicPlaylistPageState
         final tag = snapshot.data?.currentSource?.tag;
         final currentId = tag is MediaItem ? tag.id : null;
         return ListView.builder(
+          // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
+          padding: const EdgeInsets.only(bottom: 88),
           itemCount: tracks.length,
           itemBuilder: (context, index) {
             final track = tracks[index];

@@ -108,16 +108,16 @@ class PlaylistDetailPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-        actions: [
-          if (tracks.isNotEmpty)
-            IconButton(
+      ),
+      // 全部播放改用 FAB,清單為空時不顯示。
+      floatingActionButton: tracks.isEmpty
+          ? null
+          : FloatingActionButton(
               tooltip: l10n.playlist_play_all,
-              icon: const Icon(Icons.play_arrow_rounded),
               onPressed: () =>
                   ref.read(playbackControllerProvider).playTracksAt(tracks, 0),
+              child: const Icon(Icons.play_arrow_rounded),
             ),
-        ],
-      ),
       body: Column(
         children: [
           // 最上方兩個入口,都往上展開同一張挑選/排序曲目頁:
@@ -205,6 +205,8 @@ class PlaylistDetailPage extends ConsumerWidget {
               final tag = snapshot.data?.currentSource?.tag;
               final currentId = tag is MediaItem ? tag.id : null;
               return ReorderableListView.builder(
+                // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
+                padding: const EdgeInsets.only(bottom: 88),
                 itemCount: tracks.length,
                 onReorderItem: (oldIndex, newIndex) {
                   final ids = tracks.map((t) => t.id).toList();
