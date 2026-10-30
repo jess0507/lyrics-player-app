@@ -24,6 +24,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tab_more => 'Ещё';
 
   @override
+  String get tab_tools => 'Инструменты';
+
+  @override
+  String get tools_lyrics => 'Создать текст';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Создать, импортировать, найти онлайн или синхронизировать текст';
+
+  @override
+  String get tools_cover_desc => 'Добавить, изменить или удалить свою обложку';
+
+  @override
   String get profile_account => 'Аккаунт и синхронизация';
 
   @override

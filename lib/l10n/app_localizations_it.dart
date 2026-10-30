@@ -24,6 +24,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get tab_more => 'Altro';
 
   @override
+  String get tab_tools => 'Strumenti';
+
+  @override
+  String get tools_lyrics => 'Crea testo';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Genera, importa, cerca online o sincronizza i testi';
+
+  @override
+  String get tools_cover_desc =>
+      'Aggiungi, cambia o rimuovi una copertina personalizzata';
+
+  @override
   String get profile_account => 'Account e sincronizzazione';
 
   @override

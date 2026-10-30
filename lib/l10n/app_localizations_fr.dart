@@ -24,6 +24,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tab_more => 'Plus';
 
   @override
+  String get tab_tools => 'Outils';
+
+  @override
+  String get tools_lyrics => 'Créer des paroles';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Générer, importer, rechercher ou synchroniser des paroles';
+
+  @override
+  String get tools_cover_desc =>
+      'Ajouter, changer ou supprimer une pochette personnalisée';
+
+  @override
   String get profile_account => 'Compte et synchronisation';
 
   @override

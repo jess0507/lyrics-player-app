@@ -24,6 +24,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get tab_more => 'Lainnya';
 
   @override
+  String get tab_tools => 'Alat';
+
+  @override
+  String get tools_lyrics => 'Buat lirik';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Buat, impor, cari online, atau sinkronkan lirik';
+
+  @override
+  String get tools_cover_desc => 'Tambah, ganti, atau hapus sampul kustom';
+
+  @override
   String get profile_account => 'Akun & sinkronisasi';
 
   @override

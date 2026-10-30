@@ -24,6 +24,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tab_more => 'More';
 
   @override
+  String get tab_tools => 'Tools';
+
+  @override
+  String get tools_lyrics => 'Make lyrics';
+
+  @override
+  String get tools_lyrics_desc => 'Generate, import, search or sync lyrics';
+
+  @override
+  String get tools_cover_desc => 'Add, change or remove a custom cover';
+
+  @override
   String get profile_account => 'Account & Sync';
 
   @override

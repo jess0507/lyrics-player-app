@@ -156,6 +156,30 @@ abstract class AppLocalizations {
   /// **'More'**
   String get tab_more;
 
+  /// No description provided for @tab_tools.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get tab_tools;
+
+  /// No description provided for @tools_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Make lyrics'**
+  String get tools_lyrics;
+
+  /// No description provided for @tools_lyrics_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate, import, search or sync lyrics'**
+  String get tools_lyrics_desc;
+
+  /// No description provided for @tools_cover_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add, change or remove a custom cover'**
+  String get tools_cover_desc;
+
   /// No description provided for @profile_account.
   ///
   /// In en, this message translates to:

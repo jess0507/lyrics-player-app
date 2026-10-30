@@ -24,6 +24,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tab_more => 'Mais';
 
   @override
+  String get tab_tools => 'Ferramentas';
+
+  @override
+  String get tools_lyrics => 'Criar letra';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Gerar, importar, pesquisar online ou sincronizar letras';
+
+  @override
+  String get tools_cover_desc =>
+      'Adicionar, alterar ou remover uma capa personalizada';
+
+  @override
   String get profile_account => 'Conta e sincronização';
 
   @override

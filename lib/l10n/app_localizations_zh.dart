@@ -24,6 +24,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tab_more => '更多';
 
   @override
+  String get tab_tools => '工具';
+
+  @override
+  String get tools_lyrics => '製作歌詞';
+
+  @override
+  String get tools_lyrics_desc => '產生、匯入、上網搜尋或同步歌詞';
+
+  @override
+  String get tools_cover_desc => '新增、更換或移除自訂封面';
+
+  @override
   String get profile_account => '帳戶同步';
 
   @override
@@ -828,6 +840,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tab_more => '更多';
+
+  @override
+  String get tab_tools => '工具';
+
+  @override
+  String get tools_lyrics => '制作歌词';
+
+  @override
+  String get tools_lyrics_desc => '生成、导入、在线搜索或同步歌词';
+
+  @override
+  String get tools_cover_desc => '添加、更换或移除自定义封面';
 
   @override
   String get profile_account => '账户同步';
@@ -1635,6 +1659,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tab_more => '更多';
+
+  @override
+  String get tab_tools => '工具';
+
+  @override
+  String get tools_lyrics => '製作歌詞';
+
+  @override
+  String get tools_lyrics_desc => '產生、匯入、上網搜尋或同步歌詞';
+
+  @override
+  String get tools_cover_desc => '新增、更換或移除自訂封面';
 
   @override
   String get profile_account => '帳戶同步';

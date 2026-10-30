@@ -24,6 +24,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tab_more => 'Mehr';
 
   @override
+  String get tab_tools => 'Werkzeuge';
+
+  @override
+  String get tools_lyrics => 'Liedtext erstellen';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Liedtexte erzeugen, importieren, online suchen oder synchronisieren';
+
+  @override
+  String get tools_cover_desc =>
+      'Eigenes Cover hinzufügen, ändern oder entfernen';
+
+  @override
   String get profile_account => 'Konto & Synchronisierung';
 
   @override

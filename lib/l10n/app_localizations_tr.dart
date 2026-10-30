@@ -24,6 +24,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tab_more => 'Daha Fazla';
 
   @override
+  String get tab_tools => 'Araçlar';
+
+  @override
+  String get tools_lyrics => 'Şarkı sözü oluştur';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Şarkı sözü oluştur, içe aktar, çevrimiçi ara veya senkronize et';
+
+  @override
+  String get tools_cover_desc => 'Özel kapak ekle, değiştir veya kaldır';
+
+  @override
   String get profile_account => 'Hesap ve senkronizasyon';
 
   @override

@@ -24,6 +24,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tab_more => 'Thêm';
 
   @override
+  String get tab_tools => 'Công cụ';
+
+  @override
+  String get tools_lyrics => 'Tạo lời bài hát';
+
+  @override
+  String get tools_lyrics_desc =>
+      'Tạo, nhập, tìm trực tuyến hoặc đồng bộ lời bài hát';
+
+  @override
+  String get tools_cover_desc => 'Thêm, đổi hoặc xóa ảnh bìa tùy chỉnh';
+
+  @override
   String get profile_account => 'Tài khoản và đồng bộ';
 
   @override

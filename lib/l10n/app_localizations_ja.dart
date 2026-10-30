@@ -24,6 +24,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tab_more => 'その他';
 
   @override
+  String get tab_tools => 'ツール';
+
+  @override
+  String get tools_lyrics => '歌詞を作成';
+
+  @override
+  String get tools_lyrics_desc => '歌詞の生成・インポート・オンライン検索・同期';
+
+  @override
+  String get tools_cover_desc => 'カスタムカバーの追加・変更・削除';
+
+  @override
   String get profile_account => 'アカウントと同期';
 
   @override

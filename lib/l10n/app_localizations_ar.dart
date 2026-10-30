@@ -24,6 +24,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tab_more => 'المزيد';
 
   @override
+  String get tab_tools => 'الأدوات';
+
+  @override
+  String get tools_lyrics => 'إنشاء الكلمات';
+
+  @override
+  String get tools_lyrics_desc =>
+      'إنشاء الكلمات أو استيرادها أو البحث عنها أو مزامنتها';
+
+  @override
+  String get tools_cover_desc => 'إضافة غلاف مخصص أو تغييره أو إزالته';
+
+  @override
   String get profile_account => 'الحساب والمزامنة';
 
   @override

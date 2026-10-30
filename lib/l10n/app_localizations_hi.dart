@@ -24,6 +24,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tab_more => 'अधिक';
 
   @override
+  String get tab_tools => 'टूल';
+
+  @override
+  String get tools_lyrics => 'बोल बनाएं';
+
+  @override
+  String get tools_lyrics_desc =>
+      'बोल बनाएं, आयात करें, ऑनलाइन खोजें या सिंक करें';
+
+  @override
+  String get tools_cover_desc => 'कस्टम कवर जोड़ें, बदलें या हटाएं';
+
+  @override
   String get profile_account => 'खाता और सिंक';
 
   @override
