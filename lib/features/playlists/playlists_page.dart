@@ -12,6 +12,7 @@ import 'package:seek_player/features/playlists/providers/recently_played_provide
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_name_dialog.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 
 /// 播放清單列表:本地音樂、我的最愛、最近播放等系統清單固定在最前,
 /// 可新增 / 重新命名 / 刪除其他使用者清單。
@@ -116,7 +117,11 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
         ref.watch(musicLibraryProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.tab_library)),
+      appBar: AppBar(
+        // 分頁根頁沒有返回鍵,左側改放 app 圖示。
+        leading: const AppLogoLeading(),
+        title: Text(l10n.tab_library),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _create(context, ref),
         tooltip: l10n.playlist_new,

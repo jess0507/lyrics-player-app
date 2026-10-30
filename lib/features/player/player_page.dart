@@ -60,6 +60,8 @@ class PlayerPage extends ConsumerWidget {
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 centerTitle: true,
+                // 置中的跑馬燈標題保留與兩側按鈕的間距(主題已將其歸零)。
+                titleSpacing: NavigationToolbar.kMiddleSpacing,
                 // 左上往下的箭頭：點擊收回成 mini player。
                 leading: IconButton(
                   icon: const Icon(Icons.keyboard_arrow_down),
@@ -72,9 +74,8 @@ class PlayerPage extends ConsumerWidget {
                   children: [
                     MarqueeText(
                       title,
-                      style:
-                          Theme.of(context).appBarTheme.titleTextStyle ??
-                          Theme.of(context).textTheme.bodyLarge,
+                      // 不沿用主題的頂欄大字級,兩行曲名 / 演出者需較小字。
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     if (artist.isNotEmpty)
                       Text(

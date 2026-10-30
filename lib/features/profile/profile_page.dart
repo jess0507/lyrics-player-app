@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/features/profile/widgets/profile_entry.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -13,7 +14,11 @@ class ProfilePage extends ConsumerWidget {
     const entries = ProfileEntry.values;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.tab_profile)),
+      appBar: AppBar(
+        // 分頁根頁沒有返回鍵,左側改放 app 圖示。
+        leading: const AppLogoLeading(),
+        title: Text(l10n.tab_profile),
+      ),
       body: ListView.separated(
         itemCount: entries.length,
         separatorBuilder: (_, _) => const Divider(height: 1),

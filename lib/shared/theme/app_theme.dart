@@ -53,8 +53,11 @@ class AppTheme {
       // 捲動時不讓 AppBar 疊上 surfaceTint 色調:elevation 歸零、tint 透明。
       // 否則內容捲到 AppBar 下方時頂部會出現變色帶,與 body 的純色 / 漸層
       // 背景產生分界(尤其播放頁的透明 AppBar 疊在漸層上會被切斷)。
-      appBarTheme: const AppBarTheme(
-        centerTitle: true,
+      appBarTheme: AppBarTheme(
+        centerTitle: false,
+        // 返回鍵佔 56px 寬、箭頭置中,右側已留 16px;預設 titleSpacing 再加
+        // 16px 會讓箭頭與標題離太遠。改為 0;分頁根頁以 AppLogoLeading 佔同一個位置,間距一致。
+        titleSpacing: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
