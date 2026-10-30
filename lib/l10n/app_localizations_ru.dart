@@ -755,6 +755,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tab_playlists => 'Плейлисты';
 
   @override
+  String get tab_library => 'Медиатека';
+
+  @override
   String get playlist_favorites => 'Избранное';
 
   @override

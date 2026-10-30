@@ -747,6 +747,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tab_playlists => 'قوائم التشغيل';
 
   @override
+  String get tab_library => 'المكتبة';
+
+  @override
   String get playlist_favorites => 'المفضلة';
 
   @override

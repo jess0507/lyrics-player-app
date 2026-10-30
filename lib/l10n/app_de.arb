@@ -225,6 +225,7 @@
   "lyrics_job_error_firestore_write_failed": "Songtext wurde verarbeitet, konnte aber nicht gespeichert werden. Bitte versuche es erneut.",
   "lyrics_job_error_unknown": "Songtext konnte nicht verarbeitet werden.",
   "tab_playlists": "Playlists",
+  "tab_library": "Mediathek",
   "playlist_favorites": "Favoriten",
   "playlist_recently_played": "Verlauf",
   "playlist_local_music": "Lokale Musik",

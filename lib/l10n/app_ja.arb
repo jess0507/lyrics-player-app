@@ -225,6 +225,7 @@
   "lyrics_job_error_firestore_write_failed": "歌詞の処理は完了しましたが、保存できませんでした。もう一度お試しください。",
   "lyrics_job_error_unknown": "歌詞を処理できませんでした。",
   "tab_playlists": "プレイリスト",
+  "tab_library": "ライブラリ",
   "playlist_favorites": "お気に入り",
   "playlist_recently_played": "再生履歴",
   "playlist_local_music": "ローカルの音楽",

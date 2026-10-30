@@ -261,6 +261,7 @@
   "lyrics_job_error_firestore_write_failed": "Lyrics were processed but couldn't be saved. Please try again.",
   "lyrics_job_error_unknown": "Couldn't process lyrics.",
   "tab_playlists": "Playlists",
+  "tab_library": "Library",
   "playlist_favorites": "Favorites",
   "playlist_recently_played": "History",
   "playlist_local_music": "Local Music",

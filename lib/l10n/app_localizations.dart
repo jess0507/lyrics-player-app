@@ -1476,6 +1476,12 @@ abstract class AppLocalizations {
   /// **'Playlists'**
   String get tab_playlists;
 
+  /// No description provided for @tab_library.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get tab_library;
+
   /// No description provided for @playlist_favorites.
   ///
   /// In en, this message translates to:

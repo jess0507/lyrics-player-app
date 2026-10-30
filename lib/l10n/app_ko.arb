@@ -225,6 +225,7 @@
   "lyrics_job_error_firestore_write_failed": "가사 처리는 완료되었지만 저장할 수 없습니다. 다시 시도해 주세요.",
   "lyrics_job_error_unknown": "가사를 처리할 수 없습니다.",
   "tab_playlists": "재생목록",
+  "tab_library": "보관함",
   "playlist_favorites": "즐겨찾기",
   "playlist_recently_played": "재생 기록",
   "playlist_local_music": "로컬 음악",

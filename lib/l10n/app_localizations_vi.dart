@@ -747,6 +747,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tab_playlists => 'Danh sách phát';
 
   @override
+  String get tab_library => 'Thư viện';
+
+  @override
   String get playlist_favorites => 'Yêu thích';
 
   @override

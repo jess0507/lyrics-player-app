@@ -712,6 +712,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tab_playlists => '재생목록';
 
   @override
+  String get tab_library => '보관함';
+
+  @override
   String get playlist_favorites => '즐겨찾기';
 
   @override

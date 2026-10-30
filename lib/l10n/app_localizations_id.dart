@@ -746,6 +746,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get tab_playlists => 'Playlist';
 
   @override
+  String get tab_library => 'Pustaka';
+
+  @override
   String get playlist_favorites => 'Favorit';
 
   @override

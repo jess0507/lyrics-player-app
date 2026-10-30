@@ -762,6 +762,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tab_playlists => 'Listas';
 
   @override
+  String get tab_library => 'Biblioteca';
+
+  @override
   String get playlist_favorites => 'Favoritos';
 
   @override

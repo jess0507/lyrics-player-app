@@ -707,6 +707,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tab_playlists => 'プレイリスト';
 
   @override
+  String get tab_library => 'ライブラリ';
+
+  @override
   String get playlist_favorites => 'お気に入り';
 
   @override

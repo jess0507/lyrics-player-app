@@ -697,6 +697,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tab_playlists => '播放清單';
 
   @override
+  String get tab_library => '媒體庫';
+
+  @override
   String get playlist_favorites => '我的最愛';
 
   @override
@@ -1498,6 +1501,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get tab_playlists => '播放列表';
 
   @override
+  String get tab_library => '媒体库';
+
+  @override
   String get playlist_favorites => '我的收藏';
 
   @override
@@ -2296,6 +2302,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tab_playlists => '播放清單';
+
+  @override
+  String get tab_library => '媒體庫';
 
   @override
   String get playlist_favorites => '我的最愛';

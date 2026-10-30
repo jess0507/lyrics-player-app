@@ -225,6 +225,7 @@
   "lyrics_job_error_firestore_write_failed": "歌詞已處理完成,但儲存失敗,請重新嘗試。",
   "lyrics_job_error_unknown": "無法處理歌詞。",
   "tab_playlists": "播放清單",
+  "tab_library": "媒體庫",
   "playlist_favorites": "我的最愛",
   "playlist_recently_played": "播放紀錄",
   "playlist_local_music": "本地音樂",

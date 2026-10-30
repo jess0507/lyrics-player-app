@@ -225,6 +225,7 @@
   "lyrics_job_error_firestore_write_failed": "歌词已处理完成,但保存失败,请重新尝试。",
   "lyrics_job_error_unknown": "无法处理歌词。",
   "tab_playlists": "播放列表",
+  "tab_library": "媒体库",
   "playlist_favorites": "我的收藏",
   "playlist_recently_played": "播放记录",
   "playlist_local_music": "本地音乐",
