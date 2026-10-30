@@ -47,10 +47,11 @@ class AppTheme {
     final scheme = seed.isMono
         ? _monoScheme(brightness)
         : ColorScheme.fromSeed(seedColor: seed.color, brightness: brightness);
-    // 底部導覽選中項(icon 與 label)直接用種子色(fromSeed 推導的 primary
-    // 色調會偏淡 / 偏暗);單色主題的種子是固定灰,深色模式下看不清,
+    // 強調色:底部導覽選中項與 FAB 底色直接用種子色(fromSeed 推導的
+    // primary 色調會偏淡 / 偏暗);單色主題的種子是固定灰,深色模式下看不清,
     // 改用隨亮度翻轉的 primary。
-    final navSelected = seed.isMono ? scheme.primary : seed.color;
+    final accent = seed.isMono ? scheme.primary : seed.color;
+    final isLight = brightness == Brightness.light;
     return ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
@@ -65,11 +66,18 @@ class AppTheme {
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
-      // FAB 改為圓形,取代 M3 預設的圓角方形。
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        shape: CircleBorder(),
+      // FAB 仿 VLC 播放鍵:圓形、56dp,底色為強調色;icon 放大到 36dp,
+      // play_arrow 的三角形在 24 格內約佔 13 格高,放大後約 20dp,
+      // 與 VLC 圖形約佔直徑 38% 的比例一致。icon 淺色模式白、深色模式黑。
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        shape: const CircleBorder(),
+        sizeConstraints: const BoxConstraints.tightFor(width: 56, height: 56),
+        iconSize: 36,
+        backgroundColor: accent,
+        foregroundColor: isLight ? Colors.white : Colors.black,
       ),
-      // 底部導覽仿 VLC:選中項不畫指示器外框,只把 icon 與 label 換成主色。
+      // 底部導覽仿 VLC:選中項不畫指示器外框,icon 維持外框樣式,只把 icon
+      // 與 label 換成種子色並加粗;未選中為較淡的灰(outline),字重一般。
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: Colors.transparent,
         // 指示器已透明,其 32px 高度本身已在 icon 上下各留 4px;
@@ -78,18 +86,16 @@ class AppTheme {
         iconTheme: WidgetStateProperty.resolveWith(
           (states) => IconThemeData(
             color: states.contains(WidgetState.selected)
-                ? navSelected
-                : scheme.onSurfaceVariant,
+                ? accent
+                : scheme.outline,
           ),
         ),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return TextStyle(
-            // 中文字型只有一般 / 粗體兩檔,字重差異在小字上不明顯,
-            // 選中項再放大 1sp 加強區別。
-            fontSize: selected ? 13 : 12,
-            fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-            color: selected ? navSelected : scheme.onSurfaceVariant,
+            fontSize: 12,
+            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+            color: selected ? accent : scheme.outline,
           );
         }),
       ),

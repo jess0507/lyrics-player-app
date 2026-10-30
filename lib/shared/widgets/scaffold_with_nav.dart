@@ -36,7 +36,6 @@ class ScaffoldWithNav extends StatelessWidget {
               // ),
               NavigationDestination(
                 icon: const Icon(Icons.auto_fix_high_outlined),
-                selectedIcon: const Icon(Icons.auto_fix_high),
                 label: l10n.tab_tools,
               ),
               // SVG 沒有實心版,選中與否共用同一張,顏色由導覽列的 IconTheme 切換。
@@ -51,7 +50,6 @@ class ScaffoldWithNav extends StatelessWidget {
               ),
               NavigationDestination(
                 icon: const Icon(Icons.person_outline),
-                selectedIcon: const Icon(Icons.person),
                 label: l10n.tab_profile,
               ),
             ],
