@@ -29,11 +29,6 @@ class ScaffoldWithNav extends StatelessWidget {
             onDestinationSelected: (index) =>
                 navigationShell.goBranch(index, initialLocation: true),
             destinations: [
-              // NavigationDestination(
-              //   icon: const Icon(Icons.library_music_outlined),
-              //   selectedIcon: const Icon(Icons.library_music),
-              //   label: l10n.tab_music_list,
-              // ),
               NavigationDestination(
                 icon: const Icon(Icons.auto_fix_high_outlined),
                 label: l10n.tab_tools,
