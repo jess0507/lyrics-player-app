@@ -39,7 +39,7 @@ CustomTransitionPage<void> _slideInPage({
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/playlists',
+    initialLocation: '/local',
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -53,28 +53,31 @@ final routerProvider = Provider<GoRouter>((ref) {
           //     ),
           //   ],
           // ),
+          // 「本地音樂」獨立成第一個分頁。
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/local',
+                builder: (context, state) => const LocalMusicPlaylistPage(),
+                routes: [
+                  GoRoute(
+                    path: 'search',
+                    pageBuilder: (context, state) => _slideInPage(
+                      key: state.pageKey,
+                      // playlistId 為 null 代表「本地音樂」虛擬清單。
+                      child: const PlaylistSearchPage(playlistId: null),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: '/playlists',
                 builder: (context, state) => const PlaylistsPage(),
                 routes: [
-                  // 「本地音樂」虛擬清單無 int id,須排在 ':id' 之前,
-                  // 否則會被 ':id' 吃掉並在 int.parse 時丟例外。
-                  GoRoute(
-                    path: 'local',
-                    builder: (context, state) => const LocalMusicPlaylistPage(),
-                    routes: [
-                      GoRoute(
-                        path: 'search',
-                        pageBuilder: (context, state) => _slideInPage(
-                          key: state.pageKey,
-                          // playlistId 為 null 代表「本地音樂」虛擬清單。
-                          child: const PlaylistSearchPage(playlistId: null),
-                        ),
-                      ),
-                    ],
-                  ),
                   GoRoute(
                     path: ':id',
                     builder: (context, state) => PlaylistDetailPage(

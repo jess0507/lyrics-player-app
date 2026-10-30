@@ -113,14 +113,12 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
-    final libraryCount =
-        ref.watch(musicLibraryProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
       appBar: AppBar(
         // 分頁根頁沒有返回鍵,左側改放 app 圖示。
         leading: const AppLogoLeading(),
-        title: Text(l10n.tab_library),
+        title: Text(l10n.tab_playlists),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _create(context, ref),
@@ -130,26 +128,9 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
       body: playlists.isEmpty
           ? Center(child: Text(l10n.playlists_empty))
           : ListView.builder(
-              itemCount: playlists.length + 1,
+              itemCount: playlists.length,
               itemBuilder: (context, index) {
-                // 「本地音樂」虛擬清單固定在最上,其餘清單依序往後排。
-                if (index == 0) {
-                  return ListTile(
-                    minTileHeight: 60,
-                    contentPadding: const EdgeInsetsDirectional.only(start: 16),
-                    leading: const CircleAvatar(
-                      child: Icon(Icons.library_music),
-                    ),
-                    title: Text(
-                      l10n.playlist_local_music,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: _countSubtitle(l10n, libraryCount),
-                    onTap: () => context.push('/playlists/local'),
-                  );
-                }
-                final playlist = playlists[index - 1];
+                final playlist = playlists[index];
                 // 曲數只計 music library 找得到的曲目(來源檔已移除 / 尚未
                 // 掃描到的略過),與詳頁實際顯示的清單一致。
                 final trackCount = playlist.isRecentlyPlayed
