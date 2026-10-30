@@ -78,7 +78,11 @@ class _LocalMusicPlaylistPageState
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final tracks = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
+    final library = ref.watch(musicLibraryProvider);
+    final tracks = library.valueOrNull ?? const [];
+    // 掃描中(首次載入、匯入後或手動重新掃描)且清單為空時,中央改顯示
+    // loading,不顯示空狀態與重新掃描按鈕。
+    final scanning = _scanning || library.isLoading;
     final folders = TrackFolder.groupTracks(tracks);
     // 重新掃描後選中的資料夾可能已不存在,視為全部。
     final folder = folders.any((f) => f.path == _folder) ? _folder : null;
@@ -174,7 +178,9 @@ class _LocalMusicPlaylistPageState
               onSelected: (path) => setState(() => _folder = path),
             ),
           Expanded(
-            child: tracks.isEmpty
+            child: tracks.isEmpty && scanning
+                ? const Center(child: CircularProgressIndicator())
+                : tracks.isEmpty
                 ? EmptyStateView(
                     message: Platform.isIOS
                         ? l10n.music_empty_import
@@ -188,18 +194,13 @@ class _LocalMusicPlaylistPageState
     );
   }
 
-  /// 重新掃描按鈕;掃描中顯示進度並停用。
+  /// 空狀態的重新掃描按鈕;掃描中整個空狀態會換成中央 loading,
+  /// 因此這裡不需處理掃描中的狀態。
   Widget _rescanButton(ButtonStyle style, AppLocalizations l10n) {
     return TextButton.icon(
       style: style,
-      onPressed: _scanning ? null : _rescan,
-      icon: _scanning
-          ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : const Icon(Icons.refresh),
+      onPressed: _rescan,
+      icon: const Icon(Icons.refresh),
       label: Text(l10n.music_rescan),
     );
   }
