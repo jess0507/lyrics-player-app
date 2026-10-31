@@ -5,13 +5,19 @@ import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
-import 'package:seek_player/features/playlists/widgets/local_music_folder_bar.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
+import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
+import 'package:seek_player/features/tools/services/track_file_matcher.dart';
 import 'package:seek_player/features/tools/widgets/cover_actions_sheet.dart';
+import 'package:seek_player/features/tools/widgets/track_picker_tile.dart';
+import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
+import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
+import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
-/// 工具的選曲頁:列出本地音樂(可依資料夾篩選),點曲目開啟 [tool] 的動作表單。
+/// 工具的選曲頁:列出本地音樂,可依資料夾篩選、搜尋、排序,
+/// 或從系統選檔器挑檔(對回曲庫中的曲目);點曲目開啟 [tool] 的動作表單。
 /// 點曲目不播放,只對該曲執行工具。
 class ToolTrackPickerPage extends ConsumerStatefulWidget {
   const ToolTrackPickerPage({super.key, required this.tool});
@@ -26,6 +32,18 @@ class ToolTrackPickerPage extends ConsumerStatefulWidget {
 class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
   /// 目前篩選的資料夾路徑;null 代表全部。
   String? _folder;
+  var _sort = const TrackSort();
+  var _searching = false;
+
+  /// 選檔後比對 / 匯入中;顯示進度條並擋住重複觸發。
+  var _picking = false;
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   void _open(Track track) {
     switch (widget.tool) {
@@ -41,51 +59,135 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
     }
   }
 
+  Future<void> _pickFromFiles() async {
+    setState(() => _picking = true);
+    final TrackFileMatch result;
+    try {
+      result = await ref.read(trackFileMatcherProvider).pickAndMatch();
+    } finally {
+      if (mounted) setState(() => _picking = false);
+    }
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
+    switch (result) {
+      case TrackFileCancelled():
+        break;
+      case TrackFileFound(:final track, :final imported):
+        if (imported) {
+          messenger.showSnackBar(
+            SnackBar(content: Text(l10n.tools_file_imported)),
+          );
+        }
+        _open(track);
+      case TrackFileImportFailed():
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.tools_file_import_failed)),
+        );
+    }
+  }
+
+  Future<void> _editSort() async {
+    final sort = await showTrackSortSheet(context, current: _sort);
+    if (sort != null && mounted) setState(() => _sort = sort);
+  }
+
+  void _toggleSearch() => setState(() {
+    _searching = !_searching;
+    if (!_searching) _searchController.clear();
+  });
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final audio = ref.watch(audioPlayerServiceProvider);
-    final tracks = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
+    final library = ref.watch(musicLibraryProvider);
+    final tracks = library.valueOrNull ?? const [];
+    final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final folders = TrackFolder.groupTracks(tracks);
     // 重新掃描後選中的資料夾可能已不存在,視為全部。
     final folder = folders.any((f) => f.path == _folder) ? _folder : null;
-    final visibleTracks = folder == null
-        ? tracks
-        : [
-            for (final t in tracks)
-              if (TrackFolder.dirOf(t.filePath) == folder) t,
-          ];
+    final query = _searchController.text.trim().toLowerCase();
+    final visibleTracks = _sort.apply([
+      for (final t in tracks)
+        if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
+            (query.isEmpty ||
+                t.title.toLowerCase().contains(query) ||
+                (t.artist?.toLowerCase().contains(query) ?? false)))
+          t,
+    ], stats);
+
+    /// 資料夾(null 為全部)內最新檔案的時間,顯示在下拉選單。
+    DateTime? latestOf(String? folderPath) {
+      DateTime? latest;
+      for (final t in tracks) {
+        if (folderPath != null && TrackFolder.dirOf(t.filePath) != folderPath) {
+          continue;
+        }
+        final modified = stats[t.filePath]?.modified;
+        if (modified != null && (latest == null || modified.isAfter(latest))) {
+          latest = modified;
+        }
+      }
+      return latest;
+    }
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.tool.label(l10n))),
+      appBar: AppBar(
+        title: _searching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: l10n.music_search,
+                  border: InputBorder.none,
+                ),
+                onChanged: (_) => setState(() {}),
+              )
+            : Text(widget.tool.label(l10n)),
+        actions: [
+          if (_searching)
+            IconButton(icon: const Icon(Icons.close), onPressed: _toggleSearch),
+        ],
+      ),
       body: tracks.isEmpty
-          ? Center(child: Text(l10n.music_empty))
+          ? Center(
+              // 匯入後重掃時曲庫短暫為空,顯示讀取中而非「尚無音樂」。
+              child: library.isLoading
+                  ? const CircularProgressIndicator()
+                  : Text(l10n.music_empty),
+            )
           : Column(
               children: [
-                // 曲目分散在兩個以上資料夾時才顯示篩選列。
-                if (folders.length > 1)
-                  LocalMusicFolderBar(
+                TrackPickerToolbar(
+                  folderButton: FolderMenuButton(
                     folders: folders,
+                    totalCount: tracks.length,
+                    latestOf: latestOf,
                     selected: folder,
                     onSelected: (path) => setState(() => _folder = path),
                   ),
+                  onSearch: _toggleSearch,
+                  onSort: _editSort,
+                  onPickFile: _picking ? null : _pickFromFiles,
+                ),
+                if (_picking) const LinearProgressIndicator(),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: visibleTracks.length,
-                    itemBuilder: (context, index) {
-                      final track = visibleTracks[index];
-                      return TrackListTile(
-                        key: ValueKey(track.id),
-                        track: track,
-                        audio: audio,
-                        trailing: Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 16),
-                          child: Icon(widget.tool.icon),
+                  child: visibleTracks.isEmpty
+                      ? Center(child: Text(l10n.playlist_search_no_result))
+                      : ListView.builder(
+                          itemCount: visibleTracks.length,
+                          itemBuilder: (context, index) {
+                            final track = visibleTracks[index];
+                            return TrackPickerTile(
+                              key: ValueKey(track.id),
+                              track: track,
+                              stat: stats[track.filePath],
+                              audio: audio,
+                              onTap: () => _open(track),
+                            );
+                          },
                         ),
-                        onTap: () => _open(track),
-                      );
-                    },
-                  ),
                 ),
               ],
             ),

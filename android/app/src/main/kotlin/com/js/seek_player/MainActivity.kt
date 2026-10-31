@@ -43,6 +43,8 @@ class MainActivity : AudioServiceActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         externalOpen = ExternalOpenChannel(this, flutterEngine.dartExecutor.binaryMessenger)
+        // 工具選曲頁「從檔案選擇」挑到曲庫外的檔案時匯入 MediaStore。
+        MediaImportChannel(applicationContext, flutterEngine.dartExecutor.binaryMessenger)
         // 「更多 → 重置」:等同系統設定「應用程式資訊 → 儲存空間 → 清除資料」,
         // 系統清空整個 app 沙盒(Isar、SharedPreferences、cache、Firebase 登入)
         // 並立刻終止 process,因此成功時 Dart 端收不到回傳;只有失敗會回 false。

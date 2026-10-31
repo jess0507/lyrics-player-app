@@ -75,6 +75,17 @@ class TrackFingerprintService {
     return result;
   }
 
+  /// 計算單一檔案指紋但不寫入快取;給選檔器產生的暫存複本用,
+  /// 避免暫存路徑殘留在快取表。讀不到回 null。
+  static Future<String?> fingerprintUncached(String path) async {
+    try {
+      final size = await File(path).length();
+      return await Isolate.run(() => _hashFile(path, size));
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// 把 hash 計算送進獨立 isolate,不佔 main isolate 幀預算。
   ///
   /// 必須包在 static 方法內建立 closure:instance method 內的 closure

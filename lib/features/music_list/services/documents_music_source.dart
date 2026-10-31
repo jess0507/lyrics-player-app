@@ -80,7 +80,9 @@ class DocumentsMusicSource implements MusicLibrarySource {
       if (name.startsWith('.')) continue;
       final dot = name.lastIndexOf('.');
       if (dot <= 0) continue;
-      if (!supportedExtensions.contains(name.substring(dot + 1).toLowerCase())) {
+      if (!supportedExtensions.contains(
+        name.substring(dot + 1).toLowerCase(),
+      )) {
         continue;
       }
       paths.add(entity.path);
