@@ -190,7 +190,7 @@ jobs:
             echo "| --- | --- |"
             echo "| versionName | \`${{ steps.version.outputs.name }}\` |"
             echo "| versionCode | \`${{ steps.version.outputs.build }}\` |"
-            echo "| track | \`internal\` |"
+            echo "| track | \`production\` |"
             echo "| AAB download URL | ${{ steps.upload.outputs.artifact-url }} |"
             echo "| APK download URL | ${{ steps.upload-apk.outputs.artifact-url }} |"
             echo "| APK GCS URL | https://storage.googleapis.com/seek-player-f724e-apk/app-release-${{ steps.version.outputs.name }}.apk |"
@@ -215,7 +215,7 @@ jobs:
       - name: Build what's new from release notes
         run: python3 scripts/release_notes.py "docs/release-notes/v${{ needs.build.outputs.name }}.md" whatsnew
 
-      - name: Upload to Play Store (internal track)
+      - name: Upload to Play Store (production track)
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
@@ -223,5 +223,5 @@ jobs:
           releaseFiles: release/app-release.aab
           releaseName: v${{ needs.build.outputs.name }}
           whatsNewDirectory: whatsnew
-          track: internal
+          tracks: production
           status: completed

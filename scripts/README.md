@@ -28,7 +28,7 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 
 1. `shorebird release` 建置已簽章的 AAB 與 APK，同時向 Shorebird 註冊這個版本為
    OTA baseline（之後的 `patch.sh` 才有目標可以 patch）。
-2. AAB 上架 Play Store **internal** 軌道，並把 `docs/release-notes/vX.Y.Z.md`
+2. AAB 上架 Play Store **production**（正式版）軌道，並把 `docs/release-notes/vX.Y.Z.md`
    （與 tag 同名）作為該版本的「這個版本有什麼新功能」一起送上去。
 3. APK 上傳到 GCS 與 GitHub Release，下載連結顯示在該 run 的 summary 頁。
 

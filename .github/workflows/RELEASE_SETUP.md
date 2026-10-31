@@ -4,7 +4,7 @@
 
 - **`release.yml`** — 在 master 上推送版本 tag（`vX.Y.Z`，例如 `v1.2.13`）時觸發，
   以 `shorebird release` 建置已簽章 AAB 與 APK（同時向 Shorebird 註冊 baseline），
-  AAB 上傳到 Play Store 的 internal 軌道；兩者皆上傳為 GitHub Actions artifact，
+  AAB 上傳到 Play Store 的 production(正式版)軌道；兩者皆上傳為 GitHub Actions artifact，
   下載連結顯示在該 run 的 summary 頁面（APK 可直接側載測試）。
 - **`patch.yml`** — 僅手動觸發（`workflow_dispatch`，由 `./scripts/patch.sh` 呼叫），
   對「最新 tag 對應的 release 版本」下 `shorebird patch`，純 Dart 變更以 OTA 出貨，
@@ -104,4 +104,5 @@ keytool -genkey -v -keystore upload-keystore.jks \
 
 - 首次上架需先在 Play Console 手動建立應用並完成一次人工上傳，
   之後 `r0adkll/upload-google-play` 才能用 API 推送。
-- 預設推到 `internal` 軌道；要正式發佈可把 `track` 改為 `production`。
+- 預設推到 `production` 軌道並全量發佈（`status: completed`）；要先內測可把 `tracks` 改為 `internal`。
+- service account 需有「發布到正式版」權限（`CAN_MANAGE_PUBLIC_APKS`）；改推 internal 等測試軌道則需另勾「將應用程式發布到測試群組」（`CAN_MANAGE_TRACK_APKS`），否則 commit edit 時會報 `The caller does not have permission`。
