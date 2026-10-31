@@ -113,16 +113,13 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
               track: track,
               audio: audio,
               isCurrent: track.id == currentId,
-              trailing: IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () => showPlaylistTrackActionsSheet(
-                  context,
-                  ref,
-                  track,
-                  playlistId: removablePlaylistId,
-                ),
-              ),
               onTap: () => _play(track),
+              onLongPress: () => showPlaylistTrackActionsSheet(
+                context,
+                ref,
+                track,
+                playlistId: removablePlaylistId,
+              ),
             );
           },
         );

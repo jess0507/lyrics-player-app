@@ -45,14 +45,11 @@ class RecentlyPlayedTrackList extends ConsumerWidget {
           key: ValueKey(item.track.id),
           track: item.track,
           audio: audio,
-          trailing: IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () =>
-                showPlaylistTrackActionsSheet(context, ref, item.track),
-          ),
           onTap: () => ref
               .read(playbackControllerProvider)
               .playTracksAt(tracks, row.trackIndex),
+          onLongPress: () =>
+              showPlaylistTrackActionsSheet(context, ref, item.track),
         );
       },
     );

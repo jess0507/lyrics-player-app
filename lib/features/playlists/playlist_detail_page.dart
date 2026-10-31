@@ -119,12 +119,6 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       stats,
       plays,
     );
-    // 只有顯示完整清單的自訂順序時才能拖曳,否則拖曳位置無法對回清單。
-    final reorderable =
-        !isRecentlyPlayed &&
-        _sort.field == TrackSortField.custom &&
-        query.isEmpty;
-
     return PopScope(
       // 搜尋中按返回只關閉搜尋、回到原本的頂欄,不離開本頁。
       canPop: !_searching,
@@ -220,7 +214,7 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
             ? Center(child: Text(l10n.playlist_search_no_result))
             : isRecentlyPlayed
             ? _buildRecentlyPlayedList(recentItems, visibleTracks)
-            : _buildTrackList(visibleTracks, reorderable: reorderable),
+            : _buildTrackList(visibleTracks),
       ),
     );
   }
@@ -250,7 +244,7 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
     );
   }
 
-  Widget _buildTrackList(List<Track> tracks, {required bool reorderable}) {
+  Widget _buildTrackList(List<Track> tracks) {
     final audio = ref.watch(audioPlayerServiceProvider);
 
     return StreamBuilder<SequenceState?>(
@@ -258,47 +252,28 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       builder: (context, snapshot) {
         final tag = snapshot.data?.currentSource?.tag;
         final currentId = tag is MediaItem ? tag.id : null;
-        Widget itemBuilder(BuildContext context, int index) {
-          final track = tracks[index];
-          return TrackListTile(
-            key: ValueKey(track.id),
-            track: track,
-            audio: audio,
-            isCurrent: track.id == currentId,
-            trailing: IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () => showPlaylistTrackActionsSheet(
+        return ListView.builder(
+          // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
+          padding: const EdgeInsets.only(bottom: 88),
+          itemCount: tracks.length,
+          itemBuilder: (context, index) {
+            final track = tracks[index];
+            return TrackListTile(
+              key: ValueKey(track.id),
+              track: track,
+              audio: audio,
+              isCurrent: track.id == currentId,
+              onTap: () => ref
+                  .read(playbackControllerProvider)
+                  .playTracksAt(tracks, index),
+              onLongPress: () => showPlaylistTrackActionsSheet(
                 context,
                 ref,
                 track,
                 playlistId: playlistId,
               ),
-            ),
-            onTap: () => ref
-                .read(playbackControllerProvider)
-                .playTracksAt(tracks, index),
-          );
-        }
-
-        // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
-        const padding = EdgeInsets.only(bottom: 88);
-        if (!reorderable) {
-          return ListView.builder(
-            padding: padding,
-            itemCount: tracks.length,
-            itemBuilder: itemBuilder,
-          );
-        }
-        return ReorderableListView.builder(
-          padding: padding,
-          itemCount: tracks.length,
-          onReorderItem: (oldIndex, newIndex) {
-            final ids = tracks.map((t) => t.id).toList();
-            final moved = ids.removeAt(oldIndex);
-            ids.insert(newIndex, moved);
-            ref.read(playlistRepositoryProvider).setTrackIds(playlistId, ids);
+            );
           },
-          itemBuilder: itemBuilder,
         );
       },
     );

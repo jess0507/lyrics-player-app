@@ -286,13 +286,10 @@ class _LocalMusicPlaylistPageState
               track: track,
               audio: audio,
               isCurrent: track.id == currentId,
-              trailing: IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () => showTrackActionsSheet(context, ref, track),
-              ),
               onTap: () => ref
                   .read(playbackControllerProvider)
                   .playTracksAt(tracks, index),
+              onLongPress: () => showTrackActionsSheet(context, ref, track),
             );
           },
         );
