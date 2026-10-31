@@ -8,6 +8,7 @@ import 'package:seek_player/features/playlists/models/track_folder.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
+import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
 import 'package:seek_player/features/tools/services/track_file_matcher.dart';
 import 'package:seek_player/features/tools/widgets/track_picker_tile.dart';
 import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
@@ -98,6 +99,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
     final library = ref.watch(musicLibraryProvider);
     final tracks = library.valueOrNull ?? const [];
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
+    final plays = ref.watch(trackPlayStatsProvider);
     final folders = TrackFolder.groupTracks(tracks);
     // 重新掃描後選中的資料夾可能已不存在,視為全部。
     final folder = folders.any((f) => f.path == _folder) ? _folder : null;
@@ -109,7 +111,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                 t.title.toLowerCase().contains(query) ||
                 (t.artist?.toLowerCase().contains(query) ?? false)))
           t,
-    ], stats);
+    ], stats, plays);
 
     /// 資料夾(null 為全部)內最新檔案的時間,顯示在下拉選單。
     DateTime? latestOf(String? folderPath) {
