@@ -49,7 +49,6 @@ class PlaylistEditTracksList extends ConsumerWidget {
                   icon: Icon(Icons.delete_outline, color: scheme.error),
                   onPressed: () => onRemove(track.id),
                 ),
-                onTap: () => onRemove(track.id),
               ),
             ),
           ],
