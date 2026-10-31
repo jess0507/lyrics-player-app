@@ -65,6 +65,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tools_sort_size => 'Boyut';
 
   @override
+  String get tools_sort_play_count => 'Çalma sayısı';
+
+  @override
+  String get tools_sort_last_played => 'Son çalınanlar';
+
+  @override
   String get tools_sort_new_to_old => 'Yeniden eskiye';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'Küçükten büyüğe';
+
+  @override
+  String get tools_sort_most_to_least => 'Çoktan aza';
+
+  @override
+  String get tools_sort_least_to_most => 'Azdan çoğa';
 
   @override
   String get tools_lyrics_preview => 'Şarkı sözü önizlemesi';

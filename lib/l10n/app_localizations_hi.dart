@@ -65,6 +65,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tools_sort_size => 'आकार';
 
   @override
+  String get tools_sort_play_count => 'प्ले की संख्या';
+
+  @override
+  String get tools_sort_last_played => 'हाल ही में चलाया गया';
+
+  @override
   String get tools_sort_new_to_old => 'नए से पुराने';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'छोटे से बड़े';
+
+  @override
+  String get tools_sort_most_to_least => 'सबसे ज़्यादा से सबसे कम';
+
+  @override
+  String get tools_sort_least_to_most => 'सबसे कम से सबसे ज़्यादा';
 
   @override
   String get tools_lyrics_preview => 'बोल का पूर्वावलोकन';

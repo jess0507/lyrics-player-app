@@ -63,6 +63,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_sort_size => '大小';
 
   @override
+  String get tools_sort_play_count => '播放次數';
+
+  @override
+  String get tools_sort_last_played => '最近播放';
+
+  @override
   String get tools_sort_new_to_old => '由新到舊';
 
   @override
@@ -79,6 +85,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => '由小到大';
+
+  @override
+  String get tools_sort_most_to_least => '由多到少';
+
+  @override
+  String get tools_sort_least_to_most => '由少到多';
 
   @override
   String get tools_lyrics_preview => '歌詞預覽';
@@ -934,6 +946,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get tools_sort_size => '大小';
 
   @override
+  String get tools_sort_play_count => '播放次数';
+
+  @override
+  String get tools_sort_last_played => '最近播放';
+
+  @override
   String get tools_sort_new_to_old => '从新到旧';
 
   @override
@@ -950,6 +968,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_sort_small_to_large => '从小到大';
+
+  @override
+  String get tools_sort_most_to_least => '从多到少';
+
+  @override
+  String get tools_sort_least_to_most => '从少到多';
 
   @override
   String get tools_lyrics_preview => '歌词预览';
@@ -1806,6 +1830,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get tools_sort_size => '大小';
 
   @override
+  String get tools_sort_play_count => '播放次數';
+
+  @override
+  String get tools_sort_last_played => '最近播放';
+
+  @override
   String get tools_sort_new_to_old => '由新到舊';
 
   @override
@@ -1822,6 +1852,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_sort_small_to_large => '由小到大';
+
+  @override
+  String get tools_sort_most_to_least => '由多到少';
+
+  @override
+  String get tools_sort_least_to_most => '由少到多';
 
   @override
   String get tools_lyrics_preview => '歌詞預覽';

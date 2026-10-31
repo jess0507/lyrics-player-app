@@ -65,6 +65,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools_sort_size => 'Kích thước';
 
   @override
+  String get tools_sort_play_count => 'Số lượt phát';
+
+  @override
+  String get tools_sort_last_played => 'Phát gần đây';
+
+  @override
   String get tools_sort_new_to_old => 'Từ mới đến cũ';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'Từ nhỏ đến lớn';
+
+  @override
+  String get tools_sort_most_to_least => 'Từ nhiều đến ít';
+
+  @override
+  String get tools_sort_least_to_most => 'Từ ít đến nhiều';
 
   @override
   String get tools_lyrics_preview => 'Xem trước lời bài hát';

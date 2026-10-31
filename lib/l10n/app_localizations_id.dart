@@ -65,6 +65,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get tools_sort_size => 'Ukuran';
 
   @override
+  String get tools_sort_play_count => 'Jumlah pemutaran';
+
+  @override
+  String get tools_sort_last_played => 'Terakhir diputar';
+
+  @override
   String get tools_sort_new_to_old => 'Dari terbaru ke terlama';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'Dari kecil ke besar';
+
+  @override
+  String get tools_sort_most_to_least => 'Dari terbanyak ke tersedikit';
+
+  @override
+  String get tools_sort_least_to_most => 'Dari tersedikit ke terbanyak';
 
   @override
   String get tools_lyrics_preview => 'Pratinjau lirik';

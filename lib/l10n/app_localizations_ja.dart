@@ -63,6 +63,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_sort_size => 'サイズ';
 
   @override
+  String get tools_sort_play_count => '再生回数';
+
+  @override
+  String get tools_sort_last_played => '最近再生した曲';
+
+  @override
   String get tools_sort_new_to_old => '新しい順';
 
   @override
@@ -79,6 +85,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => '小さい順';
+
+  @override
+  String get tools_sort_most_to_least => '多い順';
+
+  @override
+  String get tools_sort_least_to_most => '少ない順';
 
   @override
   String get tools_lyrics_preview => '歌詞のプレビュー';

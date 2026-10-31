@@ -65,6 +65,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tools_sort_size => 'Размер';
 
   @override
+  String get tools_sort_play_count => 'Число прослушиваний';
+
+  @override
+  String get tools_sort_last_played => 'Недавно прослушанные';
+
+  @override
   String get tools_sort_new_to_old => 'Сначала новые';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'По возрастанию';
+
+  @override
+  String get tools_sort_most_to_least => 'От большего к меньшему';
+
+  @override
+  String get tools_sort_least_to_most => 'От меньшего к большему';
 
   @override
   String get tools_lyrics_preview => 'Предпросмотр текста';

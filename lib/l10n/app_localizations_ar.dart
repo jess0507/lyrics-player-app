@@ -65,6 +65,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tools_sort_size => 'الحجم';
 
   @override
+  String get tools_sort_play_count => 'عدد مرات التشغيل';
+
+  @override
+  String get tools_sort_last_played => 'آخر تشغيل';
+
+  @override
   String get tools_sort_new_to_old => 'من الأحدث إلى الأقدم';
 
   @override
@@ -81,6 +87,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'من الأصغر إلى الأكبر';
+
+  @override
+  String get tools_sort_most_to_least => 'من الأكثر إلى الأقل';
+
+  @override
+  String get tools_sort_least_to_most => 'من الأقل إلى الأكثر';
 
   @override
   String get tools_lyrics_preview => 'معاينة كلمات الأغنية';

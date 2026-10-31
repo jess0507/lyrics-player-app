@@ -234,6 +234,18 @@ abstract class AppLocalizations {
   /// **'Size'**
   String get tools_sort_size;
 
+  /// No description provided for @tools_sort_play_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Play count'**
+  String get tools_sort_play_count;
+
+  /// No description provided for @tools_sort_last_played.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently played'**
+  String get tools_sort_last_played;
+
   /// No description provided for @tools_sort_new_to_old.
   ///
   /// In en, this message translates to:
@@ -269,6 +281,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From small to large'**
   String get tools_sort_small_to_large;
+
+  /// No description provided for @tools_sort_most_to_least.
+  ///
+  /// In en, this message translates to:
+  /// **'From most to least'**
+  String get tools_sort_most_to_least;
+
+  /// No description provided for @tools_sort_least_to_most.
+  ///
+  /// In en, this message translates to:
+  /// **'From least to most'**
+  String get tools_sort_least_to_most;
 
   /// No description provided for @tools_lyrics_preview.
   ///

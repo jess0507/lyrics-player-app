@@ -64,6 +64,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tools_sort_size => 'Size';
 
   @override
+  String get tools_sort_play_count => 'Play count';
+
+  @override
+  String get tools_sort_last_played => 'Recently played';
+
+  @override
   String get tools_sort_new_to_old => 'From new to old';
 
   @override
@@ -80,6 +86,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'From small to large';
+
+  @override
+  String get tools_sort_most_to_least => 'From most to least';
+
+  @override
+  String get tools_sort_least_to_most => 'From least to most';
 
   @override
   String get tools_lyrics_preview => 'Lyrics preview';

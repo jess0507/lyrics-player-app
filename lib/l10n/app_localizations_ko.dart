@@ -63,6 +63,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_sort_size => '크기';
 
   @override
+  String get tools_sort_play_count => '재생 횟수';
+
+  @override
+  String get tools_sort_last_played => '최근 재생';
+
+  @override
   String get tools_sort_new_to_old => '최신순';
 
   @override
@@ -79,6 +85,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => '작은 순서';
+
+  @override
+  String get tools_sort_most_to_least => '많은 순';
+
+  @override
+  String get tools_sort_least_to_most => '적은 순';
 
   @override
   String get tools_lyrics_preview => '가사 미리보기';

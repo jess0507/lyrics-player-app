@@ -66,6 +66,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tools_sort_size => 'Taille';
 
   @override
+  String get tools_sort_play_count => 'Nombre de lectures';
+
+  @override
+  String get tools_sort_last_played => 'Lu récemment';
+
+  @override
   String get tools_sort_new_to_old => 'Du plus récent au plus ancien';
 
   @override
@@ -82,6 +88,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tools_sort_small_to_large => 'Du plus petit au plus grand';
+
+  @override
+  String get tools_sort_most_to_least => 'Du plus au moins';
+
+  @override
+  String get tools_sort_least_to_most => 'Du moins au plus';
 
   @override
   String get tools_lyrics_preview => 'Aperçu des paroles';
