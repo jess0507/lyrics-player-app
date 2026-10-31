@@ -6,6 +6,7 @@ import 'package:seek_player/app.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
 
 /// 測試用音樂庫：不觸碰裝置 MediaStore，回傳空清單。
 class _FakeMusicLibrary extends MusicLibrary {
@@ -23,6 +24,8 @@ void main() {
         overrides: [
           preferencesServiceProvider.overrideWithValue(prefs),
           musicLibraryProvider.overrideWith(_FakeMusicLibrary.new),
+          // 播放紀錄取自 Isar 統計,測試不開 Isar,回傳空結果。
+          trackPlayStatsProvider.overrideWithValue(const {}),
         ],
         child: const SeekPlayerApp(),
       ),
