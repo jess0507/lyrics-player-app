@@ -12,11 +12,13 @@ import 'package:seek_player/features/music_list/services/music_import_service.da
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
+import 'package:seek_player/features/tools/models/track_file_stat.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
 import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
 import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
 import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
+import 'package:seek_player/features/tools/widgets/track_search_field.dart';
 import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
@@ -96,6 +98,17 @@ class _LocalMusicPlaylistPageState
     if (!_searching) _searchController.clear();
   });
 
+  /// 僅在本分頁可見(IndexedStack 中非作用分頁的 TickerMode 為關)、
+  /// 本頁在最上層且正在搜尋時處理返回;其餘交回預設行為。
+  Future<bool> _onBackButtonPressed() async {
+    final visible =
+        TickerMode.valuesOf(context).enabled &&
+        (ModalRoute.of(context)?.isCurrent ?? true);
+    if (!_searching || !visible) return false;
+    _toggleSearch();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -110,29 +123,18 @@ class _LocalMusicPlaylistPageState
     // 重新掃描後選中的資料夾可能已不存在,視為全部。
     final folder = folders.any((f) => f.path == _folder) ? _folder : null;
     final query = _searchController.text.trim().toLowerCase();
-    final visibleTracks = _sort.apply([
-      for (final t in tracks)
-        if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
-            (query.isEmpty ||
-                t.title.toLowerCase().contains(query) ||
-                (t.artist?.toLowerCase().contains(query) ?? false)))
-          t,
-    ], stats, plays);
-
-    /// 資料夾(null 為全部)內最新檔案的時間,顯示在下拉選單。
-    DateTime? latestOf(String? folderPath) {
-      DateTime? latest;
-      for (final t in tracks) {
-        if (folderPath != null && TrackFolder.dirOf(t.filePath) != folderPath) {
-          continue;
-        }
-        final modified = stats[t.filePath]?.modified;
-        if (modified != null && (latest == null || modified.isAfter(latest))) {
-          latest = modified;
-        }
-      }
-      return latest;
-    }
+    final visibleTracks = _sort.apply(
+      [
+        for (final t in tracks)
+          if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
+              (query.isEmpty ||
+                  t.title.toLowerCase().contains(query) ||
+                  (t.artist?.toLowerCase().contains(query) ?? false)))
+            t,
+      ],
+      stats,
+      plays,
+    );
     final scheme = Theme.of(context).colorScheme;
 
     final systemButtonStyle = TextButton.styleFrom(
@@ -141,108 +143,116 @@ class _LocalMusicPlaylistPageState
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        // 分頁根頁沒有返回鍵,左側改放 app 圖示。
-        leading: const AppLogoLeading(),
-        title: _searching
-            ? TextField(
-                controller: _searchController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: l10n.music_search,
-                  border: InputBorder.none,
+    // 搜尋中按返回只關閉搜尋、回到原本的頂欄。本頁是分頁根頁,
+    // go_router 在分頁 navigator 無頁可退時直接交給 root navigator,
+    // 不會經過本頁的 PopScope,因此改由 BackButtonListener 攔截。
+    return BackButtonListener(
+      onBackButtonPressed: _onBackButtonPressed,
+      child: Scaffold(
+        appBar: AppBar(
+          // 分頁根頁沒有返回鍵,左側改放 app 圖示;搜尋中改為返回,
+          // 按下關閉搜尋。
+          leading: _searching
+              ? BackButton(onPressed: _toggleSearch)
+              : const AppLogoLeading(),
+          // 搜尋欄緊鄰返回鍵:返回鍵縮到最小點擊尺寸 48(預設 56 會在
+          // 箭頭右側多出空白),並取消標題間距。
+          leadingWidth: _searching ? 48 : null,
+          titleSpacing: _searching ? 0 : null,
+          title: _searching
+              ? TrackSearchField(
+                  controller: _searchController,
+                  onChanged: (_) => setState(() {}),
+                )
+              : Text(
+                  l10n.playlist_local_music,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                onChanged: (_) => setState(() {}),
-              )
-            : Text(
-                l10n.playlist_local_music,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+          // 搜尋欄右側留白,不貼齊螢幕邊緣。
+          actions: [if (_searching) const SizedBox(width: 16)],
+        ),
+        // 全部播放改用 FAB,清單為空時不顯示;只播目前篩選出的曲目。
+        floatingActionButton: visibleTracks.isEmpty
+            ? null
+            : FloatingActionButton(
+                // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
+                // 衝突;FAB 不需要 hero 轉場,直接關掉。
+                heroTag: null,
+                tooltip: l10n.playlist_play_all,
+                onPressed: () => ref
+                    .read(playbackControllerProvider)
+                    .playTracksAt(visibleTracks, 0),
+                child: const Icon(Icons.play_arrow_rounded),
               ),
-        actions: [
-          if (_searching)
-            IconButton(icon: const Icon(Icons.close), onPressed: _toggleSearch),
-        ],
-      ),
-      // 全部播放改用 FAB,清單為空時不顯示;只播目前篩選出的曲目。
-      floatingActionButton: visibleTracks.isEmpty
-          ? null
-          : FloatingActionButton(
-              // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
-              // 衝突;FAB 不需要 hero 轉場,直接關掉。
-              heroTag: null,
-              tooltip: l10n.playlist_play_all,
-              onPressed: () => ref
-                  .read(playbackControllerProvider)
-                  .playTracksAt(visibleTracks, 0),
-              child: const Icon(Icons.play_arrow_rounded),
-            ),
-      body: Column(
-        children: [
-          // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
-          // Android 掃 MediaStore,無匯入需求,整列連同留白一併隱藏。
-          if (Platform.isIOS) ...[
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: TextButton.icon(
-                  style: systemButtonStyle,
-                  onPressed: _importing ? null : _importMusic,
-                  icon: _importing
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.add),
-                  label: Text(l10n.music_import),
+        body: Column(
+          children: [
+            // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
+            // Android 掃 MediaStore,無匯入需求,整列連同留白一併隱藏。
+            if (Platform.isIOS) ...[
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton.icon(
+                    style: systemButtonStyle,
+                    onPressed: _importing ? null : _importMusic,
+                    icon: _importing
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.add),
+                    label: Text(l10n.music_import),
+                  ),
                 ),
               ),
+              const SizedBox(height: 8),
+            ],
+            // 有曲目時才顯示資料夾 / 搜尋 / 排序 / 重新掃描工具列;
+            // 清單為空時重新掃描改由下方空狀態提供。
+            if (tracks.isNotEmpty)
+              TrackPickerToolbar(
+                folderButton: FolderMenuButton(
+                  folders: folders,
+                  totalCount: tracks.length,
+                  latestOf: (path) => latestModifiedIn(tracks, stats, path),
+                  selected: folder,
+                  onSelected: (path) => setState(() => _folder = path),
+                ),
+                onSearch: _toggleSearch,
+                onSort: _editSort,
+                actions: [
+                  IconButton(
+                    tooltip: l10n.music_rescan,
+                    onPressed: _scanning ? null : _rescan,
+                    icon: _scanning
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.refresh),
+                  ),
+                ],
+              ),
+            Expanded(
+              child: tracks.isEmpty && scanning
+                  ? const Center(child: CircularProgressIndicator())
+                  : tracks.isEmpty
+                  ? EmptyStateView(
+                      message: Platform.isIOS
+                          ? l10n.music_empty_import
+                          : l10n.music_empty,
+                      action: _rescanButton(systemButtonStyle, l10n),
+                    )
+                  : visibleTracks.isEmpty
+                  ? Center(child: Text(l10n.playlist_search_no_result))
+                  : _buildTrackList(visibleTracks),
             ),
-            const SizedBox(height: 8),
           ],
-          // 有曲目時才顯示資料夾 / 搜尋 / 排序 / 重新掃描工具列;
-          // 清單為空時重新掃描改由下方空狀態提供。
-          if (tracks.isNotEmpty)
-            TrackPickerToolbar(
-              folderButton: FolderMenuButton(
-                folders: folders,
-                totalCount: tracks.length,
-                latestOf: latestOf,
-                selected: folder,
-                onSelected: (path) => setState(() => _folder = path),
-              ),
-              onSearch: _toggleSearch,
-              onSort: _editSort,
-              trailing: IconButton(
-                tooltip: l10n.music_rescan,
-                onPressed: _scanning ? null : _rescan,
-                icon: _scanning
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.refresh),
-              ),
-            ),
-          Expanded(
-            child: tracks.isEmpty && scanning
-                ? const Center(child: CircularProgressIndicator())
-                : tracks.isEmpty
-                ? EmptyStateView(
-                    message: Platform.isIOS
-                        ? l10n.music_empty_import
-                        : l10n.music_empty,
-                    action: _rescanButton(systemButtonStyle, l10n),
-                  )
-                : visibleTracks.isEmpty
-                ? Center(child: Text(l10n.playlist_search_no_result))
-                : _buildTrackList(visibleTracks),
-          ),
-        ],
+        ),
       ),
     );
   }

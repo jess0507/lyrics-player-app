@@ -5,6 +5,8 @@ import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 工具選曲頁的排序欄位。
 enum TrackSortField {
+  /// 維持來源清單的順序(播放清單的自訂順序);不分方向。
+  custom,
   timeAdded,
   name,
   duration,
@@ -13,6 +15,7 @@ enum TrackSortField {
   lastPlayed;
 
   String label(AppLocalizations l10n) => switch (this) {
+    custom => l10n.tools_sort_custom,
     timeAdded => l10n.tools_sort_time_added,
     name => l10n.tools_sort_name,
     duration => l10n.tools_sort_duration,
@@ -24,6 +27,8 @@ enum TrackSortField {
   /// 依欄位語意給「遞減 / 遞增」的顯示文字(例如時間是新到舊、名稱是 Z 到 A)。
   String orderLabel(AppLocalizations l10n, {required bool descending}) =>
       switch (this) {
+        // custom 不分方向,表單不顯示方向選項。
+        custom => '',
         timeAdded || lastPlayed =>
           descending ? l10n.tools_sort_new_to_old : l10n.tools_sort_old_to_new,
         name => descending ? l10n.tools_sort_z_to_a : l10n.tools_sort_a_to_z,
@@ -54,7 +59,9 @@ class TrackSort {
     Map<String, TrackFileStat> stats,
     Map<String, TrackPlayStat> plays,
   ) {
+    if (field == TrackSortField.custom) return [...tracks];
     int compare(Track a, Track b) => switch (field) {
+      TrackSortField.custom => 0,
       TrackSortField.timeAdded =>
         (stats[a.filePath]?.modified.millisecondsSinceEpoch ?? 0).compareTo(
           stats[b.filePath]?.modified.millisecondsSinceEpoch ?? 0,

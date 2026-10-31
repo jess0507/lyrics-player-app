@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
+/// 預設可選的排序欄位:不含 [TrackSortField.custom](僅有自訂順序的
+/// 播放清單才提供)。
+final defaultTrackSortFields = [
+  for (final f in TrackSortField.values)
+    if (f != TrackSortField.custom) f,
+];
+
 /// 開啟排序表單;按確定回傳新設定,取消或關閉回 null。
+/// [fields] 為可選的排序欄位,預設 [defaultTrackSortFields]。
 Future<TrackSort?> showTrackSortSheet(
   BuildContext context, {
   required TrackSort current,
+  List<TrackSortField>? fields,
 }) {
   return showModalBottomSheet<TrackSort>(
     context: context,
@@ -13,15 +22,23 @@ Future<TrackSort?> showTrackSortSheet(
     // 預設 sheet 高度上限為螢幕 9/16,選項一多就溢出;改依內容長高。
     isScrollControlled: true,
     useSafeArea: true,
-    builder: (context) => TrackSortSheet(initial: current),
+    builder: (context) => TrackSortSheet(
+      initial: current,
+      fields: fields ?? defaultTrackSortFields,
+    ),
   );
 }
 
 /// 排序表單:上半選欄位、下半選方向,底部取消 / 確定。
 class TrackSortSheet extends StatefulWidget {
-  const TrackSortSheet({super.key, required this.initial});
+  const TrackSortSheet({
+    super.key,
+    required this.initial,
+    required this.fields,
+  });
 
   final TrackSort initial;
+  final List<TrackSortField> fields;
 
   @override
   State<TrackSortSheet> createState() => _TrackSortSheetState();
@@ -59,7 +76,7 @@ class _TrackSortSheetState extends State<TrackSortSheet> {
                       onChanged: (v) => setState(() => _field = v!),
                       child: Column(
                         children: [
-                          for (final field in TrackSortField.values)
+                          for (final field in widget.fields)
                             RadioListTile<TrackSortField>(
                               value: field,
                               title: Text(field.label(l10n)),
@@ -68,23 +85,29 @@ class _TrackSortSheetState extends State<TrackSortSheet> {
                         ],
                       ),
                     ),
-                    const Divider(indent: 16, endIndent: 16),
-                    RadioGroup<bool>(
-                      groupValue: _descending,
-                      onChanged: (v) => setState(() => _descending = v!),
-                      child: Column(
-                        children: [
-                          for (final descending in const [true, false])
-                            RadioListTile<bool>(
-                              value: descending,
-                              title: Text(
-                                _field.orderLabel(l10n, descending: descending),
+                    if (_field != TrackSortField.custom) ...[
+                      const Divider(indent: 16, endIndent: 16),
+                      RadioGroup<bool>(
+                        groupValue: _descending,
+                        onChanged: (v) => setState(() => _descending = v!),
+                        child: Column(
+                          children: [
+                            for (final descending in const [true, false])
+                              RadioListTile<bool>(
+                                value: descending,
+                                title: Text(
+                                  _field.orderLabel(
+                                    l10n,
+                                    descending: descending,
+                                  ),
+                                ),
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                               ),
-                              controlAffinity: ListTileControlAffinity.trailing,
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),
