@@ -53,6 +53,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tools_sort_by => 'Sırala';
 
   @override
+  String get tools_sort_custom => 'Çalma listesi sırası';
+
+  @override
   String get tools_sort_time_added => 'Eklenme zamanı';
 
   @override

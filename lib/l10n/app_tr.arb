@@ -14,6 +14,7 @@
   "tools_file_import_failed": "Bu dosya müzik kitaplığınıza aktarılamadı.",
   "tools_all_audios": "Tüm sesler",
   "tools_sort_by": "Sırala",
+  "tools_sort_custom": "Çalma listesi sırası",
   "tools_sort_time_added": "Eklenme zamanı",
   "tools_sort_name": "Ses adı",
   "tools_sort_duration": "Süre",

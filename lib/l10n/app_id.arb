@@ -14,6 +14,7 @@
   "tools_file_import_failed": "Tidak dapat mengimpor file ini ke pustaka musik.",
   "tools_all_audios": "Semua audio",
   "tools_sort_by": "Urutkan menurut",
+  "tools_sort_custom": "Urutan playlist",
   "tools_sort_time_added": "Waktu ditambahkan",
   "tools_sort_name": "Nama audio",
   "tools_sort_duration": "Durasi",

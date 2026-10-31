@@ -14,6 +14,7 @@
   "tools_file_import_failed": "このファイルをミュージックライブラリにインポートできませんでした。",
   "tools_all_audios": "すべてのオーディオ",
   "tools_sort_by": "並べ替え",
+  "tools_sort_custom": "プレイリストの順番",
   "tools_sort_time_added": "追加日時",
   "tools_sort_name": "オーディオ名",
   "tools_sort_duration": "再生時間",

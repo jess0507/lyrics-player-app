@@ -14,6 +14,7 @@
   "tools_file_import_failed": "इस फ़ाइल को संगीत लाइब्रेरी में आयात नहीं किया जा सका।",
   "tools_all_audios": "सभी ऑडियो",
   "tools_sort_by": "इसके अनुसार क्रमबद्ध करें",
+  "tools_sort_custom": "प्लेलिस्ट क्रम",
   "tools_sort_time_added": "जोड़ने का समय",
   "tools_sort_name": "ऑडियो नाम",
   "tools_sort_duration": "अवधि",

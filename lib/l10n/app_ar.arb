@@ -14,6 +14,7 @@
   "tools_file_import_failed": "تعذّر استيراد هذا الملف إلى مكتبة الموسيقى.",
   "tools_all_audios": "كل الملفات الصوتية",
   "tools_sort_by": "ترتيب حسب",
+  "tools_sort_custom": "ترتيب القائمة",
   "tools_sort_time_added": "وقت الإضافة",
   "tools_sort_name": "اسم الملف الصوتي",
   "tools_sort_duration": "المدة",

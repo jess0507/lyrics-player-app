@@ -51,6 +51,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_sort_by => '정렬 기준';
 
   @override
+  String get tools_sort_custom => '재생목록 순서';
+
+  @override
   String get tools_sort_time_added => '추가된 시간';
 
   @override

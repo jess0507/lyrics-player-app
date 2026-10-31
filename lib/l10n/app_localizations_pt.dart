@@ -54,6 +54,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tools_sort_by => 'Ordenar por';
 
   @override
+  String get tools_sort_custom => 'Ordem da playlist';
+
+  @override
   String get tools_sort_time_added => 'Data de adição';
 
   @override

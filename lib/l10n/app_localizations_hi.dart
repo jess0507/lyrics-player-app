@@ -53,6 +53,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tools_sort_by => 'इसके अनुसार क्रमबद्ध करें';
 
   @override
+  String get tools_sort_custom => 'प्लेलिस्ट क्रम';
+
+  @override
   String get tools_sort_time_added => 'जोड़ने का समय';
 
   @override

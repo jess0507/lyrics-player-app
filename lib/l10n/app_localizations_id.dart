@@ -53,6 +53,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get tools_sort_by => 'Urutkan menurut';
 
   @override
+  String get tools_sort_custom => 'Urutan playlist';
+
+  @override
   String get tools_sort_time_added => 'Waktu ditambahkan';
 
   @override

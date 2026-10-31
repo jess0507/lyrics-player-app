@@ -14,6 +14,7 @@
   "tools_file_import_failed": "Không thể nhập tệp này vào thư viện nhạc.",
   "tools_all_audios": "Tất cả âm thanh",
   "tools_sort_by": "Sắp xếp theo",
+  "tools_sort_custom": "Thứ tự danh sách phát",
   "tools_sort_time_added": "Thời gian thêm",
   "tools_sort_name": "Tên âm thanh",
   "tools_sort_duration": "Thời lượng",

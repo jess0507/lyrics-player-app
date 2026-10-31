@@ -53,6 +53,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tools_sort_by => 'ترتيب حسب';
 
   @override
+  String get tools_sort_custom => 'ترتيب القائمة';
+
+  @override
   String get tools_sort_time_added => 'وقت الإضافة';
 
   @override

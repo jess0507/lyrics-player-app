@@ -210,6 +210,12 @@ abstract class AppLocalizations {
   /// **'Sort by'**
   String get tools_sort_by;
 
+  /// No description provided for @tools_sort_custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist order'**
+  String get tools_sort_custom;
+
   /// No description provided for @tools_sort_time_added.
   ///
   /// In en, this message translates to:

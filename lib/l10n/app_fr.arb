@@ -14,6 +14,7 @@
   "tools_file_import_failed": "Impossible d'importer ce fichier dans votre bibliothèque musicale.",
   "tools_all_audios": "Tous les audios",
   "tools_sort_by": "Trier par",
+  "tools_sort_custom": "Ordre de la playlist",
   "tools_sort_time_added": "Date d'ajout",
   "tools_sort_name": "Nom de l'audio",
   "tools_sort_duration": "Durée",

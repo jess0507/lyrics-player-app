@@ -53,6 +53,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tools_sort_by => 'Сортировка';
 
   @override
+  String get tools_sort_custom => 'Порядок плейлиста';
+
+  @override
   String get tools_sort_time_added => 'Дата добавления';
 
   @override

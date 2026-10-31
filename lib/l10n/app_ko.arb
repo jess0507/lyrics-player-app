@@ -14,6 +14,7 @@
   "tools_file_import_failed": "이 파일을 음악 라이브러리로 가져올 수 없습니다.",
   "tools_all_audios": "모든 오디오",
   "tools_sort_by": "정렬 기준",
+  "tools_sort_custom": "재생목록 순서",
   "tools_sort_time_added": "추가된 시간",
   "tools_sort_name": "오디오 이름",
   "tools_sort_duration": "재생 시간",

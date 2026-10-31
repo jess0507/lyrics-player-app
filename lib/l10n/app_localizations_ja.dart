@@ -51,6 +51,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_sort_by => '並べ替え';
 
   @override
+  String get tools_sort_custom => 'プレイリストの順番';
+
+  @override
   String get tools_sort_time_added => '追加日時';
 
   @override

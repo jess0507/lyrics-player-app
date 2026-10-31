@@ -14,6 +14,7 @@
   "tools_file_import_failed": "Couldn't import this file into your music library.",
   "tools_all_audios": "All audios",
   "tools_sort_by": "Sort by",
+  "tools_sort_custom": "Playlist order",
   "tools_sort_time_added": "Time added",
   "tools_sort_name": "Audio name",
   "tools_sort_duration": "Duration",

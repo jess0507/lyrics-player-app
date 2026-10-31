@@ -51,6 +51,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_sort_by => '排序方式';
 
   @override
+  String get tools_sort_custom => '清單順序';
+
+  @override
   String get tools_sort_time_added => '加入時間';
 
   @override
@@ -932,6 +935,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_sort_by => '排序方式';
+
+  @override
+  String get tools_sort_custom => '列表顺序';
 
   @override
   String get tools_sort_time_added => '添加时间';
@@ -1816,6 +1822,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_sort_by => '排序方式';
+
+  @override
+  String get tools_sort_custom => '清單順序';
 
   @override
   String get tools_sort_time_added => '加入時間';

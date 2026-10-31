@@ -14,6 +14,7 @@
   "tools_file_import_failed": "无法将此文件导入音乐库。",
   "tools_all_audios": "全部音频",
   "tools_sort_by": "排序方式",
+  "tools_sort_custom": "列表顺序",
   "tools_sort_time_added": "添加时间",
   "tools_sort_name": "音频名称",
   "tools_sort_duration": "时长",

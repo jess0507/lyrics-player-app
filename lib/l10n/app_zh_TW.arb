@@ -14,6 +14,7 @@
   "tools_file_import_failed": "無法將此檔案匯入音樂庫。",
   "tools_all_audios": "全部音訊",
   "tools_sort_by": "排序方式",
+  "tools_sort_custom": "清單順序",
   "tools_sort_time_added": "加入時間",
   "tools_sort_name": "音訊名稱",
   "tools_sort_duration": "時長",

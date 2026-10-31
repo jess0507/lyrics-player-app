@@ -53,6 +53,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools_sort_by => 'Sắp xếp theo';
 
   @override
+  String get tools_sort_custom => 'Thứ tự danh sách phát';
+
+  @override
   String get tools_sort_time_added => 'Thời gian thêm';
 
   @override
