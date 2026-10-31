@@ -38,6 +38,52 @@ class AppLocalizationsPt extends AppLocalizations {
       'Adicionar, alterar ou remover uma capa personalizada';
 
   @override
+  String get tools_pick_from_files => 'Escolher dos arquivos';
+
+  @override
+  String get tools_file_imported => 'Adicionado à sua biblioteca de músicas';
+
+  @override
+  String get tools_file_import_failed =>
+      'Não foi possível importar este arquivo para a sua biblioteca de músicas.';
+
+  @override
+  String get tools_all_audios => 'Todos os áudios';
+
+  @override
+  String get tools_sort_by => 'Ordenar por';
+
+  @override
+  String get tools_sort_time_added => 'Data de adição';
+
+  @override
+  String get tools_sort_name => 'Nome do áudio';
+
+  @override
+  String get tools_sort_duration => 'Duração';
+
+  @override
+  String get tools_sort_size => 'Tamanho';
+
+  @override
+  String get tools_sort_new_to_old => 'Do mais novo ao mais antigo';
+
+  @override
+  String get tools_sort_old_to_new => 'Do mais antigo ao mais novo';
+
+  @override
+  String get tools_sort_a_to_z => 'De A a Z';
+
+  @override
+  String get tools_sort_z_to_a => 'De Z a A';
+
+  @override
+  String get tools_sort_large_to_small => 'Do maior ao menor';
+
+  @override
+  String get tools_sort_small_to_large => 'Do menor ao maior';
+
+  @override
   String get profile_account => 'Conta e sincronização';
 
   @override

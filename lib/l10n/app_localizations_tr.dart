@@ -37,6 +37,52 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tools_cover_desc => 'Özel kapak ekle, değiştir veya kaldır';
 
   @override
+  String get tools_pick_from_files => 'Dosyalardan seç';
+
+  @override
+  String get tools_file_imported => 'Müzik kitaplığınıza eklendi';
+
+  @override
+  String get tools_file_import_failed =>
+      'Bu dosya müzik kitaplığınıza aktarılamadı.';
+
+  @override
+  String get tools_all_audios => 'Tüm sesler';
+
+  @override
+  String get tools_sort_by => 'Sırala';
+
+  @override
+  String get tools_sort_time_added => 'Eklenme zamanı';
+
+  @override
+  String get tools_sort_name => 'Ses adı';
+
+  @override
+  String get tools_sort_duration => 'Süre';
+
+  @override
+  String get tools_sort_size => 'Boyut';
+
+  @override
+  String get tools_sort_new_to_old => 'Yeniden eskiye';
+
+  @override
+  String get tools_sort_old_to_new => 'Eskiden yeniye';
+
+  @override
+  String get tools_sort_a_to_z => 'A\'dan Z\'ye';
+
+  @override
+  String get tools_sort_z_to_a => 'Z\'den A\'ya';
+
+  @override
+  String get tools_sort_large_to_small => 'Büyükten küçüğe';
+
+  @override
+  String get tools_sort_small_to_large => 'Küçükten büyüğe';
+
+  @override
   String get profile_account => 'Hesap ve senkronizasyon';
 
   @override

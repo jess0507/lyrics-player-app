@@ -37,6 +37,52 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tools_cover_desc => 'Добавить, изменить или удалить свою обложку';
 
   @override
+  String get tools_pick_from_files => 'Выбрать из файлов';
+
+  @override
+  String get tools_file_imported => 'Добавлено в медиатеку';
+
+  @override
+  String get tools_file_import_failed =>
+      'Не удалось импортировать этот файл в медиатеку.';
+
+  @override
+  String get tools_all_audios => 'Все аудио';
+
+  @override
+  String get tools_sort_by => 'Сортировка';
+
+  @override
+  String get tools_sort_time_added => 'Дата добавления';
+
+  @override
+  String get tools_sort_name => 'Название';
+
+  @override
+  String get tools_sort_duration => 'Длительность';
+
+  @override
+  String get tools_sort_size => 'Размер';
+
+  @override
+  String get tools_sort_new_to_old => 'Сначала новые';
+
+  @override
+  String get tools_sort_old_to_new => 'Сначала старые';
+
+  @override
+  String get tools_sort_a_to_z => 'От А до Я';
+
+  @override
+  String get tools_sort_z_to_a => 'От Я до А';
+
+  @override
+  String get tools_sort_large_to_small => 'По убыванию';
+
+  @override
+  String get tools_sort_small_to_large => 'По возрастанию';
+
+  @override
   String get profile_account => 'Аккаунт и синхронизация';
 
   @override

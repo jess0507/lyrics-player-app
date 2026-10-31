@@ -36,6 +36,51 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_cover_desc => 'カスタムカバーの追加・変更・削除';
 
   @override
+  String get tools_pick_from_files => 'ファイルから選択';
+
+  @override
+  String get tools_file_imported => 'ミュージックライブラリに追加しました';
+
+  @override
+  String get tools_file_import_failed => 'このファイルをミュージックライブラリにインポートできませんでした。';
+
+  @override
+  String get tools_all_audios => 'すべてのオーディオ';
+
+  @override
+  String get tools_sort_by => '並べ替え';
+
+  @override
+  String get tools_sort_time_added => '追加日時';
+
+  @override
+  String get tools_sort_name => 'オーディオ名';
+
+  @override
+  String get tools_sort_duration => '再生時間';
+
+  @override
+  String get tools_sort_size => 'サイズ';
+
+  @override
+  String get tools_sort_new_to_old => '新しい順';
+
+  @override
+  String get tools_sort_old_to_new => '古い順';
+
+  @override
+  String get tools_sort_a_to_z => 'A→Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Z→A';
+
+  @override
+  String get tools_sort_large_to_small => '大きい順';
+
+  @override
+  String get tools_sort_small_to_large => '小さい順';
+
+  @override
   String get profile_account => 'アカウントと同期';
 
   @override

@@ -38,6 +38,52 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añadir, cambiar o quitar una portada personalizada';
 
   @override
+  String get tools_pick_from_files => 'Elegir de archivos';
+
+  @override
+  String get tools_file_imported => 'Añadido a tu biblioteca de música';
+
+  @override
+  String get tools_file_import_failed =>
+      'No se pudo importar este archivo a tu biblioteca de música.';
+
+  @override
+  String get tools_all_audios => 'Todos los audios';
+
+  @override
+  String get tools_sort_by => 'Ordenar por';
+
+  @override
+  String get tools_sort_time_added => 'Fecha de adición';
+
+  @override
+  String get tools_sort_name => 'Nombre del audio';
+
+  @override
+  String get tools_sort_duration => 'Duración';
+
+  @override
+  String get tools_sort_size => 'Tamaño';
+
+  @override
+  String get tools_sort_new_to_old => 'De más reciente a más antiguo';
+
+  @override
+  String get tools_sort_old_to_new => 'De más antiguo a más reciente';
+
+  @override
+  String get tools_sort_a_to_z => 'De la A a la Z';
+
+  @override
+  String get tools_sort_z_to_a => 'De la Z a la A';
+
+  @override
+  String get tools_sort_large_to_small => 'De mayor a menor';
+
+  @override
+  String get tools_sort_small_to_large => 'De menor a mayor';
+
+  @override
   String get profile_account => 'Cuenta y sincronización';
 
   @override

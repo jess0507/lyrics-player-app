@@ -38,6 +38,52 @@ class AppLocalizationsIt extends AppLocalizations {
       'Aggiungi, cambia o rimuovi una copertina personalizzata';
 
   @override
+  String get tools_pick_from_files => 'Scegli dai file';
+
+  @override
+  String get tools_file_imported => 'Aggiunto alla libreria musicale';
+
+  @override
+  String get tools_file_import_failed =>
+      'Impossibile importare questo file nella libreria musicale.';
+
+  @override
+  String get tools_all_audios => 'Tutti gli audio';
+
+  @override
+  String get tools_sort_by => 'Ordina per';
+
+  @override
+  String get tools_sort_time_added => 'Data di aggiunta';
+
+  @override
+  String get tools_sort_name => 'Nome audio';
+
+  @override
+  String get tools_sort_duration => 'Durata';
+
+  @override
+  String get tools_sort_size => 'Dimensione';
+
+  @override
+  String get tools_sort_new_to_old => 'Dal più recente al meno recente';
+
+  @override
+  String get tools_sort_old_to_new => 'Dal meno recente al più recente';
+
+  @override
+  String get tools_sort_a_to_z => 'Dalla A alla Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Dalla Z alla A';
+
+  @override
+  String get tools_sort_large_to_small => 'Dal più grande al più piccolo';
+
+  @override
+  String get tools_sort_small_to_large => 'Dal più piccolo al più grande';
+
+  @override
   String get profile_account => 'Account e sincronizzazione';
 
   @override

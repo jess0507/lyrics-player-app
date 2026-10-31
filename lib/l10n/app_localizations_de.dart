@@ -38,6 +38,52 @@ class AppLocalizationsDe extends AppLocalizations {
       'Eigenes Cover hinzufügen, ändern oder entfernen';
 
   @override
+  String get tools_pick_from_files => 'Aus Dateien wählen';
+
+  @override
+  String get tools_file_imported => 'Zur Musikbibliothek hinzugefügt';
+
+  @override
+  String get tools_file_import_failed =>
+      'Diese Datei konnte nicht in die Musikbibliothek importiert werden.';
+
+  @override
+  String get tools_all_audios => 'Alle Audios';
+
+  @override
+  String get tools_sort_by => 'Sortieren nach';
+
+  @override
+  String get tools_sort_time_added => 'Hinzugefügt am';
+
+  @override
+  String get tools_sort_name => 'Audioname';
+
+  @override
+  String get tools_sort_duration => 'Dauer';
+
+  @override
+  String get tools_sort_size => 'Größe';
+
+  @override
+  String get tools_sort_new_to_old => 'Neueste zuerst';
+
+  @override
+  String get tools_sort_old_to_new => 'Älteste zuerst';
+
+  @override
+  String get tools_sort_a_to_z => 'Von A bis Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Von Z bis A';
+
+  @override
+  String get tools_sort_large_to_small => 'Größte zuerst';
+
+  @override
+  String get tools_sort_small_to_large => 'Kleinste zuerst';
+
+  @override
   String get profile_account => 'Konto & Synchronisierung';
 
   @override

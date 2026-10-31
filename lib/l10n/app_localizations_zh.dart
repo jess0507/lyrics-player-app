@@ -36,6 +36,51 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_cover_desc => '新增、更換或移除自訂封面';
 
   @override
+  String get tools_pick_from_files => '從檔案選擇';
+
+  @override
+  String get tools_file_imported => '已匯入音樂庫';
+
+  @override
+  String get tools_file_import_failed => '無法將此檔案匯入音樂庫。';
+
+  @override
+  String get tools_all_audios => '全部音訊';
+
+  @override
+  String get tools_sort_by => '排序方式';
+
+  @override
+  String get tools_sort_time_added => '加入時間';
+
+  @override
+  String get tools_sort_name => '音訊名稱';
+
+  @override
+  String get tools_sort_duration => '時長';
+
+  @override
+  String get tools_sort_size => '大小';
+
+  @override
+  String get tools_sort_new_to_old => '由新到舊';
+
+  @override
+  String get tools_sort_old_to_new => '由舊到新';
+
+  @override
+  String get tools_sort_a_to_z => '由 A 到 Z';
+
+  @override
+  String get tools_sort_z_to_a => '由 Z 到 A';
+
+  @override
+  String get tools_sort_large_to_small => '由大到小';
+
+  @override
+  String get tools_sort_small_to_large => '由小到大';
+
+  @override
   String get profile_account => '帳戶同步';
 
   @override
@@ -852,6 +897,51 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_cover_desc => '添加、更换或移除自定义封面';
+
+  @override
+  String get tools_pick_from_files => '从文件选择';
+
+  @override
+  String get tools_file_imported => '已导入音乐库';
+
+  @override
+  String get tools_file_import_failed => '无法将此文件导入音乐库。';
+
+  @override
+  String get tools_all_audios => '全部音频';
+
+  @override
+  String get tools_sort_by => '排序方式';
+
+  @override
+  String get tools_sort_time_added => '添加时间';
+
+  @override
+  String get tools_sort_name => '音频名称';
+
+  @override
+  String get tools_sort_duration => '时长';
+
+  @override
+  String get tools_sort_size => '大小';
+
+  @override
+  String get tools_sort_new_to_old => '从新到旧';
+
+  @override
+  String get tools_sort_old_to_new => '从旧到新';
+
+  @override
+  String get tools_sort_a_to_z => '从 A 到 Z';
+
+  @override
+  String get tools_sort_z_to_a => '从 Z 到 A';
+
+  @override
+  String get tools_sort_large_to_small => '从大到小';
+
+  @override
+  String get tools_sort_small_to_large => '从小到大';
 
   @override
   String get profile_account => '账户同步';
@@ -1671,6 +1761,51 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_cover_desc => '新增、更換或移除自訂封面';
+
+  @override
+  String get tools_pick_from_files => '從檔案選擇';
+
+  @override
+  String get tools_file_imported => '已匯入音樂庫';
+
+  @override
+  String get tools_file_import_failed => '無法將此檔案匯入音樂庫。';
+
+  @override
+  String get tools_all_audios => '全部音訊';
+
+  @override
+  String get tools_sort_by => '排序方式';
+
+  @override
+  String get tools_sort_time_added => '加入時間';
+
+  @override
+  String get tools_sort_name => '音訊名稱';
+
+  @override
+  String get tools_sort_duration => '時長';
+
+  @override
+  String get tools_sort_size => '大小';
+
+  @override
+  String get tools_sort_new_to_old => '由新到舊';
+
+  @override
+  String get tools_sort_old_to_new => '由舊到新';
+
+  @override
+  String get tools_sort_a_to_z => '由 A 到 Z';
+
+  @override
+  String get tools_sort_z_to_a => '由 Z 到 A';
+
+  @override
+  String get tools_sort_large_to_small => '由大到小';
+
+  @override
+  String get tools_sort_small_to_large => '由小到大';
 
   @override
   String get profile_account => '帳戶同步';

@@ -180,6 +180,96 @@ abstract class AppLocalizations {
   /// **'Add, change or remove a custom cover'**
   String get tools_cover_desc;
 
+  /// No description provided for @tools_pick_from_files.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from files'**
+  String get tools_pick_from_files;
+
+  /// No description provided for @tools_file_imported.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your music library'**
+  String get tools_file_imported;
+
+  /// No description provided for @tools_file_import_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t import this file into your music library.'**
+  String get tools_file_import_failed;
+
+  /// No description provided for @tools_all_audios.
+  ///
+  /// In en, this message translates to:
+  /// **'All audios'**
+  String get tools_all_audios;
+
+  /// No description provided for @tools_sort_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get tools_sort_by;
+
+  /// No description provided for @tools_sort_time_added.
+  ///
+  /// In en, this message translates to:
+  /// **'Time added'**
+  String get tools_sort_time_added;
+
+  /// No description provided for @tools_sort_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio name'**
+  String get tools_sort_name;
+
+  /// No description provided for @tools_sort_duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get tools_sort_duration;
+
+  /// No description provided for @tools_sort_size.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get tools_sort_size;
+
+  /// No description provided for @tools_sort_new_to_old.
+  ///
+  /// In en, this message translates to:
+  /// **'From new to old'**
+  String get tools_sort_new_to_old;
+
+  /// No description provided for @tools_sort_old_to_new.
+  ///
+  /// In en, this message translates to:
+  /// **'From old to new'**
+  String get tools_sort_old_to_new;
+
+  /// No description provided for @tools_sort_a_to_z.
+  ///
+  /// In en, this message translates to:
+  /// **'From A to Z'**
+  String get tools_sort_a_to_z;
+
+  /// No description provided for @tools_sort_z_to_a.
+  ///
+  /// In en, this message translates to:
+  /// **'From Z to A'**
+  String get tools_sort_z_to_a;
+
+  /// No description provided for @tools_sort_large_to_small.
+  ///
+  /// In en, this message translates to:
+  /// **'From large to small'**
+  String get tools_sort_large_to_small;
+
+  /// No description provided for @tools_sort_small_to_large.
+  ///
+  /// In en, this message translates to:
+  /// **'From small to large'**
+  String get tools_sort_small_to_large;
+
   /// No description provided for @profile_account.
   ///
   /// In en, this message translates to:

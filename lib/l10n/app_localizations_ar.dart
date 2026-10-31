@@ -37,6 +37,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tools_cover_desc => 'إضافة غلاف مخصص أو تغييره أو إزالته';
 
   @override
+  String get tools_pick_from_files => 'اختيار من الملفات';
+
+  @override
+  String get tools_file_imported => 'تمت الإضافة إلى مكتبة الموسيقى';
+
+  @override
+  String get tools_file_import_failed =>
+      'تعذّر استيراد هذا الملف إلى مكتبة الموسيقى.';
+
+  @override
+  String get tools_all_audios => 'كل الملفات الصوتية';
+
+  @override
+  String get tools_sort_by => 'ترتيب حسب';
+
+  @override
+  String get tools_sort_time_added => 'وقت الإضافة';
+
+  @override
+  String get tools_sort_name => 'اسم الملف الصوتي';
+
+  @override
+  String get tools_sort_duration => 'المدة';
+
+  @override
+  String get tools_sort_size => 'الحجم';
+
+  @override
+  String get tools_sort_new_to_old => 'من الأحدث إلى الأقدم';
+
+  @override
+  String get tools_sort_old_to_new => 'من الأقدم إلى الأحدث';
+
+  @override
+  String get tools_sort_a_to_z => 'من A إلى Z';
+
+  @override
+  String get tools_sort_z_to_a => 'من Z إلى A';
+
+  @override
+  String get tools_sort_large_to_small => 'من الأكبر إلى الأصغر';
+
+  @override
+  String get tools_sort_small_to_large => 'من الأصغر إلى الأكبر';
+
+  @override
   String get profile_account => 'الحساب والمزامنة';
 
   @override

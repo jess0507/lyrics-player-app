@@ -37,6 +37,52 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tools_cover_desc => 'कस्टम कवर जोड़ें, बदलें या हटाएं';
 
   @override
+  String get tools_pick_from_files => 'फ़ाइलों से चुनें';
+
+  @override
+  String get tools_file_imported => 'संगीत लाइब्रेरी में जोड़ा गया';
+
+  @override
+  String get tools_file_import_failed =>
+      'इस फ़ाइल को संगीत लाइब्रेरी में आयात नहीं किया जा सका।';
+
+  @override
+  String get tools_all_audios => 'सभी ऑडियो';
+
+  @override
+  String get tools_sort_by => 'इसके अनुसार क्रमबद्ध करें';
+
+  @override
+  String get tools_sort_time_added => 'जोड़ने का समय';
+
+  @override
+  String get tools_sort_name => 'ऑडियो नाम';
+
+  @override
+  String get tools_sort_duration => 'अवधि';
+
+  @override
+  String get tools_sort_size => 'आकार';
+
+  @override
+  String get tools_sort_new_to_old => 'नए से पुराने';
+
+  @override
+  String get tools_sort_old_to_new => 'पुराने से नए';
+
+  @override
+  String get tools_sort_a_to_z => 'A से Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Z से A';
+
+  @override
+  String get tools_sort_large_to_small => 'बड़े से छोटे';
+
+  @override
+  String get tools_sort_small_to_large => 'छोटे से बड़े';
+
+  @override
   String get profile_account => 'खाता और सिंक';
 
   @override

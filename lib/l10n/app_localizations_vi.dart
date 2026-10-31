@@ -37,6 +37,52 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools_cover_desc => 'Thêm, đổi hoặc xóa ảnh bìa tùy chỉnh';
 
   @override
+  String get tools_pick_from_files => 'Chọn từ tệp';
+
+  @override
+  String get tools_file_imported => 'Đã thêm vào thư viện nhạc';
+
+  @override
+  String get tools_file_import_failed =>
+      'Không thể nhập tệp này vào thư viện nhạc.';
+
+  @override
+  String get tools_all_audios => 'Tất cả âm thanh';
+
+  @override
+  String get tools_sort_by => 'Sắp xếp theo';
+
+  @override
+  String get tools_sort_time_added => 'Thời gian thêm';
+
+  @override
+  String get tools_sort_name => 'Tên âm thanh';
+
+  @override
+  String get tools_sort_duration => 'Thời lượng';
+
+  @override
+  String get tools_sort_size => 'Kích thước';
+
+  @override
+  String get tools_sort_new_to_old => 'Từ mới đến cũ';
+
+  @override
+  String get tools_sort_old_to_new => 'Từ cũ đến mới';
+
+  @override
+  String get tools_sort_a_to_z => 'Từ A đến Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Từ Z đến A';
+
+  @override
+  String get tools_sort_large_to_small => 'Từ lớn đến nhỏ';
+
+  @override
+  String get tools_sort_small_to_large => 'Từ nhỏ đến lớn';
+
+  @override
   String get profile_account => 'Tài khoản và đồng bộ';
 
   @override

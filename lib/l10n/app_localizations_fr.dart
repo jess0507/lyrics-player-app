@@ -38,6 +38,52 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ajouter, changer ou supprimer une pochette personnalisée';
 
   @override
+  String get tools_pick_from_files => 'Choisir dans les fichiers';
+
+  @override
+  String get tools_file_imported => 'Ajouté à votre bibliothèque musicale';
+
+  @override
+  String get tools_file_import_failed =>
+      'Impossible d\'importer ce fichier dans votre bibliothèque musicale.';
+
+  @override
+  String get tools_all_audios => 'Tous les audios';
+
+  @override
+  String get tools_sort_by => 'Trier par';
+
+  @override
+  String get tools_sort_time_added => 'Date d\'ajout';
+
+  @override
+  String get tools_sort_name => 'Nom de l\'audio';
+
+  @override
+  String get tools_sort_duration => 'Durée';
+
+  @override
+  String get tools_sort_size => 'Taille';
+
+  @override
+  String get tools_sort_new_to_old => 'Du plus récent au plus ancien';
+
+  @override
+  String get tools_sort_old_to_new => 'Du plus ancien au plus récent';
+
+  @override
+  String get tools_sort_a_to_z => 'De A à Z';
+
+  @override
+  String get tools_sort_z_to_a => 'De Z à A';
+
+  @override
+  String get tools_sort_large_to_small => 'Du plus grand au plus petit';
+
+  @override
+  String get tools_sort_small_to_large => 'Du plus petit au plus grand';
+
+  @override
   String get profile_account => 'Compte et synchronisation';
 
   @override

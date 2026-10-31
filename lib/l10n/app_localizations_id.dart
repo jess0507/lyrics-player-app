@@ -37,6 +37,52 @@ class AppLocalizationsId extends AppLocalizations {
   String get tools_cover_desc => 'Tambah, ganti, atau hapus sampul kustom';
 
   @override
+  String get tools_pick_from_files => 'Pilih dari file';
+
+  @override
+  String get tools_file_imported => 'Ditambahkan ke pustaka musik';
+
+  @override
+  String get tools_file_import_failed =>
+      'Tidak dapat mengimpor file ini ke pustaka musik.';
+
+  @override
+  String get tools_all_audios => 'Semua audio';
+
+  @override
+  String get tools_sort_by => 'Urutkan menurut';
+
+  @override
+  String get tools_sort_time_added => 'Waktu ditambahkan';
+
+  @override
+  String get tools_sort_name => 'Nama audio';
+
+  @override
+  String get tools_sort_duration => 'Durasi';
+
+  @override
+  String get tools_sort_size => 'Ukuran';
+
+  @override
+  String get tools_sort_new_to_old => 'Dari terbaru ke terlama';
+
+  @override
+  String get tools_sort_old_to_new => 'Dari terlama ke terbaru';
+
+  @override
+  String get tools_sort_a_to_z => 'Dari A ke Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Dari Z ke A';
+
+  @override
+  String get tools_sort_large_to_small => 'Dari besar ke kecil';
+
+  @override
+  String get tools_sort_small_to_large => 'Dari kecil ke besar';
+
+  @override
   String get profile_account => 'Akun & sinkronisasi';
 
   @override

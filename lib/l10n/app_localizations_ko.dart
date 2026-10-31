@@ -36,6 +36,51 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_cover_desc => '사용자 지정 커버 추가, 변경 또는 삭제';
 
   @override
+  String get tools_pick_from_files => '파일에서 선택';
+
+  @override
+  String get tools_file_imported => '음악 라이브러리에 추가했습니다';
+
+  @override
+  String get tools_file_import_failed => '이 파일을 음악 라이브러리로 가져올 수 없습니다.';
+
+  @override
+  String get tools_all_audios => '모든 오디오';
+
+  @override
+  String get tools_sort_by => '정렬 기준';
+
+  @override
+  String get tools_sort_time_added => '추가된 시간';
+
+  @override
+  String get tools_sort_name => '오디오 이름';
+
+  @override
+  String get tools_sort_duration => '재생 시간';
+
+  @override
+  String get tools_sort_size => '크기';
+
+  @override
+  String get tools_sort_new_to_old => '최신순';
+
+  @override
+  String get tools_sort_old_to_new => '오래된순';
+
+  @override
+  String get tools_sort_a_to_z => 'A부터 Z';
+
+  @override
+  String get tools_sort_z_to_a => 'Z부터 A';
+
+  @override
+  String get tools_sort_large_to_small => '큰 순서';
+
+  @override
+  String get tools_sort_small_to_large => '작은 순서';
+
+  @override
   String get profile_account => '계정 및 동기화';
 
   @override

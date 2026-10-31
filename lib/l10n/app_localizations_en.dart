@@ -36,6 +36,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tools_cover_desc => 'Add, change or remove a custom cover';
 
   @override
+  String get tools_pick_from_files => 'Choose from files';
+
+  @override
+  String get tools_file_imported => 'Added to your music library';
+
+  @override
+  String get tools_file_import_failed =>
+      'Couldn\'t import this file into your music library.';
+
+  @override
+  String get tools_all_audios => 'All audios';
+
+  @override
+  String get tools_sort_by => 'Sort by';
+
+  @override
+  String get tools_sort_time_added => 'Time added';
+
+  @override
+  String get tools_sort_name => 'Audio name';
+
+  @override
+  String get tools_sort_duration => 'Duration';
+
+  @override
+  String get tools_sort_size => 'Size';
+
+  @override
+  String get tools_sort_new_to_old => 'From new to old';
+
+  @override
+  String get tools_sort_old_to_new => 'From old to new';
+
+  @override
+  String get tools_sort_a_to_z => 'From A to Z';
+
+  @override
+  String get tools_sort_z_to_a => 'From Z to A';
+
+  @override
+  String get tools_sort_large_to_small => 'From large to small';
+
+  @override
+  String get tools_sort_small_to_large => 'From small to large';
+
+  @override
   String get profile_account => 'Account & Sync';
 
   @override
