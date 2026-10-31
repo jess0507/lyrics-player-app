@@ -163,7 +163,11 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                   ),
                   onSearch: _toggleSearch,
                   onSort: _editSort,
-                  onPickFile: _picking ? null : _pickFromFiles,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.folder_outlined),
+                    tooltip: l10n.tools_pick_from_files,
+                    onPressed: _picking ? null : _pickFromFiles,
+                  ),
                 ),
                 if (_picking) const LinearProgressIndicator(),
                 Expanded(
