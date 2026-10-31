@@ -11,30 +11,26 @@ import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sh
 
 /// 「最近播放」清單內容:依播放日期分組(今天 / 昨天 / 日期)。
 /// 唯讀,不可拖曳排序;每首曲目可開啟操作選單(加入清單、檢視資訊),
-/// 但不提供「從清單移除」,清除全部交由呼叫端(appbar 動作)處理。
+/// 但不提供「從清單移除」,清除全部交由呼叫端(工具列動作)處理。
+/// 空狀態由呼叫端處理。
 class RecentlyPlayedTrackList extends ConsumerWidget {
-  const RecentlyPlayedTrackList({super.key});
+  const RecentlyPlayedTrackList({super.key, required this.items});
+
+  /// 要顯示的紀錄(已由呼叫端篩選,維持播放時間新到舊)。
+  final List<RecentlyPlayedItem> items;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final items = ref.watch(recentlyPlayedProvider);
     final audio = ref.watch(audioPlayerServiceProvider);
-
-    if (items.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Text(l10n.playlist_empty, textAlign: TextAlign.center),
-        ),
-      );
-    }
 
     final locale = Localizations.localeOf(context).toString();
     final tracks = [for (final item in items) item.track];
     final rows = _buildRows(items, l10n, locale);
 
     return ListView.builder(
+      // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
+      padding: const EdgeInsets.only(bottom: 88),
       itemCount: rows.length,
       itemBuilder: (context, index) {
         final row = rows[index];
@@ -102,7 +98,8 @@ class RecentlyPlayedTrackList extends ConsumerWidget {
 /// 扁平化 track 清單中的位置,供 [playTracksAt] 使用。
 class _Row {
   const _Row.header(this.header) : item = null, trackIndex = -1;
-  const _Row.item(RecentlyPlayedItem this.item, this.trackIndex) : header = null;
+  const _Row.item(RecentlyPlayedItem this.item, this.trackIndex)
+    : header = null;
 
   final String? header;
   final RecentlyPlayedItem? item;
