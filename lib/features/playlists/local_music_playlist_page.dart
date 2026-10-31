@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
@@ -13,17 +12,20 @@ import 'package:seek_player/features/music_list/services/music_import_service.da
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
-import 'package:seek_player/features/playlists/widgets/local_music_folder_bar.dart';
-import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
+import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
+import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
+import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
+import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
+import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 import 'package:seek_player/shared/widgets/empty_state_view.dart';
-import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 「本地音樂」分頁(底部導覽第一個分頁):內容即裝置音樂庫全部曲目,不落地 Isar、不參與
-/// 同步,直接由 music library 衍生。唯讀 — 不可新增 / 移除 / 排序,
-/// 僅能重新掃描、依資料夾篩選、播放全部、逐首播放、搜尋與開啟曲目
+/// 同步,直接由 music library 衍生。唯讀 — 不可新增 / 移除 / 手動調整順序,
+/// 僅能重新掃描、依資料夾篩選、搜尋、排序、播放全部、逐首播放與開啟曲目
 /// 操作選單(加入清單、檢視資訊)。
 class LocalMusicPlaylistPage extends ConsumerStatefulWidget {
   const LocalMusicPlaylistPage({super.key});
@@ -40,6 +42,15 @@ class _LocalMusicPlaylistPageState
 
   /// 目前篩選的資料夾路徑;null 代表全部。
   String? _folder;
+  var _sort = const TrackSort();
+  var _searching = false;
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   /// 確保權限後重新掃描裝置音樂庫。
   Future<void> _rescan() async {
@@ -75,6 +86,16 @@ class _LocalMusicPlaylistPageState
     }
   }
 
+  Future<void> _editSort() async {
+    final sort = await showTrackSortSheet(context, current: _sort);
+    if (sort != null && mounted) setState(() => _sort = sort);
+  }
+
+  void _toggleSearch() => setState(() {
+    _searching = !_searching;
+    if (!_searching) _searchController.clear();
+  });
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -83,15 +104,35 @@ class _LocalMusicPlaylistPageState
     // 掃描中(首次載入、匯入後或手動重新掃描)且清單為空時,中央改顯示
     // loading,不顯示空狀態與重新掃描按鈕。
     final scanning = _scanning || library.isLoading;
+    final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
+    final plays = ref.watch(trackPlayStatsProvider);
     final folders = TrackFolder.groupTracks(tracks);
     // 重新掃描後選中的資料夾可能已不存在,視為全部。
     final folder = folders.any((f) => f.path == _folder) ? _folder : null;
-    final visibleTracks = folder == null
-        ? tracks
-        : [
-            for (final t in tracks)
-              if (TrackFolder.dirOf(t.filePath) == folder) t,
-          ];
+    final query = _searchController.text.trim().toLowerCase();
+    final visibleTracks = _sort.apply([
+      for (final t in tracks)
+        if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
+            (query.isEmpty ||
+                t.title.toLowerCase().contains(query) ||
+                (t.artist?.toLowerCase().contains(query) ?? false)))
+          t,
+    ], stats, plays);
+
+    /// 資料夾(null 為全部)內最新檔案的時間,顯示在下拉選單。
+    DateTime? latestOf(String? folderPath) {
+      DateTime? latest;
+      for (final t in tracks) {
+        if (folderPath != null && TrackFolder.dirOf(t.filePath) != folderPath) {
+          continue;
+        }
+        final modified = stats[t.filePath]?.modified;
+        if (modified != null && (latest == null || modified.isAfter(latest))) {
+          latest = modified;
+        }
+      }
+      return latest;
+    }
     final scheme = Theme.of(context).colorScheme;
 
     final systemButtonStyle = TextButton.styleFrom(
@@ -104,32 +145,24 @@ class _LocalMusicPlaylistPageState
       appBar: AppBar(
         // 分頁根頁沒有返回鍵,左側改放 app 圖示。
         leading: const AppLogoLeading(),
-        title: Text(
-          l10n.playlist_local_music,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        // 有曲目時搜尋與重新掃描放在頂欄右側;清單為空時重新掃描改由
-        // 下方空狀態提供,搜尋則無意義,兩者都不顯示。
+        title: _searching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: l10n.music_search,
+                  border: InputBorder.none,
+                ),
+                onChanged: (_) => setState(() {}),
+              )
+            : Text(
+                l10n.playlist_local_music,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
         actions: [
-          if (tracks.isNotEmpty) ...[
-            IconButton(
-              tooltip: l10n.music_search,
-              onPressed: () => context.push('/local/search'),
-              icon: SvgIcon(Assets.icon.search),
-            ),
-            IconButton(
-              tooltip: l10n.music_rescan,
-              onPressed: _scanning ? null : _rescan,
-              icon: _scanning
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.refresh),
-            ),
-          ],
+          if (_searching)
+            IconButton(icon: const Icon(Icons.close), onPressed: _toggleSearch),
         ],
       ),
       // 全部播放改用 FAB,清單為空時不顯示;只播目前篩選出的曲目。
@@ -170,12 +203,30 @@ class _LocalMusicPlaylistPageState
             ),
             const SizedBox(height: 8),
           ],
-          // 曲目分散在兩個以上資料夾時才顯示篩選列。
-          if (folders.length > 1)
-            LocalMusicFolderBar(
-              folders: folders,
-              selected: folder,
-              onSelected: (path) => setState(() => _folder = path),
+          // 有曲目時才顯示資料夾 / 搜尋 / 排序 / 重新掃描工具列;
+          // 清單為空時重新掃描改由下方空狀態提供。
+          if (tracks.isNotEmpty)
+            TrackPickerToolbar(
+              folderButton: FolderMenuButton(
+                folders: folders,
+                totalCount: tracks.length,
+                latestOf: latestOf,
+                selected: folder,
+                onSelected: (path) => setState(() => _folder = path),
+              ),
+              onSearch: _toggleSearch,
+              onSort: _editSort,
+              trailing: IconButton(
+                tooltip: l10n.music_rescan,
+                onPressed: _scanning ? null : _rescan,
+                icon: _scanning
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.refresh),
+              ),
             ),
           Expanded(
             child: tracks.isEmpty && scanning
@@ -187,6 +238,8 @@ class _LocalMusicPlaylistPageState
                         : l10n.music_empty,
                     action: _rescanButton(systemButtonStyle, l10n),
                   )
+                : visibleTracks.isEmpty
+                ? Center(child: Text(l10n.playlist_search_no_result))
                 : _buildTrackList(visibleTracks),
           ),
         ],
