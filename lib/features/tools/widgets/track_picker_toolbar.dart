@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 工具選曲頁清單上方的工具列:左側放資料夾下拉([folderButton]),
-/// 右側為搜尋、排序、從檔案選擇三顆以分隔線隔開的按鈕。
+/// 右側為搜尋、排序與 [trailing] 三顆以分隔線隔開的按鈕。
 class TrackPickerToolbar extends StatelessWidget {
   const TrackPickerToolbar({
     super.key,
     required this.folderButton,
     required this.onSearch,
     required this.onSort,
-    required this.onPickFile,
+    required this.trailing,
   });
 
   final Widget folderButton;
   final VoidCallback onSearch;
   final VoidCallback onSort;
 
-  /// null 時停用(選檔處理中)。
-  final VoidCallback? onPickFile;
+  /// 最右側的按鈕,例如工具選曲頁的「從檔案選擇」、本地音樂頁的重新掃描。
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +46,7 @@ class TrackPickerToolbar extends StatelessWidget {
             onPressed: onSort,
           ),
           divider,
-          IconButton(
-            icon: const Icon(Icons.snippet_folder_outlined),
-            tooltip: l10n.tools_pick_from_files,
-            onPressed: onPickFile,
-          ),
+          trailing,
         ],
       ),
     );
