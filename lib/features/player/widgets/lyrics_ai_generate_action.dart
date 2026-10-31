@@ -51,8 +51,9 @@ String _aiGenerateErrorText(
   LyricsAutoGenerateError.rateLimited => l10n.lyrics_ai_generate_rate_limited,
   LyricsAutoGenerateError.noAudio => l10n.lyrics_ai_generate_no_audio,
   LyricsAutoGenerateError.network => l10n.lyrics_ai_generate_network,
-  LyricsAutoGenerateError.busy => result.activeTitle != null
-      ? l10n.lyrics_background_busy_named(result.activeTitle!)
-      : l10n.lyrics_background_busy,
+  LyricsAutoGenerateError.busy =>
+    result.activeTitle != null
+        ? l10n.lyrics_background_busy_named(result.activeTitle!)
+        : l10n.lyrics_background_busy,
   _ => l10n.lyrics_ai_generate_failed,
 };

@@ -29,7 +29,7 @@ class LyricsJobStatusView extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              _stageText(l10n, stage),
+              lyricsJobStageText(l10n, stage),
               textAlign: TextAlign.center,
               style: Theme.of(
                 context,
@@ -48,7 +48,8 @@ class LyricsJobStatusView extends ConsumerWidget {
 }
 
 /// 階段 → 文案,與通知列各階段 / 已送出請求的字串一致。
-String _stageText(
+/// 歌詞編輯頁的進度卡(LyricsJobProgressCard)共用。
+String lyricsJobStageText(
   AppLocalizations l10n,
   LyricsJobStage? stage,
 ) => switch (stage) {

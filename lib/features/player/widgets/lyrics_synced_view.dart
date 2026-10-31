@@ -148,8 +148,9 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
     // 其他行 #666666;dark mode 當前行純白、其他行 #CCCCCC。
     final isLight = theme.brightness == Brightness.light;
     final activeColor = isLight ? Colors.black : Colors.white;
-    final inactiveColor =
-        isLight ? const Color(0xFF666666) : const Color(0xFFCCCCCC);
+    final inactiveColor = isLight
+        ? const Color(0xFF666666)
+        : const Color(0xFFCCCCCC);
     return NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotification,
       child: ListView.builder(

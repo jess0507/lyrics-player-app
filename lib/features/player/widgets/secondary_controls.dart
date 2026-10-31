@@ -39,11 +39,7 @@ class SecondaryControls extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PlayModeButton(
-            audio: audio,
-            enabled: enabled,
-            iconSize: _kIconSize,
-          ),
+          PlayModeButton(audio: audio, enabled: enabled, iconSize: _kIconSize),
           ShareTrackButton(
             enabled: enabled,
             trackId: trackId,
@@ -89,5 +85,4 @@ class SecondaryControls extends ConsumerWidget {
       icon: const Icon(Icons.lyrics_outlined),
     );
   }
-
 }

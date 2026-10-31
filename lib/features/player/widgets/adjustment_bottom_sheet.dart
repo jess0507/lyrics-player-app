@@ -31,10 +31,7 @@ class AdjustmentBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title, style: Theme.of(context).textTheme.titleMedium),
-                TextButton(
-                  onPressed: onReset,
-                  child: Text(l10n.common_reset),
-                ),
+                TextButton(onPressed: onReset, child: Text(l10n.common_reset)),
               ],
             ),
             child,

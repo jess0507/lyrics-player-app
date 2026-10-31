@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
-import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
 import 'package:seek_player/features/tools/services/track_file_matcher.dart';
-import 'package:seek_player/features/tools/widgets/cover_actions_sheet.dart';
 import 'package:seek_player/features/tools/widgets/track_picker_tile.dart';
 import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
 import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
@@ -17,7 +16,7 @@ import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 工具的選曲頁:列出本地音樂,可依資料夾篩選、搜尋、排序,
-/// 或從系統選檔器挑檔(對回曲庫中的曲目);點曲目開啟 [tool] 的動作表單。
+/// 或從系統選檔器挑檔(對回曲庫中的曲目);點曲目後進 [tool] 的編輯頁。
 /// 點曲目不播放,只對該曲執行工具。
 class ToolTrackPickerPage extends ConsumerStatefulWidget {
   const ToolTrackPickerPage({super.key, required this.tool});
@@ -45,18 +44,13 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
     super.dispose();
   }
 
+  /// 進該工具的編輯頁。id 可能是 iOS 的檔案路徑(含 `/`),
+  /// 編碼後才能放進路徑參數。
   void _open(Track track) {
-    switch (widget.tool) {
-      case ToolKind.lyrics:
-        showLyricsActionsSheet(
-          context,
-          ref,
-          trackId: track.id,
-          title: track.title,
-        );
-      case ToolKind.cover:
-        showCoverActionsSheet(context, ref, trackId: track.id);
-    }
+    context.push(
+      '/tools/${widget.tool.name}/${Uri.encodeComponent(track.id)}',
+      extra: track,
+    );
   }
 
   Future<void> _pickFromFiles() async {

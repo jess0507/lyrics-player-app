@@ -43,9 +43,10 @@ Future<bool> ensureSignedInForLyrics(
   if (ok == true && context.mounted) {
     // 播放器是 root navigator 上的滿版 bottom sheet;帳戶頁疊在其上,
     // 登入完成返回後可直接回到原播放畫面。
-    await Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute<void>(builder: (_) => const AccountPage()),
-    );
+    await Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push(MaterialPageRoute<void>(builder: (_) => const AccountPage()));
   }
   return false;
 }

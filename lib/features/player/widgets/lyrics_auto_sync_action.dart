@@ -50,8 +50,9 @@ String _autoSyncErrorText(AppLocalizations l10n, LyricsAutoSyncState result) =>
       LyricsAutoSyncError.rateLimited => l10n.lyrics_auto_sync_rate_limited,
       LyricsAutoSyncError.noAudio => l10n.lyrics_auto_sync_no_audio,
       LyricsAutoSyncError.network => l10n.lyrics_auto_sync_network,
-      LyricsAutoSyncError.busy => result.activeTitle != null
-          ? l10n.lyrics_background_busy_named(result.activeTitle!)
-          : l10n.lyrics_background_busy,
+      LyricsAutoSyncError.busy =>
+        result.activeTitle != null
+            ? l10n.lyrics_background_busy_named(result.activeTitle!)
+            : l10n.lyrics_background_busy,
       _ => l10n.lyrics_auto_sync_failed,
     };

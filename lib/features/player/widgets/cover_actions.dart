@@ -15,8 +15,9 @@ Future<void> setTrackCover(
 ) async {
   final l10n = AppLocalizations.of(context)!;
   try {
-    final done =
-        await ref.read(coverImportServiceProvider).pickAndSetForTrack(trackId);
+    final done = await ref
+        .read(coverImportServiceProvider)
+        .pickAndSetForTrack(trackId);
     if (!done) return; // 使用者取消
     showAppToast(l10n.cover_updated);
   } on CoverImportException catch (e, s) {
