@@ -10,6 +10,9 @@ Future<TrackSort?> showTrackSortSheet(
   return showModalBottomSheet<TrackSort>(
     context: context,
     showDragHandle: true,
+    // 預設 sheet 高度上限為螢幕 9/16,選項一多就溢出;改依內容長高。
+    isScrollControlled: true,
+    useSafeArea: true,
     builder: (context) => TrackSortSheet(initial: current),
   );
 }
@@ -46,35 +49,44 @@ class _TrackSortSheetState extends State<TrackSortSheet> {
                 style: theme.textTheme.titleLarge,
               ),
             ),
-            RadioGroup<TrackSortField>(
-              groupValue: _field,
-              onChanged: (v) => setState(() => _field = v!),
-              child: Column(
-                children: [
-                  for (final field in TrackSortField.values)
-                    RadioListTile<TrackSortField>(
-                      value: field,
-                      title: Text(field.label(l10n)),
-                      controlAffinity: ListTileControlAffinity.trailing,
-                    ),
-                ],
-              ),
-            ),
-            const Divider(indent: 16, endIndent: 16),
-            RadioGroup<bool>(
-              groupValue: _descending,
-              onChanged: (v) => setState(() => _descending = v!),
-              child: Column(
-                children: [
-                  for (final descending in const [true, false])
-                    RadioListTile<bool>(
-                      value: descending,
-                      title: Text(
-                        _field.orderLabel(l10n, descending: descending),
+            // 螢幕不夠高時只捲動選項,底部按鈕固定可見。
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    RadioGroup<TrackSortField>(
+                      groupValue: _field,
+                      onChanged: (v) => setState(() => _field = v!),
+                      child: Column(
+                        children: [
+                          for (final field in TrackSortField.values)
+                            RadioListTile<TrackSortField>(
+                              value: field,
+                              title: Text(field.label(l10n)),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                            ),
+                        ],
                       ),
-                      controlAffinity: ListTileControlAffinity.trailing,
                     ),
-                ],
+                    const Divider(indent: 16, endIndent: 16),
+                    RadioGroup<bool>(
+                      groupValue: _descending,
+                      onChanged: (v) => setState(() => _descending = v!),
+                      child: Column(
+                        children: [
+                          for (final descending in const [true, false])
+                            RadioListTile<bool>(
+                              value: descending,
+                              title: Text(
+                                _field.orderLabel(l10n, descending: descending),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 16),
