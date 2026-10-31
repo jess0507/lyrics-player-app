@@ -81,6 +81,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_sort_small_to_large => '小さい順';
 
   @override
+  String get tools_lyrics_preview => '歌詞のプレビュー';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'ステップ $current/$total';
+  }
+
+  @override
   String get profile_account => 'アカウントと同期';
 
   @override

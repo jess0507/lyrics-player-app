@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Z'den A'ya",
   "tools_sort_large_to_small": "Büyükten küçüğe",
   "tools_sort_small_to_large": "Küçükten büyüğe",
+  "tools_lyrics_preview": "Şarkı sözü önizlemesi",
+  "tools_lyrics_job_step": "Adım {current}/{total}",
   "profile_account": "Hesap ve senkronizasyon",
   "backup_link": "Google Drive'ı bağla",
   "backup_unlink": "Bağlantıyı kaldır",

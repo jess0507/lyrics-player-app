@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Z से A",
   "tools_sort_large_to_small": "बड़े से छोटे",
   "tools_sort_small_to_large": "छोटे से बड़े",
+  "tools_lyrics_preview": "बोल का पूर्वावलोकन",
+  "tools_lyrics_job_step": "चरण {current}/{total}",
   "profile_account": "खाता और सिंक",
   "backup_link": "Google Drive लिंक करें",
   "backup_unlink": "लिंक हटाएँ",

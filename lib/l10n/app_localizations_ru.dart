@@ -83,6 +83,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tools_sort_small_to_large => 'По возрастанию';
 
   @override
+  String get tools_lyrics_preview => 'Предпросмотр текста';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'Шаг $current/$total';
+  }
+
+  @override
   String get profile_account => 'Аккаунт и синхронизация';
 
   @override

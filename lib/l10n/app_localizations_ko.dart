@@ -81,6 +81,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_sort_small_to_large => '작은 순서';
 
   @override
+  String get tools_lyrics_preview => '가사 미리보기';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return '$current/$total단계';
+  }
+
+  @override
   String get profile_account => '계정 및 동기화';
 
   @override

@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Dari Z ke A",
   "tools_sort_large_to_small": "Dari besar ke kecil",
   "tools_sort_small_to_large": "Dari kecil ke besar",
+  "tools_lyrics_preview": "Pratinjau lirik",
+  "tools_lyrics_job_step": "Langkah {current}/{total}",
   "profile_account": "Akun & sinkronisasi",
   "backup_link": "Tautkan Google Drive",
   "backup_unlink": "Putuskan tautan",

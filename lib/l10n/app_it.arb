@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Dalla Z alla A",
   "tools_sort_large_to_small": "Dal più grande al più piccolo",
   "tools_sort_small_to_large": "Dal più piccolo al più grande",
+  "tools_lyrics_preview": "Anteprima del testo",
+  "tools_lyrics_job_step": "Passaggio {current}/{total}",
   "profile_account": "Account e sincronizzazione",
   "backup_link": "Collega Google Drive",
   "backup_unlink": "Scollega",

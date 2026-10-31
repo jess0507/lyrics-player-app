@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Von Z bis A",
   "tools_sort_large_to_small": "Größte zuerst",
   "tools_sort_small_to_large": "Kleinste zuerst",
+  "tools_lyrics_preview": "Liedtext-Vorschau",
+  "tools_lyrics_job_step": "Schritt {current}/{total}",
   "profile_account": "Konto & Synchronisierung",
   "backup_link": "Google Drive verknüpfen",
   "backup_unlink": "Verknüpfung aufheben",

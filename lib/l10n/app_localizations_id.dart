@@ -83,6 +83,14 @@ class AppLocalizationsId extends AppLocalizations {
   String get tools_sort_small_to_large => 'Dari kecil ke besar';
 
   @override
+  String get tools_lyrics_preview => 'Pratinjau lirik';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'Langkah $current/$total';
+  }
+
+  @override
   String get profile_account => 'Akun & sinkronisasi';
 
   @override

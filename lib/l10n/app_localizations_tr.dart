@@ -83,6 +83,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tools_sort_small_to_large => 'Küçükten büyüğe';
 
   @override
+  String get tools_lyrics_preview => 'Şarkı sözü önizlemesi';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'Adım $current/$total';
+  }
+
+  @override
   String get profile_account => 'Hesap ve senkronizasyon';
 
   @override

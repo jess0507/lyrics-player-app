@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Từ Z đến A",
   "tools_sort_large_to_small": "Từ lớn đến nhỏ",
   "tools_sort_small_to_large": "Từ nhỏ đến lớn",
+  "tools_lyrics_preview": "Xem trước lời bài hát",
+  "tools_lyrics_job_step": "Bước {current}/{total}",
   "profile_account": "Tài khoản và đồng bộ",
   "backup_link": "Liên kết Google Drive",
   "backup_unlink": "Hủy liên kết",

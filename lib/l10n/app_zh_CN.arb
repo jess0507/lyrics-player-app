@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "从 Z 到 A",
   "tools_sort_large_to_small": "从大到小",
   "tools_sort_small_to_large": "从小到大",
+  "tools_lyrics_preview": "歌词预览",
+  "tools_lyrics_job_step": "步骤 {current}/{total}",
   "profile_account": "账户同步",
   "backup_link": "关联 Google 云端硬盘",
   "backup_unlink": "解除关联",

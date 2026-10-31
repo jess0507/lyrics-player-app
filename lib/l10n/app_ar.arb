@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "من Z إلى A",
   "tools_sort_large_to_small": "من الأكبر إلى الأصغر",
   "tools_sort_small_to_large": "من الأصغر إلى الأكبر",
+  "tools_lyrics_preview": "معاينة كلمات الأغنية",
+  "tools_lyrics_job_step": "الخطوة {current}/{total}",
   "profile_account": "الحساب والمزامنة",
   "backup_link": "ربط Google Drive",
   "backup_unlink": "إلغاء الربط",

@@ -84,6 +84,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tools_sort_small_to_large => 'Kleinste zuerst';
 
   @override
+  String get tools_lyrics_preview => 'Liedtext-Vorschau';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'Schritt $current/$total';
+  }
+
+  @override
   String get profile_account => 'Konto & Synchronisierung';
 
   @override

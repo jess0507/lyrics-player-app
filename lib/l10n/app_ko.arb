@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Z부터 A",
   "tools_sort_large_to_small": "큰 순서",
   "tools_sort_small_to_large": "작은 순서",
+  "tools_lyrics_preview": "가사 미리보기",
+  "tools_lyrics_job_step": "{current}/{total}단계",
   "profile_account": "계정 및 동기화",
   "backup_link": "Google 드라이브 연결",
   "backup_unlink": "연결 해제",

@@ -81,6 +81,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_sort_small_to_large => '由小到大';
 
   @override
+  String get tools_lyrics_preview => '歌詞預覽';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return '步驟 $current/$total';
+  }
+
+  @override
   String get profile_account => '帳戶同步';
 
   @override
@@ -942,6 +950,14 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_sort_small_to_large => '从小到大';
+
+  @override
+  String get tools_lyrics_preview => '歌词预览';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return '步骤 $current/$total';
+  }
 
   @override
   String get profile_account => '账户同步';
@@ -1806,6 +1822,14 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_sort_small_to_large => '由小到大';
+
+  @override
+  String get tools_lyrics_preview => '歌詞預覽';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return '步驟 $current/$total';
+  }
 
   @override
   String get profile_account => '帳戶同步';

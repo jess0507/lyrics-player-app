@@ -83,6 +83,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools_sort_small_to_large => 'Từ nhỏ đến lớn';
 
   @override
+  String get tools_lyrics_preview => 'Xem trước lời bài hát';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'Bước $current/$total';
+  }
+
+  @override
   String get profile_account => 'Tài khoản và đồng bộ';
 
   @override

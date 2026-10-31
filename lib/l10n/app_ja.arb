@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "Z→A",
   "tools_sort_large_to_small": "大きい順",
   "tools_sort_small_to_large": "小さい順",
+  "tools_lyrics_preview": "歌詞のプレビュー",
+  "tools_lyrics_job_step": "ステップ {current}/{total}",
   "profile_account": "アカウントと同期",
   "backup_link": "Google ドライブを連携",
   "backup_unlink": "連携を解除",

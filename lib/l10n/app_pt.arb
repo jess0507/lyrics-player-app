@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "De Z a A",
   "tools_sort_large_to_small": "Do maior ao menor",
   "tools_sort_small_to_large": "Do menor ao maior",
+  "tools_lyrics_preview": "Pré-visualização da letra",
+  "tools_lyrics_job_step": "Etapa {current}/{total}",
   "profile_account": "Conta e sincronização",
   "backup_link": "Vincular Google Drive",
   "backup_unlink": "Desvincular",

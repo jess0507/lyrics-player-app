@@ -24,6 +24,18 @@
   "tools_sort_z_to_a": "From Z to A",
   "tools_sort_large_to_small": "From large to small",
   "tools_sort_small_to_large": "From small to large",
+  "tools_lyrics_preview": "Lyrics preview",
+  "tools_lyrics_job_step": "Step {current}/{total}",
+  "@tools_lyrics_job_step": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "profile_account": "Account & Sync",
   "backup_link": "Link Google Drive",
   "backup_unlink": "Unlink",

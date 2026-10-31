@@ -83,6 +83,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tools_sort_small_to_large => 'छोटे से बड़े';
 
   @override
+  String get tools_lyrics_preview => 'बोल का पूर्वावलोकन';
+
+  @override
+  String tools_lyrics_job_step(int current, int total) {
+    return 'चरण $current/$total';
+  }
+
+  @override
   String get profile_account => 'खाता और सिंक';
 
   @override

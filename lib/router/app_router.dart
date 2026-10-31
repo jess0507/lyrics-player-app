@@ -11,6 +11,9 @@ import 'package:seek_player/features/profile/profile_page.dart';
 import 'package:seek_player/features/profile/settings/language_page.dart';
 import 'package:seek_player/features/profile/settings/settings_page.dart';
 import 'package:seek_player/features/profile/statistics/statistics_page.dart';
+import 'package:seek_player/features/music_list/models/track.dart';
+import 'package:seek_player/features/tools/cover_editor_page.dart';
+import 'package:seek_player/features/tools/lyrics_editor_page.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/features/tools/tool_track_picker_page.dart';
 import 'package:seek_player/features/tools/tools_page.dart';
@@ -73,6 +76,28 @@ final routerProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) => ToolTrackPickerPage(
                       tool: ToolKind.fromName(state.pathParameters['tool'])!,
                     ),
+                    routes: [
+                      // 選完曲目後依工具進對應的編輯頁(歌詞 / 封面)。
+                      GoRoute(
+                        path: ':trackId',
+                        builder: (context, state) {
+                          final trackId = state.pathParameters['trackId']!;
+                          final track = state.extra as Track?;
+                          return switch (ToolKind.fromName(
+                            state.pathParameters['tool'],
+                          )!) {
+                            ToolKind.lyrics => LyricsEditorPage(
+                              trackId: trackId,
+                              initialTrack: track,
+                            ),
+                            ToolKind.cover => CoverEditorPage(
+                              trackId: trackId,
+                              initialTrack: track,
+                            ),
+                          };
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

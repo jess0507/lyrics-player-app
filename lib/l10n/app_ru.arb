@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "От Я до А",
   "tools_sort_large_to_small": "По убыванию",
   "tools_sort_small_to_large": "По возрастанию",
+  "tools_lyrics_preview": "Предпросмотр текста",
+  "tools_lyrics_job_step": "Шаг {current}/{total}",
   "profile_account": "Аккаунт и синхронизация",
   "backup_link": "Связать с Google Диском",
   "backup_unlink": "Отвязать",

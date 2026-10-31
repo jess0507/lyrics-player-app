@@ -24,6 +24,8 @@
   "tools_sort_z_to_a": "由 Z 到 A",
   "tools_sort_large_to_small": "由大到小",
   "tools_sort_small_to_large": "由小到大",
+  "tools_lyrics_preview": "歌詞預覽",
+  "tools_lyrics_job_step": "步驟 {current}/{total}",
   "profile_account": "帳戶同步",
   "backup_link": "連結 Google 雲端硬碟",
   "backup_unlink": "解除連結",

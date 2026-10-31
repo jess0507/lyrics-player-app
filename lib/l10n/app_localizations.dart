@@ -270,6 +270,18 @@ abstract class AppLocalizations {
   /// **'From small to large'**
   String get tools_sort_small_to_large;
 
+  /// No description provided for @tools_lyrics_preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics preview'**
+  String get tools_lyrics_preview;
+
+  /// No description provided for @tools_lyrics_job_step.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current}/{total}'**
+  String tools_lyrics_job_step(int current, int total);
+
   /// No description provided for @profile_account.
   ///
   /// In en, this message translates to:
