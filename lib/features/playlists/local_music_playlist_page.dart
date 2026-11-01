@@ -49,6 +49,26 @@ class _LocalMusicPlaylistPageState
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _autoRescanIfEmpty());
+  }
+
+  /// 進入本頁時,若首次載入後音樂庫為空(多半是尚未授權,build 不主動
+  /// 彈權限),自動走一次「請求權限 → 重新掃描」。iOS 掃自家沙盒、無需
+  /// 權限,build 已掃過,空清單代表尚未匯入,不重複掃描。
+  Future<void> _autoRescanIfEmpty() async {
+    if (Platform.isIOS) return;
+    final List<Track> tracks;
+    try {
+      tracks = await ref.read(musicLibraryProvider.future);
+    } catch (_) {
+      return;
+    }
+    if (tracks.isEmpty && mounted && !_scanning) await _rescan();
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
