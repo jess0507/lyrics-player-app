@@ -78,7 +78,7 @@ class AppTheme {
 
   /// 底部導覽:選中項不畫指示器底色;去掉 label 預設的 top 4px,讓 icon
   /// 與文字更貼近。顏色照 M3 預設(`_NavigationBarDefaultsM3`),只把未選中色
-  /// 改為 90% 不透明。theme 的 iconTheme / labelTextStyle 會整個取代預設值、
+  /// 改為 90% 不透明,選中項 label 改為粗體。theme 的 iconTheme / labelTextStyle 會整個取代預設值、
   /// 不會合併,所以選中 / 停用狀態也得照預設值寫回。
   static NavigationBarThemeData _navigationBarTheme(
     ColorScheme scheme,
@@ -99,15 +99,17 @@ class AppTheme {
               : unselected,
         ),
       ),
-      labelTextStyle: WidgetStateProperty.resolveWith(
-        (states) => textTheme.labelMedium!.apply(
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return textTheme.labelMedium!.copyWith(
           color: states.contains(WidgetState.disabled)
               ? disabled
-              : states.contains(WidgetState.selected)
+              : selected
               ? scheme.onSurface
               : unselected,
-        ),
-      ),
+          fontWeight: selected ? FontWeight.w700 : null,
+        );
+      }),
     );
   }
 
