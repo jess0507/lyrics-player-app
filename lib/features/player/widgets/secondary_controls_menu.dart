@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
-import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
-import 'package:seek_player/features/player/widgets/cover_actions.dart';
+import 'package:seek_player/features/player/services/open_tool_editor.dart';
 import 'package:seek_player/features/player/widgets/seek_step_slider.dart';
 import 'package:seek_player/features/player/widgets/speed_button.dart';
 import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 次控制列「更多」選單中,播放器層級(非歌詞)的動作項目。
@@ -18,38 +18,30 @@ enum _PlayerMenuAction {
 
   addToPlaylist,
 
-  setCover,
-
-  removeCover;
+  /// 進「工具 › 更改封面」的該曲編輯頁,新增 / 更換 / 移除都在那裡做。
+  editCover;
 
   IconData get icon => switch (this) {
     speed => Icons.speed,
     seekStep => Icons.fast_forward,
     addToPlaylist => Icons.playlist_add,
-    setCover => Icons.add_photo_alternate_outlined,
-    removeCover => Icons.delete_outline,
+    editCover => Icons.image_outlined,
   };
 
-  String label(AppLocalizations l10n, {bool hasCover = false}) =>
-      switch (this) {
-        speed => l10n.player_speed,
-        seekStep => l10n.player_seek_step,
-        addToPlaylist => l10n.playlist_add_to,
-        setCover => hasCover ? l10n.cover_change : l10n.cover_add,
-        removeCover => l10n.cover_remove,
-      };
+  String label(AppLocalizations l10n) => switch (this) {
+    speed => l10n.player_speed,
+    seekStep => l10n.player_seek_step,
+    addToPlaylist => l10n.playlist_add_to,
+    editCover => l10n.cover_edit,
+  };
 
   /// 依目前曲目狀態決定是否顯示此項目。
-  bool isVisible({
-    required Track? track,
-    required String? trackId,
-    required bool hasCover,
-  }) => switch (this) {
-    speed || seekStep => true,
-    addToPlaylist => track != null,
-    setCover => trackId != null,
-    removeCover => hasCover,
-  };
+  bool isVisible({required Track? track, required String? trackId}) =>
+      switch (this) {
+        speed || seekStep => true,
+        addToPlaylist => track != null,
+        editCover => trackId != null,
+      };
 
   void run(
     BuildContext context,
@@ -65,10 +57,15 @@ enum _PlayerMenuAction {
         showSeekStepSheet(context);
       case addToPlaylist:
         if (track != null) showAddToPlaylistSheet(context, ref, track);
-      case setCover:
-        if (trackId != null) setTrackCover(context, ref, trackId);
-      case removeCover:
-        if (trackId != null) removeTrackCover(context, ref, trackId);
+      case editCover:
+        if (trackId != null) {
+          openToolEditorFromPlayer(
+            context,
+            tool: ToolKind.cover,
+            trackId: trackId,
+            track: track,
+          );
+        }
     }
   }
 }
@@ -122,19 +119,15 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
     final trackIndex = id == null ? -1 : tracks.indexWhere((t) => t.id == id);
     final track = trackIndex < 0 ? null : tracks[trackIndex];
 
-    // 是否已有手動上傳的自訂封面:決定「新增 / 更換」文案與「移除」是否顯示。
-    final hasCover =
-        id != null && ref.watch(trackCoverProvider(id)).valueOrNull != null;
-
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           for (final action in _PlayerMenuAction.values)
-            if (action.isVisible(track: track, trackId: id, hasCover: hasCover))
+            if (action.isVisible(track: track, trackId: id))
               ListTile(
                 leading: Icon(action.icon),
-                title: Text(action.label(l10n, hasCover: hasCover)),
+                title: Text(action.label(l10n)),
                 // 先關閉選單,再以呼叫端 context/ref 執行對應動作。
                 onTap: () {
                   Navigator.of(context).pop();

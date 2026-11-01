@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/player/services/open_tool_editor.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 import 'package:seek_player/features/player/widgets/play_mode_button.dart';
 import 'package:seek_player/features/player/widgets/secondary_controls_menu.dart';
 import 'package:seek_player/features/player/widgets/share_track_button.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
 
 /// 次控制列圖示的固定大小。
 const _kIconSize = 20.0;
 
-/// 次控制列：歌詞、隨機、循環,其餘動作(加入播放清單、播放速度、自動對時、
-/// 字體大小、重新匯入、刪除歌詞)收進「更多」選單。
+/// 次控制列:播放模式、分享、歌詞(進歌詞編輯頁),其餘動作(播放速度、
+/// 快轉間隔、加入播放清單、編輯封面)收進「更多」選單。
 class SecondaryControls extends ConsumerWidget {
   const SecondaryControls({
     super.key,
@@ -33,7 +34,7 @@ class SecondaryControls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lyrics = _buildLyrics(context, ref);
+    final lyrics = _buildLyrics(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20.0),
       child: Row(
@@ -65,9 +66,9 @@ class SecondaryControls extends ConsumerWidget {
     );
   }
 
-  /// 歌詞按鈕:有曲目時提供。點擊彈出歌詞動作表單([lyricsMenuActions]),
-  /// 依目前歌詞狀態提供自動產生 / 自動對時 / 字體大小 / 重新匯入 / 刪除。
-  Widget? _buildLyrics(BuildContext context, WidgetRef ref) {
+  /// 歌詞按鈕:有曲目時提供。點擊關閉播放頁並進「工具 › 製作歌詞」的
+  /// 該曲編輯頁([LyricsEditorPage])。
+  Widget? _buildLyrics(BuildContext context) {
     final id = trackId;
     if (id == null) return null;
     final l10n = AppLocalizations.of(context)!;
@@ -75,11 +76,10 @@ class SecondaryControls extends ConsumerWidget {
       iconSize: _kIconSize,
       tooltip: l10n.lyrics_show,
       onPressed: enabled
-          ? () => showLyricsActionsSheet(
+          ? () => openToolEditorFromPlayer(
               context,
-              ref,
+              tool: ToolKind.lyrics,
               trackId: id,
-              title: title ?? '',
             )
           : null,
       icon: const Icon(Icons.lyrics_outlined),
