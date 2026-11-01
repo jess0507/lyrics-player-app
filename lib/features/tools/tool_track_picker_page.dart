@@ -138,7 +138,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                   controller: _searchController,
                   onChanged: (_) => setState(() {}),
                 )
-              : Text(widget.tool.label(l10n)),
+              : Text(l10n.tools_select_audio),
           // 搜尋欄右側留白,不貼齊螢幕邊緣。
           actions: [if (_searching) const SizedBox(width: 16)],
         ),
