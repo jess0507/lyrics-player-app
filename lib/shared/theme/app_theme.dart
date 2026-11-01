@@ -52,7 +52,7 @@ class AppTheme {
     // 改用隨亮度翻轉的 primary。
     final accent = seed.isMono ? scheme.primary : seed.color;
     final isLight = brightness == Brightness.light;
-    return ThemeData(
+    final theme = ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
       // 捲動時不讓 AppBar 疊上 surfaceTint 色調:elevation 歸零、tint 透明。
@@ -76,28 +76,44 @@ class AppTheme {
         backgroundColor: accent,
         foregroundColor: isLight ? Colors.white : Colors.black,
       ),
-      // 底部導覽仿 VLC:選中項不畫指示器外框,icon 維持外框樣式,只把 icon
-      // 與 label 換成種子色並加粗;未選中為較淡的灰(outline),字重一般。
-      navigationBarTheme: NavigationBarThemeData(
-        indicatorColor: Colors.transparent,
-        // 指示器已透明,其 32px 高度本身已在 icon 上下各留 4px;
-        // 去掉 label 預設的 top 4px,讓 icon 與文字更貼近。
-        labelPadding: EdgeInsets.zero,
-        iconTheme: WidgetStateProperty.resolveWith(
-          (states) => IconThemeData(
-            color: states.contains(WidgetState.selected)
-                ? accent
-                : scheme.outline,
-          ),
+    );
+    // 底部導覽需要 theme 的 textTheme(label 沿用預設 labelMedium),故建完再補上。
+    return theme.copyWith(
+      navigationBarTheme: _navigationBarTheme(scheme, theme.textTheme),
+    );
+  }
+
+  /// 底部導覽:選中項不畫指示器底色;去掉 label 預設的 top 4px,讓 icon
+  /// 與文字更貼近。顏色照 M3 預設(`_NavigationBarDefaultsM3`),只把未選中色
+  /// 改為 90% 不透明。theme 的 iconTheme / labelTextStyle 會整個取代預設值、
+  /// 不會合併,所以選中 / 停用狀態也得照預設值寫回。
+  static NavigationBarThemeData _navigationBarTheme(
+    ColorScheme scheme,
+    TextTheme textTheme,
+  ) {
+    final unselected = scheme.onSurfaceVariant.withValues(alpha: 0.8);
+    final disabled = scheme.onSurfaceVariant.withValues(alpha: 0.38);
+    return NavigationBarThemeData(
+      indicatorColor: Colors.transparent,
+      labelPadding: EdgeInsets.zero,
+      iconTheme: WidgetStateProperty.resolveWith(
+        (states) => IconThemeData(
+          size: 24,
+          color: states.contains(WidgetState.disabled)
+              ? disabled
+              : states.contains(WidgetState.selected)
+              ? scheme.onSecondaryContainer
+              : unselected,
         ),
-        labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          final selected = states.contains(WidgetState.selected);
-          return TextStyle(
-            fontSize: 12,
-            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-            color: selected ? accent : scheme.outline,
-          );
-        }),
+      ),
+      labelTextStyle: WidgetStateProperty.resolveWith(
+        (states) => textTheme.labelMedium!.apply(
+          color: states.contains(WidgetState.disabled)
+              ? disabled
+              : states.contains(WidgetState.selected)
+              ? scheme.onSurface
+              : unselected,
+        ),
       ),
     );
   }
