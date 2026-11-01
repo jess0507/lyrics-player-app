@@ -9,6 +9,7 @@
   "tools_lyrics": "Tạo lời bài hát",
   "tools_lyrics_desc": "Tạo, nhập, tìm trực tuyến hoặc đồng bộ lời bài hát",
   "tools_cover_desc": "Thêm, đổi hoặc xóa ảnh bìa tùy chỉnh",
+  "tools_select_audio": "Chọn âm thanh",
   "tools_pick_from_files": "Chọn từ tệp",
   "tools_file_imported": "Đã thêm vào thư viện nhạc",
   "tools_file_import_failed": "Không thể nhập tệp này vào thư viện nhạc.",

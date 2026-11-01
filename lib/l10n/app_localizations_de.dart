@@ -38,6 +38,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Eigenes Cover hinzufügen, ändern oder entfernen';
 
   @override
+  String get tools_select_audio => 'Audio auswählen';
+
+  @override
   String get tools_pick_from_files => 'Aus Dateien wählen';
 
   @override

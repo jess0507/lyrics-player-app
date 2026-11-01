@@ -9,6 +9,7 @@
   "tools_lyrics": "制作歌词",
   "tools_lyrics_desc": "生成、导入、在线搜索或同步歌词",
   "tools_cover_desc": "添加、更换或移除自定义封面",
+  "tools_select_audio": "选择音频",
   "tools_pick_from_files": "从文件选择",
   "tools_file_imported": "已导入音乐库",
   "tools_file_import_failed": "无法将此文件导入音乐库。",

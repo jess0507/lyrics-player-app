@@ -9,6 +9,7 @@
   "tools_lyrics": "Criar letra",
   "tools_lyrics_desc": "Gerar, importar, pesquisar online ou sincronizar letras",
   "tools_cover_desc": "Adicionar, alterar ou remover uma capa personalizada",
+  "tools_select_audio": "Selecionar áudio",
   "tools_pick_from_files": "Escolher dos arquivos",
   "tools_file_imported": "Adicionado à sua biblioteca de músicas",
   "tools_file_import_failed": "Não foi possível importar este arquivo para a sua biblioteca de músicas.",

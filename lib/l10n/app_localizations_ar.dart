@@ -37,6 +37,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tools_cover_desc => 'إضافة غلاف مخصص أو تغييره أو إزالته';
 
   @override
+  String get tools_select_audio => 'اختيار ملف صوتي';
+
+  @override
   String get tools_pick_from_files => 'اختيار من الملفات';
 
   @override

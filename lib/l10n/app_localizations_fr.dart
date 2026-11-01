@@ -38,6 +38,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ajouter, changer ou supprimer une pochette personnalisée';
 
   @override
+  String get tools_select_audio => 'Sélectionner un audio';
+
+  @override
   String get tools_pick_from_files => 'Choisir dans les fichiers';
 
   @override

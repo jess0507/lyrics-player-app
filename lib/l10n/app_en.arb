@@ -9,6 +9,7 @@
   "tools_lyrics": "Make lyrics",
   "tools_lyrics_desc": "Generate, import, search or sync lyrics",
   "tools_cover_desc": "Add, change or remove a custom cover",
+  "tools_select_audio": "Select audio",
   "tools_pick_from_files": "Choose from files",
   "tools_file_imported": "Added to your music library",
   "tools_file_import_failed": "Couldn't import this file into your music library.",

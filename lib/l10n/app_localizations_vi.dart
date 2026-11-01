@@ -37,6 +37,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools_cover_desc => 'Thêm, đổi hoặc xóa ảnh bìa tùy chỉnh';
 
   @override
+  String get tools_select_audio => 'Chọn âm thanh';
+
+  @override
   String get tools_pick_from_files => 'Chọn từ tệp';
 
   @override

@@ -9,6 +9,7 @@
   "tools_lyrics": "Crea testo",
   "tools_lyrics_desc": "Genera, importa, cerca online o sincronizza i testi",
   "tools_cover_desc": "Aggiungi, cambia o rimuovi una copertina personalizzata",
+  "tools_select_audio": "Seleziona audio",
   "tools_pick_from_files": "Scegli dai file",
   "tools_file_imported": "Aggiunto alla libreria musicale",
   "tools_file_import_failed": "Impossibile importare questo file nella libreria musicale.",

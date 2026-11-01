@@ -36,6 +36,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_cover_desc => 'カスタムカバーの追加・変更・削除';
 
   @override
+  String get tools_select_audio => '音声を選択';
+
+  @override
   String get tools_pick_from_files => 'ファイルから選択';
 
   @override

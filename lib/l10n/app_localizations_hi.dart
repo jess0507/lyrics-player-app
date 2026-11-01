@@ -37,6 +37,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tools_cover_desc => 'कस्टम कवर जोड़ें, बदलें या हटाएं';
 
   @override
+  String get tools_select_audio => 'ऑडियो चुनें';
+
+  @override
   String get tools_pick_from_files => 'फ़ाइलों से चुनें';
 
   @override

@@ -9,6 +9,7 @@
   "tools_lyrics": "Liedtext erstellen",
   "tools_lyrics_desc": "Liedtexte erzeugen, importieren, online suchen oder synchronisieren",
   "tools_cover_desc": "Eigenes Cover hinzufügen, ändern oder entfernen",
+  "tools_select_audio": "Audio auswählen",
   "tools_pick_from_files": "Aus Dateien wählen",
   "tools_file_imported": "Zur Musikbibliothek hinzugefügt",
   "tools_file_import_failed": "Diese Datei konnte nicht in die Musikbibliothek importiert werden.",

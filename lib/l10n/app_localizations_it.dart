@@ -38,6 +38,9 @@ class AppLocalizationsIt extends AppLocalizations {
       'Aggiungi, cambia o rimuovi una copertina personalizzata';
 
   @override
+  String get tools_select_audio => 'Seleziona audio';
+
+  @override
   String get tools_pick_from_files => 'Scegli dai file';
 
   @override

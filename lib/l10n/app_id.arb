@@ -9,6 +9,7 @@
   "tools_lyrics": "Buat lirik",
   "tools_lyrics_desc": "Buat, impor, cari online, atau sinkronkan lirik",
   "tools_cover_desc": "Tambah, ganti, atau hapus sampul kustom",
+  "tools_select_audio": "Pilih audio",
   "tools_pick_from_files": "Pilih dari file",
   "tools_file_imported": "Ditambahkan ke pustaka musik",
   "tools_file_import_failed": "Tidak dapat mengimpor file ini ke pustaka musik.",

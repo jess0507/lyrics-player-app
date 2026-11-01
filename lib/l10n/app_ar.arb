@@ -9,6 +9,7 @@
   "tools_lyrics": "إنشاء الكلمات",
   "tools_lyrics_desc": "إنشاء الكلمات أو استيرادها أو البحث عنها أو مزامنتها",
   "tools_cover_desc": "إضافة غلاف مخصص أو تغييره أو إزالته",
+  "tools_select_audio": "اختيار ملف صوتي",
   "tools_pick_from_files": "اختيار من الملفات",
   "tools_file_imported": "تمت الإضافة إلى مكتبة الموسيقى",
   "tools_file_import_failed": "تعذّر استيراد هذا الملف إلى مكتبة الموسيقى.",

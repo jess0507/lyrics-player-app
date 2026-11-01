@@ -36,6 +36,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_cover_desc => '사용자 지정 커버 추가, 변경 또는 삭제';
 
   @override
+  String get tools_select_audio => '오디오 선택';
+
+  @override
   String get tools_pick_from_files => '파일에서 선택';
 
   @override

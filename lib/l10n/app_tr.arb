@@ -9,6 +9,7 @@
   "tools_lyrics": "Şarkı sözü oluştur",
   "tools_lyrics_desc": "Şarkı sözü oluştur, içe aktar, çevrimiçi ara veya senkronize et",
   "tools_cover_desc": "Özel kapak ekle, değiştir veya kaldır",
+  "tools_select_audio": "Ses seç",
   "tools_pick_from_files": "Dosyalardan seç",
   "tools_file_imported": "Müzik kitaplığınıza eklendi",
   "tools_file_import_failed": "Bu dosya müzik kitaplığınıza aktarılamadı.",

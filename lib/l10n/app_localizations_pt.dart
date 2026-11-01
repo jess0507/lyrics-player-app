@@ -38,6 +38,9 @@ class AppLocalizationsPt extends AppLocalizations {
       'Adicionar, alterar ou remover uma capa personalizada';
 
   @override
+  String get tools_select_audio => 'Selecionar áudio';
+
+  @override
   String get tools_pick_from_files => 'Escolher dos arquivos';
 
   @override

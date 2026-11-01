@@ -36,6 +36,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_cover_desc => '新增、更換或移除自訂封面';
 
   @override
+  String get tools_select_audio => '選擇音訊';
+
+  @override
   String get tools_pick_from_files => '從檔案選擇';
 
   @override
@@ -920,6 +923,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_cover_desc => '添加、更换或移除自定义封面';
+
+  @override
+  String get tools_select_audio => '选择音频';
 
   @override
   String get tools_pick_from_files => '从文件选择';
@@ -1807,6 +1813,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_cover_desc => '新增、更換或移除自訂封面';
+
+  @override
+  String get tools_select_audio => '選擇音訊';
 
   @override
   String get tools_pick_from_files => '從檔案選擇';

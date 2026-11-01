@@ -9,6 +9,7 @@
   "tools_lyrics": "歌詞を作成",
   "tools_lyrics_desc": "歌詞の生成・インポート・オンライン検索・同期",
   "tools_cover_desc": "カスタムカバーの追加・変更・削除",
+  "tools_select_audio": "音声を選択",
   "tools_pick_from_files": "ファイルから選択",
   "tools_file_imported": "ミュージックライブラリに追加しました",
   "tools_file_import_failed": "このファイルをミュージックライブラリにインポートできませんでした。",

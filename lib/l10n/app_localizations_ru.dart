@@ -37,6 +37,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tools_cover_desc => 'Добавить, изменить или удалить свою обложку';
 
   @override
+  String get tools_select_audio => 'Выбрать аудио';
+
+  @override
   String get tools_pick_from_files => 'Выбрать из файлов';
 
   @override

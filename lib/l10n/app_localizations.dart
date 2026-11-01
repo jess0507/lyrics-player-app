@@ -180,6 +180,12 @@ abstract class AppLocalizations {
   /// **'Add, change or remove a custom cover'**
   String get tools_cover_desc;
 
+  /// No description provided for @tools_select_audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Select audio'**
+  String get tools_select_audio;
+
   /// No description provided for @tools_pick_from_files.
   ///
   /// In en, this message translates to:

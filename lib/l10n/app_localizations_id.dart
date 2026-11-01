@@ -37,6 +37,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get tools_cover_desc => 'Tambah, ganti, atau hapus sampul kustom';
 
   @override
+  String get tools_select_audio => 'Pilih audio';
+
+  @override
   String get tools_pick_from_files => 'Pilih dari file';
 
   @override

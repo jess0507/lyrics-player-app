@@ -38,6 +38,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añadir, cambiar o quitar una portada personalizada';
 
   @override
+  String get tools_select_audio => 'Seleccionar audio';
+
+  @override
   String get tools_pick_from_files => 'Elegir de archivos';
 
   @override

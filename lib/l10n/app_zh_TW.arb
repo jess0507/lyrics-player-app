@@ -9,6 +9,7 @@
   "tools_lyrics": "製作歌詞",
   "tools_lyrics_desc": "產生、匯入、上網搜尋或同步歌詞",
   "tools_cover_desc": "新增、更換或移除自訂封面",
+  "tools_select_audio": "選擇音訊",
   "tools_pick_from_files": "從檔案選擇",
   "tools_file_imported": "已匯入音樂庫",
   "tools_file_import_failed": "無法將此檔案匯入音樂庫。",

@@ -37,6 +37,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tools_cover_desc => 'Özel kapak ekle, değiştir veya kaldır';
 
   @override
+  String get tools_select_audio => 'Ses seç';
+
+  @override
   String get tools_pick_from_files => 'Dosyalardan seç';
 
   @override

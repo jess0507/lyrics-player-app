@@ -9,6 +9,7 @@
   "tools_lyrics": "बोल बनाएं",
   "tools_lyrics_desc": "बोल बनाएं, आयात करें, ऑनलाइन खोजें या सिंक करें",
   "tools_cover_desc": "कस्टम कवर जोड़ें, बदलें या हटाएं",
+  "tools_select_audio": "ऑडियो चुनें",
   "tools_pick_from_files": "फ़ाइलों से चुनें",
   "tools_file_imported": "संगीत लाइब्रेरी में जोड़ा गया",
   "tools_file_import_failed": "इस फ़ाइल को संगीत लाइब्रेरी में आयात नहीं किया जा सका।",

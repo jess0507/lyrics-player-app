@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tools_cover_desc => 'Add, change or remove a custom cover';
 
   @override
+  String get tools_select_audio => 'Select audio';
+
+  @override
   String get tools_pick_from_files => 'Choose from files';
 
   @override
