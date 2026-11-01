@@ -47,11 +47,6 @@ class AppTheme {
     final scheme = seed.isMono
         ? _monoScheme(brightness)
         : ColorScheme.fromSeed(seedColor: seed.color, brightness: brightness);
-    // 強調色:底部導覽選中項與 FAB 底色直接用種子色(fromSeed 推導的
-    // primary 色調會偏淡 / 偏暗);單色主題的種子是固定灰,深色模式下看不清,
-    // 改用隨亮度翻轉的 primary。
-    final accent = seed.isMono ? scheme.primary : seed.color;
-    final isLight = brightness == Brightness.light;
     final theme = ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
@@ -66,15 +61,13 @@ class AppTheme {
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
-      // FAB 仿 VLC 播放鍵:圓形、56dp,底色為強調色;icon 放大到 36dp,
+      // FAB 仿 VLC 播放鍵:圓形、56dp,顏色用 M3 預設;icon 放大到 36dp,
       // play_arrow 的三角形在 24 格內約佔 13 格高,放大後約 20dp,
-      // 與 VLC 圖形約佔直徑 38% 的比例一致。icon 淺色模式白、深色模式黑。
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        shape: const CircleBorder(),
-        sizeConstraints: const BoxConstraints.tightFor(width: 56, height: 56),
+      // 與 VLC 圖形約佔直徑 38% 的比例一致。
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        shape: CircleBorder(),
+        sizeConstraints: BoxConstraints.tightFor(width: 56, height: 56),
         iconSize: 36,
-        backgroundColor: accent,
-        foregroundColor: isLight ? Colors.white : Colors.black,
       ),
     );
     // 底部導覽需要 theme 的 textTheme(label 沿用預設 labelMedium),故建完再補上。
