@@ -15,6 +15,7 @@ import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
 /// 動作以 [actionContext]/[actionRef] 執行(表單關閉後仍有效的呼叫端 context);
 /// 點選時先呼叫 [onSelected](例如表單用來關閉自己)再執行動作。
 /// [showCancel] 為 false 時不列「取消」(呼叫端另有取消入口)。
+/// [showDisplayOptions] 為 false 時不列字體大小 / 對齊方式(呼叫端另有入口)。
 class LyricsActionTiles extends ConsumerWidget {
   const LyricsActionTiles({
     super.key,
@@ -24,6 +25,7 @@ class LyricsActionTiles extends ConsumerWidget {
     required this.title,
     this.onSelected,
     this.showCancel = true,
+    this.showDisplayOptions = true,
   });
 
   final BuildContext actionContext;
@@ -32,6 +34,7 @@ class LyricsActionTiles extends ConsumerWidget {
   final String title;
   final VoidCallback? onSelected;
   final bool showCancel;
+  final bool showDisplayOptions;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,6 +50,7 @@ class LyricsActionTiles extends ConsumerWidget {
       canAiGenerate: canAiGenerate,
       canAutoSync: canAutoSync,
       hasLyrics: hasLyrics,
+      includeDisplay: showDisplayOptions,
     );
     // 背景任務一次只跑一件:只有選單會顯示自動產生/對時時才需要檢查是否
     // 已有其他工作在跑(前景服務執行中,或已送出、雲端還沒回終態),

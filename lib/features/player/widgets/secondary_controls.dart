@@ -13,7 +13,7 @@ import 'package:seek_player/features/tools/models/tool_kind.dart';
 const _kIconSize = 20.0;
 
 /// 次控制列:播放模式、分享、歌詞(進歌詞編輯頁),其餘動作(播放速度、
-/// 快轉間隔、加入播放清單、編輯封面)收進「更多」選單。
+/// 快轉間隔、歌詞字體大小、歌詞對齊方式、加入播放清單、編輯封面)收進「更多」選單。
 class SecondaryControls extends ConsumerWidget {
   const SecondaryControls({
     super.key,

@@ -4,6 +4,8 @@ import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/player/services/open_tool_editor.dart';
+import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
+import 'package:seek_player/features/player/widgets/lyrics_text_align_sheet.dart';
 import 'package:seek_player/features/player/widgets/seek_step_slider.dart';
 import 'package:seek_player/features/player/widgets/speed_button.dart';
 import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
@@ -19,11 +21,19 @@ enum _PlayerMenuAction {
   addToPlaylist,
 
   /// 進「工具 › 更改封面」的該曲編輯頁,新增 / 更換 / 移除都在那裡做。
-  editCover;
+  editCover,
+
+  /// 歌詞字體大小;有曲目時顯示。
+  lyricsFontSize,
+
+  /// 歌詞對齊方式(左 / 中 / 右);有曲目時顯示。
+  lyricsTextAlign;
 
   IconData get icon => switch (this) {
     speed => Icons.speed,
     seekStep => Icons.fast_forward,
+    lyricsFontSize => Icons.text_fields,
+    lyricsTextAlign => Icons.format_align_left,
     addToPlaylist => Icons.playlist_add,
     editCover => Icons.image_outlined,
   };
@@ -31,6 +41,8 @@ enum _PlayerMenuAction {
   String label(AppLocalizations l10n) => switch (this) {
     speed => l10n.player_speed,
     seekStep => l10n.player_seek_step,
+    lyricsFontSize => l10n.lyrics_font_size,
+    lyricsTextAlign => l10n.lyrics_text_align,
     addToPlaylist => l10n.playlist_add_to,
     editCover => l10n.cover_edit,
   };
@@ -40,7 +52,7 @@ enum _PlayerMenuAction {
       switch (this) {
         speed || seekStep => true,
         addToPlaylist => track != null,
-        editCover => trackId != null,
+        lyricsFontSize || lyricsTextAlign || editCover => trackId != null,
       };
 
   void run(
@@ -55,6 +67,10 @@ enum _PlayerMenuAction {
         showSpeedSheet(context, audio);
       case seekStep:
         showSeekStepSheet(context);
+      case lyricsFontSize:
+        showLyricsFontSizeSheet(context);
+      case lyricsTextAlign:
+        showLyricsTextAlignSheet(context);
       case addToPlaylist:
         if (track != null) showAddToPlaylistSheet(context, ref, track);
       case editCover:

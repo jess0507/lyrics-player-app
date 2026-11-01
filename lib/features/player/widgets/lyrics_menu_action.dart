@@ -97,10 +97,12 @@ enum LyricsMenuAction {
 /// 依目前歌詞狀態挑出要顯示的歌詞動作與順序。
 /// [canAiGenerate] 為「完全沒有歌詞」(可從音訊直接產生);
 /// [canAutoSync] 為「已有純文字、尚未同步」;[hasLyrics] 為「已有歌詞」。
+/// [includeDisplay] 為 false 時不列顯示設定(字體大小 / 對齊方式)。
 List<LyricsMenuAction> lyricsMenuActions({
   required bool canAiGenerate,
   required bool canAutoSync,
   required bool hasLyrics,
+  bool includeDisplay = true,
 }) {
   return [
     // 無歌詞時提供三種取得方式:自動產生、上網搜尋、手動匯入。
@@ -112,8 +114,10 @@ List<LyricsMenuAction> lyricsMenuActions({
       LyricsMenuAction.autoSyncWhisperX,
     ],
     if (hasLyrics) ...[
-      LyricsMenuAction.fontSize,
-      LyricsMenuAction.textAlign,
+      if (includeDisplay) ...[
+        LyricsMenuAction.fontSize,
+        LyricsMenuAction.textAlign,
+      ],
       LyricsMenuAction.reimport,
       LyricsMenuAction.download,
       LyricsMenuAction.delete,

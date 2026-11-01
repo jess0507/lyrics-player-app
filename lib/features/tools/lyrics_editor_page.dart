@@ -54,6 +54,8 @@ class _LyricsEditorBody extends ConsumerWidget {
           title: track.title,
           // 進度卡已有取消鈕。
           showCancel: false,
+          // 字體大小 / 對齊方式改由播放頁「更多」選單設定。
+          showDisplayOptions: false,
         ),
         const Divider(height: 32),
         Padding(
