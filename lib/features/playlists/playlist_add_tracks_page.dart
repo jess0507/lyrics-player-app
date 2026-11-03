@@ -3,20 +3,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/playlists/models/track_folder.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_add_tracks_list.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_edit_tracks_list.dart';
+import 'package:seek_player/features/tools/models/track_file_stat.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
+import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
+import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
+import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
+import 'package:seek_player/features/tools/widgets/track_picker_toolbar.dart';
+import 'package:seek_player/features/tools/widgets/track_search_field.dart';
+import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 由右至左滑入全螢幕「新增至這個播放清單」頁(page route,開法比照
 /// 全螢幕播放頁的 `PlayerPageController.open`,僅滑入方向不同)。
 ///
 /// [reorderable] 為 true 時顯示可拖曳排序的「編輯播放清單」版面
 /// ([PlaylistEditTracksList]),只列出已加入的曲目；
-/// 否則為單純新增/移除曲目的「增加項目」版面(見 [_buildSimpleList]),
+/// 否則為單純新增/移除曲目的「增加項目」版面([PlaylistAddTracksList]),
 /// 只列出進入本頁「當下」尚未加入的曲目
 /// （進頁後的快照,頁面內加入/移除都不會讓項目消失或重新出現）。
+/// 兩種版面上方都有資料夾 / 搜尋 / 排序工具列。
 Future<void> showPlaylistAddTracksPage(
   BuildContext context,
   int playlistId, {
@@ -66,6 +76,16 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
   /// 讓使用者能在同一份清單裡自由切換加入/移除,不會因為狀態改變而消失。
   late final List<Track> _initialNotAddedTracks;
 
+  /// 資料夾篩選路徑;null 代表全部。
+  String? _folder;
+
+  /// 「編輯播放清單」預設依清單順序(可拖曳);「增加項目」依加入時間。
+  late var _sort = widget.reorderable
+      ? const TrackSort(field: TrackSortField.custom)
+      : const TrackSort();
+  var _searching = false;
+  final _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -79,6 +99,27 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
         .where((t) => !addedIds.contains(t.id))
         .toList();
   }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _editSort() async {
+    final sort = await showTrackSortSheet(
+      context,
+      current: _sort,
+      // 「編輯播放清單」多提供清單順序(唯一可拖曳排序的排序方式)。
+      fields: widget.reorderable ? TrackSortField.values : null,
+    );
+    if (sort != null && mounted) setState(() => _sort = sort);
+  }
+
+  void _toggleSearch() => setState(() {
+    _searching = !_searching;
+    if (!_searching) _searchController.clear();
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,78 +150,126 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        // 由右至左滑入的頁面,以標準返回鍵收回本頁。
-        leading: const BackButton(),
-        title: Text(
-          widget.reorderable
-              ? l10n.playlist_edit_tracks
-              : l10n.playlist_add_tracks,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+    final searching = _searching;
+
+    return PopScope(
+      // 搜尋中按返回只關閉搜尋、回到原本的頂欄,不離開本頁。
+      canPop: !searching,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _toggleSearch();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          // 由右至左滑入的頁面,以標準返回鍵收回本頁;搜尋中只關閉搜尋。
+          leading: searching
+              ? BackButton(onPressed: _toggleSearch)
+              : const BackButton(),
+          // 搜尋欄緊鄰返回鍵:返回鍵縮到最小點擊尺寸 48,並取消標題間距。
+          leadingWidth: searching ? 48 : null,
+          titleSpacing: searching ? 0 : null,
+          title: searching
+              ? TrackSearchField(
+                  controller: _searchController,
+                  onChanged: (_) => setState(() {}),
+                )
+              : Text(
+                  widget.reorderable
+                      ? l10n.playlist_edit_tracks
+                      : l10n.playlist_add_tracks,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+          // 搜尋欄右側留白,不貼齊螢幕邊緣。
+          actions: [if (searching) const SizedBox(width: 16)],
         ),
+        body: tracks.isEmpty
+            ? _EmptyMessage(text: l10n.music_empty)
+            : SafeArea(
+                top: false,
+                child: widget.reorderable
+                    ? (addedTracks.isEmpty
+                          ? _EmptyMessage(text: l10n.playlist_empty)
+                          : _buildFilteredList(
+                              l10n,
+                              source: addedTracks,
+                              listBuilder: (visible, reorderable) =>
+                                  PlaylistEditTracksList(
+                                    playlistId: widget.playlistId,
+                                    addedTracks: visible,
+                                    audio: audio,
+                                    reorderable: reorderable,
+                                    onRemove: (trackId) =>
+                                        toggle(trackId, true),
+                                  ),
+                            ))
+                    : (_initialNotAddedTracks.isEmpty
+                          ? _EmptyMessage(text: l10n.playlist_all_added)
+                          : _buildFilteredList(
+                              l10n,
+                              source: _initialNotAddedTracks,
+                              listBuilder: (visible, _) =>
+                                  PlaylistAddTracksList(
+                                    tracks: visible,
+                                    addedIds: addedIds,
+                                    audio: audio,
+                                    onToggle: toggle,
+                                  ),
+                            )),
+              ),
       ),
-      body: tracks.isEmpty
-          ? _EmptyMessage(text: l10n.music_empty)
-          : SafeArea(
-              top: false,
-              child: widget.reorderable
-                  ? (addedTracks.isEmpty
-                        ? _EmptyMessage(text: l10n.playlist_empty)
-                        : PlaylistEditTracksList(
-                            playlistId: widget.playlistId,
-                            addedTracks: addedTracks,
-                            audio: audio,
-                            onRemove: (trackId) => toggle(trackId, true),
-                          ))
-                  : (_initialNotAddedTracks.isEmpty
-                        ? _EmptyMessage(text: l10n.playlist_all_added)
-                        : _buildSimpleList(
-                            context,
-                            addedIds: addedIds,
-                            audio: audio,
-                            onToggle: toggle,
-                          )),
-            ),
     );
   }
 
-  /// 「增加項目」清單:[_initialNotAddedTracks] 固定不變,點擊「+」加入、
-  /// 已加入顯示打勾可再點一次移除;清單內容本身不會因為加入/移除而變動,
-  /// 只有圖示狀態隨 [addedIds] 即時更新。
-  Widget _buildSimpleList(
-    BuildContext context, {
-    required Set<String> addedIds,
-    required AudioPlayerService audio,
-    required void Function(String trackId, bool added) onToggle,
+  /// 工具列(資料夾 / 搜尋 / 排序)+ 由 [source] 篩選、排序後的清單。
+  /// [listBuilder] 的第二個參數為顯示內容是否等於完整清單順序
+  /// (清單順序排序、全部資料夾、未搜尋),只有此時才能拖曳排序。
+  Widget _buildFilteredList(
+    AppLocalizations l10n, {
+    required List<Track> source,
+    required Widget Function(List<Track> visible, bool isFullOrder)
+    listBuilder,
   }) {
-    final scheme = Theme.of(context).colorScheme;
-    return ListView.separated(
-      itemCount: _initialNotAddedTracks.length,
-      separatorBuilder: (context, index) => Divider(
-        height: 1,
-        thickness: 1,
-        indent: 16,
-        endIndent: 16,
-        color: scheme.outlineVariant.withValues(alpha: 0.5),
-      ),
-      itemBuilder: (context, index) {
-        final track = _initialNotAddedTracks[index];
-        final added = addedIds.contains(track.id);
-        return TrackListTile(
-          track: track,
-          audio: audio,
-          contentPadding: const EdgeInsets.only(left: 16.0),
-          trailing: IconButton(
-            icon: added
-                ? Icon(Icons.check, color: scheme.primary)
-                : const Icon(Icons.add),
-            onPressed: () => onToggle(track.id, added),
+    final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
+    final plays = ref.watch(trackPlayStatsProvider);
+    final folders = TrackFolder.groupTracks(source);
+    // 移除曲目後選中的資料夾可能已不存在,視為全部。
+    final folder = folders.any((f) => f.path == _folder) ? _folder : null;
+    final query = _searchController.text.trim().toLowerCase();
+    final visibleTracks = _sort.apply(
+      [
+        for (final t in source)
+          if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
+              (query.isEmpty ||
+                  t.title.toLowerCase().contains(query) ||
+                  (t.artist?.toLowerCase().contains(query) ?? false)))
+            t,
+      ],
+      stats,
+      plays,
+    );
+    final isFullOrder =
+        _sort.field == TrackSortField.custom && folder == null && query.isEmpty;
+
+    return Column(
+      children: [
+        TrackPickerToolbar(
+          folderButton: FolderMenuButton(
+            folders: folders,
+            totalCount: source.length,
+            latestOf: (path) => latestModifiedIn(source, stats, path),
+            selected: folder,
+            onSelected: (path) => setState(() => _folder = path),
           ),
-          onTap: () => onToggle(track.id, added),
-        );
-      },
+          onSearch: _toggleSearch,
+          onSort: _editSort,
+          actions: const [],
+        ),
+        Expanded(
+          child: visibleTracks.isEmpty
+              ? Center(child: Text(l10n.playlist_search_no_result))
+              : listBuilder(visibleTracks, isFullOrder),
+        ),
+      ],
     );
   }
 }

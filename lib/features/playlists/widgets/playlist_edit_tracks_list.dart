@@ -6,8 +6,11 @@ import 'package:seek_player/shared/widgets/track_list_tile.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
-/// 「編輯播放清單」清單:只列出已加入播放清單的曲目([addedTracks],依既有
-/// 順序排列),項目最前面有拖曳排序圖示,或點刪除圖示移出清單。
+/// 「編輯播放清單」清單:列出已加入播放清單的曲目([addedTracks]),
+/// 項目最前面有拖曳排序圖示,或點刪除圖示移出清單。
+///
+/// [reorderable] 為 false 時(清單經篩選 / 搜尋 / 非清單順序排序,
+/// 顯示順序不等於清單順序)拖曳圖示變灰停用,只能刪除。
 class PlaylistEditTracksList extends ConsumerWidget {
   const PlaylistEditTracksList({
     super.key,
@@ -15,12 +18,17 @@ class PlaylistEditTracksList extends ConsumerWidget {
     required this.addedTracks,
     required this.audio,
     required this.onRemove,
+    this.reorderable = true,
   });
 
   final int playlistId;
   final List<Track> addedTracks;
   final AudioPlayerService audio;
   final void Function(String trackId) onRemove;
+
+  /// 為 true 時 [addedTracks] 必須是完整且依清單順序的曲目,
+  /// 拖曳結果直接寫回清單順序。
+  final bool reorderable;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,16 +38,21 @@ class PlaylistEditTracksList extends ConsumerWidget {
       itemCount: addedTracks.length,
       itemBuilder: (context, index) {
         final track = addedTracks[index];
+        const handle = Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Icon(Icons.drag_handle),
+        );
         return Row(
           key: ValueKey(track.id),
           children: [
-            ReorderableDragStartListener(
-              index: index,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Icon(Icons.drag_handle),
-              ),
-            ),
+            reorderable
+                ? ReorderableDragStartListener(index: index, child: handle)
+                : IconTheme.merge(
+                    data: IconThemeData(
+                      color: scheme.onSurface.withValues(alpha: 0.38),
+                    ),
+                    child: handle,
+                  ),
             Expanded(
               child: TrackListTile(
                 track: track,
