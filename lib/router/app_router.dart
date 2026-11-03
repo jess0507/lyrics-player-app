@@ -66,8 +66,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/tools',
                 builder: (context, state) => const ToolsPage(),
                 routes: [
+                  // 選曲頁與編輯頁全螢幕顯示:掛在 root navigator,
+                  // 蓋過 shell 的底部導覽列。
                   GoRoute(
                     path: ':tool',
+                    parentNavigatorKey: rootNavigatorKey,
                     // 未知的工具名稱退回工具頁。
                     redirect: (context, state) =>
                         ToolKind.fromName(state.pathParameters['tool']) == null
@@ -80,6 +83,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       // 選完曲目後依工具進對應的編輯頁(歌詞 / 封面)。
                       GoRoute(
                         path: ':trackId',
+                        parentNavigatorKey: rootNavigatorKey,
                         builder: (context, state) {
                           final trackId = state.pathParameters['trackId']!;
                           final track = state.extra as Track?;
