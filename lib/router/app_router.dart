@@ -158,27 +158,33 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/profile',
                 builder: (context, state) => const ProfilePage(),
+                // 子頁全螢幕顯示:掛在 root navigator,蓋過 shell 的底部導覽列。
                 routes: [
                   GoRoute(
                     path: 'account',
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const AccountPage(),
                   ),
                   GoRoute(
                     path: 'statistics',
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const StatisticsPage(),
                   ),
                   GoRoute(
                     path: 'settings',
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const SettingsPage(),
                     routes: [
                       GoRoute(
                         path: 'language',
+                        parentNavigatorKey: rootNavigatorKey,
                         builder: (context, state) => const LanguagePage(),
                       ),
                     ],
                   ),
                   GoRoute(
                     path: 'about',
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const AboutPage(),
                   ),
                 ],
