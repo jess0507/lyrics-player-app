@@ -11,25 +11,30 @@ import 'package:seek_player/features/cover/services/embedded_artwork_cache.dart'
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 依 trackId 取音檔內嵌封面(ID3 等 tag 內的圖)。
-/// Android 走 MediaStore 的 queryArtwork(id 非 MediaStore 數字 id 回 null);
-/// iOS 沒有 MediaStore,解析出檔案路徑後以 ffmpeg 抽出封面軌,
-/// 輸出快取在暫存目錄(以 trackId 為 key,重啟後仍可沿用)。
+///
+/// trackId 常態為檔案內容指紋(sha1),不是 MediaStore id,故:
+/// - Android 且 trackId 為數字(指紋算不出來時的 MediaStore fallback id):
+///   直接走 MediaStore 的 queryArtwork。
+/// - 其餘(指紋 id、或 iOS):以 [trackAudioResolverProvider] 反查檔案路徑,
+///   再以 ffmpeg 抽出封面軌,輸出快取在暫存目錄(以 trackId 為 key,重啟後
+///   仍可沿用)。
+///
 /// 查無內嵌圖皆回 null,由上層退回佔位圖。
 /// 檔案內容不會變動,family 天然快取即可,無需失效機制。
 final embeddedArtworkProvider = FutureProvider.family<Uint8List?, String>((
   ref,
   trackId,
 ) async {
-  if (Platform.isIOS) return _extractWithFfmpeg(ref, trackId);
-
-  final id = int.tryParse(trackId);
-  if (id == null) return null;
-  return OnAudioQuery().queryArtwork(
-    id,
-    ArtworkType.AUDIO,
-    format: ArtworkFormat.JPEG,
-    size: 600,
-  );
+  final mediaStoreId = Platform.isAndroid ? int.tryParse(trackId) : null;
+  if (mediaStoreId != null) {
+    return OnAudioQuery().queryArtwork(
+      mediaStoreId,
+      ArtworkType.AUDIO,
+      format: ArtworkFormat.JPEG,
+      size: 600,
+    );
+  }
+  return _extractWithFfmpeg(ref, trackId);
 });
 
 Future<Uint8List?> _extractWithFfmpeg(Ref ref, String trackId) async {
