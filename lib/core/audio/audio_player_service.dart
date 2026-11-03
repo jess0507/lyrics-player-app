@@ -73,9 +73,11 @@ class AudioPlayerService {
       );
 
   /// 以整個音樂庫建立播放清單，並從 [initialIndex] 開始播放。
+  /// [artUris] 為 trackId → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
   Future<void> setPlaylist(
     List<Track> tracks, {
     int initialIndex = 0,
+    Map<String, Uri> artUris = const {},
   }) async {
     if (tracks.isEmpty) return;
     final source = ConcatenatingAudioSource(
@@ -87,6 +89,8 @@ class AudioPlayerService {
               id: t.id,
               title: t.title,
               artist: t.artist ?? '',
+              album: t.album,
+              artUri: artUris[t.id],
             ),
           ),
       ],

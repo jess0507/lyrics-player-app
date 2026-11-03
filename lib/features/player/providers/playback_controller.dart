@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/cover/services/notification_artwork_resolver.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
@@ -67,7 +68,7 @@ class PlaybackController {
     final tracks = _tracks;
     if (index < 0 || index >= tracks.length) return;
     _queue = tracks;
-    await _audio.setPlaylist(tracks, initialIndex: index);
+    await _setPlaylist(tracks, index);
     _startPlaying();
   }
 
@@ -81,8 +82,21 @@ class PlaybackController {
   Future<void> playTracksAt(List<Track> tracks, int index) async {
     if (index < 0 || index >= tracks.length) return;
     _queue = List.unmodifiable(tracks);
-    await _audio.setPlaylist(tracks, initialIndex: index);
+    await _setPlaylist(tracks, index);
     _startPlaying();
+  }
+
+  /// 送進播放器前先決定各曲的通知列封面;封面解析失敗不應擋播放。
+  Future<void> _setPlaylist(List<Track> tracks, int index) async {
+    var artUris = const <String, Uri>{};
+    try {
+      artUris = await ref
+          .read(notificationArtworkResolverProvider)
+          .resolve(tracks);
+    } catch (e, s) {
+      reportError(e, s, reason: 'PlaybackController 通知列封面解析失敗');
+    }
+    await _audio.setPlaylist(tracks, initialIndex: index, artUris: artUris);
   }
 
   /// just_audio 的 `play()` 回傳的 Future 要等到「播放完畢／暫停／停止」

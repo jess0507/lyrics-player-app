@@ -1,14 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_new/return_code.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:seek_player/features/cover/services/embedded_artwork_cache.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 依 trackId 取音檔內嵌封面(ID3 等 tag 內的圖)。
@@ -34,10 +33,7 @@ final embeddedArtworkProvider = FutureProvider.family<Uint8List?, String>((
 });
 
 Future<Uint8List?> _extractWithFfmpeg(Ref ref, String trackId) async {
-  // trackId 可能是 fallback 的檔案路徑(含 '/'),以 sha1 產生安全檔名。
-  final cacheKey = sha1.convert(utf8.encode(trackId)).toString();
-  final tmp = await getTemporaryDirectory();
-  final out = File('${tmp.path}/embedded_artwork_$cacheKey.jpg');
+  final out = embeddedArtworkCacheFile(await getTemporaryDirectory(), trackId);
   if (out.existsSync() && out.lengthSync() > 0) return out.readAsBytes();
 
   final path = await ref.read(trackAudioResolverProvider).resolve(trackId);
