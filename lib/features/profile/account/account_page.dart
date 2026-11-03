@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/auth/auth_state_provider.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
+import 'package:seek_player/features/profile/account/providers/sign_in_in_progress_provider.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/profile/account/widgets/signed_out_view.dart';
 import 'package:seek_player/features/profile/account/widgets/user_info_view.dart';
@@ -14,6 +15,8 @@ class AccountPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final firebaseReady = ref.watch(firebaseAvailableProvider);
+    // 登入後的同步判斷完成前,繼續顯示登入畫面(含 loading)。
+    final signingIn = ref.watch(signInInProgressProvider);
     if (!firebaseReady) {
       debugPrint('帳戶頁面:Firebase 不可用,帳戶功能停用');
     }
@@ -36,7 +39,7 @@ class AccountPage extends ConsumerWidget {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(child: Text('$e')),
-                  data: (user) => user == null
+                  data: (user) => user == null || signingIn
                       ? const SignInView()
                       : UserInfoView(user: user),
                 ),

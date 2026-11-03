@@ -56,6 +56,20 @@ class PlaylistsSync {
     if (pendingOps > 0) await batch.commit();
   }
 
+  /// 本機是否有使用者資料(預設的空系統清單不算,見 [_hasUserContent])。
+  bool hasLocalData() => _ref
+      .read(playlistRepositoryProvider)
+      .getAllSync()
+      .any((p) => p._hasUserContent);
+
+  /// 雲端 `playlist` 子集合是否有使用者資料(判斷同 [hasLocalData])。
+  Future<bool> hasRemoteData(
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async {
+    final snapshot = await userDoc.collection('playlist').get();
+    return snapshot.toPlaylists().any((p) => p._hasUserContent);
+  }
+
   /// 以 [userDoc] 的 `playlist` 子集合整份覆寫本機清單(含我的最愛;
   /// 空集合也整份覆寫)。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {
@@ -98,4 +112,13 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
                   ),
           ],
   ];
+}
+
+/// 登入同步判斷「有沒有資料」用:自建清單一律算;我的最愛 / 最近播放是
+/// 預設存在的系統清單,有曲目才算。
+extension _PlaylistUserContent on PlaylistEntity {
+  bool get _hasUserContent =>
+      (!isFavorites && !isRecentlyPlayed) ||
+      trackIds.isNotEmpty ||
+      recentlyPlayed.isNotEmpty;
 }

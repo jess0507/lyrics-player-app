@@ -18,6 +18,20 @@ class StatisticsSync {
   /// (遷移視為本機變更,會更新 statsModifiedAt)。上傳判斷前呼叫。
   void ensureMigrated() => _ref.read(statisticsControllerProvider);
 
+  /// 本機是否有統計資料(逐日明細或月加總任一非空)。
+  bool hasLocalData() =>
+      _ref.read(statisticsControllerProvider).days.isNotEmpty ||
+      _ref
+          .read(statisticsControllerProvider.notifier)
+          .monthlyTotals()
+          .isNotEmpty;
+
+  /// 雲端 `monthlyStats` 子集合是否非空。
+  Future<bool> hasRemoteData(
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async =>
+      (await userDoc.collection('monthlyStats').limit(1).get()).docs.isNotEmpty;
+
   /// 全量推送 [userDoc] 的 `monthlyStats` 子集合:先刪本機沒有的雲端月份
   /// 文件,再整批重寫本機所有月份。完整快照語意(不合併、不加總)。
   Future<void> push(DocumentReference<Map<String, dynamic>> userDoc) async {

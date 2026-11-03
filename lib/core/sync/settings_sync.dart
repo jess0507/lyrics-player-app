@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
 
 /// 個人化設定與 `user/{uid}/setting/0` 單一文件的推送與還原(SyncService
@@ -16,6 +17,16 @@ class SettingsSync {
   DocumentReference<Map<String, dynamic>> _doc(
     DocumentReference<Map<String, dynamic>> userDoc,
   ) => userDoc.collection('setting').doc(_docId);
+
+  /// 本機是否改過設定(設定沒有「空」的狀態,以是否曾變更判斷)。
+  bool hasLocalData() =>
+      _ref.read(backupStateStoreProvider).settingModifiedAt != null;
+
+  /// 雲端是否推過設定(`setting/0` 有 `settingUpdatedAt`,由 SyncService
+  /// 在推送設定後寫入)。
+  Future<bool> hasRemoteData(
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async => (await _doc(userDoc).get()).data()?['settingUpdatedAt'] != null;
 
   /// 覆寫 `setting/0` 文件裡設定本身的欄位(merge,不動時戳欄位)。
   Future<void> push(DocumentReference<Map<String, dynamic>> userDoc) =>

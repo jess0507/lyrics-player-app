@@ -6,7 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/backup/link_choice.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
+import 'package:seek_player/core/sync/sign_in_sync_plan.dart';
+import 'package:seek_player/core/sync/sync_service.dart';
+import 'package:seek_player/features/profile/account/providers/sign_in_in_progress_provider.dart';
+import 'package:seek_player/features/profile/backup/widgets/sync_conflict_dialog.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
@@ -121,8 +126,14 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     final l10n = AppLocalizations.of(context)!;
     final e164 = _composeE164();
     if (e164 == null) return;
+    // 部分 Android 裝置自動帶入驗證碼直接完成登入,不經 _verifyOtp,
+    // 沒有登入 loading 可等:不詢問,衝突領域等下次自動上傳。
+    final sync = ref.read(syncServiceProvider);
     final ok = await _run(() async {
-      final id = await _auth.sendPhoneOtp(e164);
+      final id = await _auth.sendPhoneOtp(
+        e164,
+        onAutoVerified: () => unawaited(sync.syncAfterSignIn()),
+      );
       if (mounted) setState(() => _verificationId = id);
     });
     if (ok) _showMessage(l10n.account_code_sent);
@@ -142,48 +153,80 @@ class _SignedOutViewState extends ConsumerState<SignInView> {
     final id = _verificationId;
     final code = _smsCode.text.trim();
     if (id == null || code.isEmpty) return;
-    // 成功後 authState 變更,畫面自動切換為已登入。
-    final notifySignedIn = _prepareSignedInMessage();
-    final ok = await _run(() => _auth.signInWithSmsCode(id, code));
-    if (ok) notifySignedIn();
+    await _signIn((auth) => auth.signInWithSmsCode(id, code));
   }
 
-  /// Email/密碼登入。成功後 authState 變更,畫面自動切換為已登入。
+  /// Email/密碼登入。
   Future<void> _signInEmail() async {
     final email = _email.text.trim();
     final password = _password.text;
     if (email.isEmpty || password.isEmpty) return;
-    final notifySignedIn = _prepareSignedInMessage();
-    final ok = await _run(() => _auth.signInWithEmail(email, password));
-    if (ok) notifySignedIn();
+    await _signIn((auth) => auth.signInWithEmail(email, password));
   }
 
-  /// Google 登入。使用者於選帳號畫面取消時不算成功也不算失敗,
-  /// 以 currentUser 是否存在區分,避免取消也跳「登入成功」。
-  Future<void> _signInGoogle() async {
-    final auth = _auth;
-    final notifySignedIn = _prepareSignedInMessage();
-    final ok = await _run(auth.signInWithGoogle);
-    if (ok && auth.currentUser != null) notifySignedIn();
-  }
+  /// Google 登入。使用者於選帳號畫面取消時不算成功也不算失敗
+  /// (見 [_signIn] 以 currentUser 區分)。
+  Future<void> _signInGoogle() => _signIn((auth) => auth.signInWithGoogle());
 
-  /// 預先取得「登入成功」提示的顯示函式:成功後本視圖會被換成已登入
-  /// 畫面而 unmount,須在進入流程前抓住文字,不依賴 context。
-  VoidCallback _prepareSignedInMessage() {
-    final l10n = AppLocalizations.of(context)!;
-    return () => showAppToast(l10n.account_sign_in_success);
-  }
-
-  /// 以 email/密碼註冊新帳號(成功即自動登入)。
+  /// 以 email/密碼註冊新帳號(成功即自動登入)。新帳號雲端全空,同步判斷
+  /// 會直接把本機資料推上去,不會跳對話框。
   Future<void> _signUpEmail() async {
     final l10n = AppLocalizations.of(context)!;
     final email = _email.text.trim();
     final password = _password.text;
     if (email.isEmpty || password.isEmpty) return;
-    await _run(
-      () => _auth.signUpWithEmail(email, password),
+    await _signIn(
+      (auth) => auth.signUpWithEmail(email, password),
       failureMessage: l10n.account_sign_up_failed,
+      showSuccessMessage: false,
     );
+  }
+
+  /// 登入,並在同一個 loading 內完成登入後的同步判斷
+  /// ([SyncService.prepareSignInSync]);判斷完成前帳戶頁持續顯示本視圖
+  /// (見 [signInInProgressProvider]),結束後才切到已登入畫面。
+  ///
+  /// 本機與雲端都有資料時,使用者仍停在帳戶頁就跳對話框詢問;已離開帳戶頁
+  /// 則不問,衝突領域等下次自動上傳。使用者可能在 loading 期間離開頁面
+  /// (本視圖 dispose),所以 ref / context 衍生的物件都在開始前先抓住。
+  Future<void> _signIn(
+    Future<void> Function(AuthService auth) action, {
+    String? failureMessage,
+    bool showSuccessMessage = true,
+  }) async {
+    final l10n = AppLocalizations.of(context)!;
+    final auth = _auth;
+    final sync = ref.read(syncServiceProvider);
+    final signingIn = ref.read(signInInProgressProvider.notifier);
+    final route = ModalRoute.of(context);
+    final navigator = Navigator.of(context, rootNavigator: true);
+
+    SignInSyncPlan? plan;
+    signingIn.state = true;
+    final bool ok;
+    try {
+      ok = await _run(() async {
+        await action(auth);
+        if (auth.currentUser == null) return; // Google 選帳號時取消。
+        plan = await sync.prepareSignInSync();
+      }, failureMessage: failureMessage);
+    } finally {
+      signingIn.state = false;
+    }
+    if (!ok || auth.currentUser == null) return;
+    if (showSuccessMessage) showAppToast(l10n.account_sign_in_success);
+
+    final p = plan;
+    if (p == null) return;
+    // 本視圖已切換成已登入畫面而 dispose,改用 root Navigator 的 context。
+    final dialogContext = navigator.context;
+    LinkChoice? choice;
+    if (p.conflicts.isNotEmpty &&
+        (route?.isCurrent ?? false) &&
+        dialogContext.mounted) {
+      choice = await showSyncConflictDialog(dialogContext, p.conflicts);
+    }
+    await sync.applySignInSync(p, choice);
   }
 
   /// 寄送密碼重設信。

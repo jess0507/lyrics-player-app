@@ -40,6 +40,16 @@ class LyricsSync {
     _store.markLyricsModified();
   }
 
+  /// 本機是否有歌詞。
+  bool hasLocalData() =>
+      _ref.read(lyricsRepositoryProvider).getAllSync().isNotEmpty;
+
+  /// 雲端 `backupLyrics` 子集合是否非空。
+  Future<bool> hasRemoteData(
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async =>
+      (await userDoc.collection(collectionName).limit(1).get()).docs.isNotEmpty;
+
   /// 歌詞全量推送 [userDoc] 的 `backupLyrics` 子集合:先刪本機沒有的雲端
   /// 文件,再整批重寫本機所有歌詞。
   Future<void> push(DocumentReference<Map<String, dynamic>> userDoc) async {

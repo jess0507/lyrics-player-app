@@ -19,6 +19,7 @@ class BackupStateStore {
   static const _kPlaylistModifiedAt = 'backup.playlistModifiedAt';
   static const _kStatsModifiedAt = 'backup.statsModifiedAt';
   static const _kLyricsModifiedAt = 'backup.lyricsModifiedAt';
+  static const _kBoundUid = 'sync.boundUid';
 
   final PreferencesService _prefs;
 
@@ -52,6 +53,13 @@ class BackupStateStore {
 
   /// 歌詞每次寫入 / 刪除時呼叫。
   void markLyricsModified() => _write(_kLyricsModifiedAt, DateTime.now());
+
+  /// 這台裝置已完成登入同步(SyncService 的登入流程)的帳號 uid;
+  /// null 表示尚未綁定任何帳號。與目前登入 uid 不同時,SyncService 會
+  /// 重跑登入流程,並在完成前停止上傳。
+  String? get boundUid => _prefs.getString(_kBoundUid);
+
+  void setBoundUid(String uid) => _prefs.setString(_kBoundUid, uid);
 
   DateTime? _read(String key) {
     final ms = _prefs.getInt(key);

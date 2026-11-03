@@ -6,14 +6,17 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// 連結 Google Drive 後發現雲端已有備份:問使用者要用雲端備份覆寫本機,
 /// 還是保留本機資料覆寫雲端。兩者都會覆蓋一方,因此不可點外面關閉,
 /// 一定要選一個。
-Future<LinkChoice> showCloudBackupFoundDialog(BuildContext context) async {
+///
+/// [items] 為「更多」展開後列出的領域名稱;省略時列出全部四個領域。
+Future<LinkChoice> showCloudBackupFoundDialog(
+  BuildContext context, {
+  List<String>? items,
+}) async {
   final choice = await showDialog<LinkChoice>(
     context: context,
     barrierDismissible: false,
-    builder: (context) => const PopScope(
-      canPop: false,
-      child: CloudBackupFoundDialog(),
-    ),
+    builder: (context) =>
+        PopScope(canPop: false, child: CloudBackupFoundDialog(items: items)),
   );
   // 不可關閉,理論上不會是 null;保險起見預設保留本機,至少不會清掉
   // 使用者眼前的資料。
@@ -23,7 +26,10 @@ Future<LinkChoice> showCloudBackupFoundDialog(BuildContext context) async {
 /// 「選擇備份資料」對話框。預設只顯示說明與兩個按鈕;
 /// 點「更多」箭頭可展開「備份包含:設定、播放清單、聆聽統計、歌詞」。
 class CloudBackupFoundDialog extends StatefulWidget {
-  const CloudBackupFoundDialog({super.key});
+  const CloudBackupFoundDialog({super.key, this.items});
+
+  /// 「更多」展開後列出的領域名稱;null 時列出全部四個領域。
+  final List<String>? items;
 
   @override
   State<CloudBackupFoundDialog> createState() => _CloudBackupFoundDialogState();
@@ -36,12 +42,14 @@ class _CloudBackupFoundDialogState extends State<CloudBackupFoundDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final items = [
-      l10n.backup_item_settings,
-      l10n.backup_item_playlists,
-      l10n.backup_item_statistics,
-      l10n.backup_item_lyrics,
-    ];
+    final items =
+        widget.items ??
+        [
+          l10n.backup_item_settings,
+          l10n.backup_item_playlists,
+          l10n.backup_item_statistics,
+          l10n.backup_item_lyrics,
+        ];
 
     return AlertDialog(
       title: Text(l10n.backup_cloud_found_title),
