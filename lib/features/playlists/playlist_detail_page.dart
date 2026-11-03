@@ -12,6 +12,7 @@ import 'package:seek_player/features/playlists/providers/playlists_provider.dart
 import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_detail_header.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 import 'package:seek_player/features/playlists/widgets/recently_played_track_list.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
@@ -25,7 +26,7 @@ import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
 /// 單一播放清單內容:頂端靠左為清單名稱,其下一列新增 / 編輯 / 排序 / 搜尋
-/// (最近播放為清空 / 搜尋),再下方為曲目清單;播放全部、逐首播放。
+/// (最近播放為清空 / 搜尋),同列右側為隨機 / 播放全部,再下方為曲目清單。
 class PlaylistDetailPage extends ConsumerStatefulWidget {
   const PlaylistDetailPage({super.key, required this.playlistId});
 
@@ -144,23 +145,14 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
           // 搜尋欄右側留白,不貼齊螢幕邊緣。
           actions: [if (_searching) const SizedBox(width: 16)],
         ),
-        // 全部播放改用 FAB,清單為空時不顯示;只播目前篩選出的曲目。
-        floatingActionButton: visibleTracks.isEmpty
-            ? null
-            : FloatingActionButton(
-                // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
-                // 衝突;FAB 不需要 hero 轉場,直接關掉。
-                heroTag: null,
-                tooltip: l10n.playlist_play_all,
-                onPressed: () => ref
-                    .read(playbackControllerProvider)
-                    .playTracksAt(visibleTracks, 0),
-                child: const Icon(Icons.play_arrow_rounded),
-              ),
         body: Column(
           children: [
             PlaylistDetailHeader(
               title: title,
+              // 清單為空(或搜尋無結果)時不顯示隨機 / 播放;只播目前篩選出的曲目。
+              trailing: visibleTracks.isEmpty
+                  ? null
+                  : PlaylistPlayControls(tracks: visibleTracks),
               actions: [
                 // 新增往上展開挑選曲目頁;最近播放不可增加項目。
                 if (!isRecentlyPlayed)
@@ -248,8 +240,6 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
         final tag = snapshot.data?.currentSource?.tag;
         final currentId = tag is MediaItem ? tag.id : null;
         return ListView.builder(
-          // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
-          padding: const EdgeInsets.only(bottom: 88),
           itemCount: tracks.length,
           itemBuilder: (context, index) {
             final track = tracks[index];

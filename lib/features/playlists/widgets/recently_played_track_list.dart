@@ -29,8 +29,6 @@ class RecentlyPlayedTrackList extends ConsumerWidget {
     final rows = _buildRows(items, l10n, locale);
 
     return ListView.builder(
-      // 底部留白讓最後一首能捲到 FAB(56 + 16 * 2)上方,不被蓋住。
-      padding: const EdgeInsets.only(bottom: 88),
       itemCount: rows.length,
       itemBuilder: (context, index) {
         final row = rows[index];
