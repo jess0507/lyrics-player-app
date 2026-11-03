@@ -7,7 +7,7 @@ import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
 /// 「編輯播放清單」清單:列出已加入播放清單的曲目([addedTracks]),
-/// 項目最前面有拖曳排序圖示,或點刪除圖示移出清單。
+/// 項目左側為刪除(移出清單)按鈕,右側為拖曳排序圖示。
 ///
 /// [reorderable] 為 false 時(清單經篩選 / 搜尋 / 非清單順序排序,
 /// 顯示順序不等於清單順序)拖曳圖示變灰停用,只能刪除。
@@ -45,6 +45,17 @@ class PlaylistEditTracksList extends ConsumerWidget {
         return Row(
           key: ValueKey(track.id),
           children: [
+            IconButton(
+              icon: Icon(Icons.remove_circle_outline, color: scheme.error),
+              onPressed: () => onRemove(track.id),
+            ),
+            Expanded(
+              child: TrackListTile(
+                track: track,
+                audio: audio,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
             reorderable
                 ? ReorderableDragStartListener(index: index, child: handle)
                 : IconTheme.merge(
@@ -53,17 +64,6 @@ class PlaylistEditTracksList extends ConsumerWidget {
                     ),
                     child: handle,
                   ),
-            Expanded(
-              child: TrackListTile(
-                track: track,
-                audio: audio,
-                contentPadding: EdgeInsets.zero,
-                trailing: IconButton(
-                  icon: Icon(Icons.delete_outline, color: scheme.error),
-                  onPressed: () => onRemove(track.id),
-                ),
-              ),
-            ),
           ],
         );
       },
