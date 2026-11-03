@@ -19,17 +19,17 @@ import 'package:seek_player/features/profile/account/widgets/country_code_dropdo
 
 /// 未登入:選擇 Google、手機簡訊 OTP 或 Email/密碼登入。
 /// 選擇手機或 Email 後,於登入選項上方顯示對應的輸入表單。
-class SignInView extends ConsumerStatefulWidget {
-  const SignInView({super.key});
+class TryToSignInView extends ConsumerStatefulWidget {
+  const TryToSignInView({super.key});
 
   @override
-  ConsumerState<SignInView> createState() => _SignedOutViewState();
+  ConsumerState<TryToSignInView> createState() => _TryToSignInViewState();
 }
 
 /// 目前展開的登入方式(none 表示尚未選擇,只顯示選項清單)。
 enum _Method { none, phone, email }
 
-class _SignedOutViewState extends ConsumerState<SignInView> {
+class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _phone = TextEditingController();

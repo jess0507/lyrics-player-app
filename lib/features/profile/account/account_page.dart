@@ -5,7 +5,7 @@ import 'package:seek_player/core/auth/auth_state_provider.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/features/profile/account/providers/sign_in_in_progress_provider.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/features/profile/account/widgets/signed_out_view.dart';
+import 'package:seek_player/features/profile/account/widgets/try_to_sign_in_view.dart';
 import 'package:seek_player/features/profile/account/widgets/user_info_view.dart';
 
 class AccountPage extends ConsumerWidget {
@@ -40,7 +40,7 @@ class AccountPage extends ConsumerWidget {
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(child: Text('$e')),
                   data: (user) => user == null || signingIn
-                      ? const SignInView()
+                      ? const TryToSignInView()
                       : UserInfoView(user: user),
                 ),
     );

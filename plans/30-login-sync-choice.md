@@ -42,14 +42,14 @@
 
 ## 登入頁流程(不用全域 listener)
 
-1. `SignInView._signIn`:設 `signInInProgressProvider = true`(帳戶頁已登入也繼續
+1. `TryToSignInView._signIn`:設 `signInInProgressProvider = true`(帳戶頁已登入也繼續
    顯示登入畫面),在同一個 `_busy` loading 內完成登入 +
    `SyncService.prepareSignInSync()`,得到 `SignInSyncPlan`(pull / push / conflicts)。
 2. loading 結束、切到已登入畫面、顯示「登入成功」toast。
-3. 有衝突且帳戶頁 route 仍是 current → `showSyncConflictDialog` 詢問;
-   使用者已離開帳戶頁 → 不問。
+3. 有衝突 → 以 root Navigator 的 context 顯示 `showSyncConflictDialog`,
+   使用者在 loading 期間返回或切到其他頁面也照樣顯示。
 4. `SyncService.applySignInSync(plan, choice)`:套用 pull / push 並綁定 uid。
-   `choice == null` 時衝突領域不動,等下次自動上傳(回前景 `_maybeUpload`)
+   `choice == null`(root Navigator 已不存在等極端情況)時衝突領域不動,等下次自動上傳(回前景 `_maybeUpload`)
    依時戳判斷。
 
 其他沒有登入頁可問的情境一律走 `syncAfterSignIn()`(prepare + apply,不詢問):
@@ -62,4 +62,4 @@
   `lib/features/profile/backup/widgets/sync_conflict_dialog.dart`
 - 修改 `sync_service.dart`、四個 `*_sync.dart`(hasLocalData / hasRemoteData)、
   `backup_state_store.dart`(boundUid)、`cloud_backup_found_dialog.dart`(items 參數)、
-  `account_page.dart`、`signed_out_view.dart`
+  `account_page.dart`、`try_to_sign_in_view.dart`(原 `signed_out_view.dart`)
