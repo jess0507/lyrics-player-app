@@ -54,10 +54,9 @@ class PlaylistPlayControls extends ConsumerWidget {
                   final start = audio.playMode == PlayMode.shuffle
                       ? math.Random().nextInt(tracks.length)
                       : 0;
-                  ref.read(playbackControllerProvider).playTracksAt(
-                    tracks,
-                    start,
-                  );
+                  ref
+                      .read(playbackControllerProvider)
+                      .playTracksAt(tracks, start);
                 },
         ),
       ],

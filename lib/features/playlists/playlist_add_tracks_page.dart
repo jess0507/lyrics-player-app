@@ -226,8 +226,7 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
   Widget _buildFilteredList(
     AppLocalizations l10n, {
     required List<Track> source,
-    required Widget Function(List<Track> visible, bool isFullOrder)
-    listBuilder,
+    required Widget Function(List<Track> visible, bool isFullOrder) listBuilder,
   }) {
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final plays = ref.watch(trackPlayStatsProvider);

@@ -149,10 +149,7 @@ class PlaylistRepository {
   /// (最新播放永遠在最前),超過 [_recentlyPlayedLimit] 筆時捨棄最舊的。
   Future<void> recordRecentlyPlayed(String trackId) async {
     final changed = _isar.writeTxnSync(() {
-      final pl = _col
-          .filter()
-          .isRecentlyPlayedEqualTo(true)
-          .findFirstSync();
+      final pl = _col.filter().isRecentlyPlayedEqualTo(true).findFirstSync();
       if (pl == null) return false;
       final rest = pl.recentlyPlayed.where((e) => e.trackId != trackId);
       pl.recentlyPlayed = [
@@ -170,10 +167,7 @@ class PlaylistRepository {
   /// 清空「最近播放」清單。
   Future<void> clearRecentlyPlayed() async {
     final changed = _isar.writeTxnSync(() {
-      final pl = _col
-          .filter()
-          .isRecentlyPlayedEqualTo(true)
-          .findFirstSync();
+      final pl = _col.filter().isRecentlyPlayedEqualTo(true).findFirstSync();
       if (pl == null || pl.recentlyPlayed.isEmpty) return false;
       pl.recentlyPlayed = [];
       _col.putSync(pl);

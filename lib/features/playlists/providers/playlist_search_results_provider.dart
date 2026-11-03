@@ -9,8 +9,8 @@ import 'package:seek_player/features/playlists/providers/recently_played_provide
 
 /// 依關鍵字過濾指定播放清單內曲目的搜尋結果（未輸入關鍵字時回空清單）。
 /// [playlistId] 為 null 代表「本地音樂」虛擬清單,搜尋範圍是整個音樂庫。
-final playlistSearchResultsProvider =
-    Provider.autoDispose.family<List<Track>, int?>((ref, playlistId) {
+final playlistSearchResultsProvider = Provider.autoDispose
+    .family<List<Track>, int?>((ref, playlistId) {
       final query = ref.watch(playlistSearchQueryProvider).trim().toLowerCase();
       if (query.isEmpty) return const [];
       final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];

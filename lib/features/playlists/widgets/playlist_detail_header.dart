@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
 
-/// 播放清單詳細頁內容頂端:靠左的清單名稱,下方一列操作按鈕
-/// ([actions],例如新增 / 編輯 / 排序 / 搜尋),同一列最右側放 [trailing](例如隨機 / 播放按鈕)。
+/// 播放清單詳細頁內容頂端:靠左的清單名稱,下方為 [PlaylistActionBar]
+/// (左側 [actions],最右側 [trailing])。
 class PlaylistDetailHeader extends StatelessWidget {
   const PlaylistDetailHeader({
     super.key,
@@ -32,26 +33,7 @@ class PlaylistDetailHeader extends StatelessWidget {
           ),
         ),
         if (actions.isNotEmpty || trailing != null)
-          Padding(
-            // 左側按鈕縮成 compact(32 見方、圖示 20),圖示距按鈕邊緣 6,
-            // 左側補 10 讓圖示與標題文字對齊。
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 4, 16, 4),
-            child: Row(
-              children: [
-                IconButtonTheme(
-                  data: IconButtonThemeData(
-                    style: IconButton.styleFrom(
-                      iconSize: 22,
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: actions),
-                ),
-                const Spacer(),
-                ?trailing,
-              ],
-            ),
-          ),
+          PlaylistActionBar(actions: actions, trailing: trailing),
       ],
     );
   }
