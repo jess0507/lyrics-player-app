@@ -47,10 +47,10 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
     super.dispose();
   }
 
-  /// 進該工具的編輯頁。id 可能是 iOS 的檔案路徑(含 `/`),
-  /// 編碼後才能放進路徑參數。
+  /// 進該工具的編輯頁,並取代本選曲頁:編輯頁返回直接回工具頁。
+  /// id 可能是 iOS 的檔案路徑(含 `/`),編碼後才能放進路徑參數。
   void _open(Track track) {
-    context.push(
+    context.pushReplacement(
       '/tools/${widget.tool.name}/${Uri.encodeComponent(track.id)}',
       extra: track,
     );
