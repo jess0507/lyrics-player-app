@@ -212,8 +212,19 @@ class _PlayerLayoutState extends State<_PlayerLayout> {
           enabled: widget.hasTrack,
           trackId: widget.trackId,
           title: widget.title,
+          onShowLyricsPage: _showLyricsPage,
         ),
       ],
+    );
+  }
+
+  /// 次控制列歌詞按鈕(已有歌詞時):把封面面板切到歌詞頁。
+  void _showLyricsPage() {
+    if (!_pageController.hasClients) return;
+    _pageController.animateToPage(
+      1,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
     );
   }
 }

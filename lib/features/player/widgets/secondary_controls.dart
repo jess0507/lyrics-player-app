@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/player/services/open_tool_editor.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/widgets/play_mode_button.dart';
@@ -12,7 +13,7 @@ import 'package:seek_player/features/tools/models/tool_kind.dart';
 /// 次控制列圖示的固定大小。
 const _kIconSize = 20.0;
 
-/// 次控制列:播放模式、分享、歌詞(進歌詞編輯頁),其餘動作(播放速度、
+/// 次控制列:播放模式、分享、歌詞(有歌詞切到歌詞頁,無歌詞進歌詞編輯頁),其餘動作(播放速度、
 /// 快轉間隔、歌詞字體大小、歌詞對齊方式、加入播放清單、編輯封面)收進「更多」選單。
 class SecondaryControls extends ConsumerWidget {
   const SecondaryControls({
@@ -21,6 +22,7 @@ class SecondaryControls extends ConsumerWidget {
     required this.enabled,
     this.trackId,
     this.title,
+    this.onShowLyricsPage,
   });
 
   final AudioPlayerService audio;
@@ -32,9 +34,12 @@ class SecondaryControls extends ConsumerWidget {
   /// 目前曲名，傳給對齊服務。
   final String? title;
 
+  /// 切到封面面板的歌詞頁;目前曲目已有歌詞時由歌詞按鈕呼叫。
+  final VoidCallback? onShowLyricsPage;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lyrics = _buildLyrics(context);
+    final lyrics = _buildLyrics(context, ref);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20.0),
       child: Row(
@@ -66,22 +71,28 @@ class SecondaryControls extends ConsumerWidget {
     );
   }
 
-  /// 歌詞按鈕:有曲目時提供。點擊關閉播放頁並進「工具 › 製作歌詞」的
-  /// 該曲編輯頁([LyricsEditorPage])。
-  Widget? _buildLyrics(BuildContext context) {
+  /// 歌詞按鈕:有曲目時提供。該曲已有歌詞且有 [onShowLyricsPage] 時切到
+  /// 歌詞頁;否則關閉播放頁並進「工具 › 製作歌詞」的該曲編輯頁
+  /// ([LyricsEditorPage])。
+  Widget? _buildLyrics(BuildContext context, WidgetRef ref) {
     final id = trackId;
     if (id == null) return null;
     final l10n = AppLocalizations.of(context)!;
+    final hasLyrics =
+        ref.watch(trackLyricsProvider(id)).valueOrNull?.isNotEmpty ?? false;
+    final showPage = onShowLyricsPage;
     return IconButton(
       iconSize: _kIconSize,
       tooltip: l10n.lyrics_show,
-      onPressed: enabled
-          ? () => openToolEditorFromPlayer(
+      onPressed: !enabled
+          ? null
+          : hasLyrics && showPage != null
+          ? showPage
+          : () => openToolEditorFromPlayer(
               context,
               tool: ToolKind.lyrics,
               trackId: id,
-            )
-          : null,
+            ),
       icon: const Icon(Icons.lyrics_outlined),
     );
   }
