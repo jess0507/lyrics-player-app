@@ -31,9 +31,11 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 ///   避免判斷途中被回前景的上傳蓋掉。
 ///   App 啟動時已登入但尚未綁定(例如上次登入流程途中被滑掉)走同一套
 ///   流程([syncAfterSignIn])。
-/// - 已綁定的帳號(每次開 App、回前景、登出後再登入同一帳號):只推不拉,
-///   依 `setting/0` 裡各領域的 *UpdatedAt 與本機 *ModifiedAt 比對,只推
-///   本機較新的領域。雲端只在登入尚未綁定的帳號時才會拉下來 / 合併。
+/// - 登出時解除綁定([BackupStateStore.unbindUid]),所以每次登入(包含
+///   登出後再登入同一帳號)都會先走上述流程把雲端拉下來合併,不會直接
+///   用本機快照蓋掉雲端。
+/// - 已綁定的帳號(每次開 App、回前景):只推不拉,依 `setting/0` 裡各
+///   領域的 *UpdatedAt 與本機 *ModifiedAt 比對,只推本機較新的領域。
 /// - 推送為整份快照語意:已綁定後多裝置之間仍是 last-write-wins。
 /// - 每次上傳順便把 App 版本(appVersion / buildNumber / recordedAt)寫進
 ///   主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
@@ -79,19 +81,22 @@ class SyncService {
       firstEvent = false;
       if (user == null) {
         debugPrint('[Sync] auth 事件:未登入,不同步');
+        // 登出:解除綁定,下次登入(即使同一帳號)先拉雲端合併再推。
+        if (_store.boundUid != null) _store.unbindUid();
         return;
       }
       debugPrint('[Sync] auth 事件:uid=${user.uid}');
-      // 舊版升級:本 process 第一個事件(持久化 session)且曾同步過,
-      // 視為已綁定這個帳號,不跳登入對話框。
+      // 舊版升級:本 process 第一個事件(持久化 session)、從未寫過綁定
+      // 紀錄且曾同步過,視為已綁定這個帳號。曾解除綁定或登入同步沒跑完
+      // 的不算,照常走登入同步。
       if (isFirstEvent &&
-          _store.boundUid == null &&
+          !_store.hasBindingRecord &&
           _store.lastBackupAt != null) {
         debugPrint('[Sync] 舊版已同步過,直接綁定 uid');
         _store.setBoundUid(user.uid);
       }
       if (_store.boundUid == user.uid) {
-        // 已綁定的帳號(開 App、登出後再登入同一帳號):只推不拉。
+        // 已綁定的帳號(開 App 時的持久化 session):只推不拉。
         debugPrint('[Sync] 已綁定帳號,檢查是否上傳');
         unawaited(_maybeUpload(user.uid));
       } else if (isFirstEvent) {

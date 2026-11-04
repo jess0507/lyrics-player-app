@@ -55,11 +55,22 @@ class BackupStateStore {
   void markLyricsModified() => _write(_kLyricsModifiedAt, DateTime.now());
 
   /// 這台裝置已完成登入同步(SyncService 的登入流程)的帳號 uid;
-  /// null 表示尚未綁定任何帳號。與目前登入 uid 不同時,SyncService 會
-  /// 重跑登入流程,並在完成前停止上傳。
-  String? get boundUid => _prefs.getString(_kBoundUid);
+  /// null 表示尚未綁定任何帳號(含登出後解除綁定)。與目前登入 uid 不同
+  /// 時,SyncService 會重跑登入流程(先拉 / 合併雲端),並在完成前停止上傳。
+  String? get boundUid {
+    final uid = _prefs.getString(_kBoundUid);
+    return uid == null || uid.isEmpty ? null : uid;
+  }
+
+  /// 是否曾寫過綁定紀錄(含已解除綁定)。false 表示從未跑過登入同步,
+  /// 供 SyncService 辨識舊版升級上來的安裝。
+  bool get hasBindingRecord => _prefs.getString(_kBoundUid) != null;
 
   void setBoundUid(String uid) => _prefs.setString(_kBoundUid, uid);
+
+  /// 登出時解除綁定:下次登入(即使是同一帳號)重跑登入同步,先把雲端
+  /// 拉下來合併再推。寫空字串而非移除,保留 [hasBindingRecord]。
+  void unbindUid() => _prefs.setString(_kBoundUid, '');
 
   DateTime? _read(String key) {
     final ms = _prefs.getInt(key);
