@@ -50,15 +50,19 @@ class TrackCoverRepository {
       ..coverColorValue = null;
   });
 
-  Future<bool> _update(String pathKey, void Function(TrackEntity) apply) =>
-      _isar.writeTxn(() async {
-        final entity = await _col.getByPathKey(pathKey);
-        if (entity == null) return false;
-        apply(entity);
-        entity.updatedAt = DateTime.now();
-        await _col.putByPathKey(entity);
-        return true;
-      });
+  /// 用 writeTxnSync:統計 / 播放清單也是 sync 交易,同一個 isolate 混用
+  /// async 交易時,async 交易進行中開 sync 交易會丟 IsarError。
+  Future<bool> _update(
+    String pathKey,
+    void Function(TrackEntity) apply,
+  ) async => _isar.writeTxnSync(() {
+    final entity = _col.getByPathKeySync(pathKey);
+    if (entity == null) return false;
+    apply(entity);
+    entity.updatedAt = DateTime.now();
+    _col.putByPathKeySync(entity);
+    return true;
+  });
 }
 
 final trackCoverRepositoryProvider = Provider<TrackCoverRepository>(

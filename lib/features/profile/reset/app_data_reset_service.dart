@@ -35,7 +35,8 @@ class AppDataResetService {
 
   Future<void> _clearManually() async {
     final isar = _ref.read(isarProvider);
-    await isar.writeTxn(() => isar.clear());
+    // sync 交易:其餘寫入都是 sync,混用 async 會撞 IsarError。
+    isar.writeTxnSync(isar.clearSync);
     await _ref.read(preferencesServiceProvider).clear();
     final docs = await getApplicationDocumentsDirectory();
     final covers = Directory('${docs.path}/covers');

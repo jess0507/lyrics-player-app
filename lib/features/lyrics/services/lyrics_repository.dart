@@ -22,22 +22,21 @@ class LyricsRepository {
   LyricsEntity? findByPathKey(String pathKey) =>
       _col.where().pathKeyEqualTo(pathKey).findFirstSync();
 
-  Future<LyricsEntity?> _findByPathKey(String pathKey) =>
-      _col.where().pathKeyEqualTo(pathKey).findFirst();
-
-  /// 同 pathKey 已有一筆時沿用它的 id(覆蓋),確保一首一筆。須在 writeTxn 內呼叫。
-  Future<void> _put(LyricsEntity entity) async {
-    final existing = await _findByPathKey(entity.pathKey);
+  /// 同 pathKey 已有一筆時沿用它的 id(覆蓋),確保一首一筆。須在
+  /// writeTxnSync 內呼叫。
+  ///
+  /// 本類別寫入一律用 writeTxnSync:統計 / 播放清單也是 sync 交易,同一個
+  /// isolate 混用 async 交易時,async 交易進行中開 sync 交易會丟 IsarError。
+  void _put(LyricsEntity entity) {
+    final existing = findByPathKey(entity.pathKey);
     if (existing != null) entity.id = existing.id;
-    await _col.put(entity);
+    _col.putSync(entity);
   }
 
-  /// 批次版 [_put];清單內同 pathKey 以後面那筆為準。須在 writeTxn 內呼叫。
-  Future<void> _putAll(List<LyricsEntity> entities) async {
+  /// 批次版 [_put];清單內同 pathKey 以後面那筆為準。須在 writeTxnSync 內呼叫。
+  void _putAll(List<LyricsEntity> entities) {
     final byPathKey = {for (final e in entities) e.pathKey: e};
-    for (final entity in byPathKey.values) {
-      await _put(entity);
-    }
+    byPathKey.values.forEach(_put);
   }
 
   /// 同步讀取全部**有內容**的歌詞(雲端同步 / 備份上傳快照用)。送出 AI
@@ -52,9 +51,9 @@ class LyricsRepository {
     String pathKey, {
     required String jobId,
     required String title,
-  }) => _isar.writeTxn(() async {
+  }) async => _isar.writeTxnSync(() {
     final entity =
-        await _findByPathKey(pathKey) ??
+        findByPathKey(pathKey) ??
         (LyricsEntity()
           ..pathKey = pathKey
           ..title = title
@@ -63,42 +62,42 @@ class LyricsRepository {
           ..content = ''
           ..addedAt = DateTime.now());
     entity.jobId = jobId;
-    await _put(entity);
+    _put(entity);
   });
 
   /// 任務結束(失敗 / 取消 / 未送出)時收尾:內容仍是空的就刪掉這筆,
   /// 有內容(對時失敗)就只清掉 jobId。
-  Future<void> clearJob(String pathKey) => _isar.writeTxn(() async {
-    final entity = await _findByPathKey(pathKey);
+  Future<void> clearJob(String pathKey) async => _isar.writeTxnSync(() {
+    final entity = findByPathKey(pathKey);
     if (entity == null) return;
     if (entity.content.isEmpty) {
-      await _col.delete(entity.id);
+      _col.deleteSync(entity.id);
     } else if (entity.jobId != null) {
       entity.jobId = null;
-      await _col.put(entity);
+      _col.putSync(entity);
     }
   });
 
   /// upsert(同 pathKey 覆蓋)。
   Future<void> save(LyricsEntity entity) async {
-    await _isar.writeTxn(() => _put(entity));
+    _isar.writeTxnSync(() => _put(entity));
     _backupState.markLyricsModified();
   }
 
   /// 移除某曲歌詞。
   Future<void> deleteByPathKey(String pathKey) async {
-    final deleted = await _isar.writeTxn(
-      () => _col.where().pathKeyEqualTo(pathKey).deleteAll(),
+    final deleted = _isar.writeTxnSync(
+      () => _col.where().pathKeyEqualTo(pathKey).deleteAllSync(),
     );
     if (deleted > 0) _backupState.markLyricsModified();
   }
 
   /// 還原雲端備份(整份覆寫本機)。
   /// 還原不算本機變更:不 markLyricsModified,避免還原後馬上又觸發上傳。
-  Future<void> restoreFromRemote(List<LyricsEntity> entities) =>
-      _isar.writeTxn(() async {
-        await _col.clear();
-        await _putAll(entities);
+  Future<void> restoreFromRemote(List<LyricsEntity> entities) async =>
+      _isar.writeTxnSync(() {
+        _col.clearSync();
+        _putAll(entities);
       });
 }
 

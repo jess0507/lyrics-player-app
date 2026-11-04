@@ -21,31 +21,35 @@ class TrackRepository {
   /// 同一次掃描內重複的 pathKey 只取第一筆。只寫入新增或欄位有變動的
   /// 曲目,沒變的不動([TrackEntity.updatedAt] 維持原值);全部在同一個
   /// transaction 內完成。
+  ///
+  /// 寫入一律用 writeTxnSync:統計 / 播放清單也是 sync 交易,同一個 isolate
+  /// 混用 async 交易時,async 交易進行中開 sync 交易會丟 IsarError(例如
+  /// 掃描曲庫途中換歌記錄播放)。
   Future<void> upsertAll(List<ScannedTrack> scanned) async {
     final unique = <String, ScannedTrack>{
       for (final s in scanned.reversed) s.pathKey: s,
     };
     if (unique.isEmpty) return;
     final keys = unique.keys.toList();
-    await _isar.writeTxn(() async {
-      final existing = await _col.getAllByPathKey(keys);
+    _isar.writeTxnSync(() {
+      final existing = _col.getAllByPathKeySync(keys);
       final now = DateTime.now();
       final changed = <TrackEntity>[];
       for (var i = 0; i < keys.length; i++) {
         final entity = _merge(existing[i], unique[keys[i]]!, now);
         if (entity != null) changed.add(entity);
       }
-      if (changed.isNotEmpty) await _col.putAllByPathKey(changed);
+      if (changed.isNotEmpty) _col.putAllByPathKeySync(changed);
     });
   }
 
   /// 單筆 upsert(外部開啟 / 選檔比對),回傳寫入後的 entity。
   Future<TrackEntity> upsert(ScannedTrack scanned) async {
     late TrackEntity result;
-    await _isar.writeTxn(() async {
-      final existing = await _col.getByPathKey(scanned.pathKey);
+    _isar.writeTxnSync(() {
+      final existing = _col.getByPathKeySync(scanned.pathKey);
       final merged = _merge(existing, scanned, DateTime.now());
-      if (merged != null) await _col.putByPathKey(merged);
+      if (merged != null) _col.putByPathKeySync(merged);
       result = merged ?? existing!;
     });
     return result;

@@ -151,6 +151,10 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
     final resolver = await _LegacyIdResolver.build(_isar);
     final stats = _MigrationStats();
 
+    // 全 App 唯一的 async 交易(其餘寫入都是 writeTxnSync,混用時 async
+    // 進行中開 sync 會丟 IsarError)。遷移由 TrackEntityMigrationGate 擋在
+    // UI 前、曲庫載入前跑完,期間不會播放 / 寫統計,所以可以留 async,
+    // 避免大量資料卡住 loading 動畫。
     await _isar.writeTxn(() async {
       await _migrateCovers(resolver, stats);
       await _migrateLyrics(resolver, stats);
