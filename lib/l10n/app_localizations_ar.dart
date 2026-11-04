@@ -661,31 +661,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_text_align_right => 'يمين';
 
   @override
-  String get lyrics_auto_sync => 'مزامنة الكلمات';
+  String get lyrics_auto_align => 'مزامنة الكلمات';
 
   @override
-  String get lyrics_auto_sync_compressing => 'جارٍ تجهيز الصوت…';
+  String get lyrics_auto_align_compressing => 'جارٍ تجهيز الصوت…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'جارٍ رفع الصوت…';
+  String get lyrics_auto_align_uploading => 'جارٍ رفع الصوت…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'جارٍ محاذاة الكلمات…';
+  String get lyrics_auto_align_aligning => 'جارٍ محاذاة الكلمات…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'تمت مزامنة الكلمات (تلقائيًا، قد تكون غير دقيقة)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'تعذّرت مزامنة الكلمات؛ تم الإبقاء على النص الأصلي';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'تم إرسال طلب مزامنة كلمات الأغنية';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'فشل إرسال طلب مزامنة كلمات الأغنية';
 
   @override
@@ -702,22 +702,22 @@ class AppLocalizationsAr extends AppLocalizations {
       'يتم إنشاء الكلمات في الخلفية…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'تتم مزامنة الكلمات في الخلفية…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'سجّل الدخول لاستخدام المزامنة التلقائية';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'تم بلوغ الحد اليومي للمزامنة، حاول غدًا';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'لم يتم العثور على ملف الصوت';
+  String get lyrics_auto_align_no_audio => 'لم يتم العثور على ملف الصوت';
 
   @override
-  String get lyrics_auto_sync_network => 'مشكلة في الاتصال، حاول لاحقًا';
+  String get lyrics_auto_align_network => 'مشكلة في الاتصال، حاول لاحقًا';
 
   @override
   String get lyrics_ai_generate => 'إنشاء كلمات الأغنية بالذكاء الاصطناعي';

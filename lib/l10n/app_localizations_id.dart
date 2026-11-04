@@ -665,31 +665,31 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_text_align_right => 'Kanan';
 
   @override
-  String get lyrics_auto_sync => 'Sinkronkan lirik';
+  String get lyrics_auto_align => 'Sinkronkan lirik';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Menyiapkan audio…';
+  String get lyrics_auto_align_compressing => 'Menyiapkan audio…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Mengunggah audio…';
+  String get lyrics_auto_align_uploading => 'Mengunggah audio…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Menyelaraskan lirik…';
+  String get lyrics_auto_align_aligning => 'Menyelaraskan lirik…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Lirik tersinkron (otomatis, mungkin kurang tepat)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'Tidak dapat menyinkronkan lirik; teks asli dipertahankan';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'Permintaan sinkronisasi lirik terkirim';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'Permintaan sinkronisasi lirik gagal';
 
   @override
@@ -706,22 +706,22 @@ class AppLocalizationsId extends AppLocalizations {
       'Membuat lirik di latar belakang…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Menyelaraskan lirik di latar belakang…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'Masuk untuk menggunakan sinkronisasi otomatis';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Batas sinkronisasi harian tercapai, coba lagi besok';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'File audio tidak ditemukan';
+  String get lyrics_auto_align_no_audio => 'File audio tidak ditemukan';
 
   @override
-  String get lyrics_auto_sync_network => 'Masalah koneksi, coba lagi nanti';
+  String get lyrics_auto_align_network => 'Masalah koneksi, coba lagi nanti';
 
   @override
   String get lyrics_ai_generate => 'Buat lirik dengan AI';

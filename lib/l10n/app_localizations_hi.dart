@@ -665,30 +665,30 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_text_align_right => 'दाएँ';
 
   @override
-  String get lyrics_auto_sync => 'बोल सिंक करें';
+  String get lyrics_auto_align => 'बोल सिंक करें';
 
   @override
-  String get lyrics_auto_sync_compressing => 'ऑडियो तैयार किया जा रहा है…';
+  String get lyrics_auto_align_compressing => 'ऑडियो तैयार किया जा रहा है…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'ऑडियो अपलोड हो रहा है…';
+  String get lyrics_auto_align_uploading => 'ऑडियो अपलोड हो रहा है…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'बोल संरेखित किए जा रहे हैं…';
+  String get lyrics_auto_align_aligning => 'बोल संरेखित किए जा रहे हैं…';
 
   @override
-  String get lyrics_auto_sync_success => 'बोल सिंक हो गए (स्वतः, त्रुटि संभव)';
+  String get lyrics_auto_align_success => 'बोल सिंक हो गए (स्वतः, त्रुटि संभव)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'बोल सिंक नहीं हो सके; मूल टेक्स्ट रखा गया';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'बोल सिंक करने का अनुरोध भेजा गया';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'बोल सिंक करने का अनुरोध भेजने में विफल';
 
   @override
@@ -705,22 +705,22 @@ class AppLocalizationsHi extends AppLocalizations {
       'बैकग्राउंड में लिरिक्स बनाए जा रहे हैं…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'बैकग्राउंड में लिरिक्स संरेखित किए जा रहे हैं…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'स्वतः सिंक उपयोग करने के लिए साइन इन करें';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'आज की सिंक सीमा पूरी हो गई, कल पुनः प्रयास करें';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'ऑडियो फ़ाइल नहीं मिली';
+  String get lyrics_auto_align_no_audio => 'ऑडियो फ़ाइल नहीं मिली';
 
   @override
-  String get lyrics_auto_sync_network =>
+  String get lyrics_auto_align_network =>
       'कनेक्शन समस्या, बाद में पुनः प्रयास करें';
 
   @override

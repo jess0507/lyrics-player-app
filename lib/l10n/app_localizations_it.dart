@@ -667,31 +667,31 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_text_align_right => 'Destra';
 
   @override
-  String get lyrics_auto_sync => 'Sincronizza testo';
+  String get lyrics_auto_align => 'Sincronizza testo';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Preparazione audio…';
+  String get lyrics_auto_align_compressing => 'Preparazione audio…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Caricamento audio…';
+  String get lyrics_auto_align_uploading => 'Caricamento audio…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Allineamento testo…';
+  String get lyrics_auto_align_aligning => 'Allineamento testo…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Testo sincronizzato (automatico, possibili imprecisioni)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'Impossibile sincronizzare il testo; testo originale mantenuto';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'Richiesta di sincronizzazione del testo inviata';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'Invio della richiesta di sincronizzazione del testo non riuscito';
 
   @override
@@ -708,22 +708,22 @@ class AppLocalizationsIt extends AppLocalizations {
       'Generazione del testo in background…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Sincronizzazione del testo in background…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'Accedi per usare la sincronizzazione automatica';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Limite giornaliero di sincronizzazione raggiunto, riprova domani';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'File audio non trovato';
+  String get lyrics_auto_align_no_audio => 'File audio non trovato';
 
   @override
-  String get lyrics_auto_sync_network =>
+  String get lyrics_auto_align_network =>
       'Problema di connessione, riprova più tardi';
 
   @override

@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/features/lyrics/auto_sync/audio_compressor.dart';
+import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
 import 'package:seek_player/features/lyrics/services/audio_fingerprint.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 

@@ -668,30 +668,31 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_text_align_right => 'Phải';
 
   @override
-  String get lyrics_auto_sync => 'Đồng bộ lời bài hát';
+  String get lyrics_auto_align => 'Đồng bộ lời bài hát';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Đang chuẩn bị âm thanh…';
+  String get lyrics_auto_align_compressing => 'Đang chuẩn bị âm thanh…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Đang tải âm thanh lên…';
+  String get lyrics_auto_align_uploading => 'Đang tải âm thanh lên…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Đang căn chỉnh lời…';
+  String get lyrics_auto_align_aligning => 'Đang căn chỉnh lời…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Đã đồng bộ lời (tự động, có thể chưa chính xác)';
 
   @override
-  String get lyrics_auto_sync_failed => 'Không thể đồng bộ lời; đã giữ lời gốc';
+  String get lyrics_auto_align_failed =>
+      'Không thể đồng bộ lời; đã giữ lời gốc';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'Đã gửi yêu cầu đồng bộ lời bài hát';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'Gửi yêu cầu đồng bộ lời bài hát không thành công';
 
   @override
@@ -708,21 +709,22 @@ class AppLocalizationsVi extends AppLocalizations {
       'Đang tạo lời bài hát trong nền…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Đang đồng bộ lời bài hát trong nền…';
 
   @override
-  String get lyrics_auto_sync_need_login => 'Đăng nhập để dùng tự động đồng bộ';
+  String get lyrics_auto_align_need_login =>
+      'Đăng nhập để dùng tự động đồng bộ';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Đã đạt giới hạn đồng bộ trong ngày, thử lại vào ngày mai';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'Không tìm thấy tệp âm thanh';
+  String get lyrics_auto_align_no_audio => 'Không tìm thấy tệp âm thanh';
 
   @override
-  String get lyrics_auto_sync_network => 'Sự cố kết nối, thử lại sau';
+  String get lyrics_auto_align_network => 'Sự cố kết nối, thử lại sau';
 
   @override
   String get lyrics_ai_generate => 'Tạo lời bài hát bằng AI';

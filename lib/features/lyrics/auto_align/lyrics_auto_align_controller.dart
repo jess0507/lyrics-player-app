@@ -7,40 +7,40 @@ import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_job_id.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
-import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service.dart';
 
 /// 對時整體狀態。
-enum LyricsAutoSyncStatus { idle, running, success, failure, cancelled }
+enum LyricsAutoAlignStatus { idle, running, success, failure, cancelled }
 
 /// 某曲對時的當前狀態:執行中帶 [step],失敗帶 [error]。
-class LyricsAutoSyncState {
-  const LyricsAutoSyncState({
-    this.status = LyricsAutoSyncStatus.idle,
+class LyricsAutoAlignState {
+  const LyricsAutoAlignState({
+    this.status = LyricsAutoAlignStatus.idle,
     this.step,
     this.error,
     this.activeTitle,
   });
 
-  final LyricsAutoSyncStatus status;
-  final LyricsAutoSyncStep? step;
-  final LyricsAutoSyncError? error;
+  final LyricsAutoAlignStatus status;
+  final LyricsAutoAlignStep? step;
+  final LyricsAutoAlignError? error;
 
-  /// [error] 為 [LyricsAutoSyncError.busy] 且是後端回報「別首歌正在處理中」
+  /// [error] 為 [LyricsAutoAlignError.busy] 且是後端回報「別首歌正在處理中」
   /// 時,該曲的曲名,供訊息顯示;其餘情況為 null。
   final String? activeTitle;
 
-  bool get isRunning => status == LyricsAutoSyncStatus.running;
+  bool get isRunning => status == LyricsAutoAlignStatus.running;
 }
 
-/// 以 trackId 為 key 的對時控制器:驅動 [LyricsAutoSyncService] 並把階段 /
-/// 結果寫成 [LyricsAutoSyncState],供進度對話框與選單即時反映。
+/// 以 trackId 為 key 的對時控制器:驅動 [LyricsAutoAlignService] 並把階段 /
+/// 結果寫成 [LyricsAutoAlignState],供進度對話框與選單即時反映。
 ///
 /// 交由 [LyricsBackgroundRunner](Android 前景服務 + 背景 isolate)執行,
 /// app 從最近工作列滑掉也繼續。
-class LyricsAutoSyncController
-    extends FamilyNotifier<LyricsAutoSyncState, String> {
+class LyricsAutoAlignController
+    extends FamilyNotifier<LyricsAutoAlignState, String> {
   @override
-  LyricsAutoSyncState build(String arg) => const LyricsAutoSyncState();
+  LyricsAutoAlignState build(String arg) => const LyricsAutoAlignState();
 
   /// 執行對時;成功回 true。已在執行中則忽略並回 false。
   /// [engine] 指定後端對齊引擎(aeneas / WhisperX)。
@@ -50,14 +50,14 @@ class LyricsAutoSyncController
     required LyricsAlignEngine engine,
   }) async {
     if (state.isRunning) return false;
-    state = const LyricsAutoSyncState(
-      status: LyricsAutoSyncStatus.running,
-      step: LyricsAutoSyncStep.compressing,
+    state = const LyricsAutoAlignState(
+      status: LyricsAutoAlignStatus.running,
+      step: LyricsAutoAlignStep.compressing,
     );
     // 送出前先在 main isolate 記到本地待同步清單:LyricsPendingSyncService
     // (常駐 main isolate)能立刻開始監聽 Firestore 狀態,不需背景 isolate
     // 另外回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
-    debugPrint('[LyricsAutoSyncController] trackId:$arg, 加入 pendingSyncStore');
+    debugPrint('[LyricsAutoAlignController] trackId:$arg, 加入 pendingSyncStore');
     // 每次送出都產生新的 jobId 作為後端任務文件 id,記在 LyricsEntity 與
     // 待同步清單(LyricsPendingSyncService 依它監聽)。
     final jobId = newLyricsJobId();
@@ -84,7 +84,7 @@ class LyricsAutoSyncController
       // 沒有真的送出背景工作(取消 / busy / 過程中失敗),沒有任何後端 job
       // 可等,清掉剛剛預先加的紀錄,避免白等一個不存在的工作。
       debugPrint(
-        '[LyricsAutoSyncController] trackId:$arg, 未成功送出,移除 pendingSyncStore',
+        '[LyricsAutoAlignController] trackId:$arg, 未成功送出,移除 pendingSyncStore',
       );
       await ref.read(lyricsPendingSyncStoreProvider.notifier).remove(arg);
       await ref.read(lyricsRepositoryProvider).clearJob(arg);
@@ -112,23 +112,23 @@ class LyricsAutoSyncController
             language: language,
             engineName: engine.wireName,
             stepLabels: {
-              LyricsAutoSyncStep.compressing.name:
-                  l10n.lyrics_auto_sync_compressing,
-              LyricsAutoSyncStep.uploading.name:
-                  l10n.lyrics_auto_sync_uploading,
-              LyricsAutoSyncStep.aligning.name: l10n.lyrics_auto_sync_aligning,
+              LyricsAutoAlignStep.compressing.name:
+                  l10n.lyrics_auto_align_compressing,
+              LyricsAutoAlignStep.uploading.name:
+                  l10n.lyrics_auto_align_uploading,
+              LyricsAutoAlignStep.aligning.name: l10n.lyrics_auto_align_aligning,
             },
             cancelLabel: l10n.common_cancel,
             // 這裡只代表「callable 呼叫成功 / 失敗」,不是歌詞真的做完了;
             // 真正完成時的確認通知由 LyricsPendingSyncService 另外發。
-            doneLabel: l10n.lyrics_auto_sync_request_success,
-            failedLabel: l10n.lyrics_auto_sync_request_failed,
+            doneLabel: l10n.lyrics_auto_align_request_success,
+            failedLabel: l10n.lyrics_auto_align_request_failed,
           ),
           onStep: (stepName) {
-            final step = LyricsAutoSyncStep.values.asNameMap()[stepName];
+            final step = LyricsAutoAlignStep.values.asNameMap()[stepName];
             if (step != null) {
-              state = LyricsAutoSyncState(
-                status: LyricsAutoSyncStatus.running,
+              state = LyricsAutoAlignState(
+                status: LyricsAutoAlignStatus.running,
                 step: step,
               );
             }
@@ -136,25 +136,25 @@ class LyricsAutoSyncController
         );
     switch (result.status) {
       case LyricsBackgroundStatus.success:
-        state = const LyricsAutoSyncState(status: LyricsAutoSyncStatus.success);
+        state = const LyricsAutoAlignState(status: LyricsAutoAlignStatus.success);
         return true;
       case LyricsBackgroundStatus.cancelled:
-        state = const LyricsAutoSyncState(
-          status: LyricsAutoSyncStatus.cancelled,
+        state = const LyricsAutoAlignState(
+          status: LyricsAutoAlignStatus.cancelled,
         );
         return false;
       case LyricsBackgroundStatus.busy:
-        state = const LyricsAutoSyncState(
-          status: LyricsAutoSyncStatus.failure,
-          error: LyricsAutoSyncError.busy,
+        state = const LyricsAutoAlignState(
+          status: LyricsAutoAlignStatus.failure,
+          error: LyricsAutoAlignError.busy,
         );
         return false;
       case LyricsBackgroundStatus.error:
-        state = LyricsAutoSyncState(
-          status: LyricsAutoSyncStatus.failure,
+        state = LyricsAutoAlignState(
+          status: LyricsAutoAlignStatus.failure,
           error:
-              LyricsAutoSyncError.values.asNameMap()[result.errorName] ??
-              LyricsAutoSyncError.unknown,
+              LyricsAutoAlignError.values.asNameMap()[result.errorName] ??
+              LyricsAutoAlignError.unknown,
           activeTitle: result.activeTitle,
         );
         return false;
@@ -162,9 +162,9 @@ class LyricsAutoSyncController
   }
 }
 
-final lyricsAutoSyncControllerProvider =
+final lyricsAutoAlignControllerProvider =
     NotifierProvider.family<
-      LyricsAutoSyncController,
-      LyricsAutoSyncState,
+      LyricsAutoAlignController,
+      LyricsAutoAlignState,
       String
-    >(LyricsAutoSyncController.new);
+    >(LyricsAutoAlignController.new);

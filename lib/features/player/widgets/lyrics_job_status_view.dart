@@ -57,9 +57,9 @@ String lyricsJobStageText(
   LyricsJobStage.generateUploading => l10n.lyrics_ai_generate_uploading,
   LyricsJobStage.generateTranscribing => l10n.lyrics_ai_generate_transcribing,
   LyricsJobStage.generateRequestSent => l10n.lyrics_ai_generate_request_success,
-  LyricsJobStage.alignCompressing => l10n.lyrics_auto_sync_compressing,
-  LyricsJobStage.alignUploading => l10n.lyrics_auto_sync_uploading,
-  LyricsJobStage.alignAligning => l10n.lyrics_auto_sync_aligning,
-  LyricsJobStage.alignRequestSent => l10n.lyrics_auto_sync_request_success,
+  LyricsJobStage.alignCompressing => l10n.lyrics_auto_align_compressing,
+  LyricsJobStage.alignUploading => l10n.lyrics_auto_align_uploading,
+  LyricsJobStage.alignAligning => l10n.lyrics_auto_align_aligning,
+  LyricsJobStage.alignRequestSent => l10n.lyrics_auto_align_request_success,
   null => l10n.lyrics_job_processing,
 };

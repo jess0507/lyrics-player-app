@@ -1362,53 +1362,53 @@ abstract class AppLocalizations {
   /// **'Right'**
   String get lyrics_text_align_right;
 
-  /// No description provided for @lyrics_auto_sync.
+  /// No description provided for @lyrics_auto_align.
   ///
   /// In en, this message translates to:
   /// **'Sync lyrics'**
-  String get lyrics_auto_sync;
+  String get lyrics_auto_align;
 
-  /// No description provided for @lyrics_auto_sync_compressing.
+  /// No description provided for @lyrics_auto_align_compressing.
   ///
   /// In en, this message translates to:
   /// **'Preparing audio…'**
-  String get lyrics_auto_sync_compressing;
+  String get lyrics_auto_align_compressing;
 
-  /// No description provided for @lyrics_auto_sync_uploading.
+  /// No description provided for @lyrics_auto_align_uploading.
   ///
   /// In en, this message translates to:
   /// **'Uploading audio…'**
-  String get lyrics_auto_sync_uploading;
+  String get lyrics_auto_align_uploading;
 
-  /// No description provided for @lyrics_auto_sync_aligning.
+  /// No description provided for @lyrics_auto_align_aligning.
   ///
   /// In en, this message translates to:
   /// **'Aligning lyrics…'**
-  String get lyrics_auto_sync_aligning;
+  String get lyrics_auto_align_aligning;
 
-  /// No description provided for @lyrics_auto_sync_success.
+  /// No description provided for @lyrics_auto_align_success.
   ///
   /// In en, this message translates to:
   /// **'Lyrics synced (auto, may be imperfect)'**
-  String get lyrics_auto_sync_success;
+  String get lyrics_auto_align_success;
 
-  /// No description provided for @lyrics_auto_sync_failed.
+  /// No description provided for @lyrics_auto_align_failed.
   ///
   /// In en, this message translates to:
   /// **'Couldn\'t sync lyrics; kept original text'**
-  String get lyrics_auto_sync_failed;
+  String get lyrics_auto_align_failed;
 
-  /// No description provided for @lyrics_auto_sync_request_success.
+  /// No description provided for @lyrics_auto_align_request_success.
   ///
   /// In en, this message translates to:
   /// **'Sync lyrics request sent'**
-  String get lyrics_auto_sync_request_success;
+  String get lyrics_auto_align_request_success;
 
-  /// No description provided for @lyrics_auto_sync_request_failed.
+  /// No description provided for @lyrics_auto_align_request_failed.
   ///
   /// In en, this message translates to:
   /// **'Sync lyrics request failed'**
-  String get lyrics_auto_sync_request_failed;
+  String get lyrics_auto_align_request_failed;
 
   /// No description provided for @lyrics_background_busy.
   ///
@@ -1428,35 +1428,35 @@ abstract class AppLocalizations {
   /// **'Generating lyrics in the background…'**
   String get lyrics_ai_generate_running_background;
 
-  /// No description provided for @lyrics_auto_sync_running_background.
+  /// No description provided for @lyrics_auto_align_running_background.
   ///
   /// In en, this message translates to:
   /// **'Aligning lyrics in the background…'**
-  String get lyrics_auto_sync_running_background;
+  String get lyrics_auto_align_running_background;
 
-  /// No description provided for @lyrics_auto_sync_need_login.
+  /// No description provided for @lyrics_auto_align_need_login.
   ///
   /// In en, this message translates to:
   /// **'Sign in to use auto-sync'**
-  String get lyrics_auto_sync_need_login;
+  String get lyrics_auto_align_need_login;
 
-  /// No description provided for @lyrics_auto_sync_rate_limited.
+  /// No description provided for @lyrics_auto_align_rate_limited.
   ///
   /// In en, this message translates to:
   /// **'Daily auto-sync limit reached, try tomorrow'**
-  String get lyrics_auto_sync_rate_limited;
+  String get lyrics_auto_align_rate_limited;
 
-  /// No description provided for @lyrics_auto_sync_no_audio.
+  /// No description provided for @lyrics_auto_align_no_audio.
   ///
   /// In en, this message translates to:
   /// **'Audio file not found'**
-  String get lyrics_auto_sync_no_audio;
+  String get lyrics_auto_align_no_audio;
 
-  /// No description provided for @lyrics_auto_sync_network.
+  /// No description provided for @lyrics_auto_align_network.
   ///
   /// In en, this message translates to:
   /// **'Connection problem, try again later'**
-  String get lyrics_auto_sync_network;
+  String get lyrics_auto_align_network;
 
   /// No description provided for @lyrics_ai_generate.
   ///

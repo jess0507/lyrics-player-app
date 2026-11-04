@@ -41,7 +41,7 @@ class LyricsPendingSyncJob {
 /// 本地端持久化的「已送出背景處理、Firestore 尚未回終態」清單(trackId →
 /// [LyricsPendingSyncJob]),
 /// 存 SharedPreferences,跨 app 重啟存活。`LyricsAutoGenerateController` /
-/// `LyricsAutoSyncController` 的 `run()` 在 main isolate 呼叫實際的
+/// `LyricsAutoAlignController` 的 `run()` 在 main isolate 呼叫實際的
 /// generate/align 之前就先呼叫 [add](未成功送出則自行呼叫 [remove] 復原),
 /// 讓 `LyricsPendingSyncService` 能立刻開始監聽,不需背景 isolate(Android
 /// 前景服務)另外回報。`LyricsPendingSyncService`(見同目錄)監聽各 trackId

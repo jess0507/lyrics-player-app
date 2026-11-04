@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_controller.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
-import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_controller.dart';
-import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_controller.dart';
+import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_job_stage.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
@@ -31,12 +31,12 @@ final lyricsJobStageProvider = Provider.family<LyricsJobStage?, String>((
       null => LyricsJobStage.generateCompressing,
     };
   }
-  final align = ref.watch(lyricsAutoSyncControllerProvider(trackId));
+  final align = ref.watch(lyricsAutoAlignControllerProvider(trackId));
   if (align.isRunning) {
     return switch (align.step) {
-      LyricsAutoSyncStep.uploading => LyricsJobStage.alignUploading,
-      LyricsAutoSyncStep.aligning => LyricsJobStage.alignAligning,
-      LyricsAutoSyncStep.compressing || null => LyricsJobStage.alignCompressing,
+      LyricsAutoAlignStep.uploading => LyricsJobStage.alignUploading,
+      LyricsAutoAlignStep.aligning => LyricsJobStage.alignAligning,
+      LyricsAutoAlignStep.compressing || null => LyricsJobStage.alignCompressing,
     };
   }
   final pending = ref.watch(

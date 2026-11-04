@@ -666,31 +666,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_text_align_right => 'Sağa';
 
   @override
-  String get lyrics_auto_sync => 'Şarkı sözlerini eşitle';
+  String get lyrics_auto_align => 'Şarkı sözlerini eşitle';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Ses hazırlanıyor…';
+  String get lyrics_auto_align_compressing => 'Ses hazırlanıyor…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Ses yükleniyor…';
+  String get lyrics_auto_align_uploading => 'Ses yükleniyor…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Sözler hizalanıyor…';
+  String get lyrics_auto_align_aligning => 'Sözler hizalanıyor…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Sözler eşitlendi (otomatik, hatalı olabilir)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'Sözler eşitlenemedi; özgün metin korundu';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'Şarkı sözü senkronizasyon isteği gönderildi';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'Şarkı sözü senkronizasyon isteği gönderilemedi';
 
   @override
@@ -707,22 +707,22 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şarkı sözleri arka planda oluşturuluyor…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Şarkı sözleri arka planda hizalanıyor…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'Otomatik eşitlemeyi kullanmak için giriş yapın';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Günlük eşitleme sınırına ulaşıldı, yarın tekrar deneyin';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'Ses dosyası bulunamadı';
+  String get lyrics_auto_align_no_audio => 'Ses dosyası bulunamadı';
 
   @override
-  String get lyrics_auto_sync_network =>
+  String get lyrics_auto_align_network =>
       'Bağlantı sorunu, daha sonra tekrar deneyin';
 
   @override

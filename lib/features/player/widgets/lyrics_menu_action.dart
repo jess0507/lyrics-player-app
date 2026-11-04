@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
-import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/player/widgets/lyrics_ai_generate_action.dart';
-import 'package:seek_player/features/player/widgets/lyrics_auto_sync_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_auto_align_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_download_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
@@ -29,10 +29,10 @@ enum LyricsMenuAction {
   import,
 
   /// 自動對時(aeneas 引擎);已有純文字、尚未同步時顯示。
-  autoSyncAeneas,
+  autoAlignAeneas,
 
   /// 自動對時(WhisperX 引擎);已有純文字、尚未同步時顯示。
-  autoSyncWhisperX,
+  autoAlignWhisperX,
 
   /// 字體大小;已有歌詞時顯示。
   fontSize,
@@ -53,8 +53,8 @@ enum LyricsMenuAction {
     aiGenerate => Icons.lyrics_outlined,
     searchOnline => Icons.travel_explore_outlined,
     import => Icons.file_open_outlined,
-    autoSyncAeneas => Icons.auto_fix_high,
-    autoSyncWhisperX => Icons.auto_awesome,
+    autoAlignAeneas => Icons.auto_fix_high,
+    autoAlignWhisperX => Icons.auto_awesome,
     fontSize => Icons.text_fields,
     textAlign => Icons.format_align_left,
     reimport => Icons.file_open_outlined,
@@ -65,7 +65,7 @@ enum LyricsMenuAction {
   /// 是否為背景任務(前景服務,一次只跑一件):
   /// 背景執行中時,選單須停用這些項目避免重複觸發。
   bool get usesBackgroundTask => switch (this) {
-    aiGenerate || autoSyncAeneas || autoSyncWhisperX => true,
+    aiGenerate || autoAlignAeneas || autoAlignWhisperX => true,
     _ => false,
   };
 
@@ -75,8 +75,8 @@ enum LyricsMenuAction {
     aiGenerate ||
     searchOnline ||
     import ||
-    autoSyncAeneas ||
-    autoSyncWhisperX => true,
+    autoAlignAeneas ||
+    autoAlignWhisperX => true,
     _ => false,
   };
 
@@ -84,8 +84,8 @@ enum LyricsMenuAction {
     aiGenerate => l10n.lyrics_ai_generate,
     searchOnline => l10n.lyrics_search_online,
     import => l10n.lyrics_import,
-    autoSyncAeneas => '${l10n.lyrics_auto_sync} · aeneas',
-    autoSyncWhisperX => '${l10n.lyrics_auto_sync} · WhisperX',
+    autoAlignAeneas => '${l10n.lyrics_auto_align} · aeneas',
+    autoAlignWhisperX => '${l10n.lyrics_auto_align} · WhisperX',
     fontSize => l10n.lyrics_font_size,
     textAlign => l10n.lyrics_text_align,
     reimport => l10n.lyrics_reimport,
@@ -96,11 +96,11 @@ enum LyricsMenuAction {
 
 /// 依目前歌詞狀態挑出要顯示的歌詞動作與順序。
 /// [canAiGenerate] 為「完全沒有歌詞」(可從音訊直接產生);
-/// [canAutoSync] 為「已有純文字、尚未同步」;[hasLyrics] 為「已有歌詞」。
+/// [canAutoAlign] 為「已有純文字、尚未同步」;[hasLyrics] 為「已有歌詞」。
 /// [includeDisplay] 為 false 時不列顯示設定(字體大小 / 對齊方式)。
 List<LyricsMenuAction> lyricsMenuActions({
   required bool canAiGenerate,
-  required bool canAutoSync,
+  required bool canAutoAlign,
   required bool hasLyrics,
   bool includeDisplay = true,
 }) {
@@ -109,9 +109,9 @@ List<LyricsMenuAction> lyricsMenuActions({
     if (!hasLyrics) LyricsMenuAction.searchOnline,
     if (!hasLyrics) LyricsMenuAction.import,
     if (canAiGenerate) LyricsMenuAction.aiGenerate,
-    if (canAutoSync) ...[
-      LyricsMenuAction.autoSyncAeneas,
-      LyricsMenuAction.autoSyncWhisperX,
+    if (canAutoAlign) ...[
+      LyricsMenuAction.autoAlignAeneas,
+      LyricsMenuAction.autoAlignWhisperX,
     ],
     if (hasLyrics) ...[
       if (includeDisplay) ...[
@@ -141,12 +141,12 @@ Future<void> runLyricsMenuAction(
 
   // 自動產生 / 自動對時走雲端服務,需登入;未登入時先詢問並導向登入頁。
   if (action == LyricsMenuAction.aiGenerate ||
-      action == LyricsMenuAction.autoSyncAeneas ||
-      action == LyricsMenuAction.autoSyncWhisperX) {
+      action == LyricsMenuAction.autoAlignAeneas ||
+      action == LyricsMenuAction.autoAlignWhisperX) {
     final l10n = AppLocalizations.of(context)!;
     final message = action == LyricsMenuAction.aiGenerate
         ? l10n.lyrics_ai_generate_need_login
-        : l10n.lyrics_auto_sync_need_login;
+        : l10n.lyrics_auto_align_need_login;
     final signedIn = await ensureSignedInForLyrics(
       context,
       ref,
@@ -160,16 +160,16 @@ Future<void> runLyricsMenuAction(
   }
 
   switch (action) {
-    case LyricsMenuAction.autoSyncAeneas:
-      await runLyricsAutoSync(
+    case LyricsMenuAction.autoAlignAeneas:
+      await runLyricsAutoAlign(
         context,
         ref,
         trackId: trackId,
         title: title,
         engine: LyricsAlignEngine.aeneas,
       );
-    case LyricsMenuAction.autoSyncWhisperX:
-      await runLyricsAutoSync(
+    case LyricsMenuAction.autoAlignWhisperX:
+      await runLyricsAutoAlign(
         context,
         ref,
         trackId: trackId,

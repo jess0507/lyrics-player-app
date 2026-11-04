@@ -638,28 +638,28 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_text_align_right => '置右';
 
   @override
-  String get lyrics_auto_sync => '同步歌詞';
+  String get lyrics_auto_align => '同步歌詞';
 
   @override
-  String get lyrics_auto_sync_compressing => '處理音訊中…';
+  String get lyrics_auto_align_compressing => '處理音訊中…';
 
   @override
-  String get lyrics_auto_sync_uploading => '上傳音訊中…';
+  String get lyrics_auto_align_uploading => '上傳音訊中…';
 
   @override
-  String get lyrics_auto_sync_aligning => '對齊歌詞中…';
+  String get lyrics_auto_align_aligning => '對齊歌詞中…';
 
   @override
-  String get lyrics_auto_sync_success => '已同步歌詞(可能有誤)';
+  String get lyrics_auto_align_success => '已同步歌詞(可能有誤)';
 
   @override
-  String get lyrics_auto_sync_failed => '同步失敗,已保留原歌詞';
+  String get lyrics_auto_align_failed => '同步失敗,已保留原歌詞';
 
   @override
-  String get lyrics_auto_sync_request_success => '發出請求，同步歌詞中...';
+  String get lyrics_auto_align_request_success => '發出請求，同步歌詞中...';
 
   @override
-  String get lyrics_auto_sync_request_failed => '請求失敗';
+  String get lyrics_auto_align_request_failed => '請求失敗';
 
   @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
@@ -673,19 +673,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_ai_generate_running_background => '已在背景產生歌詞';
 
   @override
-  String get lyrics_auto_sync_running_background => '已在背景對齊歌詞';
+  String get lyrics_auto_align_running_background => '已在背景對齊歌詞';
 
   @override
-  String get lyrics_auto_sync_need_login => '請先登入才能使用歌詞同步';
+  String get lyrics_auto_align_need_login => '請先登入才能使用歌詞同步';
 
   @override
-  String get lyrics_auto_sync_rate_limited => '今日同步次數已達上限,請明天再試';
+  String get lyrics_auto_align_rate_limited => '今日同步次數已達上限,請明天再試';
 
   @override
-  String get lyrics_auto_sync_no_audio => '找不到音訊檔';
+  String get lyrics_auto_align_no_audio => '找不到音訊檔';
 
   @override
-  String get lyrics_auto_sync_network => '連線問題,請稍後再試';
+  String get lyrics_auto_align_network => '連線問題,請稍後再試';
 
   @override
   String get lyrics_ai_generate => 'AI製作歌詞';
@@ -1510,28 +1510,28 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_text_align_right => '右对齐';
 
   @override
-  String get lyrics_auto_sync => '同步歌词';
+  String get lyrics_auto_align => '同步歌词';
 
   @override
-  String get lyrics_auto_sync_compressing => '处理音频中…';
+  String get lyrics_auto_align_compressing => '处理音频中…';
 
   @override
-  String get lyrics_auto_sync_uploading => '上传音频中…';
+  String get lyrics_auto_align_uploading => '上传音频中…';
 
   @override
-  String get lyrics_auto_sync_aligning => '对齐歌词中…';
+  String get lyrics_auto_align_aligning => '对齐歌词中…';
 
   @override
-  String get lyrics_auto_sync_success => '已同步歌词(可能有误)';
+  String get lyrics_auto_align_success => '已同步歌词(可能有误)';
 
   @override
-  String get lyrics_auto_sync_failed => '同步失败,已保留原歌词';
+  String get lyrics_auto_align_failed => '同步失败,已保留原歌词';
 
   @override
-  String get lyrics_auto_sync_request_success => '发出请求，同步歌词中...';
+  String get lyrics_auto_align_request_success => '发出请求，同步歌词中...';
 
   @override
-  String get lyrics_auto_sync_request_failed => '请求失败';
+  String get lyrics_auto_align_request_failed => '请求失败';
 
   @override
   String get lyrics_background_busy => '已有其他歌曲正在处理中,请稍后再试';
@@ -1545,19 +1545,19 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_ai_generate_running_background => '已在后台生成歌词';
 
   @override
-  String get lyrics_auto_sync_running_background => '已在后台对齐歌词';
+  String get lyrics_auto_align_running_background => '已在后台对齐歌词';
 
   @override
-  String get lyrics_auto_sync_need_login => '请先登录才能使用歌词同步';
+  String get lyrics_auto_align_need_login => '请先登录才能使用歌词同步';
 
   @override
-  String get lyrics_auto_sync_rate_limited => '今日同步次数已达上限,请明天再试';
+  String get lyrics_auto_align_rate_limited => '今日同步次数已达上限,请明天再试';
 
   @override
-  String get lyrics_auto_sync_no_audio => '找不到音频文件';
+  String get lyrics_auto_align_no_audio => '找不到音频文件';
 
   @override
-  String get lyrics_auto_sync_network => '连接问题,请稍后再试';
+  String get lyrics_auto_align_network => '连接问题,请稍后再试';
 
   @override
   String get lyrics_ai_generate => 'AI制作歌词';
@@ -2382,28 +2382,28 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_text_align_right => '置右';
 
   @override
-  String get lyrics_auto_sync => '同步歌詞';
+  String get lyrics_auto_align => '同步歌詞';
 
   @override
-  String get lyrics_auto_sync_compressing => '處理音訊中…';
+  String get lyrics_auto_align_compressing => '處理音訊中…';
 
   @override
-  String get lyrics_auto_sync_uploading => '上傳音訊中…';
+  String get lyrics_auto_align_uploading => '上傳音訊中…';
 
   @override
-  String get lyrics_auto_sync_aligning => '對齊歌詞中…';
+  String get lyrics_auto_align_aligning => '對齊歌詞中…';
 
   @override
-  String get lyrics_auto_sync_success => '已同步歌詞(可能有誤)';
+  String get lyrics_auto_align_success => '已同步歌詞(可能有誤)';
 
   @override
-  String get lyrics_auto_sync_failed => '同步失敗,已保留原歌詞';
+  String get lyrics_auto_align_failed => '同步失敗,已保留原歌詞';
 
   @override
-  String get lyrics_auto_sync_request_success => '發出請求，同步歌詞中...';
+  String get lyrics_auto_align_request_success => '發出請求，同步歌詞中...';
 
   @override
-  String get lyrics_auto_sync_request_failed => '請求失敗';
+  String get lyrics_auto_align_request_failed => '請求失敗';
 
   @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
@@ -2417,19 +2417,19 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_ai_generate_running_background => '已在背景產生歌詞';
 
   @override
-  String get lyrics_auto_sync_running_background => '已在背景對齊歌詞';
+  String get lyrics_auto_align_running_background => '已在背景對齊歌詞';
 
   @override
-  String get lyrics_auto_sync_need_login => '請先登入才能使用歌詞同步';
+  String get lyrics_auto_align_need_login => '請先登入才能使用歌詞同步';
 
   @override
-  String get lyrics_auto_sync_rate_limited => '今日同步次數已達上限,請明天再試';
+  String get lyrics_auto_align_rate_limited => '今日同步次數已達上限,請明天再試';
 
   @override
-  String get lyrics_auto_sync_no_audio => '找不到音訊檔';
+  String get lyrics_auto_align_no_audio => '找不到音訊檔';
 
   @override
-  String get lyrics_auto_sync_network => '連線問題,請稍後再試';
+  String get lyrics_auto_align_network => '連線問題,請稍後再試';
 
   @override
   String get lyrics_ai_generate => 'AI製作歌詞';

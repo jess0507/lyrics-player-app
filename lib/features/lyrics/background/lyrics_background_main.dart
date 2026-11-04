@@ -12,7 +12,7 @@ import 'package:seek_player/core/storage/isar_service.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/firebase_options.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
-import 'package:seek_player/features/lyrics/auto_sync/lyrics_auto_sync_service.dart';
+import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 
 /// LyricsBackgroundService(Android 前景服務)專用的 Dart 進入點:
@@ -127,8 +127,8 @@ Future<void> lyricsBackgroundMain() async {
             );
       case LyricsBackgroundMode.align:
         await container
-            .read(lyricsAutoSyncServiceProvider)
-            .autoSync(
+            .read(lyricsAutoAlignServiceProvider)
+            .autoAlign(
               trackId: request.trackId,
               jobId: request.jobId,
               title: request.title,
@@ -151,7 +151,7 @@ Future<void> lyricsBackgroundMain() async {
       errorName: e.error.name,
       activeTitle: e.activeTitle,
     );
-  } on LyricsAutoSyncException catch (e) {
+  } on LyricsAutoAlignException catch (e) {
     debugPrint('[LyricsBg] 失敗(align): ${e.error.name}');
     resultText = request.failedLabel;
     alert = true;

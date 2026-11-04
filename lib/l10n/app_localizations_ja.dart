@@ -643,28 +643,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_text_align_right => '右揃え';
 
   @override
-  String get lyrics_auto_sync => '歌詞を同期';
+  String get lyrics_auto_align => '歌詞を同期';
 
   @override
-  String get lyrics_auto_sync_compressing => '音声を準備中…';
+  String get lyrics_auto_align_compressing => '音声を準備中…';
 
   @override
-  String get lyrics_auto_sync_uploading => '音声をアップロード中…';
+  String get lyrics_auto_align_uploading => '音声をアップロード中…';
 
   @override
-  String get lyrics_auto_sync_aligning => '歌詞を同期中…';
+  String get lyrics_auto_align_aligning => '歌詞を同期中…';
 
   @override
-  String get lyrics_auto_sync_success => '歌詞を同期しました(自動、誤差の可能性あり)';
+  String get lyrics_auto_align_success => '歌詞を同期しました(自動、誤差の可能性あり)';
 
   @override
-  String get lyrics_auto_sync_failed => '歌詞を同期できませんでした。元の歌詞を保持します';
+  String get lyrics_auto_align_failed => '歌詞を同期できませんでした。元の歌詞を保持します';
 
   @override
-  String get lyrics_auto_sync_request_success => '歌詞同期リクエストを送信しました';
+  String get lyrics_auto_align_request_success => '歌詞同期リクエストを送信しました';
 
   @override
-  String get lyrics_auto_sync_request_failed => '歌詞同期リクエストの送信に失敗しました';
+  String get lyrics_auto_align_request_failed => '歌詞同期リクエストの送信に失敗しました';
 
   @override
   String get lyrics_background_busy => '別の曲を処理中です。しばらくしてからもう一度お試しください';
@@ -678,19 +678,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_ai_generate_running_background => 'バックグラウンドで歌詞を生成しています';
 
   @override
-  String get lyrics_auto_sync_running_background => 'バックグラウンドで歌詞を同期しています';
+  String get lyrics_auto_align_running_background => 'バックグラウンドで歌詞を同期しています';
 
   @override
-  String get lyrics_auto_sync_need_login => '自動同期を使うにはログインしてください';
+  String get lyrics_auto_align_need_login => '自動同期を使うにはログインしてください';
 
   @override
-  String get lyrics_auto_sync_rate_limited => '本日の同期回数の上限に達しました。明日お試しください';
+  String get lyrics_auto_align_rate_limited => '本日の同期回数の上限に達しました。明日お試しください';
 
   @override
-  String get lyrics_auto_sync_no_audio => '音声ファイルが見つかりません';
+  String get lyrics_auto_align_no_audio => '音声ファイルが見つかりません';
 
   @override
-  String get lyrics_auto_sync_network => '接続に問題があります。後でもう一度お試しください';
+  String get lyrics_auto_align_network => '接続に問題があります。後でもう一度お試しください';
 
   @override
   String get lyrics_ai_generate => 'AIで歌詞を作成';

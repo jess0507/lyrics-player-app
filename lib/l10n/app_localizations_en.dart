@@ -662,30 +662,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_text_align_right => 'Right';
 
   @override
-  String get lyrics_auto_sync => 'Sync lyrics';
+  String get lyrics_auto_align => 'Sync lyrics';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Preparing audio…';
+  String get lyrics_auto_align_compressing => 'Preparing audio…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Uploading audio…';
+  String get lyrics_auto_align_uploading => 'Uploading audio…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Aligning lyrics…';
+  String get lyrics_auto_align_aligning => 'Aligning lyrics…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Lyrics synced (auto, may be imperfect)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'Couldn\'t sync lyrics; kept original text';
 
   @override
-  String get lyrics_auto_sync_request_success => 'Sync lyrics request sent';
+  String get lyrics_auto_align_request_success => 'Sync lyrics request sent';
 
   @override
-  String get lyrics_auto_sync_request_failed => 'Sync lyrics request failed';
+  String get lyrics_auto_align_request_failed => 'Sync lyrics request failed';
 
   @override
   String get lyrics_background_busy =>
@@ -701,21 +701,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Generating lyrics in the background…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Aligning lyrics in the background…';
 
   @override
-  String get lyrics_auto_sync_need_login => 'Sign in to use auto-sync';
+  String get lyrics_auto_align_need_login => 'Sign in to use auto-sync';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Daily auto-sync limit reached, try tomorrow';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'Audio file not found';
+  String get lyrics_auto_align_no_audio => 'Audio file not found';
 
   @override
-  String get lyrics_auto_sync_network => 'Connection problem, try again later';
+  String get lyrics_auto_align_network => 'Connection problem, try again later';
 
   @override
   String get lyrics_ai_generate => 'Generate lyrics with AI';

@@ -40,10 +40,10 @@ class LyricsModeMenu extends ConsumerWidget {
     final lyrics = ref.watch(trackLyricsProvider(trackId)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
     // 對時是「補時間」:只在已有純文字、尚未同步時提供。
-    final canAutoSync = hasLyrics && !lyrics.synced;
+    final canAutoAlign = hasLyrics && !lyrics.synced;
     final lyricsActions = lyricsMenuActions(
       canAiGenerate: !hasLyrics,
-      canAutoSync: canAutoSync,
+      canAutoAlign: canAutoAlign,
       hasLyrics: hasLyrics,
     );
     // 背景任務一次只跑一件:執行中時停用「自動產生 / 自動對時」(變淺不可點)。

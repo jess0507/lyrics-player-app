@@ -664,31 +664,31 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_text_align_right => 'Справа';
 
   @override
-  String get lyrics_auto_sync => 'Синхронизация текста';
+  String get lyrics_auto_align => 'Синхронизация текста';
 
   @override
-  String get lyrics_auto_sync_compressing => 'Подготовка аудио…';
+  String get lyrics_auto_align_compressing => 'Подготовка аудио…';
 
   @override
-  String get lyrics_auto_sync_uploading => 'Загрузка аудио…';
+  String get lyrics_auto_align_uploading => 'Загрузка аудио…';
 
   @override
-  String get lyrics_auto_sync_aligning => 'Выравнивание текста…';
+  String get lyrics_auto_align_aligning => 'Выравнивание текста…';
 
   @override
-  String get lyrics_auto_sync_success =>
+  String get lyrics_auto_align_success =>
       'Текст синхронизирован (автоматически, возможны неточности)';
 
   @override
-  String get lyrics_auto_sync_failed =>
+  String get lyrics_auto_align_failed =>
       'Не удалось синхронизировать текст; оставлен исходный';
 
   @override
-  String get lyrics_auto_sync_request_success =>
+  String get lyrics_auto_align_request_success =>
       'Запрос на синхронизацию текста отправлен';
 
   @override
-  String get lyrics_auto_sync_request_failed =>
+  String get lyrics_auto_align_request_failed =>
       'Не удалось отправить запрос на синхронизацию текста';
 
   @override
@@ -705,22 +705,22 @@ class AppLocalizationsRu extends AppLocalizations {
       'Текст создаётся в фоновом режиме…';
 
   @override
-  String get lyrics_auto_sync_running_background =>
+  String get lyrics_auto_align_running_background =>
       'Текст синхронизируется в фоновом режиме…';
 
   @override
-  String get lyrics_auto_sync_need_login =>
+  String get lyrics_auto_align_need_login =>
       'Войдите, чтобы использовать автосинхронизацию';
 
   @override
-  String get lyrics_auto_sync_rate_limited =>
+  String get lyrics_auto_align_rate_limited =>
       'Достигнут дневной лимит синхронизации, попробуйте завтра';
 
   @override
-  String get lyrics_auto_sync_no_audio => 'Аудиофайл не найден';
+  String get lyrics_auto_align_no_audio => 'Аудиофайл не найден';
 
   @override
-  String get lyrics_auto_sync_network =>
+  String get lyrics_auto_align_network =>
       'Проблема с подключением, повторите позже';
 
   @override

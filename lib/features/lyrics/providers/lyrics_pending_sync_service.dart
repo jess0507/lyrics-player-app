@@ -171,8 +171,8 @@ class LyricsPendingSyncService {
     final text = switch ((job.mode, success)) {
       (LyricsBackgroundMode.generate, true) => l10n.lyrics_ai_generate_success,
       (LyricsBackgroundMode.generate, false) => l10n.lyrics_ai_generate_failed,
-      (LyricsBackgroundMode.align, true) => l10n.lyrics_auto_sync_success,
-      (LyricsBackgroundMode.align, false) => l10n.lyrics_auto_sync_failed,
+      (LyricsBackgroundMode.align, true) => l10n.lyrics_auto_align_success,
+      (LyricsBackgroundMode.align, false) => l10n.lyrics_auto_align_failed,
     };
     debugPrint(
       '[LyricsPendingSyncService] notify title:${job.title}, mode:${job.mode.name}, success:$success',
