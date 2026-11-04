@@ -29,14 +29,15 @@ const LyricsEntitySchema = CollectionSchema(
       type: IsarType.byte,
       enumMap: _LyricsEntityformatEnumValueMap,
     ),
+    r'jobId': PropertySchema(id: 3, name: r'jobId', type: IsarType.string),
     r'source': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'source',
       type: IsarType.byte,
       enumMap: _LyricsEntitysourceEnumValueMap,
     ),
-    r'title': PropertySchema(id: 4, name: r'title', type: IsarType.string),
-    r'trackId': PropertySchema(id: 5, name: r'trackId', type: IsarType.string),
+    r'title': PropertySchema(id: 5, name: r'title', type: IsarType.string),
+    r'trackId': PropertySchema(id: 6, name: r'trackId', type: IsarType.string),
   },
 
   estimateSize: _lyricsEntityEstimateSize,
@@ -75,6 +76,12 @@ int _lyricsEntityEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.content.length * 3;
+  {
+    final value = object.jobId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.title.length * 3;
   bytesCount += 3 + object.trackId.length * 3;
   return bytesCount;
@@ -89,9 +96,10 @@ void _lyricsEntitySerialize(
   writer.writeDateTime(offsets[0], object.addedAt);
   writer.writeString(offsets[1], object.content);
   writer.writeByte(offsets[2], object.format.index);
-  writer.writeByte(offsets[3], object.source.index);
-  writer.writeString(offsets[4], object.title);
-  writer.writeString(offsets[5], object.trackId);
+  writer.writeString(offsets[3], object.jobId);
+  writer.writeByte(offsets[4], object.source.index);
+  writer.writeString(offsets[5], object.title);
+  writer.writeString(offsets[6], object.trackId);
 }
 
 LyricsEntity _lyricsEntityDeserialize(
@@ -107,11 +115,12 @@ LyricsEntity _lyricsEntityDeserialize(
       _LyricsEntityformatValueEnumMap[reader.readByteOrNull(offsets[2])] ??
       LyricsFormat.lrc;
   object.id = id;
+  object.jobId = reader.readStringOrNull(offsets[3]);
   object.source =
-      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[3])] ??
+      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[4])] ??
       LyricsSource.manual;
-  object.title = reader.readString(offsets[4]);
-  object.trackId = reader.readString(offsets[5]);
+  object.title = reader.readString(offsets[5]);
+  object.trackId = reader.readString(offsets[6]);
   return object;
 }
 
@@ -131,12 +140,14 @@ P _lyricsEntityDeserializeProp<P>(
               LyricsFormat.lrc)
           as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (_LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offset)] ??
               LyricsSource.manual)
           as P;
-    case 4:
-      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -687,6 +698,171 @@ extension LyricsEntityQueryFilter
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'jobId'),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'jobId'),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'jobId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'jobId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> jobIdMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'jobId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'jobId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  jobIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'jobId', value: ''),
+      );
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> sourceEqualTo(
     LyricsSource value,
   ) {
@@ -1075,6 +1251,18 @@ extension LyricsEntityQuerySortBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByJobId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jobId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByJobIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jobId', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1162,6 +1350,18 @@ extension LyricsEntityQuerySortThenBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByJobId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jobId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByJobIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jobId', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1221,6 +1421,14 @@ extension LyricsEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctByJobId({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'jobId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'source');
@@ -1267,6 +1475,12 @@ extension LyricsEntityQueryProperty
   QueryBuilder<LyricsEntity, LyricsFormat, QQueryOperations> formatProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'format');
+    });
+  }
+
+  QueryBuilder<LyricsEntity, String?, QQueryOperations> jobIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'jobId');
     });
   }
 

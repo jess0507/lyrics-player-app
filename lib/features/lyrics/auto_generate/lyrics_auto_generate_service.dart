@@ -64,7 +64,7 @@ class LyricsAutoGenerateException implements Exception {
 /// Firestore 是否已有現成快照;把結果寫回本機統一交給
 /// [LyricsPendingSyncService] 處理——呼叫端(見
 /// `LyricsAutoGenerateController.run`)必須在呼叫本方法**之前**就把
-/// trackId 加進 `lyricsPendingSyncStoreProvider`,該服務才會開始監聽
+/// trackId(連同 jobId)加進 `lyricsPendingSyncStoreProvider`,該服務才會開始監聽
 /// Firestore 狀態,不論這次是後端立即回應(現成快照)還是真的要背景跑一段
 /// 時間,終態都會由它寫回本機。
 class LyricsAutoGenerateService {
@@ -72,10 +72,12 @@ class LyricsAutoGenerateService {
 
   final Ref _ref;
 
-  /// 為 [trackId] 執行自動產生。各階段以 [onStep] 回報進度。成功僅代表已
-  /// 送出 callable,失敗拋 [LyricsAutoGenerateException]。
+  /// 為 [trackId] 執行自動產生,後端任務文件為 `user/{uid}/lyrics/{jobId}`。
+  /// 各階段以 [onStep] 回報進度。成功僅代表已送出 callable,失敗拋
+  /// [LyricsAutoGenerateException]。
   Future<void> generate({
     required String trackId,
+    required String jobId,
     required String title,
     void Function(LyricsAutoGenerateStep step)? onStep,
   }) async {
@@ -109,9 +111,8 @@ class LyricsAutoGenerateService {
     onStep?.call(LyricsAutoGenerateStep.uploading);
     final Reference storageRef;
     try {
-      final ts = DateTime.now().millisecondsSinceEpoch;
       storageRef = FirebaseStorage.instance.ref(
-        'generate/${user.uid}/$trackId-$ts.m4a',
+        'generate/${user.uid}/$jobId.m4a',
       );
       await storageRef.putFile(
         compressed,
@@ -141,7 +142,11 @@ class LyricsAutoGenerateService {
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
-        'trackId': trackId,
+        // 任務文件 id 用 jobId(pathKey 含 `/` 不能當 Firestore doc id)。
+        // 後端以 `trackId` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
+        // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
+        'trackId': jobId,
+        'jobId': jobId,
         'title': title,
       });
       debugPrint(

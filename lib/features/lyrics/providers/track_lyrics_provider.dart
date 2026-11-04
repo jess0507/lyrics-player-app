@@ -7,7 +7,7 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 /// (`lyrics-display.md`)以目前曲目 id 消費本 provider;匯入 / 刪除 / 背景任務
 /// 寫回後由呼叫端 `invalidate` 對應 family 觸發重讀。
 ///
-/// 只讀本機,不降級讀 Firestore `user/{uid}/lyrics/{trackId}`:該文件是
+/// 只讀本機,不降級讀 Firestore `user/{uid}/lyrics/{jobId}`:該文件是
 /// 對時 / 產生任務的後端產物,僅由 LyricsPendingSyncService 監聽終態後
 /// 寫回 Isar。若這裡也讀雲端,使用者刪掉本機歌詞後會被雲端快照補回。
 final trackLyricsProvider = FutureProvider.family<Lyrics?, String>((
@@ -15,6 +15,7 @@ final trackLyricsProvider = FutureProvider.family<Lyrics?, String>((
   trackId,
 ) async {
   final entity = ref.watch(lyricsRepositoryProvider).findByTrackId(trackId);
-  if (entity == null) return null;
+  // 空內容的 entity 只是 AI 產生任務的佔位(記 jobId),不算有歌詞。
+  if (entity == null || entity.content.isEmpty) return null;
   return parseLyrics(entity.content, entity.format);
 });

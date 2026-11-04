@@ -121,6 +121,7 @@ Future<void> lyricsBackgroundMain() async {
             .read(lyricsAutoGenerateServiceProvider)
             .generate(
               trackId: request.trackId,
+              jobId: request.jobId,
               title: request.title,
               onStep: (step) => onStep(step.name),
             );
@@ -129,6 +130,7 @@ Future<void> lyricsBackgroundMain() async {
             .read(lyricsAutoSyncServiceProvider)
             .autoSync(
               trackId: request.trackId,
+              jobId: request.jobId,
               title: request.title,
               language: request.language ?? '',
               engine: LyricsAlignEngine.values.byName(

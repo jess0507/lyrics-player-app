@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
@@ -21,6 +22,7 @@ Future<void> cancelLyricsJob(
     await ref.read(lyricsBackgroundRunnerProvider).cancel(trackId);
   }
   await ref.read(lyricsPendingSyncStoreProvider.notifier).remove(trackId);
+  await ref.read(lyricsRepositoryProvider).clearJob(trackId);
   if (!context.mounted) return;
   final l10n = AppLocalizations.of(context)!;
   showAppToast(l10n.lyrics_job_cancelled);

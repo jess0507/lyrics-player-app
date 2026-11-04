@@ -19,7 +19,7 @@ class LyricsExportService {
     required String title,
   }) async {
     final entity = _ref.read(lyricsRepositoryProvider).findByTrackId(trackId);
-    if (entity == null) return false;
+    if (entity == null || entity.content.isEmpty) return false;
 
     final path = await FilePicker.saveFile(
       fileName: '${_sanitizeFileName(title)}.${entity.format.name}',

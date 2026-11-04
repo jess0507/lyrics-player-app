@@ -27,6 +27,7 @@ class LyricsBackgroundRequest {
   const LyricsBackgroundRequest({
     required this.mode,
     required this.trackId,
+    required this.jobId,
     required this.title,
     required this.stepLabels,
     required this.cancelLabel,
@@ -38,6 +39,10 @@ class LyricsBackgroundRequest {
 
   final LyricsBackgroundMode mode;
   final String trackId;
+
+  /// 後端任務文件 id(`user/{uid}/lyrics/{jobId}`),由發起端產生。
+  final String jobId;
+
   final String title;
 
   /// step name(compressing / uploading / transcribing / aligning)→ 通知文字。
@@ -61,6 +66,7 @@ class LyricsBackgroundRequest {
   String toJsonString() => jsonEncode({
     'mode': mode.name,
     'trackId': trackId,
+    'jobId': jobId,
     'title': title,
     'stepLabels': stepLabels,
     'cancelLabel': cancelLabel,
@@ -75,6 +81,7 @@ class LyricsBackgroundRequest {
     return LyricsBackgroundRequest(
       mode: LyricsBackgroundMode.values.byName(map['mode'] as String),
       trackId: map['trackId'] as String,
+      jobId: map['jobId'] as String,
       title: map['title'] as String,
       stepLabels: (map['stepLabels'] as Map).cast<String, String>(),
       cancelLabel: map['cancelLabel'] as String,

@@ -7,9 +7,9 @@ service cloud.firestore {
     match /user/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
 
-      // user/{uid}/lyrics/{trackId} 是後端歌詞任務（對時 / 產生）的投遞點，
+      // user/{uid}/lyrics/{jobId} 是後端歌詞任務（對時 / 產生）的投遞點，
       // client 只能讀；client 自己的歌詞備份走 user/{uid}/backupLyrics。
-      match /lyrics/{trackId} {
+      match /lyrics/{jobId} {
         allow read: if request.auth != null && request.auth.uid == uid;
         allow write: if false;
       }

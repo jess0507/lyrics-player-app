@@ -27,7 +27,14 @@ class LyricsEntity {
   late LyricsSource source;
 
   /// 歌詞原文(解析的唯一依據;編輯計畫直接改這裡)。
+  ///
+  /// 可能為空字串:送出「AI 產生」任務時先建一筆空內容的 entity 記 [jobId]。
+  /// 「有沒有歌詞」一律以 content 是否為空判斷,不以 entity 是否存在判斷。
   late String content;
+
+  /// 最近一次送出、尚未收尾的後端歌詞任務 id(`user/{uid}/lyrics/{jobId}`);
+  /// 任務結束(成功 / 失敗 / 取消)後清為 null。
+  String? jobId;
 
   late DateTime addedAt;
 }

@@ -17,17 +17,16 @@ import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 
-/// 依 [lyricsPendingSyncStoreProvider] 持久化的 trackId 清單,逐一訂閱其
-/// Firestore 文件(`user/{uid}/lyrics/{trackId}`)。背景任務(queued)送出
-/// 後,Cloud Run 端完成的結果原本只寫進 Firestore——要等使用者剛好再次對
-/// 同一 trackId 觸發命中 cached 分支,或重新登入觸發全量還原,才會回到
-/// 本機。這個子集合是後端專屬的投遞點,client 只讀不寫(client 自己的
+/// 依 [lyricsPendingSyncStoreProvider] 持久化的待同步清單,逐一訂閱各任務的
+/// Firestore 文件(`user/{uid}/lyrics/{jobId}`)。背景任務(queued)送出
+/// 後,Cloud Run 端完成的結果只寫進 Firestore,不會自己回到本機。這個子集合是後端專屬的投遞點,client 只讀不寫(client 自己的
 /// 備份走 `user/{uid}/backupLyrics`,見 LyricsSync)。
 ///
 /// 本服務補上這段空窗:狀態轉終態時,done 的話把文件內容直接存回本機
 /// Isar(同一份文件已含 content/format/title,見後端 `_save_lyrics_snapshot`),
 /// 兩種終態(done / failed)都會發最終確認通知(原生通知 + app 內
 /// toast,見 [_notifyResult]),並把該 trackId 從本地待處理清單移除。
+/// 寫回的新歌詞 entity 不帶 jobId;失敗則以 [LyricsRepository.clearJob] 收尾。
 /// 於 `app.dart` 根層級常駐 watch,不綁定特定頁面,跨 app 重啟也能接續。
 class LyricsPendingSyncService {
   LyricsPendingSyncService(this._ref) {
@@ -61,10 +60,13 @@ class LyricsPendingSyncService {
   void _reconcile(Map<String, LyricsPendingSyncJob> jobs) {
     debugPrint('[LyricsPendingSyncService] reconcile pending:${jobs.keys}');
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    for (final trackId in jobs.keys) {
+    for (final MapEntry(key: trackId, value: job) in jobs.entries) {
       if (_subscriptions.containsKey(trackId) || uid == null) continue;
-      debugPrint('[LyricsPendingSyncService] start watching trackId:$trackId');
-      _subscriptions[trackId] = _watch(uid, trackId);
+      debugPrint(
+        '[LyricsPendingSyncService] start watching trackId:$trackId, '
+        'jobId:${job.jobId}',
+      );
+      _subscriptions[trackId] = _watch(uid, trackId, job.jobId);
     }
     for (final trackId in _subscriptions.keys.toList()) {
       if (!jobs.containsKey(trackId)) {
@@ -77,18 +79,21 @@ class LyricsPendingSyncService {
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>> _watch(
     String uid,
     String trackId,
+    String jobId,
   ) => FirebaseFirestore.instance
       .collection('user')
       .doc(uid)
       .collection('lyrics')
-      .doc(trackId)
+      .doc(jobId)
       .snapshots()
       .listen(
         (snapshot) => _onSnapshot(trackId, snapshot),
         onError: (Object e, StackTrace s) => reportError(
           e,
           s,
-          reason: 'LyricsPendingSyncService 監聽 Firestore 失敗:trackId=$trackId',
+          reason:
+              'LyricsPendingSyncService 監聽 Firestore 失敗:'
+              'trackId=$trackId, jobId=$jobId',
         ),
       );
 
@@ -96,7 +101,9 @@ class LyricsPendingSyncService {
     String trackId,
     DocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {
-    final phase = LyricsJobPhase.fromWire(snapshot.data()?['status'] as String?);
+    final phase = LyricsJobPhase.fromWire(
+      snapshot.data()?['status'] as String?,
+    );
     debugPrint('[LyricsPendingSyncService] trackId:$trackId, phase:$phase');
     if (phase == null || !phase.isTerminal) return;
     // 終態:取消這筆訂閱,避免文件之後任何變動再次觸發。
@@ -109,10 +116,14 @@ class LyricsPendingSyncService {
     LyricsJobPhase phase,
     Map<String, dynamic>? data,
   ) async {
-    debugPrint('[LyricsPendingSyncService] trackId:$trackId terminal phase:$phase');
+    debugPrint(
+      '[LyricsPendingSyncService] trackId:$trackId terminal phase:$phase',
+    );
     final job = _ref.read(lyricsPendingSyncStoreProvider)[trackId];
     final success =
         phase == LyricsJobPhase.done && await _syncContent(trackId, data);
+    // 失敗:AI 產生的空內容佔位刪掉,對時則只清 jobId、保留原歌詞。
+    if (!success) await _ref.read(lyricsRepositoryProvider).clearJob(trackId);
     if (job != null) {
       await _notifyResult(job, success: success);
     }
@@ -142,7 +153,9 @@ class LyricsPendingSyncService {
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
     _ref.invalidate(trackLyricsProvider(trackId));
-    debugPrint('[LyricsPendingSyncService] trackId:$trackId synced content, format:$format');
+    debugPrint(
+      '[LyricsPendingSyncService] trackId:$trackId synced content, format:$format',
+    );
     return true;
   }
 
@@ -150,7 +163,10 @@ class LyricsPendingSyncService {
   /// channel,見 [LyricsBackgroundRunner.notifyResult])與 app 內
   /// toast(app 當下在前景時比通知更即時;navigator 未就緒時
   /// [showAppToast] 自行靜默略過)。
-  Future<void> _notifyResult(LyricsPendingSyncJob job, {required bool success}) async {
+  Future<void> _notifyResult(
+    LyricsPendingSyncJob job, {
+    required bool success,
+  }) async {
     final l10n = resolveLyricsL10n(_ref);
     final text = switch ((job.mode, success)) {
       (LyricsBackgroundMode.generate, true) => l10n.lyrics_ai_generate_success,

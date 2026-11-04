@@ -90,11 +90,12 @@ class LyricsAutoSyncService {
 
   final Ref _ref;
 
-  /// 為 [trackId] 執行對時。[language] 為語言提示(BCP-47,後端正規化)。
+  /// 為 [trackId] 執行對時,後端任務文件為 `user/{uid}/lyrics/{jobId}`。[language] 為語言提示(BCP-47,後端正規化)。
   /// [engine] 指定後端對齊引擎(aeneas / WhisperX)。各階段以 [onStep] 回報
   /// 進度。成功僅代表已送出 callable,失敗拋 [LyricsAutoSyncException]。
   Future<void> autoSync({
     required String trackId,
+    required String jobId,
     required String title,
     required String language,
     required LyricsAlignEngine engine,
@@ -140,10 +141,7 @@ class LyricsAutoSyncService {
     onStep?.call(LyricsAutoSyncStep.uploading);
     final Reference storageRef;
     try {
-      final ts = DateTime.now().millisecondsSinceEpoch;
-      storageRef = FirebaseStorage.instance.ref(
-        'align/${user.uid}/$trackId-$ts.m4a',
-      );
+      storageRef = FirebaseStorage.instance.ref('align/${user.uid}/$jobId.m4a');
       await storageRef.putFile(
         compressed,
         SettableMetadata(contentType: 'audio/mp4'),
@@ -158,14 +156,13 @@ class LyricsAutoSyncService {
 
     onStep?.call(LyricsAutoSyncStep.aligning);
     try {
-      final callable = FirebaseFunctions.instanceFor(
-        region: _functionsRegion,
-      ).httpsCallable(
-        'align_lyrics',
-        // 後端派工到 Cloud Tasks 後立刻回應,不再需要等對時整首歌跑完,
-        // 但保留較寬鬆逾時以應付偶發的冷啟動 / 網路延遲。
-        options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
-      );
+      final callable = FirebaseFunctions.instanceFor(region: _functionsRegion)
+          .httpsCallable(
+            'align_lyrics',
+            // 後端派工到 Cloud Tasks 後立刻回應,不再需要等對時整首歌跑完,
+            // 但保留較寬鬆逾時以應付偶發的冷啟動 / 網路延遲。
+            options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
+          );
       await callable.call<Object?>({
         'lines': lines,
         'bucket': storageRef.bucket,
@@ -173,7 +170,11 @@ class LyricsAutoSyncService {
         'language': language,
         'format': 'm4a',
         'engine': engine.wireName,
-        'trackId': trackId,
+        // 任務文件 id 用 jobId(pathKey 含 `/` 不能當 Firestore doc id)。
+        // 後端以 `trackId` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
+        // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
+        'trackId': jobId,
+        'jobId': jobId,
         'title': title,
       });
       debugPrint('[LyricsAutoSyncService] trackId:$trackId, 已送出 align_lyrics');
