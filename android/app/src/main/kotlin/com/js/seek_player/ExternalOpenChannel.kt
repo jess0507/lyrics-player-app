@@ -50,6 +50,24 @@ class ExternalOpenChannel(
                         mainHandler.post { result.success(described) }
                     }
                 }
+                // 工具選曲頁「從檔案選擇」:選檔器回傳的 content URI 還原成
+                // 實體路徑,供 Dart 端算 pathKey 比對曲庫(選檔器給的 path 是
+                // 複製到 app 暫存目錄的副本,對不上曲庫)。
+                "resolvePath" -> {
+                    val raw = call.argument<String>("uri")
+                    if (raw.isNullOrEmpty()) {
+                        result.success(null)
+                    } else {
+                        executor.execute {
+                            val path = try {
+                                resolvePath(Uri.parse(raw))
+                            } catch (_: Exception) {
+                                null
+                            }
+                            mainHandler.post { result.success(path) }
+                        }
+                    }
+                }
                 else -> result.notImplemented()
             }
         }
