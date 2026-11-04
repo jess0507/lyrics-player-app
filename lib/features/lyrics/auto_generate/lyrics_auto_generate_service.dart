@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/auto_sync/audio_compressor.dart';
+import 'package:seek_player/features/lyrics/services/audio_fingerprint.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -94,6 +95,8 @@ class LyricsAutoGenerateService {
     if (audioPath == null) {
       throw const LyricsAutoGenerateException(LyricsAutoGenerateError.noAudio);
     }
+    // 同一首歌處理過的結果由後端依指紋沿用;算不出來(null)就照常處理。
+    final fingerprint = await audioFingerprint(audioPath);
 
     onStep?.call(LyricsAutoGenerateStep.compressing);
     final File compressed;
@@ -147,6 +150,7 @@ class LyricsAutoGenerateService {
         // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
         'trackId': jobId,
         'jobId': jobId,
+        'fingerprint': ?fingerprint,
         'title': title,
       });
       debugPrint(
