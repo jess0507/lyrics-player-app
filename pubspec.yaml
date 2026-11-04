@@ -49,7 +49,10 @@ dependencies:
 
   path_provider: ^2.1.4
 
-  # 曲目內容指紋(track id)的 sha1
+  # 曲目路徑正規化(TrackPathKey)
+  path: ^1.9.1
+
+  # 雲端文件 id / 快取檔名的 sha1(pathKey 含 `/` 不能直接當 id)
   crypto: ^3.0.3
 
   # 線上搜尋歌詞(LRCLIB API)。專案目前無其他 HTTP client 依賴;LRCLIB
