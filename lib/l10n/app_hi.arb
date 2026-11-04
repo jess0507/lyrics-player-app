@@ -1,6 +1,8 @@
 {
   "@@locale": "hi",
   "app_title": "लिरिक्स प्लेयर Lyrics Player",
+  "migration_loading_message": "यह अपडेट के बाद केवल एक बार होता है। कृपया ऐप खुला रखें।",
+  "migration_loading_title": "आपकी संगीत लाइब्रेरी अपडेट हो रही है…",
   "tab_music_list": "संगीत",
   "tab_player": "प्लेयर",
   "tab_profile": "प्रोफ़ाइल",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "मध्य",
   "lyrics_text_align_right": "दाएँ",
   "cover_edit": "कवर संपादित करें",
+  "lyrics_edit": "बोल संपादित करें",
   "cover_add": "कवर जोड़ें",
   "cover_change": "कवर बदलें",
   "cover_remove": "कवर हटाएं",

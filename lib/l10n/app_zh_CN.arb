@@ -1,6 +1,8 @@
 {
   "@@locale": "zh_CN",
   "app_title": "歌词播放器 Lyrics Player",
+  "migration_loading_message": "更新后只会执行一次，请勿关闭 App。",
+  "migration_loading_title": "正在更新音乐库数据…",
   "tab_music_list": "音乐",
   "tab_player": "播放器",
   "tab_profile": "我的",
@@ -194,6 +196,7 @@
   "lyrics_show": "显示歌词",
   "lyrics_hide": "退出全屏歌词",
   "cover_edit": "编辑封面",
+  "lyrics_edit": "编辑歌词",
   "cover_add": "添加封面",
   "cover_change": "更换封面",
   "cover_remove": "移除封面",

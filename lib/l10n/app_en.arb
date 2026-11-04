@@ -1,6 +1,14 @@
 {
   "@@locale": "en",
   "app_title": "Lyrics Player",
+  "migration_loading_message": "This only happens once after the update. Please keep the app open.",
+  "@migration_loading_message": {
+    "description": "Subtitle of the full-screen loading shown while the one-time data migration runs after an app update."
+  },
+  "migration_loading_title": "Updating your music library…",
+  "@migration_loading_title": {
+    "description": "Title of the full-screen loading shown while the one-time data migration runs after an app update."
+  },
   "tab_music_list": "Music",
   "tab_player": "Player",
   "tab_profile": "Profile",
@@ -226,6 +234,7 @@
   "lyrics_show": "Show lyrics",
   "lyrics_hide": "Exit full-screen lyrics",
   "cover_edit": "Edit cover",
+  "lyrics_edit": "Edit lyrics",
   "cover_add": "Add cover",
   "cover_change": "Change cover",
   "cover_remove": "Remove cover",

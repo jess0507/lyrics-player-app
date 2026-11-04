@@ -12,6 +12,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get app_title => 'लिरिक्स प्लेयर Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'यह अपडेट के बाद केवल एक बार होता है। कृपया ऐप खुला रखें।';
+
+  @override
+  String get migration_loading_title => 'आपकी संगीत लाइब्रेरी अपडेट हो रही है…';
+
+  @override
   String get tab_music_list => 'संगीत';
 
   @override
@@ -627,6 +634,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cover_edit => 'कवर संपादित करें';
+
+  @override
+  String get lyrics_edit => 'बोल संपादित करें';
 
   @override
   String get cover_add => 'कवर जोड़ें';

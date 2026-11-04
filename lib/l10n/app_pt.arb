@@ -1,6 +1,8 @@
 {
   "@@locale": "pt",
   "app_title": "Reprodutor de letras Lyrics Player",
+  "migration_loading_message": "Isso acontece só uma vez após a atualização. Mantenha o app aberto.",
+  "migration_loading_title": "Atualizando sua biblioteca de músicas…",
   "tab_music_list": "Música",
   "tab_player": "Reprodutor",
   "tab_profile": "Perfil",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "Centro",
   "lyrics_text_align_right": "Direita",
   "cover_edit": "Editar capa",
+  "lyrics_edit": "Editar letra",
   "cover_add": "Adicionar capa",
   "cover_change": "Alterar capa",
   "cover_remove": "Remover capa",

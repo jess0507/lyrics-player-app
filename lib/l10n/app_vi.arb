@@ -1,6 +1,8 @@
 {
   "@@locale": "vi",
   "app_title": "Trình phát lời bài hát Lyrics Player",
+  "migration_loading_message": "Việc này chỉ diễn ra một lần sau khi cập nhật. Vui lòng không đóng ứng dụng.",
+  "migration_loading_title": "Đang cập nhật thư viện nhạc…",
   "tab_music_list": "Nhạc",
   "tab_player": "Trình phát",
   "tab_profile": "Cá nhân",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "Giữa",
   "lyrics_text_align_right": "Phải",
   "cover_edit": "Chỉnh sửa ảnh bìa",
+  "lyrics_edit": "Chỉnh sửa lời bài hát",
   "cover_add": "Thêm ảnh bìa",
   "cover_change": "Đổi ảnh bìa",
   "cover_remove": "Xóa ảnh bìa",

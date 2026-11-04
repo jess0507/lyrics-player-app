@@ -12,6 +12,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get app_title => 'Плеер текстов Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Это происходит только один раз после обновления. Не закрывайте приложение.';
+
+  @override
+  String get migration_loading_title => 'Обновление музыкальной библиотеки…';
+
+  @override
   String get tab_music_list => 'Музыка';
 
   @override
@@ -626,6 +633,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cover_edit => 'Изменить обложку';
+
+  @override
+  String get lyrics_edit => 'Изменить текст песни';
 
   @override
   String get cover_add => 'Добавить обложку';

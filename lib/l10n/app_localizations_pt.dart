@@ -12,6 +12,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get app_title => 'Reprodutor de letras Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Isso acontece só uma vez após a atualização. Mantenha o app aberto.';
+
+  @override
+  String get migration_loading_title =>
+      'Atualizando sua biblioteca de músicas…';
+
+  @override
   String get tab_music_list => 'Música';
 
   @override
@@ -627,6 +635,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get cover_edit => 'Editar capa';
+
+  @override
+  String get lyrics_edit => 'Editar letra';
 
   @override
   String get cover_add => 'Adicionar capa';

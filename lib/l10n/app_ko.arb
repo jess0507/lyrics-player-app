@@ -1,6 +1,8 @@
 {
   "@@locale": "ko",
   "app_title": "가사 플레이어 Lyrics Player",
+  "migration_loading_message": "업데이트 후 한 번만 진행됩니다. 앱을 닫지 마세요.",
+  "migration_loading_title": "음악 보관함을 업데이트하는 중…",
   "tab_music_list": "음악",
   "tab_player": "플레이어",
   "tab_profile": "마이",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "가운데",
   "lyrics_text_align_right": "오른쪽",
   "cover_edit": "커버 편집",
+  "lyrics_edit": "가사 편집",
   "cover_add": "커버 추가",
   "cover_change": "커버 변경",
   "cover_remove": "커버 제거",

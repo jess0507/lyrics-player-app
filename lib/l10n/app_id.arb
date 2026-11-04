@@ -1,6 +1,8 @@
 {
   "@@locale": "id",
   "app_title": "Pemutar Lirik Lyrics Player",
+  "migration_loading_message": "Ini hanya terjadi sekali setelah pembaruan. Jangan tutup aplikasi.",
+  "migration_loading_title": "Memperbarui pustaka musik…",
   "tab_music_list": "Musik",
   "tab_player": "Pemutar",
   "tab_profile": "Profil",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "Tengah",
   "lyrics_text_align_right": "Kanan",
   "cover_edit": "Edit sampul",
+  "lyrics_edit": "Edit lirik",
   "cover_add": "Tambah sampul",
   "cover_change": "Ganti sampul",
   "cover_remove": "Hapus sampul",

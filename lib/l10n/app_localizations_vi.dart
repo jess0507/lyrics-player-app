@@ -12,6 +12,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get app_title => 'Trình phát lời bài hát Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Việc này chỉ diễn ra một lần sau khi cập nhật. Vui lòng không đóng ứng dụng.';
+
+  @override
+  String get migration_loading_title => 'Đang cập nhật thư viện nhạc…';
+
+  @override
   String get tab_music_list => 'Nhạc';
 
   @override
@@ -630,6 +637,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get cover_edit => 'Chỉnh sửa ảnh bìa';
+
+  @override
+  String get lyrics_edit => 'Chỉnh sửa lời bài hát';
 
   @override
   String get cover_add => 'Thêm ảnh bìa';

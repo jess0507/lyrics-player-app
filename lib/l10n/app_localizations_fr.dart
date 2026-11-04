@@ -12,6 +12,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get app_title => 'Lecteur de paroles Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Cela n’a lieu qu’une fois après la mise à jour. Veuillez garder l’app ouverte.';
+
+  @override
+  String get migration_loading_title =>
+      'Mise à jour de votre bibliothèque musicale…';
+
+  @override
   String get tab_music_list => 'Musique';
 
   @override
@@ -634,6 +642,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cover_edit => 'Modifier la pochette';
+
+  @override
+  String get lyrics_edit => 'Modifier les paroles';
 
   @override
   String get cover_add => 'Ajouter une pochette';

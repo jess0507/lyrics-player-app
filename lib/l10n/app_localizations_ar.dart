@@ -12,6 +12,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get app_title => 'مشغّل الكلمات Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'يحدث هذا مرة واحدة فقط بعد التحديث. يُرجى إبقاء التطبيق مفتوحًا.';
+
+  @override
+  String get migration_loading_title => 'جارٍ تحديث مكتبة الموسيقى…';
+
+  @override
   String get tab_music_list => 'الموسيقى';
 
   @override
@@ -623,6 +630,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cover_edit => 'تعديل الغلاف';
+
+  @override
+  String get lyrics_edit => 'تعديل كلمات الأغنية';
 
   @override
   String get cover_add => 'إضافة غلاف';

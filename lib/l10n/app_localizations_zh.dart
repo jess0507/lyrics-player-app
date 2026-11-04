@@ -12,6 +12,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get app_title => '歌詞播放器 Lyrics Player';
 
   @override
+  String get migration_loading_message => '更新後只會執行一次，請勿關閉 App。';
+
+  @override
+  String get migration_loading_title => '正在更新音樂庫資料…';
+
+  @override
   String get tab_music_list => '音樂';
 
   @override
@@ -602,6 +608,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cover_edit => '編輯封面';
 
   @override
+  String get lyrics_edit => '編輯歌詞';
+
+  @override
   String get cover_add => '新增封面';
 
   @override
@@ -882,6 +891,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get app_title => '歌词播放器 Lyrics Player';
+
+  @override
+  String get migration_loading_message => '更新后只会执行一次，请勿关闭 App。';
+
+  @override
+  String get migration_loading_title => '正在更新音乐库数据…';
 
   @override
   String get tab_music_list => '音乐';
@@ -1474,6 +1489,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get cover_edit => '编辑封面';
 
   @override
+  String get lyrics_edit => '编辑歌词';
+
+  @override
   String get cover_add => '添加封面';
 
   @override
@@ -1754,6 +1772,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get app_title => '歌詞播放器 Lyrics Player';
+
+  @override
+  String get migration_loading_message => '更新後只會執行一次，請勿關閉 App。';
+
+  @override
+  String get migration_loading_title => '正在更新音樂庫資料…';
 
   @override
   String get tab_music_list => '音樂';
@@ -2344,6 +2368,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get cover_edit => '編輯封面';
+
+  @override
+  String get lyrics_edit => '編輯歌詞';
 
   @override
   String get cover_add => '新增封面';

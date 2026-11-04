@@ -12,6 +12,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get app_title => 'Liedtext-Player Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Dies geschieht nur einmal nach dem Update. Bitte lass die App geöffnet.';
+
+  @override
+  String get migration_loading_title => 'Musikbibliothek wird aktualisiert…';
+
+  @override
   String get tab_music_list => 'Musik';
 
   @override
@@ -633,6 +640,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get cover_edit => 'Cover bearbeiten';
+
+  @override
+  String get lyrics_edit => 'Songtext bearbeiten';
 
   @override
   String get cover_add => 'Cover hinzufügen';

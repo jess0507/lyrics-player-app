@@ -1,6 +1,8 @@
 {
   "@@locale": "ar",
   "app_title": "مشغّل الكلمات Lyrics Player",
+  "migration_loading_message": "يحدث هذا مرة واحدة فقط بعد التحديث. يُرجى إبقاء التطبيق مفتوحًا.",
+  "migration_loading_title": "جارٍ تحديث مكتبة الموسيقى…",
   "tab_music_list": "الموسيقى",
   "tab_player": "المشغل",
   "tab_profile": "حسابي",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "وسط",
   "lyrics_text_align_right": "يمين",
   "cover_edit": "تعديل الغلاف",
+  "lyrics_edit": "تعديل كلمات الأغنية",
   "cover_add": "إضافة غلاف",
   "cover_change": "تغيير الغلاف",
   "cover_remove": "إزالة الغلاف",

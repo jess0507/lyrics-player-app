@@ -12,6 +12,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get app_title => 'Şarkı Sözü Oynatıcı Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Bu, güncellemeden sonra yalnızca bir kez yapılır. Lütfen uygulamayı kapatma.';
+
+  @override
+  String get migration_loading_title => 'Müzik kitaplığın güncelleniyor…';
+
+  @override
   String get tab_music_list => 'Müzik';
 
   @override
@@ -628,6 +635,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get cover_edit => 'Kapağı düzenle';
+
+  @override
+  String get lyrics_edit => 'Şarkı sözlerini düzenle';
 
   @override
   String get cover_add => 'Kapak ekle';

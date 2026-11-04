@@ -12,6 +12,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get app_title => '가사 플레이어 Lyrics Player';
 
   @override
+  String get migration_loading_message => '업데이트 후 한 번만 진행됩니다. 앱을 닫지 마세요.';
+
+  @override
+  String get migration_loading_title => '음악 보관함을 업데이트하는 중…';
+
+  @override
   String get tab_music_list => '음악';
 
   @override
@@ -609,6 +615,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cover_edit => '커버 편집';
+
+  @override
+  String get lyrics_edit => '가사 편집';
 
   @override
   String get cover_add => '커버 추가';

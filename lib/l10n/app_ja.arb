@@ -1,6 +1,8 @@
 {
   "@@locale": "ja",
   "app_title": "歌詞プレーヤー Lyrics Player",
+  "migration_loading_message": "アップデート後に一度だけ実行されます。アプリを閉じないでください。",
+  "migration_loading_title": "音楽ライブラリを更新しています…",
   "tab_music_list": "音楽",
   "tab_player": "プレイヤー",
   "tab_profile": "マイページ",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "中央揃え",
   "lyrics_text_align_right": "右揃え",
   "cover_edit": "カバーを編集",
+  "lyrics_edit": "歌詞を編集",
   "cover_add": "カバーを追加",
   "cover_change": "カバーを変更",
   "cover_remove": "カバーを削除",

@@ -132,6 +132,18 @@ abstract class AppLocalizations {
   /// **'Lyrics Player'**
   String get app_title;
 
+  /// Subtitle of the full-screen loading shown while the one-time data migration runs after an app update.
+  ///
+  /// In en, this message translates to:
+  /// **'This only happens once after the update. Please keep the app open.'**
+  String get migration_loading_message;
+
+  /// Title of the full-screen loading shown while the one-time data migration runs after an app update.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating your music library…'**
+  String get migration_loading_title;
+
   /// No description provided for @tab_music_list.
   ///
   /// In en, this message translates to:
@@ -1289,6 +1301,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit cover'**
   String get cover_edit;
+
+  /// No description provided for @lyrics_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit lyrics'**
+  String get lyrics_edit;
 
   /// No description provided for @cover_add.
   ///

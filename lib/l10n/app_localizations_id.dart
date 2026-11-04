@@ -12,6 +12,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get app_title => 'Pemutar Lirik Lyrics Player';
 
   @override
+  String get migration_loading_message =>
+      'Ini hanya terjadi sekali setelah pembaruan. Jangan tutup aplikasi.';
+
+  @override
+  String get migration_loading_title => 'Memperbarui pustaka musik…';
+
+  @override
   String get tab_music_list => 'Musik';
 
   @override
@@ -627,6 +634,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get cover_edit => 'Edit sampul';
+
+  @override
+  String get lyrics_edit => 'Edit lirik';
 
   @override
   String get cover_add => 'Tambah sampul';

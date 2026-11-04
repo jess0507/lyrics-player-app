@@ -12,6 +12,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get app_title => '歌詞プレーヤー Lyrics Player';
 
   @override
+  String get migration_loading_message => 'アップデート後に一度だけ実行されます。アプリを閉じないでください。';
+
+  @override
+  String get migration_loading_title => '音楽ライブラリを更新しています…';
+
+  @override
   String get tab_music_list => '音楽';
 
   @override
@@ -605,6 +611,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cover_edit => 'カバーを編集';
+
+  @override
+  String get lyrics_edit => '歌詞を編集';
 
   @override
   String get cover_add => 'カバーを追加';

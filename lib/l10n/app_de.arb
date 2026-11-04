@@ -1,6 +1,8 @@
 {
   "@@locale": "de",
   "app_title": "Liedtext-Player Lyrics Player",
+  "migration_loading_message": "Dies geschieht nur einmal nach dem Update. Bitte lass die App geöffnet.",
+  "migration_loading_title": "Musikbibliothek wird aktualisiert…",
   "tab_music_list": "Musik",
   "tab_player": "Player",
   "tab_profile": "Profil",
@@ -199,6 +201,7 @@
   "lyrics_text_align_center": "Mitte",
   "lyrics_text_align_right": "Rechts",
   "cover_edit": "Cover bearbeiten",
+  "lyrics_edit": "Songtext bearbeiten",
   "cover_add": "Cover hinzufügen",
   "cover_change": "Cover ändern",
   "cover_remove": "Cover entfernen",
