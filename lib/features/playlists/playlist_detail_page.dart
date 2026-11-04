@@ -28,9 +28,21 @@ import 'package:seek_player/shared/widgets/track_list_tile.dart';
 /// 單一播放清單內容:頂端靠左為清單名稱,其下一列新增 / 編輯 / 排序 / 搜尋
 /// (最近播放為清空 / 搜尋),同列右側為隨機 / 播放全部,再下方為曲目清單。
 class PlaylistDetailPage extends ConsumerStatefulWidget {
-  const PlaylistDetailPage({super.key, required this.playlistId});
+  const PlaylistDetailPage({
+    super.key,
+    required this.playlistId,
+    this.openAddTracksOnOpen = false,
+  });
+
+  /// 路由 query 參數名:值為 `1` 時進頁後自動開「增加項目」頁
+  /// (見 [openAddTracksOnOpen])。
+  static const addTracksQuery = 'addTracks';
 
   final int playlistId;
+
+  /// 進頁(轉場結束)後自動疊上「增加項目」頁,只觸發一次。用於新增播放
+  /// 清單命名完成後,讓使用者直接挑選曲目,返回即回到本頁。
+  final bool openAddTracksOnOpen;
 
   @override
   ConsumerState<PlaylistDetailPage> createState() => _PlaylistDetailPageState();
@@ -43,6 +55,35 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
   var _sort = const TrackSort(field: TrackSortField.custom);
   var _searching = false;
   final _searchController = TextEditingController();
+
+  /// [PlaylistDetailPage.openAddTracksOnOpen] 是否已處理過(rebuild /
+  /// 從增加項目頁返回都不再開)。
+  var _addTracksHandled = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!widget.openAddTracksOnOpen || _addTracksHandled) return;
+    _addTracksHandled = true;
+    // 等本頁轉場結束再疊上去,避免兩段滑入動畫重疊。
+    final animation = ModalRoute.of(context)?.animation;
+    if (animation == null || animation.isCompleted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _openAddTracks());
+      return;
+    }
+    void listener(AnimationStatus status) {
+      if (status != AnimationStatus.completed) return;
+      animation.removeStatusListener(listener);
+      _openAddTracks();
+    }
+
+    animation.addStatusListener(listener);
+  }
+
+  void _openAddTracks() {
+    if (!mounted) return;
+    showPlaylistAddTracksPage(context, playlistId);
+  }
 
   @override
   void dispose() {

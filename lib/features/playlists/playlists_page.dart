@@ -6,6 +6,7 @@ import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/playlists/models/playlist_display_name.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
+import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/providers/playlist_tracks_provider.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
@@ -57,7 +58,11 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
     if (name == null) return;
     final id = await ref.read(playlistRepositoryProvider).create(name);
     if (!context.mounted) return;
-    context.push('/playlists/$id');
+    // 新建的清單是空的:進詳細頁後直接疊上「增加項目」頁,返回即回到
+    // 這個清單(見 PlaylistDetailPage.openAddTracksOnOpen)。
+    context.push(
+      '/playlists/$id?${PlaylistDetailPage.addTracksQuery}=1',
+    );
   }
 
   Future<void> _rename(

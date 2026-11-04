@@ -136,6 +136,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: ':id',
                     builder: (context, state) => PlaylistDetailPage(
                       playlistId: int.parse(state.pathParameters['id']!),
+                      openAddTracksOnOpen:
+                          state.uri.queryParameters[PlaylistDetailPage
+                              .addTracksQuery] ==
+                          '1',
                     ),
                     routes: [
                       GoRoute(
