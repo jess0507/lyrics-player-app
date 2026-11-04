@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/player/services/open_tool_editor.dart';
@@ -20,6 +21,9 @@ enum _PlayerMenuAction {
 
   addToPlaylist,
 
+  /// 進「工具 › 製作歌詞」的該曲編輯頁;該曲已有歌詞時顯示。
+  editLyrics,
+
   /// 進「工具 › 更改封面」的該曲編輯頁,新增 / 更換 / 移除都在那裡做。
   editCover,
 
@@ -35,6 +39,7 @@ enum _PlayerMenuAction {
     lyricsFontSize => Icons.text_fields,
     lyricsTextAlign => Icons.format_align_left,
     addToPlaylist => Icons.playlist_add,
+    editLyrics => Icons.edit_note,
     editCover => Icons.image_outlined,
   };
 
@@ -44,16 +49,21 @@ enum _PlayerMenuAction {
     lyricsFontSize => l10n.lyrics_font_size,
     lyricsTextAlign => l10n.lyrics_text_align,
     addToPlaylist => l10n.playlist_add_to,
+    editLyrics => l10n.lyrics_edit,
     editCover => l10n.cover_edit,
   };
 
   /// 依目前曲目狀態決定是否顯示此項目。
-  bool isVisible({required Track? track, required String? trackId}) =>
-      switch (this) {
-        speed || seekStep => true,
-        addToPlaylist => track != null,
-        lyricsFontSize || lyricsTextAlign || editCover => trackId != null,
-      };
+  bool isVisible({
+    required Track? track,
+    required String? trackId,
+    required bool hasLyrics,
+  }) => switch (this) {
+    speed || seekStep => true,
+    addToPlaylist => track != null,
+    editLyrics => trackId != null && hasLyrics,
+    lyricsFontSize || lyricsTextAlign || editCover => trackId != null,
+  };
 
   void run(
     BuildContext context,
@@ -73,6 +83,14 @@ enum _PlayerMenuAction {
         showLyricsTextAlignSheet(context);
       case addToPlaylist:
         if (track != null) showAddToPlaylistSheet(context, ref, track);
+      case editLyrics:
+        if (trackId != null) {
+          openToolEditorFromPlayer(
+            context,
+            tool: ToolKind.lyrics,
+            trackId: trackId,
+          );
+        }
       case editCover:
         if (trackId != null) {
           openToolEditorFromPlayer(
@@ -134,13 +152,20 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
     final tracks = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
     final trackIndex = id == null ? -1 : tracks.indexWhere((t) => t.id == id);
     final track = trackIndex < 0 ? null : tracks[trackIndex];
+    final hasLyrics =
+        id != null &&
+        (ref.watch(trackLyricsProvider(id)).valueOrNull?.isNotEmpty ?? false);
 
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           for (final action in _PlayerMenuAction.values)
-            if (action.isVisible(track: track, trackId: id))
+            if (action.isVisible(
+              track: track,
+              trackId: id,
+              hasLyrics: hasLyrics,
+            ))
               ListTile(
                 leading: Icon(action.icon),
                 title: Text(action.label(l10n)),
