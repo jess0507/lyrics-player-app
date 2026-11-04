@@ -215,9 +215,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get profile_reset_message => '앱 데이터만 초기화되며, 기기의 미디어 파일은 삭제되지 않습니다.';
 
   @override
-  String get profile_reset_restart_hint => '초기화되었습니다. 앱을 완전히 종료한 후 다시 실행해 주세요.';
-
-  @override
   String get profile_feedback => '피드백';
 
   @override
@@ -273,18 +270,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get player_nothing_playing => '재생 중인 곡이 없습니다';
-
-  @override
-  String get music_import => '음악 가져오기';
-
-  @override
-  String music_import_done(int count) {
-    return '$count곡을 가져왔습니다';
-  }
-
-  @override
-  String get music_empty_import =>
-      '아직 음악이 없습니다. \'음악 가져오기\'를 탭하거나 \'파일\' 앱에서 이 앱의 폴더에 오디오 파일을 추가하세요.';
 
   @override
   String get music_search => '검색';
@@ -897,9 +882,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get update_restart_action => '다시 시작';
-
-  @override
-  String get update_restart_manual_hint => '업데이트를 적용하려면 앱을 완전히 종료한 후 다시 열어 주세요';
 
   @override
   String get update_store_action => '업데이트';

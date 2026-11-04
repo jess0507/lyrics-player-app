@@ -222,10 +222,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Seules les données de l\'application seront réinitialisées. Les fichiers multimédias de cet appareil ne seront pas supprimés.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Réinitialisation terminée. Veuillez fermer complètement l\'application et la rouvrir.';
-
-  @override
   String get profile_feedback => 'Commentaires';
 
   @override
@@ -281,24 +277,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Aucune lecture en cours';
-
-  @override
-  String get music_import => 'Importer de la musique';
-
-  @override
-  String music_import_done(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count morceaux importés',
-      one: '1 morceau importé',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Pas encore de musique. Touchez « Importer de la musique » ou déposez des fichiers audio dans le dossier de cette app via l\'app Fichiers.';
 
   @override
   String get music_search => 'Rechercher';
@@ -953,10 +931,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Redémarrer';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Veuillez fermer complètement l\'application puis la rouvrir pour appliquer la mise à jour.';
 
   @override
   String get update_store_action => 'Mettre à jour';

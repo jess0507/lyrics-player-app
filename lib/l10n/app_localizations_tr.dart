@@ -221,10 +221,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Yalnızca uygulama verileri sıfırlanır. Bu cihazdaki medya dosyaları silinmez.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Sıfırlandı. Lütfen uygulamayı tamamen kapatıp yeniden açın.';
-
-  @override
   String get profile_feedback => 'Geri bildirim';
 
   @override
@@ -280,18 +276,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Çalan bir şey yok';
-
-  @override
-  String get music_import => 'Müzik içe aktar';
-
-  @override
-  String music_import_done(int count) {
-    return '$count parça içe aktarıldı';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Henüz müzik yok. Müzik içe aktar\'a dokunun veya Dosyalar uygulamasından bu uygulamanın klasörüne ses dosyaları ekleyin.';
 
   @override
   String get music_search => 'Ara';
@@ -938,10 +922,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Yeniden başlat';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Güncellemeyi uygulamak için lütfen uygulamayı tamamen kapatıp yeniden açın.';
 
   @override
   String get update_store_action => 'Güncelle';

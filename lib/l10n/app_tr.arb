@@ -66,7 +66,6 @@
   "profile_reset": "Sıfırla",
   "profile_reset_title": "Uygulama sıfırlansın mı?",
   "profile_reset_message": "Yalnızca uygulama verileri sıfırlanır. Bu cihazdaki medya dosyaları silinmez.",
-  "profile_reset_restart_hint": "Sıfırlandı. Lütfen uygulamayı tamamen kapatıp yeniden açın.",
   "profile_feedback": "Geri bildirim",
   "profile_feedback_no_mail_app": "Posta uygulaması bulunamadı. Lütfen doğrudan {email} adresine yazın.",
   "player_play": "Oynat",
@@ -84,9 +83,6 @@
   "player_seek_step": "Atlama aralığı",
   "common_reset": "Sıfırla",
   "player_nothing_playing": "Çalan bir şey yok",
-  "music_import": "Müzik içe aktar",
-  "music_import_done": "{count} parça içe aktarıldı",
-  "music_empty_import": "Henüz müzik yok. Müzik içe aktar'a dokunun veya Dosyalar uygulamasından bu uygulamanın klasörüne ses dosyaları ekleyin.",
   "music_search": "Ara",
   "music_empty": "Henüz müzik yok. Lütfen cihazınızdaki şarkıları yeniden yükleyin.",
   "music_remove": "Kaldır",
@@ -282,7 +278,6 @@
   "update_later": "Daha sonra",
   "update_ready_message": "Yeni bir sürüm hazır",
   "update_restart_action": "Yeniden başlat",
-  "update_restart_manual_hint": "Güncellemeyi uygulamak için lütfen uygulamayı tamamen kapatıp yeniden açın.",
   "update_store_action": "Güncelle",
   "update_store_message": "Google Play'de yeni bir sürüm mevcut. Şimdi güncellensin mi?"
 }

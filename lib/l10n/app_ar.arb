@@ -66,7 +66,6 @@
   "profile_reset": "إعادة تعيين",
   "profile_reset_title": "هل تريد إعادة تعيين التطبيق؟",
   "profile_reset_message": "سيتم إعادة تعيين بيانات التطبيق فقط. لن يتم حذف ملفات الوسائط على هذا الجهاز.",
-  "profile_reset_restart_hint": "تمت إعادة التعيين. يرجى إغلاق التطبيق بالكامل ثم إعادة فتحه.",
   "profile_feedback": "ملاحظات",
   "profile_feedback_no_mail_app": "لم يتم العثور على تطبيق بريد. يرجى مراسلة {email} مباشرةً.",
   "player_play": "تشغيل",
@@ -84,9 +83,6 @@
   "player_seek_step": "فاصل التخطي",
   "common_reset": "إعادة تعيين",
   "player_nothing_playing": "لا يوجد تشغيل حالي",
-  "music_import": "استيراد الموسيقى",
-  "music_import_done": "{count, plural, =1{تم استيراد مقطع واحد} other{تم استيراد {count} من المقاطع}}",
-  "music_empty_import": "لا توجد موسيقى بعد. اضغط على «استيراد الموسيقى» أو أضف ملفات صوتية إلى مجلد هذا التطبيق عبر تطبيق «الملفات».",
   "music_search": "بحث",
   "music_empty": "لا توجد موسيقى بعد. يرجى إعادة تحميل الأغاني من جهازك.",
   "music_remove": "إزالة",
@@ -282,7 +278,6 @@
   "update_later": "لاحقًا",
   "update_ready_message": "نسخة جديدة جاهزة",
   "update_restart_action": "إعادة التشغيل",
-  "update_restart_manual_hint": "يرجى إغلاق التطبيق تمامًا ثم إعادة فتحه لتطبيق التحديث.",
   "update_store_action": "تحديث",
   "update_store_message": "يتوفر إصدار جديد على Google Play. هل تريد التحديث الآن؟"
 }

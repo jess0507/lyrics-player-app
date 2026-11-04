@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -8,7 +6,6 @@ import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/permissions/permission_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
-import 'package:seek_player/features/music_list/services/music_import_service.dart';
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
@@ -43,7 +40,6 @@ class LocalMusicPlaylistPage extends ConsumerStatefulWidget {
 class _LocalMusicPlaylistPageState
     extends ConsumerState<LocalMusicPlaylistPage> {
   bool _scanning = false;
-  bool _importing = false;
 
   /// 目前篩選的資料夾路徑;null 代表全部。
   String? _folder;
@@ -58,10 +54,8 @@ class _LocalMusicPlaylistPageState
   }
 
   /// 進入本頁時,若首次載入後音樂庫為空(多半是尚未授權,build 不主動
-  /// 彈權限),自動走一次「請求權限 → 重新掃描」。iOS 掃自家沙盒、無需
-  /// 權限,build 已掃過,空清單代表尚未匯入,不重複掃描。
+  /// 彈權限),自動走一次「請求權限 → 重新掃描」。
   Future<void> _autoRescanIfEmpty() async {
-    if (Platform.isIOS) return;
     final List<Track> tracks;
     try {
       tracks = await ref.read(musicLibraryProvider.future);
@@ -87,27 +81,6 @@ class _LocalMusicPlaylistPageState
       await ref.read(musicLibraryProvider.notifier).refresh();
     } finally {
       if (mounted) setState(() => _scanning = false);
-    }
-  }
-
-  /// iOS:以文件選擇器匯入音訊檔到 app Documents,完成後重新掃描。
-  Future<void> _importMusic() async {
-    setState(() => _importing = true);
-    try {
-      final count = await ref
-          .read(musicImportServiceProvider)
-          .importFromPicker();
-      if (count > 0) {
-        await ref.read(musicLibraryProvider.notifier).refresh();
-        if (mounted) {
-          final l10n = AppLocalizations.of(context)!;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.music_import_done(count))),
-          );
-        }
-      }
-    } finally {
-      if (mounted) setState(() => _importing = false);
     }
   }
 
@@ -197,29 +170,6 @@ class _LocalMusicPlaylistPageState
         ),
         body: Column(
           children: [
-            // iOS 音樂庫 = app Documents(方案 A),曲目由使用者匯入;
-            // Android 掃 MediaStore,無匯入需求,整列連同留白一併隱藏。
-            if (Platform.isIOS) ...[
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
-                child: Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: TextButton.icon(
-                    style: systemButtonStyle,
-                    onPressed: _importing ? null : _importMusic,
-                    icon: _importing
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.add),
-                    label: Text(l10n.music_import),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-            ],
             // 有曲目時才顯示資料夾下拉與操作列;清單為空時重新掃描改由
             // 下方空狀態提供。
             if (tracks.isNotEmpty) ...[
@@ -273,9 +223,7 @@ class _LocalMusicPlaylistPageState
                   ? const Center(child: CircularProgressIndicator())
                   : tracks.isEmpty
                   ? EmptyStateView(
-                      message: Platform.isIOS
-                          ? l10n.music_empty_import
-                          : l10n.music_empty,
+                      message: l10n.music_empty,
                       action: _rescanButton(systemButtonStyle, l10n),
                     )
                   : visibleTracks.isEmpty

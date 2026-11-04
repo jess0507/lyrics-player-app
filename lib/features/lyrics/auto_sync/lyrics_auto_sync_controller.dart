@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart';
@@ -36,8 +33,8 @@ class LyricsAutoSyncState {
 /// 以 trackId 為 key 的對時控制器:驅動 [LyricsAutoSyncService] 並把階段 /
 /// 結果寫成 [LyricsAutoSyncState],供進度對話框與選單即時反映。
 ///
-/// Android 交由 [LyricsBackgroundRunner](前景服務 + 背景 isolate)執行,
-/// app 從最近工作列滑掉也繼續;其他平台維持在本 isolate 直接執行。
+/// 交由 [LyricsBackgroundRunner](Android 前景服務 + 背景 isolate)執行,
+/// app 從最近工作列滑掉也繼續。
 class LyricsAutoSyncController
     extends FamilyNotifier<LyricsAutoSyncState, String> {
   @override
@@ -55,18 +52,19 @@ class LyricsAutoSyncController
       status: LyricsAutoSyncStatus.running,
       step: LyricsAutoSyncStep.compressing,
     );
-    // 送出前先在 main isolate 記到本地待同步清單:無論之後實際執行是走
-    // Android 背景 isolate 還是本 isolate,LyricsPendingSyncService(常駐
-    // main isolate)都能立刻開始監聽 Firestore 狀態,不需背景 isolate 另外
-    // 回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
+    // 送出前先在 main isolate 記到本地待同步清單:LyricsPendingSyncService
+    // (常駐 main isolate)能立刻開始監聽 Firestore 狀態,不需背景 isolate
+    // 另外回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
     debugPrint('[LyricsAutoSyncController] trackId:$arg, 加入 pendingSyncStore');
     await ref.read(lyricsPendingSyncStoreProvider.notifier).add(
       arg,
       LyricsPendingSyncJob(mode: LyricsBackgroundMode.align, title: title),
     );
-    final success = Platform.isAndroid
-        ? await _runInBackground(title: title, language: language, engine: engine)
-        : await _runInline(title: title, language: language, engine: engine);
+    final success = await _runInBackground(
+      title: title,
+      language: language,
+      engine: engine,
+    );
     if (!success) {
       // 沒有真的送出背景工作(取消 / busy / 過程中失敗),沒有任何後端 job
       // 可等,清掉剛剛預先加的紀錄,避免白等一個不存在的工作。
@@ -76,7 +74,7 @@ class LyricsAutoSyncController
     return success;
   }
 
-  /// Android:走前景服務。通知文字在此以當前語系解析好隨請求帶出,
+  /// 走 Android 前景服務。通知文字在此以當前語系解析好隨請求帶出,
   /// 背景 isolate 不需存取 l10n。
   Future<bool> _runInBackground({
     required String title,
@@ -142,43 +140,6 @@ class LyricsAutoSyncController
     }
   }
 
-  /// 非 Android:於本 isolate 直接執行(原行為)。
-  Future<bool> _runInline({
-    required String title,
-    required String language,
-    required LyricsAlignEngine engine,
-  }) async {
-    try {
-      await ref
-          .read(lyricsAutoSyncServiceProvider)
-          .autoSync(
-            trackId: arg,
-            title: title,
-            language: language,
-            engine: engine,
-            onStep: (step) => state = LyricsAutoSyncState(
-              status: LyricsAutoSyncStatus.running,
-              step: step,
-            ),
-          );
-      state = const LyricsAutoSyncState(status: LyricsAutoSyncStatus.success);
-      return true;
-    } on LyricsAutoSyncException catch (e) {
-      state = LyricsAutoSyncState(
-        status: LyricsAutoSyncStatus.failure,
-        error: e.error,
-        activeTitle: e.activeTitle,
-      );
-      return false;
-    } catch (e, s) {
-      reportError(e, s, reason: '歌詞對時：未預期錯誤');
-      state = const LyricsAutoSyncState(
-        status: LyricsAutoSyncStatus.failure,
-        error: LyricsAutoSyncError.unknown,
-      );
-      return false;
-    }
-  }
 
 }
 

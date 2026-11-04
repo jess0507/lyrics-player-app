@@ -10,7 +10,7 @@ import 'package:seek_player/features/music_list/services/track_fingerprint_servi
 ///
 /// track id 的組成見各 MusicLibrarySource:優先為內容指紋
 /// (TrackFingerprintService 的 sha1),指紋算不出來的曲目才 fallback
-/// (Android:MediaStore id;iOS:檔案路徑)。因此解析依序嘗試:
+/// (MediaStore id)。因此解析依序嘗試:
 /// 1. 指紋快取反查路徑(常態;一次 Isar 查詢)
 /// 2. fallback id 比對(交由平台來源)
 /// 3. 全庫重算指紋比對(檔案被移動、快取路徑失效時的最後手段)

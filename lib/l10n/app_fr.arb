@@ -66,7 +66,6 @@
   "profile_reset": "Réinitialiser",
   "profile_reset_title": "Réinitialiser l'application ?",
   "profile_reset_message": "Seules les données de l'application seront réinitialisées. Les fichiers multimédias de cet appareil ne seront pas supprimés.",
-  "profile_reset_restart_hint": "Réinitialisation terminée. Veuillez fermer complètement l'application et la rouvrir.",
   "profile_feedback": "Commentaires",
   "profile_feedback_no_mail_app": "Aucune application de messagerie trouvée. Écrivez directement à {email}.",
   "player_play": "Lire",
@@ -84,9 +83,6 @@
   "player_seek_step": "Intervalle de saut",
   "common_reset": "Réinitialiser",
   "player_nothing_playing": "Aucune lecture en cours",
-  "music_import": "Importer de la musique",
-  "music_import_done": "{count, plural, =1{1 morceau importé} other{{count} morceaux importés}}",
-  "music_empty_import": "Pas encore de musique. Touchez « Importer de la musique » ou déposez des fichiers audio dans le dossier de cette app via l'app Fichiers.",
   "music_search": "Rechercher",
   "music_empty": "Aucune musique. Veuillez recharger les chansons de votre appareil.",
   "music_remove": "Retirer",
@@ -282,7 +278,6 @@
   "update_later": "Plus tard",
   "update_ready_message": "Une nouvelle version est prête",
   "update_restart_action": "Redémarrer",
-  "update_restart_manual_hint": "Veuillez fermer complètement l'application puis la rouvrir pour appliquer la mise à jour.",
   "update_store_action": "Mettre à jour",
   "update_store_message": "Une nouvelle version est disponible sur Google Play. Mettre à jour maintenant ?"
 }

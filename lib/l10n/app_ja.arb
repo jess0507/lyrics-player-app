@@ -66,7 +66,6 @@
   "profile_reset": "リセット",
   "profile_reset_title": "リセットしますか？",
   "profile_reset_message": "アプリのデータのみリセットされます。端末内のメディアファイルは削除されません。",
-  "profile_reset_restart_hint": "リセットしました。アプリを完全に終了して再起動してください。",
   "profile_feedback": "フィードバック",
   "profile_feedback_no_mail_app": "メールアプリが見つかりません。{email} 宛に直接メールしてください。",
   "player_play": "再生",
@@ -84,9 +83,6 @@
   "player_seek_step": "スキップ秒数",
   "common_reset": "リセット",
   "player_nothing_playing": "再生中の曲はありません",
-  "music_import": "音楽をインポート",
-  "music_import_done": "{count}曲をインポートしました",
-  "music_empty_import": "まだ音楽がありません。「音楽をインポート」をタップするか、「ファイル」アプリでこのアプリのフォルダに音声ファイルを追加してください。",
   "music_search": "検索",
   "music_empty": "音楽がありません。端末の曲を再読み込みしてください。",
   "music_remove": "削除",
@@ -282,7 +278,6 @@
   "update_later": "あとで",
   "update_ready_message": "新しいバージョンの準備ができました",
   "update_restart_action": "再起動",
-  "update_restart_manual_hint": "アップデートを適用するには、アプリを完全に終了してから再度開いてください",
   "update_store_action": "更新",
   "update_store_message": "Google Play に新しいバージョンがあります。今すぐ更新しますか？"
 }

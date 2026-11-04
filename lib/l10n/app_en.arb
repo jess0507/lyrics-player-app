@@ -83,7 +83,6 @@
   "profile_reset": "Reset",
   "profile_reset_title": "Reset the app?",
   "profile_reset_message": "Only app data will be reset. Media files on this device will not be deleted.",
-  "profile_reset_restart_hint": "Reset complete. Please fully close and reopen the app.",
   "profile_feedback": "Feedback",
   "profile_feedback_no_mail_app": "No mail app found. Please email {email} directly.",
   "@profile_feedback_no_mail_app": {"placeholders": {"email": {"type": "String"}}},
@@ -116,16 +115,6 @@
   "player_seek_step": "Skip interval",
   "common_reset": "Reset",
   "player_nothing_playing": "Nothing playing",
-  "music_import": "Import music",
-  "music_import_done": "{count, plural, =1{Imported 1 track} other{Imported {count} tracks}}",
-  "@music_import_done": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "music_empty_import": "No music yet. Tap Import music, or drop audio files into this app's folder in the Files app.",
   "music_search": "Search",
   "music_empty": "No music yet. Please reload songs from your device.",
   "music_remove": "Remove",
@@ -356,7 +345,6 @@
   "update_later": "Later",
   "update_ready_message": "A new version is ready",
   "update_restart_action": "Restart",
-  "update_restart_manual_hint": "Please fully close and reopen the app to apply the update.",
   "update_store_action": "Update",
   "update_store_message": "A new version is available on Google Play. Update now?"
 }

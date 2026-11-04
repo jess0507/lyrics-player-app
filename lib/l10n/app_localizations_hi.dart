@@ -220,10 +220,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'केवल ऐप डेटा रीसेट होगा। इस डिवाइस की मीडिया फ़ाइलें नहीं हटाई जाएँगी।';
 
   @override
-  String get profile_reset_restart_hint =>
-      'रीसेट हो गया। कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।';
-
-  @override
   String get profile_feedback => 'प्रतिक्रिया';
 
   @override
@@ -279,18 +275,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'कुछ भी नहीं चल रहा';
-
-  @override
-  String get music_import => 'संगीत आयात करें';
-
-  @override
-  String music_import_done(int count) {
-    return '$count ट्रैक आयात किए गए';
-  }
-
-  @override
-  String get music_empty_import =>
-      'अभी कोई संगीत नहीं है। «संगीत आयात करें» पर टैप करें, या Files ऐप से इस ऐप के फ़ोल्डर में ऑडियो फ़ाइलें डालें।';
 
   @override
   String get music_search => 'खोजें';
@@ -936,10 +920,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get update_restart_action => 'पुनः आरंभ करें';
-
-  @override
-  String get update_restart_manual_hint =>
-      'अपडेट लागू करने के लिए कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।';
 
   @override
   String get update_store_action => 'अपडेट करें';

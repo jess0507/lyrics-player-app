@@ -66,7 +66,6 @@
   "profile_reset": "Zurücksetzen",
   "profile_reset_title": "App zurücksetzen?",
   "profile_reset_message": "Nur die App-Daten werden zurückgesetzt. Mediendateien auf diesem Gerät werden nicht gelöscht.",
-  "profile_reset_restart_hint": "Zurückgesetzt. Bitte schließe die App vollständig und öffne sie erneut.",
   "profile_feedback": "Feedback",
   "profile_feedback_no_mail_app": "Keine Mail-App gefunden. Bitte schreibe direkt an {email}.",
   "player_play": "Wiedergabe",
@@ -84,9 +83,6 @@
   "player_seek_step": "Sprungintervall",
   "common_reset": "Zurücksetzen",
   "player_nothing_playing": "Nichts wird abgespielt",
-  "music_import": "Musik importieren",
-  "music_import_done": "{count, plural, =1{1 Titel importiert} other{{count} Titel importiert}}",
-  "music_empty_import": "Noch keine Musik. Tippe auf „Musik importieren“ oder lege Audiodateien im Ordner dieser App in der Dateien-App ab.",
   "music_search": "Suchen",
   "music_empty": "Noch keine Musik. Bitte lade die Songs vom Gerät neu.",
   "music_remove": "Entfernen",
@@ -282,7 +278,6 @@
   "update_later": "Später",
   "update_ready_message": "Eine neue Version ist bereit",
   "update_restart_action": "Neu starten",
-  "update_restart_manual_hint": "Bitte schließen Sie die App vollständig und öffnen Sie sie erneut, um das Update anzuwenden.",
   "update_store_action": "Aktualisieren",
   "update_store_message": "Eine neue Version ist bei Google Play verfügbar. Jetzt aktualisieren?"
 }

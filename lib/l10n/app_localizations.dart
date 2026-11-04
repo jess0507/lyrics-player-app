@@ -522,12 +522,6 @@ abstract class AppLocalizations {
   /// **'Only app data will be reset. Media files on this device will not be deleted.'**
   String get profile_reset_message;
 
-  /// No description provided for @profile_reset_restart_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset complete. Please fully close and reopen the app.'**
-  String get profile_reset_restart_hint;
-
   /// No description provided for @profile_feedback.
   ///
   /// In en, this message translates to:
@@ -629,24 +623,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing playing'**
   String get player_nothing_playing;
-
-  /// No description provided for @music_import.
-  ///
-  /// In en, this message translates to:
-  /// **'Import music'**
-  String get music_import;
-
-  /// No description provided for @music_import_done.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Imported 1 track} other{Imported {count} tracks}}'**
-  String music_import_done(int count);
-
-  /// No description provided for @music_empty_import.
-  ///
-  /// In en, this message translates to:
-  /// **'No music yet. Tap Import music, or drop audio files into this app\'s folder in the Files app.'**
-  String get music_empty_import;
 
   /// No description provided for @music_search.
   ///
@@ -1817,12 +1793,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restart'**
   String get update_restart_action;
-
-  /// No description provided for @update_restart_manual_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Please fully close and reopen the app to apply the update.'**
-  String get update_restart_manual_hint;
 
   /// No description provided for @update_store_action.
   ///

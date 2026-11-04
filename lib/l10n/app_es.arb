@@ -66,7 +66,6 @@
   "profile_reset": "Restablecer",
   "profile_reset_title": "¿Restablecer la aplicación?",
   "profile_reset_message": "Solo se restablecerán los datos de la aplicación. Los archivos multimedia de este dispositivo no se eliminarán.",
-  "profile_reset_restart_hint": "Restablecido. Cierra la aplicación por completo y vuelve a abrirla.",
   "profile_feedback": "Comentarios",
   "profile_feedback_no_mail_app": "No se encontró ninguna app de correo. Escribe directamente a {email}.",
   "player_play": "Reproducir",
@@ -84,9 +83,6 @@
   "player_seek_step": "Intervalo de salto",
   "common_reset": "Restablecer",
   "player_nothing_playing": "No se está reproduciendo nada",
-  "music_import": "Importar música",
-  "music_import_done": "{count, plural, =1{1 pista importada} other{{count} pistas importadas}}",
-  "music_empty_import": "Aún no hay música. Toca «Importar música» o coloca archivos de audio en la carpeta de esta app desde la app Archivos.",
   "music_search": "Buscar",
   "music_empty": "Aún no hay música. Vuelve a cargar las canciones del dispositivo.",
   "music_remove": "Quitar",
@@ -282,7 +278,6 @@
   "update_later": "Más tarde",
   "update_ready_message": "Una nueva versión está lista",
   "update_restart_action": "Reiniciar",
-  "update_restart_manual_hint": "Cierra completamente la app y vuelve a abrirla para aplicar la actualización.",
   "update_store_action": "Actualizar",
   "update_store_message": "Hay una nueva versión disponible en Google Play. ¿Actualizar ahora?"
 }

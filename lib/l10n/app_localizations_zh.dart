@@ -212,9 +212,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profile_reset_message => '只會重置應用程式資料，不會刪除本機多媒體檔案。';
 
   @override
-  String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
-
-  @override
   String get profile_feedback => '意見回饋';
 
   @override
@@ -270,17 +267,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get player_nothing_playing => '目前沒有播放中的曲目';
-
-  @override
-  String get music_import => '匯入音樂';
-
-  @override
-  String music_import_done(int count) {
-    return '已匯入 $count 首';
-  }
-
-  @override
-  String get music_empty_import => '尚無音樂。點擊「匯入音樂」，或在「檔案」app 中將音訊檔放入本 app 的資料夾。';
 
   @override
   String get music_search => '搜尋';
@@ -884,9 +870,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update_restart_action => '重新啟動';
 
   @override
-  String get update_restart_manual_hint => '請完全關閉並重新開啟 App 以套用更新';
-
-  @override
   String get update_store_action => '更新';
 
   @override
@@ -1101,9 +1084,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get profile_reset_message => '只会重置应用数据，不会删除本机多媒体文件。';
 
   @override
-  String get profile_reset_restart_hint => '已重置，请完全关闭并重新打开 App。';
-
-  @override
   String get profile_feedback => '意见反馈';
 
   @override
@@ -1159,18 +1139,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get player_nothing_playing => '当前没有正在播放的曲目';
-
-  @override
-  String get music_import => '导入音乐';
-
-  @override
-  String music_import_done(int count) {
-    return '已导入 $count 首';
-  }
-
-  @override
-  String get music_empty_import =>
-      '尚无音乐。点击「导入音乐」，或在「文件」app 中将音频文件放入本 app 的文件夹。';
 
   @override
   String get music_search => '搜索';
@@ -1774,9 +1742,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get update_restart_action => '重新启动';
 
   @override
-  String get update_restart_manual_hint => '请完全关闭并重新打开 App 以应用更新';
-
-  @override
   String get update_store_action => '更新';
 
   @override
@@ -1991,9 +1956,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get profile_reset_message => '只會重置應用程式資料，不會刪除本機多媒體檔案。';
 
   @override
-  String get profile_reset_restart_hint => '已重置，請完全關閉並重新開啟 App。';
-
-  @override
   String get profile_feedback => '意見回饋';
 
   @override
@@ -2049,17 +2011,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get player_nothing_playing => '目前沒有播放中的曲目';
-
-  @override
-  String get music_import => '匯入音樂';
-
-  @override
-  String music_import_done(int count) {
-    return '已匯入 $count 首';
-  }
-
-  @override
-  String get music_empty_import => '尚無音樂。點擊「匯入音樂」，或在「檔案」app 中將音訊檔放入本 app 的資料夾。';
 
   @override
   String get music_search => '搜尋';
@@ -2661,9 +2612,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get update_restart_action => '重新啟動';
-
-  @override
-  String get update_restart_manual_hint => '請完全關閉並重新開啟 App 以套用更新';
 
   @override
   String get update_store_action => '更新';

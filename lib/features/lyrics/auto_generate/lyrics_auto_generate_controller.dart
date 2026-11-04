@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_runner.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart';
@@ -36,8 +33,8 @@ class LyricsAutoGenerateState {
 /// 以 trackId 為 key 的自動產生控制器:驅動 [LyricsAutoGenerateService] 並把
 /// 階段 / 結果寫成 [LyricsAutoGenerateState],供進度對話框與選單即時反映。
 ///
-/// Android 交由 [LyricsBackgroundRunner](前景服務 + 背景 isolate)執行,
-/// app 從最近工作列滑掉也繼續;其他平台維持在本 isolate 直接執行。
+/// 交由 [LyricsBackgroundRunner](Android 前景服務 + 背景 isolate)執行,
+/// app 從最近工作列滑掉也繼續。
 class LyricsAutoGenerateController
     extends FamilyNotifier<LyricsAutoGenerateState, String> {
   @override
@@ -50,18 +47,15 @@ class LyricsAutoGenerateController
       status: LyricsAutoGenerateStatus.running,
       step: LyricsAutoGenerateStep.compressing,
     );
-    // 送出前先在 main isolate 記到本地待同步清單:無論之後實際執行是走
-    // Android 背景 isolate 還是本 isolate,LyricsPendingSyncService(常駐
-    // main isolate)都能立刻開始監聽 Firestore 狀態,不需背景 isolate 另外
-    // 回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
+    // 送出前先在 main isolate 記到本地待同步清單:LyricsPendingSyncService
+    // (常駐 main isolate)能立刻開始監聽 Firestore 狀態,不需背景 isolate
+    // 另外回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
     debugPrint('[LyricsAutoGenerateController] trackId:$arg, 加入 pendingSyncStore');
     await ref.read(lyricsPendingSyncStoreProvider.notifier).add(
       arg,
       LyricsPendingSyncJob(mode: LyricsBackgroundMode.generate, title: title),
     );
-    final success = Platform.isAndroid
-        ? await _runInBackground(title: title)
-        : await _runInline(title: title);
+    final success = await _runInBackground(title: title);
     if (!success) {
       // 沒有真的送出背景工作(取消 / busy / 過程中失敗),沒有任何後端 job
       // 可等,清掉剛剛預先加的紀錄,避免白等一個不存在的工作。
@@ -73,7 +67,7 @@ class LyricsAutoGenerateController
     return success;
   }
 
-  /// Android:走前景服務。通知文字在此以當前語系解析好隨請求帶出,
+  /// 走 Android 前景服務。通知文字在此以當前語系解析好隨請求帶出,
   /// 背景 isolate 不需存取 l10n。
   Future<bool> _runInBackground({required String title}) async {
     final l10n = resolveLyricsL10n(ref);
@@ -137,39 +131,6 @@ class LyricsAutoGenerateController
     }
   }
 
-  /// 非 Android:於本 isolate 直接執行(原行為)。
-  Future<bool> _runInline({required String title}) async {
-    try {
-      await ref
-          .read(lyricsAutoGenerateServiceProvider)
-          .generate(
-            trackId: arg,
-            title: title,
-            onStep: (step) => state = LyricsAutoGenerateState(
-              status: LyricsAutoGenerateStatus.running,
-              step: step,
-            ),
-          );
-      state = const LyricsAutoGenerateState(
-        status: LyricsAutoGenerateStatus.success,
-      );
-      return true;
-    } on LyricsAutoGenerateException catch (e) {
-      state = LyricsAutoGenerateState(
-        status: LyricsAutoGenerateStatus.failure,
-        error: e.error,
-        activeTitle: e.activeTitle,
-      );
-      return false;
-    } catch (e, s) {
-      reportError(e, s, reason: '自動產生歌詞：未預期錯誤');
-      state = const LyricsAutoGenerateState(
-        status: LyricsAutoGenerateStatus.failure,
-        error: LyricsAutoGenerateError.unknown,
-      );
-      return false;
-    }
-  }
 
 }
 

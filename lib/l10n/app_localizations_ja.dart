@@ -214,9 +214,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profile_reset_message => 'アプリのデータのみリセットされます。端末内のメディアファイルは削除されません。';
 
   @override
-  String get profile_reset_restart_hint => 'リセットしました。アプリを完全に終了して再起動してください。';
-
-  @override
   String get profile_feedback => 'フィードバック';
 
   @override
@@ -272,18 +269,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get player_nothing_playing => '再生中の曲はありません';
-
-  @override
-  String get music_import => '音楽をインポート';
-
-  @override
-  String music_import_done(int count) {
-    return '$count曲をインポートしました';
-  }
-
-  @override
-  String get music_empty_import =>
-      'まだ音楽がありません。「音楽をインポート」をタップするか、「ファイル」アプリでこのアプリのフォルダに音声ファイルを追加してください。';
 
   @override
   String get music_search => '検索';
@@ -892,10 +877,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get update_restart_action => '再起動';
-
-  @override
-  String get update_restart_manual_hint =>
-      'アップデートを適用するには、アプリを完全に終了してから再度開いてください';
 
   @override
   String get update_store_action => '更新';

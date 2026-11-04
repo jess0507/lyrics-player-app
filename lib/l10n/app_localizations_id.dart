@@ -221,10 +221,6 @@ class AppLocalizationsId extends AppLocalizations {
       'Hanya data aplikasi yang akan diatur ulang. File media di perangkat ini tidak akan dihapus.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Berhasil diatur ulang. Tutup aplikasi sepenuhnya lalu buka kembali.';
-
-  @override
   String get profile_feedback => 'Masukan';
 
   @override
@@ -280,18 +276,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Tidak ada yang diputar';
-
-  @override
-  String get music_import => 'Impor musik';
-
-  @override
-  String music_import_done(int count) {
-    return '$count lagu diimpor';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Belum ada musik. Ketuk Impor musik, atau tambahkan file audio ke folder aplikasi ini lewat aplikasi Files.';
 
   @override
   String get music_search => 'Cari';
@@ -934,10 +918,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Mulai ulang';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Tutup aplikasi sepenuhnya lalu buka kembali untuk menerapkan pembaruan.';
 
   @override
   String get update_store_action => 'Perbarui';

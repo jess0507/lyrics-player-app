@@ -220,10 +220,6 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chỉ dữ liệu ứng dụng được đặt lại. Các tệp phương tiện trên thiết bị này sẽ không bị xóa.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Đã đặt lại. Vui lòng đóng hoàn toàn ứng dụng và mở lại.';
-
-  @override
   String get profile_feedback => 'Góp ý';
 
   @override
@@ -279,18 +275,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Không có gì đang phát';
-
-  @override
-  String get music_import => 'Nhập nhạc';
-
-  @override
-  String music_import_done(int count) {
-    return 'Đã nhập $count bài';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Chưa có nhạc. Nhấn Nhập nhạc, hoặc thêm tệp âm thanh vào thư mục của ứng dụng này trong ứng dụng Tệp.';
 
   @override
   String get music_search => 'Tìm kiếm';
@@ -936,10 +920,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Khởi động lại';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Vui lòng đóng hoàn toàn ứng dụng và mở lại để áp dụng bản cập nhật.';
 
   @override
   String get update_store_action => 'Cập nhật';

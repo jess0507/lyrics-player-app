@@ -221,10 +221,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Solo se restablecerán los datos de la aplicación. Los archivos multimedia de este dispositivo no se eliminarán.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Restablecido. Cierra la aplicación por completo y vuelve a abrirla.';
-
-  @override
   String get profile_feedback => 'Comentarios';
 
   @override
@@ -280,24 +276,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'No se está reproduciendo nada';
-
-  @override
-  String get music_import => 'Importar música';
-
-  @override
-  String music_import_done(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count pistas importadas',
-      one: '1 pista importada',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Aún no hay música. Toca «Importar música» o coloca archivos de audio en la carpeta de esta app desde la app Archivos.';
 
   @override
   String get music_search => 'Buscar';
@@ -952,10 +930,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Reiniciar';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Cierra completamente la app y vuelve a abrirla para aplicar la actualización.';
 
   @override
   String get update_store_action => 'Actualizar';

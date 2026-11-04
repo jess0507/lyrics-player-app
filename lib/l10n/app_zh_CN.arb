@@ -66,7 +66,6 @@
   "profile_reset": "重置",
   "profile_reset_title": "确定要重置吗？",
   "profile_reset_message": "只会重置应用数据，不会删除本机多媒体文件。",
-  "profile_reset_restart_hint": "已重置，请完全关闭并重新打开 App。",
   "profile_feedback": "意见反馈",
   "profile_feedback_no_mail_app": "找不到邮件 App，请直接发送邮件至 {email}。",
   "player_play": "播放",
@@ -84,9 +83,6 @@
   "player_seek_step": "快进 / 快退秒数",
   "common_reset": "重置",
   "player_nothing_playing": "当前没有正在播放的曲目",
-  "music_import": "导入音乐",
-  "music_import_done": "已导入 {count} 首",
-  "music_empty_import": "尚无音乐。点击「导入音乐」，或在「文件」app 中将音频文件放入本 app 的文件夹。",
   "music_search": "搜索",
   "music_empty": "尚无音乐，请重新加载设备音乐。",
   "music_remove": "移除",
@@ -282,7 +278,6 @@
   "update_later": "稍后",
   "update_ready_message": "新版本已就绪",
   "update_restart_action": "重新启动",
-  "update_restart_manual_hint": "请完全关闭并重新打开 App 以应用更新",
   "update_store_action": "更新",
   "update_store_message": "Google Play 上有新版本，要立即更新吗？"
 }

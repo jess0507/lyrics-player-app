@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
 /// 下載(匯出)歌詞:讀出儲存的原文,交給系統「另存檔案」對話框
-/// (Android SAF / iOS Files)寫到使用者選擇的位置,副檔名依儲存格式。
+/// (Android SAF)寫到使用者選擇的位置,副檔名依儲存格式。
 class LyricsExportService {
   LyricsExportService(this._ref);
 
@@ -25,7 +25,7 @@ class LyricsExportService {
       fileName: '${_sanitizeFileName(title)}.${entity.format.name}',
       type: FileType.custom,
       allowedExtensions: [entity.format.name],
-      // Android / iOS 由 plugin 直接寫入 bytes,呼叫端不需再落地。
+      // 由 plugin 直接寫入 bytes,呼叫端不需再落地。
       bytes: Uint8List.fromList(utf8.encode(entity.content)),
     );
     return path != null;

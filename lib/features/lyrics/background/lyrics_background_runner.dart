@@ -67,7 +67,7 @@ class LyricsBackgroundRunner {
       IsolateNameServer.removePortNameMapping(lyricsBackgroundPortName);
     });
     // app 重啟時校正執行中狀態:任務可能由上一個 app instance 發起,
-    // 服務還在跑(iOS 無此 channel,MissingPluginException 靜默略過)。
+    // 服務還在跑(測試等沒有此 channel 的環境,MissingPluginException 靜默略過)。
     _launcher
         .invokeMethod<bool>('isRunning')
         .then((running) {

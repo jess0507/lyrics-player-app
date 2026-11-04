@@ -219,10 +219,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيتم إعادة تعيين بيانات التطبيق فقط. لن يتم حذف ملفات الوسائط على هذا الجهاز.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'تمت إعادة التعيين. يرجى إغلاق التطبيق بالكامل ثم إعادة فتحه.';
-
-  @override
   String get profile_feedback => 'ملاحظات';
 
   @override
@@ -278,24 +274,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'لا يوجد تشغيل حالي';
-
-  @override
-  String get music_import => 'استيراد الموسيقى';
-
-  @override
-  String music_import_done(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'تم استيراد $count من المقاطع',
-      one: 'تم استيراد مقطع واحد',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get music_empty_import =>
-      'لا توجد موسيقى بعد. اضغط على «استيراد الموسيقى» أو أضف ملفات صوتية إلى مجلد هذا التطبيق عبر تطبيق «الملفات».';
 
   @override
   String get music_search => 'بحث';
@@ -940,10 +918,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get update_restart_action => 'إعادة التشغيل';
-
-  @override
-  String get update_restart_manual_hint =>
-      'يرجى إغلاق التطبيق تمامًا ثم إعادة فتحه لتطبيق التحديث.';
 
   @override
   String get update_store_action => 'تحديث';

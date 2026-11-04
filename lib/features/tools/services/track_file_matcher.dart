@@ -30,7 +30,7 @@ class TrackFileImportFailed extends TrackFileMatch {
 
 /// 工具選曲頁的「從檔案選擇」:以系統選檔器挑音訊檔,再對回曲庫中的 [Track]。
 ///
-/// 先比對實際路徑(iOS / 選檔器回傳原檔時命中);Android 選檔器多半複製到
+/// 先比對實際路徑(選檔器回傳原檔時命中);選檔器多半複製到
 /// 暫存目錄,路徑對不上,改以內容指紋比對 track id(見 TrackFingerprintService)。
 /// 都對不上就以 [MusicImportService.importFile] 匯入音樂庫、重掃後再比對一次。
 class TrackFileMatcher {

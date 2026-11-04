@@ -66,7 +66,6 @@
   "profile_reset": "Atur ulang",
   "profile_reset_title": "Atur ulang aplikasi?",
   "profile_reset_message": "Hanya data aplikasi yang akan diatur ulang. File media di perangkat ini tidak akan dihapus.",
-  "profile_reset_restart_hint": "Berhasil diatur ulang. Tutup aplikasi sepenuhnya lalu buka kembali.",
   "profile_feedback": "Masukan",
   "profile_feedback_no_mail_app": "Aplikasi email tidak ditemukan. Silakan kirim email langsung ke {email}.",
   "player_play": "Putar",
@@ -84,9 +83,6 @@
   "player_seek_step": "Interval lompat",
   "common_reset": "Atur ulang",
   "player_nothing_playing": "Tidak ada yang diputar",
-  "music_import": "Impor musik",
-  "music_import_done": "{count} lagu diimpor",
-  "music_empty_import": "Belum ada musik. Ketuk Impor musik, atau tambahkan file audio ke folder aplikasi ini lewat aplikasi Files.",
   "music_search": "Cari",
   "music_empty": "Belum ada musik. Silakan muat ulang lagu dari perangkat.",
   "music_remove": "Hapus",
@@ -282,7 +278,6 @@
   "update_later": "Nanti",
   "update_ready_message": "Versi baru sudah siap",
   "update_restart_action": "Mulai ulang",
-  "update_restart_manual_hint": "Tutup aplikasi sepenuhnya lalu buka kembali untuk menerapkan pembaruan.",
   "update_store_action": "Perbarui",
   "update_store_message": "Versi baru tersedia di Google Play. Perbarui sekarang?"
 }

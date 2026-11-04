@@ -219,10 +219,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Only app data will be reset. Media files on this device will not be deleted.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Reset complete. Please fully close and reopen the app.';
-
-  @override
   String get profile_feedback => 'Feedback';
 
   @override
@@ -278,24 +274,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Nothing playing';
-
-  @override
-  String get music_import => 'Import music';
-
-  @override
-  String music_import_done(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Imported $count tracks',
-      one: 'Imported 1 track',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get music_empty_import =>
-      'No music yet. Tap Import music, or drop audio files into this app\'s folder in the Files app.';
 
   @override
   String get music_search => 'Search';
@@ -936,10 +914,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Restart';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Please fully close and reopen the app to apply the update.';
 
   @override
   String get update_store_action => 'Update';

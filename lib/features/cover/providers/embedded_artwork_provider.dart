@@ -15,7 +15,7 @@ import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 /// trackId 常態為檔案內容指紋(sha1),不是 MediaStore id,故:
 /// - Android 且 trackId 為數字(指紋算不出來時的 MediaStore fallback id):
 ///   直接走 MediaStore 的 queryArtwork。
-/// - 其餘(指紋 id、或 iOS):以 [trackAudioResolverProvider] 反查檔案路徑,
+/// - 其餘(指紋 id):以 [trackAudioResolverProvider] 反查檔案路徑,
 ///   再以 ffmpeg 抽出封面軌,輸出快取在暫存目錄(以 trackId 為 key,重啟後
 ///   仍可沿用)。
 ///

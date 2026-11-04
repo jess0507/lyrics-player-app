@@ -66,7 +66,6 @@
   "profile_reset": "रीसेट करें",
   "profile_reset_title": "ऐप रीसेट करें?",
   "profile_reset_message": "केवल ऐप डेटा रीसेट होगा। इस डिवाइस की मीडिया फ़ाइलें नहीं हटाई जाएँगी।",
-  "profile_reset_restart_hint": "रीसेट हो गया। कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।",
   "profile_feedback": "प्रतिक्रिया",
   "profile_feedback_no_mail_app": "कोई मेल ऐप नहीं मिला। कृपया सीधे {email} पर ईमेल करें।",
   "player_play": "चलाएँ",
@@ -84,9 +83,6 @@
   "player_seek_step": "स्किप अंतराल",
   "common_reset": "रीसेट",
   "player_nothing_playing": "कुछ भी नहीं चल रहा",
-  "music_import": "संगीत आयात करें",
-  "music_import_done": "{count} ट्रैक आयात किए गए",
-  "music_empty_import": "अभी कोई संगीत नहीं है। «संगीत आयात करें» पर टैप करें, या Files ऐप से इस ऐप के फ़ोल्डर में ऑडियो फ़ाइलें डालें।",
   "music_search": "खोजें",
   "music_empty": "अभी कोई संगीत नहीं है। कृपया डिवाइस से गाने फिर से लोड करें।",
   "music_remove": "हटाएँ",
@@ -282,7 +278,6 @@
   "update_later": "बाद में",
   "update_ready_message": "नया संस्करण तैयार है",
   "update_restart_action": "पुनः आरंभ करें",
-  "update_restart_manual_hint": "अपडेट लागू करने के लिए कृपया ऐप को पूरी तरह बंद करके दोबारा खोलें।",
   "update_store_action": "अपडेट करें",
   "update_store_message": "Google Play पर नया संस्करण उपलब्ध है। क्या अभी अपडेट करें?"
 }

@@ -66,7 +66,6 @@
   "profile_reset": "Сбросить",
   "profile_reset_title": "Сбросить приложение?",
   "profile_reset_message": "Будут сброшены только данные приложения. Медиафайлы на этом устройстве не будут удалены.",
-  "profile_reset_restart_hint": "Сброс выполнен. Полностью закройте приложение и откройте его снова.",
   "profile_feedback": "Обратная связь",
   "profile_feedback_no_mail_app": "Почтовое приложение не найдено. Напишите напрямую на {email}.",
   "player_play": "Воспроизвести",
@@ -84,9 +83,6 @@
   "player_seek_step": "Шаг перемотки",
   "common_reset": "Сброс",
   "player_nothing_playing": "Ничего не воспроизводится",
-  "music_import": "Импорт музыки",
-  "music_import_done": "{count, plural, one{Импортирован {count} трек} few{Импортировано {count} трека} many{Импортировано {count} треков} other{Импортировано {count} трека}}",
-  "music_empty_import": "Музыки пока нет. Нажмите «Импорт музыки» или добавьте аудиофайлы в папку приложения через приложение «Файлы».",
   "music_search": "Поиск",
   "music_empty": "Музыки пока нет. Загрузите песни с устройства заново.",
   "music_remove": "Удалить",
@@ -282,7 +278,6 @@
   "update_later": "Позже",
   "update_ready_message": "Новая версия готова",
   "update_restart_action": "Перезапустить",
-  "update_restart_manual_hint": "Полностью закройте приложение и откройте его снова, чтобы применить обновление.",
   "update_store_action": "Обновить",
   "update_store_message": "В Google Play доступна новая версия. Обновить сейчас?"
 }

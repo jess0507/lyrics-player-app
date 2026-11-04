@@ -220,10 +220,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Будут сброшены только данные приложения. Медиафайлы на этом устройстве не будут удалены.';
 
   @override
-  String get profile_reset_restart_hint =>
-      'Сброс выполнен. Полностью закройте приложение и откройте его снова.';
-
-  @override
   String get profile_feedback => 'Обратная связь';
 
   @override
@@ -279,26 +275,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get player_nothing_playing => 'Ничего не воспроизводится';
-
-  @override
-  String get music_import => 'Импорт музыки';
-
-  @override
-  String music_import_done(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Импортировано $count трека',
-      many: 'Импортировано $count треков',
-      few: 'Импортировано $count трека',
-      one: 'Импортирован $count трек',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get music_empty_import =>
-      'Музыки пока нет. Нажмите «Импорт музыки» или добавьте аудиофайлы в папку приложения через приложение «Файлы».';
 
   @override
   String get music_search => 'Поиск';
@@ -946,10 +922,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get update_restart_action => 'Перезапустить';
-
-  @override
-  String get update_restart_manual_hint =>
-      'Полностью закройте приложение и откройте его снова, чтобы применить обновление.';
 
   @override
   String get update_store_action => 'Обновить';

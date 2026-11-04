@@ -49,16 +49,13 @@ Future<void> main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     // App Check:後端 callable(generate_lyrics / align_lyrics)有開
-    // enforcement,未送有效 token 會被映成 UNAVAILABLE。release 走平台
-    // attestation,debug build 走 debug provider(需在 Firebase Console
+    // enforcement,未送有效 token 會被映成 UNAVAILABLE。release 走 Play
+    // Integrity,debug build 走 debug provider(需在 Firebase Console
     // 註冊裝置印出的 debug token 才能通過)。
     await FirebaseAppCheck.instance.activate(
       providerAndroid: kReleaseMode
           ? const AndroidPlayIntegrityProvider()
           : const AndroidDebugProvider(),
-      providerApple: kReleaseMode
-          ? const AppleAppAttestProvider()
-          : const AppleDebugProvider(),
     );
 
     // Crashlytics:debug build 不上報以免污染資料,release 才收集。
