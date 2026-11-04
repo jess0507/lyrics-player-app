@@ -112,7 +112,7 @@ class _PlaylistSearchPageState extends ConsumerState<PlaylistSearchPage> {
             return TrackListTile(
               track: track,
               audio: audio,
-              isCurrent: track.id == currentId,
+              isCurrent: track.pathKey == currentId,
               onTap: () => _play(track),
               onLongPress: () => showPlaylistTrackActionsSheet(
                 context,

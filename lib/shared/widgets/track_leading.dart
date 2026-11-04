@@ -10,13 +10,13 @@ import 'package:seek_player/gen/assets.gen.dart';
 class TrackLeading extends ConsumerWidget {
   const TrackLeading({
     super.key,
-    required this.trackId,
+    required this.pathKey,
     required this.isCurrent,
     required this.audio,
     required this.color,
   });
 
-  final String trackId;
+  final String pathKey;
   final bool isCurrent;
   final AudioPlayerService audio;
   final Color color;
@@ -26,7 +26,7 @@ class TrackLeading extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    final cover = ref.watch(trackArtworkProvider(trackId)).valueOrNull;
+    final cover = ref.watch(trackArtworkProvider(pathKey)).valueOrNull;
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SizedBox(

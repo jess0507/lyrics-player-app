@@ -24,7 +24,7 @@ class PlaylistEditTracksList extends ConsumerWidget {
   final int playlistId;
   final List<Track> addedTracks;
   final AudioPlayerService audio;
-  final void Function(String trackId) onRemove;
+  final void Function(String pathKey) onRemove;
 
   /// 為 true 時 [addedTracks] 必須是完整且依清單順序的曲目,
   /// 拖曳結果直接寫回清單順序。
@@ -43,11 +43,11 @@ class PlaylistEditTracksList extends ConsumerWidget {
           child: Icon(Icons.drag_handle),
         );
         return Row(
-          key: ValueKey(track.id),
+          key: ValueKey(track.pathKey),
           children: [
             IconButton(
               icon: Icon(Icons.remove_circle_outline, color: scheme.error),
-              onPressed: () => onRemove(track.id),
+              onPressed: () => onRemove(track.pathKey),
             ),
             Expanded(
               child: TrackListTile(
@@ -68,10 +68,10 @@ class PlaylistEditTracksList extends ConsumerWidget {
         );
       },
       onReorderItem: (oldIndex, newIndex) {
-        final ids = addedTracks.map((t) => t.id).toList();
+        final ids = addedTracks.map((t) => t.pathKey).toList();
         final moved = ids.removeAt(oldIndex);
         ids.insert(newIndex, moved);
-        ref.read(playlistRepositoryProvider).setTrackIds(playlistId, ids);
+        ref.read(playlistRepositoryProvider).setPathKeys(playlistId, ids);
       },
     );
   }

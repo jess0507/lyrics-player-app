@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:seek_player/features/cover/models/track_cover_entity.dart';
 import 'package:seek_player/features/cover/providers/track_cover_color_provider.dart';
 import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
 import 'package:seek_player/features/cover/services/cover_color.dart';
@@ -28,7 +27,7 @@ class CoverImportException implements Exception {
       '${message == null ? '' : ', $message'})';
 }
 
-/// 自訂封面:挑圖 → 複製到 app 文件夾 `covers/` → upsert(唯一索引 replace)。
+/// 自訂封面:挑圖 → 複製到 app 文件夾 `covers/` → 寫進該曲的 TrackEntity。
 /// 「新增」與「更換」共用本路徑,差別只在動作前先刪掉舊圖檔(避免孤兒檔)。
 class CoverImportService {
   CoverImportService(this._ref);
@@ -38,9 +37,10 @@ class CoverImportService {
   /// 圖檔大小上限約 10MB,超過拒收。
   static const _maxBytes = 10 * 1024 * 1024;
 
-  /// 為 [trackId] 挑一張封面並設定。回傳 true 表示已設定;false 表示使用者
-  /// 取消選圖。失敗(過大 / 無法讀取)拋 [CoverImportException]。
-  Future<bool> pickAndSetForTrack(String trackId) async {
+  /// 為 [pathKey] 挑一張封面並設定。回傳 true 表示已設定;false 表示使用者
+  /// 取消選圖,或該曲沒有 TrackEntity(暫時曲目)無法設定。
+  /// 失敗(過大 / 無法讀取)拋 [CoverImportException]。
+  Future<bool> pickAndSetForTrack(String pathKey) async {
     final picked = await FilePicker.pickFiles(type: FileType.image);
     final file = picked?.files.singleOrNull;
     if (file == null || file.path == null) return false; // 取消
@@ -65,28 +65,32 @@ class CoverImportService {
     await dest.writeAsBytes(bytes, flush: true);
 
     final repo = _ref.read(trackCoverRepositoryProvider);
-    await _deleteOldFile(repo.findByTrackId(trackId)?.imagePath);
+    final oldPath = repo.findByPathKey(pathKey)?.coverImagePath;
 
     // 設定當下即算好主色並一併存入,讓播放頁切到本曲時可直接取用。
     final color = await extractCoverColor(dest);
-    final entity = TrackCoverEntity()
-      ..trackId = trackId
-      ..imagePath = dest.path
-      ..colorValue = color?.toARGB32()
-      ..addedAt = DateTime.now();
-    await repo.save(entity);
-    _ref.invalidate(trackCoverProvider(trackId));
-    _ref.invalidate(trackCoverColorProvider(trackId));
+    final saved = await repo.setCover(
+      pathKey,
+      imagePath: dest.path,
+      colorValue: color?.toARGB32(),
+    );
+    if (!saved) {
+      await _deleteOldFile(dest.path);
+      return false;
+    }
+    await _deleteOldFile(oldPath);
+    _ref.invalidate(trackCoverProvider(pathKey));
+    _ref.invalidate(trackCoverColorProvider(pathKey));
     return true;
   }
 
-  /// 移除 [trackId] 的自訂封面(刪圖檔 + 紀錄)。
-  Future<void> removeForTrack(String trackId) async {
+  /// 移除 [pathKey] 的自訂封面(刪圖檔 + 紀錄)。
+  Future<void> removeForTrack(String pathKey) async {
     final repo = _ref.read(trackCoverRepositoryProvider);
-    await _deleteOldFile(repo.findByTrackId(trackId)?.imagePath);
-    await repo.deleteByTrackId(trackId);
-    _ref.invalidate(trackCoverProvider(trackId));
-    _ref.invalidate(trackCoverColorProvider(trackId));
+    await _deleteOldFile(repo.findByPathKey(pathKey)?.coverImagePath);
+    await repo.clearCover(pathKey);
+    _ref.invalidate(trackCoverProvider(pathKey));
+    _ref.invalidate(trackCoverColorProvider(pathKey));
   }
 
   /// 為既有封面中尚未快取主色者背景補算並寫回,避免之後切歌時才即時解析
@@ -94,13 +98,12 @@ class CoverImportService {
   Future<void> backfillMissingColors() async {
     final repo = _ref.read(trackCoverRepositoryProvider);
     for (final entity in repo.findMissingColor()) {
-      final file = File(entity.imagePath);
+      final file = File(entity.coverImagePath!);
       if (!file.existsSync()) continue;
       final color = await extractCoverColor(file);
       if (color == null) continue;
-      entity.colorValue = color.toARGB32();
-      await repo.save(entity);
-      _ref.invalidate(trackCoverColorProvider(entity.trackId));
+      await repo.setColor(entity.pathKey, color.toARGB32());
+      _ref.invalidate(trackCoverColorProvider(entity.pathKey));
     }
   }
 

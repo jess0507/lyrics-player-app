@@ -38,7 +38,9 @@ class _AddToPlaylistSheet extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final navigator = Navigator.of(context);
     if (!alreadyIn) {
-      await ref.read(playlistRepositoryProvider).addTrack(playlistId, track.id);
+      await ref
+          .read(playlistRepositoryProvider)
+          .addTrack(playlistId, track.pathKey);
     }
     navigator.pop();
     showAppToast(
@@ -85,7 +87,7 @@ class _AddToPlaylistSheet extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final playlist = playlists[index];
                 final displayName = playlistDisplayName(playlist, l10n);
-                final alreadyIn = playlist.trackIds.contains(track.id);
+                final alreadyIn = playlist.pathKeys.contains(track.pathKey);
                 return ListTile(
                   leading: Icon(
                     playlist.isFavorites ? Icons.favorite : Icons.queue_music,

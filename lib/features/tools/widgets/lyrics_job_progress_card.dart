@@ -12,9 +12,9 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// 送出後等待雲端回結果的時間無法預估,改為不確定進度條。
 /// 是否顯示由呼叫端依 `lyricsActiveJobProvider` 判斷。
 class LyricsJobProgressCard extends ConsumerWidget {
-  const LyricsJobProgressCard({super.key, required this.trackId});
+  const LyricsJobProgressCard({super.key, required this.pathKey});
 
-  final String trackId;
+  final String pathKey;
 
   static const _totalSteps = 4;
 
@@ -22,7 +22,7 @@ class LyricsJobProgressCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final stage = ref.watch(lyricsJobStageProvider(trackId));
+    final stage = ref.watch(lyricsJobStageProvider(pathKey));
     final step = _stepOf(stage);
     // 最後一步(等待雲端)與推不出階段時都用不確定進度條。
     final value = step == null || step == _totalSteps
@@ -63,7 +63,7 @@ class LyricsJobProgressCard extends ConsumerWidget {
               alignment: AlignmentDirectional.centerEnd,
               child: TextButton(
                 onPressed: () =>
-                    cancelLyricsJob(context, ref, trackId: trackId),
+                    cancelLyricsJob(context, ref, pathKey: pathKey),
                 child: Text(l10n.common_cancel),
               ),
             ),

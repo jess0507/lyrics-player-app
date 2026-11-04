@@ -9,11 +9,13 @@ import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/router/app_router.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
+import 'package:seek_player/features/music_list/services/track_path_key.dart';
+import 'package:seek_player/features/music_list/services/track_registrar.dart';
 import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 
 /// 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔(Android 限定,
-/// 原生端見 `ExternalOpenChannel.kt`),以還原到的實體路徑比對音樂庫:
+/// 原生端見 `ExternalOpenChannel.kt`),以還原到的實體路徑的 pathKey 比對音樂庫:
 /// 命中就照一般曲目播放,否則以檔案本身組一首暫時曲目播放,並開啟播放器。
 ///
 /// 於 `app.dart` 根層級常駐 watch,不綁定特定頁面。一律由 Dart 主動向
@@ -69,15 +71,16 @@ class ExternalFileOpenService {
 
     try {
       final tracks = await _loadLibrary();
-      final existing = filePath.isEmpty
+      final pathKey = filePath.isEmpty ? null : TrackPathKey.of(filePath);
+      final existing = pathKey == null
           ? null
-          : tracks.where((t) => t.filePath == filePath).firstOrNull;
+          : tracks.where((t) => t.pathKey == pathKey).firstOrNull;
 
       final playback = _ref.read(playbackControllerProvider);
       if (existing != null) {
         await playback.playTrack(existing);
       } else {
-        await playback.playTracksAt([_buildTrack(raw, uri, filePath)], 0);
+        await playback.playTracksAt([await _buildTrack(raw, uri, filePath)], 0);
       }
     } catch (e, s) {
       // 播放失敗停留原頁,不開播放頁。
@@ -98,10 +101,17 @@ class ExternalFileOpenService {
     }
   }
 
-  /// 以原始 content URI 播放(ExoPlayer 原生支援 content://,不走路徑讀檔),
-  /// [filePath] 填還原到的實體路徑供曲目資訊顯示;標題優先內嵌 tag,
-  /// 其次檔名去副檔名。
-  Track _buildTrack(Map<Object?, Object?> args, String uri, String filePath) {
+  /// 以原始 content URI 播放(ExoPlayer 原生支援 content://,不走路徑讀檔);
+  /// 標題優先內嵌 tag,其次檔名去副檔名。
+  ///
+  /// 還原得到實體路徑 [filePath] 時登記成 TrackEntity([TrackRegistrar]),
+  /// 和曲庫曲目一樣可加歌詞 / 封面 / 統計,下次同步一起上雲端;還原不出
+  /// 路徑時只能組暫時曲目(id 為 content URI,不能存歌詞與封面)。
+  Future<Track> _buildTrack(
+    Map<Object?, Object?> args,
+    String uri,
+    String filePath,
+  ) async {
     final displayName = args['displayName'] as String?;
     final tagTitle = args['title'] as String?;
     final title = (tagTitle != null && tagTitle.isNotEmpty)
@@ -111,14 +121,30 @@ class ExternalFileOpenService {
                 ? displayName
                 : _lastSegment(filePath.isNotEmpty ? filePath : uri),
           );
+    final artist = args['artist'] as String?;
+    final album = args['album'] as String?;
+    final durationMs = (args['durationMs'] as num?)?.toInt();
+    if (filePath.isNotEmpty) {
+      final registered = await _ref
+          .read(trackRegistrarProvider)
+          .register(
+            path: filePath,
+            uri: uri,
+            title: title,
+            artist: artist,
+            album: album,
+            durationMs: durationMs,
+          );
+      if (registered != null) return registered;
+    }
     return Track(
-      id: filePath.isNotEmpty ? filePath : uri,
+      pathKey: uri,
       uri: uri,
       filePath: filePath,
       title: title,
-      artist: args['artist'] as String?,
-      album: args['album'] as String?,
-      durationMs: (args['durationMs'] as num?)?.toInt(),
+      artist: artist,
+      album: album,
+      durationMs: durationMs,
     );
   }
 

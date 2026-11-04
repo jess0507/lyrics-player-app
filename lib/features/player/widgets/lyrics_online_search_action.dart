@@ -11,17 +11,17 @@ import 'package:seek_player/features/player/widgets/lyrics_online_search_sheet.d
 Future<void> runLyricsOnlineSearch(
   BuildContext context,
   WidgetRef ref, {
-  required String trackId,
+  required String pathKey,
   required String title,
 }) {
-  // artist 從音樂庫依 trackId 查回(播放頁只往下傳了 trackId/title,
+  // artist 從音樂庫依 pathKey 查回(播放頁只往下傳了 pathKey/title,
   // 沒有完整 Track),與 title 一起組成預填的搜尋關鍵字。
   final tracks = ref.read(musicLibraryProvider).valueOrNull ?? const [];
-  final track = tracks.where((t) => t.id == trackId).firstOrNull;
+  final track = tracks.where((t) => t.pathKey == pathKey).firstOrNull;
   return showLyricsOnlineSearchSheet(
     context,
     ref,
-    trackId: trackId,
+    pathKey: pathKey,
     title: title,
     artist: track?.artist,
   );

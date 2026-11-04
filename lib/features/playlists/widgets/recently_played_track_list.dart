@@ -40,7 +40,7 @@ class RecentlyPlayedTrackList extends ConsumerWidget {
         }
         final item = row.item!;
         return TrackListTile(
-          key: ValueKey(item.track.id),
+          key: ValueKey(item.track.pathKey),
           track: item.track,
           audio: audio,
           onTap: () => ref

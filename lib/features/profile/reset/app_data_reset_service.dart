@@ -13,7 +13,7 @@ import 'package:seek_player/core/storage/preferences_service.dart';
 /// 「應用程式資訊 → 儲存空間 → 清除資料」,整個沙盒清空後 process 立刻被
 /// 終止,下次開啟等於全新安裝(音樂走 MediaStore,沙盒內沒有使用者的
 /// 多媒體檔案)。系統呼叫失敗才退回手動清除:
-/// - Isar 全部 collection(統計、歌詞、播放清單、封面、指紋)
+/// - Isar 全部 collection(曲目、統計、歌詞、播放清單,及已棄用的封面 / 指紋)
 /// - SharedPreferences(設定、同步時戳、待處理清單等)
 /// - `covers/` 目錄(自訂封面匯入時複製進 app 沙盒的圖檔;原圖仍在相簿)
 /// 清完後由呼叫端重啟 app,讓記憶體內的 provider 狀態一併歸零。

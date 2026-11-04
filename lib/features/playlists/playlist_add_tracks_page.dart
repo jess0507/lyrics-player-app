@@ -94,9 +94,9 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
     final playlist = playlists
         .where((p) => p.id == widget.playlistId)
         .firstOrNull;
-    final addedIds = playlist?.trackIds.toSet() ?? const <String>{};
+    final addedIds = playlist?.pathKeys.toSet() ?? const <String>{};
     _initialNotAddedTracks = tracks
-        .where((t) => !addedIds.contains(t.id))
+        .where((t) => !addedIds.contains(t.pathKey))
         .toList();
   }
 
@@ -129,24 +129,24 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
     final playlist = playlists
         .where((p) => p.id == widget.playlistId)
         .firstOrNull;
-    final trackIds = playlist?.trackIds ?? const <String>[];
-    final addedIds = trackIds.toSet();
+    final pathKeys = playlist?.pathKeys ?? const <String>[];
+    final addedIds = pathKeys.toSet();
     final audio = ref.watch(audioPlayerServiceProvider);
 
     // 「編輯播放清單」只列出已加入的曲目，依既有順序排列，供拖曳調整；
     // 找不到對應曲目（檔案已刪除）者略過，與 playlistTracksProvider 行為一致。
-    final tracksById = {for (final t in tracks) t.id: t};
+    final tracksById = {for (final t in tracks) t.pathKey: t};
     final addedTracks = <Track>[
-      for (final id in trackIds)
+      for (final id in pathKeys)
         if (tracksById[id] != null) tracksById[id]!,
     ];
 
-    void toggle(String trackId, bool added) {
+    void toggle(String pathKey, bool added) {
       final repo = ref.read(playlistRepositoryProvider);
       if (added) {
-        repo.removeTrack(widget.playlistId, trackId);
+        repo.removeTrack(widget.playlistId, pathKey);
       } else {
-        repo.addTrack(widget.playlistId, trackId);
+        repo.addTrack(widget.playlistId, pathKey);
       }
     }
 
@@ -198,8 +198,8 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
                                     addedTracks: visible,
                                     audio: audio,
                                     reorderable: reorderable,
-                                    onRemove: (trackId) =>
-                                        toggle(trackId, true),
+                                    onRemove: (pathKey) =>
+                                        toggle(pathKey, true),
                                   ),
                             ))
                     : (_initialNotAddedTracks.isEmpty

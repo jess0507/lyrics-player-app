@@ -30,14 +30,15 @@ const LyricsEntitySchema = CollectionSchema(
       enumMap: _LyricsEntityformatEnumValueMap,
     ),
     r'jobId': PropertySchema(id: 3, name: r'jobId', type: IsarType.string),
+    r'pathKey': PropertySchema(id: 4, name: r'pathKey', type: IsarType.string),
     r'source': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'source',
       type: IsarType.byte,
       enumMap: _LyricsEntitysourceEnumValueMap,
     ),
-    r'title': PropertySchema(id: 5, name: r'title', type: IsarType.string),
-    r'trackId': PropertySchema(id: 6, name: r'trackId', type: IsarType.string),
+    r'title': PropertySchema(id: 6, name: r'title', type: IsarType.string),
+    r'trackId': PropertySchema(id: 7, name: r'trackId', type: IsarType.string),
   },
 
   estimateSize: _lyricsEntityEstimateSize,
@@ -46,14 +47,14 @@ const LyricsEntitySchema = CollectionSchema(
   deserializeProp: _lyricsEntityDeserializeProp,
   idName: r'id',
   indexes: {
-    r'trackId': IndexSchema(
-      id: -8614467705999066844,
-      name: r'trackId',
-      unique: true,
-      replace: true,
+    r'pathKey': IndexSchema(
+      id: 4091448840851204210,
+      name: r'pathKey',
+      unique: false,
+      replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'trackId',
+          name: r'pathKey',
           type: IndexType.hash,
           caseSensitive: true,
         ),
@@ -82,8 +83,14 @@ int _lyricsEntityEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.pathKey.length * 3;
   bytesCount += 3 + object.title.length * 3;
-  bytesCount += 3 + object.trackId.length * 3;
+  {
+    final value = object.trackId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -97,9 +104,10 @@ void _lyricsEntitySerialize(
   writer.writeString(offsets[1], object.content);
   writer.writeByte(offsets[2], object.format.index);
   writer.writeString(offsets[3], object.jobId);
-  writer.writeByte(offsets[4], object.source.index);
-  writer.writeString(offsets[5], object.title);
-  writer.writeString(offsets[6], object.trackId);
+  writer.writeString(offsets[4], object.pathKey);
+  writer.writeByte(offsets[5], object.source.index);
+  writer.writeString(offsets[6], object.title);
+  writer.writeString(offsets[7], object.trackId);
 }
 
 LyricsEntity _lyricsEntityDeserialize(
@@ -116,11 +124,12 @@ LyricsEntity _lyricsEntityDeserialize(
       LyricsFormat.lrc;
   object.id = id;
   object.jobId = reader.readStringOrNull(offsets[3]);
+  object.pathKey = reader.readString(offsets[4]);
   object.source =
-      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[5])] ??
       LyricsSource.manual;
-  object.title = reader.readString(offsets[5]);
-  object.trackId = reader.readString(offsets[6]);
+  object.title = reader.readString(offsets[6]);
+  object.trackId = reader.readStringOrNull(offsets[7]);
   return object;
 }
 
@@ -142,13 +151,15 @@ P _lyricsEntityDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (_LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offset)] ??
               LyricsSource.manual)
           as P;
-    case 5:
-      return (reader.readString(offset)) as P;
     case 6:
       return (reader.readString(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -191,63 +202,6 @@ void _lyricsEntityAttach(
   LyricsEntity object,
 ) {
   object.id = id;
-}
-
-extension LyricsEntityByIndex on IsarCollection<LyricsEntity> {
-  Future<LyricsEntity?> getByTrackId(String trackId) {
-    return getByIndex(r'trackId', [trackId]);
-  }
-
-  LyricsEntity? getByTrackIdSync(String trackId) {
-    return getByIndexSync(r'trackId', [trackId]);
-  }
-
-  Future<bool> deleteByTrackId(String trackId) {
-    return deleteByIndex(r'trackId', [trackId]);
-  }
-
-  bool deleteByTrackIdSync(String trackId) {
-    return deleteByIndexSync(r'trackId', [trackId]);
-  }
-
-  Future<List<LyricsEntity?>> getAllByTrackId(List<String> trackIdValues) {
-    final values = trackIdValues.map((e) => [e]).toList();
-    return getAllByIndex(r'trackId', values);
-  }
-
-  List<LyricsEntity?> getAllByTrackIdSync(List<String> trackIdValues) {
-    final values = trackIdValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'trackId', values);
-  }
-
-  Future<int> deleteAllByTrackId(List<String> trackIdValues) {
-    final values = trackIdValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'trackId', values);
-  }
-
-  int deleteAllByTrackIdSync(List<String> trackIdValues) {
-    final values = trackIdValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'trackId', values);
-  }
-
-  Future<Id> putByTrackId(LyricsEntity object) {
-    return putByIndex(r'trackId', object);
-  }
-
-  Id putByTrackIdSync(LyricsEntity object, {bool saveLinks = true}) {
-    return putByIndexSync(r'trackId', object, saveLinks: saveLinks);
-  }
-
-  Future<List<Id>> putAllByTrackId(List<LyricsEntity> objects) {
-    return putAllByIndex(r'trackId', objects);
-  }
-
-  List<Id> putAllByTrackIdSync(
-    List<LyricsEntity> objects, {
-    bool saveLinks = true,
-  }) {
-    return putAllByIndexSync(r'trackId', objects, saveLinks: saveLinks);
-  }
 }
 
 extension LyricsEntityQueryWhereSort
@@ -331,34 +285,34 @@ extension LyricsEntityQueryWhere
     });
   }
 
-  QueryBuilder<LyricsEntity, LyricsEntity, QAfterWhereClause> trackIdEqualTo(
-    String trackId,
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterWhereClause> pathKeyEqualTo(
+    String pathKey,
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IndexWhereClause.equalTo(indexName: r'trackId', value: [trackId]),
+        IndexWhereClause.equalTo(indexName: r'pathKey', value: [pathKey]),
       );
     });
   }
 
-  QueryBuilder<LyricsEntity, LyricsEntity, QAfterWhereClause> trackIdNotEqualTo(
-    String trackId,
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterWhereClause> pathKeyNotEqualTo(
+    String pathKey,
   ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'trackId',
+                indexName: r'pathKey',
                 lower: [],
-                upper: [trackId],
+                upper: [pathKey],
                 includeUpper: false,
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'trackId',
-                lower: [trackId],
+                indexName: r'pathKey',
+                lower: [pathKey],
                 includeLower: false,
                 upper: [],
               ),
@@ -367,17 +321,17 @@ extension LyricsEntityQueryWhere
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'trackId',
-                lower: [trackId],
+                indexName: r'pathKey',
+                lower: [pathKey],
                 includeLower: false,
                 upper: [],
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'trackId',
+                indexName: r'pathKey',
                 lower: [],
-                upper: [trackId],
+                upper: [pathKey],
                 includeUpper: false,
               ),
             );
@@ -863,6 +817,147 @@ extension LyricsEntityQueryFilter
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyEqualTo(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'pathKey',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'pathKey',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  pathKeyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> sourceEqualTo(
     LyricsSource value,
   ) {
@@ -1066,7 +1161,25 @@ extension LyricsEntityQueryFilter
   }
 
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
-  trackIdEqualTo(String value, {bool caseSensitive = true}) {
+  trackIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  trackIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  trackIdEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1080,7 +1193,7 @@ extension LyricsEntityQueryFilter
 
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
   trackIdGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1098,7 +1211,7 @@ extension LyricsEntityQueryFilter
 
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
   trackIdLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1116,8 +1229,8 @@ extension LyricsEntityQueryFilter
 
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
   trackIdBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1263,6 +1376,18 @@ extension LyricsEntityQuerySortBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByPathKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByPathKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1362,6 +1487,18 @@ extension LyricsEntityQuerySortThenBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByPathKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByPathKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1429,6 +1566,14 @@ extension LyricsEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctByPathKey({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pathKey', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'source');
@@ -1484,6 +1629,12 @@ extension LyricsEntityQueryProperty
     });
   }
 
+  QueryBuilder<LyricsEntity, String, QQueryOperations> pathKeyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pathKey');
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsSource, QQueryOperations> sourceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'source');
@@ -1496,7 +1647,7 @@ extension LyricsEntityQueryProperty
     });
   }
 
-  QueryBuilder<LyricsEntity, String, QQueryOperations> trackIdProperty() {
+  QueryBuilder<LyricsEntity, String?, QQueryOperations> trackIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'trackId');
     });

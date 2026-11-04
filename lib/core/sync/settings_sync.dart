@@ -38,7 +38,10 @@ class SettingsSync {
   /// 以 `setting/0` 文件還原本機設定;文件不存在時不動本機。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {
     final raw = (await _doc(userDoc).get()).data();
-    if (raw == null) return;
+    if (raw != null) _apply(raw);
+  }
+
+  void _apply(Map<String, dynamic> raw) {
     _ref
         .read(settingsControllerProvider.notifier)
         .restoreFromRemote(

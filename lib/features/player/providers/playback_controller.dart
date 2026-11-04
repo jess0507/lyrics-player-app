@@ -39,7 +39,9 @@ class PlaybackController {
         if (index >= 0 && index < queue.length) {
           final track = queue[index];
           ref.read(statisticsControllerProvider.notifier).recordPlay(track);
-          ref.read(playlistRepositoryProvider).recordRecentlyPlayed(track.id);
+          ref
+              .read(playlistRepositoryProvider)
+              .recordRecentlyPlayed(track.pathKey);
         }
       }),
     );
@@ -74,7 +76,7 @@ class PlaybackController {
 
   Future<void> playTrack(Track track) async {
     final tracks = _tracks;
-    final index = tracks.indexWhere((t) => t.id == track.id);
+    final index = tracks.indexWhere((t) => t.pathKey == track.pathKey);
     if (index >= 0) await playLibraryAt(index);
   }
 

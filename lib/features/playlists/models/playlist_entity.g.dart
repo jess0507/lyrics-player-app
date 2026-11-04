@@ -33,15 +33,20 @@ const PlaylistEntitySchema = CollectionSchema(
       type: IsarType.bool,
     ),
     r'name': PropertySchema(id: 3, name: r'name', type: IsarType.string),
-    r'recentlyPlayed': PropertySchema(
+    r'pathKeys': PropertySchema(
       id: 4,
+      name: r'pathKeys',
+      type: IsarType.stringList,
+    ),
+    r'recentlyPlayed': PropertySchema(
+      id: 5,
       name: r'recentlyPlayed',
       type: IsarType.objectList,
 
       target: r'RecentlyPlayedEntry',
     ),
     r'trackIds': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'trackIds',
       type: IsarType.stringList,
     ),
@@ -96,6 +101,13 @@ int _playlistEntityEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.pathKeys.length * 3;
+  {
+    for (var i = 0; i < object.pathKeys.length; i++) {
+      final value = object.pathKeys[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.recentlyPlayed.length * 3;
   {
     final offsets = allOffsets[RecentlyPlayedEntry]!;
@@ -128,13 +140,14 @@ void _playlistEntitySerialize(
   writer.writeBool(offsets[1], object.isFavorites);
   writer.writeBool(offsets[2], object.isRecentlyPlayed);
   writer.writeString(offsets[3], object.name);
+  writer.writeStringList(offsets[4], object.pathKeys);
   writer.writeObjectList<RecentlyPlayedEntry>(
-    offsets[4],
+    offsets[5],
     allOffsets,
     RecentlyPlayedEntrySchema.serialize,
     object.recentlyPlayed,
   );
-  writer.writeStringList(offsets[5], object.trackIds);
+  writer.writeStringList(offsets[6], object.trackIds);
 }
 
 PlaylistEntity _playlistEntityDeserialize(
@@ -149,15 +162,16 @@ PlaylistEntity _playlistEntityDeserialize(
   object.isFavorites = reader.readBool(offsets[1]);
   object.isRecentlyPlayed = reader.readBool(offsets[2]);
   object.name = reader.readString(offsets[3]);
+  object.pathKeys = reader.readStringList(offsets[4]) ?? [];
   object.recentlyPlayed =
       reader.readObjectList<RecentlyPlayedEntry>(
-        offsets[4],
+        offsets[5],
         RecentlyPlayedEntrySchema.deserialize,
         allOffsets,
         RecentlyPlayedEntry(),
       ) ??
       [];
-  object.trackIds = reader.readStringList(offsets[5]) ?? [];
+  object.trackIds = reader.readStringList(offsets[6]) ?? [];
   return object;
 }
 
@@ -177,6 +191,8 @@ P _playlistEntityDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 5:
       return (reader.readObjectList<RecentlyPlayedEntry>(
                 offset,
                 RecentlyPlayedEntrySchema.deserialize,
@@ -185,7 +201,7 @@ P _playlistEntityDeserializeProp<P>(
               ) ??
               [])
           as P;
-    case 5:
+    case 6:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -691,6 +707,200 @@ extension PlaylistEntityQueryFilter
   }
 
   QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementEqualTo(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'pathKeys',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'pathKeys',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'pathKeys',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'pathKeys', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'pathKeys', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'pathKeys', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'pathKeys', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'pathKeys', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'pathKeys', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'pathKeys', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  pathKeysLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'pathKeys',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
   recentlyPlayedLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'recentlyPlayed', length, true, length, true);
@@ -1106,6 +1316,12 @@ extension PlaylistEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QDistinct> distinctByPathKeys() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pathKeys');
+    });
+  }
+
   QueryBuilder<PlaylistEntity, PlaylistEntity, QDistinct> distinctByTrackIds() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'trackIds');
@@ -1146,6 +1362,13 @@ extension PlaylistEntityQueryProperty
     });
   }
 
+  QueryBuilder<PlaylistEntity, List<String>, QQueryOperations>
+  pathKeysProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pathKeys');
+    });
+  }
+
   QueryBuilder<PlaylistEntity, List<RecentlyPlayedEntry>, QQueryOperations>
   recentlyPlayedProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -1172,12 +1395,13 @@ const RecentlyPlayedEntrySchema = Schema(
   name: r'RecentlyPlayedEntry',
   id: -5037548687610361551,
   properties: {
+    r'pathKey': PropertySchema(id: 0, name: r'pathKey', type: IsarType.string),
     r'playedAt': PropertySchema(
-      id: 0,
+      id: 1,
       name: r'playedAt',
       type: IsarType.dateTime,
     ),
-    r'trackId': PropertySchema(id: 1, name: r'trackId', type: IsarType.string),
+    r'trackId': PropertySchema(id: 2, name: r'trackId', type: IsarType.string),
   },
 
   estimateSize: _recentlyPlayedEntryEstimateSize,
@@ -1192,7 +1416,13 @@ int _recentlyPlayedEntryEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.trackId.length * 3;
+  bytesCount += 3 + object.pathKey.length * 3;
+  {
+    final value = object.trackId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -1202,8 +1432,9 @@ void _recentlyPlayedEntrySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.playedAt);
-  writer.writeString(offsets[1], object.trackId);
+  writer.writeString(offsets[0], object.pathKey);
+  writer.writeDateTime(offsets[1], object.playedAt);
+  writer.writeString(offsets[2], object.trackId);
 }
 
 RecentlyPlayedEntry _recentlyPlayedEntryDeserialize(
@@ -1213,8 +1444,9 @@ RecentlyPlayedEntry _recentlyPlayedEntryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RecentlyPlayedEntry();
-  object.playedAt = reader.readDateTime(offsets[0]);
-  object.trackId = reader.readString(offsets[1]);
+  object.pathKey = reader.readString(offsets[0]);
+  object.playedAt = reader.readDateTime(offsets[1]);
+  object.trackId = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -1226,9 +1458,11 @@ P _recentlyPlayedEntryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
-    case 1:
       return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readDateTime(offset)) as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -1241,6 +1475,147 @@ extension RecentlyPlayedEntryQueryFilter
           RecentlyPlayedEntry,
           QFilterCondition
         > {
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyEqualTo(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'pathKey',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'pathKey',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  pathKeyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
   QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
   playedAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -1297,7 +1672,25 @@ extension RecentlyPlayedEntryQueryFilter
   }
 
   QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
-  trackIdEqualTo(String value, {bool caseSensitive = true}) {
+  trackIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  trackIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
+  trackIdEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1311,7 +1704,7 @@ extension RecentlyPlayedEntryQueryFilter
 
   QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
   trackIdGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1329,7 +1722,7 @@ extension RecentlyPlayedEntryQueryFilter
 
   QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
   trackIdLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1347,8 +1740,8 @@ extension RecentlyPlayedEntryQueryFilter
 
   QueryBuilder<RecentlyPlayedEntry, RecentlyPlayedEntry, QAfterFilterCondition>
   trackIdBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,

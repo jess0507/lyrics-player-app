@@ -13,16 +13,16 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// 工具「製作歌詞」選完曲目後的編輯頁:上方封面與標題,有長時間任務
 /// (自動產生 / 對時)時顯示進度卡,接著是歌詞動作與目前歌詞預覽。
 class LyricsEditorPage extends StatelessWidget {
-  const LyricsEditorPage({super.key, required this.trackId, this.initialTrack});
+  const LyricsEditorPage({super.key, required this.pathKey, this.initialTrack});
 
-  final String trackId;
+  final String pathKey;
   final Track? initialTrack;
 
   @override
   Widget build(BuildContext context) {
     return TrackEditorScaffold(
       title: AppLocalizations.of(context)!.tools_lyrics,
-      trackId: trackId,
+      pathKey: pathKey,
       initialTrack: initialTrack,
       builder: (context, track) => _LyricsEditorBody(track: track),
     );
@@ -38,19 +38,19 @@ class _LyricsEditorBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final activeJob = ref.watch(lyricsActiveJobProvider(track.id));
-    final lyrics = ref.watch(trackLyricsProvider(track.id)).valueOrNull;
+    final activeJob = ref.watch(lyricsActiveJobProvider(track.pathKey));
+    final lyrics = ref.watch(trackLyricsProvider(track.pathKey)).valueOrNull;
     final align = ref.watch(lyricsTextAlignProvider).textAlign;
 
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
         TrackEditorHeader(track: track),
-        if (activeJob) LyricsJobProgressCard(trackId: track.id),
+        if (activeJob) LyricsJobProgressCard(pathKey: track.pathKey),
         LyricsActionTiles(
           actionContext: context,
           actionRef: ref,
-          trackId: track.id,
+          pathKey: track.pathKey,
           title: track.title,
           // 進度卡已有取消鈕。
           showCancel: false,

@@ -22,7 +22,7 @@ class TrackEditorHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final cover = ref.watch(trackArtworkProvider(track.id)).valueOrNull;
+    final cover = ref.watch(trackArtworkProvider(track.pathKey)).valueOrNull;
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
       child: Column(

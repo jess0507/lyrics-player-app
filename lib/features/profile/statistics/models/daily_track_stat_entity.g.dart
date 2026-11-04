@@ -20,13 +20,14 @@ const DailyTrackStatEntitySchema = CollectionSchema(
   properties: {
     r'day': PropertySchema(id: 0, name: r'day', type: IsarType.string),
     r'listenMs': PropertySchema(id: 1, name: r'listenMs', type: IsarType.long),
+    r'pathKey': PropertySchema(id: 2, name: r'pathKey', type: IsarType.string),
     r'playCount': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'playCount',
       type: IsarType.long,
     ),
-    r'title': PropertySchema(id: 3, name: r'title', type: IsarType.string),
-    r'trackId': PropertySchema(id: 4, name: r'trackId', type: IsarType.string),
+    r'title': PropertySchema(id: 4, name: r'title', type: IsarType.string),
+    r'trackId': PropertySchema(id: 5, name: r'trackId', type: IsarType.string),
   },
 
   estimateSize: _dailyTrackStatEntityEstimateSize,
@@ -35,11 +36,11 @@ const DailyTrackStatEntitySchema = CollectionSchema(
   deserializeProp: _dailyTrackStatEntityDeserializeProp,
   idName: r'id',
   indexes: {
-    r'day_trackId': IndexSchema(
-      id: 8221675378142751818,
-      name: r'day_trackId',
-      unique: true,
-      replace: true,
+    r'day_pathKey': IndexSchema(
+      id: -4537947968384376528,
+      name: r'day_pathKey',
+      unique: false,
+      replace: false,
       properties: [
         IndexPropertySchema(
           name: r'day',
@@ -47,7 +48,7 @@ const DailyTrackStatEntitySchema = CollectionSchema(
           caseSensitive: true,
         ),
         IndexPropertySchema(
-          name: r'trackId',
+          name: r'pathKey',
           type: IndexType.hash,
           caseSensitive: true,
         ),
@@ -70,8 +71,14 @@ int _dailyTrackStatEntityEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.day.length * 3;
+  bytesCount += 3 + object.pathKey.length * 3;
   bytesCount += 3 + object.title.length * 3;
-  bytesCount += 3 + object.trackId.length * 3;
+  {
+    final value = object.trackId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -83,9 +90,10 @@ void _dailyTrackStatEntitySerialize(
 ) {
   writer.writeString(offsets[0], object.day);
   writer.writeLong(offsets[1], object.listenMs);
-  writer.writeLong(offsets[2], object.playCount);
-  writer.writeString(offsets[3], object.title);
-  writer.writeString(offsets[4], object.trackId);
+  writer.writeString(offsets[2], object.pathKey);
+  writer.writeLong(offsets[3], object.playCount);
+  writer.writeString(offsets[4], object.title);
+  writer.writeString(offsets[5], object.trackId);
 }
 
 DailyTrackStatEntity _dailyTrackStatEntityDeserialize(
@@ -98,9 +106,10 @@ DailyTrackStatEntity _dailyTrackStatEntityDeserialize(
   object.day = reader.readString(offsets[0]);
   object.id = id;
   object.listenMs = reader.readLong(offsets[1]);
-  object.playCount = reader.readLong(offsets[2]);
-  object.title = reader.readString(offsets[3]);
-  object.trackId = reader.readString(offsets[4]);
+  object.pathKey = reader.readString(offsets[2]);
+  object.playCount = reader.readLong(offsets[3]);
+  object.title = reader.readString(offsets[4]);
+  object.trackId = reader.readStringOrNull(offsets[5]);
   return object;
 }
 
@@ -116,11 +125,13 @@ P _dailyTrackStatEntityDeserializeProp<P>(
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
-    case 3:
       return (reader.readString(offset)) as P;
+    case 3:
+      return (reader.readLong(offset)) as P;
     case 4:
       return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -142,111 +153,6 @@ void _dailyTrackStatEntityAttach(
   DailyTrackStatEntity object,
 ) {
   object.id = id;
-}
-
-extension DailyTrackStatEntityByIndex on IsarCollection<DailyTrackStatEntity> {
-  Future<DailyTrackStatEntity?> getByDayTrackId(String day, String trackId) {
-    return getByIndex(r'day_trackId', [day, trackId]);
-  }
-
-  DailyTrackStatEntity? getByDayTrackIdSync(String day, String trackId) {
-    return getByIndexSync(r'day_trackId', [day, trackId]);
-  }
-
-  Future<bool> deleteByDayTrackId(String day, String trackId) {
-    return deleteByIndex(r'day_trackId', [day, trackId]);
-  }
-
-  bool deleteByDayTrackIdSync(String day, String trackId) {
-    return deleteByIndexSync(r'day_trackId', [day, trackId]);
-  }
-
-  Future<List<DailyTrackStatEntity?>> getAllByDayTrackId(
-    List<String> dayValues,
-    List<String> trackIdValues,
-  ) {
-    final len = dayValues.length;
-    assert(
-      trackIdValues.length == len,
-      'All index values must have the same length',
-    );
-    final values = <List<dynamic>>[];
-    for (var i = 0; i < len; i++) {
-      values.add([dayValues[i], trackIdValues[i]]);
-    }
-
-    return getAllByIndex(r'day_trackId', values);
-  }
-
-  List<DailyTrackStatEntity?> getAllByDayTrackIdSync(
-    List<String> dayValues,
-    List<String> trackIdValues,
-  ) {
-    final len = dayValues.length;
-    assert(
-      trackIdValues.length == len,
-      'All index values must have the same length',
-    );
-    final values = <List<dynamic>>[];
-    for (var i = 0; i < len; i++) {
-      values.add([dayValues[i], trackIdValues[i]]);
-    }
-
-    return getAllByIndexSync(r'day_trackId', values);
-  }
-
-  Future<int> deleteAllByDayTrackId(
-    List<String> dayValues,
-    List<String> trackIdValues,
-  ) {
-    final len = dayValues.length;
-    assert(
-      trackIdValues.length == len,
-      'All index values must have the same length',
-    );
-    final values = <List<dynamic>>[];
-    for (var i = 0; i < len; i++) {
-      values.add([dayValues[i], trackIdValues[i]]);
-    }
-
-    return deleteAllByIndex(r'day_trackId', values);
-  }
-
-  int deleteAllByDayTrackIdSync(
-    List<String> dayValues,
-    List<String> trackIdValues,
-  ) {
-    final len = dayValues.length;
-    assert(
-      trackIdValues.length == len,
-      'All index values must have the same length',
-    );
-    final values = <List<dynamic>>[];
-    for (var i = 0; i < len; i++) {
-      values.add([dayValues[i], trackIdValues[i]]);
-    }
-
-    return deleteAllByIndexSync(r'day_trackId', values);
-  }
-
-  Future<Id> putByDayTrackId(DailyTrackStatEntity object) {
-    return putByIndex(r'day_trackId', object);
-  }
-
-  Id putByDayTrackIdSync(DailyTrackStatEntity object, {bool saveLinks = true}) {
-    return putByIndexSync(r'day_trackId', object, saveLinks: saveLinks);
-  }
-
-  Future<List<Id>> putAllByDayTrackId(List<DailyTrackStatEntity> objects) {
-    return putAllByIndex(r'day_trackId', objects);
-  }
-
-  List<Id> putAllByDayTrackIdSync(
-    List<DailyTrackStatEntity> objects, {
-    bool saveLinks = true,
-  }) {
-    return putAllByIndexSync(r'day_trackId', objects, saveLinks: saveLinks);
-  }
 }
 
 extension DailyTrackStatEntityQueryWhereSort
@@ -329,22 +235,22 @@ extension DailyTrackStatEntityQueryWhere
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterWhereClause>
-  dayEqualToAnyTrackId(String day) {
+  dayEqualToAnyPathKey(String day) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IndexWhereClause.equalTo(indexName: r'day_trackId', value: [day]),
+        IndexWhereClause.equalTo(indexName: r'day_pathKey', value: [day]),
       );
     });
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterWhereClause>
-  dayNotEqualToAnyTrackId(String day) {
+  dayNotEqualToAnyPathKey(String day) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [],
                 upper: [day],
                 includeUpper: false,
@@ -352,7 +258,7 @@ extension DailyTrackStatEntityQueryWhere
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [day],
                 includeLower: false,
                 upper: [],
@@ -362,7 +268,7 @@ extension DailyTrackStatEntityQueryWhere
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [day],
                 includeLower: false,
                 upper: [],
@@ -370,7 +276,7 @@ extension DailyTrackStatEntityQueryWhere
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [],
                 upper: [day],
                 includeUpper: false,
@@ -381,34 +287,34 @@ extension DailyTrackStatEntityQueryWhere
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterWhereClause>
-  dayTrackIdEqualTo(String day, String trackId) {
+  dayPathKeyEqualTo(String day, String pathKey) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(
-          indexName: r'day_trackId',
-          value: [day, trackId],
+          indexName: r'day_pathKey',
+          value: [day, pathKey],
         ),
       );
     });
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterWhereClause>
-  dayEqualToTrackIdNotEqualTo(String day, String trackId) {
+  dayEqualToPathKeyNotEqualTo(String day, String pathKey) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [day],
-                upper: [day, trackId],
+                upper: [day, pathKey],
                 includeUpper: false,
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
-                lower: [day, trackId],
+                indexName: r'day_pathKey',
+                lower: [day, pathKey],
                 includeLower: false,
                 upper: [day],
               ),
@@ -417,17 +323,17 @@ extension DailyTrackStatEntityQueryWhere
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
-                lower: [day, trackId],
+                indexName: r'day_pathKey',
+                lower: [day, pathKey],
                 includeLower: false,
                 upper: [day],
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'day_trackId',
+                indexName: r'day_pathKey',
                 lower: [day],
-                upper: [day, trackId],
+                upper: [day, pathKey],
                 includeUpper: false,
               ),
             );
@@ -767,6 +673,187 @@ extension DailyTrackStatEntityQueryFilter
     DailyTrackStatEntity,
     QAfterFilterCondition
   >
+  pathKeyEqualTo(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'pathKey',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'pathKey',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'pathKey',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  pathKeyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'pathKey', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
   playCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1019,7 +1106,33 @@ extension DailyTrackStatEntityQueryFilter
     DailyTrackStatEntity,
     QAfterFilterCondition
   >
-  trackIdEqualTo(String value, {bool caseSensitive = true}) {
+  trackIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  trackIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'trackId'),
+      );
+    });
+  }
+
+  QueryBuilder<
+    DailyTrackStatEntity,
+    DailyTrackStatEntity,
+    QAfterFilterCondition
+  >
+  trackIdEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1037,7 +1150,7 @@ extension DailyTrackStatEntityQueryFilter
     QAfterFilterCondition
   >
   trackIdGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1059,7 +1172,7 @@ extension DailyTrackStatEntityQueryFilter
     QAfterFilterCondition
   >
   trackIdLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1081,8 +1194,8 @@ extension DailyTrackStatEntityQueryFilter
     QAfterFilterCondition
   >
   trackIdBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1243,6 +1356,20 @@ extension DailyTrackStatEntityQuerySortBy
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
+  sortByPathKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
+  sortByPathKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.desc);
+    });
+  }
+
+  QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
   sortByPlayCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'playCount', Sort.asc);
@@ -1330,6 +1457,20 @@ extension DailyTrackStatEntityQuerySortThenBy
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
+  thenByPathKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
+  thenByPathKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pathKey', Sort.desc);
+    });
+  }
+
+  QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QAfterSortBy>
   thenByPlayCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'playCount', Sort.asc);
@@ -1389,6 +1530,13 @@ extension DailyTrackStatEntityQueryWhereDistinct
   }
 
   QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QDistinct>
+  distinctByPathKey({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pathKey', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<DailyTrackStatEntity, DailyTrackStatEntity, QDistinct>
   distinctByPlayCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'playCount');
@@ -1435,6 +1583,13 @@ extension DailyTrackStatEntityQueryProperty
     });
   }
 
+  QueryBuilder<DailyTrackStatEntity, String, QQueryOperations>
+  pathKeyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pathKey');
+    });
+  }
+
   QueryBuilder<DailyTrackStatEntity, int, QQueryOperations>
   playCountProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -1448,7 +1603,7 @@ extension DailyTrackStatEntityQueryProperty
     });
   }
 
-  QueryBuilder<DailyTrackStatEntity, String, QQueryOperations>
+  QueryBuilder<DailyTrackStatEntity, String?, QQueryOperations>
   trackIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'trackId');

@@ -7,7 +7,7 @@ import 'package:seek_player/features/profile/statistics/models/period_stat_entit
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
 /// 播放統計 ↔ `statistics.json`:
-/// `{ "months": { "yyyy-MM": { "days": { "yyyy-MM-dd": { trackId: {title,
+/// `{ "months": { "yyyy-MM": { "days": { "yyyy-MM-dd": { pathKey: {title,
 /// playCount, listenMs} } }, "playCount", "listenMs" } } }`。
 /// 按月分桶只是沿用既有 `monthlyTotals()` 的結構(月粒度以雲端為準,
 /// 見 StatisticsController.restoreFromRemote)。
@@ -50,7 +50,8 @@ class StatisticsBackup implements DomainBackup {
     final dailyByMonth = <String, Map<String, Map<String, Object>>>{};
     for (final d in days) {
       final month = d.day.substring(0, 7);
-      ((dailyByMonth[month] ??= {})[d.day] ??= {})[d.trackId] = {
+      ((dailyByMonth[month] ??= {})[d.day] ??= {})[d.pathKey] = {
+        'trackId': ?d.trackId,
         'title': d.title,
         'playCount': d.playCount,
         'listenMs': d.listenMs,
@@ -84,13 +85,14 @@ class StatisticsBackup implements DomainBackup {
       if (days is! Map) continue;
       days.forEach((day, tracks) {
         if (tracks is! Map) return;
-        tracks.forEach((trackId, value) {
+        tracks.forEach((pathKey, value) {
           if (value is! Map) return;
           entities.add(
             DailyTrackStatEntity()
               ..day = '$day'
-              ..trackId = '$trackId'
-              ..title = (value['title'] as String?) ?? '$trackId'
+              ..pathKey = '$pathKey'
+              ..trackId = value['trackId'] as String?
+              ..title = (value['title'] as String?) ?? '$pathKey'
               ..playCount = (value['playCount'] as num? ?? 0).toInt()
               ..listenMs = (value['listenMs'] as num? ?? 0).toInt(),
           );

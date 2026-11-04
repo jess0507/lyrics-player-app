@@ -12,7 +12,7 @@ void main() {
       ..name = 'Fav'
       ..isFavorites = true
       ..createdAt = DateTime.fromMillisecondsSinceEpoch(1000)
-      ..trackIds = ['a', 'b'];
+      ..pathKeys = ['a', 'b'];
     final recent = PlaylistEntity()
       ..id = 2
       ..name = 'Recent'
@@ -20,7 +20,7 @@ void main() {
       ..createdAt = DateTime.fromMillisecondsSinceEpoch(2000)
       ..recentlyPlayed = [
         RecentlyPlayedEntry()
-          ..trackId = 'c'
+          ..pathKey = 'c'
           ..playedAt = DateTime.fromMillisecondsSinceEpoch(3000),
       ];
 
@@ -35,13 +35,13 @@ void main() {
     expect(decoded[0].isFavorites, isTrue);
     expect(decoded[0].isRecentlyPlayed, isFalse);
     expect(decoded[0].createdAt.millisecondsSinceEpoch, 1000);
-    expect(decoded[0].trackIds, ['a', 'b']);
+    expect(decoded[0].pathKeys, ['a', 'b']);
     expect(decoded[0].recentlyPlayed, isEmpty);
 
     expect(decoded[1].id, 2);
     expect(decoded[1].isRecentlyPlayed, isTrue);
-    expect(decoded[1].trackIds, isEmpty);
-    expect(decoded[1].recentlyPlayed.single.trackId, 'c');
+    expect(decoded[1].pathKeys, isEmpty);
+    expect(decoded[1].recentlyPlayed.single.pathKey, 'c');
     expect(
       decoded[1].recentlyPlayed.single.playedAt.millisecondsSinceEpoch,
       3000,
@@ -61,7 +61,7 @@ void main() {
     expect(decoded.single.id, 7);
     expect(decoded.single.name, '');
     expect(decoded.single.isFavorites, isFalse);
-    expect(decoded.single.trackIds, isEmpty);
+    expect(decoded.single.pathKeys, isEmpty);
     expect(decoded.single.createdAt.millisecondsSinceEpoch, 0);
   });
 

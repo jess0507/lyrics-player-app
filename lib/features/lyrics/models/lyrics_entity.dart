@@ -10,10 +10,17 @@ part 'lyrics_entity.g.dart';
 class LyricsEntity {
   Id id = Isar.autoIncrement;
 
-  /// trackId(檔案內容指紋,見 TrackFingerprintService)。唯一索引 replace:
-  /// 同一曲重複匯入直接覆蓋舊歌詞。
-  @Index(unique: true, replace: true)
-  late String trackId;
+  /// 曲目身份(= TrackEntity.pathKey,見 TrackPathKey)。一首一筆,由
+  /// LyricsRepository 寫入時沿用既有那筆的 id 保證。
+  ///
+  /// 刻意不加 unique index:舊資料升級時這個欄位讀出來全是 `''`,開 DB 重建
+  /// unique index 會衝突(見 plans/33)。
+  @Index(type: IndexType.hash)
+  late String pathKey;
+
+  /// 升級前的舊識別碼(sha1 內容指紋 / MediaStore fallback id),僅保留,
+  /// 不作為比對 / 同步依據;升級後新建的資料為 null(見 plans/33)。
+  String? trackId;
 
   /// 匯入當下的曲名,留作跨機 / 重掃後對齊的線索(v1 不做 title fallback 配對)。
   late String title;

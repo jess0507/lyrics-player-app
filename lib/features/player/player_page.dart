@@ -54,7 +54,7 @@ class PlayerPage extends ConsumerWidget {
           final artist = mediaItem?.artist ?? '';
 
           return PlayerBackground(
-            trackId: mediaItem?.id,
+            pathKey: mediaItem?.id,
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
@@ -91,7 +91,7 @@ class PlayerPage extends ConsumerWidget {
                   if (showLyrics)
                     LyricsModeMenu(
                       audio: audio,
-                      trackId: mediaItem.id,
+                      pathKey: mediaItem.id,
                       title: mediaItem.title,
                     ),
                 ],
@@ -103,13 +103,13 @@ class PlayerPage extends ConsumerWidget {
                 child: showLyrics
                     ? _LyricsLayout(
                         audio: audio,
-                        trackId: mediaItem.id,
+                        pathKey: mediaItem.id,
                         title: mediaItem.title,
                       )
                     : _PlayerLayout(
                         audio: audio,
                         hasTrack: hasTrack,
-                        trackId: mediaItem?.id,
+                        pathKey: mediaItem?.id,
                         title: mediaItem?.title,
                         initialTab: defaultTab,
                         onShowLyrics: hasTrack
@@ -155,7 +155,7 @@ class _PlayerLayout extends StatefulWidget {
   const _PlayerLayout({
     required this.audio,
     required this.hasTrack,
-    required this.trackId,
+    required this.pathKey,
     required this.title,
     required this.initialTab,
     required this.onShowLyrics,
@@ -163,7 +163,7 @@ class _PlayerLayout extends StatefulWidget {
 
   final AudioPlayerService audio;
   final bool hasTrack;
-  final String? trackId;
+  final String? pathKey;
   final String? title;
   final PlayerDefaultTab initialTab;
   final VoidCallback? onShowLyrics;
@@ -193,7 +193,7 @@ class _PlayerLayoutState extends State<_PlayerLayout> {
           child: PlayerArtworkPanel(
             active: widget.hasTrack,
             controller: _pageController,
-            trackId: widget.trackId,
+            pathKey: widget.pathKey,
             title: widget.title,
             onShowLyrics: widget.onShowLyrics,
           ),
@@ -210,7 +210,7 @@ class _PlayerLayoutState extends State<_PlayerLayout> {
         SecondaryControls(
           audio: widget.audio,
           enabled: widget.hasTrack,
-          trackId: widget.trackId,
+          pathKey: widget.pathKey,
           title: widget.title,
           onShowLyricsPage: _showLyricsPage,
         ),
@@ -233,12 +233,12 @@ class _PlayerLayoutState extends State<_PlayerLayout> {
 class _LyricsLayout extends StatelessWidget {
   const _LyricsLayout({
     required this.audio,
-    required this.trackId,
+    required this.pathKey,
     required this.title,
   });
 
   final AudioPlayerService audio;
-  final String trackId;
+  final String pathKey;
   final String title;
 
   @override
@@ -246,7 +246,7 @@ class _LyricsLayout extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: LyricsView(trackId: trackId, title: title),
+          child: LyricsView(pathKey: pathKey, title: title),
         ),
         const SizedBox(height: 16),
         SeekBar(audio: audio, enabled: true),

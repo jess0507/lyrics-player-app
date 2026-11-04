@@ -80,7 +80,7 @@ class LyricsAutoAlignException implements Exception {
 /// 背景處理」,**不保證歌詞已經產生完成**。本方法只負責壓縮 / 上傳 / 呼叫
 /// callable 這段,不碰本機 Isar 也不管 Firestore 是否已有現成快照;把結果
 /// 寫回本機統一交給 [LyricsPendingSyncService] 處理——呼叫端(見
-/// `LyricsAutoAlignController.run`)必須在呼叫本方法**之前**就把 trackId 加進
+/// `LyricsAutoAlignController.run`)必須在呼叫本方法**之前**就把 pathKey 加進
 /// `lyricsPendingSyncStoreProvider`,該服務才會開始監聽 Firestore 狀態,
 /// 不論這次是後端立即回應(現成快照)還是真的要背景跑一段時間,終態都會
 /// 由它寫回本機。
@@ -91,11 +91,11 @@ class LyricsAutoAlignService {
 
   final Ref _ref;
 
-  /// 為 [trackId] 執行對時,後端任務文件為 `user/{uid}/lyrics/{jobId}`。[language] 為語言提示(BCP-47,後端正規化)。
+  /// 為 [pathKey] 執行對時,後端任務文件為 `user/{uid}/lyrics/{jobId}`。[language] 為語言提示(BCP-47,後端正規化)。
   /// [engine] 指定後端對齊引擎(aeneas / WhisperX)。各階段以 [onStep] 回報
   /// 進度。成功僅代表已送出 callable,失敗拋 [LyricsAutoAlignException]。
   Future<void> autoAlign({
-    required String trackId,
+    required String pathKey,
     required String jobId,
     required String title,
     required String language,
@@ -108,7 +108,7 @@ class LyricsAutoAlignService {
     }
 
     final repo = _ref.read(lyricsRepositoryProvider);
-    final entity = repo.findByTrackId(trackId);
+    final entity = repo.findByPathKey(pathKey);
     if (entity == null) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noLyrics);
     }
@@ -123,7 +123,7 @@ class LyricsAutoAlignService {
 
     final audioPath = await _ref
         .read(trackAudioResolverProvider)
-        .resolve(trackId);
+        .resolve(pathKey);
     if (audioPath == null) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noAudio);
     }
@@ -174,14 +174,14 @@ class LyricsAutoAlignService {
         'format': 'm4a',
         'engine': engine.wireName,
         // 任務文件 id 用 jobId(pathKey 含 `/` 不能當 Firestore doc id)。
-        // 後端以 `trackId` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
+        // 後端以 `pathKey` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
         // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
         'trackId': jobId,
         'jobId': jobId,
         'fingerprint': ?fingerprint,
         'title': title,
       });
-      debugPrint('[LyricsAutoAlignService] trackId:$trackId, 已送出 align_lyrics');
+      debugPrint('[LyricsAutoAlignService] pathKey:$pathKey, 已送出 align_lyrics');
     } on FirebaseFunctionsException catch (e, s) {
       final exception = _toException(e);
       // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿 / 已有其他

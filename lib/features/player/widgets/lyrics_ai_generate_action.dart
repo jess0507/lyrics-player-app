@@ -12,33 +12,33 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 Future<void> runLyricsAiGenerate(
   BuildContext context,
   WidgetRef ref, {
-  required String trackId,
+  required String pathKey,
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  if (ref.read(lyricsAutoGenerateControllerProvider(trackId)).isRunning) {
-    debugPrint('[LyricsAutoGen] 已在執行中,略過 trackId=$trackId');
+  if (ref.read(lyricsAutoGenerateControllerProvider(pathKey)).isRunning) {
+    debugPrint('[LyricsAutoGen] 已在執行中,略過 pathKey=$pathKey');
     return;
   }
 
-  debugPrint('[LyricsAutoGen] 開始 trackId=$trackId title="$title"');
+  debugPrint('[LyricsAutoGen] 開始 pathKey=$pathKey title="$title"');
   showAppToast(l10n.lyrics_ai_generate_running_background);
 
   final controller = ref.read(
-    lyricsAutoGenerateControllerProvider(trackId).notifier,
+    lyricsAutoGenerateControllerProvider(pathKey).notifier,
   );
   final ok = await controller.run(title: title);
 
   // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
   // 不能再碰 ref,結果已由系統通知回報,直接收尾。
   if (!context.mounted) return;
-  final result = ref.read(lyricsAutoGenerateControllerProvider(trackId));
+  final result = ref.read(lyricsAutoGenerateControllerProvider(pathKey));
   if (ok) {
-    debugPrint('[LyricsAutoGen] 成功 trackId=$trackId');
+    debugPrint('[LyricsAutoGen] 成功 pathKey=$pathKey');
   } else if (result.status == LyricsAutoGenerateStatus.cancelled) {
-    debugPrint('[LyricsAutoGen] 已取消 trackId=$trackId');
+    debugPrint('[LyricsAutoGen] 已取消 pathKey=$pathKey');
   } else {
-    debugPrint('[LyricsAutoGen] 失敗 trackId=$trackId error=${result.error}');
+    debugPrint('[LyricsAutoGen] 失敗 pathKey=$pathKey error=${result.error}');
     showAppToast(_aiGenerateErrorText(l10n, result));
   }
 }

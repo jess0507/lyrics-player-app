@@ -48,10 +48,10 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
   }
 
   /// 進該工具的編輯頁,並取代本選曲頁:編輯頁返回直接回工具頁。
-  /// id 可能含 `/` 等特殊字元,編碼後才能放進路徑參數。
+  /// id 是 pathKey(檔案路徑,含 `/`),編碼後才能放進路徑參數。
   void _open(Track track) {
     context.pushReplacement(
-      '/tools/${widget.tool.name}/${Uri.encodeComponent(track.id)}',
+      '/tools/${widget.tool.name}/${Uri.encodeComponent(track.pathKey)}',
       extra: track,
     );
   }
@@ -178,7 +178,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                             itemBuilder: (context, index) {
                               final track = visibleTracks[index];
                               return TrackPickerTile(
-                                key: ValueKey(track.id),
+                                key: ValueKey(track.pathKey),
                                 track: track,
                                 stat: stats[track.filePath],
                                 audio: audio,

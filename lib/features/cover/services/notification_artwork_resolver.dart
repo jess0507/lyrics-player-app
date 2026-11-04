@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:seek_player/features/cover/services/track_cover_repository.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 
@@ -20,19 +21,19 @@ class NotificationArtworkResolver {
     'content://media/external/audio/albumart',
   );
 
-  /// 回傳 trackId → artUri;查無封面的曲目不會出現在結果中。
+  /// 回傳 pathKey → artUri;查無封面的曲目不會出現在結果中。
   Future<Map<String, Uri>> resolve(List<Track> tracks) async {
     final result = <String, Uri>{};
     for (final t in tracks) {
       final uri = _resolveOne(t);
-      if (uri != null) result[t.id] = uri;
+      if (uri != null) result[t.pathKey] = uri;
     }
     return result;
   }
 
   Uri? _resolveOne(Track track) {
-    final custom = _covers.findByTrackId(track.id);
-    if (custom != null) return Uri.file(custom.imagePath);
+    final custom = _covers.findByPathKey(track.pathKey);
+    if (custom != null) return Uri.file(custom.coverImagePath!);
 
     final albumId = track.albumId;
     if (albumId == null) return null;
@@ -44,7 +45,6 @@ class NotificationArtworkResolver {
 
 final notificationArtworkResolverProvider =
     Provider<NotificationArtworkResolver>(
-      (ref) => NotificationArtworkResolver(
-        ref.watch(trackCoverRepositoryProvider),
-      ),
+      (ref) =>
+          NotificationArtworkResolver(ref.watch(trackCoverRepositoryProvider)),
     );

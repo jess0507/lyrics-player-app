@@ -6,9 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
 
 import 'package:seek_player/core/storage/isar_service.dart';
-import 'package:seek_player/features/cover/models/track_cover_entity.dart';
 import 'package:seek_player/features/cover/providers/track_cover_color_provider.dart';
 import 'package:seek_player/features/cover/services/track_cover_repository.dart';
+import 'package:seek_player/features/music_list/models/track_entity.dart';
 
 import '../../helpers/isar_test_core.dart';
 import '../../helpers/test_image.dart';
@@ -25,7 +25,7 @@ void main() {
   setUp(() async {
     tempDir = await Directory.systemTemp.createTemp('cover_color_provider');
     isar = await Isar.open(
-      [TrackCoverEntitySchema],
+      [TrackEntitySchema],
       directory: tempDir.path,
       name: 'test',
     );
@@ -42,20 +42,37 @@ void main() {
 
   TrackCoverRepository repo() => container.read(trackCoverRepositoryProvider);
 
-  Future<Color?> readColor(String trackId) =>
-      container.read(trackCoverColorProvider(trackId).future);
+  /// 封面掛在 TrackEntity 上:建一筆帶封面欄位的曲目。
+  Future<void> insertTrack(
+    String pathKey, {
+    required String imagePath,
+    int? colorValue,
+  }) => isar.writeTxn(
+    () => isar.trackEntitys.putByPathKey(
+      TrackEntity()
+        ..path = '/music/$pathKey.mp3'
+        ..pathKey = pathKey
+        ..sizeBytes = 0
+        ..modifiedMs = 0
+        ..coverImagePath = imagePath
+        ..coverColorValue = colorValue
+        ..addedAt = DateTime(2026)
+        ..updatedAt = DateTime(2026),
+    ),
+  );
+
+  Future<Color?> readColor(String pathKey) =>
+      container.read(trackCoverColorProvider(pathKey).future);
 
   test('無封面紀錄 → null', () async {
     expect(await readColor('missing'), isNull);
   });
 
   test('已快取 colorValue → 直接回傳,不需讀圖檔', () async {
-    await repo().save(
-      TrackCoverEntity()
-        ..trackId = 't1'
-        ..imagePath = '${tempDir.path}/does-not-exist.png'
-        ..colorValue = 0xFF123456
-        ..addedAt = DateTime(2026),
+    await insertTrack(
+      't1',
+      imagePath: '${tempDir.path}/does-not-exist.png',
+      colorValue: 0xFF123456,
     );
 
     expect(await readColor('t1'), const Color(0xFF123456));
@@ -64,30 +81,20 @@ void main() {
   test('未快取 → 解析圖檔取色並寫回 entity', () async {
     const blue = Color(0xFF1E5AA8);
     final file = await writeSolidColorPng('${tempDir.path}/t2.png', blue);
-    await repo().save(
-      TrackCoverEntity()
-        ..trackId = 't2'
-        ..imagePath = file.path
-        ..addedAt = DateTime(2026),
-    );
+    await insertTrack('t2', imagePath: file.path);
 
     final color = await readColor('t2');
 
     expect(color, isNotNull);
-    final cached = repo().findByTrackId('t2')!.colorValue;
+    final cached = repo().findByPathKey('t2')!.coverColorValue;
     expect(cached, isNotNull);
     expect(cached, color!.toARGB32());
   });
 
   test('未快取且圖檔遺失 → null,且不寫回', () async {
-    await repo().save(
-      TrackCoverEntity()
-        ..trackId = 't3'
-        ..imagePath = '${tempDir.path}/gone.png'
-        ..addedAt = DateTime(2026),
-    );
+    await insertTrack('t3', imagePath: '${tempDir.path}/gone.png');
 
     expect(await readColor('t3'), isNull);
-    expect(repo().findByTrackId('t3')!.colorValue, isNull);
+    expect(repo().findByPathKey('t3')!.coverColorValue, isNull);
   });
 }

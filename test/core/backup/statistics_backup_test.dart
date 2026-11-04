@@ -6,11 +6,11 @@ import 'package:seek_player/core/backup/statistics_backup.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
 
-DailyTrackStatEntity _day(String day, String trackId, int plays, int ms) =>
+DailyTrackStatEntity _day(String day, String pathKey, int plays, int ms) =>
     DailyTrackStatEntity()
       ..day = day
-      ..trackId = trackId
-      ..title = 'T-$trackId'
+      ..pathKey = pathKey
+      ..title = 'T-$pathKey'
       ..playCount = plays
       ..listenMs = ms;
 
@@ -63,7 +63,7 @@ void main() {
       ..sort((x, y) => x.day.compareTo(y.day));
     expect(decodedDays, hasLength(2));
     expect(decodedDays[0].day, '2026-08-30');
-    expect(decodedDays[0].trackId, 'a');
+    expect(decodedDays[0].pathKey, 'a');
     expect(decodedDays[0].title, 'T-a');
     expect(decodedDays[0].playCount, 1);
     expect(decodedDays[0].listenMs, 100);
@@ -76,7 +76,7 @@ void main() {
     expect(decodedTotals[1].listenMs, 300);
   });
 
-  test('容錯:缺 title 用 trackId、格式不符的條目跳過、缺 months 回空', () {
+  test('容錯:缺 title 用 pathKey、格式不符的條目跳過、缺 months 回空', () {
     final json = {
       'months': {
         '2026-09': {

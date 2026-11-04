@@ -20,7 +20,7 @@ class SecondaryControls extends ConsumerWidget {
     super.key,
     required this.audio,
     required this.enabled,
-    this.trackId,
+    this.pathKey,
     this.title,
     this.onShowLyricsPage,
   });
@@ -29,7 +29,7 @@ class SecondaryControls extends ConsumerWidget {
   final bool enabled;
 
   /// 目前曲目 id；無曲目時為 null，不顯示自動對時。
-  final String? trackId;
+  final String? pathKey;
 
   /// 目前曲名，傳給對齊服務。
   final String? title;
@@ -48,7 +48,7 @@ class SecondaryControls extends ConsumerWidget {
           PlayModeButton(audio: audio, enabled: enabled, iconSize: _kIconSize),
           ShareTrackButton(
             enabled: enabled,
-            trackId: trackId,
+            pathKey: pathKey,
             iconSize: _kIconSize,
           ),
           ?lyrics,
@@ -60,7 +60,7 @@ class SecondaryControls extends ConsumerWidget {
                     context,
                     ref,
                     audio: audio,
-                    trackId: trackId,
+                    pathKey: pathKey,
                     title: title,
                   )
                 : null,
@@ -75,7 +75,7 @@ class SecondaryControls extends ConsumerWidget {
   /// 歌詞頁;否則關閉播放頁並進「工具 › 製作歌詞」的該曲編輯頁
   /// ([LyricsEditorPage])。
   Widget? _buildLyrics(BuildContext context, WidgetRef ref) {
-    final id = trackId;
+    final id = pathKey;
     if (id == null) return null;
     final l10n = AppLocalizations.of(context)!;
     final hasLyrics =
@@ -91,7 +91,7 @@ class SecondaryControls extends ConsumerWidget {
           : () => openToolEditorFromPlayer(
               context,
               tool: ToolKind.lyrics,
-              trackId: id,
+              pathKey: id,
             ),
       icon: const Icon(Icons.lyrics_outlined),
     );

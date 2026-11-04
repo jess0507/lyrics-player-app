@@ -11,13 +11,13 @@ import 'package:seek_player/features/cover/services/cover_import_service.dart';
 Future<void> setTrackCover(
   BuildContext context,
   WidgetRef ref,
-  String trackId,
+  String pathKey,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   try {
     final done = await ref
         .read(coverImportServiceProvider)
-        .pickAndSetForTrack(trackId);
+        .pickAndSetForTrack(pathKey);
     if (!done) return; // 使用者取消
     showAppToast(l10n.cover_updated);
   } on CoverImportException catch (e, s) {
@@ -30,10 +30,10 @@ Future<void> setTrackCover(
 Future<void> removeTrackCover(
   BuildContext context,
   WidgetRef ref,
-  String trackId,
+  String pathKey,
 ) async {
   final l10n = AppLocalizations.of(context)!;
-  await ref.read(coverImportServiceProvider).removeForTrack(trackId);
+  await ref.read(coverImportServiceProvider).removeForTrack(pathKey);
   showAppToast(l10n.cover_removed);
 }
 

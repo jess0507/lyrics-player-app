@@ -25,7 +25,7 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 /// 本服務補上這段空窗:狀態轉終態時,done 的話把文件內容直接存回本機
 /// Isar(同一份文件已含 content/format/title,見後端 `_save_lyrics_snapshot`),
 /// 兩種終態(done / failed)都會發最終確認通知(原生通知 + app 內
-/// toast,見 [_notifyResult]),並把該 trackId 從本地待處理清單移除。
+/// toast,見 [_notifyResult]),並把該 pathKey 從本地待處理清單移除。
 /// 寫回的新歌詞 entity 不帶 jobId;失敗則以 [LyricsRepository.clearJob] 收尾。
 /// 於 `app.dart` 根層級常駐 watch,不綁定特定頁面,跨 app 重啟也能接續。
 class LyricsPendingSyncService {
@@ -60,25 +60,25 @@ class LyricsPendingSyncService {
   void _reconcile(Map<String, LyricsPendingSyncJob> jobs) {
     debugPrint('[LyricsPendingSyncService] reconcile pending:${jobs.keys}');
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    for (final MapEntry(key: trackId, value: job) in jobs.entries) {
-      if (_subscriptions.containsKey(trackId) || uid == null) continue;
+    for (final MapEntry(key: pathKey, value: job) in jobs.entries) {
+      if (_subscriptions.containsKey(pathKey) || uid == null) continue;
       debugPrint(
-        '[LyricsPendingSyncService] start watching trackId:$trackId, '
+        '[LyricsPendingSyncService] start watching pathKey:$pathKey, '
         'jobId:${job.jobId}',
       );
-      _subscriptions[trackId] = _watch(uid, trackId, job.jobId);
+      _subscriptions[pathKey] = _watch(uid, pathKey, job.jobId);
     }
-    for (final trackId in _subscriptions.keys.toList()) {
-      if (!jobs.containsKey(trackId)) {
-        debugPrint('[LyricsPendingSyncService] stop watching trackId:$trackId');
-        _subscriptions.remove(trackId)?.cancel();
+    for (final pathKey in _subscriptions.keys.toList()) {
+      if (!jobs.containsKey(pathKey)) {
+        debugPrint('[LyricsPendingSyncService] stop watching pathKey:$pathKey');
+        _subscriptions.remove(pathKey)?.cancel();
       }
     }
   }
 
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>> _watch(
     String uid,
-    String trackId,
+    String pathKey,
     String jobId,
   ) => FirebaseFirestore.instance
       .collection('user')
@@ -87,56 +87,56 @@ class LyricsPendingSyncService {
       .doc(jobId)
       .snapshots()
       .listen(
-        (snapshot) => _onSnapshot(trackId, snapshot),
+        (snapshot) => _onSnapshot(pathKey, snapshot),
         onError: (Object e, StackTrace s) => reportError(
           e,
           s,
           reason:
               'LyricsPendingSyncService 監聽 Firestore 失敗:'
-              'trackId=$trackId, jobId=$jobId',
+              'pathKey=$pathKey, jobId=$jobId',
         ),
       );
 
   void _onSnapshot(
-    String trackId,
+    String pathKey,
     DocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {
     final phase = LyricsJobPhase.fromWire(
       snapshot.data()?['status'] as String?,
     );
-    debugPrint('[LyricsPendingSyncService] trackId:$trackId, phase:$phase');
+    debugPrint('[LyricsPendingSyncService] pathKey:$pathKey, phase:$phase');
     if (phase == null || !phase.isTerminal) return;
     // 終態:取消這筆訂閱,避免文件之後任何變動再次觸發。
-    _subscriptions.remove(trackId)?.cancel();
-    unawaited(_onTerminal(trackId, phase, snapshot.data()));
+    _subscriptions.remove(pathKey)?.cancel();
+    unawaited(_onTerminal(pathKey, phase, snapshot.data()));
   }
 
   Future<void> _onTerminal(
-    String trackId,
+    String pathKey,
     LyricsJobPhase phase,
     Map<String, dynamic>? data,
   ) async {
     debugPrint(
-      '[LyricsPendingSyncService] trackId:$trackId terminal phase:$phase',
+      '[LyricsPendingSyncService] pathKey:$pathKey terminal phase:$phase',
     );
-    final job = _ref.read(lyricsPendingSyncStoreProvider)[trackId];
+    final job = _ref.read(lyricsPendingSyncStoreProvider)[pathKey];
     final success =
-        phase == LyricsJobPhase.done && await _syncContent(trackId, data);
+        phase == LyricsJobPhase.done && await _syncContent(pathKey, data);
     // 失敗:AI 產生的空內容佔位刪掉,對時則只清 jobId、保留原歌詞。
-    if (!success) await _ref.read(lyricsRepositoryProvider).clearJob(trackId);
+    if (!success) await _ref.read(lyricsRepositoryProvider).clearJob(pathKey);
     if (job != null) {
       await _notifyResult(job, success: success);
     }
-    await _ref.read(lyricsPendingSyncStoreProvider.notifier).remove(trackId);
+    await _ref.read(lyricsPendingSyncStoreProvider.notifier).remove(pathKey);
   }
 
   /// 存回本機 Isar,成功回 true。
-  Future<bool> _syncContent(String trackId, Map<String, dynamic>? data) async {
+  Future<bool> _syncContent(String pathKey, Map<String, dynamic>? data) async {
     final content = data?['content'];
     if (content is! String || content.isEmpty) {
       // 後端回報 done 卻沒有內文:記下形狀以區分權限 / 資料異常。
       reportError(
-        StateError('背景歌詞任務回報 done 但沒有 content:trackId=$trackId'),
+        StateError('背景歌詞任務回報 done 但沒有 content:pathKey=$pathKey'),
         StackTrace.current,
         reason: 'LyricsPendingSyncService 快照內容缺失',
       );
@@ -145,16 +145,16 @@ class LyricsPendingSyncService {
     final format =
         LyricsFormat.values.asNameMap()[data?['format']] ?? LyricsFormat.lrc;
     final entity = LyricsEntity()
-      ..trackId = trackId
+      ..pathKey = pathKey
       ..title = (data?['title'] as String?) ?? ''
       ..format = format
       ..source = LyricsSource.generated
       ..content = content
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
-    _ref.invalidate(trackLyricsProvider(trackId));
+    _ref.invalidate(trackLyricsProvider(pathKey));
     debugPrint(
-      '[LyricsPendingSyncService] trackId:$trackId synced content, format:$format',
+      '[LyricsPendingSyncService] pathKey:$pathKey synced content, format:$format',
     );
     return true;
   }

@@ -6,12 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/core/backup/link_choice.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/core/sync/sign_in_sync_plan.dart';
 import 'package:seek_player/core/sync/sync_service.dart';
 import 'package:seek_player/features/profile/account/providers/sign_in_in_progress_provider.dart';
-import 'package:seek_player/features/profile/backup/widgets/sync_conflict_dialog.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
@@ -186,9 +184,8 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
   /// ([SyncService.prepareSignInSync]);判斷完成前帳戶頁持續顯示本視圖
   /// (見 [signInInProgressProvider]),結束後才切到已登入畫面。
   ///
-  /// 本機與雲端都有資料時,loading 結束後跳對話框詢問。對話框掛在 root
-  /// Navigator 上,使用者在 loading 期間返回或切到其他頁面也照樣顯示;
-  /// 此時本視圖已 dispose,所以 ref / context 衍生的物件都在開始前先抓住。
+  /// 判斷完成後在背景套用(拉 / 合併 / 推,不詢問)。本視圖此時可能已
+  /// dispose,所以 ref / context 衍生的物件都在開始前先抓住。
   Future<void> _signIn(
     Future<void> Function(AuthService auth) action, {
     String? failureMessage,
@@ -198,7 +195,6 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
     final auth = _auth;
     final sync = ref.read(syncServiceProvider);
     final signingIn = ref.read(signInInProgressProvider.notifier);
-    final navigator = Navigator.of(context, rootNavigator: true);
 
     SignInSyncPlan? plan;
     signingIn.state = true;
@@ -217,14 +213,7 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
 
     final p = plan;
     if (p == null) return;
-    // 本視圖已切換成已登入畫面(或使用者已離開帳戶頁)而 dispose,改用
-    // root Navigator 的 context,在 App 任何頁面上都能顯示。
-    final dialogContext = navigator.context;
-    LinkChoice? choice;
-    if (p.conflicts.isNotEmpty && dialogContext.mounted) {
-      choice = await showSyncConflictDialog(dialogContext, p.conflicts);
-    }
-    await sync.applySignInSync(p, choice);
+    await sync.applySignInSync(p);
   }
 
   /// 寄送密碼重設信。

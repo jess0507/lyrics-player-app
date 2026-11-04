@@ -75,12 +75,12 @@ class TrackSort {
       TrackSortField.size => (stats[a.filePath]?.sizeBytes ?? 0).compareTo(
         stats[b.filePath]?.sizeBytes ?? 0,
       ),
-      TrackSortField.playCount => (plays[a.id]?.playCount ?? 0).compareTo(
-        plays[b.id]?.playCount ?? 0,
+      TrackSortField.playCount => (plays[a.pathKey]?.playCount ?? 0).compareTo(
+        plays[b.pathKey]?.playCount ?? 0,
       ),
       TrackSortField.lastPlayed =>
-        (plays[a.id]?.lastPlayed?.millisecondsSinceEpoch ?? 0).compareTo(
-          plays[b.id]?.lastPlayed?.millisecondsSinceEpoch ?? 0,
+        (plays[a.pathKey]?.lastPlayed?.millisecondsSinceEpoch ?? 0).compareTo(
+          plays[b.pathKey]?.lastPlayed?.millisecondsSinceEpoch ?? 0,
         ),
     };
     return [...tracks]

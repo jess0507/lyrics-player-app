@@ -130,7 +130,7 @@ Future<void> runLyricsMenuAction(
   BuildContext context,
   WidgetRef ref,
   LyricsMenuAction action, {
-  required String trackId,
+  required String pathKey,
   required String title,
 }) async {
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
@@ -164,7 +164,7 @@ Future<void> runLyricsMenuAction(
       await runLyricsAutoAlign(
         context,
         ref,
-        trackId: trackId,
+        pathKey: pathKey,
         title: title,
         engine: LyricsAlignEngine.aeneas,
       );
@@ -172,7 +172,7 @@ Future<void> runLyricsMenuAction(
       await runLyricsAutoAlign(
         context,
         ref,
-        trackId: trackId,
+        pathKey: pathKey,
         title: title,
         engine: LyricsAlignEngine.whisperx,
       );
@@ -181,23 +181,23 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.textAlign:
       showLyricsTextAlignSheet(context);
     case LyricsMenuAction.searchOnline:
-      await runLyricsOnlineSearch(context, ref, trackId: trackId, title: title);
+      await runLyricsOnlineSearch(context, ref, pathKey: pathKey, title: title);
     case LyricsMenuAction.import:
     case LyricsMenuAction.reimport:
-      await runLyricsImport(context, ref, trackId: trackId, title: title);
+      await runLyricsImport(context, ref, pathKey: pathKey, title: title);
     case LyricsMenuAction.download:
-      await runLyricsDownload(context, ref, trackId: trackId, title: title);
+      await runLyricsDownload(context, ref, pathKey: pathKey, title: title);
     case LyricsMenuAction.delete:
-      await _confirmDelete(context, ref, trackId);
+      await _confirmDelete(context, ref, pathKey);
     case LyricsMenuAction.aiGenerate:
-      await runLyricsAiGenerate(context, ref, trackId: trackId, title: title);
+      await runLyricsAiGenerate(context, ref, pathKey: pathKey, title: title);
   }
 }
 
 Future<void> _confirmDelete(
   BuildContext context,
   WidgetRef ref,
-  String trackId,
+  String pathKey,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   final ok = await showDialog<bool>(
@@ -217,6 +217,6 @@ Future<void> _confirmDelete(
     ),
   );
   if (ok != true || !context.mounted) return;
-  await ref.read(lyricsRepositoryProvider).deleteByTrackId(trackId);
-  ref.invalidate(trackLyricsProvider(trackId));
+  await ref.read(lyricsRepositoryProvider).deleteByPathKey(pathKey);
+  ref.invalidate(trackLyricsProvider(pathKey));
 }

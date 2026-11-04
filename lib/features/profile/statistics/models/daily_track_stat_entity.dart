@@ -11,12 +11,21 @@ class DailyTrackStatEntity {
   Id id = Isar.autoIncrement;
 
   /// 本地日期，格式 `yyyy-MM-dd`（字串排序即時間排序）。
-  @Index(unique: true, replace: true, composite: [CompositeIndex('trackId')])
+  ///
+  /// 與 [pathKey] 組成一天一曲一筆,由 StatisticsController 寫入時沿用既有
+  /// 那筆的 id 保證。刻意不設 unique:舊資料升級時 [pathKey] 讀出來全是 `''`,
+  /// 開 DB 重建 unique index 會衝突(見 plans/33)。
+  @Index(composite: [CompositeIndex('pathKey')])
   late String day;
 
-  /// trackId（檔案內容指紋，見 TrackFingerprintService，跨裝置對同一檔案
-  /// 穩定）；[title] 一併保存，顯示層以 title 聚合。
-  late String trackId;
+  /// 曲目身份(= TrackEntity.pathKey,見 TrackPathKey);[title] 一併保存,
+  /// 顯示層以 title 聚合,對不到本機曲目的舊紀錄仍能正常統計(這類舊紀錄的
+  /// pathKey 暫以舊 [trackId] 填入)。
+  late String pathKey;
+
+  /// 升級前的舊識別碼(sha1 內容指紋 / MediaStore fallback id),僅保留,
+  /// 不作為比對 / 同步依據;升級後新建的資料為 null(見 plans/33)。
+  String? trackId;
 
   late String title;
 

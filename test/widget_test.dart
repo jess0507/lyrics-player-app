@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:seek_player/app.dart';
+import 'package:seek_player/core/storage/track_entity_migration.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -12,6 +13,12 @@ import 'package:seek_player/features/tools/providers/track_play_stats_provider.d
 class _FakeMusicLibrary extends MusicLibrary {
   @override
   Future<List<Track>> build() async => const [];
+}
+
+/// 測試不開 Isar:一次性遷移視為已完成,不蓋 loading。
+class _DoneMigration extends TrackEntityMigration {
+  @override
+  TrackEntityMigrationStatus build() => TrackEntityMigrationStatus.done;
 }
 
 void main() {
@@ -24,6 +31,7 @@ void main() {
         overrides: [
           preferencesServiceProvider.overrideWithValue(prefs),
           musicLibraryProvider.overrideWith(_FakeMusicLibrary.new),
+          trackEntityMigrationProvider.overrideWith(_DoneMigration.new),
           // 播放紀錄取自 Isar 統計,測試不開 Isar,回傳空結果。
           trackPlayStatsProvider.overrideWithValue(const {}),
         ],

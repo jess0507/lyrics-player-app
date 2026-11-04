@@ -37,10 +37,10 @@ class LyricsImportService {
   /// 內容上限約 1MB,超過拒收。
   static const _maxBytes = 1024 * 1024;
 
-  /// 為 [trackId] 匯入歌詞。回傳 true 表示已存檔;false 表示使用者取消選檔。
+  /// 為 [pathKey] 匯入歌詞。回傳 true 表示已存檔;false 表示使用者取消選檔。
   /// 失敗(過大 / 無法解碼 / 解析後無內容)拋 [LyricsImportException]。
   Future<bool> importForTrack({
-    required String trackId,
+    required String pathKey,
     required String title,
   }) async {
     final picked = await FilePicker.pickFiles(
@@ -69,14 +69,14 @@ class LyricsImportService {
     }
 
     final entity = LyricsEntity()
-      ..trackId = trackId
+      ..pathKey = pathKey
       ..title = title
       ..format = format
       ..source = LyricsSource.manual
       ..content = content
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
-    _ref.invalidate(trackLyricsProvider(trackId));
+    _ref.invalidate(trackLyricsProvider(pathKey));
     return true;
   }
 

@@ -13,15 +13,15 @@ import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service
 Future<void> runLyricsAutoAlign(
   BuildContext context,
   WidgetRef ref, {
-  required String trackId,
+  required String pathKey,
   required String title,
   required LyricsAlignEngine engine,
 }) async {
   final l10n = AppLocalizations.of(context)!;
   final language = Localizations.localeOf(context).toLanguageTag();
-  if (ref.read(lyricsAutoAlignControllerProvider(trackId)).isRunning) return;
+  if (ref.read(lyricsAutoAlignControllerProvider(pathKey)).isRunning) return;
   final controller = ref.read(
-    lyricsAutoAlignControllerProvider(trackId).notifier,
+    lyricsAutoAlignControllerProvider(pathKey).notifier,
   );
 
   showAppToast(l10n.lyrics_auto_align_running_background);
@@ -35,7 +35,7 @@ Future<void> runLyricsAutoAlign(
   // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
   // 不能再碰 ref,結果已由系統通知回報,直接收尾。
   if (!context.mounted) return;
-  final result = ref.read(lyricsAutoAlignControllerProvider(trackId));
+  final result = ref.read(lyricsAutoAlignControllerProvider(pathKey));
   if (!ok) {
     if (result.status != LyricsAutoAlignStatus.cancelled) {
       // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。
@@ -44,15 +44,17 @@ Future<void> runLyricsAutoAlign(
   }
 }
 
-String _autoAlignErrorText(AppLocalizations l10n, LyricsAutoAlignState result) =>
-    switch (result.error) {
-      LyricsAutoAlignError.notLoggedIn => l10n.lyrics_auto_align_need_login,
-      LyricsAutoAlignError.rateLimited => l10n.lyrics_auto_align_rate_limited,
-      LyricsAutoAlignError.noAudio => l10n.lyrics_auto_align_no_audio,
-      LyricsAutoAlignError.network => l10n.lyrics_auto_align_network,
-      LyricsAutoAlignError.busy =>
-        result.activeTitle != null
-            ? l10n.lyrics_background_busy_named(result.activeTitle!)
-            : l10n.lyrics_background_busy,
-      _ => l10n.lyrics_auto_align_failed,
-    };
+String _autoAlignErrorText(
+  AppLocalizations l10n,
+  LyricsAutoAlignState result,
+) => switch (result.error) {
+  LyricsAutoAlignError.notLoggedIn => l10n.lyrics_auto_align_need_login,
+  LyricsAutoAlignError.rateLimited => l10n.lyrics_auto_align_rate_limited,
+  LyricsAutoAlignError.noAudio => l10n.lyrics_auto_align_no_audio,
+  LyricsAutoAlignError.network => l10n.lyrics_auto_align_network,
+  LyricsAutoAlignError.busy =>
+    result.activeTitle != null
+        ? l10n.lyrics_background_busy_named(result.activeTitle!)
+        : l10n.lyrics_background_busy,
+  _ => l10n.lyrics_auto_align_failed,
+};

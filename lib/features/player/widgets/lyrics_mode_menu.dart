@@ -26,18 +26,18 @@ class LyricsModeMenu extends ConsumerWidget {
   const LyricsModeMenu({
     super.key,
     required this.audio,
-    required this.trackId,
+    required this.pathKey,
     required this.title,
   });
 
   final AudioPlayerService audio;
-  final String trackId;
+  final String pathKey;
   final String title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final lyrics = ref.watch(trackLyricsProvider(trackId)).valueOrNull;
+    final lyrics = ref.watch(trackLyricsProvider(pathKey)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
     // 對時是「補時間」:只在已有純文字、尚未同步時提供。
     final canAutoAlign = hasLyrics && !lyrics.synced;
@@ -118,7 +118,7 @@ class LyricsModeMenu extends ConsumerWidget {
 
   void _onSelected(BuildContext context, WidgetRef ref, Object value) {
     if (value is LyricsMenuAction) {
-      runLyricsMenuAction(context, ref, value, trackId: trackId, title: title);
+      runLyricsMenuAction(context, ref, value, pathKey: pathKey, title: title);
       return;
     }
     switch (value as _LyricsModeAction) {

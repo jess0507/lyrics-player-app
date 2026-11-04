@@ -12,13 +12,13 @@ class LyricsExportService {
 
   final Ref _ref;
 
-  /// 為 [trackId] 匯出歌詞檔,檔名以 [title] 為底。回傳 true 表示已存檔;
+  /// 為 [pathKey] 匯出歌詞檔,檔名以 [title] 為底。回傳 true 表示已存檔;
   /// false 表示使用者取消(查無歌詞極少見——選單僅在有歌詞時顯示——視同取消)。
   Future<bool> exportForTrack({
-    required String trackId,
+    required String pathKey,
     required String title,
   }) async {
-    final entity = _ref.read(lyricsRepositoryProvider).findByTrackId(trackId);
+    final entity = _ref.read(lyricsRepositoryProvider).findByPathKey(pathKey);
     if (entity == null || entity.content.isEmpty) return false;
 
     final path = await FilePicker.saveFile(

@@ -36,7 +36,7 @@ class StatisticsData {
 
   /// 期間內聽過的所有歌與各自的次數、時長（title 聚合，依聆聽時長排序）。
   ///
-  /// 以 title 聚合：從雲端還原的記錄帶舊裝置的 trackId，同一首歌在新裝置
+  /// 以 title 聚合：從雲端還原的記錄帶舊裝置的 pathKey，同一首歌在新裝置
   /// 播放會另起一筆，聚合後才不會同曲分裂成兩列。
   List<TrackRanking> allTracks() => _aggregateByTitle(days);
 
@@ -143,7 +143,7 @@ class StatisticsController extends Notifier<StatisticsData> {
     _record(track, listenMs: duration.inMilliseconds);
   }
 
-  /// 同一個交易內 upsert 兩筆：每曲明細（今天, trackId）與本月 month total
+  /// 同一個交易內 upsert 兩筆：每曲明細（今天, pathKey）與本月 month total
   /// ——明細與月總量必成對，不會出現只寫一半的狀態。
   /// day total 不另存：day 數據就是明細本身，週/月視圖直接由明細聚合。
   void _record(Track track, {int playCount = 0, int listenMs = 0}) {
@@ -152,10 +152,13 @@ class StatisticsController extends Notifier<StatisticsData> {
     late DailyTrackStatEntity entity;
     _isar.writeTxnSync(() {
       entity =
-          (_days.getByDayTrackIdSync(today, track.id) ??
+          (_days
+                    .where()
+                    .dayPathKeyEqualTo(today, track.pathKey)
+                    .findFirstSync() ??
                 (DailyTrackStatEntity()
                   ..day = today
-                  ..trackId = track.id))
+                  ..pathKey = track.pathKey))
             ..title = track.title
             ..playCount += playCount
             ..listenMs += listenMs;
@@ -243,7 +246,11 @@ class StatisticsController extends Notifier<StatisticsData> {
     final months = monthlyTotals ?? _aggregateMonthTotals(entities);
     _isar.writeTxnSync(() {
       _days.clearSync();
-      _days.putAllSync(entities);
+      // 一天一曲一筆(非 unique index,見 DailyTrackStatEntity.day),
+      // 同 (day, pathKey) 以後面那筆為準。
+      _days.putAllSync(
+        {for (final e in entities) (e.day, e.pathKey): e}.values.toList(),
+      );
       _periods.clearSync();
       _periods.putAllSync(months);
     });
@@ -288,7 +295,7 @@ class StatisticsController extends Notifier<StatisticsData> {
   void _commit(DailyTrackStatEntity entity) {
     final days = [...state.days];
     final i = days.indexWhere(
-      (d) => d.day == entity.day && d.trackId == entity.trackId,
+      (d) => d.day == entity.day && d.pathKey == entity.pathKey,
     );
     if (i >= 0) {
       days[i] = entity;

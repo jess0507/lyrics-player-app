@@ -8,10 +8,10 @@ import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
 /// 由 UI 顯示佔位圖。清單縮圖、播放頁、mini player 共用此回退鏈。
 final trackArtworkProvider = FutureProvider.family<ImageProvider?, String>((
   ref,
-  trackId,
+  pathKey,
 ) async {
-  final file = await ref.watch(trackCoverProvider(trackId).future);
+  final file = await ref.watch(trackCoverProvider(pathKey).future);
   if (file != null) return FileImage(file);
-  final bytes = await ref.watch(embeddedArtworkProvider(trackId).future);
+  final bytes = await ref.watch(embeddedArtworkProvider(pathKey).future);
   return bytes == null ? null : MemoryImage(bytes);
 });

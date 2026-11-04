@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/features/music_list/services/track_repository.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
@@ -41,11 +42,14 @@ class PlaylistsSync {
           'isFavorites': p.isFavorites,
           'isRecentlyPlayed': p.isRecentlyPlayed,
           'createdAt': p.createdAt.millisecondsSinceEpoch,
+          'pathKeys': p.pathKeys,
+          // 舊識別碼僅附帶保存,不作為比對依據(見 plans/33)。
           'trackIds': p.trackIds,
           'recentlyPlayed': [
             for (final e in p.recentlyPlayed)
               {
-                'trackId': e.trackId,
+                'pathKey': e.pathKey,
+                'trackId': ?e.trackId,
                 'playedAt': e.playedAt.millisecondsSinceEpoch,
               },
           ],
@@ -73,11 +77,67 @@ class PlaylistsSync {
   /// 以 [userDoc] 的 `playlist` 子集合整份覆寫本機清單(含我的最愛;
   /// 空集合也整份覆寫)。
   Future<void> restore(DocumentReference<Map<String, dynamic>> userDoc) async {
-    final snapshot = await userDoc.collection('playlist').get();
-    await _ref
-        .read(playlistRepositoryProvider)
-        .restoreFromRemote(snapshot.toPlaylists());
+    final playlists = await _fetchRemote(userDoc);
+    await _ref.read(playlistRepositoryProvider).restoreFromRemote(playlists);
   }
+
+  /// 把雲端清單併進本機(結果寫回本機,不推送),規則見 [mergePlaylists]。
+  Future<void> merge(DocumentReference<Map<String, dynamic>> userDoc) async {
+    final remote = await _fetchRemote(userDoc);
+    final repo = _ref.read(playlistRepositoryProvider);
+    // 本機在 await 之後才讀,縮小與使用者操作交錯的空檔。
+    await repo.restoreFromRemote(mergePlaylists(repo.getAllSync(), remote));
+  }
+
+  /// 讀雲端 `playlist` 子集合。清單成員 / 最近播放中找不到 track(本機
+  /// 沒有對應的 TrackEntity 或檔案已不存在)的曲目濾掉,下次推送自然不帶。
+  Future<List<PlaylistEntity>> _fetchRemote(
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async {
+    final snapshot = await userDoc.collection('playlist').get();
+    final playlists = snapshot.toPlaylists();
+    final available = _ref.read(trackRepositoryProvider).availablePathKeys([
+      for (final p in playlists) ...[
+        ...p.pathKeys,
+        for (final e in p.recentlyPlayed) e.pathKey,
+      ],
+    ]);
+    for (final p in playlists) {
+      p
+        ..pathKeys = [
+          for (final id in p.pathKeys)
+            if (available.contains(id)) id,
+        ]
+        ..recentlyPlayed = [
+          for (final e in p.recentlyPlayed)
+            if (available.contains(e.pathKey)) e,
+        ];
+    }
+    return playlists;
+  }
+}
+
+/// 播放清單合併(登入同步、本機與雲端都有資料時),以 id 對齊、以雲端
+/// 為主:雲端的清單整份照用(同 id 的本機清單捨棄),本機只有雲端沒有的
+/// id 才保留。
+///
+/// 例外:我的最愛 / 最近播放是唯一的系統清單,雲端已有時,本機 id 不同
+/// 的那份也捨棄,避免出現兩份我的最愛。
+List<PlaylistEntity> mergePlaylists(
+  List<PlaylistEntity> local,
+  List<PlaylistEntity> remote,
+) {
+  final remoteIds = {for (final r in remote) r.id};
+  final remoteHasFavorites = remote.any((r) => r.isFavorites);
+  final remoteHasRecent = remote.any((r) => r.isRecentlyPlayed);
+  return [
+    ...remote,
+    for (final l in local)
+      if (!remoteIds.contains(l.id) &&
+          !(l.isFavorites && remoteHasFavorites) &&
+          !(l.isRecentlyPlayed && remoteHasRecent))
+        l,
+  ];
 }
 
 final playlistsSyncProvider = Provider<PlaylistsSync>(
@@ -99,14 +159,19 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..createdAt = DateTime.fromMillisecondsSinceEpoch(
             (doc.data()['createdAt'] as num? ?? 0).toInt(),
           )
+          ..pathKeys = [
+            for (final t in (doc.data()['pathKeys'] as List? ?? const [])) '$t',
+          ]
           ..trackIds = [
             for (final t in (doc.data()['trackIds'] as List? ?? const [])) '$t',
           ]
           ..recentlyPlayed = [
             for (final e in (doc.data()['recentlyPlayed'] as List? ?? const []))
-              if (e is Map)
+              // 沒有 pathKey 的是舊格式,對不到任何本機曲目。
+              if (e is Map && e['pathKey'] is String)
                 RecentlyPlayedEntry()
-                  ..trackId = '${e['trackId']}'
+                  ..pathKey = e['pathKey'] as String
+                  ..trackId = e['trackId'] as String?
                   ..playedAt = DateTime.fromMillisecondsSinceEpoch(
                     (e['playedAt'] as num? ?? 0).toInt(),
                   ),
@@ -119,6 +184,6 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
 extension _PlaylistUserContent on PlaylistEntity {
   bool get _hasUserContent =>
       (!isFavorites && !isRecentlyPlayed) ||
-      trackIds.isNotEmpty ||
+      pathKeys.isNotEmpty ||
       recentlyPlayed.isNotEmpty;
 }

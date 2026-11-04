@@ -25,12 +25,12 @@ class LyricsOnlineSearchService {
   /// 套用使用者選定的候選結果:優先用 synced(LRC 格式),沒有才退回 plain
   /// (純文字);寫入既有 `LyricsEntity`,不另建 entity。
   Future<void> apply({
-    required String trackId,
+    required String pathKey,
     required String title,
     required LrclibResult result,
   }) async {
     final entity = LyricsEntity()
-      ..trackId = trackId
+      ..pathKey = pathKey
       ..title = title
       ..format = result.hasSyncedLyrics ? LyricsFormat.lrc : LyricsFormat.txt
       ..source = LyricsSource.online
@@ -39,6 +39,6 @@ class LyricsOnlineSearchService {
           : result.plainLyrics!
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
-    _ref.invalidate(trackLyricsProvider(trackId));
+    _ref.invalidate(trackLyricsProvider(pathKey));
   }
 }

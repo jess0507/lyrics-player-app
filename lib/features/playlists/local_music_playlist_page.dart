@@ -259,10 +259,10 @@ class _LocalMusicPlaylistPageState
           itemBuilder: (context, index) {
             final track = tracks[index];
             return TrackListTile(
-              key: ValueKey(track.id),
+              key: ValueKey(track.pathKey),
               track: track,
               audio: audio,
-              isCurrent: track.id == currentId,
+              isCurrent: track.pathKey == currentId,
               onTap: () => ref
                   .read(playbackControllerProvider)
                   .playTracksAt(tracks, index),

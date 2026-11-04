@@ -45,8 +45,7 @@ class AudioPlayerService {
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
   Stream<int?> get currentIndexStream => _player.currentIndexStream;
-  Stream<bool> get shuffleModeEnabledStream =>
-      _player.shuffleModeEnabledStream;
+  Stream<bool> get shuffleModeEnabledStream => _player.shuffleModeEnabledStream;
   Stream<LoopMode> get loopModeStream => _player.loopModeStream;
   Stream<double> get speedStream => _player.speedStream;
   bool get playing => _player.playing;
@@ -73,7 +72,7 @@ class AudioPlayerService {
       );
 
   /// 以整個音樂庫建立播放清單，並從 [initialIndex] 開始播放。
-  /// [artUris] 為 trackId → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
+  /// [artUris] 為 pathKey → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
   Future<void> setPlaylist(
     List<Track> tracks, {
     int initialIndex = 0,
@@ -86,11 +85,11 @@ class AudioPlayerService {
           AudioSource.uri(
             Uri.parse(t.uri),
             tag: MediaItem(
-              id: t.id,
+              id: t.pathKey,
               title: t.title,
               artist: t.artist ?? '',
               album: t.album,
-              artUri: artUris[t.id],
+              artUri: artUris[t.pathKey],
             ),
           ),
       ],
@@ -111,6 +110,7 @@ class AudioPlayerService {
     }
     return _player.seekToPrevious();
   }
+
   Future<void> setLoopMode(LoopMode mode) => _player.setLoopMode(mode);
   Future<void> setShuffle(bool enabled) =>
       _player.setShuffleModeEnabled(enabled);

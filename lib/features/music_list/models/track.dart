@@ -3,7 +3,7 @@ import 'dart:convert';
 /// 一首本機音訊曲目。
 class Track {
   const Track({
-    required this.id,
+    required this.pathKey,
     required this.uri,
     required this.filePath,
     required this.title,
@@ -13,9 +13,10 @@ class Track {
     this.durationMs,
   });
 
-  /// 穩定識別碼:檔案內容指紋(sha1,見 TrackFingerprintService),
-  /// 跨裝置 / 重掃 / 換路徑對同一檔案不變;讀檔失敗時退回 MediaStore id。
-  final String id;
+  /// 識別碼:正規化後的檔案路徑 pathKey(見 TrackPathKey),即
+  /// TrackEntity.pathKey;歌詞 / 統計 / 播放清單 / 雲端同步皆以它關聯。
+  /// 外部開啟、還原不出實體路徑的暫時曲目則為 content URI。
+  final String pathKey;
 
   /// 可供 just_audio 載入的 URI（多為 MediaStore content URI）。
   final String uri;
@@ -37,37 +38,37 @@ class Track {
       durationMs == null ? null : Duration(milliseconds: durationMs!);
 
   Track copyWith({int? durationMs}) => Track(
-        id: id,
-        uri: uri,
-        filePath: filePath,
-        title: title,
-        artist: artist,
-        album: album,
-        albumId: albumId,
-        durationMs: durationMs ?? this.durationMs,
-      );
+    pathKey: pathKey,
+    uri: uri,
+    filePath: filePath,
+    title: title,
+    artist: artist,
+    album: album,
+    albumId: albumId,
+    durationMs: durationMs ?? this.durationMs,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'uri': uri,
-        'filePath': filePath,
-        'title': title,
-        'artist': artist,
-        'album': album,
-        'albumId': albumId,
-        'durationMs': durationMs,
-      };
+    'pathKey': pathKey,
+    'uri': uri,
+    'filePath': filePath,
+    'title': title,
+    'artist': artist,
+    'album': album,
+    'albumId': albumId,
+    'durationMs': durationMs,
+  };
 
   factory Track.fromJson(Map<String, dynamic> json) => Track(
-        id: json['id'] as String,
-        uri: json['uri'] as String,
-        filePath: json['filePath'] as String,
-        title: json['title'] as String,
-        artist: json['artist'] as String?,
-        album: json['album'] as String?,
-        albumId: json['albumId'] as int?,
-        durationMs: json['durationMs'] as int?,
-      );
+    pathKey: json['pathKey'] as String,
+    uri: json['uri'] as String,
+    filePath: json['filePath'] as String,
+    title: json['title'] as String,
+    artist: json['artist'] as String?,
+    album: json['album'] as String?,
+    albumId: json['albumId'] as int?,
+    durationMs: json['durationMs'] as int?,
+  );
 
   static String encodeList(List<Track> tracks) =>
       jsonEncode(tracks.map((t) => t.toJson()).toList());

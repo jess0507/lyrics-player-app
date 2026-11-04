@@ -8,7 +8,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/core/backup/last_backup_at_provider.dart';
-import 'package:seek_player/core/backup/link_choice.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/core/sync/lyrics_sync.dart';
@@ -17,25 +16,25 @@ import 'package:seek_player/core/sync/settings_sync.dart';
 import 'package:seek_player/core/sync/sign_in_sync_plan.dart';
 import 'package:seek_player/core/sync/statistics_sync.dart';
 import 'package:seek_player/core/sync/sync_domain.dart';
+import 'package:seek_player/features/music_list/providers/music_library.dart';
 
 /// 設定 / 播放清單 / 統計 / 歌詞四個領域與 Firestore `user/{uid}` 之間的
 /// 同步調度。
 ///
 /// - 登入一個這台裝置尚未綁定的帳號([BackupStateStore.boundUid] 不同):
 ///   由登入頁在登入 loading 期間呼叫 [prepareSignInSync],逐領域看本機 /
-///   雲端有沒有資料——只有本機有就推、只有雲端有就拉、兩邊都有列為衝突
-///   (新帳號雲端全空 → 四個領域整份推上去)。loading 結束後登入頁若仍在
-///   帳戶頁就跳對話框讓使用者統一選「使用雲端 / 保留本機」,再呼叫
-///   [applySignInSync] 套用並綁定 uid;使用者已離開帳戶頁則不問,衝突
-///   領域留給之後的時戳同步(回前景自動上傳)處理。
+///   雲端有沒有資料——本機空就拉、雲端空就推、兩邊都有就把雲端併進本機
+///   (以雲端為主,見各領域的 merge)。合併當下不推,改把該領域標為本機
+///   已變更,之後重開 / 回前景的 [_maybeUpload] 自然推上去;新帳號雲端
+///   全空 → 四個領域整份推上去。接著呼叫 [applySignInSync] 套用並綁定 uid。
 ///   [prepareSignInSync] 到 [applySignInSync] 之間 [_upload] 一律跳過,
-///   避免對話框開著時被回前景的上傳蓋掉。
-///   App 啟動時已登入但尚未綁定(例如上次登入流程途中被滑掉):不詢問,
-///   衝突同樣留給時戳同步。
+///   避免判斷途中被回前景的上傳蓋掉。
+///   App 啟動時已登入但尚未綁定(例如上次登入流程途中被滑掉)走同一套
+///   流程([syncAfterSignIn])。
 /// - 已綁定的帳號(每次開 App、回前景、登出後再登入同一帳號):只推不拉,
 ///   依 `setting/0` 裡各領域的 *UpdatedAt 與本機 *ModifiedAt 比對,只推
-///   本機較新的領域。雲端只在登入尚未綁定的帳號時才會拉下來。
-/// - 整份快照語意、多裝置 last-write-wins、不合併。
+///   本機較新的領域。雲端只在登入尚未綁定的帳號時才會拉下來 / 合併。
+/// - 推送為整份快照語意:已綁定後多裝置之間仍是 last-write-wins。
 /// - 每次上傳順便把 App 版本(appVersion / buildNumber / recordedAt)寫進
 ///   主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
 ///
@@ -50,7 +49,11 @@ class SyncService {
   final Ref ref;
 
   /// 雲端 `user/{uid}` 主文件的 schema 版號。
-  static const schemaVersion = 8;
+  /// 9:pathKey 由內容指紋(sha1)改為路徑 pathKey(見 TrackPathKey)。
+  static const schemaVersion = 9;
+
+  /// 等曲庫掃描完成的上限;冷啟動掃描大音樂庫可能要一段時間。
+  static const _libraryTimeout = Duration(seconds: 30);
 
   BackupStateStore get _store => ref.read(backupStateStoreProvider);
 
@@ -110,15 +113,15 @@ class SyncService {
     ref.onDispose(lifecycle.dispose);
   }
 
-  /// 不詢問的登入同步:衝突領域留給之後的時戳同步。用於 App 啟動時已登入
-  /// 但尚未綁定、手機 OTP 自動驗證等沒有登入頁可問的情境。
+  /// 一次跑完登入同步([prepareSignInSync] + [applySignInSync])。用於 App
+  /// 啟動時已登入但尚未綁定、手機 OTP 自動驗證等不經登入頁的情境。
   Future<bool> syncAfterSignIn() async {
     final plan = await prepareSignInSync();
     if (plan == null) return false;
     return applySignInSync(plan);
   }
 
-  /// 登入成功後(登入 loading 期間)判斷各領域的推 / 拉 / 衝突。
+  /// 登入成功後(登入 loading 期間)判斷各領域的推 / 拉 / 合併。
   /// 未登入、已綁定、Firebase 不可用、雲端 schema 較新、流程已在跑或
   /// 讀取失敗時回傳 null(登入本身仍算成功,不影響登入結果)。
   /// 回傳非 null 時呼叫端必須接著呼叫 [applySignInSync]。
@@ -128,6 +131,10 @@ class SyncService {
     if (uid == null || _store.boundUid == uid) return null;
     if (_signInFlowUid == uid) return null; // 同一帳號的流程已在跑。
     _signInFlowUid = uid;
+    if (!await _libraryReady()) {
+      _signInFlowUid = null;
+      return null;
+    }
     try {
       final userDoc = _userDoc(uid);
       final version = ((await userDoc.get()).data()?['schemaVersion'] as num?)
@@ -162,7 +169,7 @@ class SyncService {
 
       final pull = <SyncDomain>{};
       final push = <SyncDomain>{};
-      final conflicts = <SyncDomain>[];
+      final merge = <SyncDomain>{};
       if (!remote.values.any((v) => v)) {
         // 新帳號(雲端全空):四個領域整份推上去,建立快照與時戳。
         debugPrint('[Sync] 雲端無資料(新帳號),全部上傳');
@@ -175,19 +182,14 @@ class SyncService {
             case (false, true):
               pull.add(d);
             case (true, true):
-              conflicts.add(d);
+              merge.add(d);
             case (false, false):
               break;
           }
         }
       }
-      debugPrint('[Sync] 登入同步判斷:pull=$pull, push=$push, conflicts=$conflicts');
-      return SignInSyncPlan(
-        uid: uid,
-        pull: pull,
-        push: push,
-        conflicts: conflicts,
-      );
+      debugPrint('[Sync] 登入同步判斷:pull=$pull, push=$push, merge=$merge');
+      return SignInSyncPlan(uid: uid, pull: pull, push: push, merge: merge);
     } catch (e, s) {
       reportError(e, s, reason: '登入同步判斷失敗');
       _signInFlowUid = null;
@@ -195,50 +197,55 @@ class SyncService {
     }
   }
 
-  /// 套用 [prepareSignInSync] 的結果並綁定 uid。[choice] 為使用者對衝突
-  /// 領域的選擇;null(沒問,例如已離開帳戶頁)時衝突領域不動,留給之後
-  /// 的時戳同步。回傳是否成功。
-  Future<bool> applySignInSync(
-    SignInSyncPlan plan, [
-    LinkChoice? choice,
-  ]) async {
+  /// 套用 [prepareSignInSync] 的結果並綁定 uid:先拉、再把合併領域的雲端
+  /// 資料併進本機,最後推「只有本機有」的領域(合併領域不在此推,見
+  /// [_mergeDomain])。
+  /// 回傳是否成功。
+  Future<bool> applySignInSync(SignInSyncPlan plan) async {
     final uid = plan.uid;
     try {
-      // 對話框期間可能已登出或換帳號。
+      // 判斷到套用之間可能已登出或換帳號。
       if (ref.read(authServiceProvider).currentUser?.uid != uid) {
         debugPrint('[Sync] 登入同步途中帳號已變更,中止');
         return false;
       }
-      final pull = {...plan.pull};
-      final push = {...plan.push};
-      switch (choice) {
-        case LinkChoice.useCloud:
-          pull.addAll(plan.conflicts);
-        case LinkChoice.keepLocal:
-          push.addAll(plan.conflicts);
-        case null:
-          if (plan.conflicts.isNotEmpty) {
-            debugPrint('[Sync] 未詢問衝突領域 ${plan.conflicts},留給時戳同步');
-          }
-      }
-
-      debugPrint('[Sync] 登入同步:pull=$pull, push=$push');
+      debugPrint(
+        '[Sync] 登入同步:pull=${plan.pull}, merge=${plan.merge}, '
+        'push=${plan.push}',
+      );
       final userDoc = _userDoc(uid);
-      for (final d in pull) {
+      for (final d in plan.pull) {
         await _restoreDomain(d, userDoc);
       }
-      if (pull.isNotEmpty) _markSynced();
+      for (final d in plan.merge) {
+        await _mergeDomain(d, userDoc);
+      }
+      if (plan.pull.isNotEmpty || plan.merge.isNotEmpty) _markSynced();
 
       _store.setBoundUid(uid);
-      // 只推指定領域;未詢問的衝突領域不動,等下次自動上傳(回前景的
-      // _maybeUpload)依時戳判斷。
-      return await _upload(uid, domains: push);
+      return await _upload(uid, domains: plan.push);
     } catch (e, s) {
       reportError(e, s, reason: '登入同步失敗');
       return false;
     } finally {
       if (_signInFlowUid == uid) _signInFlowUid = null;
     }
+  }
+
+  /// 曲庫是否已就緒:有權限、完整掃描完成(含 TrackEntity 遷移)且掃到的
+  /// 曲目數 > 0。未就緒時整次同步跳過——本機沒有曲目,播放清單 / 歌詞都
+  /// 對不上 track,備份沒有意義,下載也只會全部被丟掉。
+  Future<bool> _libraryReady() async {
+    try {
+      final tracks = await ref
+          .read(musicLibraryProvider.future)
+          .timeout(_libraryTimeout);
+      if (tracks.isNotEmpty) return true;
+      debugPrint('[Sync] 曲庫為空(未授權或沒有音樂),跳過同步');
+    } catch (e) {
+      debugPrint('[Sync] 曲庫尚未就緒($e),跳過同步');
+    }
+    return false;
   }
 
   /// 正在跑登入流程([prepareSignInSync] → [applySignInSync])的 uid,
@@ -254,6 +261,29 @@ class SyncService {
     SyncDomain.statistics => ref.read(statisticsSyncProvider).restore(userDoc),
     SyncDomain.lyrics => _lyricsSync.restore(userDoc),
   };
+
+  /// 把 [domain] 的雲端資料併進本機(以雲端為主),不推送。合併結果可能
+  /// 含雲端沒有的本機資料,所以標為本機已變更,讓之後的 [_maybeUpload]
+  /// 推上去。設定是一組單值、無從合併,直接用雲端(結果與雲端相同,
+  /// 不需標記)。
+  Future<void> _mergeDomain(
+    SyncDomain domain,
+    DocumentReference<Map<String, dynamic>> userDoc,
+  ) async {
+    switch (domain) {
+      case SyncDomain.settings:
+        await ref.read(settingsSyncProvider).restore(userDoc);
+      case SyncDomain.playlists:
+        await ref.read(playlistsSyncProvider).merge(userDoc);
+        _store.markPlaylistModified();
+      case SyncDomain.statistics:
+        await ref.read(statisticsSyncProvider).merge(userDoc);
+        _store.markStatsModified();
+      case SyncDomain.lyrics:
+        await _lyricsSync.merge(userDoc);
+        _store.markLyricsModified();
+    }
+  }
 
   DateTime? _remoteAt(Map<String, dynamic> timestamps, String key) =>
       (timestamps[key] as Timestamp?)?.toDate();
@@ -337,6 +367,7 @@ class SyncService {
       debugPrint('[Sync] 帳號尚未完成登入同步,跳過上傳');
       return false;
     }
+    if (!await _libraryReady()) return false;
     try {
       final userDoc = _userDoc(uid);
       final settingDoc = _settingDoc(uid);

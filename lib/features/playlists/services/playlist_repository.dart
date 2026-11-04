@@ -13,7 +13,7 @@ const _defaultRecentlyPlayedFallbackName = 'Recently Played';
 /// 最近播放上限筆數,超過時捨棄最舊的。
 const _recentlyPlayedLimit = 200;
 
-/// 播放清單的 Isar CRUD。曲目以有序 trackId 清單保存,解析交給讀取端。
+/// 播放清單的 Isar CRUD。曲目以有序 pathKey 清單保存,解析交給讀取端。
 /// 每次使用者寫入都 markPlaylistModified,標記待推;實際上傳由
 /// GoogleDriveBackupService 在回前景 / 連結 Drive / 統計重設時觸發,寫入當下不觸發推送。
 ///
@@ -123,22 +123,22 @@ class PlaylistRepository {
   }
 
   /// 加入一首(已存在則不重覆附加)。
-  Future<void> addTrack(int id, String trackId) async {
+  Future<void> addTrack(int id, String pathKey) async {
     final changed = _isar.writeTxnSync(() {
       final pl = _col.getSync(id);
-      if (pl == null || pl.trackIds.contains(trackId)) return false;
-      pl.trackIds = [...pl.trackIds, trackId];
+      if (pl == null || pl.pathKeys.contains(pathKey)) return false;
+      pl.pathKeys = [...pl.pathKeys, pathKey];
       _col.putSync(pl);
       return true;
     });
     if (changed) _backupState.markPlaylistModified();
   }
 
-  Future<void> removeTrack(int id, String trackId) async {
+  Future<void> removeTrack(int id, String pathKey) async {
     final changed = _isar.writeTxnSync(() {
       final pl = _col.getSync(id);
       if (pl == null) return false;
-      pl.trackIds = pl.trackIds.where((t) => t != trackId).toList();
+      pl.pathKeys = pl.pathKeys.where((t) => t != pathKey).toList();
       _col.putSync(pl);
       return true;
     });
@@ -147,14 +147,14 @@ class PlaylistRepository {
 
   /// 記一筆最近播放:該曲若已在清單中先移除,再插回最前面連同當下時間
   /// (最新播放永遠在最前),超過 [_recentlyPlayedLimit] 筆時捨棄最舊的。
-  Future<void> recordRecentlyPlayed(String trackId) async {
+  Future<void> recordRecentlyPlayed(String pathKey) async {
     final changed = _isar.writeTxnSync(() {
       final pl = _col.filter().isRecentlyPlayedEqualTo(true).findFirstSync();
       if (pl == null) return false;
-      final rest = pl.recentlyPlayed.where((e) => e.trackId != trackId);
+      final rest = pl.recentlyPlayed.where((e) => e.pathKey != pathKey);
       pl.recentlyPlayed = [
         RecentlyPlayedEntry()
-          ..trackId = trackId
+          ..pathKey = pathKey
           ..playedAt = DateTime.now(),
         ...rest,
       ].take(_recentlyPlayedLimit).toList();
@@ -177,11 +177,11 @@ class PlaylistRepository {
   }
 
   /// 整批覆寫順序(拖曳排序用)。
-  Future<void> setTrackIds(int id, List<String> trackIds) async {
+  Future<void> setPathKeys(int id, List<String> pathKeys) async {
     final changed = _isar.writeTxnSync(() {
       final pl = _col.getSync(id);
       if (pl == null) return false;
-      pl.trackIds = trackIds;
+      pl.pathKeys = pathKeys;
       _col.putSync(pl);
       return true;
     });

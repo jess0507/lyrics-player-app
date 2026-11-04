@@ -13,7 +13,8 @@ import 'package:seek_player/features/lyrics/background/lyrics_background_running
 // 靜態參照背景進入點,確保其所在 library 被納入 AOT 編譯
 // (native 端以函式名啟動,若無任何 import 參照會被整包略過)。
 // ignore: unused_import
-import 'package:seek_player/features/lyrics/background/lyrics_background_main.dart' show lyricsBackgroundMain;
+import 'package:seek_player/features/lyrics/background/lyrics_background_main.dart'
+    show lyricsBackgroundMain;
 import 'package:seek_player/features/lyrics/background/lyrics_background_protocol.dart';
 
 /// 背景任務的最終結果。
@@ -97,7 +98,7 @@ class LyricsBackgroundRunner {
     _active = task;
     debugPrint(
       '[LyricsBgRunner] 啟動前景服務 mode=${request.mode.name} '
-      'trackId=${request.trackId}',
+      'pathKey=${request.pathKey}',
     );
     final started = await _launcher.invokeMethod<bool>(
       'start',
@@ -126,7 +127,7 @@ class LyricsBackgroundRunner {
 
   void _onEvent(LyricsBackgroundEvent event) {
     debugPrint(
-      '[LyricsBgRunner] 事件 ${event.type.name} trackId=${event.trackId}'
+      '[LyricsBgRunner] 事件 ${event.type.name} pathKey=${event.pathKey}'
       '${event.stepName != null ? ' step=${event.stepName}' : ''}'
       '${event.errorName != null ? ' error=${event.errorName}' : ''}',
     );
@@ -137,7 +138,7 @@ class LyricsBackgroundRunner {
       case LyricsBackgroundEventType.done:
         // 不論任務是否由本 app instance 發起都要刷新:結果已由背景
         // isolate 寫入 Isar,這裡讓 UI 重讀並標記歌詞待推(回前景時備份)。
-        _ref.invalidate(trackLyricsProvider(event.trackId));
+        _ref.invalidate(trackLyricsProvider(event.pathKey));
         _ref.read(backupStateStoreProvider).markLyricsModified();
         _complete(const LyricsBackgroundResult(LyricsBackgroundStatus.success));
       case LyricsBackgroundEventType.error:
@@ -169,12 +170,12 @@ class LyricsBackgroundRunner {
   void _setRunning(bool value) =>
       _ref.read(lyricsBackgroundRunningProvider.notifier).set(value);
 
-  /// app 內取消按鈕呼叫:比對 [trackId] 與目前 active 任務相符才轉呼 native
+  /// app 內取消按鈕呼叫:比對 [pathKey] 與目前 active 任務相符才轉呼 native
   /// (效果同通知列取消動作),避免誤取消到別首歌的本機工作。不相符或沒有
   /// active 任務(本機階段已經跑完,工作已在後端)就直接略過,不呼叫 native。
   /// native 端之後會走既有的 cancel 事件流程(見 [_onEvent])自行收尾。
-  Future<void> cancel(String trackId) async {
-    if (_active?.request.trackId != trackId) return;
+  Future<void> cancel(String pathKey) async {
+    if (_active?.request.pathKey != pathKey) return;
     await _launcher.invokeMethod<void>('cancel').catchError((_) {});
   }
 
