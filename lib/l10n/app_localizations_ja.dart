@@ -670,7 +670,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_align_aligning => '歌詞を同期中…';
 
   @override
-  String get lyrics_auto_align_success => '歌詞を同期しました(自動、誤差の可能性あり)';
+  String get lyrics_auto_align_success => '歌詞を同期しました';
 
   @override
   String get lyrics_auto_align_failed => '歌詞を同期できませんでした。元の歌詞を保持します';
@@ -720,7 +720,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => '歌詞を生成中…';
 
   @override
-  String get lyrics_ai_generate_success => '歌詞を生成しました(自動、誤差の可能性あり)';
+  String get lyrics_ai_generate_success => '歌詞を生成しました';
 
   @override
   String get lyrics_ai_generate_failed => '歌詞を生成できませんでした';

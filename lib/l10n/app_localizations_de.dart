@@ -700,8 +700,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Songtext wird ausgerichtet…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Songtext synchronisiert (automatisch, evtl. ungenau)';
+  String get lyrics_auto_align_success => 'Songtext synchronisiert';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -760,8 +759,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Songtext wird erstellt…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Songtext erstellt (automatisch, evtl. ungenau)';
+  String get lyrics_ai_generate_success => 'Songtext erstellt';
 
   @override
   String get lyrics_ai_generate_failed =>

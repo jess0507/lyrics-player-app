@@ -690,8 +690,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'جارٍ محاذاة الكلمات…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'تمت مزامنة الكلمات (تلقائيًا، قد تكون غير دقيقة)';
+  String get lyrics_auto_align_success => 'تمت مزامنة الكلمات';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -749,8 +748,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'جارٍ إنشاء الكلمات…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'تم إنشاء الكلمات (تلقائيًا، قد تكون غير دقيقة)';
+  String get lyrics_ai_generate_success => 'تم إنشاء الكلمات';
 
   @override
   String get lyrics_ai_generate_failed => 'تعذّر إنشاء الكلمات';

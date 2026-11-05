@@ -1419,7 +1419,7 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_auto_align_success.
   ///
   /// In en, this message translates to:
-  /// **'Lyrics synced (auto, may be imperfect)'**
+  /// **'Lyrics synced'**
   String get lyrics_auto_align_success;
 
   /// No description provided for @lyrics_auto_align_failed.
@@ -1515,7 +1515,7 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_ai_generate_success.
   ///
   /// In en, this message translates to:
-  /// **'Lyrics generated (auto, may be imperfect)'**
+  /// **'Lyrics generated'**
   String get lyrics_ai_generate_success;
 
   /// No description provided for @lyrics_ai_generate_failed.

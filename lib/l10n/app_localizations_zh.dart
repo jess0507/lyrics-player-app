@@ -665,7 +665,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_align_aligning => '對齊歌詞中…';
 
   @override
-  String get lyrics_auto_align_success => '已同步歌詞(可能有誤)';
+  String get lyrics_auto_align_success => '已同步歌詞';
 
   @override
   String get lyrics_auto_align_failed => '同步失敗,已保留原歌詞';
@@ -715,7 +715,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => '產生歌詞中…';
 
   @override
-  String get lyrics_ai_generate_success => '已產生歌詞(可能有誤)';
+  String get lyrics_ai_generate_success => '已產生歌詞';
 
   @override
   String get lyrics_ai_generate_failed => '產生歌詞失敗';
@@ -1552,7 +1552,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_align_aligning => '对齐歌词中…';
 
   @override
-  String get lyrics_auto_align_success => '已同步歌词(可能有误)';
+  String get lyrics_auto_align_success => '已同步歌词';
 
   @override
   String get lyrics_auto_align_failed => '同步失败,已保留原歌词';
@@ -1602,7 +1602,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_ai_generate_transcribing => '生成歌词中…';
 
   @override
-  String get lyrics_ai_generate_success => '已生成歌词(可能有误)';
+  String get lyrics_ai_generate_success => '已生成歌词';
 
   @override
   String get lyrics_ai_generate_failed => '生成歌词失败';
@@ -2439,7 +2439,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_auto_align_aligning => '對齊歌詞中…';
 
   @override
-  String get lyrics_auto_align_success => '已同步歌詞(可能有誤)';
+  String get lyrics_auto_align_success => '已同步歌詞';
 
   @override
   String get lyrics_auto_align_failed => '同步失敗,已保留原歌詞';
@@ -2489,7 +2489,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_ai_generate_transcribing => '產生歌詞中…';
 
   @override
-  String get lyrics_ai_generate_success => '已產生歌詞(可能有誤)';
+  String get lyrics_ai_generate_success => '已產生歌詞';
 
   @override
   String get lyrics_ai_generate_failed => '產生歌詞失敗';

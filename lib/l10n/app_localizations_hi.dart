@@ -694,7 +694,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'बोल संरेखित किए जा रहे हैं…';
 
   @override
-  String get lyrics_auto_align_success => 'बोल सिंक हो गए (स्वतः, त्रुटि संभव)';
+  String get lyrics_auto_align_success => 'बोल सिंक हो गए';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -753,7 +753,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'बोल बन रहे हैं…';
 
   @override
-  String get lyrics_ai_generate_success => 'बोल बन गए (स्वतः, त्रुटि संभव)';
+  String get lyrics_ai_generate_success => 'बोल बन गए';
 
   @override
   String get lyrics_ai_generate_failed => 'बोल नहीं बन सके';

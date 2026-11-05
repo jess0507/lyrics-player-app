@@ -674,7 +674,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_align_aligning => '가사 정렬 중…';
 
   @override
-  String get lyrics_auto_align_success => '가사 동기화됨 (자동, 오차가 있을 수 있음)';
+  String get lyrics_auto_align_success => '가사 동기화됨';
 
   @override
   String get lyrics_auto_align_failed => '가사를 동기화할 수 없어 원본 가사를 유지했습니다';
@@ -724,7 +724,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => '가사 생성 중…';
 
   @override
-  String get lyrics_ai_generate_success => '가사 생성됨 (자동, 오차가 있을 수 있음)';
+  String get lyrics_ai_generate_success => '가사 생성됨';
 
   @override
   String get lyrics_ai_generate_failed => '가사를 생성할 수 없습니다';

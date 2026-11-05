@@ -693,8 +693,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Выравнивание текста…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Текст синхронизирован (автоматически, возможны неточности)';
+  String get lyrics_auto_align_success => 'Текст синхронизирован';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -753,8 +752,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Создание текста…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Текст создан (автоматически, возможны неточности)';
+  String get lyrics_ai_generate_success => 'Текст создан';
 
   @override
   String get lyrics_ai_generate_failed => 'Не удалось создать текст';

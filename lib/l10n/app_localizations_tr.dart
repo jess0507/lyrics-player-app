@@ -695,8 +695,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Sözler hizalanıyor…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Sözler eşitlendi (otomatik, hatalı olabilir)';
+  String get lyrics_auto_align_success => 'Sözler eşitlendi';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -755,8 +754,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Sözler oluşturuluyor…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Sözler oluşturuldu (otomatik, hatalı olabilir)';
+  String get lyrics_ai_generate_success => 'Sözler oluşturuldu';
 
   @override
   String get lyrics_ai_generate_failed => 'Sözler oluşturulamadı';

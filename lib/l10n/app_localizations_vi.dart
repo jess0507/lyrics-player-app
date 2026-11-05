@@ -697,8 +697,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Đang căn chỉnh lời…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Đã đồng bộ lời (tự động, có thể chưa chính xác)';
+  String get lyrics_auto_align_success => 'Đã đồng bộ lời';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -756,8 +755,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Đang tạo lời…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Đã tạo lời (tự động, có thể chưa chính xác)';
+  String get lyrics_ai_generate_success => 'Đã tạo lời';
 
   @override
   String get lyrics_ai_generate_failed => 'Không thể tạo lời';

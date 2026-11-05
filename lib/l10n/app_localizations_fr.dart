@@ -702,8 +702,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Alignement des paroles…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Paroles synchronisées (auto, peut être imprécis)';
+  String get lyrics_auto_align_success => 'Paroles synchronisées';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -762,8 +761,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Génération des paroles…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Paroles générées (auto, peut être imprécis)';
+  String get lyrics_ai_generate_success => 'Paroles générées';
 
   @override
   String get lyrics_ai_generate_failed => 'Impossible de générer les paroles';

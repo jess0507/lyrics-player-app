@@ -694,8 +694,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_auto_align_aligning => 'Menyelaraskan lirik…';
 
   @override
-  String get lyrics_auto_align_success =>
-      'Lirik tersinkron (otomatis, mungkin kurang tepat)';
+  String get lyrics_auto_align_success => 'Lirik tersinkron';
 
   @override
   String get lyrics_auto_align_failed =>
@@ -753,8 +752,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_ai_generate_transcribing => 'Membuat lirik…';
 
   @override
-  String get lyrics_ai_generate_success =>
-      'Lirik dibuat (otomatis, mungkin kurang tepat)';
+  String get lyrics_ai_generate_success => 'Lirik dibuat';
 
   @override
   String get lyrics_ai_generate_failed => 'Tidak dapat membuat lirik';
