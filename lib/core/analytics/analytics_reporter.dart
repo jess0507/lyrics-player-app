@@ -36,6 +36,34 @@ void logAnalyticsEvent(
   );
 }
 
+/// 記錄功能動作:事件由 [action] 的 [AnalyticsAction.analyticsEvent] 決定,
+/// 參數見 [actionParameters]。各功能的使用者操作一律走這個。
+///
+/// [option] 可傳 enum / 數字 / bool / 低基數字串(如語系 tag),勿傳 PII。
+void logAnalyticsAction(
+  AnalyticsAction action, {
+  AnalyticsSource? source,
+  Object? option,
+  Object? result,
+}) {
+  final analytics = _analytics;
+  if (analytics == null) return;
+  final name = action.analyticsEvent.gaName;
+  unawaited(
+    analytics
+        .logEvent(
+          name: name,
+          parameters: actionParameters(
+            action,
+            source: source,
+            option: option,
+            result: result,
+          ),
+        )
+        .catchError((Object e) => debugPrint('[analytics] $name 失敗:$e')),
+  );
+}
+
 /// 登入成功:新帳號記 `sign_up`,既有帳號記 `login`(GA 建議事件)。
 void logAnalyticsSignIn(
   UserCredential credential,
