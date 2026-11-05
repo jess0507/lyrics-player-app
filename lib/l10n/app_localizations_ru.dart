@@ -520,6 +520,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_delete => 'Удалить';
 
   @override
+  String get common_save => 'Сохранить';
+
+  @override
   String get common_retry => 'Повторить';
 
   @override
@@ -571,6 +574,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Импортировать текст из файла';
+
+  @override
+  String get lyrics_paste => 'Вставить текст';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Вставьте или введите текст песни. Поддерживаются метки времени LRC.';
 
   @override
   String get lyrics_import_success => 'Текст песни импортирован';

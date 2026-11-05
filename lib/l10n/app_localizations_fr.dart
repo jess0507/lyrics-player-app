@@ -527,6 +527,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get common_delete => 'Supprimer';
 
   @override
+  String get common_save => 'Enregistrer';
+
+  @override
   String get common_retry => 'Réessayer';
 
   @override
@@ -578,6 +581,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Importer les paroles depuis un fichier';
+
+  @override
+  String get lyrics_paste => 'Coller les paroles';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Collez ou saisissez les paroles ici. Les horodatages LRC sont pris en charge.';
 
   @override
   String get lyrics_import_success => 'Paroles importées';

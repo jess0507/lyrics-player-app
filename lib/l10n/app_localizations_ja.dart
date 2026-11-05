@@ -504,6 +504,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get common_delete => '削除';
 
   @override
+  String get common_save => '保存';
+
+  @override
   String get common_retry => '再試行';
 
   @override
@@ -551,6 +554,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lyrics_import => 'ファイルから歌詞をインポート';
+
+  @override
+  String get lyrics_paste => '歌詞を貼り付け';
+
+  @override
+  String get lyrics_paste_hint => 'ここに歌詞を貼り付けるか入力してください。LRC のタイムスタンプに対応しています。';
 
   @override
   String get lyrics_import_success => '歌詞をインポートしました';

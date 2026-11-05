@@ -522,6 +522,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get common_delete => 'हटाएँ';
 
   @override
+  String get common_save => 'सहेजें';
+
+  @override
   String get common_retry => 'पुनः प्रयास करें';
 
   @override
@@ -572,6 +575,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_import => 'फ़ाइल से बोल आयात करें';
+
+  @override
+  String get lyrics_paste => 'बोल पेस्ट करें';
+
+  @override
+  String get lyrics_paste_hint =>
+      'यहाँ बोल पेस्ट करें या लिखें। LRC टाइमस्टैम्प समर्थित हैं।';
 
   @override
   String get lyrics_import_success => 'बोल आयात किए गए';

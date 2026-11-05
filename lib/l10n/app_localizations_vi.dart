@@ -524,6 +524,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_delete => 'Xóa';
 
   @override
+  String get common_save => 'Lưu';
+
+  @override
   String get common_retry => 'Thử lại';
 
   @override
@@ -575,6 +578,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Nhập lời bài hát từ tệp';
+
+  @override
+  String get lyrics_paste => 'Dán lời bài hát';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Dán hoặc nhập lời bài hát tại đây. Hỗ trợ dấu thời gian LRC.';
 
   @override
   String get lyrics_import_success => 'Đã nhập lời bài hát';

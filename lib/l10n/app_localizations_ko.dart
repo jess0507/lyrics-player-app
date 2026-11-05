@@ -506,6 +506,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_delete => '삭제';
 
   @override
+  String get common_save => '저장';
+
+  @override
   String get common_retry => '다시 시도';
 
   @override
@@ -553,6 +556,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lyrics_import => '파일에서 가사 가져오기';
+
+  @override
+  String get lyrics_paste => '가사 붙여넣기';
+
+  @override
+  String get lyrics_paste_hint => '여기에 가사를 붙여넣거나 입력하세요. LRC 타임스탬프를 지원합니다.';
 
   @override
   String get lyrics_import_success => '가사를 가져왔습니다';

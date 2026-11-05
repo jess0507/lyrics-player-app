@@ -522,6 +522,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get common_delete => 'Sil';
 
   @override
+  String get common_save => 'Kaydet';
+
+  @override
   String get common_retry => 'Yeniden dene';
 
   @override
@@ -573,6 +576,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Dosyadan şarkı sözü içe aktar';
+
+  @override
+  String get lyrics_paste => 'Şarkı sözü yapıştır';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Şarkı sözlerini buraya yapıştırın veya yazın. LRC zaman damgaları desteklenir.';
 
   @override
   String get lyrics_import_success => 'Şarkı sözü içe aktarıldı';

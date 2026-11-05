@@ -518,6 +518,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get common_delete => 'حذف';
 
   @override
+  String get common_save => 'حفظ';
+
+  @override
   String get common_retry => 'إعادة المحاولة';
 
   @override
@@ -568,6 +571,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_import => 'استيراد كلمات الأغنية من ملف';
+
+  @override
+  String get lyrics_paste => 'لصق كلمات الأغنية';
+
+  @override
+  String get lyrics_paste_hint =>
+      'الصق كلمات الأغنية أو اكتبها هنا. يدعم الطوابع الزمنية بتنسيق LRC.';
 
   @override
   String get lyrics_import_success => 'تم استيراد كلمات الأغنية';

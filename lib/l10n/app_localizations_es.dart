@@ -525,6 +525,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get common_delete => 'Eliminar';
 
   @override
+  String get common_save => 'Guardar';
+
+  @override
   String get common_retry => 'Reintentar';
 
   @override
@@ -577,6 +580,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Importar letra desde archivo';
+
+  @override
+  String get lyrics_paste => 'Pegar letra';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Pega o escribe la letra aquí. Se admiten marcas de tiempo LRC.';
 
   @override
   String get lyrics_import_success => 'Letra importada';

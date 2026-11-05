@@ -1086,6 +1086,12 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get common_delete;
 
+  /// No description provided for @common_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save;
+
   /// No description provided for @common_retry.
   ///
   /// In en, this message translates to:
@@ -1181,6 +1187,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import lyrics from file'**
   String get lyrics_import;
+
+  /// No description provided for @lyrics_paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste lyrics'**
+  String get lyrics_paste;
+
+  /// No description provided for @lyrics_paste_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste or type lyrics here. LRC timestamps are supported.'**
+  String get lyrics_paste_hint;
 
   /// No description provided for @lyrics_import_success.
   ///

@@ -521,6 +521,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get common_delete => 'Hapus';
 
   @override
+  String get common_save => 'Simpan';
+
+  @override
   String get common_retry => 'Coba lagi';
 
   @override
@@ -572,6 +575,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_import => 'Impor lirik dari file';
+
+  @override
+  String get lyrics_paste => 'Tempel lirik';
+
+  @override
+  String get lyrics_paste_hint =>
+      'Tempel atau ketik lirik di sini. Stempel waktu LRC didukung.';
 
   @override
   String get lyrics_import_success => 'Lirik diimpor';
