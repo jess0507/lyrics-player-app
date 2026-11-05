@@ -10,6 +10,7 @@
 | [`gen_app_assets.sh`](gen_app_assets.sh) | 由 SVG 重新產生 App 圖示與啟動畫面 | 不會，純本機 |
 | [`release_notes.py`](release_notes.py) | 把 `docs/release-notes/vX.Y.Z.md` 拆成 Play 上傳用的 whatsnew 目錄 | 不會，由 `release.sh` 與 `release.yml` 內部呼叫 |
 | [`store_listing.py`](store_listing.py) | 把 `docs/store-listing/` 商店文案推到 Play Console | 會，直接改 Play Console listing（CI 也會在 push master 時自動跑） |
+| [`user_stats.py`](user_stats.py) | 統計 Firebase 帳號與各使用者 App 版本 | 不會，唯讀查詢 |
 
 > **直接 `git push origin master` 不會觸發任何 Shorebird / 上架動作。**
 > 要出貨一定要明確跑 `release.sh` 或 `patch.sh`。
@@ -165,3 +166,27 @@ gcloud iam service-accounts add-iam-policy-binding \
 - 字數上限（名稱 30 / 簡短說明 80 / 完整說明 4000）超過會直接失敗，不會送出任何變更。
 - 服務帳號需在 Play Console「使用者和權限」擁有「管理商店資訊」權限。
 - 文案變更一樣要經 Google 審查，通常數小時到數天後才會在商店頁面生效。
+
+---
+
+## user_stats.py — 帳號與 App 版本統計
+
+唯讀查詢 Firebase Auth 帳號與 Firestore `user/{uid}` 主文件，統計：
+
+- 帳號總數、近期新註冊、近期有登入、登入方式分佈。
+- App 版本分佈（全部帳號 / 近 N 天有上傳過的帳號），含「未記錄版本」與「無主文件」。
+
+```bash
+python3 scripts/user_stats.py               # 統計（近期預設 30 天）
+python3 scripts/user_stats.py --days 7      # 近期改為 7 天
+python3 scripts/user_stats.py --list        # 加列每個帳號明細（含 email / 手機）
+python3 scripts/user_stats.py --csv out.csv # 明細輸出 CSV
+```
+
+**認證：** 用目前 `gcloud` 登入帳號的 access token，需有 `seek-player-f724e` 的讀取權限。
+
+**注意：**
+- 版本由 `SyncService` 在有實際上傳時才寫入，沒資料變更的開 App 不會更新，可能落後實際安裝版本；
+  v1.2.13 之前的版本不會寫。要看實際安裝分佈，以 Firebase Analytics / Crashlytics 為準。
+- `lastLoginAt` 只在登入動作時更新，不代表開 App 次數。
+- 明細含個資，CSV 不要 commit。
