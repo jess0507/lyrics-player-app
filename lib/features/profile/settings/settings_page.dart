@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/app_locales.dart';
 import 'package:seek_player/shared/models/player_default_tab.dart';
@@ -37,7 +39,9 @@ class SettingsPage extends ConsumerWidget {
           RadioGroup<ThemeMode>(
             groupValue: settings.themeMode,
             onChanged: (mode) {
-              if (mode != null) controller.setThemeMode(mode);
+              if (mode == null) return;
+              logAnalyticsAction(SettingsAction.themeMode, option: mode);
+              controller.setThemeMode(mode);
             },
             child: Column(
               children: [
@@ -71,7 +75,13 @@ class SettingsPage extends ConsumerWidget {
                   _ColorSwatch(
                     seed: seed,
                     selected: seed == settings.seedColor,
-                    onTap: () => controller.setSeedColor(seed),
+                    onTap: () {
+                      logAnalyticsAction(
+                        SettingsAction.seedColor,
+                        option: seed,
+                      );
+                      controller.setSeedColor(seed);
+                    },
                   ),
               ],
             ),
@@ -81,7 +91,10 @@ class SettingsPage extends ConsumerWidget {
             title: Text(l10n.settings_gradient),
             subtitle: Text(l10n.settings_gradient_desc),
             value: settings.useGradient,
-            onChanged: controller.setUseGradient,
+            onChanged: (value) {
+              logAnalyticsAction(SettingsAction.useGradient, option: value);
+              controller.setUseGradient(value);
+            },
           ),
           SwitchListTile(
             secondary: const Icon(Icons.image_outlined),
@@ -90,7 +103,13 @@ class SettingsPage extends ConsumerWidget {
             value: settings.gradientFromCover,
             // 僅在漸層開啟時可調整;關閉漸層時整列灰階停用。
             onChanged: settings.useGradient
-                ? controller.setGradientFromCover
+                ? (value) {
+                    logAnalyticsAction(
+                      SettingsAction.gradientFromCover,
+                      option: value,
+                    );
+                    controller.setGradientFromCover(value);
+                  }
                 : null,
           ),
           const Divider(height: 1),
@@ -102,7 +121,9 @@ class SettingsPage extends ConsumerWidget {
           RadioGroup<PlayerDefaultTab>(
             groupValue: settings.playerDefaultTab,
             onChanged: (tab) {
-              if (tab != null) controller.setPlayerDefaultTab(tab);
+              if (tab == null) return;
+              logAnalyticsAction(SettingsAction.playerDefaultTab, option: tab);
+              controller.setPlayerDefaultTab(tab);
             },
             child: Column(
               children: [

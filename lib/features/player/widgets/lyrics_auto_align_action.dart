@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_controller.dart';
@@ -34,8 +36,25 @@ Future<void> runLyricsAutoAlign(
 
   // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
   // 不能再碰 ref,結果已由系統通知回報,直接收尾。
-  if (!context.mounted) return;
+  // 已離開頁面時讀不到細節,只記成功 / 失敗。
+  if (!context.mounted) {
+    logAnalyticsAction(
+      LyricsAction.autoAlignSubmit,
+      option: engine,
+      result: ok ? AnalyticsResult.success : AnalyticsResult.failure,
+    );
+    return;
+  }
   final result = ref.read(lyricsAutoAlignControllerProvider(pathKey));
+  logAnalyticsAction(
+    LyricsAction.autoAlignSubmit,
+    option: engine,
+    result: ok
+        ? AnalyticsResult.success
+        : result.status == LyricsAutoAlignStatus.cancelled
+        ? AnalyticsResult.cancelled
+        : result.error ?? AnalyticsResult.failure,
+  );
   if (!ok) {
     if (result.status != LyricsAutoAlignStatus.cancelled) {
       // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。

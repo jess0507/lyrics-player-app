@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
+
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/playlists/widgets/add_to_playlist_sheet.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -36,6 +39,10 @@ class _TrackActionsSheet extends ConsumerWidget {
           leading: const Icon(Icons.playlist_add),
           title: Text(l10n.playlist_add_to),
           onTap: () {
+            logAnalyticsAction(
+              LibraryAction.addToPlaylistOpen,
+              source: AnalyticsSource.trackActionsSheet,
+            );
             Navigator.of(context).pop();
             showAddToPlaylistSheet(context, ref, track);
           },
@@ -44,6 +51,10 @@ class _TrackActionsSheet extends ConsumerWidget {
           leading: const Icon(Icons.info_outline),
           title: Text(l10n.music_track_info),
           onTap: () {
+            logAnalyticsAction(
+              LibraryAction.trackInfo,
+              source: AnalyticsSource.trackActionsSheet,
+            );
             Navigator.of(context).pop();
             showTrackInfoDialog(context, track);
           },

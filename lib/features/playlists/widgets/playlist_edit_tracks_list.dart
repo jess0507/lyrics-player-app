@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -68,6 +70,7 @@ class PlaylistEditTracksList extends ConsumerWidget {
         );
       },
       onReorderItem: (oldIndex, newIndex) {
+        logAnalyticsAction(PlaylistAction.reorderTracks);
         final ids = addedTracks.map((t) => t.pathKey).toList();
         final moved = ids.removeAt(oldIndex);
         ids.insert(newIndex, moved);

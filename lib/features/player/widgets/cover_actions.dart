@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
@@ -18,9 +20,18 @@ Future<void> setTrackCover(
     final done = await ref
         .read(coverImportServiceProvider)
         .pickAndSetForTrack(pathKey);
-    if (!done) return; // 使用者取消
+    if (!done) {
+      // 使用者取消
+      logAnalyticsAction(
+        CoverAction.setCover,
+        result: AnalyticsResult.cancelled,
+      );
+      return;
+    }
+    logAnalyticsAction(CoverAction.setCover, result: AnalyticsResult.success);
     showAppToast(l10n.cover_updated);
   } on CoverImportException catch (e, s) {
+    logAnalyticsAction(CoverAction.setCover, result: e.error);
     reportError(e, s, reason: '匯入封面失敗（${e.error.name}）');
     showAppToast(_errorText(l10n, e.error));
   }
@@ -33,6 +44,7 @@ Future<void> removeTrackCover(
   String pathKey,
 ) async {
   final l10n = AppLocalizations.of(context)!;
+  logAnalyticsAction(CoverAction.removeCover);
   await ref.read(coverImportServiceProvider).removeForTrack(pathKey);
   showAppToast(l10n.cover_removed);
 }

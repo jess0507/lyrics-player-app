@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
@@ -108,9 +110,14 @@ Future<void> runLyricsImport(
     final imported = await ref
         .read(lyricsImportServiceProvider)
         .importForTrack(pathKey: pathKey, title: title);
+    logAnalyticsAction(
+      LyricsAction.importResult,
+      result: imported ? AnalyticsResult.success : AnalyticsResult.cancelled,
+    );
     if (!imported) return; // 使用者取消
     showAppToast(l10n.lyrics_import_success);
   } on LyricsImportException catch (e, s) {
+    logAnalyticsAction(LyricsAction.importResult, result: e.error);
     reportError(e, s, reason: '匯入歌詞失敗（${e.error.name}）');
     showAppToast(lyricsImportErrorText(l10n, e.error));
   }

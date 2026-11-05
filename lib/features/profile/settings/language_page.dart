@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/app_locales.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
@@ -20,7 +22,14 @@ class LanguagePage extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.settings_language)),
       body: RadioGroup<Locale?>(
         groupValue: current,
-        onChanged: controller.setLocale,
+        onChanged: (locale) {
+          // 跟隨系統(null)時不帶 option。
+          logAnalyticsAction(
+            SettingsAction.language,
+            option: locale?.toLanguageTag(),
+          );
+          controller.setLocale(locale);
+        },
         child: ListView(
           children: [
             RadioListTile<Locale?>(

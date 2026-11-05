@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
@@ -51,6 +53,17 @@ class PlaylistDetailPage extends ConsumerStatefulWidget {
 class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
   int get playlistId => widget.playlistId;
 
+  /// 事件來源:最近播放與一般清單共用本頁,以 source 區分。
+  AnalyticsSource get _analyticsSource {
+    final playlists = ref.read(playlistsProvider).valueOrNull ?? const [];
+    final isRecent = playlists.any(
+      (p) => p.id == playlistId && p.isRecentlyPlayed,
+    );
+    return isRecent
+        ? AnalyticsSource.recentlyPlayed
+        : AnalyticsSource.playlistDetail;
+  }
+
   /// 預設維持清單的自訂順序。
   var _sort = const TrackSort(field: TrackSortField.custom);
   var _searching = false;
@@ -97,12 +110,24 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       current: _sort,
       fields: TrackSortField.values,
     );
-    if (sort != null && mounted) setState(() => _sort = sort);
+    if (sort == null) return;
+    logAnalyticsAction(
+      PlaylistAction.changeSort,
+      source: AnalyticsSource.playlistDetail,
+      option: sort.field,
+    );
+    if (mounted) setState(() => _sort = sort);
   }
 
   void _toggleSearch() => setState(() {
     _searching = !_searching;
-    if (!_searching) _searchController.clear();
+    if (!_searching) {
+      // 離開搜尋時才記(不送搜尋字)。
+      if (_searchController.text.trim().isNotEmpty) {
+        logAnalyticsAction(PlaylistAction.search, source: _analyticsSource);
+      }
+      _searchController.clear();
+    }
   });
 
   Future<void> _clearRecentlyPlayed() async {
@@ -125,6 +150,7 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       ),
     );
     if (confirmed != true) return;
+    logAnalyticsAction(PlaylistAction.clearRecentlyPlayed);
     await ref.read(playlistRepositoryProvider).clearRecentlyPlayed();
   }
 
@@ -193,15 +219,22 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
               // 清單為空(或搜尋無結果)時不顯示隨機 / 播放;只播目前篩選出的曲目。
               trailing: visibleTracks.isEmpty
                   ? null
-                  : PlaylistPlayControls(tracks: visibleTracks),
+                  : PlaylistPlayControls(
+                      tracks: visibleTracks,
+                      source: isRecentlyPlayed
+                          ? AnalyticsSource.recentlyPlayed
+                          : AnalyticsSource.playlistDetail,
+                    ),
               actions: [
                 // 新增往上展開挑選曲目頁;最近播放不可增加項目。
                 if (!isRecentlyPlayed)
                   IconButton(
                     tooltip: l10n.playlist_add_item,
                     icon: const Icon(Icons.add),
-                    onPressed: () =>
-                        showPlaylistAddTracksPage(context, playlistId),
+                    onPressed: () {
+                      logAnalyticsAction(PlaylistAction.openAddTracks);
+                      showPlaylistAddTracksPage(context, playlistId);
+                    },
                   ),
                 // 清單為空時沒有東西可編輯 / 排序 / 搜尋 / 清空,不顯示。
                 if (tracks.isNotEmpty) ...[
@@ -216,11 +249,14 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
                     IconButton(
                       tooltip: l10n.playlist_edit,
                       icon: const Icon(Icons.edit),
-                      onPressed: () => showPlaylistAddTracksPage(
-                        context,
-                        playlistId,
-                        reorderable: true,
-                      ),
+                      onPressed: () {
+                        logAnalyticsAction(PlaylistAction.openEditTracks);
+                        showPlaylistAddTracksPage(
+                          context,
+                          playlistId,
+                          reorderable: true,
+                        );
+                      },
                     ),
                     IconButton(
                       tooltip: l10n.tools_sort_by,
@@ -289,9 +325,15 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
               track: track,
               audio: audio,
               isCurrent: track.pathKey == currentId,
-              onTap: () => ref
-                  .read(playbackControllerProvider)
-                  .playTracksAt(tracks, index),
+              onTap: () {
+                logAnalyticsAction(
+                  PlaylistAction.playTrack,
+                  source: AnalyticsSource.playlistDetail,
+                );
+                ref
+                    .read(playbackControllerProvider)
+                    .playTracksAt(tracks, index);
+              },
               onLongPress: () => showPlaylistTrackActionsSheet(
                 context,
                 ref,

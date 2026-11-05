@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
@@ -107,6 +109,8 @@ class _LyricsOnlineSearchSheetState
     if (keyword.isEmpty || _searching) return;
     if (keyword == _lastKeyword && !_failed) return;
     _lastKeyword = keyword;
+    // 只記有送出查詢,不送關鍵字(隱私)。
+    logAnalyticsAction(LyricsAction.onlineSearchQuery);
     // 收起鍵盤,讓下方的搜尋狀態 / 結果列表有完整空間可看。
     FocusScope.of(context).unfocus();
     await _search(
@@ -260,6 +264,10 @@ class _LyricsOnlineSearchSheetState
   }
 
   Future<void> _apply(LrclibResult result) async {
+    logAnalyticsAction(
+      LyricsAction.onlineSearchApply,
+      option: result.hasSyncedLyrics,
+    );
     final l10n = AppLocalizations.of(widget.parentContext)!;
     await widget.parentRef
         .read(lyricsOnlineSearchServiceProvider)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/widgets/play_pause_button.dart';
@@ -38,13 +40,23 @@ class PlayerControls extends ConsumerWidget {
             ),
             IconButton(
               iconSize: 30,
-              onPressed: enabled ? audio.seekToPrevious : null,
+              onPressed: enabled
+                  ? () {
+                      logAnalyticsAction(PlayerAction.skipPrevious);
+                      audio.seekToPrevious();
+                    }
+                  : null,
               icon: const Icon(Icons.skip_previous),
             ),
             PlayPauseButton(audio: audio, enabled: enabled),
             IconButton(
               iconSize: 30,
-              onPressed: enabled ? audio.seekToNext : null,
+              onPressed: enabled
+                  ? () {
+                      logAnalyticsAction(PlayerAction.skipNext);
+                      audio.seekToNext();
+                    }
+                  : null,
               icon: const Icon(Icons.skip_next),
             ),
             SeekHoldButton(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/widgets/track_info_dialog.dart';
@@ -46,6 +48,10 @@ class _PlaylistTrackActionsSheet extends ConsumerWidget {
               style: TextStyle(color: scheme.error),
             ),
             onTap: () {
+              logAnalyticsAction(
+                PlaylistAction.removeTrack,
+                source: AnalyticsSource.playlistTrackActionsSheet,
+              );
               Navigator.of(context).pop();
               ref
                   .read(playlistRepositoryProvider)
@@ -56,6 +62,10 @@ class _PlaylistTrackActionsSheet extends ConsumerWidget {
           leading: const Icon(Icons.playlist_add),
           title: Text(l10n.playlist_add_to),
           onTap: () {
+            logAnalyticsAction(
+              PlaylistAction.addToPlaylistOpen,
+              source: AnalyticsSource.playlistTrackActionsSheet,
+            );
             Navigator.of(context).pop();
             showAddToPlaylistSheet(context, ref, track);
           },
@@ -64,6 +74,10 @@ class _PlaylistTrackActionsSheet extends ConsumerWidget {
           leading: const Icon(Icons.info_outline),
           title: Text(l10n.music_track_info),
           onTap: () {
+            logAnalyticsAction(
+              PlaylistAction.trackInfo,
+              source: AnalyticsSource.playlistTrackActionsSheet,
+            );
             Navigator.of(context).pop();
             showTrackInfoDialog(context, track);
           },

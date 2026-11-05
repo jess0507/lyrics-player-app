@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -39,6 +41,10 @@ Future<bool> ensureSignedInForLyrics(
         ),
       ],
     ),
+  );
+  logAnalyticsAction(
+    LyricsAction.signInPrompt,
+    result: ok == true ? AnalyticsResult.confirmed : AnalyticsResult.cancelled,
   );
   if (ok == true && context.mounted) {
     // 播放器是 root navigator 上的滿版 bottom sheet;帳戶頁疊在其上,

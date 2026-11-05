@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/player/services/open_tool_editor.dart';
@@ -56,13 +58,16 @@ class SecondaryControls extends ConsumerWidget {
             iconSize: _kIconSize,
             tooltip: MaterialLocalizations.of(context).showMenuTooltip,
             onPressed: enabled
-                ? () => showSecondaryControlsMenuSheet(
-                    context,
-                    ref,
-                    audio: audio,
-                    pathKey: pathKey,
-                    title: title,
-                  )
+                ? () {
+                    logAnalyticsAction(PlayerAction.moreMenuOpen);
+                    showSecondaryControlsMenuSheet(
+                      context,
+                      ref,
+                      audio: audio,
+                      pathKey: pathKey,
+                      title: title,
+                    );
+                  }
                 : null,
             icon: const Icon(Icons.more_vert),
           ),
@@ -87,12 +92,23 @@ class SecondaryControls extends ConsumerWidget {
       onPressed: !enabled
           ? null
           : hasLyrics && showPage != null
-          ? showPage
-          : () => openToolEditorFromPlayer(
-              context,
-              tool: ToolKind.lyrics,
-              pathKey: id,
-            ),
+          ? () {
+              // 切到內嵌歌詞頁:不帶 option。
+              logAnalyticsAction(PlayerAction.lyricsButton);
+              showPage();
+            }
+          : () {
+              // 無歌詞進編輯頁:option 帶工具種類以區分。
+              logAnalyticsAction(
+                PlayerAction.lyricsButton,
+                option: ToolKind.lyrics,
+              );
+              openToolEditorFromPlayer(
+                context,
+                tool: ToolKind.lyrics,
+                pathKey: id,
+              );
+            },
       icon: const Icon(Icons.lyrics_outlined),
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/profile/reset/app_data_reset_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
@@ -25,6 +27,13 @@ Future<void> confirmAndResetApp(BuildContext context, WidgetRef ref) async {
         ),
       ],
     ),
+  );
+  // 確認後 process 會立即結束,事件可能來不及上傳(GA SDK 無 flush API)。
+  logAnalyticsAction(
+    ProfileAction.resetApp,
+    result: confirmed == true
+        ? AnalyticsResult.confirmed
+        : AnalyticsResult.cancelled,
   );
   if (confirmed != true) return;
   final clearedBySystem = await ref.read(appDataResetServiceProvider).reset();

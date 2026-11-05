@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/profile/about/providers/app_version_provider.dart';
@@ -15,6 +17,7 @@ class AboutPage extends ConsumerWidget {
   );
 
   Future<void> _openPrivacyPolicy() async {
+    logAnalyticsAction(ProfileAction.privacyPolicyOpen);
     await launchUrl(_privacyPolicyUrl, mode: LaunchMode.externalApplication);
   }
 
@@ -62,11 +65,14 @@ class AboutPage extends ConsumerWidget {
             leading: const Icon(Icons.description_outlined),
             title: Text(l10n.about_licenses),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => showLicensePage(
-              context: context,
-              applicationName: l10n.app_title,
-              applicationVersion: version,
-            ),
+            onTap: () {
+              logAnalyticsAction(ProfileAction.licensesOpen);
+              showLicensePage(
+                context: context,
+                applicationName: l10n.app_title,
+                applicationVersion: version,
+              );
+            },
           ),
         ],
       ),

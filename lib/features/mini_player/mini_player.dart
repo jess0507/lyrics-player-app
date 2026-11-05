@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/shared/widgets/marquee_text.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
@@ -49,9 +51,10 @@ class MiniPlayer extends ConsumerWidget {
             // 整個 mini player 點擊都展開全螢幕播放器；
             // IconButton 會自行攔截點擊，只觸發各自的播放控制事件。
             child: InkWell(
-              onTap: () => ref
-                  .read(playerPageControllerProvider.notifier)
-                  .open(context),
+              onTap: () {
+                logAnalyticsAction(MiniPlayerAction.openPlayer);
+                ref.read(playerPageControllerProvider.notifier).open(context);
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -78,8 +81,16 @@ class MiniPlayer extends ConsumerWidget {
                           // 曲名 / 歌手區左右滑動切換上 / 下一首（帶跟手位移效果）；
                           // 點擊（無水平位移）仍由外層 InkWell 展開播放器。
                           child: SwipeTrackArea(
-                            onPrevious: audio.seekToPrevious,
-                            onNext: audio.seekToNext,
+                            onPrevious: () {
+                              logAnalyticsAction(
+                                MiniPlayerAction.swipePrevious,
+                              );
+                              audio.seekToPrevious();
+                            },
+                            onNext: () {
+                              logAnalyticsAction(MiniPlayerAction.swipeNext);
+                              audio.seekToNext();
+                            },
                             child: Column(
                               // SwipeTrackArea 已撐滿列高，文字維持垂直置中。
                               mainAxisAlignment: MainAxisAlignment.center,

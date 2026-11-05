@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/shared/format.dart';
 
@@ -37,6 +39,10 @@ class SeekBar extends StatelessWidget {
                   value: total <= 0 ? 0 : value,
                   onChanged: enabled && total > 0
                       ? (v) => audio.seek(Duration(milliseconds: v.round()))
+                      : null,
+                  // 拖曳中 onChanged 高頻觸發,只在放開時記一次。
+                  onChangeEnd: enabled && total > 0
+                      ? (_) => logAnalyticsAction(PlayerAction.seekBarDrag)
                       : null,
                 ),
               ),

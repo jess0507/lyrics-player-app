@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -173,6 +175,11 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
                 title: Text(action.label(l10n)),
                 // 先關閉選單,再以呼叫端 context/ref 執行對應動作。
                 onTap: () {
+                  logAnalyticsAction(
+                    PlayerAction.menuSelect,
+                    source: AnalyticsSource.moreMenu,
+                    option: action,
+                  );
                   Navigator.of(context).pop();
                   action.run(
                     parentContext,

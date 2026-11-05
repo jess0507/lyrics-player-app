@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
@@ -114,6 +116,7 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
 
   /// 選擇登入方式(展開對應表單);重新選擇手機時重置驗證碼狀態。
   void _select(_Method method) {
+    logAnalyticsAction(AccountAction.signInMethodSelect, option: method);
     setState(() {
       _method = method;
       if (method != _Method.phone) _verificationId = null;
@@ -134,6 +137,10 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
       );
       if (mounted) setState(() => _verificationId = id);
     });
+    logAnalyticsAction(
+      AccountAction.phoneCodeRequest,
+      result: ok ? AnalyticsResult.success : AnalyticsResult.failure,
+    );
     if (ok) _showMessage(l10n.account_code_sent);
   }
 
@@ -222,6 +229,10 @@ class _TryToSignInViewState extends ConsumerState<TryToSignInView> {
     final email = _email.text.trim();
     if (email.isEmpty) return;
     final ok = await _run(() => _auth.sendPasswordReset(email));
+    logAnalyticsAction(
+      AccountAction.passwordResetRequest,
+      result: ok ? AnalyticsResult.success : AnalyticsResult.failure,
+    );
     if (ok) _showMessage(l10n.account_reset_sent);
   }
 

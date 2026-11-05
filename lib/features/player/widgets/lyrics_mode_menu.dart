@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/models/player_default_tab.dart';
@@ -121,11 +123,23 @@ class LyricsModeMenu extends ConsumerWidget {
       runLyricsMenuAction(context, ref, value, pathKey: pathKey, title: title);
       return;
     }
-    switch (value as _LyricsModeAction) {
+    final action = value as _LyricsModeAction;
+    logAnalyticsAction(
+      PlayerAction.menuSelect,
+      source: AnalyticsSource.lyricsMenu,
+      option: action,
+    );
+    switch (action) {
       case _LyricsModeAction.hideLyrics:
         _hideLyrics(ref);
       case _LyricsModeAction.playMode:
-        audio.setPlayMode(audio.playMode.next);
+        final next = audio.playMode.next;
+        logAnalyticsAction(
+          PlayerAction.playModeChange,
+          source: AnalyticsSource.lyricsMenu,
+          option: next,
+        );
+        audio.setPlayMode(next);
       case _LyricsModeAction.speed:
         showSpeedSheet(context, audio);
       case _LyricsModeAction.seekStep:

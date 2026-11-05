@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/widgets/adjustment_bottom_sheet.dart';
 import 'package:seek_player/features/player/widgets/preset_chips.dart';
@@ -23,9 +25,12 @@ void showSeekStepSheet(BuildContext context) {
       return Consumer(
         builder: (context, ref, _) => AdjustmentBottomSheet(
           title: l10n.player_seek_step,
-          onReset: () => ref
-              .read(settingsControllerProvider.notifier)
-              .setSeekStepSeconds(SettingsState.kDefaultSeekStepSeconds),
+          onReset: () {
+            logAnalyticsAction(PlayerAction.seekStepReset);
+            ref
+                .read(settingsControllerProvider.notifier)
+                .setSeekStepSeconds(SettingsState.kDefaultSeekStepSeconds);
+          },
           child: const SeekStepSlider(),
         ),
       );
@@ -53,7 +58,10 @@ class SeekStepSlider extends ConsumerWidget {
           values: _kSeekStepPresets,
           labelOf: (v) => '${v}s',
           isSelected: (v) => v == seconds,
-          onSelected: notifier.setSeekStepSeconds,
+          onSelected: (v) {
+            logAnalyticsAction(PlayerAction.seekStepPreset, option: v);
+            notifier.setSeekStepSeconds(v);
+          },
         ),
         const SizedBox(height: 8),
         Text('${seconds}s', style: Theme.of(context).textTheme.headlineMedium),
@@ -65,6 +73,11 @@ class SeekStepSlider extends ConsumerWidget {
           label: '${kSeekStepChoices[index]}s',
           onChanged: (v) =>
               notifier.setSeekStepSeconds(kSeekStepChoices[v.round()]),
+          // 拖曳中不記,放開時記最終秒數。
+          onChangeEnd: (v) => logAnalyticsAction(
+            PlayerAction.seekStepSlider,
+            option: kSeekStepChoices[v.round()],
+          ),
         ),
       ],
     );

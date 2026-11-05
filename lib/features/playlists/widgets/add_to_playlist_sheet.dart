@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -37,6 +39,8 @@ class _AddToPlaylistSheet extends ConsumerWidget {
   ) async {
     final l10n = AppLocalizations.of(context)!;
     final navigator = Navigator.of(context);
+    // option = 是否原本就在清單內(不送清單名稱)。
+    logAnalyticsAction(PlaylistAction.addToPlaylist, option: alreadyIn);
     if (!alreadyIn) {
       await ref
           .read(playlistRepositoryProvider)
@@ -57,6 +61,10 @@ class _AddToPlaylistSheet extends ConsumerWidget {
       title: l10n.playlist_new,
     );
     if (name == null || !context.mounted) return;
+    logAnalyticsAction(
+      PlaylistAction.create,
+      source: AnalyticsSource.addToPlaylistSheet,
+    );
     final id = await ref.read(playlistRepositoryProvider).create(name);
     if (!context.mounted) return;
     await _add(context, ref, id, name, false);

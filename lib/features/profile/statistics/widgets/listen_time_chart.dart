@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/format.dart';
 import 'package:seek_player/features/profile/statistics/providers/chart_selection_provider.dart';
@@ -45,9 +47,15 @@ class ListenTimeChart extends ConsumerWidget {
             ),
           ],
           selected: {range},
-          onSelectionChanged: (selection) => ref
-              .read(chartSelectionProvider.notifier)
-              .selectRange(selection.first),
+          onSelectionChanged: (selection) {
+            logAnalyticsAction(
+              StatisticsAction.chartRange,
+              option: selection.first,
+            );
+            ref
+                .read(chartSelectionProvider.notifier)
+                .selectRange(selection.first);
+          },
           showSelectedIcon: false,
         ),
         const SizedBox(height: 16),
@@ -184,7 +192,18 @@ class _LineChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           touchCallback: (event, response) {
             final spots = response?.lineBarSpots;
-            if (spots == null || spots.isEmpty) return;
+            final hasSpots = spots != null && spots.isNotEmpty;
+            // 每個指標事件都會觸發,只在點擊 / 拖曳 / 長按結束時記一次;
+            // 只帶區間,不帶期間 key。
+            if ((event is FlTapUpEvent && hasSpots) ||
+                event is FlPanEndEvent ||
+                event is FlLongPressEnd) {
+              logAnalyticsAction(
+                StatisticsAction.chartPointSelect,
+                option: range,
+              );
+            }
+            if (!hasSpots) return;
             onTouchPeriod(points[spots.first.x.toInt()].period);
           },
           touchTooltipData: LineTouchTooltipData(

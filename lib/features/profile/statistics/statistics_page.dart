@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/auth/auth_state_provider.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/core/sync/sync_service.dart';
@@ -48,6 +50,12 @@ class StatisticsPage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+    logAnalyticsAction(
+      StatisticsAction.reset,
+      result: confirmed == true
+          ? AnalyticsResult.confirmed
+          : AnalyticsResult.cancelled,
     );
     if (confirmed != true) return;
     ref.read(statisticsControllerProvider.notifier).reset();

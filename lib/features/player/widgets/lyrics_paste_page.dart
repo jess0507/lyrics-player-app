@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_import_service.dart';
 import 'package:seek_player/features/player/widgets/lyrics_view.dart';
@@ -61,8 +63,13 @@ class _LyricsPastePageState extends ConsumerState<LyricsPastePage> {
             title: widget.title,
             content: _controller.text,
           );
+      logAnalyticsAction(
+        LyricsAction.pasteSave,
+        result: AnalyticsResult.success,
+      );
       if (mounted) Navigator.of(context).pop(true);
     } on LyricsImportException catch (e, s) {
+      logAnalyticsAction(LyricsAction.pasteSave, result: e.error);
       reportError(e, s, reason: '貼上歌詞失敗（${e.error.name}）');
       showAppToast(lyricsImportErrorText(l10n, e.error));
       if (mounted) setState(() => _saving = false);

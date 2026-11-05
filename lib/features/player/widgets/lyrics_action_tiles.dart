@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_active_job_provider.dart';
@@ -73,7 +74,12 @@ class LyricsActionTiles extends ConsumerWidget {
             title: Text(l10n.common_cancel),
             onTap: () {
               onSelected?.call();
-              cancelLyricsJob(actionContext, actionRef, pathKey: pathKey);
+              cancelLyricsJob(
+                actionContext,
+                actionRef,
+                pathKey: pathKey,
+                source: AnalyticsSource.actionsSheet,
+              );
             },
           ),
         for (final action in actions)

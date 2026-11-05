@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
@@ -12,9 +14,12 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// 隨機鈕直接切換全域播放模式(開:隨機;關:清單循環),開啟時以主色顯示;
 /// 播放鈕以 [tracks] 為佇列播放,隨機開啟時從隨機一首開始。
 class PlaylistPlayControls extends ConsumerWidget {
-  const PlaylistPlayControls({super.key, required this.tracks});
+  const PlaylistPlayControls({super.key, required this.tracks, this.source});
 
   final List<Track> tracks;
+
+  /// 事件來源畫面(本地音樂 / 清單詳細頁)。
+  final AnalyticsSource? source;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,9 +41,15 @@ class PlaylistPlayControls extends ConsumerWidget {
               color: colorScheme.onSurfaceVariant,
               selectedIcon: Icon(Icons.shuffle, color: colorScheme.primary),
               icon: const Icon(Icons.shuffle),
-              onPressed: () => audio.setPlayMode(
-                shuffling ? PlayMode.repeatAll : PlayMode.shuffle,
-              ),
+              onPressed: () {
+                final mode = shuffling ? PlayMode.repeatAll : PlayMode.shuffle;
+                logAnalyticsAction(
+                  PlaylistAction.toggleShuffle,
+                  source: source,
+                  option: mode,
+                );
+                audio.setPlayMode(mode);
+              },
             );
           },
         ),
@@ -51,7 +62,13 @@ class PlaylistPlayControls extends ConsumerWidget {
           onPressed: tracks.isEmpty
               ? null
               : () {
-                  final start = audio.playMode == PlayMode.shuffle
+                  final shuffle = audio.playMode == PlayMode.shuffle;
+                  logAnalyticsAction(
+                    PlaylistAction.playAll,
+                    source: source,
+                    option: shuffle,
+                  );
+                  final start = shuffle
                       ? math.Random().nextInt(tracks.length)
                       : 0;
                   ref

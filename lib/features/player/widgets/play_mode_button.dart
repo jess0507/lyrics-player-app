@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
@@ -30,7 +32,16 @@ class PlayModeButton extends StatelessWidget {
           iconSize: iconSize,
           isSelected: mode != PlayMode.sequential,
           tooltip: playModeLabel(l10n, mode),
-          onPressed: enabled ? () => audio.setPlayMode(mode.next) : null,
+          onPressed: enabled
+              ? () {
+                  logAnalyticsAction(
+                    PlayerAction.playModeChange,
+                    source: AnalyticsSource.player,
+                    option: mode.next,
+                  );
+                  audio.setPlayMode(mode.next);
+                }
+              : null,
           icon: Stack(
             alignment: Alignment.center,
             children: [

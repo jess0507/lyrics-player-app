@@ -21,7 +21,7 @@ import 'package:seek_player/features/player/widgets/lyrics_view.dart';
 
 /// 歌詞相關的選單動作,供「次控制列更多選單」與「歌詞滿版選單」共用。
 /// 顯示與否由 [lyricsMenuActions] 依狀態決定,動作分派由 [runLyricsMenuAction] 處理。
-enum LyricsMenuAction {
+enum LyricsMenuAction implements AnalyticsAction {
   /// AI 製作歌詞(WhisperX ASR);完全沒有歌詞時顯示。
   aiGenerate,
 
@@ -72,6 +72,9 @@ enum LyricsMenuAction {
 
   /// 是否為背景任務(前景服務,一次只跑一件):
   /// 背景執行中時,選單須停用這些項目避免重複觸發。
+  @override
+  AnalyticsEvent get analyticsEvent => AnalyticsEvent.lyricsAction;
+
   bool get usesBackgroundTask => switch (this) {
     aiGenerate || autoAlignAeneas || autoAlignWhisperX => true,
     _ => false,
@@ -145,9 +148,7 @@ Future<void> runLyricsMenuAction(
   required String title,
 }) async {
   // 記錄使用者點了哪個歌詞功能(只送動作名,不送歌名 / 路徑)。
-  logAnalyticsEvent(AnalyticsEvent.lyricsAction, {
-    AnalyticsParam.action: action,
-  });
+  logAnalyticsAction(action);
 
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
   if (action.needsNetwork) {
@@ -233,6 +234,10 @@ Future<void> _confirmDelete(
         ),
       ],
     ),
+  );
+  logAnalyticsAction(
+    LyricsAction.deleteConfirm,
+    result: ok == true ? AnalyticsResult.confirmed : AnalyticsResult.cancelled,
   );
   if (ok != true || !context.mounted) return;
   await ref.read(lyricsRepositoryProvider).deleteByPathKey(pathKey);

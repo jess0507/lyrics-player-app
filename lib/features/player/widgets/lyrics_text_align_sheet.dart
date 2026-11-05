@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/providers/lyrics_text_align_controller.dart';
 import 'package:seek_player/features/player/widgets/adjustment_bottom_sheet.dart';
@@ -18,8 +20,10 @@ void showLyricsTextAlignSheet(BuildContext context) {
           final controller = ref.read(lyricsTextAlignProvider.notifier);
           return AdjustmentBottomSheet(
             title: l10n.lyrics_text_align,
-            onReset: () =>
-                controller.setAlign(LyricsTextAlignController.defaultAlign),
+            onReset: () {
+              logAnalyticsAction(LyricsAction.textAlignReset);
+              controller.setAlign(LyricsTextAlignController.defaultAlign);
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: SizedBox(
@@ -35,8 +39,13 @@ void showLyricsTextAlignSheet(BuildContext context) {
                       ),
                   ],
                   selected: {align},
-                  onSelectionChanged: (selection) =>
-                      controller.setAlign(selection.first),
+                  onSelectionChanged: (selection) {
+                    logAnalyticsAction(
+                      LyricsAction.textAlignChange,
+                      option: selection.first,
+                    );
+                    controller.setAlign(selection.first);
+                  },
                 ),
               ),
             ),

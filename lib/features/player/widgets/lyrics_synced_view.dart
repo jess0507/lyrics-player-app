@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/lyrics/models/lyrics.dart';
 
@@ -126,6 +128,7 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
   }
 
   void _seekTo(Duration time) {
+    logAnalyticsAction(LyricsAction.lineSeek);
     ref.read(audioPlayerServiceProvider).seek(time);
     // 點行後立即跟隨,不等手動捲動的恢復計時。
     _resumeTimer?.cancel();

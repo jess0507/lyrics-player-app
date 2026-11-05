@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/permissions/permission_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
@@ -84,14 +86,28 @@ class _LocalMusicPlaylistPageState
     }
   }
 
+  /// 使用者手動重新掃描(工具列 / 空狀態按鈕);自動重掃不經這裡、不記事件。
+  void _onRescanPressed() {
+    logAnalyticsAction(LibraryAction.rescan);
+    _rescan();
+  }
+
   Future<void> _editSort() async {
     final sort = await showTrackSortSheet(context, current: _sort);
-    if (sort != null && mounted) setState(() => _sort = sort);
+    if (sort == null) return;
+    logAnalyticsAction(LibraryAction.changeSort, option: sort.field);
+    if (mounted) setState(() => _sort = sort);
   }
 
   void _toggleSearch() => setState(() {
     _searching = !_searching;
-    if (!_searching) _searchController.clear();
+    if (!_searching) {
+      // 離開搜尋時才記(不送搜尋字),避免每次輸入都記一筆。
+      if (_searchController.text.trim().isNotEmpty) {
+        logAnalyticsAction(LibraryAction.search);
+      }
+      _searchController.clear();
+    }
   });
 
   /// 僅在本分頁可見(IndexedStack 中非作用分頁的 TickerMode 為關)、
@@ -187,7 +203,7 @@ class _LocalMusicPlaylistPageState
                   ),
                   IconButton(
                     tooltip: l10n.music_rescan,
-                    onPressed: _scanning ? null : _rescan,
+                    onPressed: _scanning ? null : _onRescanPressed,
                     icon: _scanning
                         ? const SizedBox(
                             width: 18,
@@ -200,7 +216,10 @@ class _LocalMusicPlaylistPageState
                 // 篩選 / 搜尋無結果時不顯示隨機 / 播放;只播目前篩選出的曲目。
                 trailing: visibleTracks.isEmpty
                     ? null
-                    : PlaylistPlayControls(tracks: visibleTracks),
+                    : PlaylistPlayControls(
+                        tracks: visibleTracks,
+                        source: AnalyticsSource.local,
+                      ),
               ),
               // 資料夾下拉放在操作列下方;TextButton 自帶 12 內距,
               // 左側補 4 讓文字與上方圖示對齊。
@@ -213,7 +232,14 @@ class _LocalMusicPlaylistPageState
                     totalCount: tracks.length,
                     latestOf: (path) => latestModifiedIn(tracks, stats, path),
                     selected: folder,
-                    onSelected: (path) => setState(() => _folder = path),
+                    onSelected: (path) {
+                      // option = 是否選「全部」;不送資料夾路徑。
+                      logAnalyticsAction(
+                        LibraryAction.filterFolder,
+                        option: path == null,
+                      );
+                      setState(() => _folder = path);
+                    },
                   ),
                 ),
               ),
@@ -241,7 +267,7 @@ class _LocalMusicPlaylistPageState
   Widget _rescanButton(ButtonStyle style, AppLocalizations l10n) {
     return TextButton.icon(
       style: style,
-      onPressed: _rescan,
+      onPressed: _onRescanPressed,
       icon: const Icon(Icons.refresh),
       label: Text(l10n.music_rescan),
     );
@@ -263,9 +289,15 @@ class _LocalMusicPlaylistPageState
               track: track,
               audio: audio,
               isCurrent: track.pathKey == currentId,
-              onTap: () => ref
-                  .read(playbackControllerProvider)
-                  .playTracksAt(tracks, index),
+              onTap: () {
+                logAnalyticsAction(
+                  LibraryAction.playTrack,
+                  source: AnalyticsSource.local,
+                );
+                ref
+                    .read(playbackControllerProvider)
+                    .playTracksAt(tracks, index);
+              },
               onLongPress: () => showTrackActionsSheet(context, ref, track),
             );
           },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/lyrics/usage_limit/lyrics_usage_limit_service.dart';
 
@@ -18,6 +20,7 @@ Future<bool> ensureWithinUsageLimitForLyrics(
   if (!reached) return true;
   if (!context.mounted) return false;
 
+  logAnalyticsAction(LyricsAction.usageLimitReached);
   final l10n = AppLocalizations.of(context)!;
   await showDialog<void>(
     context: context,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
@@ -66,7 +68,10 @@ class PlayerPage extends ConsumerWidget {
                 leading: IconButton(
                   icon: const Icon(Icons.keyboard_arrow_down),
                   tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {
+                    logAnalyticsAction(PlayerAction.closePlayer);
+                    Navigator.of(context).pop();
+                  },
                 ),
                 // 標題顯示目前曲名 / 檔名與演出者，過長時跑馬燈滾動。
                 title: Column(
@@ -113,11 +118,16 @@ class PlayerPage extends ConsumerWidget {
                         title: mediaItem?.title,
                         initialTab: defaultTab,
                         onShowLyrics: hasTrack
-                            ? () => ref
-                                  .read(settingsControllerProvider.notifier)
-                                  .setPlayerDefaultTab(
-                                    PlayerDefaultTab.fullScreenLyrics,
-                                  )
+                            ? () {
+                                logAnalyticsAction(
+                                  PlayerAction.fullScreenLyrics,
+                                );
+                                ref
+                                    .read(settingsControllerProvider.notifier)
+                                    .setPlayerDefaultTab(
+                                      PlayerDefaultTab.fullScreenLyrics,
+                                    );
+                              }
                             : null,
                       ),
               ),

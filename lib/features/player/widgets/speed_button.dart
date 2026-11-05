@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/widgets/adjustment_bottom_sheet.dart';
@@ -60,7 +62,10 @@ void showSpeedSheet(BuildContext context, AudioPlayerService audio) {
       final l10n = AppLocalizations.of(context)!;
       return AdjustmentBottomSheet(
         title: l10n.player_speed,
-        onReset: () => audio.setSpeed(_kDefaultSpeed),
+        onReset: () {
+          logAnalyticsAction(PlayerAction.speedReset);
+          audio.setSpeed(_kDefaultSpeed);
+        },
         child: StreamBuilder<double>(
           stream: audio.speedStream,
           builder: (context, snapshot) {
@@ -73,7 +78,10 @@ void showSpeedSheet(BuildContext context, AudioPlayerService audio) {
                   labelOf: _presetLabel,
                   // 速度已四捨五入到 0.1,用半格容差比較避免浮點誤差。
                   isSelected: (v) => (speed - v).abs() < 0.05,
-                  onSelected: audio.setSpeed,
+                  onSelected: (v) {
+                    logAnalyticsAction(PlayerAction.speedPreset, option: v);
+                    audio.setSpeed(v);
+                  },
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -88,6 +96,11 @@ void showSpeedSheet(BuildContext context, AudioPlayerService audio) {
                   label: _speedLabel(speed),
                   onChanged: (v) =>
                       audio.setSpeed(double.parse(v.toStringAsFixed(1))),
+                  // 拖曳中不記,放開時記最終速度。
+                  onChangeEnd: (v) => logAnalyticsAction(
+                    PlayerAction.speedSlider,
+                    option: double.parse(v.toStringAsFixed(1)),
+                  ),
                 ),
               ],
             );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
@@ -113,12 +115,29 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
       // 「編輯播放清單」多提供清單順序(唯一可拖曳排序的排序方式)。
       fields: widget.reorderable ? TrackSortField.values : null,
     );
-    if (sort != null && mounted) setState(() => _sort = sort);
+    if (sort == null) return;
+    logAnalyticsAction(
+      PlaylistAction.changeSort,
+      source: _analyticsSource,
+      option: sort.field,
+    );
+    if (mounted) setState(() => _sort = sort);
   }
+
+  /// 事件來源:「編輯播放清單」或「增加項目」版面。
+  AnalyticsSource get _analyticsSource => widget.reorderable
+      ? AnalyticsSource.editTracks
+      : AnalyticsSource.addTracks;
 
   void _toggleSearch() => setState(() {
     _searching = !_searching;
-    if (!_searching) _searchController.clear();
+    if (!_searching) {
+      // 離開搜尋時才記(不送搜尋字)。
+      if (_searchController.text.trim().isNotEmpty) {
+        logAnalyticsAction(PlaylistAction.search, source: _analyticsSource);
+      }
+      _searchController.clear();
+    }
   });
 
   @override
@@ -143,6 +162,10 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
 
     void toggle(String pathKey, bool added) {
       final repo = ref.read(playlistRepositoryProvider);
+      logAnalyticsAction(
+        added ? PlaylistAction.removeTrack : PlaylistAction.addTrack,
+        source: _analyticsSource,
+      );
       if (added) {
         repo.removeTrack(widget.playlistId, pathKey);
       } else {
@@ -257,7 +280,15 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
             totalCount: source.length,
             latestOf: (path) => latestModifiedIn(source, stats, path),
             selected: folder,
-            onSelected: (path) => setState(() => _folder = path),
+            onSelected: (path) {
+              // option = 是否選「全部」;不送資料夾路徑。
+              logAnalyticsAction(
+                PlaylistAction.filterFolder,
+                source: _analyticsSource,
+                option: path == null,
+              );
+              setState(() => _folder = path);
+            },
           ),
           onSearch: _toggleSearch,
           onSort: _editSort,

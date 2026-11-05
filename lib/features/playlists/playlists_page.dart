@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/permissions/permission_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
@@ -56,13 +58,15 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
       title: l10n.playlist_new,
     );
     if (name == null) return;
+    logAnalyticsAction(
+      PlaylistAction.create,
+      source: AnalyticsSource.playlists,
+    );
     final id = await ref.read(playlistRepositoryProvider).create(name);
     if (!context.mounted) return;
     // 新建的清單是空的:進詳細頁後直接疊上「增加項目」頁,返回即回到
     // 這個清單(見 PlaylistDetailPage.openAddTracksOnOpen)。
-    context.push(
-      '/playlists/$id?${PlaylistDetailPage.addTracksQuery}=1',
-    );
+    context.push('/playlists/$id?${PlaylistDetailPage.addTracksQuery}=1');
   }
 
   Future<void> _rename(
@@ -77,6 +81,7 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
       initialName: playlist.name,
     );
     if (name == null) return;
+    logAnalyticsAction(PlaylistAction.rename);
     await ref.read(playlistRepositoryProvider).rename(playlist.id, name);
   }
 
@@ -104,6 +109,7 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
       ),
     );
     if (confirmed != true) return;
+    logAnalyticsAction(PlaylistAction.delete);
     await ref.read(playlistRepositoryProvider).delete(playlist.id);
   }
 

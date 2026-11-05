@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 
@@ -44,8 +46,10 @@ class ShareTrackButton extends ConsumerWidget {
     final origin = box == null
         ? null
         : box.localToGlobal(Offset.zero) & box.size;
-    await SharePlus.instance.share(
+    final result = await SharePlus.instance.share(
       ShareParams(files: [XFile(path)], sharePositionOrigin: origin),
     );
+    // 記分享面板結果(success / dismissed / unavailable),不送檔案路徑。
+    logAnalyticsAction(PlayerAction.share, result: result.status);
   }
 }

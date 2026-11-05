@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/backup/drive_link_controller.dart';
 import 'package:seek_player/core/backup/drive_link_state.dart';
 import 'package:seek_player/core/backup/link_choice.dart';
@@ -45,7 +47,17 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
     if (!ok) {
       setState(() => _working = false);
       // 取消登入 / 拒絕授權不算失敗(狀態不變),不跳 toast。
-      if (ref.read(driveLinkStateProvider) is! DriveLinked) return;
+      if (ref.read(driveLinkStateProvider) is! DriveLinked) {
+        logAnalyticsAction(
+          BackupAction.driveLink,
+          result: AnalyticsResult.cancelled,
+        );
+        return;
+      }
+      logAnalyticsAction(
+        BackupAction.driveLink,
+        result: AnalyticsResult.failure,
+      );
       showAppToast(l10n.backup_link_failed);
       return;
     }
@@ -58,9 +70,12 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
         .afterLink(
           chooseWhenCloudHasBackup: () async {
             if (!mounted) return LinkChoice.keepLocal;
-            return choice = await showCloudBackupFoundDialog(context);
+            choice = await showCloudBackupFoundDialog(context);
+            logAnalyticsAction(BackupAction.restoreChoice, option: choice);
+            return choice;
           },
         );
+    logAnalyticsAction(BackupAction.driveLink, result: outcome);
     if (!mounted) return;
     setState(() => _working = false);
     showBackupOutcomeToast(
@@ -92,6 +107,12 @@ class _DriveLinkTileState extends ConsumerState<DriveLinkTile> {
           ),
         ],
       ),
+    );
+    logAnalyticsAction(
+      BackupAction.driveUnlink,
+      result: confirmed == true
+          ? AnalyticsResult.confirmed
+          : AnalyticsResult.cancelled,
     );
     if (confirmed != true || !mounted) return;
     setState(() => _working = true);

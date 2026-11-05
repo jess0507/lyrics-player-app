@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_job_stage.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_job_stage_provider.dart';
@@ -38,7 +39,12 @@ class LyricsJobStatusView extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           FilledButton.tonal(
-            onPressed: () => cancelLyricsJob(context, ref, pathKey: pathKey),
+            onPressed: () => cancelLyricsJob(
+              context,
+              ref,
+              pathKey: pathKey,
+              source: AnalyticsSource.statusView,
+            ),
             child: Text(l10n.common_cancel),
           ),
         ],

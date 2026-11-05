@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
@@ -49,7 +51,14 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
 
   /// 進該工具的編輯頁,並取代本選曲頁:編輯頁返回直接回工具頁。
   /// id 是 pathKey(檔案路徑,含 `/`),編碼後才能放進路徑參數。
-  void _open(Track track) {
+  /// [source] 為選曲方式:清單點選([AnalyticsSource.list])或從檔案挑選
+  /// ([AnalyticsSource.file])。
+  void _open(Track track, {required AnalyticsSource source}) {
+    logAnalyticsAction(
+      ToolsAction.openEditor,
+      source: source,
+      option: widget.tool,
+    );
     context.pushReplacement(
       '/tools/${widget.tool.name}/${Uri.encodeComponent(track.pathKey)}',
       extra: track,
@@ -67,6 +76,15 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
     final messenger = ScaffoldMessenger.of(context);
+    logAnalyticsAction(
+      ToolsAction.pickFromFile,
+      option: widget.tool,
+      result: switch (result) {
+        TrackFileCancelled() => AnalyticsResult.cancelled,
+        TrackFileFound() => AnalyticsResult.success,
+        TrackFileImportFailed() => AnalyticsResult.failure,
+      },
+    );
     switch (result) {
       case TrackFileCancelled():
         break;
@@ -76,7 +94,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
             SnackBar(content: Text(l10n.tools_file_imported)),
           );
         }
-        _open(track);
+        _open(track, source: AnalyticsSource.file);
       case TrackFileImportFailed():
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.tools_file_import_failed)),
@@ -86,12 +104,27 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
 
   Future<void> _editSort() async {
     final sort = await showTrackSortSheet(context, current: _sort);
-    if (sort != null && mounted) setState(() => _sort = sort);
+    if (sort == null) return;
+    logAnalyticsAction(
+      ToolsAction.changeSort,
+      source: AnalyticsSource.toolPicker,
+      option: sort.field,
+    );
+    if (mounted) setState(() => _sort = sort);
   }
 
   void _toggleSearch() => setState(() {
     _searching = !_searching;
-    if (!_searching) _searchController.clear();
+    if (!_searching) {
+      // 離開搜尋時才記(不送搜尋字)。
+      if (_searchController.text.trim().isNotEmpty) {
+        logAnalyticsAction(
+          ToolsAction.search,
+          source: AnalyticsSource.toolPicker,
+        );
+      }
+      _searchController.clear();
+    }
   });
 
   @override
@@ -157,7 +190,15 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                       totalCount: tracks.length,
                       latestOf: (path) => latestModifiedIn(tracks, stats, path),
                       selected: folder,
-                      onSelected: (path) => setState(() => _folder = path),
+                      onSelected: (path) {
+                        // option = 是否選「全部」;不送資料夾路徑。
+                        logAnalyticsAction(
+                          ToolsAction.filterFolder,
+                          source: AnalyticsSource.toolPicker,
+                          option: path == null,
+                        );
+                        setState(() => _folder = path);
+                      },
                     ),
                     onSearch: _toggleSearch,
                     onSort: _editSort,
@@ -182,7 +223,8 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                                 track: track,
                                 stat: stats[track.filePath],
                                 audio: audio,
-                                onTap: () => _open(track),
+                                onTap: () =>
+                                    _open(track, source: AnalyticsSource.list),
                               );
                             },
                           ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/player/providers/lyrics_font_scale_controller.dart';
 import 'package:seek_player/features/player/widgets/adjustment_bottom_sheet.dart';
@@ -18,8 +20,10 @@ void showLyricsFontSizeSheet(BuildContext context) {
           final controller = ref.read(lyricsFontScaleProvider.notifier);
           return AdjustmentBottomSheet(
             title: l10n.lyrics_font_size,
-            onReset: () =>
-                controller.setScale(LyricsFontScaleController.defaultScale),
+            onReset: () {
+              logAnalyticsAction(LyricsAction.fontSizeReset);
+              controller.setScale(LyricsFontScaleController.defaultScale);
+            },
             child: Row(
               children: [
                 const Icon(Icons.text_fields, size: 16),
@@ -31,6 +35,11 @@ void showLyricsFontSizeSheet(BuildContext context) {
                     divisions: 10,
                     label: '${(scale * 100).round()}%',
                     onChanged: controller.setScale,
+                    // 拖曳中不記,放開時記最終字級倍率。
+                    onChangeEnd: (v) => logAnalyticsAction(
+                      LyricsAction.fontSizeChange,
+                      option: v,
+                    ),
                   ),
                 ),
                 const Icon(Icons.text_fields, size: 28),

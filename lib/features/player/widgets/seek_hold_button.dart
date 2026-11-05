@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 
 /// 快進 / 快退按鈕：點擊一下步進 [delta]，持續長按時每 300ms 連續步進。
@@ -30,7 +32,15 @@ class SeekHoldButton extends StatefulWidget {
 class _SeekHoldButtonState extends State<SeekHoldButton> {
   Timer? _timer;
 
+  /// 正向步進為快進,反之為快退。
+  bool get _forward => widget.delta > Duration.zero;
+
   void _startRepeat() {
+    // 只在長按開始時記一次,不在重複步進的 timer 裡記。
+    logAnalyticsAction(
+      _forward ? PlayerAction.seekHoldForward : PlayerAction.seekHoldBackward,
+      option: widget.delta.inSeconds.abs(),
+    );
     _timer?.cancel();
     _timer = Timer.periodic(
       const Duration(milliseconds: 300),
@@ -58,7 +68,15 @@ class _SeekHoldButtonState extends State<SeekHoldButton> {
         iconSize: 30,
         tooltip: widget.tooltip,
         onPressed: widget.enabled
-            ? () => widget.audio.seekRelative(widget.delta)
+            ? () {
+                logAnalyticsAction(
+                  _forward
+                      ? PlayerAction.seekForward
+                      : PlayerAction.seekBackward,
+                  option: widget.delta.inSeconds.abs(),
+                );
+                widget.audio.seekRelative(widget.delta);
+              }
             : null,
         icon: widget.icon,
       ),

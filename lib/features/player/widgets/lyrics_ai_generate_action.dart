@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_controller.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -31,8 +33,23 @@ Future<void> runLyricsAiGenerate(
 
   // 背景任務可跑數分鐘,期間使用者可能已離開頁面;widget 已 dispose 就
   // 不能再碰 ref,結果已由系統通知回報,直接收尾。
-  if (!context.mounted) return;
+  // 已離開頁面時讀不到細節,只記成功 / 失敗。
+  if (!context.mounted) {
+    logAnalyticsAction(
+      LyricsAction.aiGenerateSubmit,
+      result: ok ? AnalyticsResult.success : AnalyticsResult.failure,
+    );
+    return;
+  }
   final result = ref.read(lyricsAutoGenerateControllerProvider(pathKey));
+  logAnalyticsAction(
+    LyricsAction.aiGenerateSubmit,
+    result: ok
+        ? AnalyticsResult.success
+        : result.status == LyricsAutoGenerateStatus.cancelled
+        ? AnalyticsResult.cancelled
+        : result.error ?? AnalyticsResult.failure,
+  );
   if (ok) {
     debugPrint('[LyricsAutoGen] 成功 pathKey=$pathKey');
   } else if (result.status == LyricsAutoGenerateStatus.cancelled) {

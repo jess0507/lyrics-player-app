@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
@@ -43,7 +45,10 @@ class MiniPlayPauseButton extends StatelessWidget {
         return IconButton(
           tooltip: playing ? l10n.player_pause : l10n.player_play,
           iconSize: 32,
-          onPressed: playing ? audio.pause : audio.play,
+          onPressed: () {
+            logAnalyticsAction(MiniPlayerAction.playPause);
+            playing ? audio.pause() : audio.play();
+          },
           icon: Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
         );
       },

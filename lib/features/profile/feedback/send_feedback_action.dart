@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
@@ -23,6 +25,10 @@ Future<void> sendFeedback(BuildContext context) async {
   } on PlatformException {
     launched = false;
   }
+  logAnalyticsAction(
+    ProfileAction.feedbackSend,
+    result: launched ? AnalyticsResult.success : AnalyticsResult.failure,
+  );
   if (!launched) {
     showAppToast(l10n.profile_feedback_no_mail_app(_feedbackEmail));
   }

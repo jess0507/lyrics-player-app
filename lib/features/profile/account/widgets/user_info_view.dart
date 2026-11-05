@@ -4,6 +4,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/auth/auth_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
@@ -108,8 +110,16 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
     final l10n = AppLocalizations.of(context)!;
     try {
       await auth.signOut();
+      logAnalyticsAction(
+        AccountAction.signOut,
+        result: AnalyticsResult.success,
+      );
       showAppToast(l10n.account_signed_out);
     } catch (e, s) {
+      logAnalyticsAction(
+        AccountAction.signOut,
+        result: AnalyticsResult.failure,
+      );
       reportError(e, s, reason: '登出失敗');
       showAppToast(l10n.account_sign_out_failed);
     }
@@ -137,11 +147,25 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
         ],
       ),
     );
-    if (confirmed != true) return;
+    if (confirmed != true) {
+      logAnalyticsAction(
+        AccountAction.deleteData,
+        result: AnalyticsResult.cancelled,
+      );
+      return;
+    }
     try {
       await auth.deleteAccountData();
+      logAnalyticsAction(
+        AccountAction.deleteData,
+        result: AnalyticsResult.success,
+      );
       showAppToast(l10n.account_delete_data_done);
     } on FirebaseFunctionsException catch (e, s) {
+      logAnalyticsAction(
+        AccountAction.deleteData,
+        result: AnalyticsResult.failure,
+      );
       reportError(e, s, reason: 'delete_account_data 失敗（code=${e.code}）');
       showAppToast(l10n.account_operation_failed);
     }
@@ -166,13 +190,31 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
         ],
       ),
     );
-    if (confirmed != true) return;
+    if (confirmed != true) {
+      logAnalyticsAction(
+        AccountAction.deleteAccount,
+        result: AnalyticsResult.cancelled,
+      );
+      return;
+    }
     try {
       await auth.deleteAccount();
+      logAnalyticsAction(
+        AccountAction.deleteAccount,
+        result: AnalyticsResult.success,
+      );
     } on FirebaseFunctionsException catch (e, s) {
+      logAnalyticsAction(
+        AccountAction.deleteAccount,
+        result: AnalyticsResult.failure,
+      );
       reportError(e, s, reason: 'delete_account 失敗（code=${e.code}）');
       showAppToast(l10n.account_operation_failed);
     } on FirebaseAuthException catch (e, s) {
+      logAnalyticsAction(
+        AccountAction.deleteAccount,
+        result: AnalyticsResult.failure,
+      );
       reportError(e, s, reason: '刪除帳號後登出失敗（code=${e.code}）');
       showAppToast(l10n.account_operation_failed);
     }

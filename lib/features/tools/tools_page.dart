@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
@@ -27,7 +29,11 @@ class ToolsPage extends StatelessWidget {
               title: Text(tool.label(l10n)),
               subtitle: Text(tool.description(l10n)),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push('/tools/${tool.name}'),
+              onTap: () {
+                // 路由樣板 `/tools/:tool` 分不出工具種類,另記選了哪個工具。
+                logAnalyticsAction(ToolsAction.selectTool, option: tool);
+                context.push('/tools/${tool.name}');
+              },
             ),
         ],
       ),
