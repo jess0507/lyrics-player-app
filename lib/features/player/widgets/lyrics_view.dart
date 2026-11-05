@@ -112,11 +112,12 @@ Future<void> runLyricsImport(
     showAppToast(l10n.lyrics_import_success);
   } on LyricsImportException catch (e, s) {
     reportError(e, s, reason: '匯入歌詞失敗（${e.error.name}）');
-    showAppToast(_importErrorText(l10n, e.error));
+    showAppToast(lyricsImportErrorText(l10n, e.error));
   }
 }
 
-String _importErrorText(AppLocalizations l10n, LyricsImportError error) =>
+/// 匯入失敗原因對應的 toast 文案;從檔案匯入與貼上歌詞共用。
+String lyricsImportErrorText(AppLocalizations l10n, LyricsImportError error) =>
     switch (error) {
       LyricsImportError.tooLarge => l10n.lyrics_import_too_large,
       LyricsImportError.empty => l10n.lyrics_import_empty,

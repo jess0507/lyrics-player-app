@@ -11,6 +11,7 @@ import 'package:seek_player/features/player/widgets/lyrics_auto_align_action.dar
 import 'package:seek_player/features/player/widgets/lyrics_download_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
+import 'package:seek_player/features/player/widgets/lyrics_paste_page.dart';
 import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
 import 'package:seek_player/features/player/widgets/lyrics_text_align_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_usage_limit_gate.dart';
@@ -25,7 +26,11 @@ enum LyricsMenuAction {
   /// 上網搜尋歌詞(LRCLIB);完全沒有歌詞時顯示(排在 [aiGenerate] 之後)。
   searchOnline,
 
-  /// 手動匯入歌詞;完全沒有歌詞時顯示(排在 [searchOnline] 之後)。
+  /// 貼上歌詞(文字框輸入);無歌詞時排第二(在 [searchOnline] 之後),
+  /// 已有歌詞時排在 [reimport] 之前(覆蓋現有歌詞)。
+  paste,
+
+  /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [paste] 之後)。
   import,
 
   /// 自動對時(aeneas 引擎);已有純文字、尚未同步時顯示。
@@ -52,6 +57,7 @@ enum LyricsMenuAction {
   IconData get icon => switch (this) {
     aiGenerate => Icons.lyrics_outlined,
     searchOnline => Icons.travel_explore_outlined,
+    paste => Icons.content_paste,
     import => Icons.file_open_outlined,
     autoAlignAeneas => Icons.auto_fix_high,
     autoAlignWhisperX => Icons.auto_awesome,
@@ -83,6 +89,7 @@ enum LyricsMenuAction {
   String label(AppLocalizations l10n) => switch (this) {
     aiGenerate => l10n.lyrics_ai_generate,
     searchOnline => l10n.lyrics_search_online,
+    paste => l10n.lyrics_paste,
     import => l10n.lyrics_import,
     autoAlignAeneas => '${l10n.lyrics_auto_align} · aeneas',
     autoAlignWhisperX => '${l10n.lyrics_auto_align} · WhisperX',
@@ -105,8 +112,9 @@ List<LyricsMenuAction> lyricsMenuActions({
   bool includeDisplay = true,
 }) {
   return [
-    // 無歌詞時提供三種取得方式:自動產生、上網搜尋、手動匯入。
+    // 無歌詞時提供四種取得方式:上網搜尋、貼上、從檔案匯入、自動產生。
     if (!hasLyrics) LyricsMenuAction.searchOnline,
+    if (!hasLyrics) LyricsMenuAction.paste,
     if (!hasLyrics) LyricsMenuAction.import,
     if (canAiGenerate) LyricsMenuAction.aiGenerate,
     if (canAutoAlign) ...[
@@ -118,6 +126,7 @@ List<LyricsMenuAction> lyricsMenuActions({
         LyricsMenuAction.fontSize,
         LyricsMenuAction.textAlign,
       ],
+      LyricsMenuAction.paste,
       LyricsMenuAction.reimport,
       LyricsMenuAction.download,
       LyricsMenuAction.delete,
@@ -182,6 +191,8 @@ Future<void> runLyricsMenuAction(
       showLyricsTextAlignSheet(context);
     case LyricsMenuAction.searchOnline:
       await runLyricsOnlineSearch(context, ref, pathKey: pathKey, title: title);
+    case LyricsMenuAction.paste:
+      await runLyricsPaste(context, pathKey: pathKey, title: title);
     case LyricsMenuAction.import:
     case LyricsMenuAction.reimport:
       await runLyricsImport(context, ref, pathKey: pathKey, title: title);

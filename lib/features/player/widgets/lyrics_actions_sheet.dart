@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/player/widgets/lyrics_action_tiles.dart';
 
 /// 歌詞按鈕點擊後的底部表單:依目前歌詞狀態列出 [LyricsActionTiles]
-/// (自動產生 / 匯入 / 自動對時 / 字體大小 / 重新匯入 / 刪除)。
+/// (上網搜尋 / 貼上 / 從檔案匯入 / 自動產生 / 自動對時 / 字體大小 / 重新匯入 / 刪除)。
 ///
 /// 後續動作以呼叫端的 [context]/[ref] 執行,避免本表單關閉後沿用已失效的 context。
 void showLyricsActionsSheet(

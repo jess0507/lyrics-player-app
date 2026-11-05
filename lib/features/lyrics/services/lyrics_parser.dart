@@ -22,6 +22,21 @@ LyricsFormat detectLyricsFormat(String fileName) {
   }
 }
 
+/// 依內文判定格式(貼上的文字沒有副檔名可依循):`WEBVTT` 開頭為 VTT、
+/// 有 `-->` 時間行為 SRT、有行首 `[mm:ss]` 時間戳為 LRC,其餘當純文字。
+LyricsFormat detectLyricsFormatFromContent(String content) {
+  final body = content.trimLeft();
+  if (body.startsWith('WEBVTT')) return LyricsFormat.vtt;
+  if (_cueTime.hasMatch(body)) return LyricsFormat.srt;
+  for (final line in const LineSplitter().convert(body)) {
+    final m = _lrcTime.firstMatch(line);
+    if (m != null && line.substring(0, m.start).trim().isEmpty) {
+      return LyricsFormat.lrc;
+    }
+  }
+  return LyricsFormat.txt;
+}
+
 /// 解析內文為內部模型。
 Lyrics parseLyrics(String content, LyricsFormat format) {
   switch (format) {

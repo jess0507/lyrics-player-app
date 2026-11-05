@@ -27,7 +27,8 @@ class LyricsImportException implements Exception {
       '${message == null ? '' : ', $message'})';
 }
 
-/// 手動匯入歌詞:SAF 選檔 → 大小上限 → 解碼 → 試 parse 驗證 → 存 Isar。
+/// 手動匯入歌詞:SAF 選檔 → 大小上限 → 解碼 → 試 parse 驗證 → 存 Isar;
+/// 或由 [importFromText] 直接存入使用者貼上的文字。
 /// 入口由顯示計畫提供(播放頁歌詞視圖的空狀態按鈕)。
 class LyricsImportService {
   LyricsImportService(this._ref);
@@ -60,7 +61,44 @@ class LyricsImportService {
 
     final bytes = await File(file.path!).readAsBytes();
     final content = _decode(bytes);
-    final format = detectLyricsFormat(file.name);
+    await _save(
+      pathKey: pathKey,
+      title: title,
+      content: content,
+      format: detectLyricsFormat(file.name),
+    );
+    return true;
+  }
+
+  /// 為 [pathKey] 存入使用者貼上的歌詞文字;格式依內文判定(LRC / SRT /
+  /// VTT / 純文字)。過大或解析後無內容拋 [LyricsImportException]。
+  Future<void> importFromText({
+    required String pathKey,
+    required String title,
+    required String content,
+  }) async {
+    final size = utf8.encode(content).length;
+    if (size > _maxBytes) {
+      throw LyricsImportException(
+        LyricsImportError.tooLarge,
+        message: 'size=${size}B > max=${_maxBytes}B, source=paste',
+      );
+    }
+    await _save(
+      pathKey: pathKey,
+      title: title,
+      content: content,
+      format: detectLyricsFormatFromContent(content),
+    );
+  }
+
+  /// 試 parse 驗證後存 Isar,並 invalidate [trackLyricsProvider] 讓視圖重讀。
+  Future<void> _save({
+    required String pathKey,
+    required String title,
+    required String content,
+    required LyricsFormat format,
+  }) async {
     if (parseLyrics(content, format).isEmpty) {
       throw LyricsImportException(
         LyricsImportError.empty,
@@ -77,7 +115,6 @@ class LyricsImportService {
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
     _ref.invalidate(trackLyricsProvider(pathKey));
-    return true;
   }
 
   /// UTF-8 為主(剝除 BOM);嚴格解碼失敗時退回 allowMalformed,接受少量

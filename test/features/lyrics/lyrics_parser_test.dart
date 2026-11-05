@@ -18,6 +18,40 @@ void main() {
     });
   });
 
+  group('detectLyricsFormatFromContent', () {
+    test('行首 [mm:ss] 時間戳判為 LRC(容許前置 metadata / 空白)', () {
+      expect(
+        detectLyricsFormatFromContent('[ar:Someone]\n[00:12.34]hello'),
+        LyricsFormat.lrc,
+      );
+      expect(
+        detectLyricsFormatFromContent('\n  [01:02]line'),
+        LyricsFormat.lrc,
+      );
+    });
+
+    test('WEBVTT 開頭判為 VTT;有 --> 時間行判為 SRT', () {
+      expect(
+        detectLyricsFormatFromContent(
+          'WEBVTT\n\n00:00:01.000 --> 00:00:02.000\nhi',
+        ),
+        LyricsFormat.vtt,
+      );
+      expect(
+        detectLyricsFormatFromContent('1\n00:00:01,000 --> 00:00:02,000\nhi'),
+        LyricsFormat.srt,
+      );
+    });
+
+    test('沒有時間標記、或時間戳不在行首,一律當純文字', () {
+      expect(detectLyricsFormatFromContent('hello\nworld'), LyricsFormat.txt);
+      expect(
+        detectLyricsFormatFromContent('see [00:12] later'),
+        LyricsFormat.txt,
+      );
+    });
+  });
+
   group('LRC', () {
     test('標準:時間戳轉時間並依時間排序', () {
       const lrc = '[00:12.50]first\n[00:05.00]earlier\n[01:00.00]later';
