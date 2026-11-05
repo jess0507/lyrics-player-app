@@ -1179,7 +1179,7 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_import.
   ///
   /// In en, this message translates to:
-  /// **'Import lyrics'**
+  /// **'Import lyrics from file'**
   String get lyrics_import;
 
   /// No description provided for @lyrics_import_success.
@@ -1247,12 +1247,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No lyrics for this track yet'**
   String get lyrics_empty;
-
-  /// No description provided for @lyrics_reimport.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-import'**
-  String get lyrics_reimport;
 
   /// No description provided for @lyrics_download.
   ///

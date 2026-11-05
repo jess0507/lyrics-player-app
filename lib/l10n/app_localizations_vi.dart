@@ -574,7 +574,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Bài hát không có lời sẽ hiển thị ảnh bìa';
 
   @override
-  String get lyrics_import => 'Nhập lời bài hát';
+  String get lyrics_import => 'Nhập lời bài hát từ tệp';
 
   @override
   String get lyrics_import_success => 'Đã nhập lời bài hát';
@@ -610,9 +610,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Chưa có lời cho bài hát này';
-
-  @override
-  String get lyrics_reimport => 'Nhập lại';
 
   @override
   String get lyrics_download => 'Tải lời bài hát xuống';

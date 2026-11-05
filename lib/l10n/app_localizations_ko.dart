@@ -552,7 +552,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '가사가 없는 곡은 커버를 표시합니다';
 
   @override
-  String get lyrics_import => '가사 가져오기';
+  String get lyrics_import => '파일에서 가사 가져오기';
 
   @override
   String get lyrics_import_success => '가사를 가져왔습니다';
@@ -588,9 +588,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lyrics_empty => '이 곡의 가사가 아직 없습니다';
-
-  @override
-  String get lyrics_reimport => '다시 가져오기';
 
   @override
   String get lyrics_download => '가사 다운로드';

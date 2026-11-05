@@ -570,7 +570,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Для треков без текста показывается обложка';
 
   @override
-  String get lyrics_import => 'Импортировать текст';
+  String get lyrics_import => 'Импортировать текст из файла';
 
   @override
   String get lyrics_import_success => 'Текст песни импортирован';
@@ -606,9 +606,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Для этого трека пока нет текста';
-
-  @override
-  String get lyrics_reimport => 'Импортировать заново';
 
   @override
   String get lyrics_download => 'Скачать текст';

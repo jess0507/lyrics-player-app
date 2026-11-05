@@ -88,7 +88,7 @@ enum LyricsMenuAction {
     autoAlignWhisperX => '${l10n.lyrics_auto_align} · WhisperX',
     fontSize => l10n.lyrics_font_size,
     textAlign => l10n.lyrics_text_align,
-    reimport => l10n.lyrics_reimport,
+    reimport => l10n.lyrics_import,
     download => l10n.lyrics_download,
     delete => l10n.lyrics_delete,
   };

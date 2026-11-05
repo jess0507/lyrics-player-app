@@ -571,7 +571,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Lagu tanpa lirik menampilkan sampul';
 
   @override
-  String get lyrics_import => 'Impor lirik';
+  String get lyrics_import => 'Impor lirik dari file';
 
   @override
   String get lyrics_import_success => 'Lirik diimpor';
@@ -607,9 +607,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Belum ada lirik untuk lagu ini';
-
-  @override
-  String get lyrics_reimport => 'Impor ulang';
 
   @override
   String get lyrics_download => 'Unduh lirik';

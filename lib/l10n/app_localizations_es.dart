@@ -576,7 +576,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Las pistas sin letra muestran la portada';
 
   @override
-  String get lyrics_import => 'Importar letra';
+  String get lyrics_import => 'Importar letra desde archivo';
 
   @override
   String get lyrics_import_success => 'Letra importada';
@@ -615,9 +615,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Aún no hay letra para esta pista';
-
-  @override
-  String get lyrics_reimport => 'Volver a importar';
 
   @override
   String get lyrics_download => 'Descargar letra';

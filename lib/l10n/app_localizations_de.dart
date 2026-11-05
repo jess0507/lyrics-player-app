@@ -576,7 +576,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Titel ohne Songtext zeigen das Cover';
 
   @override
-  String get lyrics_import => 'Liedtext importieren';
+  String get lyrics_import => 'Liedtext aus Datei importieren';
 
   @override
   String get lyrics_import_success => 'Liedtext importiert';
@@ -612,9 +612,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Noch kein Liedtext für diesen Titel';
-
-  @override
-  String get lyrics_reimport => 'Erneut importieren';
 
   @override
   String get lyrics_download => 'Liedtext herunterladen';

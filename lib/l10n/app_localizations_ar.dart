@@ -567,7 +567,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'المقاطع بلا كلمات تعرض الغلاف';
 
   @override
-  String get lyrics_import => 'استيراد كلمات الأغنية';
+  String get lyrics_import => 'استيراد كلمات الأغنية من ملف';
 
   @override
   String get lyrics_import_success => 'تم استيراد كلمات الأغنية';
@@ -603,9 +603,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'لا توجد كلمات لهذا المقطع بعد';
-
-  @override
-  String get lyrics_reimport => 'إعادة الاستيراد';
 
   @override
   String get lyrics_download => 'تنزيل كلمات الأغنية';

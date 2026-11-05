@@ -550,7 +550,7 @@ class AppLocalizationsJa extends AppLocalizations {
       '歌詞のない曲はジャケットを表示します';
 
   @override
-  String get lyrics_import => '歌詞をインポート';
+  String get lyrics_import => 'ファイルから歌詞をインポート';
 
   @override
   String get lyrics_import_success => '歌詞をインポートしました';
@@ -584,9 +584,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'この曲の歌詞はまだありません';
-
-  @override
-  String get lyrics_reimport => '再インポート';
 
   @override
   String get lyrics_download => '歌詞をダウンロード';

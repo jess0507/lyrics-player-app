@@ -571,7 +571,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'बिना गीत वाले ट्रैक में कवर दिखेगा';
 
   @override
-  String get lyrics_import => 'बोल आयात करें';
+  String get lyrics_import => 'फ़ाइल से बोल आयात करें';
 
   @override
   String get lyrics_import_success => 'बोल आयात किए गए';
@@ -607,9 +607,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'इस ट्रैक के लिए अभी कोई बोल नहीं';
-
-  @override
-  String get lyrics_reimport => 'फिर से आयात करें';
 
   @override
   String get lyrics_download => 'बोल डाउनलोड करें';

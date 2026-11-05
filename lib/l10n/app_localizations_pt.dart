@@ -572,7 +572,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Faixas sem letra mostram a capa';
 
   @override
-  String get lyrics_import => 'Importar letra';
+  String get lyrics_import => 'Importar letra de arquivo';
 
   @override
   String get lyrics_import_success => 'Letra importada';
@@ -608,9 +608,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Ainda sem letra para esta faixa';
-
-  @override
-  String get lyrics_reimport => 'Reimportar';
 
   @override
   String get lyrics_download => 'Baixar letra';

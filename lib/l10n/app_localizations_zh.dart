@@ -545,7 +545,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settings_player_tab_full_screen_lyrics_desc => '没有歌词的曲目退回封面';
 
   @override
-  String get lyrics_import => '匯入歌詞';
+  String get lyrics_import => '從檔案匯入歌詞';
 
   @override
   String get lyrics_import_success => '歌詞已匯入';
@@ -579,9 +579,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
-
-  @override
-  String get lyrics_reimport => '重新匯入';
 
   @override
   String get lyrics_download => '下載歌詞';
@@ -1426,7 +1423,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get settings_player_tab_full_screen_lyrics_desc => '没有歌词的曲目退回封面';
 
   @override
-  String get lyrics_import => '导入歌词';
+  String get lyrics_import => '从文件导入歌词';
 
   @override
   String get lyrics_import_success => '歌词已导入';
@@ -1460,9 +1457,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get lyrics_empty => '尚未导入这首歌的歌词';
-
-  @override
-  String get lyrics_reimport => '重新导入';
 
   @override
   String get lyrics_download => '下载歌词';
@@ -2307,7 +2301,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get settings_player_tab_full_screen_lyrics_desc => '沒有歌詞的曲目退回封面';
 
   @override
-  String get lyrics_import => '匯入歌詞';
+  String get lyrics_import => '從檔案匯入歌詞';
 
   @override
   String get lyrics_import_success => '歌詞已匯入';
@@ -2341,9 +2335,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
-
-  @override
-  String get lyrics_reimport => '重新匯入';
 
   @override
   String get lyrics_download => '下載歌詞';

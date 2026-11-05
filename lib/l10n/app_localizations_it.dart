@@ -574,7 +574,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'I brani senza testo mostrano la copertina';
 
   @override
-  String get lyrics_import => 'Importa testo';
+  String get lyrics_import => 'Importa testo da file';
 
   @override
   String get lyrics_import_success => 'Testo importato';
@@ -610,9 +610,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'Ancora nessun testo per questo brano';
-
-  @override
-  String get lyrics_reimport => 'Reimporta';
 
   @override
   String get lyrics_download => 'Scarica testo';

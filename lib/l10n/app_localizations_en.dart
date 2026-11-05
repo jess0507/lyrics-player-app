@@ -568,7 +568,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Falls back to the cover for tracks without lyrics';
 
   @override
-  String get lyrics_import => 'Import lyrics';
+  String get lyrics_import => 'Import lyrics from file';
 
   @override
   String get lyrics_import_success => 'Lyrics imported';
@@ -604,9 +604,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lyrics_empty => 'No lyrics for this track yet';
-
-  @override
-  String get lyrics_reimport => 'Re-import';
 
   @override
   String get lyrics_download => 'Download lyrics';
