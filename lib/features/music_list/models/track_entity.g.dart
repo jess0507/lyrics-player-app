@@ -25,36 +25,46 @@ const TrackEntitySchema = CollectionSchema(
     r'album': PropertySchema(id: 1, name: r'album', type: IsarType.string),
     r'albumId': PropertySchema(id: 2, name: r'albumId', type: IsarType.long),
     r'artist': PropertySchema(id: 3, name: r'artist', type: IsarType.string),
-    r'coverColorValue': PropertySchema(
+    r'audioMd5': PropertySchema(
       id: 4,
+      name: r'audioMd5',
+      type: IsarType.string,
+    ),
+    r'coverColorValue': PropertySchema(
+      id: 5,
       name: r'coverColorValue',
       type: IsarType.long,
     ),
     r'coverImagePath': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'coverImagePath',
       type: IsarType.string,
     ),
     r'durationMs': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'durationMs',
       type: IsarType.long,
     ),
+    r'lyricsMd5': PropertySchema(
+      id: 8,
+      name: r'lyricsMd5',
+      type: IsarType.string,
+    ),
     r'modifiedMs': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'modifiedMs',
       type: IsarType.long,
     ),
-    r'path': PropertySchema(id: 8, name: r'path', type: IsarType.string),
-    r'pathKey': PropertySchema(id: 9, name: r'pathKey', type: IsarType.string),
+    r'path': PropertySchema(id: 10, name: r'path', type: IsarType.string),
+    r'pathKey': PropertySchema(id: 11, name: r'pathKey', type: IsarType.string),
     r'sizeBytes': PropertySchema(
-      id: 10,
+      id: 12,
       name: r'sizeBytes',
       type: IsarType.long,
     ),
-    r'title': PropertySchema(id: 11, name: r'title', type: IsarType.string),
+    r'title': PropertySchema(id: 13, name: r'title', type: IsarType.string),
     r'updatedAt': PropertySchema(
-      id: 12,
+      id: 14,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
@@ -108,7 +118,19 @@ int _trackEntityEstimateSize(
     }
   }
   {
+    final value = object.audioMd5;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.coverImagePath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.lyricsMd5;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -134,15 +156,17 @@ void _trackEntitySerialize(
   writer.writeString(offsets[1], object.album);
   writer.writeLong(offsets[2], object.albumId);
   writer.writeString(offsets[3], object.artist);
-  writer.writeLong(offsets[4], object.coverColorValue);
-  writer.writeString(offsets[5], object.coverImagePath);
-  writer.writeLong(offsets[6], object.durationMs);
-  writer.writeLong(offsets[7], object.modifiedMs);
-  writer.writeString(offsets[8], object.path);
-  writer.writeString(offsets[9], object.pathKey);
-  writer.writeLong(offsets[10], object.sizeBytes);
-  writer.writeString(offsets[11], object.title);
-  writer.writeDateTime(offsets[12], object.updatedAt);
+  writer.writeString(offsets[4], object.audioMd5);
+  writer.writeLong(offsets[5], object.coverColorValue);
+  writer.writeString(offsets[6], object.coverImagePath);
+  writer.writeLong(offsets[7], object.durationMs);
+  writer.writeString(offsets[8], object.lyricsMd5);
+  writer.writeLong(offsets[9], object.modifiedMs);
+  writer.writeString(offsets[10], object.path);
+  writer.writeString(offsets[11], object.pathKey);
+  writer.writeLong(offsets[12], object.sizeBytes);
+  writer.writeString(offsets[13], object.title);
+  writer.writeDateTime(offsets[14], object.updatedAt);
 }
 
 TrackEntity _trackEntityDeserialize(
@@ -156,16 +180,18 @@ TrackEntity _trackEntityDeserialize(
   object.album = reader.readStringOrNull(offsets[1]);
   object.albumId = reader.readLongOrNull(offsets[2]);
   object.artist = reader.readStringOrNull(offsets[3]);
-  object.coverColorValue = reader.readLongOrNull(offsets[4]);
-  object.coverImagePath = reader.readStringOrNull(offsets[5]);
-  object.durationMs = reader.readLongOrNull(offsets[6]);
+  object.audioMd5 = reader.readStringOrNull(offsets[4]);
+  object.coverColorValue = reader.readLongOrNull(offsets[5]);
+  object.coverImagePath = reader.readStringOrNull(offsets[6]);
+  object.durationMs = reader.readLongOrNull(offsets[7]);
   object.id = id;
-  object.modifiedMs = reader.readLong(offsets[7]);
-  object.path = reader.readString(offsets[8]);
-  object.pathKey = reader.readString(offsets[9]);
-  object.sizeBytes = reader.readLong(offsets[10]);
-  object.title = reader.readStringOrNull(offsets[11]);
-  object.updatedAt = reader.readDateTime(offsets[12]);
+  object.lyricsMd5 = reader.readStringOrNull(offsets[8]);
+  object.modifiedMs = reader.readLong(offsets[9]);
+  object.path = reader.readString(offsets[10]);
+  object.pathKey = reader.readString(offsets[11]);
+  object.sizeBytes = reader.readLong(offsets[12]);
+  object.title = reader.readStringOrNull(offsets[13]);
+  object.updatedAt = reader.readDateTime(offsets[14]);
   return object;
 }
 
@@ -185,22 +211,26 @@ P _trackEntityDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
-    case 6:
       return (reader.readLongOrNull(offset)) as P;
-    case 7:
-      return (reader.readLong(offset)) as P;
-    case 8:
-      return (reader.readString(offset)) as P;
-    case 9:
-      return (reader.readString(offset)) as P;
-    case 10:
-      return (reader.readLong(offset)) as P;
-    case 11:
+    case 6:
       return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
+      return (reader.readLong(offset)) as P;
+    case 10:
+      return (reader.readString(offset)) as P;
+    case 11:
+      return (reader.readString(offset)) as P;
     case 12:
+      return (reader.readLong(offset)) as P;
+    case 13:
+      return (reader.readStringOrNull(offset)) as P;
+    case 14:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -880,6 +910,168 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5IsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'audioMd5'),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5IsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'audioMd5'),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5EqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5GreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5LessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5Between(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'audioMd5',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5StartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5EndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5Contains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'audioMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5Matches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'audioMd5',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5IsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'audioMd5', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioMd5IsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'audioMd5', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
   coverColorValueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1239,6 +1431,165 @@ extension TrackEntityQueryFilter
           upper: upper,
           includeUpper: includeUpper,
         ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5IsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'lyricsMd5'),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5IsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'lyricsMd5'),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5EqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5GreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5LessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5Between(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'lyricsMd5',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5StartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5EndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5Contains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'lyricsMd5',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5Matches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'lyricsMd5',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5IsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'lyricsMd5', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  lyricsMd5IsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'lyricsMd5', value: ''),
       );
     });
   }
@@ -1924,6 +2275,18 @@ extension TrackEntityQuerySortBy
     });
   }
 
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioMd5() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'audioMd5', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioMd5Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'audioMd5', Sort.desc);
+    });
+  }
+
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByCoverColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'coverColorValue', Sort.asc);
@@ -1959,6 +2322,18 @@ extension TrackEntityQuerySortBy
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByDurationMsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'durationMs', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByLyricsMd5() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lyricsMd5', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByLyricsMd5Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lyricsMd5', Sort.desc);
     });
   }
 
@@ -2085,6 +2460,18 @@ extension TrackEntityQuerySortThenBy
     });
   }
 
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioMd5() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'audioMd5', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioMd5Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'audioMd5', Sort.desc);
+    });
+  }
+
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByCoverColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'coverColorValue', Sort.asc);
@@ -2132,6 +2519,18 @@ extension TrackEntityQuerySortThenBy
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByLyricsMd5() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lyricsMd5', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByLyricsMd5Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lyricsMd5', Sort.desc);
     });
   }
 
@@ -2238,6 +2637,14 @@ extension TrackEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByAudioMd5({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'audioMd5', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<TrackEntity, TrackEntity, QDistinct>
   distinctByCoverColorValue() {
     return QueryBuilder.apply(this, (query) {
@@ -2259,6 +2666,14 @@ extension TrackEntityQueryWhereDistinct
   QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByDurationMs() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'durationMs');
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByLyricsMd5({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lyricsMd5', caseSensitive: caseSensitive);
     });
   }
 
@@ -2337,6 +2752,12 @@ extension TrackEntityQueryProperty
     });
   }
 
+  QueryBuilder<TrackEntity, String?, QQueryOperations> audioMd5Property() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'audioMd5');
+    });
+  }
+
   QueryBuilder<TrackEntity, int?, QQueryOperations> coverColorValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'coverColorValue');
@@ -2353,6 +2774,12 @@ extension TrackEntityQueryProperty
   QueryBuilder<TrackEntity, int?, QQueryOperations> durationMsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'durationMs');
+    });
+  }
+
+  QueryBuilder<TrackEntity, String?, QQueryOperations> lyricsMd5Property() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lyricsMd5');
     });
   }
 

@@ -8,8 +8,8 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/music_list/services/track_md5_service.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
-import 'package:seek_player/features/lyrics/services/audio_fingerprint.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -95,8 +95,11 @@ class LyricsAutoGenerateService {
     if (audioPath == null) {
       throw const LyricsAutoGenerateException(LyricsAutoGenerateError.noAudio);
     }
-    // 同一首歌處理過的結果由後端依指紋沿用;算不出來(null)就照常處理。
-    final fingerprint = await audioFingerprint(audioPath);
+    // 同一首歌(音檔 MD5 相同)產生過的結果由後端沿用;算不出來(null)
+    // 就照常處理。
+    final trackMd5 = await _ref
+        .read(trackMd5ServiceProvider)
+        .audioMd5(pathKey, audioPath);
 
     onStep?.call(LyricsAutoGenerateStep.compressing);
     final File compressed;
@@ -145,12 +148,10 @@ class LyricsAutoGenerateService {
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
-        // 任務文件 id 用 jobId(pathKey 含 `/` 不能當 Firestore doc id)。
-        // 後端以 `pathKey` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
-        // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
-        'trackId': jobId,
+        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。同一首歌的
+        // 判斷改用 trackMd5,不再送已 deprecated 的 `trackId`。
         'jobId': jobId,
-        'fingerprint': ?fingerprint,
+        'trackMd5': ?trackMd5,
         'title': title,
       });
       debugPrint(

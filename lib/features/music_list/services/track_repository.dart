@@ -66,6 +66,21 @@ class TrackRepository {
     };
   }
 
+  /// 寫入音檔 / 歌詞 MD5 快取(只更新有帶的欄位);沒有 entity 時不寫入。
+  ///
+  /// 不更新 [TrackEntity.updatedAt]:MD5 只是本機快取,不算曲目資料變動,
+  /// 不該觸發雲端同步。
+  void setMd5(String pathKey, {String? audioMd5, String? lyricsMd5}) {
+    if (audioMd5 == null && lyricsMd5 == null) return;
+    _isar.writeTxnSync(() {
+      final entity = _col.getByPathKeySync(pathKey);
+      if (entity == null) return;
+      if (audioMd5 != null) entity.audioMd5 = audioMd5;
+      if (lyricsMd5 != null) entity.lyricsMd5 = lyricsMd5;
+      _col.putByPathKeySync(entity);
+    });
+  }
+
   /// 新建或更新後的 entity;既有且所有欄位都沒變回 null(不需寫入)。
   static TrackEntity? _merge(
     TrackEntity? existing,
@@ -84,6 +99,13 @@ class TrackRepository {
       return null;
     }
     final entity = existing ?? (TrackEntity()..addedAt = now);
+    // 檔案本身變了(換路徑 / 大小 / mtime),先前算的內容 MD5 不再可信。
+    if (existing != null &&
+        (existing.path != s.path ||
+            existing.sizeBytes != s.sizeBytes ||
+            existing.modifiedMs != s.modifiedMs)) {
+      entity.audioMd5 = null;
+    }
     return entity
       ..path = s.path
       ..pathKey = s.pathKey

@@ -1,3 +1,6 @@
+// audioFingerprint 已 deprecated(改用 fileMd5),測試保留到移除為止。
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';

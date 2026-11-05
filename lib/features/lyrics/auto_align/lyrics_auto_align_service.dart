@@ -8,9 +8,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/music_list/services/track_md5_service.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
-import 'package:seek_player/features/lyrics/services/audio_fingerprint.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
 
@@ -127,8 +127,12 @@ class LyricsAutoAlignService {
     if (audioPath == null) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noAudio);
     }
-    // 同一首歌處理過的結果由後端依指紋沿用;算不出來(null)就照常處理。
-    final fingerprint = await audioFingerprint(audioPath);
+    // 後端以「音檔 MD5 + 歌詞 MD5」判斷同一個對時任務、沿用成功過的結果:
+    // 歌詞改過(例如重新貼上)就是不同任務、會重新對齊。音檔 MD5 算不出來
+    // (null)時後端不查快取、照常處理。
+    final md5Service = _ref.read(trackMd5ServiceProvider);
+    final trackMd5 = await md5Service.audioMd5(pathKey, audioPath);
+    final lyricsMd5 = md5Service.lyricsMd5(pathKey, lines);
 
     onStep?.call(LyricsAutoAlignStep.compressing);
     final File compressed;
@@ -173,12 +177,11 @@ class LyricsAutoAlignService {
         'language': language,
         'format': 'm4a',
         'engine': engine.wireName,
-        // 任務文件 id 用 jobId(pathKey 含 `/` 不能當 Firestore doc id)。
-        // 後端以 `pathKey` 參數當任務文件 id,這裡直接帶 jobId,舊版後端
-        // 不用改就能運作;`jobId` 另外帶給之後改讀 jobId 的後端。
-        'trackId': jobId,
+        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。同一首歌的
+        // 判斷改用 trackMd5,不再送已 deprecated 的 `trackId`。
         'jobId': jobId,
-        'fingerprint': ?fingerprint,
+        'trackMd5': ?trackMd5,
+        'lyricsMd5': lyricsMd5,
         'title': title,
       });
       debugPrint('[LyricsAutoAlignService] pathKey:$pathKey, 已送出 align_lyrics');

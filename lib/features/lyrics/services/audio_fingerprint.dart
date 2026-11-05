@@ -9,12 +9,12 @@ const _chunkSize = 64 * 1024;
 
 /// 音檔內容指紋:`sha1("{size}:" + 頭 64KB + 尾 64KB)` 的 40 碼 hex。
 ///
-/// 送出 AI 產生 / 對時任務時附給後端,讓後端判斷同一首歌是否處理過、可直接
-/// 沿用結果(見後端 `functions/main.py` 的 `_lookup_cached_job`)。與舊版
-/// pathKey 同一套演算法,後端也能沿用舊版以指紋為文件 id 的結果。
+/// **已停用**:送 AI 產生 / 對時任務時改帶全檔 MD5(`trackMd5`,見
+/// `fileMd5` / `TrackMd5Service`),後端不再比對 `fingerprint`。僅保留演算法
+/// 供參考舊任務文件上的 `fingerprint` 欄位,新程式碼不要使用。
 ///
-/// 只讀頭尾,大檔也只讀 128KB;在背景 isolate 執行。讀不到檔案回 null
-/// (後端就照常派工、不查快取)。
+/// 只讀頭尾,大檔也只讀 128KB;在背景 isolate 執行。讀不到檔案回 null。
+@Deprecated('改用 fileMd5(trackMd5);後端已不再比對 fingerprint')
 Future<String?> audioFingerprint(String path) async {
   try {
     return await Isolate.run(() => _hash(path));
