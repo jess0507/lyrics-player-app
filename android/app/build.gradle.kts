@@ -39,6 +39,8 @@ android {
         versionName = flutter.versionName
         // app 顯示名稱的 manifest placeholder;debug 覆寫為 app_name_dev。
         manifestPlaceholders["appLabel"] = "@string/app_name"
+        // Google Analytics 收集開關(AndroidManifest meta-data);debug 覆寫為 false。
+        manifestPlaceholders["analyticsEnabled"] = "true"
     }
 
     signingConfigs {
@@ -59,6 +61,9 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             manifestPlaceholders["appLabel"] = "@string/app_name_dev"
+            // dev 與 prod 同一個 Firebase 專案,debug 不收集以免灌進 MAU。
+            // 要用 DebugView 驗證事件時暫時改成 "true"。
+            manifestPlaceholders["analyticsEnabled"] = "false"
         }
         release {
             // 有 key.properties（CI / 已設定簽章）時用 release，否則回退 debug 讓本機可建置。

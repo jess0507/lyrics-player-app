@@ -85,6 +85,7 @@ dependencies:
 
   # 網路連線狀態檢查（離線時擋下需要網路的歌詞功能）
   connectivity_plus: ^6.1.0
+  firebase_analytics: ^12.6.1
 
 dev_dependencies:
   flutter_test:

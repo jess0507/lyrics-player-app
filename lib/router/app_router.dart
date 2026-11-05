@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/playlists/local_music_playlist_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/playlist_search_page.dart';
@@ -43,7 +44,7 @@ CustomTransitionPage<void> _slideInPage({
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
-  return GoRouter(
+  final router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/local',
     routes: [
@@ -199,4 +200,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
+  // 路由變化記 GA screen_view(含底部分頁切換)。
+  ref.onDispose(bindAnalyticsScreenTracking(router));
+  return router;
 });

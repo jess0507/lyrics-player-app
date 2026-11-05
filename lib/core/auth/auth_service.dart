@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/auth/google_sign_in_provider.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -24,12 +26,22 @@ class AuthService {
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
   /// 以 email/密碼登入(帳號需已存在)。
-  Future<void> signInWithEmail(String email, String password) =>
-      _auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<void> signInWithEmail(String email, String password) async {
+    final credential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    logAnalyticsSignIn(credential, AnalyticsSignInMethod.email);
+  }
 
   /// 以 email/密碼註冊新帳號並登入。
-  Future<void> signUpWithEmail(String email, String password) =>
-      _auth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<void> signUpWithEmail(String email, String password) async {
+    final credential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    logAnalyticsSignIn(credential, AnalyticsSignInMethod.email);
+  }
 
   /// 寄送密碼重設信。
   Future<void> sendPasswordReset(String email) =>
@@ -50,7 +62,10 @@ class AuthService {
       accessToken: auth.accessToken,
       idToken: auth.idToken,
     );
-    await _auth.signInWithCredential(credential);
+    logAnalyticsSignIn(
+      await _auth.signInWithCredential(credential),
+      AnalyticsSignInMethod.google,
+    );
   }
 
   /// Facebook 登入。走 Firebase 內建的 provider 流程(開啟系統瀏覽器),
@@ -58,7 +73,10 @@ class AuthService {
   /// (填入 Meta App ID / App Secret),否則會失敗。
   Future<void> signInWithFacebook() async {
     try {
-      await _auth.signInWithProvider(FacebookAuthProvider());
+      logAnalyticsSignIn(
+        await _auth.signInWithProvider(FacebookAuthProvider()),
+        AnalyticsSignInMethod.facebook,
+      );
     } on FirebaseAuthException catch (e) {
       // 使用者中途關閉瀏覽器視為取消,不視為錯誤。
       if (e.code == 'web-context-canceled' || e.code == 'canceled') return;
@@ -78,7 +96,10 @@ class AuthService {
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (credential) async {
-        await _auth.signInWithCredential(credential);
+        logAnalyticsSignIn(
+          await _auth.signInWithCredential(credential),
+          AnalyticsSignInMethod.phone,
+        );
         onAutoVerified?.call();
       },
       verificationFailed: (e) {
@@ -95,12 +116,15 @@ class AuthService {
   }
 
   /// 以收到的簡訊驗證碼([smsCode])配合 [verificationId] 完成登入。
-  Future<void> signInWithSmsCode(String verificationId, String smsCode) {
+  Future<void> signInWithSmsCode(String verificationId, String smsCode) async {
     final credential = PhoneAuthProvider.credential(
       verificationId: verificationId,
       smsCode: smsCode,
     );
-    return _auth.signInWithCredential(credential);
+    logAnalyticsSignIn(
+      await _auth.signInWithCredential(credential),
+      AnalyticsSignInMethod.phone,
+    );
   }
 
   /// 只登出 Firebase,不登出 Google session:同一個 GoogleSignIn 實例也

@@ -73,6 +73,13 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!-- Google Analytics:debug build 關閉(含 first_open 等自動事件),
+             避免 dev app 灌進同一個 Firebase 專案的 MAU;值由 build.gradle.kts
+             的 analyticsEnabled placeholder 決定。 -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="${analyticsEnabled}" />
+
         <!-- just_audio_background：背景播放服務與媒體按鈕接收器 -->
         <service android:name="com.ryanheise.audioservice.AudioService"
             android:foregroundServiceType="mediaPlayback"

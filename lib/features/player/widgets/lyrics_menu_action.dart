@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/network/ensure_online.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service.dart';
@@ -142,6 +144,11 @@ Future<void> runLyricsMenuAction(
   required String pathKey,
   required String title,
 }) async {
+  // 記錄使用者點了哪個歌詞功能(只送動作名,不送歌名 / 路徑)。
+  logAnalyticsEvent(AnalyticsEvent.lyricsAction, {
+    AnalyticsParam.action: action,
+  });
+
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
   if (action.needsNetwork) {
     if (!await ensureOnline(ref)) return;

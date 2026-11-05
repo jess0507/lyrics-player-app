@@ -11,6 +11,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
 import 'package:seek_player/app.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/core/storage/isar_service.dart';
@@ -69,6 +70,9 @@ Future<void> main() async {
     };
     // 回報帶上登入使用者的 uid,方便在 Crashlytics 對回特定帳號。
     bindCrashUserIdentifier();
+    // Google Analytics:同樣綁 uid,讓 GA 的使用者數以帳號去重。
+    // 收集開關在 AndroidManifest(debug build 關閉)。
+    bindAnalyticsUserId();
 
     firebaseAvailable = true;
   } catch (e, s) {
