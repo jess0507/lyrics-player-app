@@ -51,7 +51,6 @@ class StatisticsBackup implements DomainBackup {
     for (final d in days) {
       final month = d.day.substring(0, 7);
       ((dailyByMonth[month] ??= {})[d.day] ??= {})[d.pathKey] = {
-        'trackId': ?d.trackId,
         'title': d.title,
         'playCount': d.playCount,
         'listenMs': d.listenMs,
@@ -91,7 +90,6 @@ class StatisticsBackup implements DomainBackup {
             DailyTrackStatEntity()
               ..day = '$day'
               ..pathKey = '$pathKey'
-              ..trackId = value['trackId'] as String?
               ..title = (value['title'] as String?) ?? '$pathKey'
               ..playCount = (value['playCount'] as num? ?? 0).toInt()
               ..listenMs = (value['listenMs'] as num? ?? 0).toInt(),

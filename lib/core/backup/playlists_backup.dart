@@ -45,12 +45,10 @@ class PlaylistsBackup implements DomainBackup {
               'isRecentlyPlayed': p.isRecentlyPlayed,
               'createdAt': p.createdAt.millisecondsSinceEpoch,
               'pathKeys': p.pathKeys,
-              'trackIds': p.trackIds,
               'recentlyPlayed': [
                 for (final e in p.recentlyPlayed)
                   {
                     'pathKey': e.pathKey,
-                    'trackId': ?e.trackId,
                     'playedAt': e.playedAt.millisecondsSinceEpoch,
                   },
               ],
@@ -74,15 +72,11 @@ class PlaylistsBackup implements DomainBackup {
             ..pathKeys = [
               for (final t in (item['pathKeys'] as List? ?? const [])) '$t',
             ]
-            ..trackIds = [
-              for (final t in (item['trackIds'] as List? ?? const [])) '$t',
-            ]
             ..recentlyPlayed = [
               for (final e in (item['recentlyPlayed'] as List? ?? const []))
                 if (e is Map && e['pathKey'] is String)
                   RecentlyPlayedEntry()
                     ..pathKey = e['pathKey'] as String
-                    ..trackId = e['trackId'] as String?
                     ..playedAt = DateTime.fromMillisecondsSinceEpoch(
                       (e['playedAt'] as num? ?? 0).toInt(),
                     ),

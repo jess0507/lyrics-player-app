@@ -54,7 +54,6 @@ class LyricsBackup implements DomainBackup {
       for (final e in entities)
         {
           'pathKey': e.pathKey,
-          'trackId': ?e.trackId,
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
@@ -77,7 +76,6 @@ class LyricsBackup implements DomainBackup {
       entities.add(
         LyricsEntity()
           ..pathKey = pathKey
-          ..trackId = item['trackId'] as String?
           ..title = (item['title'] as String?) ?? ''
           ..format =
               LyricsFormat.values.asNameMap()[item['format']] ??
