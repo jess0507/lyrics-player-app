@@ -570,13 +570,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'المقاطع بلا كلمات تعرض الغلاف';
 
   @override
-  String get lyrics_import => 'استيراد كلمات الأغنية من ملف';
+  String get lyrics_import => 'استيراد ملف كلمات الأغنية';
 
   @override
-  String get lyrics_paste => 'لصق كلمات الأغنية';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'الصق كلمات الأغنية أو اكتبها هنا. يدعم الطوابع الزمنية بتنسيق LRC.';
 
   @override

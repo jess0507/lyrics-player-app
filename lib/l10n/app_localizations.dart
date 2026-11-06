@@ -1185,20 +1185,14 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_import.
   ///
   /// In en, this message translates to:
-  /// **'Import lyrics from file'**
+  /// **'Import lyrics file'**
   String get lyrics_import;
 
-  /// No description provided for @lyrics_paste.
-  ///
-  /// In en, this message translates to:
-  /// **'Paste lyrics'**
-  String get lyrics_paste;
-
-  /// No description provided for @lyrics_paste_hint.
+  /// No description provided for @lyrics_edit_hint.
   ///
   /// In en, this message translates to:
   /// **'Paste or type lyrics here. LRC timestamps are supported.'**
-  String get lyrics_paste_hint;
+  String get lyrics_edit_hint;
 
   /// No description provided for @lyrics_import_success.
   ///

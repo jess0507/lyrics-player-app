@@ -548,13 +548,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settings_player_tab_full_screen_lyrics_desc => '没有歌词的曲目退回封面';
 
   @override
-  String get lyrics_import => '從檔案匯入歌詞';
+  String get lyrics_import => '匯入歌詞檔';
 
   @override
-  String get lyrics_paste => '貼上歌詞';
-
-  @override
-  String get lyrics_paste_hint => '在此貼上或輸入歌詞,支援 LRC 時間標記';
+  String get lyrics_edit_hint => '在此貼上或輸入歌詞,支援 LRC 時間標記';
 
   @override
   String get lyrics_import_success => '歌詞已匯入';
@@ -1435,13 +1432,10 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get settings_player_tab_full_screen_lyrics_desc => '没有歌词的曲目退回封面';
 
   @override
-  String get lyrics_import => '从文件导入歌词';
+  String get lyrics_import => '导入歌词文件';
 
   @override
-  String get lyrics_paste => '粘贴歌词';
-
-  @override
-  String get lyrics_paste_hint => '在此粘贴或输入歌词,支持 LRC 时间标记';
+  String get lyrics_edit_hint => '在此粘贴或输入歌词,支持 LRC 时间标记';
 
   @override
   String get lyrics_import_success => '歌词已导入';
@@ -2322,13 +2316,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get settings_player_tab_full_screen_lyrics_desc => '沒有歌詞的曲目退回封面';
 
   @override
-  String get lyrics_import => '從檔案匯入歌詞';
+  String get lyrics_import => '匯入歌詞檔';
 
   @override
-  String get lyrics_paste => '貼上歌詞';
-
-  @override
-  String get lyrics_paste_hint => '在此貼上或輸入歌詞,支援 LRC 時間標記';
+  String get lyrics_edit_hint => '在此貼上或輸入歌詞,支援 LRC 時間標記';
 
   @override
   String get lyrics_import_success => '歌詞已匯入';

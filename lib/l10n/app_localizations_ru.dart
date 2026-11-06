@@ -573,13 +573,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Для треков без текста показывается обложка';
 
   @override
-  String get lyrics_import => 'Импортировать текст из файла';
+  String get lyrics_import => 'Импортировать файл текста';
 
   @override
-  String get lyrics_paste => 'Вставить текст';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Вставьте или введите текст песни. Поддерживаются метки времени LRC.';
 
   @override

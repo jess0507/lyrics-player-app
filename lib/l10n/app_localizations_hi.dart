@@ -574,13 +574,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'बिना गीत वाले ट्रैक में कवर दिखेगा';
 
   @override
-  String get lyrics_import => 'फ़ाइल से बोल आयात करें';
+  String get lyrics_import => 'बोल फ़ाइल आयात करें';
 
   @override
-  String get lyrics_paste => 'बोल पेस्ट करें';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'यहाँ बोल पेस्ट करें या लिखें। LRC टाइमस्टैम्प समर्थित हैं।';
 
   @override

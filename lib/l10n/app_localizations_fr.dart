@@ -580,13 +580,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les titres sans paroles affichent la pochette';
 
   @override
-  String get lyrics_import => 'Importer les paroles depuis un fichier';
+  String get lyrics_import => 'Importer un fichier de paroles';
 
   @override
-  String get lyrics_paste => 'Coller les paroles';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Collez ou saisissez les paroles ici. Les horodatages LRC sont pris en charge.';
 
   @override

@@ -577,13 +577,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Bài hát không có lời sẽ hiển thị ảnh bìa';
 
   @override
-  String get lyrics_import => 'Nhập lời bài hát từ tệp';
+  String get lyrics_import => 'Nhập tệp lời bài hát';
 
   @override
-  String get lyrics_paste => 'Dán lời bài hát';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Dán hoặc nhập lời bài hát tại đây. Hỗ trợ dấu thời gian LRC.';
 
   @override

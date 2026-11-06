@@ -574,13 +574,10 @@ class AppLocalizationsId extends AppLocalizations {
       'Lagu tanpa lirik menampilkan sampul';
 
   @override
-  String get lyrics_import => 'Impor lirik dari file';
+  String get lyrics_import => 'Impor file lirik';
 
   @override
-  String get lyrics_paste => 'Tempel lirik';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Tempel atau ketik lirik di sini. Stempel waktu LRC didukung.';
 
   @override

@@ -579,13 +579,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Titel ohne Songtext zeigen das Cover';
 
   @override
-  String get lyrics_import => 'Liedtext aus Datei importieren';
+  String get lyrics_import => 'Liedtextdatei importieren';
 
   @override
-  String get lyrics_paste => 'Liedtext einfügen';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Liedtext hier einfügen oder eingeben. LRC-Zeitstempel werden unterstützt.';
 
   @override

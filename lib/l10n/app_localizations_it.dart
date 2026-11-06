@@ -577,13 +577,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'I brani senza testo mostrano la copertina';
 
   @override
-  String get lyrics_import => 'Importa testo da file';
+  String get lyrics_import => 'Importa file di testo';
 
   @override
-  String get lyrics_paste => 'Incolla testo';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Incolla o digita qui il testo. I timestamp LRC sono supportati.';
 
   @override

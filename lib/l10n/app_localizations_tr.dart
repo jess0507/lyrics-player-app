@@ -575,13 +575,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sözü olmayan parçalarda kapak gösterilir';
 
   @override
-  String get lyrics_import => 'Dosyadan şarkı sözü içe aktar';
+  String get lyrics_import => 'Şarkı sözü dosyası içe aktar';
 
   @override
-  String get lyrics_paste => 'Şarkı sözü yapıştır';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Şarkı sözlerini buraya yapıştırın veya yazın. LRC zaman damgaları desteklenir.';
 
   @override

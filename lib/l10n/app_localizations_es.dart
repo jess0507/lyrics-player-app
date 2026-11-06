@@ -579,13 +579,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Las pistas sin letra muestran la portada';
 
   @override
-  String get lyrics_import => 'Importar letra desde archivo';
+  String get lyrics_import => 'Importar archivo de letra';
 
   @override
-  String get lyrics_paste => 'Pegar letra';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Pega o escribe la letra aquí. Se admiten marcas de tiempo LRC.';
 
   @override

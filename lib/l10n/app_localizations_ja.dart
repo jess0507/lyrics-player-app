@@ -553,13 +553,10 @@ class AppLocalizationsJa extends AppLocalizations {
       '歌詞のない曲はジャケットを表示します';
 
   @override
-  String get lyrics_import => 'ファイルから歌詞をインポート';
+  String get lyrics_import => '歌詞ファイルをインポート';
 
   @override
-  String get lyrics_paste => '歌詞を貼り付け';
-
-  @override
-  String get lyrics_paste_hint => 'ここに歌詞を貼り付けるか入力してください。LRC のタイムスタンプに対応しています。';
+  String get lyrics_edit_hint => 'ここに歌詞を貼り付けるか入力してください。LRC のタイムスタンプに対応しています。';
 
   @override
   String get lyrics_import_success => '歌詞をインポートしました';

@@ -575,13 +575,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Faixas sem letra mostram a capa';
 
   @override
-  String get lyrics_import => 'Importar letra de arquivo';
+  String get lyrics_import => 'Importar arquivo de letra';
 
   @override
-  String get lyrics_paste => 'Colar letra';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Cole ou digite a letra aqui. Marcações de tempo LRC são suportadas.';
 
   @override

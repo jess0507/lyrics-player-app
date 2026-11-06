@@ -571,13 +571,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Falls back to the cover for tracks without lyrics';
 
   @override
-  String get lyrics_import => 'Import lyrics from file';
+  String get lyrics_import => 'Import lyrics file';
 
   @override
-  String get lyrics_paste => 'Paste lyrics';
-
-  @override
-  String get lyrics_paste_hint =>
+  String get lyrics_edit_hint =>
       'Paste or type lyrics here. LRC timestamps are supported.';
 
   @override
