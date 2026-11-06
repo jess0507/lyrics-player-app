@@ -792,6 +792,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has alcanzado el límite mensual de uso gratuito. Inténtalo el próximo mes.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'Este audio dura unos $audioMinutes min, pero solo quedan $remainingMinutes min de uso gratuito este mes. Prueba con una pista más corta o inténtalo el próximo mes.';
+  }
+
+  @override
   String get lyrics_job_busy => 'Espera a que termine la tarea de letra actual';
 
   @override

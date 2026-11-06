@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "Không tìm thấy tệp âm thanh",
   "lyrics_ai_generate_network": "Sự cố kết nối, thử lại sau",
   "lyrics_usage_limit_reached": "Đã đạt giới hạn sử dụng miễn phí trong tháng. Vui lòng thử lại vào tháng sau.",
+  "lyrics_usage_insufficient_for_audio": "Âm thanh này dài khoảng {audioMinutes} phút, nhưng tháng này chỉ còn {remainingMinutes} phút sử dụng miễn phí. Hãy thử bài ngắn hơn hoặc thử lại vào tháng sau.",
   "lyrics_job_busy": "Vui lòng đợi tác vụ lời hiện tại hoàn tất",
   "lyrics_job_processing": "Đang xử lý lời bài hát…",
   "lyrics_job_cancelled": "Đã hủy tác vụ lời bài hát",

@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "音声ファイルが見つかりません",
   "lyrics_ai_generate_network": "接続に問題があります。後でもう一度お試しください",
   "lyrics_usage_limit_reached": "今月の無料利用上限に達しました。来月またお試しください",
+  "lyrics_usage_insufficient_for_audio": "この音声は約{audioMinutes}分ですが、今月の無料枠は残り{remainingMinutes}分です。短い曲を使うか、来月またお試しください",
   "lyrics_job_busy": "現在の歌詞処理が完了するまでお待ちください",
   "lyrics_job_processing": "歌詞を処理しています…",
   "lyrics_job_cancelled": "歌詞処理をキャンセルしました",

@@ -739,6 +739,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return '這段音訊約 $audioMinutes 分鐘,本月免費額度只剩 $remainingMinutes 分鐘。請改用較短的歌曲,或下個月再試';
+  }
+
+  @override
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';
 
   @override
@@ -1623,6 +1631,14 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_usage_limit_reached => '本月免费额度已用完,请下个月再试';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return '这段音频约 $audioMinutes 分钟,本月免费额度只剩 $remainingMinutes 分钟。请改用较短的歌曲,或下个月再试';
+  }
+
+  @override
   String get lyrics_job_busy => '请等待当前的歌词任务完成';
 
   @override
@@ -2505,6 +2521,14 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_usage_limit_reached => '本月免費額度已用完,請下個月再試';
+
+  @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return '這段音訊約 $audioMinutes 分鐘,本月免費額度只剩 $remainingMinutes 分鐘。請改用較短的歌曲,或下個月再試';
+  }
 
   @override
   String get lyrics_job_busy => '請等待目前的歌詞任務完成';

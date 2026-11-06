@@ -744,6 +744,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_usage_limit_reached => '今月の無料利用上限に達しました。来月またお試しください';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'この音声は約$audioMinutes分ですが、今月の無料枠は残り$remainingMinutes分です。短い曲を使うか、来月またお試しください';
+  }
+
+  @override
   String get lyrics_job_busy => '現在の歌詞処理が完了するまでお待ちください';
 
   @override

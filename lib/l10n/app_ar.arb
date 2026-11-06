@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "لم يتم العثور على ملف الصوت",
   "lyrics_ai_generate_network": "مشكلة في الاتصال، حاول لاحقًا",
   "lyrics_usage_limit_reached": "تم بلوغ الحد الشهري للاستخدام المجاني. حاول مرة أخرى الشهر المقبل.",
+  "lyrics_usage_insufficient_for_audio": "مدة هذا الصوت حوالي {audioMinutes} دقيقة، لكن المتبقي من الاستخدام المجاني هذا الشهر {remainingMinutes} دقيقة فقط. جرّب مقطعًا أقصر أو حاول مرة أخرى الشهر المقبل.",
   "lyrics_job_busy": "يرجى الانتظار حتى تنتهي مهمة الكلمات الحالية",
   "lyrics_job_processing": "جارٍ معالجة كلمات الأغنية…",
   "lyrics_job_cancelled": "تم إلغاء مهمة الكلمات",

@@ -783,6 +783,14 @@ class AppLocalizationsHi extends AppLocalizations {
       'इस महीने की मुफ़्त उपयोग सीमा पूरी हो गई है। अगले महीने पुनः प्रयास करें।';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'यह ऑडियो लगभग $audioMinutes मिनट का है, लेकिन इस महीने केवल $remainingMinutes मिनट का मुफ़्त उपयोग बचा है। छोटा ट्रैक आज़माएँ या अगले महीने पुनः प्रयास करें।';
+  }
+
+  @override
   String get lyrics_job_busy =>
       'कृपया वर्तमान बोल कार्य पूरा होने तक प्रतीक्षा करें';
 

@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "找不到音频文件",
   "lyrics_ai_generate_network": "连接问题,请稍后再试",
   "lyrics_usage_limit_reached": "本月免费额度已用完,请下个月再试",
+  "lyrics_usage_insufficient_for_audio": "这段音频约 {audioMinutes} 分钟,本月免费额度只剩 {remainingMinutes} 分钟。请改用较短的歌曲,或下个月再试",
   "lyrics_job_busy": "请等待当前的歌词任务完成",
   "lyrics_job_processing": "歌词处理中…",
   "lyrics_job_cancelled": "已取消歌词任务",

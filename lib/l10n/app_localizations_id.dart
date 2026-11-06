@@ -781,6 +781,14 @@ class AppLocalizationsId extends AppLocalizations {
       'Batas penggunaan gratis bulanan tercapai. Coba lagi bulan depan.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'Audio ini sekitar $audioMinutes menit, tetapi sisa penggunaan gratis bulan ini hanya $remainingMinutes menit. Coba lagu yang lebih pendek atau coba lagi bulan depan.';
+  }
+
+  @override
   String get lyrics_job_busy =>
       'Harap tunggu hingga tugas lirik saat ini selesai';
 

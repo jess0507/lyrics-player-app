@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "File audio non trovato",
   "lyrics_ai_generate_network": "Problema di connessione, riprova più tardi",
   "lyrics_usage_limit_reached": "Limite mensile di utilizzo gratuito raggiunto. Riprova il mese prossimo.",
+  "lyrics_usage_insufficient_for_audio": "Questo audio dura circa {audioMinutes} min, ma questo mese restano solo {remainingMinutes} min di utilizzo gratuito. Prova un brano più breve o riprova il mese prossimo.",
   "lyrics_job_busy": "Attendi il completamento dell’attività sul testo in corso",
   "lyrics_job_processing": "Elaborazione del testo…",
   "lyrics_job_cancelled": "Attività sul testo annullata",

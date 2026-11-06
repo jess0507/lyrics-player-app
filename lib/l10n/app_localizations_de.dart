@@ -790,6 +790,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Monatliches kostenloses Nutzungslimit erreicht. Versuche es nächsten Monat erneut.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'Diese Audiodatei ist etwa $audioMinutes Min. lang, diesen Monat sind aber nur noch $remainingMinutes Min. kostenlose Nutzung übrig. Wähle einen kürzeren Titel oder versuche es nächsten Monat erneut.';
+  }
+
+  @override
   String get lyrics_job_busy =>
       'Bitte warte, bis die aktuelle Songtext-Aufgabe abgeschlossen ist';
 

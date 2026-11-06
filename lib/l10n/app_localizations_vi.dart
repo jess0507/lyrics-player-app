@@ -784,6 +784,14 @@ class AppLocalizationsVi extends AppLocalizations {
       'Đã đạt giới hạn sử dụng miễn phí trong tháng. Vui lòng thử lại vào tháng sau.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'Âm thanh này dài khoảng $audioMinutes phút, nhưng tháng này chỉ còn $remainingMinutes phút sử dụng miễn phí. Hãy thử bài ngắn hơn hoặc thử lại vào tháng sau.';
+  }
+
+  @override
   String get lyrics_job_busy => 'Vui lòng đợi tác vụ lời hiện tại hoàn tất';
 
   @override

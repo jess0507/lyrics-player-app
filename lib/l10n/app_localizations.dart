@@ -1560,6 +1560,15 @@ abstract class AppLocalizations {
   /// **'Monthly free usage limit reached. Try again next month.'**
   String get lyrics_usage_limit_reached;
 
+  /// No description provided for @lyrics_usage_insufficient_for_audio.
+  ///
+  /// In en, this message translates to:
+  /// **'This audio is about {audioMinutes} min, but only {remainingMinutes} min of free usage is left this month. Try a shorter track or wait until next month.'**
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  );
+
   /// No description provided for @lyrics_job_busy.
   ///
   /// In en, this message translates to:

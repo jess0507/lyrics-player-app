@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "오디오 파일을 찾을 수 없습니다",
   "lyrics_ai_generate_network": "연결 문제가 발생했습니다. 나중에 다시 시도하세요",
   "lyrics_usage_limit_reached": "이번 달 무료 사용 한도에 도달했습니다. 다음 달에 다시 시도하세요",
+  "lyrics_usage_insufficient_for_audio": "이 오디오는 약 {audioMinutes}분이지만 이번 달 무료 사용량이 {remainingMinutes}분 남았습니다. 더 짧은 곡을 사용하거나 다음 달에 다시 시도하세요",
   "lyrics_job_busy": "현재 가사 작업이 끝날 때까지 기다려 주세요",
   "lyrics_job_processing": "가사를 처리하는 중…",
   "lyrics_job_cancelled": "가사 작업이 취소되었습니다",

@@ -777,6 +777,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'تم بلوغ الحد الشهري للاستخدام المجاني. حاول مرة أخرى الشهر المقبل.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'مدة هذا الصوت حوالي $audioMinutes دقيقة، لكن المتبقي من الاستخدام المجاني هذا الشهر $remainingMinutes دقيقة فقط. جرّب مقطعًا أقصر أو حاول مرة أخرى الشهر المقبل.';
+  }
+
+  @override
   String get lyrics_job_busy => 'يرجى الانتظار حتى تنتهي مهمة الكلمات الحالية';
 
   @override

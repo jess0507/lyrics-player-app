@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "Arquivo de áudio não encontrado",
   "lyrics_ai_generate_network": "Problema de conexão, tente novamente mais tarde",
   "lyrics_usage_limit_reached": "Limite mensal de uso gratuito atingido. Tente novamente no próximo mês.",
+  "lyrics_usage_insufficient_for_audio": "Este áudio tem cerca de {audioMinutes} min, mas restam apenas {remainingMinutes} min de uso gratuito este mês. Use uma faixa mais curta ou tente novamente no próximo mês.",
   "lyrics_job_busy": "Aguarde a conclusão da tarefa de letra atual",
   "lyrics_job_processing": "Processando a letra…",
   "lyrics_job_cancelled": "Tarefa de letra cancelada",

@@ -749,6 +749,14 @@ class AppLocalizationsKo extends AppLocalizations {
       '이번 달 무료 사용 한도에 도달했습니다. 다음 달에 다시 시도하세요';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return '이 오디오는 약 $audioMinutes분이지만 이번 달 무료 사용량이 $remainingMinutes분 남았습니다. 더 짧은 곡을 사용하거나 다음 달에 다시 시도하세요';
+  }
+
+  @override
   String get lyrics_job_busy => '현재 가사 작업이 끝날 때까지 기다려 주세요';
 
   @override

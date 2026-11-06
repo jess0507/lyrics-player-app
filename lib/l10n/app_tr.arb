@@ -239,6 +239,7 @@
   "lyrics_ai_generate_no_audio": "Ses dosyası bulunamadı",
   "lyrics_ai_generate_network": "Bağlantı sorunu, daha sonra tekrar deneyin",
   "lyrics_usage_limit_reached": "Aylık ücretsiz kullanım sınırına ulaşıldı. Gelecek ay tekrar deneyin.",
+  "lyrics_usage_insufficient_for_audio": "Bu ses yaklaşık {audioMinutes} dk, ancak bu ay yalnızca {remainingMinutes} dk ücretsiz kullanım hakkınız kaldı. Daha kısa bir parça deneyin veya gelecek ay tekrar deneyin.",
   "lyrics_job_busy": "Lütfen mevcut sözler görevinin bitmesini bekleyin",
   "lyrics_job_processing": "Sözler işleniyor…",
   "lyrics_job_cancelled": "Sözler görevi iptal edildi",

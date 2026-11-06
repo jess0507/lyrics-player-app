@@ -784,6 +784,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Aylık ücretsiz kullanım sınırına ulaşıldı. Gelecek ay tekrar deneyin.';
 
   @override
+  String lyrics_usage_insufficient_for_audio(
+    int audioMinutes,
+    int remainingMinutes,
+  ) {
+    return 'Bu ses yaklaşık $audioMinutes dk, ancak bu ay yalnızca $remainingMinutes dk ücretsiz kullanım hakkınız kaldı. Daha kısa bir parça deneyin veya gelecek ay tekrar deneyin.';
+  }
+
+  @override
   String get lyrics_job_busy =>
       'Lütfen mevcut sözler görevinin bitmesini bekleyin';
 
