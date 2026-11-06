@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 user_stats.py
-統計 Firebase 帳號(Authentication)與各使用者 App 版本(Firestore `user/{uid}`)。
+統計 Firebase 帳號(Authentication)、各使用者 App 版本與歌詞功能使用量。
 
 資料來源:
   - Firebase Auth(Identity Toolkit accounts:batchGet):所有帳號、登入方式、
@@ -9,6 +9,14 @@ user_stats.py
   - Firestore `user/{uid}` 主文件:appVersion / buildNumber / recordedAt,
     由 SyncService 在「有上傳」時寫入(開 App 但沒資料變更時不會更新,
     所以版本可能落後實際安裝版本;v1.2.13 之前的版本不會寫)。
+  - Firestore `user/{uid}/lyrics/{jobId}`:後端 AI 歌詞任務(對時 / 產生)的投遞點,
+    有 `status` 欄位的才是任務;沒有 `status` 的是舊版 client 寫在這裡的歌詞備份。
+    對時與產生在文件上無法區分(source 都是 generated)。
+  - Firestore `user/{uid}/backupLyrics/{key}`:client 的歌詞備份(每首歌一份),
+    依 source(online / generated / manual)統計;代表「目前有歌詞的歌曲數」,
+    不是操作次數,且只在有同步時更新。
+  - Firestore `usage/{uid}`:後端記錄的 AI 用量(month + secondsUsed),
+    每個帳號只留最近一個月份。
 
 唯讀,不會修改任何資料。
 
@@ -76,6 +84,84 @@ def get_json(url: str, token: str) -> dict:
             return json.load(resp)
     except urllib.error.HTTPError as e:
         sys.exit(f"HTTP {e.code} {url}\n{e.read().decode(errors='replace')}")
+
+
+def post_json(url: str, token: str, body: dict) -> list | dict:
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(body).encode(),
+        headers={
+            "Authorization": f"Bearer {token}",
+            "x-goog-user-project": PROJECT_ID,
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            return json.load(resp)
+    except urllib.error.HTTPError as e:
+        sys.exit(f"HTTP {e.code} {url}\n{e.read().decode(errors='replace')}")
+
+
+def fetch_collection_group(
+    token: str, collection_id: str, fields: list[str]
+) -> list[tuple[str, dict]]:
+    """collection group 查詢,只取 [fields](避免下載歌詞內文)。
+
+    回傳 [(uid, 解開型別的欄位 dict)],uid 取自 `user/{uid}/<collection>/...`。
+    """
+    out: list[tuple[str, dict]] = []
+    cursor = None
+    while True:
+        query: dict = {
+            "from": [{"collectionId": collection_id, "allDescendants": True}],
+            "select": {"fields": [{"fieldPath": f} for f in fields]},
+            "orderBy": [{"field": {"fieldPath": "__name__"}}],
+            "limit": 1000,
+        }
+        if cursor:
+            query["startAt"] = {"values": [{"referenceValue": cursor}], "before": False}
+        res = post_json(
+            f"{FIRESTORE_BASE}:runQuery", token, {"structuredQuery": query}
+        )
+        docs = [r["document"] for r in res if "document" in r]
+        for d in docs:
+            parts = d["name"].split("/documents/", 1)[1].split("/")
+            uid = parts[1] if parts[0] == "user" else "?"
+            out.append((uid, {k: unwrap(v) for k, v in d.get("fields", {}).items()}))
+        if len(docs) < 1000:
+            return out
+        cursor = docs[-1]["name"]
+
+
+def unwrap(v: dict):
+    t, val = next(iter(v.items()))
+    if t == "integerValue":
+        return int(val)
+    if t == "doubleValue":
+        return float(val)
+    if t == "timestampValue":
+        return parse_rfc3339(val)
+    return val
+
+
+def fetch_usage(token: str) -> dict[str, dict]:
+    """uid → {month, secondsUsed}。"""
+    usage: dict[str, dict] = {}
+    page = None
+    while True:
+        params = [("pageSize", "300")]
+        if page:
+            params.append(("pageToken", page))
+        data = get_json(
+            f"{FIRESTORE_BASE}/usage?{urllib.parse.urlencode(params)}", token
+        )
+        for d in data.get("documents", []):
+            f = {k: unwrap(v) for k, v in d.get("fields", {}).items()}
+            usage[d["name"].rsplit("/", 1)[-1]] = f
+        page = data.get("nextPageToken")
+        if not page:
+            return usage
 
 
 def fetch_auth_users(token: str) -> list[dict]:
@@ -191,7 +277,7 @@ def print_table(title: str, rows: list[tuple[str, int]], total: int) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="統計 Firebase 帳號與 App 版本(唯讀)")
+    ap = argparse.ArgumentParser(description="統計 Firebase 帳號、App 版本與歌詞使用量(唯讀)")
     ap.add_argument("--days", type=int, default=30, help="「近期」視窗天數(預設 30)")
     ap.add_argument("--list", action="store_true", help="列出每個帳號的明細")
     ap.add_argument("--csv", metavar="PATH", help="把明細輸出成 CSV")
@@ -200,9 +286,26 @@ def main() -> None:
     token = access_token()
     auth_users = fetch_auth_users(token)
     docs = fetch_user_docs(token)
+    lyrics_docs = fetch_collection_group(
+        token, "lyrics", ["status", "source", "addedAt", "statusUpdatedAt"]
+    )
+    backup_docs = fetch_collection_group(token, "backupLyrics", ["source"])
+    usage = fetch_usage(token)
 
     now = dt.datetime.now(dt.timezone.utc)
     since = now - dt.timedelta(days=args.days)
+
+    # AI 任務 = lyrics 子集合中有 status 的文件;時間取 addedAt,沒有就用 statusUpdatedAt。
+    jobs = []
+    legacy_lyrics = 0
+    for uid, f in lyrics_docs:
+        if "status" not in f:
+            legacy_lyrics += 1
+            continue
+        ts = f.get("addedAt") or f.get("statusUpdatedAt")
+        jobs.append({"uid": uid, "status": f["status"], "at": parse_ms(ts) if ts else None})
+    jobs_by_uid = collections.Counter(j["uid"] for j in jobs)
+    backup_by_uid = collections.Counter(uid for uid, _ in backup_docs)
 
     rows = []
     for u in auth_users:
@@ -219,6 +322,13 @@ def main() -> None:
                 "version": version_label(doc),
                 "recordedAt": doc["recordedAt"] if doc else None,
                 "disabled": u.get("disabled", False),
+                "aiJobs": jobs_by_uid.get(uid, 0),
+                "aiJobsRecent": sum(
+                    1 for j in jobs if j["uid"] == uid and j["at"] and j["at"] >= since
+                ),
+                "backupLyrics": backup_by_uid.get(uid, 0),
+                "usageMonth": usage.get(uid, {}).get("month", ""),
+                "usageMinutes": usage.get(uid, {}).get("secondsUsed", 0) / 60,
             }
         )
     auth_uids = {r["uid"] for r in rows}
@@ -262,6 +372,56 @@ def main() -> None:
     if orphan_docs:
         print(f"\n  ⚠ Firestore 有 {len(orphan_docs)} 份主文件找不到對應 Auth 帳號(帳號已刪除?)")
 
+    # ---- 歌詞 ----
+    print("\n# 歌詞功能")
+    job_users = {j["uid"] for j in jobs}
+    recent_jobs = [j for j in jobs if j["at"] and j["at"] >= since]
+    print("\n## AI 歌詞任務(對時 / 產生,user/{uid}/lyrics)")
+    print(f"  總任務數:{len(jobs)}(使用人數 {len(job_users)})")
+    print(
+        f"  近 {args.days} 天:{len(recent_jobs)}"
+        f"(使用人數 {len({j['uid'] for j in recent_jobs})})"
+    )
+    print_table(
+        "任務狀態",
+        collections.Counter(j["status"] for j in jobs).most_common(),
+        len(jobs),
+    )
+    by_month = collections.Counter(
+        j["at"].astimezone().strftime("%Y-%m") if j["at"] else "(無時間)" for j in jobs
+    )
+    print_table("每月任務數", sorted(by_month.items(), reverse=True), len(jobs))
+    top = jobs_by_uid.most_common(5)
+    if top:
+        ident = {r["uid"]: r["identity"] for r in rows}
+        print("\n## 任務數最多的帳號")
+        for uid, n in top:
+            print(f"  {n:>4}  {uid}  {ident.get(uid, '(無 Auth 帳號)')}")
+    if legacy_lyrics:
+        print(f"\n  註:lyrics 子集合另有 {legacy_lyrics} 份無 status 的舊版歌詞備份,未計入任務。")
+
+    print("\n## 歌詞備份(user/{uid}/backupLyrics,目前有歌詞的歌曲數)")
+    print(f"  歌詞總數:{len(backup_docs)}(帳號數 {len(backup_by_uid)})")
+    print_table(
+        "來源",
+        collections.Counter(f.get("source", "?") for _, f in backup_docs).most_common(),
+        len(backup_docs),
+    )
+    print("  註:只在 SyncService 有上傳時更新;刪掉的歌詞不會留下紀錄。")
+
+    print("\n## AI 用量(usage/{uid},每個帳號只留最近月份)")
+    usage_month: dict[str, list[float]] = collections.defaultdict(list)
+    for f in usage.values():
+        usage_month[f.get("month", "?")].append(f.get("secondsUsed", 0) / 60)
+    if not usage_month:
+        print("  (無)")
+    for month in sorted(usage_month, reverse=True):
+        mins = usage_month[month]
+        print(
+            f"  {month}  帳號 {len(mins):>4}  合計 {sum(mins):8.1f} 分鐘"
+            f"  平均 {sum(mins) / len(mins):6.1f}  最多 {max(mins):6.1f}"
+        )
+
     # ---- 明細 ----
     rows.sort(
         key=lambda r: r["recordedAt"] or dt.datetime.min.replace(tzinfo=dt.timezone.utc),
@@ -270,12 +430,15 @@ def main() -> None:
     if args.list:
         print("\n# 明細(依 recordedAt 新→舊)")
         cols = [("uid", 28), ("帳號", 32), ("登入方式", 16), ("版本", 14),
-                ("版本記錄時間", 16), ("最後登入", 16), ("建立", 16)]
+                ("版本記錄時間", 16), ("最後登入", 16), ("建立", 16),
+                ("AI任務", 6), ("備份歌詞", 8), ("AI用量(分)", 10)]
         print("  " + "  ".join(pad(h, w) for h, w in cols))
         for r in rows:
             vals = [r["uid"], r["identity"][:32], r["provider"][:16], r["version"],
                     fmt_time(r["recordedAt"]), fmt_time(r["lastLoginAt"]),
-                    fmt_time(r["createdAt"])]
+                    fmt_time(r["createdAt"]), str(r["aiJobs"]),
+                    str(r["backupLyrics"]),
+                    f"{r['usageMinutes']:.1f}" if r["usageMonth"] else "-"]
             print("  " + "  ".join(pad(v, w) for v, (_, w) in zip(vals, cols)))
 
     if args.csv:
@@ -283,13 +446,17 @@ def main() -> None:
             w = csv.writer(f)
             w.writerow(
                 ["uid", "identity", "displayName", "provider", "version",
-                 "recordedAt", "lastLoginAt", "createdAt", "disabled"]
+                 "recordedAt", "lastLoginAt", "createdAt", "disabled",
+                 "aiJobs", f"aiJobsLast{args.days}d", "backupLyrics",
+                 "usageMonth", "usageMinutes"]
             )
             for r in rows:
                 w.writerow(
                     [r["uid"], r["identity"], r["name"], r["provider"], r["version"],
                      fmt_time(r["recordedAt"]), fmt_time(r["lastLoginAt"]),
-                     fmt_time(r["createdAt"]), r["disabled"]]
+                     fmt_time(r["createdAt"]), r["disabled"],
+                     r["aiJobs"], r["aiJobsRecent"], r["backupLyrics"],
+                     r["usageMonth"], round(r["usageMinutes"], 1)]
                 )
         print(f"\n已輸出 CSV:{args.csv}({len(rows)} 筆)")
 

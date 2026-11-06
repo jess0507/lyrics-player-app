@@ -81,7 +81,7 @@ class LyricsImportService {
     if (size > _maxBytes) {
       throw LyricsImportException(
         LyricsImportError.tooLarge,
-        message: 'size=${size}B > max=${_maxBytes}B, source=paste',
+        message: 'size=${size}B > max=${_maxBytes}B, source=edit',
       );
     }
     await _save(

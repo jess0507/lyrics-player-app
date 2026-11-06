@@ -125,7 +125,7 @@ enum LyricsAction implements AnalyticsAction {
   cancelJob,
   onlineSearchQuery,
   onlineSearchApply,
-  pasteSave,
+  editSave,
   importResult,
   downloadResult,
   deleteConfirm,

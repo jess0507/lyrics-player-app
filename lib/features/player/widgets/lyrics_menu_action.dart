@@ -13,7 +13,7 @@ import 'package:seek_player/features/player/widgets/lyrics_auto_align_action.dar
 import 'package:seek_player/features/player/widgets/lyrics_download_action.dart';
 import 'package:seek_player/features/player/widgets/lyrics_font_size_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_online_search_action.dart';
-import 'package:seek_player/features/player/widgets/lyrics_paste_page.dart';
+import 'package:seek_player/features/player/widgets/lyrics_edit_page.dart';
 import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
 import 'package:seek_player/features/player/widgets/lyrics_text_align_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_usage_limit_gate.dart';
@@ -28,18 +28,19 @@ enum LyricsMenuAction implements AnalyticsAction {
   /// 上網搜尋歌詞(LRCLIB);完全沒有歌詞時顯示(排在 [aiGenerate] 之後)。
   searchOnline,
 
-  /// 貼上歌詞(文字框輸入);無歌詞時排第二(在 [searchOnline] 之後),
+  /// 編輯歌詞(文字框,可貼上或打字);無歌詞時排第二(在 [searchOnline] 之後),
   /// 已有歌詞時排在 [reimport] 之前(覆蓋現有歌詞)。
-  paste,
+  edit,
 
-  /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [paste] 之後)。
+  /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [edit] 之後)。
   import,
+
+  /// 自動對時(WhisperX 引擎);已有純文字、尚未同步時顯示。
+  /// 歌曲對齊較準,排在 [autoAlignAeneas] 之前。
+  autoAlignWhisperX,
 
   /// 自動對時(aeneas 引擎);已有純文字、尚未同步時顯示。
   autoAlignAeneas,
-
-  /// 自動對時(WhisperX 引擎);已有純文字、尚未同步時顯示。
-  autoAlignWhisperX,
 
   /// 字體大小;已有歌詞時顯示。
   fontSize,
@@ -59,7 +60,7 @@ enum LyricsMenuAction implements AnalyticsAction {
   IconData get icon => switch (this) {
     aiGenerate => Icons.lyrics_outlined,
     searchOnline => Icons.travel_explore_outlined,
-    paste => Icons.content_paste,
+    edit => Icons.content_paste,
     import => Icons.file_open_outlined,
     autoAlignAeneas => Icons.auto_fix_high,
     autoAlignWhisperX => Icons.auto_awesome,
@@ -94,7 +95,7 @@ enum LyricsMenuAction implements AnalyticsAction {
   String label(AppLocalizations l10n) => switch (this) {
     aiGenerate => l10n.lyrics_ai_generate,
     searchOnline => l10n.lyrics_search_online,
-    paste => l10n.lyrics_paste,
+    edit => l10n.lyrics_edit,
     import => l10n.lyrics_import,
     autoAlignAeneas => '${l10n.lyrics_auto_align} · aeneas',
     autoAlignWhisperX => '${l10n.lyrics_auto_align} · WhisperX',
@@ -117,21 +118,21 @@ List<LyricsMenuAction> lyricsMenuActions({
   bool includeDisplay = true,
 }) {
   return [
-    // 無歌詞時提供四種取得方式:上網搜尋、貼上、從檔案匯入、自動產生。
+    // 無歌詞時提供四種取得方式:上網搜尋、編輯、從檔案匯入、自動產生。
     if (!hasLyrics) LyricsMenuAction.searchOnline,
-    if (!hasLyrics) LyricsMenuAction.paste,
+    if (!hasLyrics) LyricsMenuAction.edit,
     if (!hasLyrics) LyricsMenuAction.import,
     if (canAiGenerate) LyricsMenuAction.aiGenerate,
     if (canAutoAlign) ...[
-      LyricsMenuAction.autoAlignAeneas,
       LyricsMenuAction.autoAlignWhisperX,
+      LyricsMenuAction.autoAlignAeneas,
     ],
     if (hasLyrics) ...[
       if (includeDisplay) ...[
         LyricsMenuAction.fontSize,
         LyricsMenuAction.textAlign,
       ],
-      LyricsMenuAction.paste,
+      LyricsMenuAction.edit,
       LyricsMenuAction.reimport,
       LyricsMenuAction.download,
       LyricsMenuAction.delete,
@@ -199,8 +200,8 @@ Future<void> runLyricsMenuAction(
       showLyricsTextAlignSheet(context);
     case LyricsMenuAction.searchOnline:
       await runLyricsOnlineSearch(context, ref, pathKey: pathKey, title: title);
-    case LyricsMenuAction.paste:
-      await runLyricsPaste(context, pathKey: pathKey, title: title);
+    case LyricsMenuAction.edit:
+      await runLyricsEdit(context, pathKey: pathKey, title: title);
     case LyricsMenuAction.import:
     case LyricsMenuAction.reimport:
       await runLyricsImport(context, ref, pathKey: pathKey, title: title);

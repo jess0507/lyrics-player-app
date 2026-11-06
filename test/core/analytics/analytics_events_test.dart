@@ -40,7 +40,7 @@ void main() {
   });
 
   test('各動作 enum 指向所屬功能事件', () {
-    expect(LyricsMenuAction.paste.analyticsEvent, AnalyticsEvent.lyricsAction);
+    expect(LyricsMenuAction.edit.analyticsEvent, AnalyticsEvent.lyricsAction);
     expect(LyricsAction.cancelJob.analyticsEvent, AnalyticsEvent.lyricsAction);
     expect(
       MiniPlayerAction.openPlayer.analyticsEvent.gaName,
