@@ -43,13 +43,10 @@ class PlaylistsSync {
           'isRecentlyPlayed': p.isRecentlyPlayed,
           'createdAt': p.createdAt.millisecondsSinceEpoch,
           'pathKeys': p.pathKeys,
-          // 舊識別碼僅附帶保存,不作為比對依據(見 plans/33)。
-          'trackIds': p.trackIds,
           'recentlyPlayed': [
             for (final e in p.recentlyPlayed)
               {
                 'pathKey': e.pathKey,
-                'trackId': ?e.trackId,
                 'playedAt': e.playedAt.millisecondsSinceEpoch,
               },
           ],
@@ -162,16 +159,12 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..pathKeys = [
             for (final t in (doc.data()['pathKeys'] as List? ?? const [])) '$t',
           ]
-          ..trackIds = [
-            for (final t in (doc.data()['trackIds'] as List? ?? const [])) '$t',
-          ]
           ..recentlyPlayed = [
             for (final e in (doc.data()['recentlyPlayed'] as List? ?? const []))
               // 沒有 pathKey 的是舊格式,對不到任何本機曲目。
               if (e is Map && e['pathKey'] is String)
                 RecentlyPlayedEntry()
                   ..pathKey = e['pathKey'] as String
-                  ..trackId = e['trackId'] as String?
                   ..playedAt = DateTime.fromMillisecondsSinceEpoch(
                     (e['playedAt'] as num? ?? 0).toInt(),
                   ),

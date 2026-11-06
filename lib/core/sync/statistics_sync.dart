@@ -47,8 +47,6 @@ class StatisticsSync {
       // pathKey 含 `/`、`.`,map key 改用 [trackDocKey],原值放進值裡。
       ((dailyByMonth[month] ??= {})[d.day] ??= {})[trackDocKey(d.pathKey)] = {
         'pathKey': d.pathKey,
-        // 舊識別碼僅附帶保存,不作為比對依據(見 plans/33)。
-        'trackId': ?d.trackId,
         'title': d.title,
         'playCount': d.playCount,
         'listenMs': d.listenMs,
@@ -171,16 +169,12 @@ extension _RemoteDailyStatsDecode on QuerySnapshot<Map<String, dynamic>> {
           if (value is! Map) return;
           // 統計只記使用量,不需對應到本機曲目:找不到 track 也保留。
           // schema 8 以前沒有 `pathKey` 欄位,key 本身是舊識別碼(sha1):
-          // 保留為 trackId,pathKey 暫以它填入(只用於加總,見 plans/33)。
-          final remotePathKey = value['pathKey'] as String?;
-          final pathKey = remotePathKey ?? '$key';
+          // pathKey 暫以它填入(只用於加總,見 plans/33)。
+          final pathKey = (value['pathKey'] as String?) ?? '$key';
           entities.add(
             DailyTrackStatEntity()
               ..day = '$day'
               ..pathKey = pathKey
-              ..trackId =
-                  (value['trackId'] as String?) ??
-                  (remotePathKey == null ? '$key' : null)
               ..title = (value['title'] as String?) ?? pathKey
               ..playCount = (value['playCount'] as num? ?? 0).toInt()
               ..listenMs = (value['listenMs'] as num? ?? 0).toInt(),

@@ -87,8 +87,6 @@ class LyricsSync {
       await addOp(
         (b) => b.set(col.doc(trackDocKey(e.pathKey)), {
           'pathKey': e.pathKey,
-          // 舊識別碼僅附帶保存,不作為比對依據(見 plans/33)。
-          'trackId': ?e.trackId,
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
@@ -175,7 +173,6 @@ extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
       entities.add(
         LyricsEntity()
           ..pathKey = pathKey
-          ..trackId = data['trackId'] as String?
           ..title = (data['title'] as String?) ?? ''
           ..format =
               LyricsFormat.values.asNameMap()[data['format']] ??
