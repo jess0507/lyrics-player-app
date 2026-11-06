@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/music_list/services/track_md5_service.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
+import 'package:seek_player/features/lyrics/usage_limit/audio_duration_probe.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -100,6 +101,11 @@ class LyricsAutoGenerateService {
     final trackMd5 = await _ref
         .read(trackMd5ServiceProvider)
         .audioMd5(pathKey, audioPath);
+    // 隨 callable 送出,讓後端派工前就確認剩餘額度足夠(權威檢查仍在
+    // 後端量測實際音訊);量不到(null)就不送。
+    final durationSeconds = await _ref
+        .read(audioDurationProbeProvider)
+        .durationSeconds(pathKey: pathKey, audioPath: audioPath);
 
     onStep?.call(LyricsAutoGenerateStep.compressing);
     final File compressed;
@@ -152,6 +158,7 @@ class LyricsAutoGenerateService {
         // 判斷改用 trackMd5,不再送已 deprecated 的 `trackId`。
         'jobId': jobId,
         'trackMd5': ?trackMd5,
+        'durationSeconds': ?durationSeconds,
         'title': title,
       });
       debugPrint(

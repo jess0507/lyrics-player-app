@@ -173,7 +173,11 @@ Future<void> runLyricsMenuAction(
     if (!signedIn || !context.mounted) return;
 
     // 登入後才檢查用量,避免未登入時誤讀 usage/{uid}。
-    final withinLimit = await ensureWithinUsageLimitForLyrics(context, ref);
+    final withinLimit = await ensureWithinUsageLimitForLyrics(
+      context,
+      ref,
+      pathKey: pathKey,
+    );
     if (!withinLimit || !context.mounted) return;
   }
 
