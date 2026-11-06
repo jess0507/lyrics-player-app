@@ -21,22 +21,21 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 /// 設定 / 播放清單 / 統計 / 歌詞四個領域與 Firestore `user/{uid}` 之間的
 /// 同步調度。
 ///
-/// - 登入一個這台裝置尚未綁定的帳號([BackupStateStore.boundUid] 不同):
-///   由登入頁在登入 loading 期間呼叫 [prepareSignInSync],逐領域看本機 /
-///   雲端有沒有資料——本機空就拉、雲端空就推、兩邊都有就把雲端併進本機
-///   (以雲端為主,見各領域的 merge)。合併當下不推,改把該領域標為本機
-///   已變更,之後重開 / 回前景的 [_maybeUpload] 自然推上去;新帳號雲端
-///   全空 → 四個領域整份推上去。接著呼叫 [applySignInSync] 套用並綁定 uid。
-///   [prepareSignInSync] 到 [applySignInSync] 之間 [_upload] 一律跳過,
-///   避免判斷途中被回前景的上傳蓋掉。
-///   App 啟動時已登入但尚未綁定(例如上次登入流程途中被滑掉)走同一套
-///   流程([syncAfterSignIn])。
-/// - 登出時解除綁定([BackupStateStore.unbindUid]),所以每次登入(包含
-///   登出後再登入同一帳號)都會先走上述流程把雲端拉下來合併,不會直接
-///   用本機快照蓋掉雲端。
-/// - 已綁定的帳號(每次開 App、回前景):只推不拉,依 `setting/0` 裡各
-///   領域的 *UpdatedAt 與本機 *ModifiedAt 比對,只推本機較新的領域。
-/// - 推送為整份快照語意:已綁定後多裝置之間仍是 last-write-wins。
+/// 同步時機只有:登入、App 回前景、帳戶頁「立即同步」、統計重設。
+///
+/// - 登入:由登入頁在登入 loading 期間呼叫 [prepareSignInSync],逐領域看
+///   本機 / 雲端有沒有資料——本機空就拉、雲端空就推、兩邊都有就把雲端
+///   併進本機(以雲端為主,見各領域的 merge)。合併當下不推,改把該領域
+///   標為本機已變更,之後的 [_maybeUpload] 自然推上去;新帳號雲端全空 →
+///   四個領域整份推上去。接著呼叫 [applySignInSync] 套用。
+///   [prepareSignInSync] 到 [applySignInSync] 之間其他上傳一律跳過,
+///   避免判斷途中被回前景的上傳蓋掉。手機 OTP 自動驗證不經登入頁,
+///   走 [syncAfterSignIn]。
+/// - 回前景 / 立即同步 / 統計重設:只推不拉,依 `setting/0` 裡各領域的
+///   *UpdatedAt 與本機 *ModifiedAt 比對,只推本機較新的領域(統計重設
+///   與立即同步同樣走這個判斷)。
+/// - 推送為整份快照語意:多裝置之間是 last-write-wins;不處理同一台
+///   裝置切換帳號的情境。
 /// - 每次上傳順便把 App 版本(appVersion / buildNumber / recordedAt)寫進
 ///   主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
 ///
@@ -75,37 +74,6 @@ class SyncService {
       return;
     }
     _lyricsSync.markExistingPending();
-    var firstEvent = true;
-    final sub = ref.read(authServiceProvider).authStateChanges().listen((user) {
-      final isFirstEvent = firstEvent;
-      firstEvent = false;
-      if (user == null) {
-        debugPrint('[Sync] auth 事件:未登入,不同步');
-        // 登出:解除綁定,下次登入(即使同一帳號)先拉雲端合併再推。
-        if (_store.boundUid != null) _store.unbindUid();
-        return;
-      }
-      debugPrint('[Sync] auth 事件:uid=${user.uid}');
-      // 舊版升級:本 process 第一個事件(持久化 session)、從未寫過綁定
-      // 紀錄且曾同步過,視為已綁定這個帳號。曾解除綁定或登入同步沒跑完
-      // 的不算,照常走登入同步。
-      if (isFirstEvent &&
-          !_store.hasBindingRecord &&
-          _store.lastBackupAt != null) {
-        debugPrint('[Sync] 舊版已同步過,直接綁定 uid');
-        _store.setBoundUid(user.uid);
-      }
-      if (_store.boundUid == user.uid) {
-        // 已綁定的帳號(開 App 時的持久化 session):只推不拉。
-        debugPrint('[Sync] 已綁定帳號,檢查是否上傳');
-        unawaited(_maybeUpload(user.uid));
-      } else if (isFirstEvent) {
-        unawaited(syncAfterSignIn());
-      }
-      // 其餘(剛登入未綁定的帳號):由登入頁呼叫 prepareSignInSync /
-      // applySignInSync,才能在帳戶頁顯示衝突對話框。
-    });
-    ref.onDispose(sub.cancel);
 
     final lifecycle = AppLifecycleListener(
       onResume: () {
@@ -118,8 +86,8 @@ class SyncService {
     ref.onDispose(lifecycle.dispose);
   }
 
-  /// 一次跑完登入同步([prepareSignInSync] + [applySignInSync])。用於 App
-  /// 啟動時已登入但尚未綁定、手機 OTP 自動驗證等不經登入頁的情境。
+  /// 一次跑完登入同步([prepareSignInSync] + [applySignInSync])。用於手機
+  /// OTP 自動驗證等不經登入頁的情境。
   Future<bool> syncAfterSignIn() async {
     final plan = await prepareSignInSync();
     if (plan == null) return false;
@@ -127,13 +95,13 @@ class SyncService {
   }
 
   /// 登入成功後(登入 loading 期間)判斷各領域的推 / 拉 / 合併。
-  /// 未登入、已綁定、Firebase 不可用、雲端 schema 較新、流程已在跑或
-  /// 讀取失敗時回傳 null(登入本身仍算成功,不影響登入結果)。
+  /// 未登入、Firebase 不可用、雲端 schema 較新、流程已在跑或讀取失敗時
+  /// 回傳 null(登入本身仍算成功,不影響登入結果)。
   /// 回傳非 null 時呼叫端必須接著呼叫 [applySignInSync]。
   Future<SignInSyncPlan?> prepareSignInSync() async {
     if (!ref.read(firebaseAvailableProvider)) return null;
     final uid = ref.read(authServiceProvider).currentUser?.uid;
-    if (uid == null || _store.boundUid == uid) return null;
+    if (uid == null) return null;
     if (_signInFlowUid == uid) return null; // 同一帳號的流程已在跑。
     _signInFlowUid = uid;
     if (!await _libraryReady()) {
@@ -202,7 +170,7 @@ class SyncService {
     }
   }
 
-  /// 套用 [prepareSignInSync] 的結果並綁定 uid:先拉、再把合併領域的雲端
+  /// 套用 [prepareSignInSync] 的結果:先拉、再把合併領域的雲端
   /// 資料併進本機,最後推「只有本機有」的領域(合併領域不在此推,見
   /// [_mergeDomain])。
   /// 回傳是否成功。
@@ -227,7 +195,6 @@ class SyncService {
       }
       if (plan.pull.isNotEmpty || plan.merge.isNotEmpty) _markSynced();
 
-      _store.setBoundUid(uid);
       return await _upload(uid, domains: plan.push);
     } catch (e, s) {
       reportError(e, s, reason: '登入同步失敗');
@@ -254,7 +221,7 @@ class SyncService {
   }
 
   /// 正在跑登入流程([prepareSignInSync] → [applySignInSync])的 uid,
-  /// 避免重複觸發。
+  /// 避免重複觸發;非 null 期間其他上傳一律跳過(見 [_upload])。
   String? _signInFlowUid;
 
   Future<void> _restoreDomain(
@@ -348,8 +315,7 @@ class SyncService {
   }
 
   /// 帳戶頁面「立即同步」手動觸發:直接跑一次上傳(四個領域仍各自依
-  /// [_shouldPush] 判斷是否真的要推,見 _upload)。帳號尚未綁定時改跑
-  /// 不詢問的登入同步([syncAfterSignIn])。
+  /// [_shouldPush] 判斷是否真的要推,見 _upload)。
   /// 未登入 / Firebase 不可用時回傳 false(no-op)。
   Future<bool> syncNow() async {
     if (!ref.read(firebaseAvailableProvider)) {
@@ -361,15 +327,15 @@ class SyncService {
       debugPrint('[Sync] 未登入,略過手動同步');
       return false;
     }
-    if (_store.boundUid != uid) return syncAfterSignIn();
     return _upload(uid);
   }
 
   /// [domains] 非 null 時(登入流程)只推指定領域,不比時戳;null 時各領域
-  /// 依 [_shouldPush] 判斷。帳號尚未綁定(登入流程未完成)時一律跳過。
+  /// 依 [_shouldPush] 判斷。登入流程進行中([_signInFlowUid] 非 null)時,
+  /// 登入流程以外的上傳一律跳過,避免判斷途中蓋掉雲端。
   Future<bool> _upload(String uid, {Set<SyncDomain>? domains}) async {
-    if (_store.boundUid != uid) {
-      debugPrint('[Sync] 帳號尚未完成登入同步,跳過上傳');
+    if (domains == null && _signInFlowUid != null) {
+      debugPrint('[Sync] 登入同步進行中,跳過上傳');
       return false;
     }
     if (!await _libraryReady()) return false;
