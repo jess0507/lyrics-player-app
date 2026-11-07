@@ -66,17 +66,21 @@ class TrackRepository {
     };
   }
 
-  /// 寫入音檔 / 歌詞 MD5 快取(只更新有帶的欄位);沒有 entity 時不寫入。
+  /// 寫入音檔 / 歌詞 SHA-256 快取(只更新有帶的欄位);沒有 entity 時不寫入。
   ///
-  /// 不更新 [TrackEntity.updatedAt]:MD5 只是本機快取,不算曲目資料變動,
+  /// 不更新 [TrackEntity.updatedAt]:hash 只是本機快取,不算曲目資料變動,
   /// 不該觸發雲端同步。
-  void setMd5(String pathKey, {String? audioMd5, String? lyricsMd5}) {
-    if (audioMd5 == null && lyricsMd5 == null) return;
+  void setContentHash(
+    String pathKey, {
+    String? audioSha256,
+    String? lyricsSha256,
+  }) {
+    if (audioSha256 == null && lyricsSha256 == null) return;
     _isar.writeTxnSync(() {
       final entity = _col.getByPathKeySync(pathKey);
       if (entity == null) return;
-      if (audioMd5 != null) entity.audioMd5 = audioMd5;
-      if (lyricsMd5 != null) entity.lyricsMd5 = lyricsMd5;
+      if (audioSha256 != null) entity.audioSha256 = audioSha256;
+      if (lyricsSha256 != null) entity.lyricsSha256 = lyricsSha256;
       _col.putByPathKeySync(entity);
     });
   }
@@ -99,12 +103,12 @@ class TrackRepository {
       return null;
     }
     final entity = existing ?? (TrackEntity()..addedAt = now);
-    // 檔案本身變了(換路徑 / 大小 / mtime),先前算的內容 MD5 不再可信。
+    // 檔案本身變了(換路徑 / 大小 / mtime),先前算的內容 SHA-256 不再可信。
     if (existing != null &&
         (existing.path != s.path ||
             existing.sizeBytes != s.sizeBytes ||
             existing.modifiedMs != s.modifiedMs)) {
-      entity.audioMd5 = null;
+      entity.audioSha256 = null;
     }
     return entity
       ..path = s.path

@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/features/music_list/services/track_md5_service.dart';
+import 'package:seek_player/features/music_list/services/track_hash_service.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
 import 'package:seek_player/features/lyrics/usage_limit/audio_duration_probe.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
@@ -96,11 +96,11 @@ class LyricsAutoGenerateService {
     if (audioPath == null) {
       throw const LyricsAutoGenerateException(LyricsAutoGenerateError.noAudio);
     }
-    // 同一首歌(音檔 MD5 相同)產生過的結果由後端沿用;算不出來(null)
-    // 就照常處理。
-    final trackMd5 = await _ref
-        .read(trackMd5ServiceProvider)
-        .audioMd5(pathKey, audioPath);
+    // 同一首歌(trackId,即音檔 SHA-256 相同)產生過的結果由後端沿用;
+    // 算不出來(null)就照常處理。
+    final trackId = await _ref
+        .read(trackHashServiceProvider)
+        .audioSha256(pathKey, audioPath);
     // 隨 callable 送出,讓後端派工前就確認剩餘額度足夠(權威檢查仍在
     // 後端量測實際音訊);量不到(null)就不送。
     final durationSeconds = await _ref
@@ -154,10 +154,10 @@ class LyricsAutoGenerateService {
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
-        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。同一首歌的
-        // 判斷改用 trackMd5,不再送已 deprecated 的 `trackId`。
+        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。
         'jobId': jobId,
-        'trackMd5': ?trackMd5,
+        // 音檔全檔 SHA-256,後端用來判斷同一首歌。
+        'trackId': ?trackId,
         'durationSeconds': ?durationSeconds,
         'title': title,
       });

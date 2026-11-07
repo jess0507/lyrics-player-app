@@ -25,9 +25,9 @@ const TrackEntitySchema = CollectionSchema(
     r'album': PropertySchema(id: 1, name: r'album', type: IsarType.string),
     r'albumId': PropertySchema(id: 2, name: r'albumId', type: IsarType.long),
     r'artist': PropertySchema(id: 3, name: r'artist', type: IsarType.string),
-    r'audioMd5': PropertySchema(
+    r'audioSha256': PropertySchema(
       id: 4,
-      name: r'audioMd5',
+      name: r'audioSha256',
       type: IsarType.string,
     ),
     r'coverColorValue': PropertySchema(
@@ -45,9 +45,9 @@ const TrackEntitySchema = CollectionSchema(
       name: r'durationMs',
       type: IsarType.long,
     ),
-    r'lyricsMd5': PropertySchema(
+    r'lyricsSha256': PropertySchema(
       id: 8,
-      name: r'lyricsMd5',
+      name: r'lyricsSha256',
       type: IsarType.string,
     ),
     r'modifiedMs': PropertySchema(
@@ -118,7 +118,7 @@ int _trackEntityEstimateSize(
     }
   }
   {
-    final value = object.audioMd5;
+    final value = object.audioSha256;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -130,7 +130,7 @@ int _trackEntityEstimateSize(
     }
   }
   {
-    final value = object.lyricsMd5;
+    final value = object.lyricsSha256;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -156,11 +156,11 @@ void _trackEntitySerialize(
   writer.writeString(offsets[1], object.album);
   writer.writeLong(offsets[2], object.albumId);
   writer.writeString(offsets[3], object.artist);
-  writer.writeString(offsets[4], object.audioMd5);
+  writer.writeString(offsets[4], object.audioSha256);
   writer.writeLong(offsets[5], object.coverColorValue);
   writer.writeString(offsets[6], object.coverImagePath);
   writer.writeLong(offsets[7], object.durationMs);
-  writer.writeString(offsets[8], object.lyricsMd5);
+  writer.writeString(offsets[8], object.lyricsSha256);
   writer.writeLong(offsets[9], object.modifiedMs);
   writer.writeString(offsets[10], object.path);
   writer.writeString(offsets[11], object.pathKey);
@@ -180,12 +180,12 @@ TrackEntity _trackEntityDeserialize(
   object.album = reader.readStringOrNull(offsets[1]);
   object.albumId = reader.readLongOrNull(offsets[2]);
   object.artist = reader.readStringOrNull(offsets[3]);
-  object.audioMd5 = reader.readStringOrNull(offsets[4]);
+  object.audioSha256 = reader.readStringOrNull(offsets[4]);
   object.coverColorValue = reader.readLongOrNull(offsets[5]);
   object.coverImagePath = reader.readStringOrNull(offsets[6]);
   object.durationMs = reader.readLongOrNull(offsets[7]);
   object.id = id;
-  object.lyricsMd5 = reader.readStringOrNull(offsets[8]);
+  object.lyricsSha256 = reader.readStringOrNull(offsets[8]);
   object.modifiedMs = reader.readLong(offsets[9]);
   object.path = reader.readString(offsets[10]);
   object.pathKey = reader.readString(offsets[11]);
@@ -910,31 +910,29 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5IsNull() {
+  audioSha256IsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'audioMd5'),
+        const FilterCondition.isNull(property: r'audioSha256'),
       );
     });
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5IsNotNull() {
+  audioSha256IsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'audioMd5'),
+        const FilterCondition.isNotNull(property: r'audioSha256'),
       );
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5EqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioSha256EqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -943,7 +941,7 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5GreaterThan(
+  audioSha256GreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -952,7 +950,7 @@ extension TrackEntityQueryFilter
       return query.addFilterCondition(
         FilterCondition.greaterThan(
           include: include,
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -961,7 +959,7 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5LessThan(
+  audioSha256LessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -970,7 +968,7 @@ extension TrackEntityQueryFilter
       return query.addFilterCondition(
         FilterCondition.lessThan(
           include: include,
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -978,7 +976,8 @@ extension TrackEntityQueryFilter
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5Between(
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioSha256Between(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -988,7 +987,7 @@ extension TrackEntityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.between(
-          property: r'audioMd5',
+          property: r'audioSha256',
           lower: lower,
           includeLower: includeLower,
           upper: upper,
@@ -1000,11 +999,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5StartsWith(String value, {bool caseSensitive = true}) {
+  audioSha256StartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1013,11 +1012,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5EndsWith(String value, {bool caseSensitive = true}) {
+  audioSha256EndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1026,11 +1025,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5Contains(String value, {bool caseSensitive = true}) {
+  audioSha256Contains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
-          property: r'audioMd5',
+          property: r'audioSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1038,14 +1037,12 @@ extension TrackEntityQueryFilter
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> audioMd5Matches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  audioSha256Matches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
-          property: r'audioMd5',
+          property: r'audioSha256',
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1054,19 +1051,19 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5IsEmpty() {
+  audioSha256IsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'audioMd5', value: ''),
+        FilterCondition.equalTo(property: r'audioSha256', value: ''),
       );
     });
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioMd5IsNotEmpty() {
+  audioSha256IsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'audioMd5', value: ''),
+        FilterCondition.greaterThan(property: r'audioSha256', value: ''),
       );
     });
   }
@@ -1436,29 +1433,29 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5IsNull() {
+  lyricsSha256IsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'lyricsMd5'),
+        const FilterCondition.isNull(property: r'lyricsSha256'),
       );
     });
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5IsNotNull() {
+  lyricsSha256IsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'lyricsMd5'),
+        const FilterCondition.isNotNull(property: r'lyricsSha256'),
       );
     });
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5EqualTo(String? value, {bool caseSensitive = true}) {
+  lyricsSha256EqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1467,7 +1464,7 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5GreaterThan(
+  lyricsSha256GreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1476,7 +1473,7 @@ extension TrackEntityQueryFilter
       return query.addFilterCondition(
         FilterCondition.greaterThan(
           include: include,
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1485,7 +1482,7 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5LessThan(
+  lyricsSha256LessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1494,7 +1491,7 @@ extension TrackEntityQueryFilter
       return query.addFilterCondition(
         FilterCondition.lessThan(
           include: include,
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1503,7 +1500,7 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5Between(
+  lyricsSha256Between(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1513,7 +1510,7 @@ extension TrackEntityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.between(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           lower: lower,
           includeLower: includeLower,
           upper: upper,
@@ -1525,11 +1522,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5StartsWith(String value, {bool caseSensitive = true}) {
+  lyricsSha256StartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1538,11 +1535,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5EndsWith(String value, {bool caseSensitive = true}) {
+  lyricsSha256EndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1551,11 +1548,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5Contains(String value, {bool caseSensitive = true}) {
+  lyricsSha256Contains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1564,11 +1561,11 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5Matches(String pattern, {bool caseSensitive = true}) {
+  lyricsSha256Matches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
-          property: r'lyricsMd5',
+          property: r'lyricsSha256',
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1577,19 +1574,19 @@ extension TrackEntityQueryFilter
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5IsEmpty() {
+  lyricsSha256IsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'lyricsMd5', value: ''),
+        FilterCondition.equalTo(property: r'lyricsSha256', value: ''),
       );
     });
   }
 
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  lyricsMd5IsNotEmpty() {
+  lyricsSha256IsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'lyricsMd5', value: ''),
+        FilterCondition.greaterThan(property: r'lyricsSha256', value: ''),
       );
     });
   }
@@ -2275,15 +2272,15 @@ extension TrackEntityQuerySortBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioMd5() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioSha256() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioMd5', Sort.asc);
+      return query.addSortBy(r'audioSha256', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioMd5Desc() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioSha256Desc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioMd5', Sort.desc);
+      return query.addSortBy(r'audioSha256', Sort.desc);
     });
   }
 
@@ -2325,15 +2322,16 @@ extension TrackEntityQuerySortBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByLyricsMd5() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByLyricsSha256() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyricsMd5', Sort.asc);
+      return query.addSortBy(r'lyricsSha256', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByLyricsMd5Desc() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy>
+  sortByLyricsSha256Desc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyricsMd5', Sort.desc);
+      return query.addSortBy(r'lyricsSha256', Sort.desc);
     });
   }
 
@@ -2460,15 +2458,15 @@ extension TrackEntityQuerySortThenBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioMd5() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioSha256() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioMd5', Sort.asc);
+      return query.addSortBy(r'audioSha256', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioMd5Desc() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioSha256Desc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioMd5', Sort.desc);
+      return query.addSortBy(r'audioSha256', Sort.desc);
     });
   }
 
@@ -2522,15 +2520,16 @@ extension TrackEntityQuerySortThenBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByLyricsMd5() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByLyricsSha256() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyricsMd5', Sort.asc);
+      return query.addSortBy(r'lyricsSha256', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByLyricsMd5Desc() {
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy>
+  thenByLyricsSha256Desc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyricsMd5', Sort.desc);
+      return query.addSortBy(r'lyricsSha256', Sort.desc);
     });
   }
 
@@ -2637,11 +2636,11 @@ extension TrackEntityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByAudioMd5({
+  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByAudioSha256({
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'audioMd5', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'audioSha256', caseSensitive: caseSensitive);
     });
   }
 
@@ -2669,11 +2668,11 @@ extension TrackEntityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByLyricsMd5({
+  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByLyricsSha256({
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'lyricsMd5', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'lyricsSha256', caseSensitive: caseSensitive);
     });
   }
 
@@ -2752,9 +2751,9 @@ extension TrackEntityQueryProperty
     });
   }
 
-  QueryBuilder<TrackEntity, String?, QQueryOperations> audioMd5Property() {
+  QueryBuilder<TrackEntity, String?, QQueryOperations> audioSha256Property() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'audioMd5');
+      return query.addPropertyName(r'audioSha256');
     });
   }
 
@@ -2777,9 +2776,9 @@ extension TrackEntityQueryProperty
     });
   }
 
-  QueryBuilder<TrackEntity, String?, QQueryOperations> lyricsMd5Property() {
+  QueryBuilder<TrackEntity, String?, QQueryOperations> lyricsSha256Property() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'lyricsMd5');
+      return query.addPropertyName(r'lyricsSha256');
     });
   }
 

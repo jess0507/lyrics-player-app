@@ -41,14 +41,14 @@ class TrackEntity {
   /// 自訂封面主色(ARGB),播放頁漸層用;null 表示尚未計算。
   int? coverColorValue;
 
-  /// 音檔全檔內容 MD5(32 碼 hex),送 AI 產生 / 對時任務時當 `trackMd5`
+  /// 音檔全檔內容 SHA-256(64 碼 hex),送 AI 產生 / 對時任務時當 `trackId`
   /// 給後端判斷同一首歌。null 表示尚未計算;[path] / [sizeBytes] /
   /// [modifiedMs] 變動時由 TrackRepository 清掉,下次送任務再重算。
-  String? audioMd5;
+  String? audioSha256;
 
-  /// 最近一次送對時的歌詞 MD5(見 `lyricsLinesMd5`),隨任務當 `lyricsMd5`
-  /// 給後端:歌詞改過就是不同任務,不沿用舊的對時結果。
-  String? lyricsMd5;
+  /// 最近一次送對時的歌詞 SHA-256(見 `lyricsLinesSha256`),隨任務當
+  /// `lyricsSha256` 給後端:歌詞改過就是不同任務,不沿用舊的對時結果。
+  String? lyricsSha256;
 
   /// 第一次建立時設定,之後不再改變。
   late DateTime addedAt;

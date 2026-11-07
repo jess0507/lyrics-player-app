@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/features/music_list/services/track_md5_service.dart';
+import 'package:seek_player/features/music_list/services/track_hash_service.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
@@ -128,17 +128,17 @@ class LyricsAutoAlignService {
     if (audioPath == null) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noAudio);
     }
-    // 後端以「音檔 MD5 + 歌詞 MD5」判斷同一個對時任務、沿用成功過的結果:
-    // 歌詞改過(例如重新貼上)就是不同任務、會重新對齊。音檔 MD5 算不出來
-    // (null)時後端不查快取、照常處理。
-    final md5Service = _ref.read(trackMd5ServiceProvider);
-    final trackMd5 = await md5Service.audioMd5(pathKey, audioPath);
+    // 後端以「trackId(音檔 SHA-256)+ 歌詞 SHA-256」判斷同一個對時任務、
+    // 沿用成功過的結果:歌詞改過(例如重新貼上)就是不同任務、會重新對齊。
+    // 音檔 SHA-256 算不出來(null)時後端不查快取、照常處理。
+    final hashService = _ref.read(trackHashServiceProvider);
+    final trackId = await hashService.audioSha256(pathKey, audioPath);
     // 隨 callable 送出,讓後端派工前就確認剩餘額度足夠(權威檢查仍在
     // 後端量測實際音訊);量不到(null)就不送。
     final durationSeconds = await _ref
         .read(audioDurationProbeProvider)
         .durationSeconds(pathKey: pathKey, audioPath: audioPath);
-    final lyricsMd5 = md5Service.lyricsMd5(pathKey, lines);
+    final lyricsSha256 = hashService.lyricsSha256(pathKey, lines);
 
     onStep?.call(LyricsAutoAlignStep.compressing);
     final File compressed;
@@ -183,12 +183,12 @@ class LyricsAutoAlignService {
         'language': language,
         'format': 'm4a',
         'engine': engine.wireName,
-        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。同一首歌的
-        // 判斷改用 trackMd5,不再送已 deprecated 的 `trackId`。
+        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。
         'jobId': jobId,
-        'trackMd5': ?trackMd5,
+        // 音檔全檔 SHA-256,後端用來判斷同一首歌。
+        'trackId': ?trackId,
         'durationSeconds': ?durationSeconds,
-        'lyricsMd5': lyricsMd5,
+        'lyricsSha256': lyricsSha256,
         'title': title,
       });
       debugPrint('[LyricsAutoAlignService] pathKey:$pathKey, 已送出 align_lyrics');
