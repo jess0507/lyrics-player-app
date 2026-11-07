@@ -14,7 +14,6 @@ import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
-import 'package:seek_player/features/lyrics/auto_align/lyrics_align_lines.dart';
 import 'package:seek_player/features/lyrics/usage_limit/audio_duration_probe.dart';
 
 /// 必須與 Cloud Functions 部署的 region(`functions/main.py` 的 `_REGION`)一致。
@@ -119,13 +118,15 @@ class LyricsAutoAlignService {
     if (entity == null) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noLyrics);
     }
-    // 不論原本格式(LRC / SRT / VTT / txt、是否已同步),都只取純文字 + 換行
-    // 送對齊:SRT/VTT 單一 cue 的多行文字也拆成多行,再於標點處斷行讓每個
-    // 子句各有時間戳;只留非空白行(與後端「再濾掉空行」一一對應)。
-    final lines = splitLyricsForAlignment([
+    // 不論原本格式(LRC / SRT / VTT / txt、是否已同步),都只取純文字送對齊,
+    // 標點原樣保留、不在 client 斷行(斷行交給後端);SRT/VTT 單一 cue 的
+    // 多行文字依原本的換行拆成多行。只留非空白行(與後端「再濾掉空行」
+    // 一一對應)。
+    final lines = [
       for (final line in parseLyrics(entity.content, entity.format).lines)
-        ...const LineSplitter().convert(line.text),
-    ]);
+        for (final text in const LineSplitter().convert(line.text))
+          if (text.trim().isNotEmpty) text.trim(),
+    ];
     if (lines.isEmpty) {
       throw const LyricsAutoAlignException(LyricsAutoAlignError.noLyrics);
     }
