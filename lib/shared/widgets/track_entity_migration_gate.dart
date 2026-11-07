@@ -28,12 +28,32 @@ class TrackEntityMigrationGate extends ConsumerStatefulWidget {
 /// 一次要算的 trackId 達到這個數量才蓋上「更新音樂庫」畫面。
 const _kBlockingHashCount = 10;
 
+/// 「更新音樂庫」畫面至少顯示這麼久,讓使用者看得清楚;實際工作提早結束時
+/// 停在完成的進度上,時間到再移除。
+const _kMinVisibleDuration = Duration(milliseconds: 1500);
+
 class _TrackEntityMigrationGateState
     extends ConsumerState<TrackEntityMigrationGate> {
+  /// 畫面開始顯示的時間;沒在顯示時為 null。
+  DateTime? _shownAt;
+
+  /// 工作已結束、補滿最短顯示時間後移除畫面的計時器。
+  Timer? _hideTimer;
+
+  /// 最後一次的進度與是否為版本升級遷移,補滿顯示時間期間沿用。
+  LibraryHashProgressValue? _lastProgress;
+  bool _lastMigrating = false;
+
   @override
   void initState() {
     super.initState();
     unawaited(ref.read(trackEntityMigrationProvider.notifier).runIfNeeded());
+  }
+
+  @override
+  void dispose() {
+    _hideTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -44,18 +64,65 @@ class _TrackEntityMigrationGateState
         status == TrackEntityMigrationStatus.pending ||
         status == TrackEntityMigrationStatus.running;
     final hashing = progress != null && progress.total >= _kBlockingHashCount;
+    final visible = _updateVisibility(
+      active: migrating || hashing,
+      progress: progress,
+      migrating: migrating,
+    );
     return Stack(
       children: [
         widget.child,
-        if (migrating || hashing)
+        if (visible)
           Positioned.fill(
             child: _MigrationLoadingView(
-              progress: progress,
-              showMigrationMessage: migrating,
+              progress: _lastProgress,
+              showMigrationMessage: _lastMigrating,
             ),
           ),
       ],
     );
+  }
+
+  /// 工作進行中([active])就顯示;結束時若還沒顯示滿 [_kMinVisibleDuration],
+  /// 停在完成的進度上繼續顯示,時間到再移除。
+  bool _updateVisibility({
+    required bool active,
+    required LibraryHashProgressValue? progress,
+    required bool migrating,
+  }) {
+    if (active) {
+      _hideTimer?.cancel();
+      _hideTimer = null;
+      _shownAt ??= DateTime.now();
+      // 進度歸零(本次沒有要算的檔案)時保留上一次的進度。
+      if (progress != null) _lastProgress = progress;
+      _lastMigrating = migrating;
+      return true;
+    }
+    final shownAt = _shownAt;
+    if (shownAt == null) return false;
+
+    final remaining = _kMinVisibleDuration - DateTime.now().difference(shownAt);
+    if (remaining <= Duration.zero) {
+      _reset();
+      return false;
+    }
+    // 補滿顯示時間期間停在完成的進度上。
+    final last = _lastProgress;
+    if (last != null) _lastProgress = (done: last.total, total: last.total);
+    _hideTimer ??= Timer(remaining, () {
+      if (!mounted) return;
+      setState(_reset);
+    });
+    return true;
+  }
+
+  void _reset() {
+    _hideTimer?.cancel();
+    _hideTimer = null;
+    _shownAt = null;
+    _lastProgress = null;
+    _lastMigrating = false;
   }
 }
 
@@ -83,11 +150,16 @@ class _MigrationLoadingView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(
-                  value: progress == null || progress!.total == 0
-                      ? null
-                      : progress!.done / progress!.total,
-                ),
+                if (progress == null || progress!.total == 0)
+                  const CircularProgressIndicator()
+                else
+                  // 進度平滑前進,檔案很多、算得很快時數字不會一閃而過。
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(end: progress!.done / progress!.total),
+                    duration: const Duration(milliseconds: 300),
+                    builder: (_, value, _) =>
+                        CircularProgressIndicator(value: value),
+                  ),
                 const SizedBox(height: 24),
                 Text(
                   l10n.music_library_refresh_title,
