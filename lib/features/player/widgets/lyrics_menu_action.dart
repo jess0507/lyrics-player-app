@@ -35,11 +35,11 @@ enum LyricsMenuAction implements AnalyticsAction {
   /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [edit] 之後)。
   import,
 
-  /// 自動對時(WhisperX 引擎);已有純文字、尚未同步時顯示。
+  /// 自動對時(WhisperX 引擎);已有歌詞時顯示,已同步者為重新同步。
   /// 歌曲對齊較準,排在 [autoAlignAeneas] 之前。
   autoAlignWhisperX,
 
-  /// 自動對時(aeneas 引擎);已有純文字、尚未同步時顯示。
+  /// 自動對時(aeneas 引擎);已有歌詞時顯示,已同步者為重新同步。
   autoAlignAeneas,
 
   /// 字體大小;已有歌詞時顯示。
@@ -92,13 +92,14 @@ enum LyricsMenuAction implements AnalyticsAction {
     _ => false,
   };
 
-  String label(AppLocalizations l10n) => switch (this) {
+  /// [synced] 為目前歌詞已同步:對時項目改顯示「重新同步」。
+  String label(AppLocalizations l10n, {bool synced = false}) => switch (this) {
     aiGenerate => l10n.lyrics_ai_generate,
     searchOnline => l10n.lyrics_search_online,
     edit => l10n.lyrics_edit,
     import => l10n.lyrics_import,
-    autoAlignAeneas => '${l10n.lyrics_auto_align} · aeneas',
-    autoAlignWhisperX => '${l10n.lyrics_auto_align} · WhisperX',
+    autoAlignAeneas => '${_alignLabel(l10n, synced)} · aeneas',
+    autoAlignWhisperX => '${_alignLabel(l10n, synced)} · WhisperX',
     fontSize => l10n.lyrics_font_size,
     textAlign => l10n.lyrics_text_align,
     reimport => l10n.lyrics_import,
@@ -107,9 +108,12 @@ enum LyricsMenuAction implements AnalyticsAction {
   };
 }
 
+String _alignLabel(AppLocalizations l10n, bool synced) =>
+    synced ? l10n.lyrics_auto_resync : l10n.lyrics_auto_align;
+
 /// 依目前歌詞狀態挑出要顯示的歌詞動作與順序。
 /// [canAiGenerate] 為「完全沒有歌詞」(可從音訊直接產生);
-/// [canAutoAlign] 為「已有純文字、尚未同步」;[hasLyrics] 為「已有歌詞」。
+/// [canAutoAlign] 為「已有歌詞」(已同步者為重新同步);[hasLyrics] 為「已有歌詞」。
 /// [includeDisplay] 為 false 時不列顯示設定(字體大小 / 對齊方式)。
 List<LyricsMenuAction> lyricsMenuActions({
   required bool canAiGenerate,
@@ -154,6 +158,14 @@ Future<void> runLyricsMenuAction(
   // 需要網路的動作先檢查連線;離線時直接提示,不進入登入 / 用量等後續流程。
   if (action.needsNetwork) {
     if (!await ensureOnline(ref)) return;
+    if (!context.mounted) return;
+  }
+
+  // 已同步的歌詞重新對時會覆蓋現有時間軸並消耗用量,先確認。
+  if ((action == LyricsMenuAction.autoAlignAeneas ||
+          action == LyricsMenuAction.autoAlignWhisperX) &&
+      (ref.read(trackLyricsProvider(pathKey)).valueOrNull?.synced ?? false)) {
+    if (!await _confirmResync(context)) return;
     if (!context.mounted) return;
   }
 
@@ -216,6 +228,27 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.aiGenerate:
       await runLyricsAiGenerate(context, ref, pathKey: pathKey, title: title);
   }
+}
+
+Future<bool> _confirmResync(BuildContext context) async {
+  final l10n = AppLocalizations.of(context)!;
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      content: Text(l10n.lyrics_auto_resync_confirm),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(l10n.common_cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(l10n.common_confirm),
+        ),
+      ],
+    ),
+  );
+  return ok == true;
 }
 
 Future<void> _confirmDelete(

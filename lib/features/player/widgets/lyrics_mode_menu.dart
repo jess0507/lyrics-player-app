@@ -41,8 +41,8 @@ class LyricsModeMenu extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final lyrics = ref.watch(trackLyricsProvider(pathKey)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
-    // 對時是「補時間」:只在已有純文字、尚未同步時提供。
-    final canAutoAlign = hasLyrics && !lyrics.synced;
+    // 有歌詞就能對時;已同步者為「重新同步」(取純文字 + 換行重新對齊)。
+    final canAutoAlign = hasLyrics;
     final lyricsActions = lyricsMenuActions(
       canAiGenerate: !hasLyrics,
       canAutoAlign: canAutoAlign,
@@ -109,7 +109,7 @@ class LyricsModeMenu extends ConsumerWidget {
               enabled: !(backgroundRunning && action.usesBackgroundTask),
               child: _MenuRow(
                 icon: action.icon,
-                label: action.label(l10n),
+                label: action.label(l10n, synced: lyrics?.synced ?? false),
                 enabled: !(backgroundRunning && action.usesBackgroundTask),
               ),
             ),

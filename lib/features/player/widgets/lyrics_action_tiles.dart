@@ -45,8 +45,9 @@ class LyricsActionTiles extends ConsumerWidget {
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
     // 產生是「從音訊辨識歌詞」:只在完全沒有歌詞時提供(與對時互補)。
     final canAiGenerate = !hasLyrics;
-    // 此表單一律提供 align:只要有歌詞就能對時 / 重新對時(已同步者亦可)。
-    final canAutoAlign = hasLyrics && !lyrics.synced;
+    // 有歌詞就能對時;已同步者為「重新同步」(取純文字 + 換行重新對齊)。
+    final canAutoAlign = hasLyrics;
+    final synced = lyrics?.synced ?? false;
     final actions = lyricsMenuActions(
       canAiGenerate: canAiGenerate,
       canAutoAlign: canAutoAlign,
@@ -88,8 +89,9 @@ class LyricsActionTiles extends ConsumerWidget {
             leading: Icon(action.icon),
             title: Text(
               busy && action.usesBackgroundTask
-                  ? '${action.label(l10n)}${l10n.lyrics_action_running_suffix}'
-                  : action.label(l10n),
+                  ? '${action.label(l10n, synced: synced)}'
+                        '${l10n.lyrics_action_running_suffix}'
+                  : action.label(l10n, synced: synced),
             ),
             onTap: () {
               onSelected?.call();
