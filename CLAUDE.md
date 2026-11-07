@@ -38,3 +38,11 @@
   `docs/release-notes/vX.Y.Z.md`、跑格式檢查並更新 README 清單。
 - 版本號必填,沒帶版本號就不產生;每種語言最多 500 個 Unicode 字元。
 - 格式規範以 `docs/release-notes/README.md` 為準,skill 有變動時兩邊要同步。
+
+## Commit 慣例
+- 使用者只說「commit」時，預設把**翻譯**和**功能**分成不同 commit：
+  1. 先 commit 翻譯：`lib/l10n/` 下的 `.arb` 與重新產生的 `app_localizations*.dart`，
+     訊息用 `feat(l10n): ...`。
+  2. 再 commit 其餘的功能程式碼，訊息依 feature 範圍（例如 `feat(lyrics): ...`）。
+- 翻譯先 commit，讓功能 commit 用到的 l10n key 已經存在。
+- 沒有翻譯變更時就只做一個功能 commit；不要切 branch，不要 push，除非使用者要求。
