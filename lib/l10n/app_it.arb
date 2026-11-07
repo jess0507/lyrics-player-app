@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "Impossibile sincronizzare il testo; testo originale mantenuto",
   "lyrics_auto_align_request_success": "Richiesta di sincronizzazione del testo inviata",
   "lyrics_auto_align_request_failed": "Invio della richiesta di sincronizzazione del testo non riuscito",
+  "lyrics_upgrade_required": "Questa versione dell'app è obsoleta. Aggiorna all'ultima versione.",
   "lyrics_background_busy": "Un altro brano è già in elaborazione. Riprova più tardi.",
   "lyrics_background_busy_named": "Riprova più tardi. In elaborazione: \"{title}\".",
   "lyrics_ai_generate_running_background": "Generazione del testo in background…",

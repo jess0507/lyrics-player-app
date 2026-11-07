@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "Không thể đồng bộ lời; đã giữ lời gốc",
   "lyrics_auto_align_request_success": "Đã gửi yêu cầu đồng bộ lời bài hát",
   "lyrics_auto_align_request_failed": "Gửi yêu cầu đồng bộ lời bài hát không thành công",
+  "lyrics_upgrade_required": "Phiên bản ứng dụng đã cũ. Vui lòng cập nhật lên phiên bản mới nhất.",
   "lyrics_background_busy": "Một bài hát khác đang được xử lý. Vui lòng thử lại sau.",
   "lyrics_background_busy_named": "Vui lòng thử lại sau. Đang xử lý: \"{title}\".",
   "lyrics_ai_generate_running_background": "Đang tạo lời bài hát trong nền…",

@@ -714,6 +714,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Échec de l\'envoi de la demande de synchronisation des paroles';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Cette version de l\'app est obsolète. Veuillez la mettre à jour vers la dernière version.';
+
+  @override
   String get lyrics_background_busy =>
       'Une autre chanson est déjà en cours de traitement. Veuillez réessayer plus tard.';
 

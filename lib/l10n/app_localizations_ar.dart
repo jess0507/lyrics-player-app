@@ -702,6 +702,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'فشل إرسال طلب مزامنة كلمات الأغنية';
 
   @override
+  String get lyrics_upgrade_required =>
+      'إصدار التطبيق قديم. يُرجى التحديث إلى أحدث إصدار.';
+
+  @override
   String get lyrics_background_busy =>
       'تجري معالجة أغنية أخرى بالفعل. يُرجى المحاولة لاحقًا.';
 

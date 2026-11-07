@@ -714,6 +714,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Error al enviar la solicitud de sincronización de letra';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Esta versión de la app está desactualizada. Actualízala a la última versión.';
+
+  @override
   String get lyrics_background_busy =>
       'Ya se está procesando otra canción. Inténtalo de nuevo más tarde.';
 

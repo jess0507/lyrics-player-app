@@ -712,6 +712,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Anfrage zum Synchronisieren des Songtexts fehlgeschlagen';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Diese App-Version ist veraltet. Bitte auf die neueste Version aktualisieren.';
+
+  @override
   String get lyrics_background_busy =>
       'Ein anderer Titel wird bereits verarbeitet. Bitte später erneut versuchen.';
 

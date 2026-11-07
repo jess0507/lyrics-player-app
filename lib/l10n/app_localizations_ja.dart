@@ -679,6 +679,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_align_request_failed => '歌詞同期リクエストの送信に失敗しました';
 
   @override
+  String get lyrics_upgrade_required => 'アプリのバージョンが古くなっています。最新バージョンに更新してください';
+
+  @override
   String get lyrics_background_busy => '別の曲を処理中です。しばらくしてからもう一度お試しください';
 
   @override

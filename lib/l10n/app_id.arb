@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "Tidak dapat menyinkronkan lirik; teks asli dipertahankan",
   "lyrics_auto_align_request_success": "Permintaan sinkronisasi lirik terkirim",
   "lyrics_auto_align_request_failed": "Permintaan sinkronisasi lirik gagal",
+  "lyrics_upgrade_required": "Versi aplikasi ini sudah usang. Perbarui ke versi terbaru.",
   "lyrics_background_busy": "Lagu lain sedang diproses. Coba lagi nanti.",
   "lyrics_background_busy_named": "Coba lagi nanti. Sedang diproses: \"{title}\".",
   "lyrics_ai_generate_running_background": "Membuat lirik di latar belakang…",

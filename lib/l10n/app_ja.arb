@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "歌詞を同期できませんでした。元の歌詞を保持します",
   "lyrics_auto_align_request_success": "歌詞同期リクエストを送信しました",
   "lyrics_auto_align_request_failed": "歌詞同期リクエストの送信に失敗しました",
+  "lyrics_upgrade_required": "アプリのバージョンが古くなっています。最新バージョンに更新してください",
   "lyrics_background_busy": "別の曲を処理中です。しばらくしてからもう一度お試しください",
   "lyrics_background_busy_named": "しばらくしてからもう一度お試しください。処理中:「{title}」",
   "lyrics_ai_generate_running_background": "バックグラウンドで歌詞を生成しています",

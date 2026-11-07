@@ -706,6 +706,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'बोल सिंक करने का अनुरोध भेजने में विफल';
 
   @override
+  String get lyrics_upgrade_required =>
+      'ऐप का यह वर्शन पुराना है। कृपया नवीनतम वर्शन पर अपडेट करें।';
+
+  @override
   String get lyrics_background_busy =>
       'दूसरा गाना पहले से प्रोसेस हो रहा है। कृपया बाद में फिर से कोशिश करें।';
 

@@ -709,6 +709,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Gửi yêu cầu đồng bộ lời bài hát không thành công';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Phiên bản ứng dụng đã cũ. Vui lòng cập nhật lên phiên bản mới nhất.';
+
+  @override
   String get lyrics_background_busy =>
       'Một bài hát khác đang được xử lý. Vui lòng thử lại sau.';
 

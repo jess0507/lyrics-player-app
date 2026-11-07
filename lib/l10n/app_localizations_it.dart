@@ -709,6 +709,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Invio della richiesta di sincronizzazione del testo non riuscito';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Questa versione dell\'app è obsoleta. Aggiorna all\'ultima versione.';
+
+  @override
   String get lyrics_background_busy =>
       'Un altro brano è già in elaborazione. Riprova più tardi.';
 

@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "Impossible de synchroniser les paroles ; texte d’origine conservé",
   "lyrics_auto_align_request_success": "Demande de synchronisation des paroles envoyée",
   "lyrics_auto_align_request_failed": "Échec de l'envoi de la demande de synchronisation des paroles",
+  "lyrics_upgrade_required": "Cette version de l'app est obsolète. Veuillez la mettre à jour vers la dernière version.",
   "lyrics_background_busy": "Une autre chanson est déjà en cours de traitement. Veuillez réessayer plus tard.",
   "lyrics_background_busy_named": "Veuillez réessayer plus tard. En cours de traitement : « {title} ».",
   "lyrics_ai_generate_running_background": "Génération des paroles en arrière-plan…",

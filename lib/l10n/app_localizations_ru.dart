@@ -705,6 +705,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось отправить запрос на синхронизацию текста';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Эта версия приложения устарела. Обновите приложение до последней версии.';
+
+  @override
   String get lyrics_background_busy =>
       'Уже обрабатывается другая песня. Повторите попытку позже.';
 

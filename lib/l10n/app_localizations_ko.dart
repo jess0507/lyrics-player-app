@@ -683,6 +683,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_align_request_failed => '가사 동기화 요청 전송 실패';
 
   @override
+  String get lyrics_upgrade_required => '앱 버전이 오래되었습니다. 최신 버전으로 업데이트해 주세요';
+
+  @override
   String get lyrics_background_busy => '다른 곡을 처리 중입니다. 잠시 후 다시 시도해 주세요';
 
   @override

@@ -706,6 +706,10 @@ class AppLocalizationsId extends AppLocalizations {
       'Permintaan sinkronisasi lirik gagal';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Versi aplikasi ini sudah usang. Perbarui ke versi terbaru.';
+
+  @override
   String get lyrics_background_busy =>
       'Lagu lain sedang diproses. Coba lagi nanti.';
 

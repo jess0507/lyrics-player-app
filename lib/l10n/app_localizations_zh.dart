@@ -674,6 +674,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_align_request_failed => '請求失敗';
 
   @override
+  String get lyrics_upgrade_required => 'App 版本過舊,請更新到最新版本';
+
+  @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';
 
   @override
@@ -1566,6 +1569,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_align_request_failed => '请求失败';
 
   @override
+  String get lyrics_upgrade_required => 'App 版本过旧,请更新到最新版本';
+
+  @override
   String get lyrics_background_busy => '已有其他歌曲正在处理中,请稍后再试';
 
   @override
@@ -2456,6 +2462,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_auto_align_request_failed => '請求失敗';
+
+  @override
+  String get lyrics_upgrade_required => 'App 版本過舊,請更新到最新版本';
 
   @override
   String get lyrics_background_busy => '已有其他歌曲正在處理中,請稍後再試';

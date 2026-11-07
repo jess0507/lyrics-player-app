@@ -707,6 +707,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şarkı sözü senkronizasyon isteği gönderilemedi';
 
   @override
+  String get lyrics_upgrade_required =>
+      'Uygulamanın bu sürümü eski. Lütfen en son sürüme güncelleyin.';
+
+  @override
   String get lyrics_background_busy =>
       'Başka bir şarkı zaten işleniyor. Lütfen daha sonra tekrar deneyin.';
 

@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "تعذّرت مزامنة الكلمات؛ تم الإبقاء على النص الأصلي",
   "lyrics_auto_align_request_success": "تم إرسال طلب مزامنة كلمات الأغنية",
   "lyrics_auto_align_request_failed": "فشل إرسال طلب مزامنة كلمات الأغنية",
+  "lyrics_upgrade_required": "إصدار التطبيق قديم. يُرجى التحديث إلى أحدث إصدار.",
   "lyrics_background_busy": "تجري معالجة أغنية أخرى بالفعل. يُرجى المحاولة لاحقًا.",
   "lyrics_background_busy_named": "يُرجى المحاولة لاحقًا. جارٍ معالجة \"{title}\" حاليًا.",
   "lyrics_ai_generate_running_background": "يتم إنشاء الكلمات في الخلفية…",

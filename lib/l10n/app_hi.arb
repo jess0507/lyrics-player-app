@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "बोल सिंक नहीं हो सके; मूल टेक्स्ट रखा गया",
   "lyrics_auto_align_request_success": "बोल सिंक करने का अनुरोध भेजा गया",
   "lyrics_auto_align_request_failed": "बोल सिंक करने का अनुरोध भेजने में विफल",
+  "lyrics_upgrade_required": "ऐप का यह वर्शन पुराना है। कृपया नवीनतम वर्शन पर अपडेट करें।",
   "lyrics_background_busy": "दूसरा गाना पहले से प्रोसेस हो रहा है। कृपया बाद में फिर से कोशिश करें।",
   "lyrics_background_busy_named": "कृपया बाद में फिर से कोशिश करें। अभी प्रोसेस हो रहा है: \"{title}\"",
   "lyrics_ai_generate_running_background": "बैकग्राउंड में लिरिक्स बनाए जा रहे हैं…",

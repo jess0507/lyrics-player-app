@@ -1434,6 +1434,12 @@ abstract class AppLocalizations {
   /// **'Sync lyrics request failed'**
   String get lyrics_auto_align_request_failed;
 
+  /// No description provided for @lyrics_upgrade_required.
+  ///
+  /// In en, this message translates to:
+  /// **'This app version is out of date. Please update to the latest version.'**
+  String get lyrics_upgrade_required;
+
   /// No description provided for @lyrics_background_busy.
   ///
   /// In en, this message translates to:

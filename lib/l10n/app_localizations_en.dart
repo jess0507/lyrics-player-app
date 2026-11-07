@@ -701,6 +701,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_auto_align_request_failed => 'Sync lyrics request failed';
 
   @override
+  String get lyrics_upgrade_required =>
+      'This app version is out of date. Please update to the latest version.';
+
+  @override
   String get lyrics_background_busy =>
       'Another song is already being processed. Please try again later.';
 

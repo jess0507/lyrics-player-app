@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "No se pudo sincronizar la letra; se conservó el texto original",
   "lyrics_auto_align_request_success": "Solicitud de sincronización de letra enviada",
   "lyrics_auto_align_request_failed": "Error al enviar la solicitud de sincronización de letra",
+  "lyrics_upgrade_required": "Esta versión de la app está desactualizada. Actualízala a la última versión.",
   "lyrics_background_busy": "Ya se está procesando otra canción. Inténtalo de nuevo más tarde.",
   "lyrics_background_busy_named": "Inténtalo de nuevo más tarde. Procesando actualmente: \"{title}\".",
   "lyrics_ai_generate_running_background": "Generando la letra en segundo plano…",

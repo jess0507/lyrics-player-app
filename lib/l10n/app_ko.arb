@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "가사를 동기화할 수 없어 원본 가사를 유지했습니다",
   "lyrics_auto_align_request_success": "가사 동기화 요청을 보냈습니다",
   "lyrics_auto_align_request_failed": "가사 동기화 요청 전송 실패",
+  "lyrics_upgrade_required": "앱 버전이 오래되었습니다. 최신 버전으로 업데이트해 주세요",
   "lyrics_background_busy": "다른 곡을 처리 중입니다. 잠시 후 다시 시도해 주세요",
   "lyrics_background_busy_named": "잠시 후 다시 시도해 주세요. 처리 중: \"{title}\"",
   "lyrics_ai_generate_running_background": "백그라운드에서 가사를 생성하고 있습니다",

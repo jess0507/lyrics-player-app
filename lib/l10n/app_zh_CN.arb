@@ -218,6 +218,7 @@
   "lyrics_auto_align_failed": "同步失败,已保留原歌词",
   "lyrics_auto_align_request_success": "发出请求，同步歌词中...",
   "lyrics_auto_align_request_failed": "请求失败",
+  "lyrics_upgrade_required": "App 版本过旧,请更新到最新版本",
   "lyrics_background_busy": "已有其他歌曲正在处理中,请稍后再试",
   "lyrics_background_busy_named": "请稍后再试,正在处理《{title}》",
   "lyrics_ai_generate_running_background": "已在后台生成歌词",
