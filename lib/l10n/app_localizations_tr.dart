@@ -683,6 +683,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_auto_align => 'Şarkı sözlerini eşitle';
 
   @override
+  String get lyrics_auto_resync => 'Şarkı sözlerini yeniden senkronize et';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Yeniden senkronizasyon mevcut söz zamanlamasının yerini alacak ve kotanızı kullanacak. Devam edilsin mi?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Ses hazırlanıyor…';
 
   @override

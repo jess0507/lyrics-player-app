@@ -211,6 +211,8 @@
   "cover_failed": "커버를 설정할 수 없습니다",
   "cover_too_large": "이미지가 너무 큽니다",
   "lyrics_auto_align": "가사 동기화",
+  "lyrics_auto_resync": "가사 다시 동기화",
+  "lyrics_auto_resync_confirm": "다시 동기화하면 현재 가사 타이밍이 덮어쓰이고 사용량이 차감됩니다. 계속할까요?",
   "lyrics_auto_align_compressing": "오디오 준비 중…",
   "lyrics_auto_align_uploading": "오디오 업로드 중…",
   "lyrics_auto_align_aligning": "가사 정렬 중…",

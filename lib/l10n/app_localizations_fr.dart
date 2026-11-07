@@ -690,6 +690,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_auto_align => 'Synchroniser les paroles';
 
   @override
+  String get lyrics_auto_resync => 'Resynchroniser les paroles';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'La resynchronisation remplacera le minutage actuel des paroles et utilisera votre quota. Continuer ?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Préparation de l’audio…';
 
   @override

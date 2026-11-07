@@ -662,6 +662,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_align => '가사 동기화';
 
   @override
+  String get lyrics_auto_resync => '가사 다시 동기화';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      '다시 동기화하면 현재 가사 타이밍이 덮어쓰이고 사용량이 차감됩니다. 계속할까요?';
+
+  @override
   String get lyrics_auto_align_compressing => '오디오 준비 중…';
 
   @override

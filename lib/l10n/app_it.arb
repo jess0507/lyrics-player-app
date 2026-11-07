@@ -211,6 +211,8 @@
   "cover_failed": "Impossibile impostare la copertina",
   "cover_too_large": "L’immagine è troppo grande",
   "lyrics_auto_align": "Sincronizza testo",
+  "lyrics_auto_resync": "Risincronizza testo",
+  "lyrics_auto_resync_confirm": "La risincronizzazione sostituirà la sincronizzazione attuale del testo e userà la tua quota. Continuare?",
   "lyrics_auto_align_compressing": "Preparazione audio…",
   "lyrics_auto_align_uploading": "Caricamento audio…",
   "lyrics_auto_align_aligning": "Allineamento testo…",

@@ -682,6 +682,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_auto_align => 'बोल सिंक करें';
 
   @override
+  String get lyrics_auto_resync => 'बोल फिर से सिंक करें';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'फिर से सिंक करने पर बोल की मौजूदा टाइमिंग बदल जाएगी और आपका कोटा इस्तेमाल होगा। जारी रखें?';
+
+  @override
   String get lyrics_auto_align_compressing => 'ऑडियो तैयार किया जा रहा है…';
 
   @override

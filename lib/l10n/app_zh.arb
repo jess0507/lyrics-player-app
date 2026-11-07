@@ -239,6 +239,8 @@
   "music_folder_all": "全部",
   "playlist_track_count": "{count, plural, =0{沒有歌曲} other{{count} 首}}",
   "lyrics_auto_align": "同步歌詞",
+  "lyrics_auto_resync": "重新同步歌詞",
+  "lyrics_auto_resync_confirm": "重新同步會覆蓋目前的歌詞時間軸,並消耗本月用量。要繼續嗎?",
   "lyrics_auto_align_compressing": "處理音訊中…",
   "lyrics_auto_align_uploading": "上傳音訊中…",
   "lyrics_auto_align_aligning": "對齊歌詞中…",

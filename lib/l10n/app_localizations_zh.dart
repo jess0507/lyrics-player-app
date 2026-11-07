@@ -653,6 +653,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_align => '同步歌詞';
 
   @override
+  String get lyrics_auto_resync => '重新同步歌詞';
+
+  @override
+  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,並消耗本月用量。要繼續嗎?';
+
+  @override
   String get lyrics_auto_align_compressing => '處理音訊中…';
 
   @override
@@ -1548,6 +1554,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_align => '同步歌词';
 
   @override
+  String get lyrics_auto_resync => '重新同步歌词';
+
+  @override
+  String get lyrics_auto_resync_confirm => '重新同步会覆盖当前的歌词时间轴,并消耗本月用量。要继续吗?';
+
+  @override
   String get lyrics_auto_align_compressing => '处理音频中…';
 
   @override
@@ -2441,6 +2453,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_auto_align => '同步歌詞';
+
+  @override
+  String get lyrics_auto_resync => '重新同步歌詞';
+
+  @override
+  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,並消耗本月用量。要繼續嗎?';
 
   @override
   String get lyrics_auto_align_compressing => '處理音訊中…';

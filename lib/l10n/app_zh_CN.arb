@@ -211,6 +211,8 @@
   "lyrics_text_align_center": "居中",
   "lyrics_text_align_right": "右对齐",
   "lyrics_auto_align": "同步歌词",
+  "lyrics_auto_resync": "重新同步歌词",
+  "lyrics_auto_resync_confirm": "重新同步会覆盖当前的歌词时间轴,并消耗本月用量。要继续吗?",
   "lyrics_auto_align_compressing": "处理音频中…",
   "lyrics_auto_align_uploading": "上传音频中…",
   "lyrics_auto_align_aligning": "对齐歌词中…",

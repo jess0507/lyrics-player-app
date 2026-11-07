@@ -211,6 +211,8 @@
   "cover_failed": "Tidak dapat menyetel sampul",
   "cover_too_large": "Gambar terlalu besar",
   "lyrics_auto_align": "Sinkronkan lirik",
+  "lyrics_auto_resync": "Sinkronkan ulang lirik",
+  "lyrics_auto_resync_confirm": "Sinkronisasi ulang akan mengganti waktu lirik saat ini dan memakai kuota Anda. Lanjutkan?",
   "lyrics_auto_align_compressing": "Menyiapkan audio…",
   "lyrics_auto_align_uploading": "Mengunggah audio…",
   "lyrics_auto_align_aligning": "Menyelaraskan lirik…",

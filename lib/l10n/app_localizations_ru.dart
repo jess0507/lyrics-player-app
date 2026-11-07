@@ -681,6 +681,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_auto_align => 'Синхронизация текста';
 
   @override
+  String get lyrics_auto_resync => 'Синхронизировать текст заново';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Повторная синхронизация заменит текущие тайминги текста и израсходует вашу квоту. Продолжить?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Подготовка аудио…';
 
   @override

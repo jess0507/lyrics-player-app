@@ -690,6 +690,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get lyrics_auto_align => 'Sincronizar letra';
 
   @override
+  String get lyrics_auto_resync => 'Volver a sincronizar letra';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Volver a sincronizar reemplazará la sincronización actual de la letra y usará tu cuota. ¿Continuar?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Preparando audio…';
 
   @override

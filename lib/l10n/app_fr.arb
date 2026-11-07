@@ -211,6 +211,8 @@
   "cover_failed": "Impossible de définir la pochette",
   "cover_too_large": "L’image est trop grande",
   "lyrics_auto_align": "Synchroniser les paroles",
+  "lyrics_auto_resync": "Resynchroniser les paroles",
+  "lyrics_auto_resync_confirm": "La resynchronisation remplacera le minutage actuel des paroles et utilisera votre quota. Continuer ?",
   "lyrics_auto_align_compressing": "Préparation de l’audio…",
   "lyrics_auto_align_uploading": "Envoi de l’audio…",
   "lyrics_auto_align_aligning": "Alignement des paroles…",

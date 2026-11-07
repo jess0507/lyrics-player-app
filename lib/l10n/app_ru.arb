@@ -211,6 +211,8 @@
   "cover_failed": "Не удалось установить обложку",
   "cover_too_large": "Изображение слишком большое",
   "lyrics_auto_align": "Синхронизация текста",
+  "lyrics_auto_resync": "Синхронизировать текст заново",
+  "lyrics_auto_resync_confirm": "Повторная синхронизация заменит текущие тайминги текста и израсходует вашу квоту. Продолжить?",
   "lyrics_auto_align_compressing": "Подготовка аудио…",
   "lyrics_auto_align_uploading": "Загрузка аудио…",
   "lyrics_auto_align_aligning": "Выравнивание текста…",

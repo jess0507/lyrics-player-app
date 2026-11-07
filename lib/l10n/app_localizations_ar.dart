@@ -678,6 +678,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_auto_align => 'مزامنة الكلمات';
 
   @override
+  String get lyrics_auto_resync => 'إعادة مزامنة الكلمات';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'ستؤدي إعادة المزامنة إلى استبدال التوقيت الحالي للكلمات واستهلاك من حصتك. هل تريد المتابعة؟';
+
+  @override
   String get lyrics_auto_align_compressing => 'جارٍ تجهيز الصوت…';
 
   @override

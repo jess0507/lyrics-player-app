@@ -211,6 +211,8 @@
   "cover_failed": "تعذّر تعيين الغلاف",
   "cover_too_large": "الصورة كبيرة جدًا",
   "lyrics_auto_align": "مزامنة الكلمات",
+  "lyrics_auto_resync": "إعادة مزامنة الكلمات",
+  "lyrics_auto_resync_confirm": "ستؤدي إعادة المزامنة إلى استبدال التوقيت الحالي للكلمات واستهلاك من حصتك. هل تريد المتابعة؟",
   "lyrics_auto_align_compressing": "جارٍ تجهيز الصوت…",
   "lyrics_auto_align_uploading": "جارٍ رفع الصوت…",
   "lyrics_auto_align_aligning": "جارٍ محاذاة الكلمات…",

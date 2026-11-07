@@ -211,6 +211,8 @@
   "cover_failed": "Không thể đặt ảnh bìa",
   "cover_too_large": "Ảnh quá lớn",
   "lyrics_auto_align": "Đồng bộ lời bài hát",
+  "lyrics_auto_resync": "Đồng bộ lại lời bài hát",
+  "lyrics_auto_resync_confirm": "Đồng bộ lại sẽ thay thế thời gian hiện tại của lời bài hát và dùng hạn mức của bạn. Tiếp tục?",
   "lyrics_auto_align_compressing": "Đang chuẩn bị âm thanh…",
   "lyrics_auto_align_uploading": "Đang tải âm thanh lên…",
   "lyrics_auto_align_aligning": "Đang căn chỉnh lời…",

@@ -211,6 +211,8 @@
   "cover_failed": "No se pudo establecer la portada",
   "cover_too_large": "La imagen es demasiado grande",
   "lyrics_auto_align": "Sincronizar letra",
+  "lyrics_auto_resync": "Volver a sincronizar letra",
+  "lyrics_auto_resync_confirm": "Volver a sincronizar reemplazará la sincronización actual de la letra y usará tu cuota. ¿Continuar?",
   "lyrics_auto_align_compressing": "Preparando audio…",
   "lyrics_auto_align_uploading": "Subiendo audio…",
   "lyrics_auto_align_aligning": "Alineando la letra…",

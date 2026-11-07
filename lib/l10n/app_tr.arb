@@ -211,6 +211,8 @@
   "cover_failed": "Kapak ayarlanamadı",
   "cover_too_large": "Görsel çok büyük",
   "lyrics_auto_align": "Şarkı sözlerini eşitle",
+  "lyrics_auto_resync": "Şarkı sözlerini yeniden senkronize et",
+  "lyrics_auto_resync_confirm": "Yeniden senkronizasyon mevcut söz zamanlamasının yerini alacak ve kotanızı kullanacak. Devam edilsin mi?",
   "lyrics_auto_align_compressing": "Ses hazırlanıyor…",
   "lyrics_auto_align_uploading": "Ses yükleniyor…",
   "lyrics_auto_align_aligning": "Sözler hizalanıyor…",

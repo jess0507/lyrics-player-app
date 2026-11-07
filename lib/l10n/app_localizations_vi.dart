@@ -685,6 +685,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_auto_align => 'Đồng bộ lời bài hát';
 
   @override
+  String get lyrics_auto_resync => 'Đồng bộ lại lời bài hát';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Đồng bộ lại sẽ thay thế thời gian hiện tại của lời bài hát và dùng hạn mức của bạn. Tiếp tục?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Đang chuẩn bị âm thanh…';
 
   @override

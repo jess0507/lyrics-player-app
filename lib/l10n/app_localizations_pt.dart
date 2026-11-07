@@ -683,6 +683,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lyrics_auto_align => 'Sincronizar letra';
 
   @override
+  String get lyrics_auto_resync => 'Ressincronizar letra';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Ressincronizar substituirá o tempo atual da letra e usará sua cota. Continuar?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Preparando áudio…';
 
   @override

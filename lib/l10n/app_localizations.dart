@@ -1392,6 +1392,18 @@ abstract class AppLocalizations {
   /// **'Sync lyrics'**
   String get lyrics_auto_align;
 
+  /// No description provided for @lyrics_auto_resync.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-sync lyrics'**
+  String get lyrics_auto_resync;
+
+  /// No description provided for @lyrics_auto_resync_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-syncing will replace the current lyrics timing and use your quota. Continue?'**
+  String get lyrics_auto_resync_confirm;
+
   /// No description provided for @lyrics_auto_align_compressing.
   ///
   /// In en, this message translates to:

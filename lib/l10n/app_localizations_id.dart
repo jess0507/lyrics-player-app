@@ -682,6 +682,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_auto_align => 'Sinkronkan lirik';
 
   @override
+  String get lyrics_auto_resync => 'Sinkronkan ulang lirik';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Sinkronisasi ulang akan mengganti waktu lirik saat ini dan memakai kuota Anda. Lanjutkan?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Menyiapkan audio…';
 
   @override

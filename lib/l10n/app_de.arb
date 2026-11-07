@@ -211,6 +211,8 @@
   "cover_failed": "Cover konnte nicht festgelegt werden",
   "cover_too_large": "Bild ist zu groß",
   "lyrics_auto_align": "Liedtext synchronisieren",
+  "lyrics_auto_resync": "Songtext neu synchronisieren",
+  "lyrics_auto_resync_confirm": "Beim erneuten Synchronisieren wird das aktuelle Timing ersetzt und dein Kontingent belastet. Fortfahren?",
   "lyrics_auto_align_compressing": "Audio wird vorbereitet…",
   "lyrics_auto_align_uploading": "Audio wird hochgeladen…",
   "lyrics_auto_align_aligning": "Songtext wird ausgerichtet…",

@@ -211,6 +211,8 @@
   "cover_failed": "Não foi possível definir a capa",
   "cover_too_large": "A imagem é muito grande",
   "lyrics_auto_align": "Sincronizar letra",
+  "lyrics_auto_resync": "Ressincronizar letra",
+  "lyrics_auto_resync_confirm": "Ressincronizar substituirá o tempo atual da letra e usará sua cota. Continuar?",
   "lyrics_auto_align_compressing": "Preparando áudio…",
   "lyrics_auto_align_uploading": "Enviando áudio…",
   "lyrics_auto_align_aligning": "Alinhando a letra…",

@@ -688,6 +688,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_auto_align => 'Liedtext synchronisieren';
 
   @override
+  String get lyrics_auto_resync => 'Songtext neu synchronisieren';
+
+  @override
+  String get lyrics_auto_resync_confirm =>
+      'Beim erneuten Synchronisieren wird das aktuelle Timing ersetzt und dein Kontingent belastet. Fortfahren?';
+
+  @override
   String get lyrics_auto_align_compressing => 'Audio wird vorbereitet…';
 
   @override

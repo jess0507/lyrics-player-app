@@ -249,6 +249,8 @@
   "lyrics_text_align_center": "Center",
   "lyrics_text_align_right": "Right",
   "lyrics_auto_align": "Sync lyrics",
+  "lyrics_auto_resync": "Re-sync lyrics",
+  "lyrics_auto_resync_confirm": "Re-syncing will replace the current lyrics timing and use your quota. Continue?",
   "lyrics_auto_align_compressing": "Preparing audio…",
   "lyrics_auto_align_uploading": "Uploading audio…",
   "lyrics_auto_align_aligning": "Aligning lyrics…",
