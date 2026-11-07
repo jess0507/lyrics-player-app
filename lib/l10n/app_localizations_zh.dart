@@ -15,7 +15,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get migration_loading_message => '更新後只會執行一次，請勿關閉 App。';
 
   @override
-  String get migration_loading_title => '正在更新音樂庫資料…';
+  String get music_library_refresh_title => '更新音樂庫';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => '音樂';
@@ -916,7 +921,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get migration_loading_message => '更新后只会执行一次，请勿关闭 App。';
 
   @override
-  String get migration_loading_title => '正在更新音乐库数据…';
+  String get music_library_refresh_title => '更新音乐库';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => '音乐';
@@ -1817,7 +1827,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get migration_loading_message => '更新後只會執行一次，請勿關閉 App。';
 
   @override
-  String get migration_loading_title => '正在更新音樂庫資料…';
+  String get music_library_refresh_title => '更新音樂庫';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => '音樂';

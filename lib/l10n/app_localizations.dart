@@ -138,11 +138,17 @@ abstract class AppLocalizations {
   /// **'This only happens once after the update. Please keep the app open.'**
   String get migration_loading_message;
 
-  /// Title of the full-screen loading shown while the one-time data migration runs after an app update.
+  /// Title of the full-screen loading shown while the music library is scanned and each track's identity (SHA-256 of the audio file) is computed, including the one-time migration after an app update.
   ///
   /// In en, this message translates to:
-  /// **'Updating your music library…'**
-  String get migration_loading_title;
+  /// **'Refresh Music Library'**
+  String get music_library_refresh_title;
+
+  /// Progress of computing track identities while refreshing the music library: files processed / total files.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total}'**
+  String music_library_refresh_progress(int done, int total);
 
   /// No description provided for @tab_music_list.
   ///

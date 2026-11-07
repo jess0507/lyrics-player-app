@@ -16,7 +16,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'Это происходит только один раз после обновления. Не закрывайте приложение.';
 
   @override
-  String get migration_loading_title => 'Обновление музыкальной библиотеки…';
+  String get music_library_refresh_title => 'Обновление медиатеки';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Музыка';

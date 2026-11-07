@@ -16,7 +16,12 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu, güncellemeden sonra yalnızca bir kez yapılır. Lütfen uygulamayı kapatma.';
 
   @override
-  String get migration_loading_title => 'Müzik kitaplığın güncelleniyor…';
+  String get music_library_refresh_title => 'Müzik kitaplığını yenile';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Müzik';

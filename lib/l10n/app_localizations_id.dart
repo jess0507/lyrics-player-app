@@ -16,7 +16,12 @@ class AppLocalizationsId extends AppLocalizations {
       'Ini hanya terjadi sekali setelah pembaruan. Jangan tutup aplikasi.';
 
   @override
-  String get migration_loading_title => 'Memperbarui pustaka musik…';
+  String get music_library_refresh_title => 'Segarkan pustaka musik';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Musik';

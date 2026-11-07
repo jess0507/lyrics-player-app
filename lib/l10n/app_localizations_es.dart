@@ -16,7 +16,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Solo ocurre una vez tras la actualización. Mantén la app abierta.';
 
   @override
-  String get migration_loading_title => 'Actualizando tu biblioteca de música…';
+  String get music_library_refresh_title => 'Actualizar biblioteca musical';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Música';

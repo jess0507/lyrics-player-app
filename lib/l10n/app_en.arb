@@ -5,9 +5,21 @@
   "@migration_loading_message": {
     "description": "Subtitle of the full-screen loading shown while the one-time data migration runs after an app update."
   },
-  "migration_loading_title": "Updating your music library…",
-  "@migration_loading_title": {
-    "description": "Title of the full-screen loading shown while the one-time data migration runs after an app update."
+  "music_library_refresh_title": "Refresh Music Library",
+  "@music_library_refresh_title": {
+    "description": "Title of the full-screen loading shown while the music library is scanned and each track's identity (SHA-256 of the audio file) is computed, including the one-time migration after an app update."
+  },
+  "music_library_refresh_progress": "{done} / {total}",
+  "@music_library_refresh_progress": {
+    "description": "Progress of computing track identities while refreshing the music library: files processed / total files.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   },
   "tab_music_list": "Music",
   "tab_player": "Player",

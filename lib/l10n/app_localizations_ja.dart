@@ -15,7 +15,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get migration_loading_message => 'アップデート後に一度だけ実行されます。アプリを閉じないでください。';
 
   @override
-  String get migration_loading_title => '音楽ライブラリを更新しています…';
+  String get music_library_refresh_title => '音楽ライブラリを更新';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => '音楽';

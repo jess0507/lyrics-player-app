@@ -16,7 +16,12 @@ class AppLocalizationsVi extends AppLocalizations {
       'Việc này chỉ diễn ra một lần sau khi cập nhật. Vui lòng không đóng ứng dụng.';
 
   @override
-  String get migration_loading_title => 'Đang cập nhật thư viện nhạc…';
+  String get music_library_refresh_title => 'Làm mới thư viện nhạc';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Nhạc';

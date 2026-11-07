@@ -16,8 +16,12 @@ class AppLocalizationsIt extends AppLocalizations {
       'Avviene solo una volta dopo l’aggiornamento. Tieni l’app aperta.';
 
   @override
-  String get migration_loading_title =>
-      'Aggiornamento della libreria musicale…';
+  String get music_library_refresh_title => 'Aggiorna libreria musicale';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Musica';

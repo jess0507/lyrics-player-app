@@ -16,8 +16,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Cela n’a lieu qu’une fois après la mise à jour. Veuillez garder l’app ouverte.';
 
   @override
-  String get migration_loading_title =>
-      'Mise à jour de votre bibliothèque musicale…';
+  String get music_library_refresh_title =>
+      'Actualiser la bibliothèque musicale';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'Musique';

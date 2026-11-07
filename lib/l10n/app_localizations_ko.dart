@@ -15,7 +15,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get migration_loading_message => '업데이트 후 한 번만 진행됩니다. 앱을 닫지 마세요.';
 
   @override
-  String get migration_loading_title => '음악 보관함을 업데이트하는 중…';
+  String get music_library_refresh_title => '음악 라이브러리 새로 고침';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => '음악';

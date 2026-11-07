@@ -16,7 +16,12 @@ class AppLocalizationsHi extends AppLocalizations {
       'यह अपडेट के बाद केवल एक बार होता है। कृपया ऐप खुला रखें।';
 
   @override
-  String get migration_loading_title => 'आपकी संगीत लाइब्रेरी अपडेट हो रही है…';
+  String get music_library_refresh_title => 'संगीत लाइब्रेरी रीफ़्रेश करें';
+
+  @override
+  String music_library_refresh_progress(int done, int total) {
+    return '$done / $total';
+  }
 
   @override
   String get tab_music_list => 'संगीत';
