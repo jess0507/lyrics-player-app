@@ -4,6 +4,7 @@ import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_controller.dart';
 import 'package:seek_player/features/lyrics/auto_generate/lyrics_auto_generate_service.dart';
+import 'package:seek_player/core/update/upgrade_required_prompt.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
@@ -56,7 +57,11 @@ Future<void> runLyricsAiGenerate(
     debugPrint('[LyricsAutoGen] 已取消 pathKey=$pathKey');
   } else {
     debugPrint('[LyricsAutoGen] 失敗 pathKey=$pathKey error=${result.error}');
-    showAppToast(_aiGenerateErrorText(l10n, result));
+    if (result.error == LyricsAutoGenerateError.upgradeRequired) {
+      showUpgradeRequiredPrompt(context);
+    } else {
+      showAppToast(_aiGenerateErrorText(l10n, result));
+    }
   }
 }
 
@@ -68,6 +73,7 @@ String _aiGenerateErrorText(
   LyricsAutoGenerateError.rateLimited => l10n.lyrics_ai_generate_rate_limited,
   LyricsAutoGenerateError.noAudio => l10n.lyrics_ai_generate_no_audio,
   LyricsAutoGenerateError.network => l10n.lyrics_ai_generate_network,
+  LyricsAutoGenerateError.upgradeRequired => l10n.lyrics_upgrade_required,
   LyricsAutoGenerateError.busy =>
     result.activeTitle != null
         ? l10n.lyrics_background_busy_named(result.activeTitle!)

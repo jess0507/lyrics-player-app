@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/router/app_router.dart';
-import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/core/update/open_play_store.dart';
 import 'package:seek_player/core/update/patch_update_controller.dart';
 import 'package:seek_player/core/update/store_update_controller.dart';
-
-const _packageId = 'com.js.seek_player';
 
 /// 統一監聽兩種更新來源,並依優先序顯示提示 Dialog:
 ///
@@ -102,7 +99,7 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
         FilledButton(
           onPressed: () {
             Navigator.of(context).pop();
-            _openPlayStore();
+            openPlayStore();
           },
           child: Text(l10n.update_store_action),
         ),
@@ -128,24 +125,5 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
         ),
       ],
     );
-  }
-
-  /// 優先開啟 Google Play App 的商店頁,失敗時退回瀏覽器版。
-  Future<void> _openPlayStore() async {
-    final market = Uri.parse('market://details?id=$_packageId');
-    final web = Uri.parse(
-      'https://play.google.com/store/apps/details?id=$_packageId',
-    );
-    try {
-      final launched = await launchUrl(
-        market,
-        mode: LaunchMode.externalApplication,
-      );
-      if (launched) return;
-    } catch (e, s) {
-      // 裝置上沒有 Play 商店 app 時走瀏覽器版。
-      reportError(e, s, reason: '開啟 Play 商店 app 失敗，退回瀏覽器版');
-    }
-    await launchUrl(web, mode: LaunchMode.externalApplication);
   }
 }

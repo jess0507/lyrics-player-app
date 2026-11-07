@@ -61,6 +61,10 @@ enum LyricsAutoAlignError {
   /// 已有其他背景歌詞任務執行中(背景一次只跑一件)。
   busy,
 
+  /// 後端已不支援此版本 App 送出的參數(`failed-precondition` +
+  /// `details.code == 'upgrade_required'`),需引導使用者更新 App。
+  upgradeRequired,
+
   /// 其他未預期錯誤。
   unknown,
 }
@@ -195,10 +199,12 @@ class LyricsAutoAlignService {
     } on FirebaseFunctionsException catch (e, s) {
       final exception = _toException(e);
       // 唯一上報點(背景 runner 端不再重複報)。未登入 / 配額滿 / 已有其他
-      // 曲目正在處理都屬於使用者狀態非 bug,不上報,只留本機 log。
+      // 曲目正在處理 / App 版本過舊都屬於使用者狀態非 bug,不上報,
+      // 只留本機 log。
       if (e.code != 'unauthenticated' &&
           e.code != 'resource-exhausted' &&
-          exception.error != LyricsAutoAlignError.busy) {
+          exception.error != LyricsAutoAlignError.busy &&
+          exception.error != LyricsAutoAlignError.upgradeRequired) {
         reportError(e, s, reason: 'align_lyrics 失敗（code=${e.code}）');
       } else {
         debugPrint('Firebase Function align_lyrics: $e');
@@ -212,6 +218,15 @@ class LyricsAutoAlignService {
   /// `details.code == 'busy'`)時,一併取出正在處理中的曲名。
   LyricsAutoAlignException _toException(FirebaseFunctionsException e) {
     final details = e.details;
+    if (e.code == 'failed-precondition' &&
+        details is Map &&
+        details['code'] == 'upgrade_required') {
+      // details.params(不支援的參數名稱)只供除錯,不顯示給使用者。
+      debugPrint('align_lyrics upgrade_required params=${details['params']}');
+      return const LyricsAutoAlignException(
+        LyricsAutoAlignError.upgradeRequired,
+      );
+    }
     if (e.code == 'failed-precondition' &&
         details is Map &&
         details['code'] == 'busy') {

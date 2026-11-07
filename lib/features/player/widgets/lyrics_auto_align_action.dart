@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
+import 'package:seek_player/core/update/upgrade_required_prompt.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_controller.dart';
@@ -58,7 +59,11 @@ Future<void> runLyricsAutoAlign(
   if (!ok) {
     if (result.status != LyricsAutoAlignStatus.cancelled) {
       // 使用者按通知列「取消」時靜默收掉,不當作失敗回報。
-      showAppToast(_autoAlignErrorText(l10n, result));
+      if (result.error == LyricsAutoAlignError.upgradeRequired) {
+        showUpgradeRequiredPrompt(context);
+      } else {
+        showAppToast(_autoAlignErrorText(l10n, result));
+      }
     }
   }
 }
@@ -71,6 +76,7 @@ String _autoAlignErrorText(
   LyricsAutoAlignError.rateLimited => l10n.lyrics_auto_align_rate_limited,
   LyricsAutoAlignError.noAudio => l10n.lyrics_auto_align_no_audio,
   LyricsAutoAlignError.network => l10n.lyrics_auto_align_network,
+  LyricsAutoAlignError.upgradeRequired => l10n.lyrics_upgrade_required,
   LyricsAutoAlignError.busy =>
     result.activeTitle != null
         ? l10n.lyrics_background_busy_named(result.activeTitle!)
