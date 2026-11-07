@@ -83,20 +83,20 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       // 選完曲目後依工具進對應的編輯頁(歌詞 / 封面)。
                       GoRoute(
-                        path: ':pathKey',
+                        path: ':trackId',
                         parentNavigatorKey: rootNavigatorKey,
                         builder: (context, state) {
-                          final pathKey = state.pathParameters['pathKey']!;
+                          final trackId = state.pathParameters['trackId']!;
                           final track = state.extra as Track?;
                           return switch (ToolKind.fromName(
                             state.pathParameters['tool'],
                           )!) {
                             ToolKind.lyrics => LyricsEditorPage(
-                              pathKey: pathKey,
+                              trackId: trackId,
                               initialTrack: track,
                             ),
                             ToolKind.cover => CoverEditorPage(
-                              pathKey: pathKey,
+                              trackId: trackId,
                               initialTrack: track,
                             ),
                           };

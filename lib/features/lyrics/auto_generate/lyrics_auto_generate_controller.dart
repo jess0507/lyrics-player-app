@@ -32,7 +32,7 @@ class LyricsAutoGenerateState {
   bool get isRunning => status == LyricsAutoGenerateStatus.running;
 }
 
-/// 以 pathKey 為 key 的自動產生控制器:驅動 [LyricsAutoGenerateService] 並把
+/// 以 trackId 為 key 的自動產生控制器:驅動 [LyricsAutoGenerateService] 並把
 /// 階段 / 結果寫成 [LyricsAutoGenerateState],供進度對話框與選單即時反映。
 ///
 /// 交由 [LyricsBackgroundRunner](Android 前景服務 + 背景 isolate)執行,
@@ -53,7 +53,7 @@ class LyricsAutoGenerateController
     // (常駐 main isolate)能立刻開始監聽 Firestore 狀態,不需背景 isolate
     // 另外回報——也不怕 app 中途被滑掉,這筆紀錄已經落地。
     debugPrint(
-      '[LyricsAutoGenerateController] pathKey:$arg, 加入 pendingSyncStore',
+      '[LyricsAutoGenerateController] trackId:$arg, 加入 pendingSyncStore',
     );
     // 每次送出都產生新的 jobId 作為後端任務文件 id,記在 LyricsEntity 與
     // 待同步清單(LyricsPendingSyncService 依它監聽)。
@@ -76,7 +76,7 @@ class LyricsAutoGenerateController
       // 沒有真的送出背景工作(取消 / busy / 過程中失敗),沒有任何後端 job
       // 可等,清掉剛剛預先加的紀錄,避免白等一個不存在的工作。
       debugPrint(
-        '[LyricsAutoGenerateController] pathKey:$arg, 未成功送出,移除 pendingSyncStore',
+        '[LyricsAutoGenerateController] trackId:$arg, 未成功送出,移除 pendingSyncStore',
       );
       await ref.read(lyricsPendingSyncStoreProvider.notifier).remove(arg);
       await ref.read(lyricsRepositoryProvider).clearJob(arg);
@@ -96,7 +96,7 @@ class LyricsAutoGenerateController
         .run(
           LyricsBackgroundRequest(
             mode: LyricsBackgroundMode.generate,
-            pathKey: arg,
+            trackId: arg,
             jobId: jobId,
             title: title,
             stepLabels: {

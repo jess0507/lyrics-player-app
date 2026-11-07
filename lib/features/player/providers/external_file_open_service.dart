@@ -9,13 +9,13 @@ import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/router/app_router.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
-import 'package:seek_player/features/music_list/services/track_path_key.dart';
+import 'package:seek_player/features/music_list/services/track_hash_service.dart';
 import 'package:seek_player/features/music_list/services/track_registrar.dart';
 import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 
 /// 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔(Android 限定,
-/// 原生端見 `ExternalOpenChannel.kt`),以還原到的實體路徑的 pathKey 比對音樂庫:
+/// 原生端見 `ExternalOpenChannel.kt`),以還原到的實體路徑的 trackId 比對音樂庫:
 /// 命中就照一般曲目播放,否則以檔案本身組一首暫時曲目播放,並開啟播放器。
 ///
 /// 於 `app.dart` 根層級常駐 watch,不綁定特定頁面。一律由 Dart 主動向
@@ -71,10 +71,13 @@ class ExternalFileOpenService {
 
     try {
       final tracks = await _loadLibrary();
-      final pathKey = filePath.isEmpty ? null : TrackPathKey.of(filePath);
-      final existing = pathKey == null
+      // 以內容比對:同一個檔案不論從哪個路徑別名開啟,trackId 都相同。
+      final trackId = filePath.isEmpty
           ? null
-          : tracks.where((t) => t.pathKey == pathKey).firstOrNull;
+          : await _ref.read(trackHashServiceProvider).trackIdOf(filePath);
+      final existing = trackId == null
+          ? null
+          : tracks.where((t) => t.trackId == trackId).firstOrNull;
 
       final playback = _ref.read(playbackControllerProvider);
       if (existing != null) {
@@ -138,7 +141,7 @@ class ExternalFileOpenService {
       if (registered != null) return registered;
     }
     return Track(
-      pathKey: uri,
+      trackId: uri,
       uri: uri,
       filePath: filePath,
       title: title,

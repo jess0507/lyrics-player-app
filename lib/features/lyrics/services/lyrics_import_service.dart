@@ -38,10 +38,10 @@ class LyricsImportService {
   /// 內容上限約 1MB,超過拒收。
   static const _maxBytes = 1024 * 1024;
 
-  /// 為 [pathKey] 匯入歌詞。回傳 true 表示已存檔;false 表示使用者取消選檔。
+  /// 為 [trackId] 匯入歌詞。回傳 true 表示已存檔;false 表示使用者取消選檔。
   /// 失敗(過大 / 無法解碼 / 解析後無內容)拋 [LyricsImportException]。
   Future<bool> importForTrack({
-    required String pathKey,
+    required String trackId,
     required String title,
   }) async {
     final picked = await FilePicker.pickFiles(
@@ -62,7 +62,7 @@ class LyricsImportService {
     final bytes = await File(file.path!).readAsBytes();
     final content = _decode(bytes);
     await _save(
-      pathKey: pathKey,
+      trackId: trackId,
       title: title,
       content: content,
       format: detectLyricsFormat(file.name),
@@ -70,10 +70,10 @@ class LyricsImportService {
     return true;
   }
 
-  /// 為 [pathKey] 存入使用者貼上的歌詞文字;格式依內文判定(LRC / SRT /
+  /// 為 [trackId] 存入使用者貼上的歌詞文字;格式依內文判定(LRC / SRT /
   /// VTT / 純文字)。過大或解析後無內容拋 [LyricsImportException]。
   Future<void> importFromText({
-    required String pathKey,
+    required String trackId,
     required String title,
     required String content,
   }) async {
@@ -85,7 +85,7 @@ class LyricsImportService {
       );
     }
     await _save(
-      pathKey: pathKey,
+      trackId: trackId,
       title: title,
       content: content,
       format: detectLyricsFormatFromContent(content),
@@ -94,7 +94,7 @@ class LyricsImportService {
 
   /// 試 parse 驗證後存 Isar,並 invalidate [trackLyricsProvider] 讓視圖重讀。
   Future<void> _save({
-    required String pathKey,
+    required String trackId,
     required String title,
     required String content,
     required LyricsFormat format,
@@ -107,14 +107,14 @@ class LyricsImportService {
     }
 
     final entity = LyricsEntity()
-      ..pathKey = pathKey
+      ..trackId = trackId
       ..title = title
       ..format = format
       ..source = LyricsSource.manual
       ..content = content
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);
-    _ref.invalidate(trackLyricsProvider(pathKey));
+    _ref.invalidate(trackLyricsProvider(trackId));
   }
 
   /// UTF-8 為主(剝除 BOM);嚴格解碼失敗時退回 allowMalformed,接受少量

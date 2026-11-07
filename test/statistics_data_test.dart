@@ -5,14 +5,14 @@ import 'package:seek_player/features/profile/statistics/services/statistics_serv
 
 DailyTrackStatEntity _stat(
   String day,
-  String pathKey,
+  String trackId,
   String title,
   int playCount, [
   int listenMs = 0,
 ]) {
   return DailyTrackStatEntity()
     ..day = day
-    ..pathKey = pathKey
+    ..trackId = trackId
     ..title = title
     ..playCount = playCount
     ..listenMs = listenMs;
@@ -30,7 +30,7 @@ void main() {
     expect(data.totalListenTime, const Duration(milliseconds: 1700));
   });
 
-  test('topTracks 跨日加總並以 title 聚合（吸收跨機 pathKey 不一致）', () {
+  test('topTracks 跨日加總並以 title 聚合（吸收跨機 trackId 不一致）', () {
     final data = StatisticsData([
       _stat('2026-06-11', '1', 'Same Song', 3, 1000), // 舊裝置還原的記錄
       _stat('2026-06-12', '900', 'Same Song', 2, 500), // 新裝置另起的 entry

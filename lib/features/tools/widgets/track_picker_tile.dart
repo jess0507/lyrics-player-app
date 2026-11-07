@@ -31,7 +31,7 @@ class TrackPickerTile extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: TrackLeading(
-        pathKey: track.pathKey,
+        trackId: track.trackId,
         isCurrent: false,
         audio: audio,
         color: theme.colorScheme.primary,

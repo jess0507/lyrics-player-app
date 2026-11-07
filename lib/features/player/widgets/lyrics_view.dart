@@ -16,30 +16,30 @@ import 'package:seek_player/features/player/widgets/lyrics_job_status_view.dart'
 import 'package:seek_player/features/player/widgets/lyrics_synced_view.dart';
 import 'package:seek_player/features/player/widgets/lyrics_unsynced_view.dart';
 
-/// 完整播放頁的歌詞視圖:依 [pathKey] 取歌詞並分派 loading / 空狀態 /
+/// 完整播放頁的歌詞視圖:依 [trackId] 取歌詞並分派 loading / 空狀態 /
 /// synced(同步捲動)/ unsynced(靜態整篇),滿版顯示。歌詞操作選單移至
 /// AppBar 的 [LyricsModeMenu]。mini player 不顯示歌詞,僅此處。
 class LyricsView extends ConsumerWidget {
-  const LyricsView({super.key, required this.pathKey, required this.title});
+  const LyricsView({super.key, required this.trackId, required this.title});
 
-  final String pathKey;
+  final String trackId;
   final String title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeJob = ref.watch(lyricsActiveJobProvider(pathKey));
+    final activeJob = ref.watch(lyricsActiveJobProvider(trackId));
     if (activeJob) {
-      return LyricsJobStatusView(pathKey: pathKey);
+      return LyricsJobStatusView(trackId: trackId);
     }
 
-    final async = ref.watch(trackLyricsProvider(pathKey));
+    final async = ref.watch(trackLyricsProvider(trackId));
     return async.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       // 讀取失敗極少見,當作無歌詞處理,讓使用者可重新匯入。
-      error: (_, _) => _EmptyLyrics(pathKey: pathKey, title: title),
+      error: (_, _) => _EmptyLyrics(trackId: trackId, title: title),
       data: (lyrics) {
         if (lyrics == null || lyrics.isEmpty) {
-          return _EmptyLyrics(pathKey: pathKey, title: title);
+          return _EmptyLyrics(trackId: trackId, title: title);
         }
         final scale = ref.watch(lyricsFontScaleProvider);
         final align = ref.watch(lyricsTextAlignProvider).textAlign;
@@ -59,9 +59,9 @@ class LyricsView extends ConsumerWidget {
 
 /// 無歌詞空狀態:提示文字 + 匯入入口(呼叫匯入服務)。
 class _EmptyLyrics extends ConsumerWidget {
-  const _EmptyLyrics({required this.pathKey, required this.title});
+  const _EmptyLyrics({required this.trackId, required this.title});
 
-  final String pathKey;
+  final String trackId;
   final String title;
 
   @override
@@ -85,7 +85,7 @@ class _EmptyLyrics extends ConsumerWidget {
             onPressed: () => showLyricsActionsSheet(
               context,
               ref,
-              pathKey: pathKey,
+              trackId: trackId,
               title: title,
             ),
             icon: const Icon(Icons.file_open_outlined),
@@ -102,14 +102,14 @@ class _EmptyLyrics extends ConsumerWidget {
 Future<void> runLyricsImport(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
   try {
     final imported = await ref
         .read(lyricsImportServiceProvider)
-        .importForTrack(pathKey: pathKey, title: title);
+        .importForTrack(trackId: trackId, title: title);
     logAnalyticsAction(
       LyricsAction.importResult,
       result: imported ? AnalyticsResult.success : AnalyticsResult.cancelled,

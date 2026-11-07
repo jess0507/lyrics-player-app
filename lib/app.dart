@@ -24,7 +24,7 @@ class SeekPlayerApp extends ConsumerWidget {
     // 註冊背景歌詞任務的事件 port:即使任務是上個 app instance 發起
     // (滑掉後由前景服務續跑),完成事件也能刷新歌詞與同步 flag。
     ref.watch(lyricsBackgroundRunnerProvider);
-    // 常駐監聽本地待同步的 pathKey 清單,狀態轉終態時把結果同步回本機
+    // 常駐監聽本地待同步的 trackId 清單,狀態轉終態時把結果同步回本機
     // 並移除清單項目,跨 app 重啟也能接續(見 lyricsPendingSyncServiceProvider)。
     ref.watch(lyricsPendingSyncServiceProvider);
     // 接住從檔案管理員等 App「開啟工具」／分享叫進來的音訊檔，見

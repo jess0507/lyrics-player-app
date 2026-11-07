@@ -13,7 +13,7 @@ import 'package:seek_player/core/analytics/analytics_events.dart';
 /// 與 crash_reporter.dart 相同:Firebase 未初始化時安靜略過,呼叫端不需
 /// 判斷;上報失敗不影響功能,一律 fire-and-forget。
 /// 事件、參數與登入方式集中定義在 analytics_events.dart,呼叫端只傳 enum。
-/// 事件名與參數只放功能層級資訊(動作名、路由樣板),不放 pathKey、
+/// 事件名與參數只放功能層級資訊(動作名、路由樣板),不放 trackId、
 /// 歌名、email 等可能含 PII 的內容。
 FirebaseAnalytics? get _analytics =>
     Firebase.apps.isEmpty ? null : FirebaseAnalytics.instance;

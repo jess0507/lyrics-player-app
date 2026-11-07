@@ -1,9 +1,9 @@
 /// 掃描 / 外部開啟等來源讀到的一個音訊檔,交給 TrackRepository upsert
-/// 成 [TrackEntity]。[pathKey] 由呼叫端以 TrackPathKey.of 算好。
+/// 成 [TrackEntity]。[trackId](音檔全檔 SHA-256)由呼叫端算好。
 class ScannedTrack {
   const ScannedTrack({
     required this.path,
-    required this.pathKey,
+    required this.trackId,
     required this.sizeBytes,
     required this.modifiedMs,
     this.title,
@@ -14,7 +14,7 @@ class ScannedTrack {
   });
 
   final String path;
-  final String pathKey;
+  final String trackId;
   final int sizeBytes;
   final int modifiedMs;
   final String? title;

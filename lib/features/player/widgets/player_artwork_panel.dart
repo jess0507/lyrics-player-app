@@ -17,14 +17,14 @@ class PlayerArtworkPanel extends StatelessWidget {
     super.key,
     required this.active,
     required this.controller,
-    this.pathKey,
+    this.trackId,
     this.title,
     this.onShowLyrics,
   });
 
   final bool active;
   final PageController controller;
-  final String? pathKey;
+  final String? trackId;
   final String? title;
   final VoidCallback? onShowLyrics;
 
@@ -40,9 +40,9 @@ class PlayerArtworkPanel extends StatelessWidget {
             child: PageView(
               controller: controller,
               children: [
-                _ArtworkPage(active: active, pathKey: pathKey),
+                _ArtworkPage(active: active, trackId: trackId),
                 _LyricsPage(
-                  pathKey: pathKey,
+                  trackId: trackId,
                   title: title,
                   onShowLyrics: onShowLyrics,
                 ),
@@ -96,15 +96,15 @@ class _PageIndicator extends StatelessWidget {
 /// PageView 第一頁:有封面(自訂優先,退回音檔內嵌)顯示圖片,否則佔位圖。
 /// 封面編輯已移至次控制列「更多」選單([_PlayerMenuAction])。
 class _ArtworkPage extends ConsumerWidget {
-  const _ArtworkPage({required this.active, required this.pathKey});
+  const _ArtworkPage({required this.active, required this.trackId});
 
   final bool active;
-  final String? pathKey;
+  final String? trackId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    final id = pathKey;
+    final id = trackId;
     final artwork = id == null
         ? null
         : ref.watch(trackArtworkProvider(id)).valueOrNull;
@@ -127,19 +127,19 @@ class _ArtworkPage extends ConsumerWidget {
 /// [LyricsView] 自身顯示匯入提示。無曲目時僅顯示底色佔位。
 class _LyricsPage extends ConsumerWidget {
   const _LyricsPage({
-    required this.pathKey,
+    required this.trackId,
     required this.title,
     required this.onShowLyrics,
   });
 
-  final String? pathKey;
+  final String? trackId;
   final String? title;
   final VoidCallback? onShowLyrics;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    final id = pathKey;
+    final id = trackId;
     if (id == null) {
       return ColoredBox(color: scheme.surfaceContainerHighest);
     }
@@ -154,7 +154,7 @@ class _LyricsPage extends ConsumerWidget {
               color: scheme.surfaceContainerHighest.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: LyricsView(pathKey: id, title: title ?? ''),
+            child: LyricsView(trackId: id, title: title ?? ''),
           ),
         ),
         if (hasLyrics && onShowLyrics != null)

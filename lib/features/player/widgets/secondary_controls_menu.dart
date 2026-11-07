@@ -58,13 +58,13 @@ enum _PlayerMenuAction {
   /// 依目前曲目狀態決定是否顯示此項目。
   bool isVisible({
     required Track? track,
-    required String? pathKey,
+    required String? trackId,
     required bool hasLyrics,
   }) => switch (this) {
     speed || seekStep => true,
     addToPlaylist => track != null,
-    editLyrics => pathKey != null && hasLyrics,
-    lyricsFontSize || lyricsTextAlign || editCover => pathKey != null,
+    editLyrics => trackId != null && hasLyrics,
+    lyricsFontSize || lyricsTextAlign || editCover => trackId != null,
   };
 
   void run(
@@ -72,7 +72,7 @@ enum _PlayerMenuAction {
     WidgetRef ref, {
     required AudioPlayerService audio,
     Track? track,
-    String? pathKey,
+    String? trackId,
   }) {
     switch (this) {
       case speed:
@@ -86,19 +86,19 @@ enum _PlayerMenuAction {
       case addToPlaylist:
         if (track != null) showAddToPlaylistSheet(context, ref, track);
       case editLyrics:
-        if (pathKey != null) {
+        if (trackId != null) {
           openToolEditorFromPlayer(
             context,
             tool: ToolKind.lyrics,
-            pathKey: pathKey,
+            trackId: trackId,
           );
         }
       case editCover:
-        if (pathKey != null) {
+        if (trackId != null) {
           openToolEditorFromPlayer(
             context,
             tool: ToolKind.cover,
-            pathKey: pathKey,
+            trackId: trackId,
             track: track,
           );
         }
@@ -110,7 +110,7 @@ void showSecondaryControlsMenuSheet(
   BuildContext context,
   WidgetRef ref, {
   required AudioPlayerService audio,
-  String? pathKey,
+  String? trackId,
   String? title,
 }) {
   showModalBottomSheet<void>(
@@ -122,7 +122,7 @@ void showSecondaryControlsMenuSheet(
       parentContext: context,
       parentRef: ref,
       audio: audio,
-      pathKey: pathKey,
+      trackId: trackId,
       title: title ?? '',
     ),
   );
@@ -134,7 +134,7 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
     required this.parentRef,
     required this.audio,
     required this.title,
-    this.pathKey,
+    this.trackId,
   });
 
   /// 呼叫端(控制列)的 context 與 ref,用來開啟後續面板,生命週期不隨本表單結束。
@@ -143,18 +143,18 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
 
   final AudioPlayerService audio;
   final String title;
-  final String? pathKey;
+  final String? trackId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
     // 只有能在音樂庫對應到曲目時才提供「加入播放清單」。
-    final id = pathKey;
+    final id = trackId;
     final tracks = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
     final trackIndex = id == null
         ? -1
-        : tracks.indexWhere((t) => t.pathKey == id);
+        : tracks.indexWhere((t) => t.trackId == id);
     final track = trackIndex < 0 ? null : tracks[trackIndex];
     final hasLyrics =
         id != null &&
@@ -167,7 +167,7 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
           for (final action in _PlayerMenuAction.values)
             if (action.isVisible(
               track: track,
-              pathKey: id,
+              trackId: id,
               hasLyrics: hasLyrics,
             ))
               ListTile(
@@ -186,7 +186,7 @@ class _SecondaryControlsMenuSheet extends ConsumerWidget {
                     parentRef,
                     audio: audio,
                     track: track,
-                    pathKey: pathKey,
+                    trackId: trackId,
                   );
                 },
               ),

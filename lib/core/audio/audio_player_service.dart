@@ -72,7 +72,7 @@ class AudioPlayerService {
       );
 
   /// 以整個音樂庫建立播放清單，並從 [initialIndex] 開始播放。
-  /// [artUris] 為 pathKey → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
+  /// [artUris] 為 trackId → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
   Future<void> setPlaylist(
     List<Track> tracks, {
     int initialIndex = 0,
@@ -85,11 +85,11 @@ class AudioPlayerService {
           AudioSource.uri(
             Uri.parse(t.uri),
             tag: MediaItem(
-              id: t.pathKey,
+              id: t.trackId,
               title: t.title,
               artist: t.artist ?? '',
               album: t.album,
-              artUri: artUris[t.pathKey],
+              artUri: artUris[t.trackId],
             ),
           ),
       ],

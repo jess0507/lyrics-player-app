@@ -25,46 +25,41 @@ const TrackEntitySchema = CollectionSchema(
     r'album': PropertySchema(id: 1, name: r'album', type: IsarType.string),
     r'albumId': PropertySchema(id: 2, name: r'albumId', type: IsarType.long),
     r'artist': PropertySchema(id: 3, name: r'artist', type: IsarType.string),
-    r'audioSha256': PropertySchema(
-      id: 4,
-      name: r'audioSha256',
-      type: IsarType.string,
-    ),
     r'coverColorValue': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'coverColorValue',
       type: IsarType.long,
     ),
     r'coverImagePath': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'coverImagePath',
       type: IsarType.string,
     ),
     r'durationMs': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'durationMs',
       type: IsarType.long,
     ),
     r'lyricsSha256': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'lyricsSha256',
       type: IsarType.string,
     ),
     r'modifiedMs': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'modifiedMs',
       type: IsarType.long,
     ),
-    r'path': PropertySchema(id: 10, name: r'path', type: IsarType.string),
-    r'pathKey': PropertySchema(id: 11, name: r'pathKey', type: IsarType.string),
+    r'path': PropertySchema(id: 9, name: r'path', type: IsarType.string),
     r'sizeBytes': PropertySchema(
-      id: 12,
+      id: 10,
       name: r'sizeBytes',
       type: IsarType.long,
     ),
-    r'title': PropertySchema(id: 13, name: r'title', type: IsarType.string),
+    r'title': PropertySchema(id: 11, name: r'title', type: IsarType.string),
+    r'trackId': PropertySchema(id: 12, name: r'trackId', type: IsarType.string),
     r'updatedAt': PropertySchema(
-      id: 14,
+      id: 13,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
@@ -76,14 +71,27 @@ const TrackEntitySchema = CollectionSchema(
   deserializeProp: _trackEntityDeserializeProp,
   idName: r'id',
   indexes: {
-    r'pathKey': IndexSchema(
-      id: 4091448840851204210,
-      name: r'pathKey',
+    r'path': IndexSchema(
+      id: 8756705481922369689,
+      name: r'path',
       unique: true,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'pathKey',
+          name: r'path',
+          type: IndexType.hash,
+          caseSensitive: true,
+        ),
+      ],
+    ),
+    r'trackId': IndexSchema(
+      id: -8614467705999066844,
+      name: r'trackId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'trackId',
           type: IndexType.hash,
           caseSensitive: true,
         ),
@@ -118,12 +126,6 @@ int _trackEntityEstimateSize(
     }
   }
   {
-    final value = object.audioSha256;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.coverImagePath;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -136,13 +138,13 @@ int _trackEntityEstimateSize(
     }
   }
   bytesCount += 3 + object.path.length * 3;
-  bytesCount += 3 + object.pathKey.length * 3;
   {
     final value = object.title;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.trackId.length * 3;
   return bytesCount;
 }
 
@@ -156,17 +158,16 @@ void _trackEntitySerialize(
   writer.writeString(offsets[1], object.album);
   writer.writeLong(offsets[2], object.albumId);
   writer.writeString(offsets[3], object.artist);
-  writer.writeString(offsets[4], object.audioSha256);
-  writer.writeLong(offsets[5], object.coverColorValue);
-  writer.writeString(offsets[6], object.coverImagePath);
-  writer.writeLong(offsets[7], object.durationMs);
-  writer.writeString(offsets[8], object.lyricsSha256);
-  writer.writeLong(offsets[9], object.modifiedMs);
-  writer.writeString(offsets[10], object.path);
-  writer.writeString(offsets[11], object.pathKey);
-  writer.writeLong(offsets[12], object.sizeBytes);
-  writer.writeString(offsets[13], object.title);
-  writer.writeDateTime(offsets[14], object.updatedAt);
+  writer.writeLong(offsets[4], object.coverColorValue);
+  writer.writeString(offsets[5], object.coverImagePath);
+  writer.writeLong(offsets[6], object.durationMs);
+  writer.writeString(offsets[7], object.lyricsSha256);
+  writer.writeLong(offsets[8], object.modifiedMs);
+  writer.writeString(offsets[9], object.path);
+  writer.writeLong(offsets[10], object.sizeBytes);
+  writer.writeString(offsets[11], object.title);
+  writer.writeString(offsets[12], object.trackId);
+  writer.writeDateTime(offsets[13], object.updatedAt);
 }
 
 TrackEntity _trackEntityDeserialize(
@@ -180,18 +181,17 @@ TrackEntity _trackEntityDeserialize(
   object.album = reader.readStringOrNull(offsets[1]);
   object.albumId = reader.readLongOrNull(offsets[2]);
   object.artist = reader.readStringOrNull(offsets[3]);
-  object.audioSha256 = reader.readStringOrNull(offsets[4]);
-  object.coverColorValue = reader.readLongOrNull(offsets[5]);
-  object.coverImagePath = reader.readStringOrNull(offsets[6]);
-  object.durationMs = reader.readLongOrNull(offsets[7]);
+  object.coverColorValue = reader.readLongOrNull(offsets[4]);
+  object.coverImagePath = reader.readStringOrNull(offsets[5]);
+  object.durationMs = reader.readLongOrNull(offsets[6]);
   object.id = id;
-  object.lyricsSha256 = reader.readStringOrNull(offsets[8]);
-  object.modifiedMs = reader.readLong(offsets[9]);
-  object.path = reader.readString(offsets[10]);
-  object.pathKey = reader.readString(offsets[11]);
-  object.sizeBytes = reader.readLong(offsets[12]);
-  object.title = reader.readStringOrNull(offsets[13]);
-  object.updatedAt = reader.readDateTime(offsets[14]);
+  object.lyricsSha256 = reader.readStringOrNull(offsets[7]);
+  object.modifiedMs = reader.readLong(offsets[8]);
+  object.path = reader.readString(offsets[9]);
+  object.sizeBytes = reader.readLong(offsets[10]);
+  object.title = reader.readStringOrNull(offsets[11]);
+  object.trackId = reader.readString(offsets[12]);
+  object.updatedAt = reader.readDateTime(offsets[13]);
   return object;
 }
 
@@ -211,26 +211,24 @@ P _trackEntityDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
-    case 7:
       return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 9:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 10:
-      return (reader.readString(offset)) as P;
-    case 11:
-      return (reader.readString(offset)) as P;
-    case 12:
       return (reader.readLong(offset)) as P;
-    case 13:
+    case 11:
       return (reader.readStringOrNull(offset)) as P;
-    case 14:
+    case 12:
+      return (reader.readString(offset)) as P;
+    case 13:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -254,59 +252,59 @@ void _trackEntityAttach(
 }
 
 extension TrackEntityByIndex on IsarCollection<TrackEntity> {
-  Future<TrackEntity?> getByPathKey(String pathKey) {
-    return getByIndex(r'pathKey', [pathKey]);
+  Future<TrackEntity?> getByPath(String path) {
+    return getByIndex(r'path', [path]);
   }
 
-  TrackEntity? getByPathKeySync(String pathKey) {
-    return getByIndexSync(r'pathKey', [pathKey]);
+  TrackEntity? getByPathSync(String path) {
+    return getByIndexSync(r'path', [path]);
   }
 
-  Future<bool> deleteByPathKey(String pathKey) {
-    return deleteByIndex(r'pathKey', [pathKey]);
+  Future<bool> deleteByPath(String path) {
+    return deleteByIndex(r'path', [path]);
   }
 
-  bool deleteByPathKeySync(String pathKey) {
-    return deleteByIndexSync(r'pathKey', [pathKey]);
+  bool deleteByPathSync(String path) {
+    return deleteByIndexSync(r'path', [path]);
   }
 
-  Future<List<TrackEntity?>> getAllByPathKey(List<String> pathKeyValues) {
-    final values = pathKeyValues.map((e) => [e]).toList();
-    return getAllByIndex(r'pathKey', values);
+  Future<List<TrackEntity?>> getAllByPath(List<String> pathValues) {
+    final values = pathValues.map((e) => [e]).toList();
+    return getAllByIndex(r'path', values);
   }
 
-  List<TrackEntity?> getAllByPathKeySync(List<String> pathKeyValues) {
-    final values = pathKeyValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'pathKey', values);
+  List<TrackEntity?> getAllByPathSync(List<String> pathValues) {
+    final values = pathValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'path', values);
   }
 
-  Future<int> deleteAllByPathKey(List<String> pathKeyValues) {
-    final values = pathKeyValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'pathKey', values);
+  Future<int> deleteAllByPath(List<String> pathValues) {
+    final values = pathValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'path', values);
   }
 
-  int deleteAllByPathKeySync(List<String> pathKeyValues) {
-    final values = pathKeyValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'pathKey', values);
+  int deleteAllByPathSync(List<String> pathValues) {
+    final values = pathValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'path', values);
   }
 
-  Future<Id> putByPathKey(TrackEntity object) {
-    return putByIndex(r'pathKey', object);
+  Future<Id> putByPath(TrackEntity object) {
+    return putByIndex(r'path', object);
   }
 
-  Id putByPathKeySync(TrackEntity object, {bool saveLinks = true}) {
-    return putByIndexSync(r'pathKey', object, saveLinks: saveLinks);
+  Id putByPathSync(TrackEntity object, {bool saveLinks = true}) {
+    return putByIndexSync(r'path', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByPathKey(List<TrackEntity> objects) {
-    return putAllByIndex(r'pathKey', objects);
+  Future<List<Id>> putAllByPath(List<TrackEntity> objects) {
+    return putAllByIndex(r'path', objects);
   }
 
-  List<Id> putAllByPathKeySync(
+  List<Id> putAllByPathSync(
     List<TrackEntity> objects, {
     bool saveLinks = true,
   }) {
-    return putAllByIndexSync(r'pathKey', objects, saveLinks: saveLinks);
+    return putAllByIndexSync(r'path', objects, saveLinks: saveLinks);
   }
 }
 
@@ -391,34 +389,34 @@ extension TrackEntityQueryWhere
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> pathKeyEqualTo(
-    String pathKey,
+  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> pathEqualTo(
+    String path,
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IndexWhereClause.equalTo(indexName: r'pathKey', value: [pathKey]),
+        IndexWhereClause.equalTo(indexName: r'path', value: [path]),
       );
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> pathKeyNotEqualTo(
-    String pathKey,
+  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> pathNotEqualTo(
+    String path,
   ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'pathKey',
+                indexName: r'path',
                 lower: [],
-                upper: [pathKey],
+                upper: [path],
                 includeUpper: false,
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'pathKey',
-                lower: [pathKey],
+                indexName: r'path',
+                lower: [path],
                 includeLower: false,
                 upper: [],
               ),
@@ -427,17 +425,71 @@ extension TrackEntityQueryWhere
         return query
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'pathKey',
-                lower: [pathKey],
+                indexName: r'path',
+                lower: [path],
                 includeLower: false,
                 upper: [],
               ),
             )
             .addWhereClause(
               IndexWhereClause.between(
-                indexName: r'pathKey',
+                indexName: r'path',
                 lower: [],
-                upper: [pathKey],
+                upper: [path],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> trackIdEqualTo(
+    String trackId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'trackId', value: [trackId]),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterWhereClause> trackIdNotEqualTo(
+    String trackId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'trackId',
+                lower: [],
+                upper: [trackId],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'trackId',
+                lower: [trackId],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'trackId',
+                lower: [trackId],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'trackId',
+                lower: [],
+                upper: [trackId],
                 includeUpper: false,
               ),
             );
@@ -905,165 +957,6 @@ extension TrackEntityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'artist', value: ''),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256IsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'audioSha256'),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256IsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'audioSha256'),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256EqualTo(String? value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256GreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256LessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256Between(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'audioSha256',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256StartsWith(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.startsWith(
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256EndsWith(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.endsWith(
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256Contains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.contains(
-          property: r'audioSha256',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256Matches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.matches(
-          property: r'audioSha256',
-          wildcard: pattern,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256IsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'audioSha256', value: ''),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  audioSha256IsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'audioSha256', value: ''),
       );
     });
   }
@@ -1793,153 +1686,6 @@ extension TrackEntityQueryFilter
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  pathKeyGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'pathKey',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  pathKeyStartsWith(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.startsWith(
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.endsWith(
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.contains(
-          property: r'pathKey',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> pathKeyMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.matches(
-          property: r'pathKey',
-          wildcard: pattern,
-          caseSensitive: caseSensitive,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  pathKeyIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'pathKey', value: ''),
-      );
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
-  pathKeyIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'pathKey', value: ''),
-      );
-    });
-  }
-
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
   sizeBytesEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -2160,6 +1906,153 @@ extension TrackEntityQueryFilter
     });
   }
 
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  trackIdGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'trackId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  trackIdStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'trackId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition> trackIdMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'trackId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  trackIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'trackId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
+  trackIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'trackId', value: ''),
+      );
+    });
+  }
+
   QueryBuilder<TrackEntity, TrackEntity, QAfterFilterCondition>
   updatedAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -2272,18 +2165,6 @@ extension TrackEntityQuerySortBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioSha256() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioSha256', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByAudioSha256Desc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioSha256', Sort.desc);
-    });
-  }
-
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByCoverColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'coverColorValue', Sort.asc);
@@ -2359,18 +2240,6 @@ extension TrackEntityQuerySortBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByPathKey() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'pathKey', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByPathKeyDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'pathKey', Sort.desc);
-    });
-  }
-
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortBySizeBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sizeBytes', Sort.asc);
@@ -2392,6 +2261,18 @@ extension TrackEntityQuerySortBy
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByTrackId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'trackId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> sortByTrackIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'trackId', Sort.desc);
     });
   }
 
@@ -2455,18 +2336,6 @@ extension TrackEntityQuerySortThenBy
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByArtistDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'artist', Sort.desc);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioSha256() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioSha256', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByAudioSha256Desc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'audioSha256', Sort.desc);
     });
   }
 
@@ -2557,18 +2426,6 @@ extension TrackEntityQuerySortThenBy
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByPathKey() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'pathKey', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByPathKeyDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'pathKey', Sort.desc);
-    });
-  }
-
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenBySizeBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sizeBytes', Sort.asc);
@@ -2590,6 +2447,18 @@ extension TrackEntityQuerySortThenBy
   QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByTrackId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'trackId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QAfterSortBy> thenByTrackIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'trackId', Sort.desc);
     });
   }
 
@@ -2633,14 +2502,6 @@ extension TrackEntityQueryWhereDistinct
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'artist', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByAudioSha256({
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'audioSha256', caseSensitive: caseSensitive);
     });
   }
 
@@ -2690,14 +2551,6 @@ extension TrackEntityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByPathKey({
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'pathKey', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctBySizeBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sizeBytes');
@@ -2709,6 +2562,14 @@ extension TrackEntityQueryWhereDistinct
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TrackEntity, TrackEntity, QDistinct> distinctByTrackId({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'trackId', caseSensitive: caseSensitive);
     });
   }
 
@@ -2751,12 +2612,6 @@ extension TrackEntityQueryProperty
     });
   }
 
-  QueryBuilder<TrackEntity, String?, QQueryOperations> audioSha256Property() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'audioSha256');
-    });
-  }
-
   QueryBuilder<TrackEntity, int?, QQueryOperations> coverColorValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'coverColorValue');
@@ -2794,12 +2649,6 @@ extension TrackEntityQueryProperty
     });
   }
 
-  QueryBuilder<TrackEntity, String, QQueryOperations> pathKeyProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'pathKey');
-    });
-  }
-
   QueryBuilder<TrackEntity, int, QQueryOperations> sizeBytesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sizeBytes');
@@ -2809,6 +2658,12 @@ extension TrackEntityQueryProperty
   QueryBuilder<TrackEntity, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
+    });
+  }
+
+  QueryBuilder<TrackEntity, String, QQueryOperations> trackIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'trackId');
     });
   }
 

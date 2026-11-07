@@ -15,7 +15,7 @@ final playlistSearchResultsProvider = Provider.autoDispose
       if (query.isEmpty) return const [];
       final playlists = ref.watch(playlistsProvider).valueOrNull ?? const [];
       final playlist = playlists.where((p) => p.id == playlistId).firstOrNull;
-      // 「最近播放」的曲目存在 recentlyPlayed 紀錄而非 pathKeys,來源不同。
+      // 「最近播放」的曲目存在 recentlyPlayed 紀錄而非 trackIds,來源不同。
       final tracks = playlistId == null
           ? ref.watch(musicLibraryProvider).valueOrNull ?? const <Track>[]
           : (playlist?.isRecentlyPlayed ?? false)

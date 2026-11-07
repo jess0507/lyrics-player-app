@@ -37,10 +37,10 @@ void main() {
     await tempDir.delete(recursive: true);
   });
 
-  Future<void> saveLyrics(String pathKey, String content) => repo.save(
+  Future<void> saveLyrics(String trackId, String content) => repo.save(
     LyricsEntity()
-      ..pathKey = pathKey
-      ..title = pathKey
+      ..trackId = trackId
+      ..title = trackId
       ..format = LyricsFormat.txt
       ..source = LyricsSource.manual
       ..content = content
@@ -50,7 +50,7 @@ void main() {
   test('beginJob 在沒有歌詞時建立空內容佔位,且不算有歌詞', () async {
     await repo.beginJob('a', jobId: 'job1', title: 'A');
 
-    final entity = repo.findByPathKey('a')!;
+    final entity = repo.findByTrackId('a')!;
     expect(entity.content, isEmpty);
     expect(entity.jobId, 'job1');
     expect(repo.getAllSync(), isEmpty);
@@ -60,7 +60,7 @@ void main() {
     await saveLyrics('a', 'line');
     await repo.beginJob('a', jobId: 'job1', title: 'A');
 
-    final entity = repo.findByPathKey('a')!;
+    final entity = repo.findByTrackId('a')!;
     expect(entity.content, 'line');
     expect(entity.jobId, 'job1');
   });
@@ -69,7 +69,7 @@ void main() {
     await repo.beginJob('a', jobId: 'job1', title: 'A');
     await repo.clearJob('a');
 
-    expect(repo.findByPathKey('a'), isNull);
+    expect(repo.findByTrackId('a'), isNull);
   });
 
   test('clearJob:有內容只清 jobId', () async {
@@ -77,7 +77,7 @@ void main() {
     await repo.beginJob('a', jobId: 'job1', title: 'A');
     await repo.clearJob('a');
 
-    final entity = repo.findByPathKey('a')!;
+    final entity = repo.findByTrackId('a')!;
     expect(entity.content, 'line');
     expect(entity.jobId, isNull);
   });
@@ -86,6 +86,6 @@ void main() {
     await saveLyrics('a', 'line');
     await repo.beginJob('b', jobId: 'job2', title: 'B');
 
-    expect([for (final e in repo.getAllSync()) e.pathKey], ['a']);
+    expect([for (final e in repo.getAllSync()) e.trackId], ['a']);
   });
 }

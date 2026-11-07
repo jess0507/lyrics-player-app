@@ -50,7 +50,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
   }
 
   /// 進該工具的編輯頁,並取代本選曲頁:編輯頁返回直接回工具頁。
-  /// id 是 pathKey(檔案路徑,含 `/`),編碼後才能放進路徑參數。
+  /// id 是 trackId;暫時曲目的 trackId 是 content URI(含 `/`),編碼後才能放進路徑參數。
   /// [source] 為選曲方式:清單點選([AnalyticsSource.list])或從檔案挑選
   /// ([AnalyticsSource.file])。
   void _open(Track track, {required AnalyticsSource source}) {
@@ -60,7 +60,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
       option: widget.tool,
     );
     context.pushReplacement(
-      '/tools/${widget.tool.name}/${Uri.encodeComponent(track.pathKey)}',
+      '/tools/${widget.tool.name}/${Uri.encodeComponent(track.trackId)}',
       extra: track,
     );
   }
@@ -219,7 +219,7 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                             itemBuilder: (context, index) {
                               final track = visibleTracks[index];
                               return TrackPickerTile(
-                                key: ValueKey(track.pathKey),
+                                key: ValueKey(track.trackId),
                                 track: track,
                                 stat: stats[track.filePath],
                                 audio: audio,

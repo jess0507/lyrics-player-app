@@ -7,20 +7,20 @@ import 'package:seek_player/features/lyrics/models/lyrics_job_stage.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_job_stage_provider.dart';
 import 'package:seek_player/features/player/widgets/lyrics_cancel_job_action.dart';
 
-/// 該 pathKey 有進行中的自動產生/對齊工作時顯示,layout 比照 [LyricsView] 的
+/// 該 trackId 有進行中的自動產生/對齊工作時顯示,layout 比照 [LyricsView] 的
 /// 空狀態(icon + 文字)。是否顯示由呼叫端依 `lyricsActiveJobProvider` 判斷;
 /// 文字依 [lyricsJobStageProvider] 顯示目前階段,文案與通知列同一組字串,
 /// 推不出階段時退回通用「處理中」。取消鈕見 [cancelLyricsJob]。
 class LyricsJobStatusView extends ConsumerWidget {
-  const LyricsJobStatusView({super.key, required this.pathKey});
+  const LyricsJobStatusView({super.key, required this.trackId});
 
-  final String pathKey;
+  final String trackId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
-    final stage = ref.watch(lyricsJobStageProvider(pathKey));
+    final stage = ref.watch(lyricsJobStageProvider(trackId));
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,7 +42,7 @@ class LyricsJobStatusView extends ConsumerWidget {
             onPressed: () => cancelLyricsJob(
               context,
               ref,
-              pathKey: pathKey,
+              trackId: trackId,
               source: AnalyticsSource.statusView,
             ),
             child: Text(l10n.common_cancel),

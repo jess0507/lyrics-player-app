@@ -8,7 +8,7 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
 /// 歌詞 ↔ `lyrics.json`:
-/// `{ "lyrics": [ {pathKey, title, format, source, content, updatedAt} ] }`。
+/// `{ "lyrics": [ {trackId, title, format, source, content, updatedAt} ] }`。
 /// 一個檔裝全部歌詞,沒有筆數上限。
 class LyricsBackup implements DomainBackup {
   LyricsBackup(this._ref);
@@ -53,7 +53,7 @@ class LyricsBackup implements DomainBackup {
     'lyrics': [
       for (final e in entities)
         {
-          'pathKey': e.pathKey,
+          'trackId': e.trackId,
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
@@ -63,19 +63,19 @@ class LyricsBackup implements DomainBackup {
     ],
   };
 
-  /// 容錯:缺欄位給預設值;沒有 pathKey 或內文為空的條目跳過
+  /// 容錯:缺欄位給預設值;沒有 trackId 或內文為空的條目跳過
   /// (原文是解析的唯一依據,空內文無意義)。
   static List<LyricsEntity> decodeLyrics(Map<String, dynamic> json) {
     final entities = <LyricsEntity>[];
     for (final item in (json['lyrics'] as List? ?? const [])) {
       if (item is! Map) continue;
-      final pathKey = item['pathKey'];
+      final trackId = item['trackId'];
       final content = item['content'];
-      if (pathKey is! String || pathKey.isEmpty) continue;
+      if (trackId is! String || trackId.isEmpty) continue;
       if (content is! String || content.isEmpty) continue;
       entities.add(
         LyricsEntity()
-          ..pathKey = pathKey
+          ..trackId = trackId
           ..title = (item['title'] as String?) ?? ''
           ..format =
               LyricsFormat.values.asNameMap()[item['format']] ??

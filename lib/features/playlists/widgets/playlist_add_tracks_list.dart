@@ -20,7 +20,7 @@ class PlaylistAddTracksList extends StatelessWidget {
   final AudioPlayerService audio;
 
   /// [added] 為點擊當下是否已加入。
-  final void Function(String pathKey, bool added) onToggle;
+  final void Function(String trackId, bool added) onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class PlaylistAddTracksList extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final track = tracks[index];
-        final added = addedIds.contains(track.pathKey);
+        final added = addedIds.contains(track.trackId);
         return TrackListTile(
-          key: ValueKey(track.pathKey),
+          key: ValueKey(track.trackId),
           track: track,
           audio: audio,
           contentPadding: const EdgeInsets.only(left: 16.0),
@@ -46,9 +46,9 @@ class PlaylistAddTracksList extends StatelessWidget {
             icon: added
                 ? Icon(Icons.check, color: scheme.primary)
                 : const Icon(Icons.add),
-            onPressed: () => onToggle(track.pathKey, added),
+            onPressed: () => onToggle(track.trackId, added),
           ),
-          onTap: () => onToggle(track.pathKey, added),
+          onTap: () => onToggle(track.trackId, added),
         );
       },
     );

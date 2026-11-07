@@ -149,7 +149,7 @@ Future<void> runLyricsMenuAction(
   BuildContext context,
   WidgetRef ref,
   LyricsMenuAction action, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) async {
   // 記錄使用者點了哪個歌詞功能(只送動作名,不送歌名 / 路徑)。
@@ -164,7 +164,7 @@ Future<void> runLyricsMenuAction(
   // 已同步的歌詞重新對時會覆蓋現有時間軸並消耗用量,先確認。
   if ((action == LyricsMenuAction.autoAlignAeneas ||
           action == LyricsMenuAction.autoAlignWhisperX) &&
-      (ref.read(trackLyricsProvider(pathKey)).valueOrNull?.synced ?? false)) {
+      (ref.read(trackLyricsProvider(trackId)).valueOrNull?.synced ?? false)) {
     if (!await _confirmResync(context)) return;
     if (!context.mounted) return;
   }
@@ -188,7 +188,7 @@ Future<void> runLyricsMenuAction(
     final withinLimit = await ensureWithinUsageLimitForLyrics(
       context,
       ref,
-      pathKey: pathKey,
+      trackId: trackId,
     );
     if (!withinLimit || !context.mounted) return;
   }
@@ -198,7 +198,7 @@ Future<void> runLyricsMenuAction(
       await runLyricsAutoAlign(
         context,
         ref,
-        pathKey: pathKey,
+        trackId: trackId,
         title: title,
         engine: LyricsAlignEngine.aeneas,
       );
@@ -206,7 +206,7 @@ Future<void> runLyricsMenuAction(
       await runLyricsAutoAlign(
         context,
         ref,
-        pathKey: pathKey,
+        trackId: trackId,
         title: title,
         engine: LyricsAlignEngine.whisperx,
       );
@@ -215,18 +215,18 @@ Future<void> runLyricsMenuAction(
     case LyricsMenuAction.textAlign:
       showLyricsTextAlignSheet(context);
     case LyricsMenuAction.searchOnline:
-      await runLyricsOnlineSearch(context, ref, pathKey: pathKey, title: title);
+      await runLyricsOnlineSearch(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.edit:
-      await runLyricsEdit(context, pathKey: pathKey, title: title);
+      await runLyricsEdit(context, trackId: trackId, title: title);
     case LyricsMenuAction.import:
     case LyricsMenuAction.reimport:
-      await runLyricsImport(context, ref, pathKey: pathKey, title: title);
+      await runLyricsImport(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.download:
-      await runLyricsDownload(context, ref, pathKey: pathKey, title: title);
+      await runLyricsDownload(context, ref, trackId: trackId, title: title);
     case LyricsMenuAction.delete:
-      await _confirmDelete(context, ref, pathKey);
+      await _confirmDelete(context, ref, trackId);
     case LyricsMenuAction.aiGenerate:
-      await runLyricsAiGenerate(context, ref, pathKey: pathKey, title: title);
+      await runLyricsAiGenerate(context, ref, trackId: trackId, title: title);
   }
 }
 
@@ -254,7 +254,7 @@ Future<bool> _confirmResync(BuildContext context) async {
 Future<void> _confirmDelete(
   BuildContext context,
   WidgetRef ref,
-  String pathKey,
+  String trackId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   final ok = await showDialog<bool>(
@@ -278,6 +278,6 @@ Future<void> _confirmDelete(
     result: ok == true ? AnalyticsResult.confirmed : AnalyticsResult.cancelled,
   );
   if (ok != true || !context.mounted) return;
-  await ref.read(lyricsRepositoryProvider).deleteByPathKey(pathKey);
-  ref.invalidate(trackLyricsProvider(pathKey));
+  await ref.read(lyricsRepositoryProvider).deleteByTrackId(trackId);
+  ref.invalidate(trackLyricsProvider(trackId));
 }

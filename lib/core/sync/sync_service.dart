@@ -50,7 +50,7 @@ class SyncService {
   final Ref ref;
 
   /// 雲端 `user/{uid}` 主文件的 schema 版號。
-  /// 9:pathKey 由內容指紋(sha1)改為路徑 pathKey(見 TrackPathKey)。
+  /// 9:曲目身份 trackId 由內容指紋(sha1)改為音檔全檔 SHA-256(見 plans/38)。
   static const schemaVersion = 9;
 
   /// 等曲庫掃描完成的上限;冷啟動掃描大音樂庫可能要一段時間。

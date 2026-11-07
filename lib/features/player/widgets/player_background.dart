@@ -12,14 +12,14 @@ import 'package:seek_player/features/cover/providers/track_cover_color_provider.
 /// 與強調色一致的漸層;底部與承載播放頁的 sheet 背景(同為 `surface`)
 /// 無縫銜接。子內容(透明的 Scaffold)直接疊在漸層之上。
 ///
-/// 強調色預設取主題色;當使用者開啟「封面色漸層」且目前曲目 [pathKey]
+/// 強調色預設取主題色;當使用者開啟「封面色漸層」且目前曲目 [trackId]
 /// 有可解析的封面時,改用封面主色([trackCoverColorProvider]),無封面或
 /// 解析失敗則退回主題色。關閉漸層時改以純 `surface` 背景呈現。
 class PlayerBackground extends ConsumerWidget {
-  const PlayerBackground({super.key, required this.child, this.pathKey});
+  const PlayerBackground({super.key, required this.child, this.trackId});
 
   final Widget child;
-  final String? pathKey;
+  final String? trackId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +38,7 @@ class PlayerBackground extends ConsumerWidget {
       settingsControllerProvider.select((s) => s.gradientFromCover),
     );
     Color? coverColor;
-    final id = pathKey;
+    final id = trackId;
     if (fromCover && id != null) {
       final raw = ref.watch(trackCoverColorProvider(id)).valueOrNull;
       // 只取封面色的色相,飽和度 / 明度依主題明暗固定,避免不同封面造成

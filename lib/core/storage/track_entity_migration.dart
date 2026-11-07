@@ -19,12 +19,13 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 import 'package:seek_player/features/music_list/models/track_entity.dart';
 import 'package:seek_player/features/music_list/models/track_fingerprint_entity.dart';
 import 'package:seek_player/features/music_list/providers/music_library_source_provider.dart';
-import 'package:seek_player/features/music_list/services/track_path_key.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
 
-const _kDoneKey = 'track_entity_migration_done';
+/// trackId 改為音檔全檔 SHA-256(plans/38)後的新 flag;與 31 / 33 的 flag 分開,
+/// 只跑過那兩版的開發機也會重跑。
+const _kDoneKey = 'track_identity_sha256_done';
 
 enum TrackEntityMigrationStatus {
   /// 已完成(或沒有舊資料,不需要遷移)。
@@ -110,10 +111,12 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
       ref.read(lyricsPendingSyncStoreProvider).isNotEmpty;
 
   Future<_MigrationStats?> _migrate() async {
-    // 1. 掃描曲庫:掃到的檔案同時 upsert 成 TrackEntity。
+    // 1. 掃描曲庫:掃到的檔案算好 trackId(音檔全檔 SHA-256)並 upsert 成
+    //    TrackEntity。第一次要讀全部檔案,期間由 TrackEntityMigrationGate
+    //    顯示「更新音樂庫」進度。
     final scanned = await ref.read(musicLibrarySourceProvider).scan();
 
-    // 曲庫掃到 0 首回 null(對不到任何 pathKey,遷移沒有意義)。
+    // 曲庫掃到 0 首回 null(對不到任何 trackId,遷移沒有意義)。
     if (scanned.isEmpty) return null;
 
     final resolver = await _LegacyIdResolver.build(_isar);
@@ -133,7 +136,7 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
     });
     await ref
         .read(lyricsPendingSyncStoreProvider.notifier)
-        .remapToPathKeys((trackId) => resolver.resolve(trackId).firstOrNull);
+        .remapToTrackIds((trackId) => resolver.resolve(trackId).firstOrNull);
     await _deleteOrphanCoverFiles();
 
     // 讓下一次同步以新格式整份推送,覆蓋雲端舊格式資料。
@@ -151,111 +154,89 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
     return stats;
   }
 
-  /// TrackCoverEntity(以 trackId 關聯)→ TrackEntity.coverImagePath。
+  /// TrackCoverEntity(以舊 sha1 trackId 關聯)→ TrackEntity.coverImagePath。
   Future<void> _migrateCovers(
     _LegacyIdResolver resolver,
     _MigrationStats stats,
   ) async {
     final tracks = _isar.trackEntitys;
     for (final cover in await _isar.trackCoverEntitys.where().findAll()) {
-      final pathKey = resolver.resolve(cover.trackId).firstOrNull;
-      final entity = pathKey == null
-          ? null
-          : await tracks.getByPathKey(pathKey);
-      if (entity == null || entity.coverImagePath != null) {
+      final trackId = resolver.resolve(cover.trackId).firstOrNull;
+      final entities = trackId == null
+          ? const <TrackEntity>[]
+          : await tracks.where().trackIdEqualTo(trackId).findAll();
+      if (entities.isEmpty || entities.first.coverImagePath != null) {
         // 對不到曲目:圖檔留給 _deleteOrphanCoverFiles 一併清掉。
         stats.dropped++;
         continue;
       }
-      entity
-        ..coverImagePath = cover.imagePath
-        ..coverColorValue = cover.colorValue
-        ..updatedAt = DateTime.now();
-      await tracks.putByPathKey(entity);
+      // 封面以曲目身份為單位:同 trackId 的多個檔案共用。
+      final now = DateTime.now();
+      for (final e in entities) {
+        e
+          ..coverImagePath = cover.imagePath
+          ..coverColorValue = cover.colorValue
+          ..updatedAt = now;
+      }
+      await tracks.putAllByPath(entities);
       stats.covers++;
     }
   }
 
-  /// LyricsEntity 補上 pathKey(一對多時每個 pathKey 各一份,trackId 相同)。
-  /// 一首一筆:同一個 pathKey 已有歌詞(先遷移到的那筆)時,後來的丟棄。
+  /// LyricsEntity 的 trackId 由舊 sha1 就地改寫成 SHA-256。一首一筆:同一個
+  /// trackId 已有歌詞(先遷移到的那筆)時,後來的丟棄;對不到曲目的刪除。
   Future<void> _migrateLyrics(
     _LegacyIdResolver resolver,
     _MigrationStats stats,
   ) async {
     final col = _isar.lyricsEntitys;
-    final all = await col.where().findAll();
-    final taken = {
-      for (final l in all)
-        if (l.pathKey.isNotEmpty) l.pathKey,
-    };
-    for (final lyrics in all) {
-      if (lyrics.pathKey.isNotEmpty) continue; // 已遷移。
-      final trackId = lyrics.trackId;
-      final pathKeys = [
-        for (final k in resolver.resolve(trackId))
-          if (!taken.contains(k)) k,
-      ];
-      await col.delete(lyrics.id);
-      if (pathKeys.isEmpty) {
+    final taken = <String>{};
+    for (final lyrics in await col.where().findAll()) {
+      final trackId = resolver.resolve(lyrics.trackId).firstOrNull;
+      if (trackId == null || !taken.add(trackId)) {
+        await col.delete(lyrics.id);
         stats.dropped++;
         continue;
       }
-      for (final pathKey in pathKeys) {
-        taken.add(pathKey);
-        await col.put(
-          LyricsEntity()
-            ..pathKey = pathKey
-            ..trackId = trackId
-            ..title = lyrics.title
-            ..format = lyrics.format
-            ..source = lyrics.source
-            ..content = lyrics.content
-            ..jobId = lyrics.jobId
-            ..addedAt = lyrics.addedAt,
-        );
-      }
+      lyrics.trackId = trackId;
+      await col.put(lyrics);
       stats.lyrics++;
     }
   }
 
-  /// 依凍結的 trackIds 順序填入 pathKeys;最近播放逐筆補 pathKey。
+  /// 播放清單的 trackIds 依原順序改寫;最近播放逐筆改寫。對不到的移除,
+  /// 改寫後重複的只留第一個。
   Future<void> _migratePlaylists(
     _LegacyIdResolver resolver,
     _MigrationStats stats,
   ) async {
     final col = _isar.playlistEntitys;
     for (final playlist in await col.where().findAll()) {
-      final needsPathKeys =
-          playlist.pathKeys.isEmpty && playlist.trackIds.isNotEmpty;
-      final needsRecent = playlist.recentlyPlayed.any((e) => e.pathKey.isEmpty);
-      if (!needsPathKeys && !needsRecent) continue;
-
-      if (needsPathKeys) {
-        final pathKeys = <String>[];
-        for (final trackId in playlist.trackIds) {
-          final pathKey = resolver.resolve(trackId).firstOrNull;
-          if (pathKey == null) {
-            stats.dropped++;
-          } else if (!pathKeys.contains(pathKey)) {
-            pathKeys.add(pathKey);
-          }
-        }
-        playlist.pathKeys = pathKeys;
+      if (playlist.trackIds.isEmpty && playlist.recentlyPlayed.isEmpty) {
+        continue;
       }
+
+      final trackIds = <String>[];
+      for (final legacy in playlist.trackIds) {
+        final trackId = resolver.resolve(legacy).firstOrNull;
+        if (trackId == null) {
+          stats.dropped++;
+        } else if (!trackIds.contains(trackId)) {
+          trackIds.add(trackId);
+        }
+      }
+      playlist.trackIds = trackIds;
 
       final recentlyPlayed = <RecentlyPlayedEntry>[];
       final seen = <String>{};
       for (final entry in playlist.recentlyPlayed) {
-        final pathKey = entry.pathKey.isNotEmpty
-            ? entry.pathKey
-            : resolver.resolve(entry.trackId).firstOrNull;
-        if (pathKey == null) {
+        final trackId = resolver.resolve(entry.trackId).firstOrNull;
+        if (trackId == null) {
           stats.dropped++;
-        } else if (seen.add(pathKey)) {
+        } else if (seen.add(trackId)) {
           recentlyPlayed.add(
             RecentlyPlayedEntry()
-              ..pathKey = pathKey
-              ..trackId = entry.trackId
+              ..trackId = trackId
               ..playedAt = entry.playedAt,
           );
         }
@@ -266,8 +247,9 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
     }
   }
 
-  /// 每日統計補上 pathKey。同一天兩筆對到同一個 pathKey 時合併次數與時長
-  /// (一天一曲一筆,見 DailyTrackStatEntity.day)。
+  /// 每日統計的 trackId 改寫成 SHA-256。同一天兩筆對到同一個 trackId 時合併
+  /// 次數與時長(一天一曲一筆,見 DailyTrackStatEntity.day);對不到的保留
+  /// 原值(統計只用於加總使用量)。
   ///
   /// 直接用 Isar 非同步讀寫(在呼叫端的 writeTxn 內),不經
   /// StatisticsController.restoreFromRemote:那邊是 writeTxnSync,資料量大時
@@ -280,25 +262,20 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
   ) async {
     final col = _isar.dailyTrackStatEntitys;
     final days = await col.where().findAll();
-    if (!days.any((d) => d.pathKey.isEmpty)) return;
+    if (days.isEmpty) return;
 
     final merged = <(String, String), DailyTrackStatEntity>{};
     for (final d in days) {
-      final trackId = d.trackId;
-      // 對不到也保留:pathKey 暫以 trackId 填入,統計只用於加總使用量。
-      final pathKey = d.pathKey.isNotEmpty
-          ? d.pathKey
-          : resolver.resolve(trackId).firstOrNull ?? trackId ?? '';
-      final existing = merged[(d.day, pathKey)];
+      final trackId = resolver.resolve(d.trackId).firstOrNull ?? d.trackId;
+      final existing = merged[(d.day, trackId)];
       if (existing != null) {
         existing
           ..playCount += d.playCount
           ..listenMs += d.listenMs;
         continue;
       }
-      merged[(d.day, pathKey)] = DailyTrackStatEntity()
+      merged[(d.day, trackId)] = DailyTrackStatEntity()
         ..day = d.day
-        ..pathKey = pathKey
         ..trackId = trackId
         ..title = d.title
         ..playCount = d.playCount
@@ -336,33 +313,41 @@ class TrackEntityMigration extends Notifier<TrackEntityMigrationStatus> {
   }
 }
 
-/// trackId(舊識別碼,即 TrackFingerprintEntity.hash)→ 本機有 TrackEntity
-/// 的 pathKey 清單。
+/// 舊 trackId(sha1 內容指紋,即 TrackFingerprintEntity.hash)→ 本機有
+/// TrackEntity 的新 trackId(音檔全檔 SHA-256)清單。
+///
+/// 已經是 SHA-256 的值(本機已有該 trackId 的 TrackEntity)原樣回傳。
 class _LegacyIdResolver {
-  _LegacyIdResolver(this._byHash);
+  _LegacyIdResolver(this._byHash, this._known);
 
-  /// 指紋 hash → pathKey(同內容多份檔案會有多個)。
+  /// 指紋 hash → trackId(同內容多份檔案只會對到一個 trackId)。
   final Map<String, List<String>> _byHash;
 
-  static Future<_LegacyIdResolver> build(Isar isar) async {
-    final known = (await isar.trackEntitys.where().pathKeyProperty().findAll())
-        .toSet();
+  /// 本機所有 TrackEntity 的 trackId。
+  final Set<String> _known;
 
-    // 指紋快取的 path 與掃描建立的 TrackEntity 以 pathKey 對上;
+  static Future<_LegacyIdResolver> build(Isar isar) async {
+    final tracks = await isar.trackEntitys.where().findAll();
+    final byPath = {for (final t in tracks) t.path: t.trackId};
+
+    // 指紋快取的 path 與掃描建立的 TrackEntity 以 path 對上;
     // 檔案已不存在(沒掃到)的不收。
     final byHash = <String, List<String>>{};
     for (final f in await isar.trackFingerprintEntitys.where().findAll()) {
-      final pathKey = TrackPathKey.of(f.path);
-      if (!known.contains(pathKey)) continue;
-      final pathKeys = byHash.putIfAbsent(f.hash, () => []);
-      if (!pathKeys.contains(pathKey)) pathKeys.add(pathKey);
+      final trackId = byPath[f.path];
+      if (trackId == null) continue;
+      final trackIds = byHash.putIfAbsent(f.hash, () => []);
+      if (!trackIds.contains(trackId)) trackIds.add(trackId);
     }
-    return _LegacyIdResolver(byHash);
+    return _LegacyIdResolver(byHash, {for (final t in tracks) t.trackId});
   }
 
   /// 對不到(含 MediaStore 數字 id 等不在指紋表的值)回空清單。
-  List<String> resolve(String? trackId) =>
-      trackId == null ? const [] : _byHash[trackId] ?? const [];
+  List<String> resolve(String? legacyId) {
+    if (legacyId == null) return const [];
+    if (_known.contains(legacyId)) return [legacyId];
+    return _byHash[legacyId] ?? const [];
+  }
 }
 
 class _MigrationStats {

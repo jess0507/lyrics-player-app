@@ -285,10 +285,10 @@ class _LocalMusicPlaylistPageState
           itemBuilder: (context, index) {
             final track = tracks[index];
             return TrackListTile(
-              key: ValueKey(track.pathKey),
+              key: ValueKey(track.trackId),
               track: track,
               audio: audio,
-              isCurrent: track.pathKey == currentId,
+              isCurrent: track.trackId == currentId,
               onTap: () {
                 logAnalyticsAction(
                   LibraryAction.playTrack,

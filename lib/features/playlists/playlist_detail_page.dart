@@ -301,10 +301,10 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
     List<RecentlyPlayedItem> items,
     List<Track> tracks,
   ) {
-    // 同曲重播會移到最前面,pathKey 在最近播放中唯一。
-    final byId = {for (final item in items) item.track.pathKey: item};
+    // 同曲重播會移到最前面,trackId 在最近播放中唯一。
+    final byId = {for (final item in items) item.track.trackId: item};
     return RecentlyPlayedTrackList(
-      items: [for (final t in tracks) byId[t.pathKey]!],
+      items: [for (final t in tracks) byId[t.trackId]!],
     );
   }
 
@@ -321,10 +321,10 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
           itemBuilder: (context, index) {
             final track = tracks[index];
             return TrackListTile(
-              key: ValueKey(track.pathKey),
+              key: ValueKey(track.trackId),
               track: track,
               audio: audio,
-              isCurrent: track.pathKey == currentId,
+              isCurrent: track.trackId == currentId,
               onTap: () {
                 logAnalyticsAction(
                   PlaylistAction.playTrack,

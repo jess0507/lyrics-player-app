@@ -23,7 +23,7 @@ import 'package:seek_player/shared/widgets/svg_icon.dart';
 Future<void> showLyricsOnlineSearchSheet(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
   String? artist,
 }) {
@@ -34,7 +34,7 @@ Future<void> showLyricsOnlineSearchSheet(
     builder: (sheetContext) => _LyricsOnlineSearchSheet(
       parentContext: context,
       parentRef: ref,
-      pathKey: pathKey,
+      trackId: trackId,
       title: title,
       artist: artist,
     ),
@@ -45,14 +45,14 @@ class _LyricsOnlineSearchSheet extends ConsumerStatefulWidget {
   const _LyricsOnlineSearchSheet({
     required this.parentContext,
     required this.parentRef,
-    required this.pathKey,
+    required this.trackId,
     required this.title,
     required this.artist,
   });
 
   final BuildContext parentContext;
   final WidgetRef parentRef;
-  final String pathKey;
+  final String trackId;
   final String title;
   final String? artist;
 
@@ -271,7 +271,7 @@ class _LyricsOnlineSearchSheetState
     final l10n = AppLocalizations.of(widget.parentContext)!;
     await widget.parentRef
         .read(lyricsOnlineSearchServiceProvider)
-        .apply(pathKey: widget.pathKey, title: widget.title, result: result);
+        .apply(trackId: widget.trackId, title: widget.title, result: result);
     showAppToast(l10n.lyrics_search_online_applied);
   }
 }

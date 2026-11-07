@@ -21,18 +21,18 @@ class NotificationArtworkResolver {
     'content://media/external/audio/albumart',
   );
 
-  /// 回傳 pathKey → artUri;查無封面的曲目不會出現在結果中。
+  /// 回傳 trackId → artUri;查無封面的曲目不會出現在結果中。
   Future<Map<String, Uri>> resolve(List<Track> tracks) async {
     final result = <String, Uri>{};
     for (final t in tracks) {
       final uri = _resolveOne(t);
-      if (uri != null) result[t.pathKey] = uri;
+      if (uri != null) result[t.trackId] = uri;
     }
     return result;
   }
 
   Uri? _resolveOne(Track track) {
-    final custom = _covers.findByPathKey(track.pathKey);
+    final custom = _covers.findByTrackId(track.trackId);
     if (custom != null) return Uri.file(custom.coverImagePath!);
 
     final albumId = track.albumId;

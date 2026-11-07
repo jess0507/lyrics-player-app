@@ -10,7 +10,7 @@ import 'package:seek_player/features/player/widgets/lyrics_action_tiles.dart';
 void showLyricsActionsSheet(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) {
   showModalBottomSheet<void>(
@@ -22,7 +22,7 @@ void showLyricsActionsSheet(
       child: LyricsActionTiles(
         actionContext: context,
         actionRef: ref,
-        pathKey: pathKey,
+        trackId: trackId,
         title: title,
         onSelected: () => Navigator.of(sheetContext).pop(),
       ),

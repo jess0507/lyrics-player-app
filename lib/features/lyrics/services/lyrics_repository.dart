@@ -15,28 +15,28 @@ class LyricsRepository {
 
   IsarCollection<LyricsEntity> get _col => _isar.lyricsEntitys;
 
-  /// 依 pathKey 取歌詞;查無回 null。
+  /// 依 trackId 取歌詞;查無回 null。
   ///
-  /// pathKey 只有一般索引(見 LyricsEntity.pathKey),一首一筆由本類別的
+  /// trackId 只有一般索引(見 LyricsEntity.trackId),一首一筆由本類別的
   /// 寫入([_put] / [_putAll])保證。
-  LyricsEntity? findByPathKey(String pathKey) =>
-      _col.where().pathKeyEqualTo(pathKey).findFirstSync();
+  LyricsEntity? findByTrackId(String trackId) =>
+      _col.where().trackIdEqualTo(trackId).findFirstSync();
 
-  /// 同 pathKey 已有一筆時沿用它的 id(覆蓋),確保一首一筆。須在
+  /// 同 trackId 已有一筆時沿用它的 id(覆蓋),確保一首一筆。須在
   /// writeTxnSync 內呼叫。
   ///
   /// 本類別寫入一律用 writeTxnSync:統計 / 播放清單也是 sync 交易,同一個
   /// isolate 混用 async 交易時,async 交易進行中開 sync 交易會丟 IsarError。
   void _put(LyricsEntity entity) {
-    final existing = findByPathKey(entity.pathKey);
+    final existing = findByTrackId(entity.trackId);
     if (existing != null) entity.id = existing.id;
     _col.putSync(entity);
   }
 
-  /// 批次版 [_put];清單內同 pathKey 以後面那筆為準。須在 writeTxnSync 內呼叫。
+  /// 批次版 [_put];清單內同 trackId 以後面那筆為準。須在 writeTxnSync 內呼叫。
   void _putAll(List<LyricsEntity> entities) {
-    final byPathKey = {for (final e in entities) e.pathKey: e};
-    byPathKey.values.forEach(_put);
+    final byTrackId = {for (final e in entities) e.trackId: e};
+    byTrackId.values.forEach(_put);
   }
 
   /// 同步讀取全部**有內容**的歌詞(雲端同步 / 備份上傳快照用)。送出 AI
@@ -48,14 +48,14 @@ class LyricsRepository {
   /// 歌詞(AI 產生)就先建一筆空內容的 entity。不算使用者的歌詞變更,
   /// 不 markLyricsModified(空內容本來就不會被上傳)。
   Future<void> beginJob(
-    String pathKey, {
+    String trackId, {
     required String jobId,
     required String title,
   }) async => _isar.writeTxnSync(() {
     final entity =
-        findByPathKey(pathKey) ??
+        findByTrackId(trackId) ??
         (LyricsEntity()
-          ..pathKey = pathKey
+          ..trackId = trackId
           ..title = title
           ..format = LyricsFormat.lrc
           ..source = LyricsSource.generated
@@ -67,8 +67,8 @@ class LyricsRepository {
 
   /// 任務結束(失敗 / 取消 / 未送出)時收尾:內容仍是空的就刪掉這筆,
   /// 有內容(對時失敗)就只清掉 jobId。
-  Future<void> clearJob(String pathKey) async => _isar.writeTxnSync(() {
-    final entity = findByPathKey(pathKey);
+  Future<void> clearJob(String trackId) async => _isar.writeTxnSync(() {
+    final entity = findByTrackId(trackId);
     if (entity == null) return;
     if (entity.content.isEmpty) {
       _col.deleteSync(entity.id);
@@ -78,16 +78,16 @@ class LyricsRepository {
     }
   });
 
-  /// upsert(同 pathKey 覆蓋)。
+  /// upsert(同 trackId 覆蓋)。
   Future<void> save(LyricsEntity entity) async {
     _isar.writeTxnSync(() => _put(entity));
     _backupState.markLyricsModified();
   }
 
   /// 移除某曲歌詞。
-  Future<void> deleteByPathKey(String pathKey) async {
+  Future<void> deleteByTrackId(String trackId) async {
     final deleted = _isar.writeTxnSync(
-      () => _col.where().pathKeyEqualTo(pathKey).deleteAllSync(),
+      () => _col.where().trackIdEqualTo(trackId).deleteAllSync(),
     );
     if (deleted > 0) _backupState.markLyricsModified();
   }

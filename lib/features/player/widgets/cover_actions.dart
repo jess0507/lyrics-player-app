@@ -13,13 +13,13 @@ import 'package:seek_player/features/cover/services/cover_import_service.dart';
 Future<void> setTrackCover(
   BuildContext context,
   WidgetRef ref,
-  String pathKey,
+  String trackId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   try {
     final done = await ref
         .read(coverImportServiceProvider)
-        .pickAndSetForTrack(pathKey);
+        .pickAndSetForTrack(trackId);
     if (!done) {
       // 使用者取消
       logAnalyticsAction(
@@ -41,11 +41,11 @@ Future<void> setTrackCover(
 Future<void> removeTrackCover(
   BuildContext context,
   WidgetRef ref,
-  String pathKey,
+  String trackId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   logAnalyticsAction(CoverAction.removeCover);
-  await ref.read(coverImportServiceProvider).removeForTrack(pathKey);
+  await ref.read(coverImportServiceProvider).removeForTrack(trackId);
   showAppToast(l10n.cover_removed);
 }
 

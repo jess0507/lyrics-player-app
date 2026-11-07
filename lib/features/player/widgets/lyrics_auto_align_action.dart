@@ -16,15 +16,15 @@ import 'package:seek_player/features/lyrics/auto_align/lyrics_auto_align_service
 Future<void> runLyricsAutoAlign(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
   required LyricsAlignEngine engine,
 }) async {
   final l10n = AppLocalizations.of(context)!;
   final language = Localizations.localeOf(context).toLanguageTag();
-  if (ref.read(lyricsAutoAlignControllerProvider(pathKey)).isRunning) return;
+  if (ref.read(lyricsAutoAlignControllerProvider(trackId)).isRunning) return;
   final controller = ref.read(
-    lyricsAutoAlignControllerProvider(pathKey).notifier,
+    lyricsAutoAlignControllerProvider(trackId).notifier,
   );
 
   showAppToast(l10n.lyrics_auto_align_running_background);
@@ -46,7 +46,7 @@ Future<void> runLyricsAutoAlign(
     );
     return;
   }
-  final result = ref.read(lyricsAutoAlignControllerProvider(pathKey));
+  final result = ref.read(lyricsAutoAlignControllerProvider(trackId));
   logAnalyticsAction(
     LyricsAction.autoAlignSubmit,
     option: engine,

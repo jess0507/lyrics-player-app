@@ -8,7 +8,7 @@ import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 void main() {
   test('encode → JSON → decode round-trip', () {
     final entity = LyricsEntity()
-      ..pathKey = 't1'
+      ..trackId = 't1'
       ..title = 'Song'
       ..format = LyricsFormat.lrc
       ..source = LyricsSource.online
@@ -18,7 +18,7 @@ void main() {
     final json = jsonDecode(jsonEncode(LyricsBackup.encodeLyrics([entity])));
     final decoded = LyricsBackup.decodeLyrics(json).single;
 
-    expect(decoded.pathKey, 't1');
+    expect(decoded.trackId, 't1');
     expect(decoded.title, 'Song');
     expect(decoded.format, LyricsFormat.lrc);
     expect(decoded.source, LyricsSource.online);
@@ -26,17 +26,17 @@ void main() {
     expect(decoded.addedAt.millisecondsSinceEpoch, 12345);
   });
 
-  test('缺 pathKey 或空內文跳過;未知 format / source fallback', () {
+  test('缺 trackId 或空內文跳過;未知 format / source fallback', () {
     final decoded = LyricsBackup.decodeLyrics({
       'lyrics': [
-        {'pathKey': 'ok', 'content': 'x', 'format': 'weird', 'source': '??'},
-        {'pathKey': 'empty', 'content': ''},
+        {'trackId': 'ok', 'content': 'x', 'format': 'weird', 'source': '??'},
+        {'trackId': 'empty', 'content': ''},
         {'content': 'no id'},
         'garbage',
       ],
     });
     expect(decoded, hasLength(1));
-    expect(decoded.single.pathKey, 'ok');
+    expect(decoded.single.trackId, 'ok');
     expect(decoded.single.format, LyricsFormat.txt);
     expect(decoded.single.source, LyricsSource.manual);
     expect(decoded.single.title, '');

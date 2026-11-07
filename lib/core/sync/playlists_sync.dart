@@ -42,11 +42,11 @@ class PlaylistsSync {
           'isFavorites': p.isFavorites,
           'isRecentlyPlayed': p.isRecentlyPlayed,
           'createdAt': p.createdAt.millisecondsSinceEpoch,
-          'pathKeys': p.pathKeys,
+          'trackIds': p.trackIds,
           'recentlyPlayed': [
             for (final e in p.recentlyPlayed)
               {
-                'pathKey': e.pathKey,
+                'trackId': e.trackId,
                 'playedAt': e.playedAt.millisecondsSinceEpoch,
               },
           ],
@@ -93,21 +93,21 @@ class PlaylistsSync {
   ) async {
     final snapshot = await userDoc.collection('playlist').get();
     final playlists = snapshot.toPlaylists();
-    final available = _ref.read(trackRepositoryProvider).availablePathKeys([
+    final available = _ref.read(trackRepositoryProvider).availableTrackIds([
       for (final p in playlists) ...[
-        ...p.pathKeys,
-        for (final e in p.recentlyPlayed) e.pathKey,
+        ...p.trackIds,
+        for (final e in p.recentlyPlayed) e.trackId,
       ],
     ]);
     for (final p in playlists) {
       p
-        ..pathKeys = [
-          for (final id in p.pathKeys)
+        ..trackIds = [
+          for (final id in p.trackIds)
             if (available.contains(id)) id,
         ]
         ..recentlyPlayed = [
           for (final e in p.recentlyPlayed)
-            if (available.contains(e.pathKey)) e,
+            if (available.contains(e.trackId)) e,
         ];
     }
     return playlists;
@@ -156,15 +156,15 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..createdAt = DateTime.fromMillisecondsSinceEpoch(
             (doc.data()['createdAt'] as num? ?? 0).toInt(),
           )
-          ..pathKeys = [
-            for (final t in (doc.data()['pathKeys'] as List? ?? const [])) '$t',
+          ..trackIds = [
+            for (final t in (doc.data()['trackIds'] as List? ?? const [])) '$t',
           ]
           ..recentlyPlayed = [
             for (final e in (doc.data()['recentlyPlayed'] as List? ?? const []))
-              // 沒有 pathKey 的是舊格式,對不到任何本機曲目。
-              if (e is Map && e['pathKey'] is String)
+              // 沒有 trackId 的是舊格式,對不到任何本機曲目。
+              if (e is Map && e['trackId'] is String)
                 RecentlyPlayedEntry()
-                  ..pathKey = e['pathKey'] as String
+                  ..trackId = e['trackId'] as String
                   ..playedAt = DateTime.fromMillisecondsSinceEpoch(
                     (e['playedAt'] as num? ?? 0).toInt(),
                   ),
@@ -177,6 +177,6 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
 extension _PlaylistUserContent on PlaylistEntity {
   bool get _hasUserContent =>
       (!isFavorites && !isRecentlyPlayed) ||
-      pathKeys.isNotEmpty ||
+      trackIds.isNotEmpty ||
       recentlyPlayed.isNotEmpty;
 }

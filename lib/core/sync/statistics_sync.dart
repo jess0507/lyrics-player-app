@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seek_player/core/sync/track_doc_key.dart';
 import 'package:seek_player/features/profile/statistics/models/daily_track_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/models/period_stat_entity.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
@@ -44,9 +43,9 @@ class StatisticsSync {
     final dailyByMonth = <String, Map<String, Map<String, Object>>>{};
     for (final d in days) {
       final month = d.day.substring(0, 7);
-      // pathKey 含 `/`、`.`,map key 改用 [trackDocKey],原值放進值裡。
-      ((dailyByMonth[month] ??= {})[d.day] ??= {})[trackDocKey(d.pathKey)] = {
-        'pathKey': d.pathKey,
+      // trackId 為 64 碼 hex,可直接當 map key;原值另放進值裡。
+      ((dailyByMonth[month] ??= {})[d.day] ??= {})[d.trackId] = {
+        'trackId': d.trackId,
         'title': d.title,
         'playCount': d.playCount,
         'listenMs': d.listenMs,
@@ -108,14 +107,14 @@ class StatisticsSync {
       _ref.read(statisticsControllerProvider).days,
       remote,
     );
-    final remoteTracks = {for (final r in remote) r.pathKey};
+    final remoteTracks = {for (final r in remote) r.trackId};
     _ref
         .read(statisticsControllerProvider.notifier)
         .restoreFromRemote(
           days,
           monthlyTotals: mergeMonthlyTotals(snapshot.toMonthlyTotals(), [
             for (final d in days)
-              if (!remoteTracks.contains(d.pathKey)) d,
+              if (!remoteTracks.contains(d.trackId)) d,
           ]),
         );
   }
@@ -127,11 +126,11 @@ List<DailyTrackStatEntity> mergeDailyStats(
   List<DailyTrackStatEntity> local,
   List<DailyTrackStatEntity> remote,
 ) {
-  final remoteTracks = {for (final r in remote) r.pathKey};
+  final remoteTracks = {for (final r in remote) r.trackId};
   return [
     ...remote,
     for (final l in local)
-      if (!remoteTracks.contains(l.pathKey)) l,
+      if (!remoteTracks.contains(l.trackId)) l,
   ]..sort((a, b) => a.day.compareTo(b.day));
 }
 
@@ -168,14 +167,14 @@ extension _RemoteDailyStatsDecode on QuerySnapshot<Map<String, dynamic>> {
         tracks.forEach((key, value) {
           if (value is! Map) return;
           // 統計只記使用量,不需對應到本機曲目:找不到 track 也保留。
-          // schema 8 以前沒有 `pathKey` 欄位,key 本身是舊識別碼(sha1):
-          // pathKey 暫以它填入(只用於加總,見 plans/33)。
-          final pathKey = (value['pathKey'] as String?) ?? '$key';
+          // 沒有 `trackId` 欄位時 key 本身就是 trackId(schema 8 以前為舊的
+          // sha1 指紋,對不到本機曲目也保留,只用於加總,見 plans/38)。
+          final trackId = (value['trackId'] as String?) ?? '$key';
           entities.add(
             DailyTrackStatEntity()
               ..day = '$day'
-              ..pathKey = pathKey
-              ..title = (value['title'] as String?) ?? pathKey
+              ..trackId = trackId
+              ..title = (value['title'] as String?) ?? trackId
               ..playCount = (value['playCount'] as num? ?? 0).toInt()
               ..listenMs = (value['listenMs'] as num? ?? 0).toInt(),
           );

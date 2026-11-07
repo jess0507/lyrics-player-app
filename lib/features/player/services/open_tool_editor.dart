@@ -9,22 +9,22 @@ import 'package:seek_player/features/tools/models/tool_kind.dart';
 /// 播放頁是以 imperative route 疊在 root navigator 上;編輯頁同樣直接
 /// push 到 root navigator、疊在播放頁之上,返回時就回到播放頁,而不是
 /// 先關掉播放頁再走 go_router(那樣返回會落到下層的本地音樂 / 播放清單)。
-/// [track] 有值時當作編輯頁的初始資料,否則由編輯頁自行以 pathKey 載入。
+/// [track] 有值時當作編輯頁的初始資料,否則由編輯頁自行以 trackId 載入。
 void openToolEditorFromPlayer(
   BuildContext context, {
   required ToolKind tool,
-  required String pathKey,
+  required String trackId,
   Track? track,
 }) {
   Navigator.of(context, rootNavigator: true).push(
     MaterialPageRoute<void>(
       builder: (_) => switch (tool) {
         ToolKind.lyrics => LyricsEditorPage(
-          pathKey: pathKey,
+          trackId: trackId,
           initialTrack: track,
         ),
         ToolKind.cover => CoverEditorPage(
-          pathKey: pathKey,
+          trackId: trackId,
           initialTrack: track,
         ),
       },

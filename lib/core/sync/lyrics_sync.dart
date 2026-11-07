@@ -5,15 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/backup/backup_state_store.dart';
-import 'package:seek_player/core/sync/track_doc_key.dart';
 import 'package:seek_player/features/music_list/services/track_repository.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
-/// 歌詞與 `user/{uid}/backupLyrics/{trackDocKey(pathKey)}` 子集合的推送與
-/// 還原(SyncService 調度)。pathKey含 `/` 不能當 doc id,以
-/// [trackDocKey] 轉換,原值存在文件的 `pathKey` 欄位。歌詞原文放不進主文件的 1 MiB 上限,逐曲一份文件;完整快照語意
+/// 歌詞與 `user/{uid}/backupLyrics/{trackId}` 子集合的推送與還原
+/// (SyncService 調度)。trackId(音檔全檔 SHA-256,64 碼 hex)直接當 doc id,
+/// 原值另存在文件的 `trackId` 欄位。歌詞原文放不進主文件的 1 MiB 上限,逐曲一份文件;完整快照語意
 /// (last-write-wins)。
 ///
 /// 刻意與 `user/{uid}/lyrics/{jobId}` 分開:那個子集合是後端對時 / 產生
@@ -72,7 +71,7 @@ class LyricsSync {
       pendingOps = 0;
     }
 
-    final localIds = {for (final e in local) trackDocKey(e.pathKey)};
+    final localIds = {for (final e in local) e.trackId};
     final stale = cloudIds.difference(localIds);
     for (final id in stale) {
       await addOp((b) => b.delete(col.doc(id)));
@@ -81,12 +80,12 @@ class LyricsSync {
     for (final e in local) {
       if (utf8.encode(e.content).length > _maxContentBytes) {
         skipped++;
-        debugPrint('[Sync] 歌詞過大跳過上傳:pathKey=${e.pathKey}');
+        debugPrint('[Sync] 歌詞過大跳過上傳:trackId=${e.trackId}');
         continue;
       }
       await addOp(
-        (b) => b.set(col.doc(trackDocKey(e.pathKey)), {
-          'pathKey': e.pathKey,
+        (b) => b.set(col.doc(e.trackId), {
+          'trackId': e.trackId,
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
@@ -126,27 +125,27 @@ class LyricsSync {
   ) async {
     final docs = await userDoc.collection(collectionName).get();
     final entities = docs.toLyricsEntities();
-    final available = _ref.read(trackRepositoryProvider).availablePathKeys([
-      for (final e in entities) e.pathKey,
+    final available = _ref.read(trackRepositoryProvider).availableTrackIds([
+      for (final e in entities) e.trackId,
     ]);
     return [
       for (final e in entities)
-        if (available.contains(e.pathKey)) e,
+        if (available.contains(e.trackId)) e,
     ];
   }
 }
 
-/// 歌詞合併,以雲端為主:以 pathKey 對齊,兩邊都有的用雲端那份,只有
+/// 歌詞合併,以雲端為主:以 trackId 對齊,兩邊都有的用雲端那份,只有
 /// 本機有的保留。本機該曲有進行中的後端任務時把 jobId 帶過去,任務收尾
 /// 才對得上(收尾後會以任務結果覆寫)。
 List<LyricsEntity> mergeLyrics(
   List<LyricsEntity> local,
   List<LyricsEntity> remote,
 ) {
-  final byTrack = {for (final e in local) e.pathKey: e};
+  final byTrack = {for (final e in local) e.trackId: e};
   for (final r in remote) {
-    final l = byTrack[r.pathKey];
-    byTrack[r.pathKey] = l == null
+    final l = byTrack[r.trackId];
+    byTrack[r.trackId] = l == null
         ? r
         : (r
             ..id = l.id
@@ -159,8 +158,8 @@ final lyricsSyncProvider = Provider<LyricsSync>((ref) => LyricsSync(ref));
 
 /// 雲端 `backupLyrics` 子集合快照 -> 歌詞實體的解碼,容錯:缺欄位給預設值、
 /// 沒有內文的文件跳過(原文是解析的唯一依據,空內文無意義)、沒有
-/// `pathKey` 欄位的文件跳過(schema 8 以前以 sha1 指紋為 doc id 的舊格式,
-/// 對不到任何本機曲目)。
+/// `trackId` 欄位的文件跳過。schema 8 以前的 trackId 是 sha1 指紋,對不到
+/// 本機曲目(trackId 為音檔全檔 SHA-256),推送前由 availableTrackIds 濾掉。
 extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
   List<LyricsEntity> toLyricsEntities() {
     final entities = <LyricsEntity>[];
@@ -168,11 +167,11 @@ extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
       final data = doc.data();
       final content = data['content'];
       if (content is! String || content.isEmpty) continue;
-      final pathKey = data['pathKey'];
-      if (pathKey is! String || pathKey.isEmpty) continue;
+      final trackId = data['trackId'];
+      if (trackId is! String || trackId.isEmpty) continue;
       entities.add(
         LyricsEntity()
-          ..pathKey = pathKey
+          ..trackId = trackId
           ..title = (data['title'] as String?) ?? ''
           ..format =
               LyricsFormat.values.asNameMap()[data['format']] ??

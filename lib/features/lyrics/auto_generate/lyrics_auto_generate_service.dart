@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
-import 'package:seek_player/features/music_list/services/track_hash_service.dart';
 import 'package:seek_player/features/lyrics/auto_align/audio_compressor.dart';
 import 'package:seek_player/features/lyrics/usage_limit/audio_duration_probe.dart';
 import 'package:seek_player/features/lyrics/services/track_audio_resolver.dart';
@@ -70,7 +69,7 @@ class LyricsAutoGenerateException implements Exception {
 /// Firestore 是否已有現成快照;把結果寫回本機統一交給
 /// [LyricsPendingSyncService] 處理——呼叫端(見
 /// `LyricsAutoGenerateController.run`)必須在呼叫本方法**之前**就把
-/// pathKey(連同 jobId)加進 `lyricsPendingSyncStoreProvider`,該服務才會開始監聽
+/// trackId(連同 jobId)加進 `lyricsPendingSyncStoreProvider`,該服務才會開始監聽
 /// Firestore 狀態,不論這次是後端立即回應(現成快照)還是真的要背景跑一段
 /// 時間,終態都會由它寫回本機。
 class LyricsAutoGenerateService {
@@ -78,11 +77,11 @@ class LyricsAutoGenerateService {
 
   final Ref _ref;
 
-  /// 為 [pathKey] 執行自動產生,後端任務文件為 `user/{uid}/lyrics/{jobId}`。
+  /// 為 [trackId] 執行自動產生,後端任務文件為 `user/{uid}/lyrics/{jobId}`。
   /// 各階段以 [onStep] 回報進度。成功僅代表已送出 callable,失敗拋
   /// [LyricsAutoGenerateException]。
   Future<void> generate({
-    required String pathKey,
+    required String trackId,
     required String jobId,
     required String title,
     void Function(LyricsAutoGenerateStep step)? onStep,
@@ -96,20 +95,15 @@ class LyricsAutoGenerateService {
 
     final audioPath = await _ref
         .read(trackAudioResolverProvider)
-        .resolve(pathKey);
+        .resolve(trackId);
     if (audioPath == null) {
       throw const LyricsAutoGenerateException(LyricsAutoGenerateError.noAudio);
     }
-    // 同一首歌(trackId,即音檔 SHA-256 相同)產生過的結果由後端沿用;
-    // 算不出來(null)就照常處理。
-    final trackId = await _ref
-        .read(trackHashServiceProvider)
-        .audioSha256(pathKey, audioPath);
     // 隨 callable 送出,讓後端派工前就確認剩餘額度足夠(權威檢查仍在
     // 後端量測實際音訊);量不到(null)就不送。
     final durationSeconds = await _ref
         .read(audioDurationProbeProvider)
-        .durationSeconds(pathKey: pathKey, audioPath: audioPath);
+        .durationSeconds(trackId: trackId, audioPath: audioPath);
 
     onStep?.call(LyricsAutoGenerateStep.compressing);
     final File compressed;
@@ -158,15 +152,15 @@ class LyricsAutoGenerateService {
         'bucket': storageRef.bucket,
         'object': storageRef.fullPath,
         'format': 'm4a',
-        // 任務文件 id(pathKey 含 `/` 不能當 Firestore doc id)。
+        // 任務文件 id(每次送出都是新的任務)。
         'jobId': jobId,
-        // 音檔全檔 SHA-256,後端用來判斷同一首歌。
-        'trackId': ?trackId,
+        // 曲目身份(音檔全檔 SHA-256);同一首歌產生過的結果由後端沿用。
+        'trackId': trackId,
         'durationSeconds': ?durationSeconds,
         'title': title,
       });
       debugPrint(
-        '[LyricsAutoGenerateService] pathKey:$pathKey, 已送出 generate_lyrics',
+        '[LyricsAutoGenerateService] trackId:$trackId, 已送出 generate_lyrics',
       );
     } on FirebaseFunctionsException catch (e, s) {
       final exception = _toException(e);

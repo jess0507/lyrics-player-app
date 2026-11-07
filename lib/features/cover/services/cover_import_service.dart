@@ -37,10 +37,10 @@ class CoverImportService {
   /// 圖檔大小上限約 10MB,超過拒收。
   static const _maxBytes = 10 * 1024 * 1024;
 
-  /// 為 [pathKey] 挑一張封面並設定。回傳 true 表示已設定;false 表示使用者
+  /// 為 [trackId] 挑一張封面並設定。回傳 true 表示已設定;false 表示使用者
   /// 取消選圖,或該曲沒有 TrackEntity(暫時曲目)無法設定。
   /// 失敗(過大 / 無法讀取)拋 [CoverImportException]。
-  Future<bool> pickAndSetForTrack(String pathKey) async {
+  Future<bool> pickAndSetForTrack(String trackId) async {
     final picked = await FilePicker.pickFiles(type: FileType.image);
     final file = picked?.files.singleOrNull;
     if (file == null || file.path == null) return false; // 取消
@@ -65,12 +65,12 @@ class CoverImportService {
     await dest.writeAsBytes(bytes, flush: true);
 
     final repo = _ref.read(trackCoverRepositoryProvider);
-    final oldPath = repo.findByPathKey(pathKey)?.coverImagePath;
+    final oldPath = repo.findByTrackId(trackId)?.coverImagePath;
 
     // 設定當下即算好主色並一併存入,讓播放頁切到本曲時可直接取用。
     final color = await extractCoverColor(dest);
     final saved = await repo.setCover(
-      pathKey,
+      trackId,
       imagePath: dest.path,
       colorValue: color?.toARGB32(),
     );
@@ -79,18 +79,18 @@ class CoverImportService {
       return false;
     }
     await _deleteOldFile(oldPath);
-    _ref.invalidate(trackCoverProvider(pathKey));
-    _ref.invalidate(trackCoverColorProvider(pathKey));
+    _ref.invalidate(trackCoverProvider(trackId));
+    _ref.invalidate(trackCoverColorProvider(trackId));
     return true;
   }
 
-  /// 移除 [pathKey] 的自訂封面(刪圖檔 + 紀錄)。
-  Future<void> removeForTrack(String pathKey) async {
+  /// 移除 [trackId] 的自訂封面(刪圖檔 + 紀錄)。
+  Future<void> removeForTrack(String trackId) async {
     final repo = _ref.read(trackCoverRepositoryProvider);
-    await _deleteOldFile(repo.findByPathKey(pathKey)?.coverImagePath);
-    await repo.clearCover(pathKey);
-    _ref.invalidate(trackCoverProvider(pathKey));
-    _ref.invalidate(trackCoverColorProvider(pathKey));
+    await _deleteOldFile(repo.findByTrackId(trackId)?.coverImagePath);
+    await repo.clearCover(trackId);
+    _ref.invalidate(trackCoverProvider(trackId));
+    _ref.invalidate(trackCoverColorProvider(trackId));
   }
 
   /// 為既有封面中尚未快取主色者背景補算並寫回,避免之後切歌時才即時解析
@@ -102,8 +102,8 @@ class CoverImportService {
       if (!file.existsSync()) continue;
       final color = await extractCoverColor(file);
       if (color == null) continue;
-      await repo.setColor(entity.pathKey, color.toARGB32());
-      _ref.invalidate(trackCoverColorProvider(entity.pathKey));
+      await repo.setColor(entity.trackId, color.toARGB32());
+      _ref.invalidate(trackCoverColorProvider(entity.trackId));
     }
   }
 

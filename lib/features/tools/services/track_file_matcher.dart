@@ -4,7 +4,7 @@ import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/services/content_path_resolver.dart';
 import 'package:seek_player/features/music_list/services/music_import_service.dart';
-import 'package:seek_player/features/music_list/services/track_path_key.dart';
+import 'package:seek_player/features/music_list/services/track_hash_service.dart';
 import 'package:seek_player/features/music_list/services/track_registrar.dart';
 
 /// 選檔比對結果。
@@ -35,8 +35,8 @@ class TrackFileImportFailed extends TrackFileMatch {
 ///
 /// 選檔器回傳的 `path` 是複製到 app 暫存目錄的副本,和曲庫路徑
 /// 永遠對不上,所以改用 [PlatformFile.identifier](原始檔的 content URI)
-/// 交給 [ContentPathResolver] 還原實體路徑,再以 pathKey 比對:
-/// 1. pathKey 在曲庫中 → 直接用;
+/// 交給 [ContentPathResolver] 還原實體路徑,再以 trackId 比對:
+/// 1. trackId 在曲庫中 → 直接用;
 /// 2. 有實體路徑但不在曲庫 → 建立新的 TrackEntity([TrackRegistrar]);
 /// 3. 還原不出實體路徑 → 以 [MusicImportService.importFile] 匯入音樂庫、
 ///    重掃後再比對一次。
@@ -57,7 +57,7 @@ class TrackFileMatcher {
         picked.identifier ?? '',
       );
       if (realPath != null) {
-        final existing = _find(TrackPathKey.of(realPath));
+        final existing = await _findByFile(realPath);
         if (existing != null) return TrackFileFound(existing);
         final registered = await _ref
             .read(trackRegistrarProvider)
@@ -71,7 +71,7 @@ class TrackFileMatcher {
       if (importedPath == null) return const TrackFileImportFailed();
 
       await _ref.read(musicLibraryProvider.notifier).refresh();
-      final imported = _find(TrackPathKey.of(importedPath));
+      final imported = await _findByFile(importedPath);
       return imported == null
           ? const TrackFileImportFailed()
           : TrackFileFound(imported, imported: true);
@@ -81,10 +81,13 @@ class TrackFileMatcher {
     }
   }
 
-  Track? _find(String pathKey) {
+  /// 以內容比對曲庫:算 [path] 的 trackId,找同 trackId 的曲目。
+  Future<Track?> _findByFile(String path) async {
+    final trackId = await _ref.read(trackHashServiceProvider).trackIdOf(path);
+    if (trackId == null) return null;
     final tracks = _ref.read(musicLibraryProvider).valueOrNull ?? const [];
     for (final t in tracks) {
-      if (t.pathKey == pathKey) return t;
+      if (t.trackId == trackId) return t;
     }
     return null;
   }

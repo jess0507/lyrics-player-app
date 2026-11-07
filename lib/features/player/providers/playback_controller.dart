@@ -41,7 +41,7 @@ class PlaybackController {
           ref.read(statisticsControllerProvider.notifier).recordPlay(track);
           ref
               .read(playlistRepositoryProvider)
-              .recordRecentlyPlayed(track.pathKey);
+              .recordRecentlyPlayed(track.trackId);
         }
       }),
     );
@@ -76,7 +76,7 @@ class PlaybackController {
 
   Future<void> playTrack(Track track) async {
     final tracks = _tracks;
-    final index = tracks.indexWhere((t) => t.pathKey == track.pathKey);
+    final index = tracks.indexWhere((t) => t.trackId == track.trackId);
     if (index >= 0) await playLibraryAt(index);
   }
 

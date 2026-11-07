@@ -12,14 +12,14 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 Future<void> runLyricsDownload(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
   try {
     final saved = await ref
         .read(lyricsExportServiceProvider)
-        .exportForTrack(pathKey: pathKey, title: title);
+        .exportForTrack(trackId: trackId, title: title);
     logAnalyticsAction(
       LyricsAction.downloadResult,
       result: saved ? AnalyticsResult.success : AnalyticsResult.cancelled,

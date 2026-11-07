@@ -13,14 +13,14 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 /// 成功時匯入服務會 invalidate 對應的 trackLyricsProvider,視圖自動重讀。
 Future<void> runLyricsEdit(
   BuildContext context, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
   final saved = await Navigator.of(context).push<bool>(
     MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (_) => LyricsEditPage(pathKey: pathKey, title: title),
+      builder: (_) => LyricsEditPage(trackId: trackId, title: title),
     ),
   );
   if (saved == true) showAppToast(l10n.lyrics_import_success);
@@ -29,13 +29,9 @@ Future<void> runLyricsEdit(
 /// 編輯歌詞頁:多行文字框 + 儲存。格式(LRC / SRT / VTT / 純文字)由
 /// [LyricsImportService.importFromText] 依內文判定;失敗時留在頁面提示原因。
 class LyricsEditPage extends ConsumerStatefulWidget {
-  const LyricsEditPage({
-    super.key,
-    required this.pathKey,
-    required this.title,
-  });
+  const LyricsEditPage({super.key, required this.trackId, required this.title});
 
-  final String pathKey;
+  final String trackId;
   final String title;
 
   @override
@@ -59,7 +55,7 @@ class _LyricsEditPageState extends ConsumerState<LyricsEditPage> {
       await ref
           .read(lyricsImportServiceProvider)
           .importFromText(
-            pathKey: widget.pathKey,
+            trackId: widget.trackId,
             title: widget.title,
             content: _controller.text,
           );

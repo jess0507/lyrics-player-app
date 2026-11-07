@@ -15,20 +15,20 @@ import 'package:seek_player/shared/widgets/app_toast.dart';
 Future<void> runLyricsAiGenerate(
   BuildContext context,
   WidgetRef ref, {
-  required String pathKey,
+  required String trackId,
   required String title,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  if (ref.read(lyricsAutoGenerateControllerProvider(pathKey)).isRunning) {
-    debugPrint('[LyricsAutoGen] 已在執行中,略過 pathKey=$pathKey');
+  if (ref.read(lyricsAutoGenerateControllerProvider(trackId)).isRunning) {
+    debugPrint('[LyricsAutoGen] 已在執行中,略過 trackId=$trackId');
     return;
   }
 
-  debugPrint('[LyricsAutoGen] 開始 pathKey=$pathKey title="$title"');
+  debugPrint('[LyricsAutoGen] 開始 trackId=$trackId title="$title"');
   showAppToast(l10n.lyrics_ai_generate_running_background);
 
   final controller = ref.read(
-    lyricsAutoGenerateControllerProvider(pathKey).notifier,
+    lyricsAutoGenerateControllerProvider(trackId).notifier,
   );
   final ok = await controller.run(title: title);
 
@@ -42,7 +42,7 @@ Future<void> runLyricsAiGenerate(
     );
     return;
   }
-  final result = ref.read(lyricsAutoGenerateControllerProvider(pathKey));
+  final result = ref.read(lyricsAutoGenerateControllerProvider(trackId));
   logAnalyticsAction(
     LyricsAction.aiGenerateSubmit,
     result: ok
@@ -52,11 +52,11 @@ Future<void> runLyricsAiGenerate(
         : result.error ?? AnalyticsResult.failure,
   );
   if (ok) {
-    debugPrint('[LyricsAutoGen] 成功 pathKey=$pathKey');
+    debugPrint('[LyricsAutoGen] 成功 trackId=$trackId');
   } else if (result.status == LyricsAutoGenerateStatus.cancelled) {
-    debugPrint('[LyricsAutoGen] 已取消 pathKey=$pathKey');
+    debugPrint('[LyricsAutoGen] 已取消 trackId=$trackId');
   } else {
-    debugPrint('[LyricsAutoGen] 失敗 pathKey=$pathKey error=${result.error}');
+    debugPrint('[LyricsAutoGen] 失敗 trackId=$trackId error=${result.error}');
     if (result.error == LyricsAutoGenerateError.upgradeRequired) {
       showUpgradeRequiredPrompt(context);
     } else {

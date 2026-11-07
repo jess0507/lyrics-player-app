@@ -36,7 +36,7 @@ class TrackListTile extends StatelessWidget {
     return ListTile(
       contentPadding: contentPadding,
       leading: TrackLeading(
-        pathKey: track.pathKey,
+        trackId: track.trackId,
         isCurrent: isCurrent,
         audio: audio,
         color: scheme.primary,

@@ -10,17 +10,13 @@ part 'lyrics_entity.g.dart';
 class LyricsEntity {
   Id id = Isar.autoIncrement;
 
-  /// 曲目身份(= TrackEntity.pathKey,見 TrackPathKey)。一首一筆,由
-  /// LyricsRepository 寫入時沿用既有那筆的 id 保證。
+  /// 曲目身份 trackId(= TrackEntity.trackId,音檔全檔 SHA-256)。一首一筆,
+  /// 由 LyricsRepository 寫入時沿用既有那筆的 id 保證。
   ///
-  /// 刻意不加 unique index:舊資料升級時這個欄位讀出來全是 `''`,開 DB 重建
-  /// unique index 會衝突(見 plans/33)。
+  /// 升級前的舊資料這裡是 sha1 內容指紋,由 TrackEntityMigration 就地改寫成
+  /// SHA-256(見 plans/38)。刻意不加 unique index,唯一性由寫入端保證。
   @Index(type: IndexType.hash)
-  late String pathKey;
-
-  /// 升級前的舊識別碼(sha1 內容指紋 / MediaStore fallback id),僅保留,
-  /// 不作為比對 / 同步依據;升級後新建的資料為 null(見 plans/33)。
-  String? trackId;
+  late String trackId;
 
   /// 匯入當下的曲名,留作跨機 / 重掃後對齊的線索(v1 不做 title fallback 配對)。
   late String title;

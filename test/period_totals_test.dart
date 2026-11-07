@@ -15,14 +15,14 @@ import 'package:seek_player/features/profile/statistics/services/statistics_serv
 
 DailyTrackStatEntity _stat(
   String day,
-  String pathKey,
+  String trackId,
   int playCount,
   int listenMs,
 ) {
   return DailyTrackStatEntity()
     ..day = day
-    ..pathKey = pathKey
-    ..title = 'T$pathKey'
+    ..trackId = trackId
+    ..title = 'T$trackId'
     ..playCount = playCount
     ..listenMs = listenMs;
 }
@@ -81,11 +81,14 @@ void main() {
       name: 'test',
     );
     SharedPreferences.setMockInitialValues({});
-    container = ProviderContainer(overrides: [
-      isarProvider.overrideWithValue(isar),
-      preferencesServiceProvider
-          .overrideWithValue(await PreferencesService.create()),
-    ]);
+    container = ProviderContainer(
+      overrides: [
+        isarProvider.overrideWithValue(isar),
+        preferencesServiceProvider.overrideWithValue(
+          await PreferencesService.create(),
+        ),
+      ],
+    );
   });
 
   tearDown(() async {
@@ -98,13 +101,18 @@ void main() {
       container.read(statisticsControllerProvider.notifier);
 
   test('寫入後月總量與明細同交易成對累加（day 數據即明細，不另存）', () {
-    const track =
-        Track(pathKey: '1', uri: 'file:///a', filePath: '/a', title: 'A');
+    const track = Track(
+      trackId: '1',
+      uri: 'file:///a',
+      filePath: '/a',
+      title: 'A',
+    );
     final c = controller();
     c.recordPlay(track);
     c.addListenTime(track, const Duration(seconds: 5));
     c.recordPlay(
-        const Track(pathKey: '2', uri: 'file:///b', filePath: '/b', title: 'B'));
+      const Track(trackId: '2', uri: 'file:///b', filePath: '/b', title: 'B'),
+    );
 
     final month = StatisticsController.monthKey(DateTime.now());
     final monthTotal = _month(isar, month)!;
@@ -146,7 +154,7 @@ void main() {
     expect(
       isar.dailyTrackStatEntitys
           .where()
-          .dayPathKeyEqualTo('2026-05-20', '1')
+          .dayTrackIdEqualTo('2026-05-20', '1')
           .findFirstSync()!
           .listenMs,
       30,
@@ -165,8 +173,9 @@ void main() {
   });
 
   test('reset 同交易清空明細與月總量兩個 collection', () {
-    controller()
-        .recordPlay(const Track(pathKey: '1', uri: 'u', filePath: '/a', title: 'A'));
+    controller().recordPlay(
+      const Track(trackId: '1', uri: 'u', filePath: '/a', title: 'A'),
+    );
     controller().reset();
     expect(isar.dailyTrackStatEntitys.countSync(), 0);
     expect(isar.periodStatEntitys.countSync(), 0);
@@ -174,11 +183,13 @@ void main() {
 
   test('recomputePeriods 由明細重算指定日所屬月份', () {
     final c = controller();
-    isar.writeTxnSync(() => isar.dailyTrackStatEntitys.putAllSync([
-          _stat('2026-06-01', '1', 3, 200),
-          _stat('2026-06-02', '1', 2, 100),
-          _stat('2026-05-30', '1', 4, 400),
-        ]));
+    isar.writeTxnSync(
+      () => isar.dailyTrackStatEntitys.putAllSync([
+        _stat('2026-06-01', '1', 3, 200),
+        _stat('2026-06-02', '1', 2, 100),
+        _stat('2026-05-30', '1', 4, 400),
+      ]),
+    );
     c.recomputePeriods(['2026-06-01']);
     // 6 月由整月明細重算（含未列在 dayKeys 的 06-02）。
     expect(_month(isar, '2026-06')!.playCount, 5);

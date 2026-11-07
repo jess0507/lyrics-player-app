@@ -6,7 +6,7 @@ part 'track_fingerprint_entity.g.dart';
 ///
 /// 掃描音樂庫時,檔案大小與 mtime 未變就直接沿用 [hash],
 /// 避免每次掃描都重讀檔案內容(TrackFingerprintService,已移除)。
-/// 已由 TrackEntity.pathKey 取代(指紋機制已移除),只保留給 TrackEntityMigration 讀取舊資料。
+/// 已由 TrackEntity.trackId 取代(指紋機制已移除),只保留給 TrackEntityMigration 讀取舊資料。
 /// schema 仍須留在 openIsar() 的清單內(見 isar_service.dart)。
 @Deprecated('改用 TrackEntity;僅供 TrackEntityMigration 讀取舊資料')
 @collection

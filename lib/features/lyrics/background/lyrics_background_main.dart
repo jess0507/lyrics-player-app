@@ -35,7 +35,7 @@ Future<void> lyricsBackgroundMain() async {
   final request = LyricsBackgroundRequest.fromJsonString(raw);
   debugPrint(
     '[LyricsBg] 背景 isolate 啟動 mode=${request.mode.name} '
-    'pathKey=${request.pathKey} title="${request.title}"',
+    'trackId=${request.trackId} title="${request.title}"',
   );
 
   void emit(
@@ -50,7 +50,7 @@ Future<void> lyricsBackgroundMain() async {
       LyricsBackgroundEvent(
         type: type,
         mode: request.mode,
-        pathKey: request.pathKey,
+        trackId: request.trackId,
         stepName: stepName,
         errorName: errorName,
         activeTitle: activeTitle,
@@ -120,7 +120,7 @@ Future<void> lyricsBackgroundMain() async {
         await container
             .read(lyricsAutoGenerateServiceProvider)
             .generate(
-              pathKey: request.pathKey,
+              trackId: request.trackId,
               jobId: request.jobId,
               title: request.title,
               onStep: (step) => onStep(step.name),
@@ -129,7 +129,7 @@ Future<void> lyricsBackgroundMain() async {
         await container
             .read(lyricsAutoAlignServiceProvider)
             .autoAlign(
-              pathKey: request.pathKey,
+              trackId: request.trackId,
               jobId: request.jobId,
               title: request.title,
               language: request.language ?? '',
@@ -139,7 +139,7 @@ Future<void> lyricsBackgroundMain() async {
               onStep: (step) => onStep(step.name),
             );
     }
-    debugPrint('[LyricsBg] 完成 pathKey=${request.pathKey}');
+    debugPrint('[LyricsBg] 完成 trackId=${request.trackId}');
     resultText = request.doneLabel;
     emit(LyricsBackgroundEventType.done);
   } on LyricsAutoGenerateException catch (e) {

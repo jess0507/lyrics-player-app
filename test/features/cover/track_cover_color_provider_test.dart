@@ -44,14 +44,14 @@ void main() {
 
   /// 封面掛在 TrackEntity 上:建一筆帶封面欄位的曲目。
   Future<void> insertTrack(
-    String pathKey, {
+    String trackId, {
     required String imagePath,
     int? colorValue,
   }) => isar.writeTxn(
-    () => isar.trackEntitys.putByPathKey(
+    () => isar.trackEntitys.putByPath(
       TrackEntity()
-        ..path = '/music/$pathKey.mp3'
-        ..pathKey = pathKey
+        ..path = '/music/$trackId.mp3'
+        ..trackId = trackId
         ..sizeBytes = 0
         ..modifiedMs = 0
         ..coverImagePath = imagePath
@@ -61,8 +61,8 @@ void main() {
     ),
   );
 
-  Future<Color?> readColor(String pathKey) =>
-      container.read(trackCoverColorProvider(pathKey).future);
+  Future<Color?> readColor(String trackId) =>
+      container.read(trackCoverColorProvider(trackId).future);
 
   test('無封面紀錄 → null', () async {
     expect(await readColor('missing'), isNull);
@@ -86,7 +86,7 @@ void main() {
     final color = await readColor('t2');
 
     expect(color, isNotNull);
-    final cached = repo().findByPathKey('t2')!.coverColorValue;
+    final cached = repo().findByTrackId('t2')!.coverColorValue;
     expect(cached, isNotNull);
     expect(cached, color!.toARGB32());
   });
@@ -95,6 +95,6 @@ void main() {
     await insertTrack('t3', imagePath: '${tempDir.path}/gone.png');
 
     expect(await readColor('t3'), isNull);
-    expect(repo().findByPathKey('t3')!.coverColorValue, isNull);
+    expect(repo().findByTrackId('t3')!.coverColorValue, isNull);
   });
 }

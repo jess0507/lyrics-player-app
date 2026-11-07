@@ -8,27 +8,27 @@ import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 
 /// 分享目前曲目的音樂檔案本身（叫出系統分享面板）。
-/// 依 [pathKey] 從音樂庫查回曲目取得檔案 uri；查無曲目時不顯示。
+/// 依 [trackId] 從音樂庫查回曲目取得檔案 uri；查無曲目時不顯示。
 class ShareTrackButton extends ConsumerWidget {
   const ShareTrackButton({
     super.key,
     required this.enabled,
-    required this.pathKey,
+    required this.trackId,
     this.iconSize = 20.0,
   });
 
   final bool enabled;
-  final String? pathKey;
+  final String? trackId;
   final double iconSize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = pathKey;
+    final id = trackId;
     if (id == null) return const SizedBox.shrink();
 
     final l10n = AppLocalizations.of(context)!;
     final tracks = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
-    final track = tracks.where((t) => t.pathKey == id).firstOrNull;
+    final track = tracks.where((t) => t.trackId == id).firstOrNull;
     if (track == null) return const SizedBox.shrink();
 
     return IconButton(

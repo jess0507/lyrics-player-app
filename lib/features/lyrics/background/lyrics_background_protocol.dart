@@ -26,7 +26,7 @@ enum LyricsBackgroundMode { generate, align }
 class LyricsBackgroundRequest {
   const LyricsBackgroundRequest({
     required this.mode,
-    required this.pathKey,
+    required this.trackId,
     required this.jobId,
     required this.title,
     required this.stepLabels,
@@ -38,7 +38,7 @@ class LyricsBackgroundRequest {
   });
 
   final LyricsBackgroundMode mode;
-  final String pathKey;
+  final String trackId;
 
   /// 後端任務文件 id(`user/{uid}/lyrics/{jobId}`),由發起端產生。
   final String jobId;
@@ -65,7 +65,7 @@ class LyricsBackgroundRequest {
 
   String toJsonString() => jsonEncode({
     'mode': mode.name,
-    'pathKey': pathKey,
+    'trackId': trackId,
     'jobId': jobId,
     'title': title,
     'stepLabels': stepLabels,
@@ -80,7 +80,7 @@ class LyricsBackgroundRequest {
     final map = jsonDecode(raw) as Map<String, dynamic>;
     return LyricsBackgroundRequest(
       mode: LyricsBackgroundMode.values.byName(map['mode'] as String),
-      pathKey: map['pathKey'] as String,
+      trackId: map['trackId'] as String,
       jobId: map['jobId'] as String,
       title: map['title'] as String,
       stepLabels: (map['stepLabels'] as Map).cast<String, String>(),
@@ -101,7 +101,7 @@ class LyricsBackgroundEvent {
   const LyricsBackgroundEvent({
     required this.type,
     required this.mode,
-    required this.pathKey,
+    required this.trackId,
     this.stepName,
     this.errorName,
     this.activeTitle,
@@ -109,7 +109,7 @@ class LyricsBackgroundEvent {
 
   final LyricsBackgroundEventType type;
   final LyricsBackgroundMode mode;
-  final String pathKey;
+  final String trackId;
 
   /// [LyricsBackgroundEventType.step] 時的階段名。
   final String? stepName;
@@ -124,7 +124,7 @@ class LyricsBackgroundEvent {
   String toJsonString() => jsonEncode({
     'type': type.name,
     'mode': mode.name,
-    'pathKey': pathKey,
+    'trackId': trackId,
     if (stepName != null) 'stepName': stepName,
     if (errorName != null) 'errorName': errorName,
     if (activeTitle != null) 'activeTitle': activeTitle,
@@ -135,7 +135,7 @@ class LyricsBackgroundEvent {
     return LyricsBackgroundEvent(
       type: LyricsBackgroundEventType.values.byName(map['type'] as String),
       mode: LyricsBackgroundMode.values.byName(map['mode'] as String),
-      pathKey: map['pathKey'] as String,
+      trackId: map['trackId'] as String,
       stepName: map['stepName'] as String?,
       errorName: map['errorName'] as String?,
       activeTitle: map['activeTitle'] as String?,

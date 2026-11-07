@@ -55,7 +55,7 @@ class _PlaylistTrackActionsSheet extends ConsumerWidget {
               Navigator.of(context).pop();
               ref
                   .read(playlistRepositoryProvider)
-                  .removeTrack(playlistId, track.pathKey);
+                  .removeTrack(playlistId, track.trackId);
             },
           ),
         ListTile(

@@ -23,18 +23,18 @@ void main() {
       );
       final file = File('${tempDir.path}/a.mp3')..writeAsBytesSync(bytes);
 
-      expect(await fileSha256(file.path), sha256.convert(bytes).toString());
+      expect(await dartFileSha256(file.path), sha256.convert(bytes).toString());
     });
 
     test('內容不同 sha256 就不同', () async {
       final a = File('${tempDir.path}/a.mp3')..writeAsBytesSync([1, 2, 3]);
       final b = File('${tempDir.path}/b.mp3')..writeAsBytesSync([1, 2, 4]);
 
-      expect(await fileSha256(a.path), isNot(await fileSha256(b.path)));
+      expect(await dartFileSha256(a.path), isNot(await dartFileSha256(b.path)));
     });
 
     test('檔案不存在回 null', () async {
-      expect(await fileSha256('${tempDir.path}/missing.mp3'), isNull);
+      expect(await dartFileSha256('${tempDir.path}/missing.mp3'), isNull);
     });
   });
 

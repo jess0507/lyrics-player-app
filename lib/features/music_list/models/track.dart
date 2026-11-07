@@ -3,7 +3,7 @@ import 'dart:convert';
 /// 一首本機音訊曲目。
 class Track {
   const Track({
-    required this.pathKey,
+    required this.trackId,
     required this.uri,
     required this.filePath,
     required this.title,
@@ -13,10 +13,10 @@ class Track {
     this.durationMs,
   });
 
-  /// 識別碼:正規化後的檔案路徑 pathKey(見 TrackPathKey),即
-  /// TrackEntity.pathKey;歌詞 / 統計 / 播放清單 / 雲端同步皆以它關聯。
+  /// 曲目身份 trackId:音檔全檔內容 SHA-256(64 碼小寫 hex),即
+  /// TrackEntity.trackId;歌詞 / 統計 / 播放清單 / 雲端同步 / AI 歌詞任務皆以它關聯。
   /// 外部開啟、還原不出實體路徑的暫時曲目則為 content URI。
-  final String pathKey;
+  final String trackId;
 
   /// 可供 just_audio 載入的 URI（多為 MediaStore content URI）。
   final String uri;
@@ -38,7 +38,7 @@ class Track {
       durationMs == null ? null : Duration(milliseconds: durationMs!);
 
   Track copyWith({int? durationMs}) => Track(
-    pathKey: pathKey,
+    trackId: trackId,
     uri: uri,
     filePath: filePath,
     title: title,
@@ -49,7 +49,7 @@ class Track {
   );
 
   Map<String, dynamic> toJson() => {
-    'pathKey': pathKey,
+    'trackId': trackId,
     'uri': uri,
     'filePath': filePath,
     'title': title,
@@ -60,7 +60,7 @@ class Track {
   };
 
   factory Track.fromJson(Map<String, dynamic> json) => Track(
-    pathKey: json['pathKey'] as String,
+    trackId: json['trackId'] as String,
     uri: json['uri'] as String,
     filePath: json['filePath'] as String,
     title: json['title'] as String,

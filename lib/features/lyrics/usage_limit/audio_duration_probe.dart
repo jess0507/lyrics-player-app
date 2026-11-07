@@ -16,7 +16,7 @@ class AudioDurationProbe {
   final Ref _ref;
 
   Future<double?> durationSeconds({
-    required String pathKey,
+    required String trackId,
     required String audioPath,
   }) async {
     try {
@@ -30,7 +30,7 @@ class AudioDurationProbe {
 
     final durationMs = _ref
         .read(trackRepositoryProvider)
-        .findByPathKey(pathKey)
+        .findByTrackId(trackId)
         ?.durationMs;
     if (durationMs != null && durationMs > 0) return durationMs / 1000;
     return null;

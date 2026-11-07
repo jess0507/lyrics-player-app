@@ -98,7 +98,7 @@ class LyricsBackgroundRunner {
     _active = task;
     debugPrint(
       '[LyricsBgRunner] 啟動前景服務 mode=${request.mode.name} '
-      'pathKey=${request.pathKey}',
+      'trackId=${request.trackId}',
     );
     final started = await _launcher.invokeMethod<bool>(
       'start',
@@ -127,7 +127,7 @@ class LyricsBackgroundRunner {
 
   void _onEvent(LyricsBackgroundEvent event) {
     debugPrint(
-      '[LyricsBgRunner] 事件 ${event.type.name} pathKey=${event.pathKey}'
+      '[LyricsBgRunner] 事件 ${event.type.name} trackId=${event.trackId}'
       '${event.stepName != null ? ' step=${event.stepName}' : ''}'
       '${event.errorName != null ? ' error=${event.errorName}' : ''}',
     );
@@ -138,7 +138,7 @@ class LyricsBackgroundRunner {
       case LyricsBackgroundEventType.done:
         // 不論任務是否由本 app instance 發起都要刷新:結果已由背景
         // isolate 寫入 Isar,這裡讓 UI 重讀並標記歌詞待推(回前景時備份)。
-        _ref.invalidate(trackLyricsProvider(event.pathKey));
+        _ref.invalidate(trackLyricsProvider(event.trackId));
         _ref.read(backupStateStoreProvider).markLyricsModified();
         _complete(const LyricsBackgroundResult(LyricsBackgroundStatus.success));
       case LyricsBackgroundEventType.error:
@@ -170,12 +170,12 @@ class LyricsBackgroundRunner {
   void _setRunning(bool value) =>
       _ref.read(lyricsBackgroundRunningProvider.notifier).set(value);
 
-  /// app 內取消按鈕呼叫:比對 [pathKey] 與目前 active 任務相符才轉呼 native
+  /// app 內取消按鈕呼叫:比對 [trackId] 與目前 active 任務相符才轉呼 native
   /// (效果同通知列取消動作),避免誤取消到別首歌的本機工作。不相符或沒有
   /// active 任務(本機階段已經跑完,工作已在後端)就直接略過,不呼叫 native。
   /// native 端之後會走既有的 cancel 事件流程(見 [_onEvent])自行收尾。
-  Future<void> cancel(String pathKey) async {
-    if (_active?.request.pathKey != pathKey) return;
+  Future<void> cancel(String trackId) async {
+    if (_active?.request.trackId != trackId) return;
     await _launcher.invokeMethod<void>('cancel').catchError((_) {});
   }
 

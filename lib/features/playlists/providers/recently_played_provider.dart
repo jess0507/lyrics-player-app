@@ -21,10 +21,10 @@ final recentlyPlayedProvider = Provider<List<RecentlyPlayedItem>>((ref) {
   if (playlist == null) return const [];
 
   final library = ref.watch(musicLibraryProvider).valueOrNull ?? const [];
-  final byId = {for (final t in library) t.pathKey: t};
+  final byId = {for (final t in library) t.trackId: t};
   return [
     for (final entry in playlist.recentlyPlayed)
-      if (byId[entry.pathKey] case final track?)
+      if (byId[entry.trackId] case final track?)
         RecentlyPlayedItem(track: track, playedAt: entry.playedAt),
   ];
 });

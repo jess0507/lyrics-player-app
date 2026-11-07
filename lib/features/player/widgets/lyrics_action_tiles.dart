@@ -22,7 +22,7 @@ class LyricsActionTiles extends ConsumerWidget {
     super.key,
     required this.actionContext,
     required this.actionRef,
-    required this.pathKey,
+    required this.trackId,
     required this.title,
     this.onSelected,
     this.showCancel = true,
@@ -31,7 +31,7 @@ class LyricsActionTiles extends ConsumerWidget {
 
   final BuildContext actionContext;
   final WidgetRef actionRef;
-  final String pathKey;
+  final String trackId;
   final String title;
   final VoidCallback? onSelected;
   final bool showCancel;
@@ -41,7 +41,7 @@ class LyricsActionTiles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
-    final lyrics = ref.watch(trackLyricsProvider(pathKey)).valueOrNull;
+    final lyrics = ref.watch(trackLyricsProvider(trackId)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
     // 產生是「從音訊辨識歌詞」:只在完全沒有歌詞時提供(與對時互補)。
     final canAiGenerate = !hasLyrics;
@@ -64,7 +64,7 @@ class LyricsActionTiles extends ConsumerWidget {
     // 這首歌自己有工作在跑(而非別首歌佔線)時,最上面加取消,
     // 不必特地切去滿版歌詞頁才能取消。
     final ownJobActive =
-        showCancel && ref.watch(lyricsActiveJobProvider(pathKey));
+        showCancel && ref.watch(lyricsActiveJobProvider(trackId));
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -78,7 +78,7 @@ class LyricsActionTiles extends ConsumerWidget {
               cancelLyricsJob(
                 actionContext,
                 actionRef,
-                pathKey: pathKey,
+                trackId: trackId,
                 source: AnalyticsSource.actionsSheet,
               );
             },
@@ -99,7 +99,7 @@ class LyricsActionTiles extends ConsumerWidget {
                 actionContext,
                 actionRef,
                 action,
-                pathKey: pathKey,
+                trackId: trackId,
                 title: title,
               );
             },

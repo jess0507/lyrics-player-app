@@ -8,7 +8,7 @@ import 'package:seek_player/features/lyrics/background/lyrics_background_protoco
 import 'package:seek_player/features/lyrics/models/lyrics_job_stage.dart';
 import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.dart';
 
-/// 某 pathKey 目前歌詞任務的階段([LyricsJobStage]),與通知列的文字
+/// 某 trackId 目前歌詞任務的階段([LyricsJobStage]),與通知列的文字
 /// 生命週期對齊:
 /// - 產生 / 對時 controller 執行中 → 依其 `step`(壓縮 / 上傳 / 產生或對齊);
 /// - controller 已結束(callable 已送出)但 [lyricsPendingSyncStoreProvider]
@@ -19,9 +19,9 @@ import 'package:seek_player/features/lyrics/providers/lyrics_pending_sync_store.
 /// 負責文案。
 final lyricsJobStageProvider = Provider.family<LyricsJobStage?, String>((
   ref,
-  pathKey,
+  trackId,
 ) {
-  final generate = ref.watch(lyricsAutoGenerateControllerProvider(pathKey));
+  final generate = ref.watch(lyricsAutoGenerateControllerProvider(trackId));
   if (generate.isRunning) {
     return switch (generate.step) {
       LyricsAutoGenerateStep.uploading => LyricsJobStage.generateUploading,
@@ -31,7 +31,7 @@ final lyricsJobStageProvider = Provider.family<LyricsJobStage?, String>((
       null => LyricsJobStage.generateCompressing,
     };
   }
-  final align = ref.watch(lyricsAutoAlignControllerProvider(pathKey));
+  final align = ref.watch(lyricsAutoAlignControllerProvider(trackId));
   if (align.isRunning) {
     return switch (align.step) {
       LyricsAutoAlignStep.uploading => LyricsJobStage.alignUploading,
@@ -41,7 +41,7 @@ final lyricsJobStageProvider = Provider.family<LyricsJobStage?, String>((
     };
   }
   final pending = ref.watch(
-    lyricsPendingSyncStoreProvider.select((jobs) => jobs[pathKey]?.mode),
+    lyricsPendingSyncStoreProvider.select((jobs) => jobs[trackId]?.mode),
   );
   return switch (pending) {
     LyricsBackgroundMode.generate => LyricsJobStage.generateRequestSent,

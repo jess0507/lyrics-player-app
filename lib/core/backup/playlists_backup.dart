@@ -7,7 +7,7 @@ import 'package:seek_player/features/playlists/services/playlist_repository.dart
 
 /// 播放清單 ↔ `playlists.json`:
 /// `{ "playlists": [ {id, name, isFavorites, isRecentlyPlayed, createdAt,
-/// pathKeys, recentlyPlayed: [{pathKey, playedAt}]} ] }`,
+/// trackIds, recentlyPlayed: [{trackId, playedAt}]} ] }`,
 /// id 即本機 Isar id,時間一律毫秒 int。整份快照語意(last-write-wins)。
 class PlaylistsBackup implements DomainBackup {
   PlaylistsBackup(this._ref);
@@ -44,11 +44,11 @@ class PlaylistsBackup implements DomainBackup {
               'isFavorites': p.isFavorites,
               'isRecentlyPlayed': p.isRecentlyPlayed,
               'createdAt': p.createdAt.millisecondsSinceEpoch,
-              'pathKeys': p.pathKeys,
+              'trackIds': p.trackIds,
               'recentlyPlayed': [
                 for (final e in p.recentlyPlayed)
                   {
-                    'pathKey': e.pathKey,
+                    'trackId': e.trackId,
                     'playedAt': e.playedAt.millisecondsSinceEpoch,
                   },
               ],
@@ -69,14 +69,14 @@ class PlaylistsBackup implements DomainBackup {
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(
               (item['createdAt'] as num? ?? 0).toInt(),
             )
-            ..pathKeys = [
-              for (final t in (item['pathKeys'] as List? ?? const [])) '$t',
+            ..trackIds = [
+              for (final t in (item['trackIds'] as List? ?? const [])) '$t',
             ]
             ..recentlyPlayed = [
               for (final e in (item['recentlyPlayed'] as List? ?? const []))
-                if (e is Map && e['pathKey'] is String)
+                if (e is Map && e['trackId'] is String)
                   RecentlyPlayedEntry()
-                    ..pathKey = e['pathKey'] as String
+                    ..trackId = e['trackId'] as String
                     ..playedAt = DateTime.fromMillisecondsSinceEpoch(
                       (e['playedAt'] as num? ?? 0).toInt(),
                     ),
