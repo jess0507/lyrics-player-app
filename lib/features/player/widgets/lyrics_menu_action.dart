@@ -235,7 +235,10 @@ Future<bool> _confirmResync(BuildContext context) async {
   final ok = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      content: Text(l10n.lyrics_auto_resync_confirm),
+      content: Text(
+        l10n.lyrics_auto_resync_confirm,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),

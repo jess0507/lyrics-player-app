@@ -75,21 +75,20 @@ class _EmptyLyrics extends ConsumerWidget {
           Icon(Icons.lyrics_outlined, size: 48, color: scheme.outline),
           const SizedBox(height: 12),
           Text(
-            l10n.lyrics_empty,
+            l10n.lyrics_empty_hint,
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: scheme.outline),
           ),
           const SizedBox(height: 16),
-          FilledButton.icon(
+          FilledButton(
             onPressed: () => showLyricsActionsSheet(
               context,
               ref,
               trackId: trackId,
               title: title,
             ),
-            icon: const Icon(Icons.file_open_outlined),
-            label: Text(l10n.lyrics_import),
+            child: Text(l10n.lyrics_empty_import),
           ),
         ],
       ),
