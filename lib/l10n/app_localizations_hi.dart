@@ -621,6 +621,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_empty => 'इस ट्रैक के लिए अभी कोई बोल नहीं';
 
   @override
+  String get lyrics_empty_hint => 'अभी कोई बोल नहीं';
+
+  @override
+  String get lyrics_empty_import => 'बोल आयात करें';
+
+  @override
   String get lyrics_download => 'बोल डाउनलोड करें';
 
   @override
@@ -691,7 +697,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'फिर से सिंक करने पर बोल की मौजूदा टाइमिंग बदल जाएगी और आपका कोटा इस्तेमाल होगा। जारी रखें?';
+      'फिर से सिंक करने पर बोल की मौजूदा टाइमिंग बदल जाएगी। जारी रखें?';
 
   @override
   String get lyrics_auto_align_compressing => 'ऑडियो तैयार किया जा रहा है…';

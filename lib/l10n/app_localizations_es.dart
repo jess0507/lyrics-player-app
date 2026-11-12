@@ -629,6 +629,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get lyrics_empty => 'Aún no hay letra para esta pista';
 
   @override
+  String get lyrics_empty_hint => 'Aún no hay letra';
+
+  @override
+  String get lyrics_empty_import => 'Importar letra';
+
+  @override
   String get lyrics_download => 'Descargar letra';
 
   @override
@@ -699,7 +705,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Volver a sincronizar reemplazará la sincronización actual de la letra y usará tu cuota. ¿Continuar?';
+      'Volver a sincronizar reemplazará la sincronización actual de la letra. ¿Continuar?';
 
   @override
   String get lyrics_auto_align_compressing => 'Preparando audio…';

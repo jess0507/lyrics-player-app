@@ -621,6 +621,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_empty => 'Belum ada lirik untuk lagu ini';
 
   @override
+  String get lyrics_empty_hint => 'Belum ada lirik';
+
+  @override
+  String get lyrics_empty_import => 'Impor lirik';
+
+  @override
   String get lyrics_download => 'Unduh lirik';
 
   @override
@@ -691,7 +697,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Sinkronisasi ulang akan mengganti waktu lirik saat ini dan memakai kuota Anda. Lanjutkan?';
+      'Sinkronisasi ulang akan mengganti waktu lirik saat ini. Lanjutkan?';
 
   @override
   String get lyrics_auto_align_compressing => 'Menyiapkan audio…';

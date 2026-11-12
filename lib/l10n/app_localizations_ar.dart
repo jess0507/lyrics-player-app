@@ -617,6 +617,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_empty => 'لا توجد كلمات لهذا المقطع بعد';
 
   @override
+  String get lyrics_empty_hint => 'لا توجد كلمات حاليًا';
+
+  @override
+  String get lyrics_empty_import => 'استيراد الكلمات';
+
+  @override
   String get lyrics_download => 'تنزيل كلمات الأغنية';
 
   @override
@@ -687,7 +693,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'ستؤدي إعادة المزامنة إلى استبدال التوقيت الحالي للكلمات واستهلاك من حصتك. هل تريد المتابعة؟';
+      'ستؤدي إعادة المزامنة إلى استبدال التوقيت الحالي للكلمات. هل تريد المتابعة؟';
 
   @override
   String get lyrics_auto_align_compressing => 'جارٍ تجهيز الصوت…';

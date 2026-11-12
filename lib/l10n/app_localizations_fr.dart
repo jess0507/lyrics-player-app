@@ -629,6 +629,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_empty => 'Pas encore de paroles pour ce titre';
 
   @override
+  String get lyrics_empty_hint => 'Pas encore de paroles';
+
+  @override
+  String get lyrics_empty_import => 'Importer des paroles';
+
+  @override
   String get lyrics_download => 'Télécharger les paroles';
 
   @override
@@ -699,7 +705,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'La resynchronisation remplacera le minutage actuel des paroles et utilisera votre quota. Continuer ?';
+      'La resynchronisation remplacera le minutage actuel des paroles. Continuer ?';
 
   @override
   String get lyrics_auto_align_compressing => 'Préparation de l’audio…';

@@ -618,6 +618,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_empty => 'No lyrics for this track yet';
 
   @override
+  String get lyrics_empty_hint => 'No lyrics yet';
+
+  @override
+  String get lyrics_empty_import => 'Import lyrics';
+
+  @override
   String get lyrics_download => 'Download lyrics';
 
   @override
@@ -688,7 +694,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Re-syncing will replace the current lyrics timing and use your quota. Continue?';
+      'Re-syncing will replace the current lyrics timing. Continue?';
 
   @override
   String get lyrics_auto_align_compressing => 'Preparing audio…';

@@ -622,6 +622,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_empty => 'Bu parça için henüz şarkı sözü yok';
 
   @override
+  String get lyrics_empty_hint => 'Henüz şarkı sözü yok';
+
+  @override
+  String get lyrics_empty_import => 'Şarkı sözü içe aktar';
+
+  @override
   String get lyrics_download => 'Şarkı sözünü indir';
 
   @override
@@ -692,7 +698,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Yeniden senkronizasyon mevcut söz zamanlamasının yerini alacak ve kotanızı kullanacak. Devam edilsin mi?';
+      'Yeniden senkronizasyon mevcut söz zamanlamasının yerini alacak. Devam edilsin mi?';
 
   @override
   String get lyrics_auto_align_compressing => 'Ses hazırlanıyor…';

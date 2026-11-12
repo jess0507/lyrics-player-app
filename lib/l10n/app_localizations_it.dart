@@ -623,6 +623,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_empty => 'Ancora nessun testo per questo brano';
 
   @override
+  String get lyrics_empty_hint => 'Ancora nessun testo';
+
+  @override
+  String get lyrics_empty_import => 'Importa testo';
+
+  @override
   String get lyrics_download => 'Scarica testo';
 
   @override
@@ -693,7 +699,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'La risincronizzazione sostituirà la sincronizzazione attuale del testo e userà la tua quota. Continuare?';
+      'La risincronizzazione sostituirà la sincronizzazione attuale del testo. Continuare?';
 
   @override
   String get lyrics_auto_align_compressing => 'Preparazione audio…';

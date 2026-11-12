@@ -624,6 +624,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_empty => 'Chưa có lời cho bài hát này';
 
   @override
+  String get lyrics_empty_hint => 'Chưa có lời bài hát';
+
+  @override
+  String get lyrics_empty_import => 'Nhập lời bài hát';
+
+  @override
   String get lyrics_download => 'Tải lời bài hát xuống';
 
   @override
@@ -694,7 +700,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Đồng bộ lại sẽ thay thế thời gian hiện tại của lời bài hát và dùng hạn mức của bạn. Tiếp tục?';
+      'Đồng bộ lại sẽ thay thế thời gian hiện tại của lời bài hát. Tiếp tục?';
 
   @override
   String get lyrics_auto_align_compressing => 'Đang chuẩn bị âm thanh…';

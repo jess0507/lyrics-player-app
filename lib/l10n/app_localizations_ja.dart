@@ -597,6 +597,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_empty => 'この曲の歌詞はまだありません';
 
   @override
+  String get lyrics_empty_hint => '歌詞はまだありません';
+
+  @override
+  String get lyrics_empty_import => '歌詞をインポート';
+
+  @override
   String get lyrics_download => '歌詞をダウンロード';
 
   @override
@@ -666,8 +672,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_auto_resync => '歌詞を再同期';
 
   @override
-  String get lyrics_auto_resync_confirm =>
-      '再同期すると現在の歌詞のタイミングが上書きされ、利用枠を消費します。続行しますか?';
+  String get lyrics_auto_resync_confirm => '再同期すると現在の歌詞のタイミングが上書きされます。続行しますか?';
 
   @override
   String get lyrics_auto_align_compressing => '音声を準備中…';

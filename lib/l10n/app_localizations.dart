@@ -1266,6 +1266,18 @@ abstract class AppLocalizations {
   /// **'No lyrics for this track yet'**
   String get lyrics_empty;
 
+  /// No description provided for @lyrics_empty_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'No lyrics yet'**
+  String get lyrics_empty_hint;
+
+  /// No description provided for @lyrics_empty_import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import lyrics'**
+  String get lyrics_empty_import;
+
   /// No description provided for @lyrics_download.
   ///
   /// In en, this message translates to:
@@ -1407,7 +1419,7 @@ abstract class AppLocalizations {
   /// No description provided for @lyrics_auto_resync_confirm.
   ///
   /// In en, this message translates to:
-  /// **'Re-syncing will replace the current lyrics timing and use your quota. Continue?'**
+  /// **'Re-syncing will replace the current lyrics timing. Continue?'**
   String get lyrics_auto_resync_confirm;
 
   /// No description provided for @lyrics_auto_align_compressing.

@@ -626,6 +626,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_empty => 'Noch kein Liedtext für diesen Titel';
 
   @override
+  String get lyrics_empty_hint => 'Noch kein Liedtext';
+
+  @override
+  String get lyrics_empty_import => 'Liedtext importieren';
+
+  @override
   String get lyrics_download => 'Liedtext herunterladen';
 
   @override
@@ -697,7 +703,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Beim erneuten Synchronisieren wird das aktuelle Timing ersetzt und dein Kontingent belastet. Fortfahren?';
+      'Beim erneuten Synchronisieren wird das aktuelle Timing ersetzt. Fortfahren?';
 
   @override
   String get lyrics_auto_align_compressing => 'Audio wird vorbereitet…';

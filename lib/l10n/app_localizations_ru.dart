@@ -620,6 +620,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_empty => 'Для этого трека пока нет текста';
 
   @override
+  String get lyrics_empty_hint => 'Текста пока нет';
+
+  @override
+  String get lyrics_empty_import => 'Импортировать текст';
+
+  @override
   String get lyrics_download => 'Скачать текст';
 
   @override
@@ -690,7 +696,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_auto_resync_confirm =>
-      'Повторная синхронизация заменит текущие тайминги текста и израсходует вашу квоту. Продолжить?';
+      'Повторная синхронизация заменит текущие тайминги текста. Продолжить?';
 
   @override
   String get lyrics_auto_align_compressing => 'Подготовка аудио…';

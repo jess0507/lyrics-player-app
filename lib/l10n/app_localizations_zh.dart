@@ -592,6 +592,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
 
   @override
+  String get lyrics_empty_hint => '目前沒有歌詞';
+
+  @override
+  String get lyrics_empty_import => '匯入歌詞';
+
+  @override
   String get lyrics_download => '下載歌詞';
 
   @override
@@ -661,7 +667,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_auto_resync => '重新同步歌詞';
 
   @override
-  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,並消耗本月用量。要繼續嗎?';
+  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,要繼續嗎?';
 
   @override
   String get lyrics_auto_align_compressing => '處理音訊中…';
@@ -1498,6 +1504,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_empty => '尚未导入这首歌的歌词';
 
   @override
+  String get lyrics_empty_hint => '目前没有歌词';
+
+  @override
+  String get lyrics_empty_import => '导入歌词';
+
+  @override
   String get lyrics_download => '下载歌词';
 
   @override
@@ -1567,7 +1579,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_auto_resync => '重新同步歌词';
 
   @override
-  String get lyrics_auto_resync_confirm => '重新同步会覆盖当前的歌词时间轴,并消耗本月用量。要继续吗?';
+  String get lyrics_auto_resync_confirm => '重新同步会覆盖当前的歌词时间轴,要继续吗?';
 
   @override
   String get lyrics_auto_align_compressing => '处理音频中…';
@@ -2404,6 +2416,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_empty => '尚未匯入這首歌的歌詞';
 
   @override
+  String get lyrics_empty_hint => '目前沒有歌詞';
+
+  @override
+  String get lyrics_empty_import => '匯入歌詞';
+
+  @override
   String get lyrics_download => '下載歌詞';
 
   @override
@@ -2473,7 +2491,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get lyrics_auto_resync => '重新同步歌詞';
 
   @override
-  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,並消耗本月用量。要繼續嗎?';
+  String get lyrics_auto_resync_confirm => '重新同步會覆蓋目前的歌詞時間軸,要繼續嗎?';
 
   @override
   String get lyrics_auto_align_compressing => '處理音訊中…';

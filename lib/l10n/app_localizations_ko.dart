@@ -601,6 +601,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_empty => '이 곡의 가사가 아직 없습니다';
 
   @override
+  String get lyrics_empty_hint => '아직 가사가 없습니다';
+
+  @override
+  String get lyrics_empty_import => '가사 가져오기';
+
+  @override
   String get lyrics_download => '가사 다운로드';
 
   @override
@@ -670,8 +676,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_auto_resync => '가사 다시 동기화';
 
   @override
-  String get lyrics_auto_resync_confirm =>
-      '다시 동기화하면 현재 가사 타이밍이 덮어쓰이고 사용량이 차감됩니다. 계속할까요?';
+  String get lyrics_auto_resync_confirm => '다시 동기화하면 현재 가사 타이밍이 덮어쓰입니다. 계속할까요?';
 
   @override
   String get lyrics_auto_align_compressing => '오디오 준비 중…';
