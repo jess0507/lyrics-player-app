@@ -7,23 +7,25 @@ import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/models/player_default_tab.dart';
 import 'package:seek_player/shared/providers/settings_controller.dart';
-import 'package:seek_player/features/lyrics/background/lyrics_background_running.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
+import 'package:seek_player/features/player/services/open_tool_editor.dart';
 import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
 import 'package:seek_player/features/player/widgets/play_mode_button.dart';
 import 'package:seek_player/features/player/widgets/seek_step_slider.dart';
 import 'package:seek_player/features/player/widgets/speed_button.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
 
 /// 預設播放速度,用來判斷是否顯示選取狀態。
 const double _kDefaultSpeed = 1.0;
 
-/// 歌詞滿版模式專有的選單動作(播放模式、播放速度、快進退秒數與「顯示封面」)。
-/// 歌詞相關動作另以共用的 [LyricsMenuAction] 表示。
-enum _LyricsModeAction { hideLyrics, playMode, speed, seekStep }
+/// 歌詞滿版模式專有的選單動作(播放模式、播放速度、快進退秒數、「顯示封面」
+/// 與「製作歌詞」)。歌詞相關動作另以共用的 [LyricsMenuAction] 表示。
+enum _LyricsModeAction { hideLyrics, playMode, speed, seekStep, makeLyrics }
 
 /// 歌詞滿版模式下的 AppBar 選單:整合「顯示封面(關閉歌詞)」、次控制列功能
-/// (隨機、循環、播放速度、快進退秒數),以及歌詞操作(字體大小、重新匯入、刪除)。
-/// 字體大小 / 重新匯入 / 刪除僅在已有歌詞時出現。
+/// (隨機、循環、播放速度、快進退秒數),最下方是歌詞顯示設定(字體大小、
+/// 對齊方式,僅在已有歌詞時出現)與「編輯歌詞」「製作歌詞」。
+/// 其餘歌詞動作(搜尋、匯入、對時、下載、刪除…)統一由製作歌詞頁提供。
 class LyricsModeMenu extends ConsumerWidget {
   const LyricsModeMenu({
     super.key,
@@ -41,15 +43,6 @@ class LyricsModeMenu extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final lyrics = ref.watch(trackLyricsProvider(trackId)).valueOrNull;
     final hasLyrics = lyrics != null && lyrics.isNotEmpty;
-    // 有歌詞就能對時;已同步者為「重新同步」(取純文字 + 換行重新對齊)。
-    final canAutoAlign = hasLyrics;
-    final lyricsActions = lyricsMenuActions(
-      canAiGenerate: !hasLyrics,
-      canAutoAlign: canAutoAlign,
-      hasLyrics: hasLyrics,
-    );
-    // 背景任務一次只跑一件:執行中時停用「自動產生 / 自動對時」(變淺不可點)。
-    final backgroundRunning = ref.watch(lyricsBackgroundRunningProvider);
     final seekStepSeconds = ref.watch(
       settingsControllerProvider.select((s) => s.seekStepSeconds),
     );
@@ -101,19 +94,29 @@ class LyricsModeMenu extends ConsumerWidget {
             selected: seekStepSeconds != SettingsState.kDefaultSeekStepSeconds,
           ),
         ),
-        if (lyricsActions.isNotEmpty) ...[
+        if (hasLyrics) ...[
           const PopupMenuDivider(),
-          for (final action in lyricsActions)
+          for (final action in const [
+            LyricsMenuAction.fontSize,
+            LyricsMenuAction.textAlign,
+          ])
             PopupMenuItem(
               value: action,
-              enabled: !(backgroundRunning && action.usesBackgroundTask),
-              child: _MenuRow(
-                icon: action.icon,
-                label: action.label(l10n, synced: lyrics?.synced ?? false),
-                enabled: !(backgroundRunning && action.usesBackgroundTask),
-              ),
+              child: _MenuRow(icon: action.icon, label: action.label(l10n)),
             ),
         ],
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          value: LyricsMenuAction.edit,
+          child: _MenuRow(
+            icon: LyricsMenuAction.edit.icon,
+            label: LyricsMenuAction.edit.label(l10n),
+          ),
+        ),
+        PopupMenuItem(
+          value: _LyricsModeAction.makeLyrics,
+          child: _MenuRow(icon: ToolKind.lyrics.icon, label: l10n.tools_lyrics),
+        ),
       ],
     );
   }
@@ -144,6 +147,12 @@ class LyricsModeMenu extends ConsumerWidget {
         showSpeedSheet(context, audio);
       case _LyricsModeAction.seekStep:
         showSeekStepSheet(context);
+      case _LyricsModeAction.makeLyrics:
+        openToolEditorFromPlayer(
+          context,
+          tool: ToolKind.lyrics,
+          trackId: trackId,
+        );
     }
   }
 
@@ -157,30 +166,23 @@ class LyricsModeMenu extends ConsumerWidget {
 }
 
 /// 選單列:圖示 + 文字,選取時上色,可選右側狀態文字(如速度倍率)。
-/// [enabled] 為 false 時整列以停用色(淺色)顯示。
 class _MenuRow extends StatelessWidget {
   const _MenuRow({
     required this.icon,
     required this.label,
     this.selected = false,
-    this.enabled = true,
     this.trailing,
   });
 
   final IconData icon;
   final String label;
   final bool selected;
-  final bool enabled;
   final String? trailing;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final color = !enabled
-        ? scheme.onSurface.withValues(alpha: 0.38)
-        : selected
-        ? scheme.primary
-        : null;
+    final color = selected ? scheme.primary : null;
     return Row(
       children: [
         Icon(icon, size: 20, color: color),
