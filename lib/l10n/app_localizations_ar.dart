@@ -901,6 +901,19 @@ class AppLocalizationsAr extends AppLocalizations {
       'جميع الأغاني موجودة بالفعل في قائمة التشغيل هذه';
 
   @override
+  String get playlist_select_all => 'تحديد الكل';
+
+  @override
+  String get playlist_deselect_all => 'إلغاء تحديد الكل';
+
+  @override
+  String get playlist_remove_all => 'إزالة الكل';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'هل تريد إزالة جميع الأغاني المعروضة من قائمة التشغيل هذه؟';
+
+  @override
   String get playlist_add_item => 'إضافة عنصر';
 
   @override

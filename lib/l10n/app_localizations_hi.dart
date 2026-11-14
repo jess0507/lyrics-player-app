@@ -908,6 +908,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playlist_all_added => 'सभी गाने पहले से ही इस प्लेलिस्ट में हैं';
 
   @override
+  String get playlist_select_all => 'सभी चुनें';
+
+  @override
+  String get playlist_deselect_all => 'सभी का चयन हटाएं';
+
+  @override
+  String get playlist_remove_all => 'सभी हटाएं';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'इस प्लेलिस्ट से दिखाए गए सभी गाने हटाएं?';
+
+  @override
   String get playlist_add_item => 'जोड़ें';
 
   @override

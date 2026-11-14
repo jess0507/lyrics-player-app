@@ -907,6 +907,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get playlist_all_added => 'Todas as músicas já estão nesta playlist';
 
   @override
+  String get playlist_select_all => 'Selecionar tudo';
+
+  @override
+  String get playlist_deselect_all => 'Desmarcar tudo';
+
+  @override
+  String get playlist_remove_all => 'Remover tudo';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Remover todas as músicas exibidas desta playlist?';
+
+  @override
   String get playlist_add_item => 'Adicionar';
 
   @override

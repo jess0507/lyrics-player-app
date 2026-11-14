@@ -908,6 +908,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlist_all_added => 'Tüm şarkılar zaten bu çalma listesinde';
 
   @override
+  String get playlist_select_all => 'Tümünü seç';
+
+  @override
+  String get playlist_deselect_all => 'Tüm seçimi kaldır';
+
+  @override
+  String get playlist_remove_all => 'Tümünü kaldır';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Listelenen tüm şarkılar bu çalma listesinden kaldırılsın mı?';
+
+  @override
   String get playlist_add_item => 'Ekle';
 
   @override

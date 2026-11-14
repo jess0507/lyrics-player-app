@@ -917,6 +917,19 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tous les titres sont déjà dans cette playlist';
 
   @override
+  String get playlist_select_all => 'Tout sélectionner';
+
+  @override
+  String get playlist_deselect_all => 'Tout désélectionner';
+
+  @override
+  String get playlist_remove_all => 'Tout retirer';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Retirer tous les titres affichés de cette playlist ?';
+
+  @override
   String get playlist_add_item => 'Ajouter';
 
   @override

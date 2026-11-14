@@ -145,6 +145,36 @@ class PlaylistRepository {
     if (changed) _backupState.markPlaylistModified();
   }
 
+  /// 一次加入多首,依 [trackIds] 順序附加在最後;已存在者略過。
+  Future<void> addTracks(int id, List<String> trackIds) async {
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
+      if (pl == null) return false;
+      final existing = pl.trackIds.toSet();
+      final toAdd = [
+        for (final t in trackIds)
+          if (existing.add(t)) t,
+      ];
+      if (toAdd.isEmpty) return false;
+      pl.trackIds = [...pl.trackIds, ...toAdd];
+      _col.putSync(pl);
+      return true;
+    });
+    if (changed) _backupState.markPlaylistModified();
+  }
+
+  /// 一次移除多首。
+  Future<void> removeTracks(int id, Set<String> trackIds) async {
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
+      if (pl == null || !pl.trackIds.any(trackIds.contains)) return false;
+      pl.trackIds = pl.trackIds.where((t) => !trackIds.contains(t)).toList();
+      _col.putSync(pl);
+      return true;
+    });
+    if (changed) _backupState.markPlaylistModified();
+  }
+
   /// 記一筆最近播放:該曲若已在清單中先移除,再插回最前面連同當下時間
   /// (最新播放永遠在最前),超過 [_recentlyPlayedLimit] 筆時捨棄最舊的。
   Future<void> recordRecentlyPlayed(String trackId) async {

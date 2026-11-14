@@ -909,6 +909,19 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tất cả bài hát đã có trong danh sách phát này';
 
   @override
+  String get playlist_select_all => 'Chọn tất cả';
+
+  @override
+  String get playlist_deselect_all => 'Bỏ chọn tất cả';
+
+  @override
+  String get playlist_remove_all => 'Xóa tất cả';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Xóa tất cả bài hát đang hiển thị khỏi danh sách phát này?';
+
+  @override
   String get playlist_add_item => 'Thêm';
 
   @override

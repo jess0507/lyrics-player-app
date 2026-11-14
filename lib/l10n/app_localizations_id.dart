@@ -905,6 +905,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlist_all_added => 'Semua lagu sudah ada di playlist ini';
 
   @override
+  String get playlist_select_all => 'Pilih semua';
+
+  @override
+  String get playlist_deselect_all => 'Batalkan semua';
+
+  @override
+  String get playlist_remove_all => 'Hapus semua';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Hapus semua lagu yang ditampilkan dari playlist ini?';
+
+  @override
   String get playlist_add_item => 'Tambah item';
 
   @override

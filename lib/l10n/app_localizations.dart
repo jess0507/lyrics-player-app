@@ -1773,6 +1773,30 @@ abstract class AppLocalizations {
   /// **'All songs are already in this playlist'**
   String get playlist_all_added;
 
+  /// No description provided for @playlist_select_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get playlist_select_all;
+
+  /// No description provided for @playlist_deselect_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Deselect all'**
+  String get playlist_deselect_all;
+
+  /// No description provided for @playlist_remove_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all'**
+  String get playlist_remove_all;
+
+  /// No description provided for @playlist_remove_all_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all listed songs from this playlist?'**
+  String get playlist_remove_all_confirm;
+
   /// No description provided for @playlist_add_item.
   ///
   /// In en, this message translates to:

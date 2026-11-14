@@ -10,6 +10,8 @@ import 'package:seek_player/features/playlists/providers/playlists_provider.dart
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_add_tracks_list.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_edit_tracks_list.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_remove_all_button.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_select_all_button.dart';
 import 'package:seek_player/features/tools/models/track_file_stat.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
@@ -215,6 +217,13 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
                           : _buildFilteredList(
                               l10n,
                               source: addedTracks,
+                              toolbarActions: (visible) => [
+                                PlaylistRemoveAllButton(
+                                  playlistId: widget.playlistId,
+                                  tracks: visible,
+                                  analyticsSource: _analyticsSource,
+                                ),
+                              ],
                               listBuilder: (visible, reorderable) =>
                                   PlaylistEditTracksList(
                                     playlistId: widget.playlistId,
@@ -230,6 +239,14 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
                           : _buildFilteredList(
                               l10n,
                               source: _initialNotAddedTracks,
+                              toolbarActions: (visible) => [
+                                PlaylistSelectAllButton(
+                                  playlistId: widget.playlistId,
+                                  tracks: visible,
+                                  addedIds: addedIds,
+                                  analyticsSource: _analyticsSource,
+                                ),
+                              ],
                               listBuilder: (visible, _) =>
                                   PlaylistAddTracksList(
                                     tracks: visible,
@@ -250,6 +267,7 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
     AppLocalizations l10n, {
     required List<Track> source,
     required Widget Function(List<Track> visible, bool isFullOrder) listBuilder,
+    List<Widget> Function(List<Track> visible)? toolbarActions,
   }) {
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final plays = ref.watch(trackPlayStatsProvider);
@@ -292,7 +310,7 @@ class _PlaylistAddTracksPageState extends ConsumerState<PlaylistAddTracksPage> {
           ),
           onSearch: _toggleSearch,
           onSort: _editSort,
-          actions: const [],
+          actions: toolbarActions?.call(visibleTracks) ?? const [],
         ),
         Expanded(
           child: visibleTracks.isEmpty

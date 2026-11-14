@@ -214,6 +214,13 @@ enum PlaylistAction implements AnalyticsAction {
   toggleShuffle,
   addTrack,
   removeTrack,
+
+  /// 「增加項目」頁全選 / 取消全選目前篩選出的曲目。
+  selectAllTracks,
+  deselectAllTracks,
+
+  /// 「編輯播放清單」頁全部移除目前篩選出的曲目。
+  removeAllTracks,
   reorderTracks,
   addToPlaylist,
   addToPlaylistOpen,

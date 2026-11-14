@@ -853,6 +853,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playlist_all_added => '音樂庫的曲目都已加入這個播放清單';
 
   @override
+  String get playlist_select_all => '全選';
+
+  @override
+  String get playlist_deselect_all => '取消全選';
+
+  @override
+  String get playlist_remove_all => '全部移除';
+
+  @override
+  String get playlist_remove_all_confirm => '要從這個播放清單移除列出的所有曲目嗎?';
+
+  @override
   String get playlist_add_item => '新增項目';
 
   @override
@@ -1765,6 +1777,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get playlist_all_added => '音乐库的曲目都已加入这个播放列表';
 
   @override
+  String get playlist_select_all => '全选';
+
+  @override
+  String get playlist_deselect_all => '取消全选';
+
+  @override
+  String get playlist_remove_all => '全部移除';
+
+  @override
+  String get playlist_remove_all_confirm => '要从这个播放列表移除列出的所有曲目吗?';
+
+  @override
   String get playlist_add_item => '添加项目';
 
   @override
@@ -2675,6 +2699,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get playlist_all_added => '音樂庫的曲目都已加入這個播放清單';
+
+  @override
+  String get playlist_select_all => '全選';
+
+  @override
+  String get playlist_deselect_all => '取消全選';
+
+  @override
+  String get playlist_remove_all => '全部移除';
+
+  @override
+  String get playlist_remove_all_confirm => '要從這個播放清單移除列出的所有曲目嗎?';
 
   @override
   String get playlist_add_item => '新增項目';

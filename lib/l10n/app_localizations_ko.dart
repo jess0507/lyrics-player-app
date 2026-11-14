@@ -867,6 +867,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get playlist_all_added => '모든 곡이 이미 이 재생목록에 있습니다';
 
   @override
+  String get playlist_select_all => '모두 선택';
+
+  @override
+  String get playlist_deselect_all => '모두 선택 해제';
+
+  @override
+  String get playlist_remove_all => '모두 삭제';
+
+  @override
+  String get playlist_remove_all_confirm => '표시된 모든 곡을 이 재생목록에서 삭제할까요?';
+
+  @override
   String get playlist_add_item => '추가';
 
   @override

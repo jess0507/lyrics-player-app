@@ -906,6 +906,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playlist_all_added => 'Все песни уже добавлены в этот плейлист';
 
   @override
+  String get playlist_select_all => 'Выбрать все';
+
+  @override
+  String get playlist_deselect_all => 'Снять выбор';
+
+  @override
+  String get playlist_remove_all => 'Удалить все';
+
+  @override
+  String get playlist_remove_all_confirm =>
+      'Удалить все показанные песни из этого плейлиста?';
+
+  @override
   String get playlist_add_item => 'Добавить';
 
   @override

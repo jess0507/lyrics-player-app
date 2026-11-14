@@ -862,6 +862,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get playlist_all_added => 'すべての曲はすでにこのプレイリストに追加されています';
 
   @override
+  String get playlist_select_all => 'すべて選択';
+
+  @override
+  String get playlist_deselect_all => 'すべて選択解除';
+
+  @override
+  String get playlist_remove_all => 'すべて削除';
+
+  @override
+  String get playlist_remove_all_confirm => '表示中のすべての曲をこのプレイリストから削除しますか?';
+
+  @override
   String get playlist_add_item => '追加';
 
   @override
