@@ -10,6 +10,8 @@ class PlaylistActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 沒有任何按鈕時整列不佔空間(例如空的最近播放)。
+    if (actions.isEmpty && trailing == null) return const SizedBox.shrink();
     return Padding(
       // 左側按鈕縮成 compact(32 見方),圖示距按鈕邊緣約 6,
       // 左側補 10 讓圖示與上方標題文字對齊。

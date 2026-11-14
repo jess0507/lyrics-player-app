@@ -13,7 +13,7 @@ import 'package:seek_player/features/playlists/providers/playlist_tracks_provide
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
-import 'package:seek_player/features/playlists/widgets/playlist_detail_header.dart';
+import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 import 'package:seek_player/features/playlists/widgets/recently_played_track_list.dart';
@@ -202,20 +202,19 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
           // 箭頭右側多出空白),並取消標題間距。
           leadingWidth: _searching ? 48 : null,
           titleSpacing: _searching ? 0 : null,
-          // 清單名稱改放內容區頂端,頂欄只有返回鍵;搜尋中放搜尋欄。
+          // 清單名稱放頂欄靠左;搜尋中改放搜尋欄。
           title: _searching
               ? TrackSearchField(
                   controller: _searchController,
                   onChanged: (_) => setState(() {}),
                 )
-              : null,
+              : Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
           // 搜尋欄右側留白,不貼齊螢幕邊緣。
           actions: [if (_searching) const SizedBox(width: 16)],
         ),
         body: Column(
           children: [
-            PlaylistDetailHeader(
-              title: title,
+            PlaylistActionBar(
               // 清單為空(或搜尋無結果)時不顯示隨機 / 播放;只播目前篩選出的曲目。
               trailing: visibleTracks.isEmpty
                   ? null
