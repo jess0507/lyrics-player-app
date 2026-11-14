@@ -28,16 +28,22 @@ Future<void> initializeIsarCoreForTest() async {
   final lib = File('.dart_tool/isar_test/${Abi.current()}-libisar.$ext');
   if (!lib.existsSync()) {
     lib.parent.createSync(recursive: true);
+    // flutter test 會並行跑多個測試檔:先下載到各 process 自己的暫存檔,
+    // 完成後再 rename(同檔案系統內為原子操作),避免其他測試檔看到
+    // 檔案已存在就載入只寫到一半的動態庫。
+    final tmp = File('${lib.path}.$pid.tmp');
     final result = Process.runSync('curl', [
       '-fsSL',
       '-o',
-      lib.path,
+      tmp.path,
       // isar_community 的官方二進位站(同 initializeIsarCore 的 binariesUrl)
       'https://binaries.isar-community.dev/${Isar.version}/$asset',
     ]);
     if (result.exitCode != 0) {
+      if (tmp.existsSync()) tmp.deleteSync();
       fail('下載 IsarCore 失敗:${result.stderr}');
     }
+    tmp.renameSync(lib.path);
   }
   await Isar.initializeIsarCore(libraries: {Abi.current(): lib.path});
 }
