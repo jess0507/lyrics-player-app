@@ -4,6 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
+import 'package:seek_player/core/crash_reporter.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_import_service.dart';
+import 'package:seek_player/features/player/widgets/lyrics_edit_page.dart';
+import 'package:seek_player/features/player/widgets/lyrics_view.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
@@ -100,6 +105,37 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
           SnackBar(content: Text(l10n.tools_file_import_failed)),
         );
     }
+  }
+
+  /// 工具「編輯歌詞」:不選曲目,直接開歌詞檔(如 `A-1.lrc`)進編輯頁。
+  /// 編輯頁疊在本頁上,返回回到選曲頁。
+  Future<void> _openLyricsFile() async {
+    final l10n = AppLocalizations.of(context)!;
+    final ({String name, String content})? picked;
+    try {
+      picked = await ref.read(lyricsImportServiceProvider).pickFile();
+    } on LyricsImportException catch (e, s) {
+      logAnalyticsAction(ToolsAction.openLyricsFile, result: e.error);
+      reportError(e, s, reason: '工具開啟歌詞檔失敗（${e.error.name}）');
+      showAppToast(lyricsImportErrorText(l10n, e.error));
+      return;
+    }
+    logAnalyticsAction(
+      ToolsAction.openLyricsFile,
+      result: picked == null
+          ? AnalyticsResult.cancelled
+          : AnalyticsResult.success,
+    );
+    if (picked == null || !mounted) return;
+    Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute<void>(
+        builder: (_) => LyricsEditPage(
+          trackId: null,
+          title: picked!.name,
+          initialContent: picked.content,
+        ),
+      ),
+    );
   }
 
   Future<void> _editSort() async {
@@ -203,11 +239,20 @@ class _ToolTrackPickerPageState extends ConsumerState<ToolTrackPickerPage> {
                     onSearch: _toggleSearch,
                     onSort: _editSort,
                     actions: [
-                      IconButton(
-                        icon: const Icon(Icons.folder_outlined),
-                        tooltip: l10n.tools_pick_from_files,
-                        onPressed: _picking ? null : _pickFromFiles,
-                      ),
+                      // 「編輯歌詞」從檔案選擇的是歌詞檔(直接編輯),
+                      // 其他工具選的是音檔(對回曲庫中的曲目)。
+                      if (widget.tool == ToolKind.lyricsEdit)
+                        IconButton(
+                          icon: const Icon(Icons.folder_outlined),
+                          tooltip: l10n.lyrics_edit_open_file,
+                          onPressed: _openLyricsFile,
+                        )
+                      else
+                        IconButton(
+                          icon: const Icon(Icons.folder_outlined),
+                          tooltip: l10n.tools_pick_from_files,
+                          onPressed: _picking ? null : _pickFromFiles,
+                        ),
                     ],
                   ),
                   if (_picking) const LinearProgressIndicator(),

@@ -18,6 +18,7 @@ import 'package:seek_player/features/player/widgets/lyrics_sign_in_gate.dart';
 import 'package:seek_player/features/player/widgets/lyrics_text_align_sheet.dart';
 import 'package:seek_player/features/player/widgets/lyrics_usage_limit_gate.dart';
 import 'package:seek_player/features/player/widgets/lyrics_view.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
 
 /// 歌詞相關的選單動作,供「次控制列更多選單」與「歌詞滿版選單」共用。
 /// 顯示與否由 [lyricsMenuActions] 依狀態決定,動作分派由 [runLyricsMenuAction] 處理。
@@ -60,7 +61,7 @@ enum LyricsMenuAction implements AnalyticsAction {
   IconData get icon => switch (this) {
     aiGenerate => Icons.lyrics_outlined,
     searchOnline => Icons.travel_explore_outlined,
-    edit => Icons.content_paste,
+    edit => ToolKind.lyricsEdit.icon,
     import => Icons.file_open_outlined,
     autoAlignAeneas => Icons.auto_fix_high,
     autoAlignWhisperX => Icons.auto_awesome,

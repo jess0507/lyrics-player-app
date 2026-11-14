@@ -44,12 +44,26 @@ class LyricsImportService {
     required String trackId,
     required String title,
   }) async {
+    final picked = await pickFile();
+    if (picked == null) return false; // 取消
+    await _save(
+      trackId: trackId,
+      title: title,
+      content: picked.content,
+      format: detectLyricsFormat(picked.name),
+    );
+    return true;
+  }
+
+  /// 以系統選檔器挑歌詞檔並讀出文字(不存檔);取消回 null。
+  /// 過大拋 [LyricsImportException]。供匯入與工具「編輯歌詞」開啟歌詞檔共用。
+  Future<({String name, String content})?> pickFile() async {
     final picked = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: const ['lrc', 'txt', 'srt', 'vtt'],
     );
     final file = picked?.files.singleOrNull;
-    if (file == null || file.path == null) return false; // 取消
+    if (file == null || file.path == null) return null; // 取消
 
     if (file.size > _maxBytes) {
       throw LyricsImportException(
@@ -60,14 +74,7 @@ class LyricsImportService {
     }
 
     final bytes = await File(file.path!).readAsBytes();
-    final content = _decode(bytes);
-    await _save(
-      trackId: trackId,
-      title: title,
-      content: content,
-      format: detectLyricsFormat(file.name),
-    );
-    return true;
+    return (name: file.name, content: _decode(bytes));
   }
 
   /// 為 [trackId] 存入使用者貼上的歌詞文字;格式依內文判定(LRC / SRT /

@@ -126,6 +126,8 @@ enum LyricsAction implements AnalyticsAction {
   onlineSearchQuery,
   onlineSearchApply,
   editSave,
+  editShare,
+  editExport,
   importResult,
   downloadResult,
   deleteConfirm,
@@ -237,6 +239,7 @@ enum ToolsAction implements AnalyticsAction {
   selectTool,
   openEditor,
   pickFromFile,
+  openLyricsFile,
   changeSort,
   search,
   filterFolder;

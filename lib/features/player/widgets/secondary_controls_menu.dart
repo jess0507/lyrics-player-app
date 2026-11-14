@@ -41,7 +41,7 @@ enum _PlayerMenuAction {
     lyricsFontSize => Icons.text_fields,
     lyricsTextAlign => Icons.format_align_left,
     addToPlaylist => Icons.playlist_add,
-    editLyrics => Icons.edit_note,
+    editLyrics => ToolKind.lyricsEdit.icon,
     editCover => Icons.image_outlined,
   };
 

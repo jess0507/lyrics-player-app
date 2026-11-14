@@ -14,6 +14,7 @@ import 'package:seek_player/features/profile/settings/settings_page.dart';
 import 'package:seek_player/features/profile/statistics/statistics_page.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/tools/cover_editor_page.dart';
+import 'package:seek_player/features/tools/lyrics_edit_tool_page.dart';
 import 'package:seek_player/features/tools/lyrics_editor_page.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/features/tools/tool_track_picker_page.dart';
@@ -81,7 +82,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       tool: ToolKind.fromName(state.pathParameters['tool'])!,
                     ),
                     routes: [
-                      // 選完曲目後依工具進對應的編輯頁(歌詞 / 封面)。
+                      // 選完曲目後依工具進對應的編輯頁(製作歌詞 / 編輯歌詞 / 封面)。
                       GoRoute(
                         path: ':trackId',
                         parentNavigatorKey: rootNavigatorKey,
@@ -92,6 +93,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                             state.pathParameters['tool'],
                           )!) {
                             ToolKind.lyrics => LyricsEditorPage(
+                              trackId: trackId,
+                              initialTrack: track,
+                            ),
+                            ToolKind.lyricsEdit => LyricsEditToolPage(
                               trackId: trackId,
                               initialTrack: track,
                             ),

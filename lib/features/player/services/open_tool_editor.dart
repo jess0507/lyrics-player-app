@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/tools/cover_editor_page.dart';
+import 'package:seek_player/features/tools/lyrics_edit_tool_page.dart';
 import 'package:seek_player/features/tools/lyrics_editor_page.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 
@@ -20,6 +21,10 @@ void openToolEditorFromPlayer(
     MaterialPageRoute<void>(
       builder: (_) => switch (tool) {
         ToolKind.lyrics => LyricsEditorPage(
+          trackId: trackId,
+          initialTrack: track,
+        ),
+        ToolKind.lyricsEdit => LyricsEditToolPage(
           trackId: trackId,
           initialTrack: track,
         ),

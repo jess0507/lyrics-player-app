@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
 /// 下載(匯出)歌詞:讀出儲存的原文,交給系統「另存檔案」對話框
@@ -27,6 +28,27 @@ class LyricsExportService {
       allowedExtensions: [entity.format.name],
       // 由 plugin 直接寫入 bytes,呼叫端不需再落地。
       bytes: Uint8List.fromList(utf8.encode(entity.content)),
+    );
+    return path != null;
+  }
+
+  /// 把 [content] 匯出成歌詞檔(副檔名依內文判定的格式),檔名以 [name] 為底
+  /// (已帶歌詞副檔名時先去掉)。回傳 true 表示已存檔;false 表示使用者取消或內容為空。
+  Future<bool> exportText({
+    required String name,
+    required String content,
+  }) async {
+    if (content.trim().isEmpty) return false;
+    final ext = detectLyricsFormatFromContent(content).name;
+    final base = name.replaceFirst(
+      RegExp(r'\.(lrc|txt|srt|vtt)$', caseSensitive: false),
+      '',
+    );
+    final path = await FilePicker.saveFile(
+      fileName: '${_sanitizeFileName(base)}.$ext',
+      type: FileType.custom,
+      allowedExtensions: [ext],
+      bytes: Uint8List.fromList(utf8.encode(content)),
     );
     return path != null;
   }
