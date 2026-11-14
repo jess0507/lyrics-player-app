@@ -19,6 +19,7 @@ class BackupStateStore {
   static const _kPlaylistModifiedAt = 'backup.playlistModifiedAt';
   static const _kStatsModifiedAt = 'backup.statsModifiedAt';
   static const _kLyricsModifiedAt = 'backup.lyricsModifiedAt';
+  static const _kLocalMusicModifiedAt = 'backup.localMusicModifiedAt';
 
   final PreferencesService _prefs;
 
@@ -52,6 +53,14 @@ class BackupStateStore {
 
   /// 歌詞每次寫入 / 刪除時呼叫。
   void markLyricsModified() => _write(_kLyricsModifiedAt, DateTime.now());
+
+  /// 本機音樂頁資料夾與排序最後一次本機變更的時間;
+  /// null 表示從未變更。只走 Firestore 同步,Google Drive 備份不含。
+  DateTime? get localMusicModifiedAt => _read(_kLocalMusicModifiedAt);
+
+  /// 本機音樂頁資料夾 / 排序每次寫入時呼叫。
+  void markLocalMusicModified() =>
+      _write(_kLocalMusicModifiedAt, DateTime.now());
 
   DateTime? _read(String key) {
     final ms = _prefs.getInt(key);

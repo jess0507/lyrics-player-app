@@ -53,6 +53,20 @@ class TrackSort {
   final TrackSortField field;
   final bool descending;
 
+  /// 由持久化 / 同步的欄位名稱與方向還原;欄位缺值、未知或是 [TrackSortField.custom]
+  /// (只有播放清單才有)時回傳預設排序,方向缺值時沿用預設方向。
+  factory TrackSort.fromStored(String? fieldName, bool? descending) {
+    const fallback = TrackSort();
+    final field = TrackSortField.values
+        .where((f) => f.name == fieldName && f != TrackSortField.custom)
+        .firstOrNull;
+    if (field == null) return fallback;
+    return TrackSort(
+      field: field,
+      descending: descending ?? fallback.descending,
+    );
+  }
+
   /// 回傳排序後的新清單;缺 stat / 時長 / 播放紀錄的曲目視為最小值。
   List<Track> apply(
     List<Track> tracks,

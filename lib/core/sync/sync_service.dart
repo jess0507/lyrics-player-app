@@ -11,6 +11,7 @@ import 'package:seek_player/core/backup/last_backup_at_provider.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/core/firebase_available_provider.dart';
 import 'package:seek_player/core/sync/lyrics_sync.dart';
+import 'package:seek_player/core/sync/local_music_sync.dart';
 import 'package:seek_player/core/sync/playlists_sync.dart';
 import 'package:seek_player/core/sync/settings_sync.dart';
 import 'package:seek_player/core/sync/sign_in_sync_plan.dart';
@@ -18,7 +19,7 @@ import 'package:seek_player/core/sync/statistics_sync.dart';
 import 'package:seek_player/core/sync/sync_domain.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 
-/// 設定 / 播放清單 / 統計 / 歌詞四個領域與 Firestore `user/{uid}` 之間的
+/// 設定 / 播放清單 / 統計 / 歌詞 / 本機音樂頁狀態五個領域與 Firestore `user/{uid}` 之間的
 /// 同步調度。
 ///
 /// 同步時機只有:登入、App 回前景、帳戶頁「立即同步」、統計重設。
@@ -63,7 +64,7 @@ class SyncService {
   DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
       FirebaseFirestore.instance.collection('user').doc(uid);
 
-  /// 四個領域各自 *UpdatedAt 時戳的存放處(與 SettingsSync 的設定內容共用
+  /// 各領域 *UpdatedAt 時戳的存放處(與 SettingsSync 的設定內容共用
   /// 同一份文件,見 settings_sync.dart)。
   DocumentReference<Map<String, dynamic>> _settingDoc(String uid) =>
       _userDoc(uid).collection('setting').doc('0');
@@ -126,6 +127,7 @@ class SyncService {
           return ref.read(statisticsSyncProvider).hasLocalData();
         }(),
         SyncDomain.lyrics: _lyricsSync.hasLocalData(),
+        SyncDomain.localMusic: ref.read(localMusicSyncProvider).hasLocalData(),
       };
       final remote = {
         SyncDomain.settings: await ref
@@ -138,13 +140,16 @@ class SyncService {
             .read(statisticsSyncProvider)
             .hasRemoteData(userDoc),
         SyncDomain.lyrics: await _lyricsSync.hasRemoteData(userDoc),
+        SyncDomain.localMusic: await ref
+            .read(localMusicSyncProvider)
+            .hasRemoteData(userDoc),
       };
 
       final pull = <SyncDomain>{};
       final push = <SyncDomain>{};
       final merge = <SyncDomain>{};
       if (!remote.values.any((v) => v)) {
-        // 新帳號(雲端全空):四個領域整份推上去,建立快照與時戳。
+        // 新帳號(雲端全空):所有領域整份推上去,建立快照與時戳。
         debugPrint('[Sync] 雲端無資料(新帳號),全部上傳');
         push.addAll(SyncDomain.values);
       } else {
@@ -232,6 +237,7 @@ class SyncService {
     SyncDomain.playlists => ref.read(playlistsSyncProvider).restore(userDoc),
     SyncDomain.statistics => ref.read(statisticsSyncProvider).restore(userDoc),
     SyncDomain.lyrics => _lyricsSync.restore(userDoc),
+    SyncDomain.localMusic => ref.read(localMusicSyncProvider).restore(userDoc),
   };
 
   /// 把 [domain] 的雲端資料併進本機(以雲端為主),不推送。合併結果可能
@@ -254,6 +260,9 @@ class SyncService {
       case SyncDomain.lyrics:
         await _lyricsSync.merge(userDoc);
         _store.markLyricsModified();
+      // 本機音樂頁狀態同設定,一組單值無從合併,直接用雲端。
+      case SyncDomain.localMusic:
+        await ref.read(localMusicSyncProvider).restore(userDoc);
     }
   }
 
@@ -285,16 +294,22 @@ class SyncService {
       remote: _remoteAt(timestamps, 'lyricsUpdatedAt'),
       local: _store.lyricsModifiedAt,
     );
+    final localMusicChanged = _shouldPush(
+      remote: _remoteAt(timestamps, 'localMusicUpdatedAt'),
+      local: _store.localMusicModifiedAt,
+    );
     if (!settingChanged &&
         !playlistChanged &&
         !statsChanged &&
-        !lyricsChanged) {
+        !lyricsChanged &&
+        !localMusicChanged) {
       debugPrint('[Sync] 雲端已是最新,跳過上傳');
       return;
     }
     debugPrint(
       '[Sync] 開始上傳(setting=$settingChanged, playlist=$playlistChanged, '
-      'stats=$statsChanged, lyrics=$lyricsChanged)',
+      'stats=$statsChanged, lyrics=$lyricsChanged, '
+      'localMusic=$localMusicChanged)',
     );
     await _upload(uid);
   }
@@ -376,6 +391,11 @@ class SyncService {
         'lyricsUpdatedAt',
         _store.lyricsModifiedAt,
       );
+      final pushLocalMusic = shouldPush(
+        SyncDomain.localMusic,
+        'localMusicUpdatedAt',
+        _store.localMusicModifiedAt,
+      );
 
       await userDoc.set(await _userDocData(), SetOptions(merge: true));
       // 更新本機顯示用的「上次同步時間」(帳戶頁面),不影響推 / 拉判斷
@@ -383,7 +403,7 @@ class SyncService {
       _markSynced();
       debugPrint('[Sync] 已上傳主文件');
 
-      // 四個領域各自獨立推送:推完各自把對應的 *UpdatedAt 寫回 setting/0
+      // 各領域各自獨立推送:推完各自把對應的 *UpdatedAt 寫回 setting/0
       // (merge),失敗不影響其他領域,下個班次重試即可(子集合推送整批
       // 重寫,冪等)。
       if (pushSetting) {
@@ -408,6 +428,12 @@ class SyncService {
         await _lyricsSync.push(userDoc);
         await settingDoc.set({
           'lyricsUpdatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+      if (pushLocalMusic) {
+        await ref.read(localMusicSyncProvider).push(userDoc);
+        await settingDoc.set({
+          'localMusicUpdatedAt': FieldValue.serverTimestamp(),
         }, SetOptions(merge: true));
       }
       return true;
