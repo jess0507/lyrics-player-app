@@ -8,7 +8,7 @@ import 'package:seek_player/l10n/app_localizations.dart';
 enum ToolKind {
   lyrics(Icons.lyrics_outlined),
   /// 「編輯歌詞」的圖示也是播放頁選單編輯歌詞項目的唯一來源。
-  lyricsEdit(Icons.edit_note),
+  lyricsEdit(Icons.edit_outlined),
   cover(Icons.image_outlined);
 
   const ToolKind(this.icon);
