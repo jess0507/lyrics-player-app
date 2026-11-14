@@ -11,6 +11,7 @@ import 'package:seek_player/features/cover/providers/track_artwork_provider.dart
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/mini_player/widgets/mini_play_pause_button.dart';
+import 'package:seek_player/features/mini_player/widgets/mini_position_text.dart';
 import 'package:seek_player/features/mini_player/widgets/mini_progress_bar.dart';
 import 'package:seek_player/features/mini_player/widgets/swipe_track_area.dart';
 
@@ -117,7 +118,11 @@ class MiniPlayer extends ConsumerWidget {
                             ),
                           ),
                         ),
+                        const SizedBox(width: 12),
+                        MiniPositionText(audio: audio),
+                        const SizedBox(width: 4),
                         MiniPlayPauseButton(audio: audio),
+                        const SizedBox(width: 4),
                       ],
                     ),
                   ),

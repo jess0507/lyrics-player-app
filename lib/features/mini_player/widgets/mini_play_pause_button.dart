@@ -42,14 +42,20 @@ class MiniPlayPauseButton extends StatelessWidget {
             ),
           );
         }
+        // 圓框圖示 + 主題色，跟著使用者選的 seed color 變。
         return IconButton(
           tooltip: playing ? l10n.player_pause : l10n.player_play,
-          iconSize: 32,
+          iconSize: 36,
+          color: Theme.of(context).colorScheme.primary,
           onPressed: () {
             logAnalyticsAction(MiniPlayerAction.playPause);
             playing ? audio.pause() : audio.play();
           },
-          icon: Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
+          icon: Icon(
+            playing
+                ? Icons.pause_circle_outline_rounded
+                : Icons.play_circle_outline_rounded,
+          ),
         );
       },
     );
