@@ -80,6 +80,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          # 固定與本機 fvm 相同版本;不固定會抓到最新 stable,新版 deprecation 會讓 analyze 失敗。
+          flutter-version: 3.44.2
           cache: true
 
       - name: Install dependencies
