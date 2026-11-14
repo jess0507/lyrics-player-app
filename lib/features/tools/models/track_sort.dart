@@ -53,17 +53,27 @@ class TrackSort {
   final TrackSortField field;
   final bool descending;
 
-  /// 由持久化 / 同步的欄位名稱與方向還原;欄位缺值、未知或是 [TrackSortField.custom]
-  /// (只有播放清單才有)時回傳預設排序,方向缺值時沿用預設方向。
-  factory TrackSort.fromStored(String? fieldName, bool? descending) {
-    const fallback = TrackSort();
+  /// 由持久化 / 同步的欄位名稱與方向還原。欄位缺值、未知,或是
+  /// [TrackSortField.custom] 但 [allowCustom] 為 false(只有播放清單才有清單
+  /// 順序)時回傳 [fallback];方向缺值時名稱預設 A 到 Z、其餘預設遞減
+  /// (同排序表單的預設選項)。
+  factory TrackSort.fromStored(
+    String? fieldName,
+    bool? descending, {
+    TrackSort fallback = const TrackSort(),
+    bool allowCustom = false,
+  }) {
     final field = TrackSortField.values
-        .where((f) => f.name == fieldName && f != TrackSortField.custom)
+        .where(
+          (f) =>
+              f.name == fieldName &&
+              (allowCustom || f != TrackSortField.custom),
+        )
         .firstOrNull;
     if (field == null) return fallback;
     return TrackSort(
       field: field,
-      descending: descending ?? fallback.descending,
+      descending: descending ?? field != TrackSortField.name,
     );
   }
 

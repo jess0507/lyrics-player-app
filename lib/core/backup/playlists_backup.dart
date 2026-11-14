@@ -7,7 +7,7 @@ import 'package:seek_player/features/playlists/services/playlist_repository.dart
 
 /// 播放清單 ↔ `playlists.json`:
 /// `{ "playlists": [ {id, name, isFavorites, isRecentlyPlayed, createdAt,
-/// trackIds, recentlyPlayed: [{trackId, playedAt}]} ] }`,
+/// trackIds, recentlyPlayed: [{trackId, playedAt}], sortField, sortDescending} ] }`,
 /// id 即本機 Isar id,時間一律毫秒 int。整份快照語意(last-write-wins)。
 class PlaylistsBackup implements DomainBackup {
   PlaylistsBackup(this._ref);
@@ -45,6 +45,8 @@ class PlaylistsBackup implements DomainBackup {
               'isRecentlyPlayed': p.isRecentlyPlayed,
               'createdAt': p.createdAt.millisecondsSinceEpoch,
               'trackIds': p.trackIds,
+              'sortField': p.sortField,
+              'sortDescending': p.sortDescending,
               'recentlyPlayed': [
                 for (final e in p.recentlyPlayed)
                   {
@@ -69,6 +71,8 @@ class PlaylistsBackup implements DomainBackup {
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(
               (item['createdAt'] as num? ?? 0).toInt(),
             )
+            ..sortField = item['sortField'] as String?
+            ..sortDescending = item['sortDescending'] as bool?
             ..trackIds = [
               for (final t in (item['trackIds'] as List? ?? const [])) '$t',
             ]

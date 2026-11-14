@@ -22,7 +22,7 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 /// 設定 / 播放清單 / 統計 / 歌詞 / 本機音樂頁狀態五個領域與 Firestore `user/{uid}` 之間的
 /// 同步調度。
 ///
-/// 同步時機只有:登入、App 回前景、帳戶頁「立即同步」、統計重設。
+/// 同步時機只有:登入、App 啟動、App 回前景、帳戶頁「立即同步」、統計重設。
 ///
 /// - 登入:由登入頁在登入 loading 期間呼叫 [prepareSignInSync],逐領域看
 ///   本機 / 雲端有沒有資料——本機空就拉、雲端空就推、兩邊都有就把雲端
@@ -32,7 +32,7 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 ///   [prepareSignInSync] 到 [applySignInSync] 之間其他上傳一律跳過,
 ///   避免判斷途中被回前景的上傳蓋掉。手機 OTP 自動驗證不經登入頁,
 ///   走 [syncAfterSignIn]。
-/// - 回前景 / 立即同步 / 統計重設:只推不拉,依 `setting/0` 裡各領域的
+/// - 啟動 / 回前景 / 立即同步 / 統計重設:只推不拉,依 `setting/0` 裡各領域的
 ///   *UpdatedAt 與本機 *ModifiedAt 比對,只推本機較新的領域(統計重設
 ///   與立即同步同樣走這個判斷)。
 /// - 推送為整份快照語意:多裝置之間是 last-write-wins;不處理同一台
@@ -85,6 +85,22 @@ class SyncService {
       },
     );
     ref.onDispose(lifecycle.dispose);
+    unawaited(_syncOnLaunch());
+  }
+
+  /// 冷啟動跑一次上傳檢查。冷啟動不會觸發上面的 onResume:main() 在
+  /// runApp 前要等 Firebase / Isar 等初始化,本服務建立時 App 早已是
+  /// resumed,AppLifecycleListener 以當下狀態為初值,不會再通知。
+  /// 等 Firebase Auth 還原登入狀態的第一個事件,未登入就略過。
+  Future<void> _syncOnLaunch() async {
+    try {
+      final user = await ref.read(authServiceProvider).authStateChanges().first;
+      if (user == null) return;
+      debugPrint('[Sync] App 啟動,檢查是否上傳');
+      await _maybeUpload(user.uid);
+    } catch (e, s) {
+      reportError(e, s, reason: '啟動同步失敗');
+    }
   }
 
   /// 一次跑完登入同步([prepareSignInSync] + [applySignInSync])。用於手機

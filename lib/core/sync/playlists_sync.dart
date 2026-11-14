@@ -50,6 +50,8 @@ class PlaylistsSync {
                 'playedAt': e.playedAt.millisecondsSinceEpoch,
               },
           ],
+          'sortField': p.sortField,
+          'sortDescending': p.sortDescending,
           'updatedAt': FieldValue.serverTimestamp(),
         }),
       );
@@ -156,6 +158,8 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..createdAt = DateTime.fromMillisecondsSinceEpoch(
             (doc.data()['createdAt'] as num? ?? 0).toInt(),
           )
+          ..sortField = doc.data()['sortField'] as String?
+          ..sortDescending = doc.data()['sortDescending'] as bool?
           ..trackIds = [
             for (final t in (doc.data()['trackIds'] as List? ?? const [])) '$t',
           ]

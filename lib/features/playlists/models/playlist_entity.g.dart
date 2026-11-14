@@ -40,8 +40,18 @@ const PlaylistEntitySchema = CollectionSchema(
 
       target: r'RecentlyPlayedEntry',
     ),
-    r'trackIds': PropertySchema(
+    r'sortDescending': PropertySchema(
       id: 5,
+      name: r'sortDescending',
+      type: IsarType.bool,
+    ),
+    r'sortField': PropertySchema(
+      id: 6,
+      name: r'sortField',
+      type: IsarType.string,
+    ),
+    r'trackIds': PropertySchema(
+      id: 7,
       name: r'trackIds',
       type: IsarType.stringList,
     ),
@@ -108,6 +118,12 @@ int _playlistEntityEstimateSize(
       );
     }
   }
+  {
+    final value = object.sortField;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.trackIds.length * 3;
   {
     for (var i = 0; i < object.trackIds.length; i++) {
@@ -134,7 +150,9 @@ void _playlistEntitySerialize(
     RecentlyPlayedEntrySchema.serialize,
     object.recentlyPlayed,
   );
-  writer.writeStringList(offsets[5], object.trackIds);
+  writer.writeBool(offsets[5], object.sortDescending);
+  writer.writeString(offsets[6], object.sortField);
+  writer.writeStringList(offsets[7], object.trackIds);
 }
 
 PlaylistEntity _playlistEntityDeserialize(
@@ -157,7 +175,9 @@ PlaylistEntity _playlistEntityDeserialize(
         RecentlyPlayedEntry(),
       ) ??
       [];
-  object.trackIds = reader.readStringList(offsets[5]) ?? [];
+  object.sortDescending = reader.readBoolOrNull(offsets[5]);
+  object.sortField = reader.readStringOrNull(offsets[6]);
+  object.trackIds = reader.readStringList(offsets[7]) ?? [];
   return object;
 }
 
@@ -186,6 +206,10 @@ P _playlistEntityDeserializeProp<P>(
               [])
           as P;
     case 5:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -744,6 +768,192 @@ extension PlaylistEntityQueryFilter
   }
 
   QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortDescendingIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'sortDescending'),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortDescendingIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'sortDescending'),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortDescendingEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'sortDescending', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'sortField'),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'sortField'),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'sortField',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'sortField',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'sortField',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'sortField', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
+  sortFieldIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'sortField', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterFilterCondition>
   trackIdsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1005,6 +1215,33 @@ extension PlaylistEntityQuerySortBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  sortBySortDescending() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortDescending', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  sortBySortDescendingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortDescending', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy> sortBySortField() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortField', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  sortBySortFieldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortField', Sort.desc);
+    });
+  }
 }
 
 extension PlaylistEntityQuerySortThenBy
@@ -1073,6 +1310,33 @@ extension PlaylistEntityQuerySortThenBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  thenBySortDescending() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortDescending', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  thenBySortDescendingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortDescending', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy> thenBySortField() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortField', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QAfterSortBy>
+  thenBySortFieldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sortField', Sort.desc);
+    });
+  }
 }
 
 extension PlaylistEntityQueryWhereDistinct
@@ -1103,6 +1367,21 @@ extension PlaylistEntityQueryWhereDistinct
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QDistinct>
+  distinctBySortDescending() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'sortDescending');
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, PlaylistEntity, QDistinct> distinctBySortField({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'sortField', caseSensitive: caseSensitive);
     });
   }
 
@@ -1150,6 +1429,19 @@ extension PlaylistEntityQueryProperty
   recentlyPlayedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'recentlyPlayed');
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, bool?, QQueryOperations>
+  sortDescendingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'sortDescending');
+    });
+  }
+
+  QueryBuilder<PlaylistEntity, String?, QQueryOperations> sortFieldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'sortField');
     });
   }
 

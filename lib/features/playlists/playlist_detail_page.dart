@@ -12,6 +12,7 @@ import 'package:seek_player/features/playlists/playlist_add_tracks_page.dart';
 import 'package:seek_player/features/playlists/providers/playlist_tracks_provider.dart';
 import 'package:seek_player/features/playlists/providers/playlists_provider.dart';
 import 'package:seek_player/features/playlists/providers/recently_played_provider.dart';
+import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
@@ -64,8 +65,12 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
         : AnalyticsSource.playlistDetail;
   }
 
-  /// 預設維持清單的自訂順序。
-  var _sort = const TrackSort(field: TrackSortField.custom);
+  /// 清單記下的排序(每個清單各自一份,隨播放清單同步);沒有紀錄或是
+  /// 「最近播放」(固定依播放時間)時維持清單順序。
+  TrackSort _sortOf(PlaylistEntity? playlist) =>
+      playlist == null || playlist.isRecentlyPlayed
+      ? const TrackSort(field: TrackSortField.custom)
+      : playlist.sort;
   var _searching = false;
   final _searchController = TextEditingController();
 
@@ -107,7 +112,11 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
   Future<void> _editSort() async {
     final sort = await showTrackSortSheet(
       context,
-      current: _sort,
+      current: _sortOf(
+        (ref.read(playlistsProvider).valueOrNull ?? const [])
+            .where((p) => p.id == playlistId)
+            .firstOrNull,
+      ),
       fields: TrackSortField.values,
     );
     if (sort == null) return;
@@ -116,7 +125,7 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       source: AnalyticsSource.playlistDetail,
       option: sort.field,
     );
-    if (mounted) setState(() => _sort = sort);
+    await ref.read(playlistRepositoryProvider).setSort(playlistId, sort);
   }
 
   void _toggleSearch() => setState(() {
@@ -177,7 +186,7 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final plays = ref.watch(trackPlayStatsProvider);
     final query = _searchController.text.trim().toLowerCase();
-    final visibleTracks = _sort.apply(
+    final visibleTracks = _sortOf(playlist).apply(
       [
         for (final t in tracks)
           if (query.isEmpty ||

@@ -3,6 +3,7 @@ import 'package:isar_community/isar.dart';
 import 'package:seek_player/core/storage/isar_service.dart';
 import 'package:seek_player/core/backup/backup_state_store.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
 
 /// 我的最愛清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
 const _defaultFavoritesFallbackName = 'Favorites';
@@ -139,6 +140,24 @@ class PlaylistRepository {
       final pl = _col.getSync(id);
       if (pl == null) return false;
       pl.trackIds = pl.trackIds.where((t) => t != trackId).toList();
+      _col.putSync(pl);
+      return true;
+    });
+    if (changed) _backupState.markPlaylistModified();
+  }
+
+  /// 記下詳細頁套用的排序;與目前相同時不寫入。
+  Future<void> setSort(int id, TrackSort sort) async {
+    final changed = _isar.writeTxnSync(() {
+      final pl = _col.getSync(id);
+      if (pl == null ||
+          (pl.sortField == sort.field.name &&
+              pl.sortDescending == sort.descending)) {
+        return false;
+      }
+      pl
+        ..sortField = sort.field.name
+        ..sortDescending = sort.descending;
       _col.putSync(pl);
       return true;
     });

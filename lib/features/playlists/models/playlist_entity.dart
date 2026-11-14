@@ -1,4 +1,5 @@
 import 'package:isar_community/isar.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
 
 part 'playlist_entity.g.dart';
 
@@ -30,6 +31,22 @@ class PlaylistEntity {
 
   /// 「最近播放」清單專用:依播放時間新到舊排序,同曲重播會移到最前面。
   List<RecentlyPlayedEntry> recentlyPlayed = [];
+
+  /// 詳細頁上次套用的排序欄位(`TrackSortField.name`);null 為沒有紀錄,
+  /// 依清單順序。「最近播放」不使用。
+  String? sortField;
+
+  /// 詳細頁上次套用的排序方向;null 時沿用預設方向。
+  bool? sortDescending;
+
+  /// 詳細頁要套用的排序:有紀錄用紀錄,否則依清單順序。
+  @ignore
+  TrackSort get sort => TrackSort.fromStored(
+    sortField,
+    sortDescending,
+    fallback: const TrackSort(field: TrackSortField.custom),
+    allowCustom: true,
+  );
 }
 
 /// 「最近播放」單筆紀錄:曲目與播放當下時間。
