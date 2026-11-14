@@ -189,6 +189,28 @@ class _LocalMusicPlaylistPageState
             // 有曲目時才顯示資料夾下拉與操作列;清單為空時重新掃描改由
             // 下方空狀態提供。
             if (tracks.isNotEmpty) ...[
+              // 資料夾下拉放在操作列上方;TextButton 自帶 12 內距,
+              // 左側補 4 讓文字與下方圖示對齊。
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 16, 0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: FolderMenuButton(
+                    folders: folders,
+                    totalCount: tracks.length,
+                    latestOf: (path) => latestModifiedIn(tracks, stats, path),
+                    selected: folder,
+                    onSelected: (path) {
+                      // option = 是否選「全部」;不送資料夾路徑。
+                      logAnalyticsAction(
+                        LibraryAction.filterFolder,
+                        option: path == null,
+                      );
+                      setState(() => _folder = path);
+                    },
+                  ),
+                ),
+              ),
               PlaylistActionBar(
                 actions: [
                   IconButton(
@@ -220,28 +242,6 @@ class _LocalMusicPlaylistPageState
                         tracks: visibleTracks,
                         source: AnalyticsSource.local,
                       ),
-              ),
-              // 資料夾下拉放在操作列下方;TextButton 自帶 12 內距,
-              // 左側補 4 讓文字與上方圖示對齊。
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 16, 4),
-                child: Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: FolderMenuButton(
-                    folders: folders,
-                    totalCount: tracks.length,
-                    latestOf: (path) => latestModifiedIn(tracks, stats, path),
-                    selected: folder,
-                    onSelected: (path) {
-                      // option = 是否選「全部」;不送資料夾路徑。
-                      logAnalyticsAction(
-                        LibraryAction.filterFolder,
-                        option: path == null,
-                      );
-                      setState(() => _folder = path);
-                    },
-                  ),
-                ),
               ),
             ],
             Expanded(
