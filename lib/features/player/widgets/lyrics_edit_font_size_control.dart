@@ -6,7 +6,6 @@ import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/player/providers/lyrics_edit_font_size_controller.dart';
 
 /// 編輯歌詞頁字級調整列:滑桿 + `−` 目前字級 `+`。
-/// 供編輯中的浮動面板與預覽時的「頁面調整」面板共用。
 class LyricsEditFontSizeControl extends ConsumerWidget {
   const LyricsEditFontSizeControl({super.key});
 

@@ -7,9 +7,7 @@ import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_import_service.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_export_service.dart';
-import 'package:seek_player/features/player/providers/lyrics_edit_paper_color_controller.dart';
 import 'package:seek_player/features/player/widgets/lyrics_edit_more_button.dart';
-import 'package:seek_player/features/player/widgets/lyrics_edit_page_settings_sheet.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 import 'package:seek_player/features/player/providers/lyrics_edit_font_size_controller.dart';
 import 'package:seek_player/features/player/widgets/lyrics_edit_bottom_bar.dart';
@@ -36,7 +34,7 @@ Future<void> runLyricsEdit(
 /// 預覽 / 編輯歌詞頁:預先帶入本曲現有歌詞原文,從播放頁([runLyricsEdit])
 /// 與工具「編輯歌詞」進入。已有歌詞時先以唯讀預覽,點文字後才進入編輯
 /// (原地切換,保留捲動與點擊位置);沒有歌詞時直接編輯。
-/// AppBar 標題為歌詞名稱(曲名)。預覽時右上為「頁面調整」(背景顏色、字體大小)與
+/// AppBar 標題為歌詞名稱(曲名)。預覽時右上為「字體大小」(浮動字級面板)與
 /// 「更多」(分享、匯出歌詞檔),底部不放按鈕;編輯中右上為復原、重做、儲存
 /// (儲存後回到預覽),底部列為字體大小、分享,皆為純圖示。
 /// 格式(LRC / SRT / VTT / 純文字)由 [LyricsImportService.importFromText]
@@ -195,25 +193,25 @@ class _LyricsEditPageState extends ConsumerState<LyricsEditPage> {
     }
   }
 
+  /// 開關浮動字級面板;預覽(右上字體圖示)與編輯(底部列)共用。
+  void _toggleFontSize() => setState(() => _showFontSize = !_showFontSize);
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final fontSize = ref.watch(lyricsEditFontSizeProvider);
-    final paper = ref.watch(lyricsEditPaperColorProvider);
-    final textColor = paper.textColor;
     return Scaffold(
-      backgroundColor: paper.color,
       appBar: AppBar(
-        backgroundColor: paper.color,
-        foregroundColor: textColor,
-        surfaceTintColor: paper.color == null ? null : Colors.transparent,
         title: Text(widget.title, maxLines: 1, overflow: TextOverflow.ellipsis),
         actions: [
           if (!_editing) ...[
             IconButton(
-              tooltip: l10n.lyrics_edit_page_settings,
-              icon: const Icon(Icons.tune),
-              onPressed: () => showLyricsEditPageSettingsSheet(context),
+              tooltip: l10n.lyrics_font_size,
+              icon: const Icon(Icons.text_fields),
+              color: _showFontSize
+                  ? Theme.of(context).colorScheme.primary
+                  : null,
+              onPressed: _toggleFontSize,
             ),
             ValueListenableBuilder<TextEditingValue>(
               valueListenable: _controller,
@@ -268,16 +266,9 @@ class _LyricsEditPageState extends ConsumerState<LyricsEditPage> {
               maxLines: null,
               keyboardType: TextInputType.multiline,
               textAlignVertical: TextAlignVertical.top,
-              style: TextStyle(
-                fontSize: fontSize,
-                height: 1.6,
-                color: textColor,
-              ),
+              style: TextStyle(fontSize: fontSize, height: 1.6),
               decoration: InputDecoration(
                 hintText: l10n.lyrics_edit_hint,
-                hintStyle: textColor == null
-                    ? null
-                    : TextStyle(color: textColor.withValues(alpha: 0.4)),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(vertical: 12),
               ),
@@ -300,8 +291,7 @@ class _LyricsEditPageState extends ConsumerState<LyricsEditPage> {
               builder: (context, value, _) => LyricsEditBottomBar(
                 onShare: value.text.trim().isEmpty ? null : _share,
                 fontSizeActive: _showFontSize,
-                onFontSize: () =>
-                    setState(() => _showFontSize = !_showFontSize),
+                onFontSize: _toggleFontSize,
               ),
             ),
     );

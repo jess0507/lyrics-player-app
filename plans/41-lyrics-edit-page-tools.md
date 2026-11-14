@@ -57,3 +57,8 @@
   `LyricsEditPage(trackId: null, title: 檔名, initialContent: 內容)`。
   獨立歌詞檔的 ✓ 改為另存成歌詞檔(系統存檔對話框,檔名沿用原檔名),成功後回到預覽。
 - `LyricsImportService.pickFile()` 讀檔不存檔;analytics:`ToolsAction.openLyricsFile`;l10n:`lyrics_edit_open_file`。
+
+## 追加:拿掉背景顏色
+- 移除多種背景(紙張顏色 model / provider / 頁面調整面板,與淺色紙張套淺色主題的處理),l10n
+  `lyrics_edit_page_settings`、`lyrics_edit_background` 一併移除。
+- 預覽時右上第一顆改為字體圖示,開關與編輯時相同的浮動字級面板。

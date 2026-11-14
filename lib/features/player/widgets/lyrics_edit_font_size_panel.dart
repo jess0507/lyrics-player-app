@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seek_player/features/player/widgets/lyrics_edit_font_size_control.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
-/// 編輯歌詞頁編輯中的浮動字級面板:標題 + [LyricsEditFontSizeControl]。
+/// 編輯歌詞頁的浮動字級面板(預覽與編輯共用):標題 + [LyricsEditFontSizeControl]。
 class LyricsEditFontSizePanel extends StatelessWidget {
   const LyricsEditFontSizePanel({super.key});
 
