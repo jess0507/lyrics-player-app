@@ -44,6 +44,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tools_lyrics_desc => '產生、匯入、上網搜尋或同步歌詞';
 
   @override
+  String get tools_lyrics_edit_desc => '输入、粘贴或打开歌词并编辑';
+
+  @override
   String get tools_cover_desc => '新增、更換或移除自訂封面';
 
   @override
@@ -508,6 +511,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get common_save => '儲存';
 
   @override
+  String get common_undo => '撤销';
+
+  @override
+  String get common_redo => '重做';
+
+  @override
   String get common_retry => '重試';
 
   @override
@@ -623,6 +632,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lyrics_edit => '編輯歌詞';
+
+  @override
+  String get lyrics_edit_page_settings => '页面调整';
+
+  @override
+  String get lyrics_edit_background => '背景颜色';
+
+  @override
+  String get lyrics_edit_export => '导出歌词文件';
+
+  @override
+  String get lyrics_edit_open_file => '打开歌词文件';
 
   @override
   String get cover_add => '新增封面';
@@ -969,6 +990,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get tools_lyrics_desc => '生成、导入、在线搜索或同步歌词';
+
+  @override
+  String get tools_lyrics_edit_desc => '输入、粘贴或打开歌词并编辑';
 
   @override
   String get tools_cover_desc => '添加、更换或移除自定义封面';
@@ -1435,6 +1459,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get common_save => '保存';
 
   @override
+  String get common_undo => '撤销';
+
+  @override
+  String get common_redo => '重做';
+
+  @override
   String get common_retry => '重试';
 
   @override
@@ -1550,6 +1580,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get lyrics_edit => '编辑歌词';
+
+  @override
+  String get lyrics_edit_page_settings => '页面调整';
+
+  @override
+  String get lyrics_edit_background => '背景颜色';
+
+  @override
+  String get lyrics_edit_export => '导出歌词文件';
+
+  @override
+  String get lyrics_edit_open_file => '打开歌词文件';
 
   @override
   String get cover_add => '添加封面';
@@ -1896,6 +1938,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get tools_lyrics_desc => '產生、匯入、上網搜尋或同步歌詞';
+
+  @override
+  String get tools_lyrics_edit_desc => '輸入、貼上或開啟歌詞並編輯';
 
   @override
   String get tools_cover_desc => '新增、更換或移除自訂封面';
@@ -2362,6 +2407,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get common_save => '儲存';
 
   @override
+  String get common_undo => '復原';
+
+  @override
+  String get common_redo => '重做';
+
+  @override
   String get common_retry => '重試';
 
   @override
@@ -2477,6 +2528,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_edit => '編輯歌詞';
+
+  @override
+  String get lyrics_edit_page_settings => '頁面調整';
+
+  @override
+  String get lyrics_edit_background => '背景顏色';
+
+  @override
+  String get lyrics_edit_export => '匯出歌詞檔';
+
+  @override
+  String get lyrics_edit_open_file => '開啟歌詞檔';
 
   @override
   String get cover_add => '新增封面';

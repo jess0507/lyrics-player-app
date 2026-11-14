@@ -47,6 +47,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Générer, importer, rechercher ou synchroniser des paroles';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Saisir, coller ou ouvrir des paroles et les modifier';
+
+  @override
   String get tools_cover_desc =>
       'Ajouter, changer ou supprimer une pochette personnalisée';
 
@@ -535,6 +539,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get common_save => 'Enregistrer';
 
   @override
+  String get common_undo => 'Annuler';
+
+  @override
+  String get common_redo => 'Rétablir';
+
+  @override
   String get common_retry => 'Réessayer';
 
   @override
@@ -660,6 +670,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Modifier les paroles';
+
+  @override
+  String get lyrics_edit_page_settings => 'Réglages de la page';
+
+  @override
+  String get lyrics_edit_background => 'Couleur d’arrière-plan';
+
+  @override
+  String get lyrics_edit_export => 'Exporter le fichier de paroles';
+
+  @override
+  String get lyrics_edit_open_file => 'Ouvrir un fichier de paroles';
 
   @override
   String get cover_add => 'Ajouter une pochette';

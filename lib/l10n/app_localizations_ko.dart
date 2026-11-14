@@ -44,6 +44,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tools_lyrics_desc => '가사 생성, 가져오기, 온라인 검색 또는 동기화';
 
   @override
+  String get tools_lyrics_edit_desc => '가사를 입력, 붙여넣기 또는 열어서 편집';
+
+  @override
   String get tools_cover_desc => '사용자 지정 커버 추가, 변경 또는 삭제';
 
   @override
@@ -514,6 +517,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_save => '저장';
 
   @override
+  String get common_undo => '실행 취소';
+
+  @override
+  String get common_redo => '다시 실행';
+
+  @override
   String get common_retry => '다시 시도';
 
   @override
@@ -632,6 +641,18 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lyrics_edit => '가사 편집';
+
+  @override
+  String get lyrics_edit_page_settings => '페이지 설정';
+
+  @override
+  String get lyrics_edit_background => '배경 색상';
+
+  @override
+  String get lyrics_edit_export => '가사 파일 내보내기';
+
+  @override
+  String get lyrics_edit_open_file => '가사 파일 열기';
 
   @override
   String get cover_add => '커버 추가';

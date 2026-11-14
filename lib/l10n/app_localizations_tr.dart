@@ -46,6 +46,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şarkı sözü oluştur, içe aktar, çevrimiçi ara veya senkronize et';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Şarkı sözlerini yaz, yapıştır veya aç ve düzenle';
+
+  @override
   String get tools_cover_desc => 'Özel kapak ekle, değiştir veya kaldır';
 
   @override
@@ -530,6 +534,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get common_save => 'Kaydet';
 
   @override
+  String get common_undo => 'Geri al';
+
+  @override
+  String get common_redo => 'Yinele';
+
+  @override
   String get common_retry => 'Yeniden dene';
 
   @override
@@ -653,6 +663,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Şarkı sözlerini düzenle';
+
+  @override
+  String get lyrics_edit_page_settings => 'Sayfa ayarları';
+
+  @override
+  String get lyrics_edit_background => 'Arka plan rengi';
+
+  @override
+  String get lyrics_edit_export => 'Şarkı sözü dosyasını dışa aktar';
+
+  @override
+  String get lyrics_edit_open_file => 'Şarkı sözü dosyası aç';
 
   @override
   String get cover_add => 'Kapak ekle';

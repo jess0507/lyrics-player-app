@@ -45,6 +45,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tools_lyrics_desc => 'Generate, import, search or sync lyrics';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Type, paste or open lyrics and edit them';
+
+  @override
   String get tools_cover_desc => 'Add, change or remove a custom cover';
 
   @override
@@ -527,6 +531,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_save => 'Save';
 
   @override
+  String get common_undo => 'Undo';
+
+  @override
+  String get common_redo => 'Redo';
+
+  @override
   String get common_retry => 'Retry';
 
   @override
@@ -649,6 +659,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Edit lyrics';
+
+  @override
+  String get lyrics_edit_page_settings => 'Page settings';
+
+  @override
+  String get lyrics_edit_background => 'Background color';
+
+  @override
+  String get lyrics_edit_export => 'Export lyrics file';
+
+  @override
+  String get lyrics_edit_open_file => 'Open lyrics file';
 
   @override
   String get cover_add => 'Add cover';

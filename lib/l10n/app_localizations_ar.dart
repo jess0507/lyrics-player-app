@@ -46,6 +46,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'إنشاء الكلمات أو استيرادها أو البحث عنها أو مزامنتها';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'اكتب الكلمات أو الصقها أو افتحها وعدّلها';
+
+  @override
   String get tools_cover_desc => 'إضافة غلاف مخصص أو تغييره أو إزالته';
 
   @override
@@ -526,6 +530,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get common_save => 'حفظ';
 
   @override
+  String get common_undo => 'تراجع';
+
+  @override
+  String get common_redo => 'إعادة';
+
+  @override
   String get common_retry => 'إعادة المحاولة';
 
   @override
@@ -648,6 +658,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'تعديل كلمات الأغنية';
+
+  @override
+  String get lyrics_edit_page_settings => 'إعدادات الصفحة';
+
+  @override
+  String get lyrics_edit_background => 'لون الخلفية';
+
+  @override
+  String get lyrics_edit_export => 'تصدير ملف الكلمات';
+
+  @override
+  String get lyrics_edit_open_file => 'فتح ملف كلمات';
 
   @override
   String get cover_add => 'إضافة غلاف';

@@ -46,6 +46,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Создать, импортировать, найти онлайн или синхронизировать текст';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Введите, вставьте или откройте текст и отредактируйте его';
+
+  @override
   String get tools_cover_desc => 'Добавить, изменить или удалить свою обложку';
 
   @override
@@ -528,6 +532,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_save => 'Сохранить';
 
   @override
+  String get common_undo => 'Отменить';
+
+  @override
+  String get common_redo => 'Повторить';
+
+  @override
   String get common_retry => 'Повторить';
 
   @override
@@ -651,6 +661,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Изменить текст песни';
+
+  @override
+  String get lyrics_edit_page_settings => 'Настройки страницы';
+
+  @override
+  String get lyrics_edit_background => 'Цвет фона';
+
+  @override
+  String get lyrics_edit_export => 'Экспортировать файл текста';
+
+  @override
+  String get lyrics_edit_open_file => 'Открыть файл текста';
 
   @override
   String get cover_add => 'Добавить обложку';

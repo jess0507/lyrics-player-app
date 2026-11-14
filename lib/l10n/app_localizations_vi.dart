@@ -46,6 +46,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tạo, nhập, tìm trực tuyến hoặc đồng bộ lời bài hát';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Nhập, dán hoặc mở lời bài hát và chỉnh sửa';
+
+  @override
   String get tools_cover_desc => 'Thêm, đổi hoặc xóa ảnh bìa tùy chỉnh';
 
   @override
@@ -532,6 +536,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_save => 'Lưu';
 
   @override
+  String get common_undo => 'Hoàn tác';
+
+  @override
+  String get common_redo => 'Làm lại';
+
+  @override
   String get common_retry => 'Thử lại';
 
   @override
@@ -655,6 +665,18 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Chỉnh sửa lời bài hát';
+
+  @override
+  String get lyrics_edit_page_settings => 'Điều chỉnh trang';
+
+  @override
+  String get lyrics_edit_background => 'Màu nền';
+
+  @override
+  String get lyrics_edit_export => 'Xuất tệp lời bài hát';
+
+  @override
+  String get lyrics_edit_open_file => 'Mở tệp lời bài hát';
 
   @override
   String get cover_add => 'Thêm ảnh bìa';

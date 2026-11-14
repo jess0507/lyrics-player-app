@@ -46,6 +46,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Liedtexte erzeugen, importieren, online suchen oder synchronisieren';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Songtext eingeben, einfügen oder öffnen und bearbeiten';
+
+  @override
   String get tools_cover_desc =>
       'Eigenes Cover hinzufügen, ändern oder entfernen';
 
@@ -534,6 +538,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get common_save => 'Speichern';
 
   @override
+  String get common_undo => 'Rückgängig';
+
+  @override
+  String get common_redo => 'Wiederholen';
+
+  @override
   String get common_retry => 'Erneut versuchen';
 
   @override
@@ -658,6 +668,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Songtext bearbeiten';
+
+  @override
+  String get lyrics_edit_page_settings => 'Seiteneinstellungen';
+
+  @override
+  String get lyrics_edit_background => 'Hintergrundfarbe';
+
+  @override
+  String get lyrics_edit_export => 'Songtextdatei exportieren';
+
+  @override
+  String get lyrics_edit_open_file => 'Songtextdatei öffnen';
 
   @override
   String get cover_add => 'Cover hinzufügen';

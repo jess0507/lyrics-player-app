@@ -46,6 +46,10 @@ class AppLocalizationsId extends AppLocalizations {
       'Buat, impor, cari online, atau sinkronkan lirik';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Ketik, tempel, atau buka lirik lalu edit';
+
+  @override
   String get tools_cover_desc => 'Tambah, ganti, atau hapus sampul kustom';
 
   @override
@@ -529,6 +533,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get common_save => 'Simpan';
 
   @override
+  String get common_undo => 'Urungkan';
+
+  @override
+  String get common_redo => 'Ulangi';
+
+  @override
   String get common_retry => 'Coba lagi';
 
   @override
@@ -652,6 +662,18 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Edit lirik';
+
+  @override
+  String get lyrics_edit_page_settings => 'Pengaturan halaman';
+
+  @override
+  String get lyrics_edit_background => 'Warna latar';
+
+  @override
+  String get lyrics_edit_export => 'Ekspor file lirik';
+
+  @override
+  String get lyrics_edit_open_file => 'Buka file lirik';
 
   @override
   String get cover_add => 'Tambah sampul';

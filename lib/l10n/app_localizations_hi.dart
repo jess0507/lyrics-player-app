@@ -46,6 +46,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'बोल बनाएं, आयात करें, ऑनलाइन खोजें या सिंक करें';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'लिरिक्स लिखें, चिपकाएँ या खोलें और संपादित करें';
+
+  @override
   String get tools_cover_desc => 'कस्टम कवर जोड़ें, बदलें या हटाएं';
 
   @override
@@ -530,6 +534,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get common_save => 'सहेजें';
 
   @override
+  String get common_undo => 'पूर्ववत करें';
+
+  @override
+  String get common_redo => 'फिर से करें';
+
+  @override
   String get common_retry => 'पुनः प्रयास करें';
 
   @override
@@ -652,6 +662,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'बोल संपादित करें';
+
+  @override
+  String get lyrics_edit_page_settings => 'पेज सेटिंग';
+
+  @override
+  String get lyrics_edit_background => 'बैकग्राउंड रंग';
+
+  @override
+  String get lyrics_edit_export => 'लिरिक्स फ़ाइल एक्सपोर्ट करें';
+
+  @override
+  String get lyrics_edit_open_file => 'लिरिक्स फ़ाइल खोलें';
 
   @override
   String get cover_add => 'कवर जोड़ें';

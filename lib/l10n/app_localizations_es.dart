@@ -46,6 +46,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Generar, importar, buscar en línea o sincronizar letras';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Escribe, pega o abre la letra y edítala';
+
+  @override
   String get tools_cover_desc =>
       'Añadir, cambiar o quitar una portada personalizada';
 
@@ -533,6 +537,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get common_save => 'Guardar';
 
   @override
+  String get common_undo => 'Deshacer';
+
+  @override
+  String get common_redo => 'Rehacer';
+
+  @override
   String get common_retry => 'Reintentar';
 
   @override
@@ -660,6 +670,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Editar letra';
+
+  @override
+  String get lyrics_edit_page_settings => 'Ajustes de página';
+
+  @override
+  String get lyrics_edit_background => 'Color de fondo';
+
+  @override
+  String get lyrics_edit_export => 'Exportar archivo de letra';
+
+  @override
+  String get lyrics_edit_open_file => 'Abrir archivo de letra';
 
   @override
   String get cover_add => 'Añadir portada';

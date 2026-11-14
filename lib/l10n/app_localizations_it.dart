@@ -46,6 +46,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Genera, importa, cerca online o sincronizza i testi';
 
   @override
+  String get tools_lyrics_edit_desc =>
+      'Digita, incolla o apri il testo e modificalo';
+
+  @override
   String get tools_cover_desc =>
       'Aggiungi, cambia o rimuovi una copertina personalizzata';
 
@@ -531,6 +535,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get common_save => 'Salva';
 
   @override
+  String get common_undo => 'Annulla';
+
+  @override
+  String get common_redo => 'Ripeti';
+
+  @override
   String get common_retry => 'Riprova';
 
   @override
@@ -654,6 +664,18 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Modifica testo';
+
+  @override
+  String get lyrics_edit_page_settings => 'Impostazioni pagina';
+
+  @override
+  String get lyrics_edit_background => 'Colore di sfondo';
+
+  @override
+  String get lyrics_edit_export => 'Esporta file del testo';
+
+  @override
+  String get lyrics_edit_open_file => 'Apri file del testo';
 
   @override
   String get cover_add => 'Aggiungi copertina';

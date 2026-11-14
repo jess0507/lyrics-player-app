@@ -44,6 +44,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools_lyrics_desc => '歌詞の生成・インポート・オンライン検索・同期';
 
   @override
+  String get tools_lyrics_edit_desc => '歌詞を入力・貼り付け・開いて編集';
+
+  @override
   String get tools_cover_desc => 'カスタムカバーの追加・変更・削除';
 
   @override
@@ -512,6 +515,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get common_save => '保存';
 
   @override
+  String get common_undo => '元に戻す';
+
+  @override
+  String get common_redo => 'やり直す';
+
+  @override
   String get common_retry => '再試行';
 
   @override
@@ -628,6 +637,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lyrics_edit => '歌詞を編集';
+
+  @override
+  String get lyrics_edit_page_settings => 'ページ設定';
+
+  @override
+  String get lyrics_edit_background => '背景色';
+
+  @override
+  String get lyrics_edit_export => '歌詞ファイルを書き出す';
+
+  @override
+  String get lyrics_edit_open_file => '歌詞ファイルを開く';
 
   @override
   String get cover_add => 'カバーを追加';

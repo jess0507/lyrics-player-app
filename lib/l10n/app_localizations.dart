@@ -192,6 +192,12 @@ abstract class AppLocalizations {
   /// **'Generate, import, search or sync lyrics'**
   String get tools_lyrics_desc;
 
+  /// No description provided for @tools_lyrics_edit_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Type, paste or open lyrics and edit them'**
+  String get tools_lyrics_edit_desc;
+
   /// No description provided for @tools_cover_desc.
   ///
   /// In en, this message translates to:
@@ -1098,6 +1104,18 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get common_save;
 
+  /// No description provided for @common_undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get common_undo;
+
+  /// No description provided for @common_redo.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get common_redo;
+
   /// No description provided for @common_retry.
   ///
   /// In en, this message translates to:
@@ -1331,6 +1349,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit lyrics'**
   String get lyrics_edit;
+
+  /// No description provided for @lyrics_edit_page_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Page settings'**
+  String get lyrics_edit_page_settings;
+
+  /// No description provided for @lyrics_edit_background.
+  ///
+  /// In en, this message translates to:
+  /// **'Background color'**
+  String get lyrics_edit_background;
+
+  /// No description provided for @lyrics_edit_export.
+  ///
+  /// In en, this message translates to:
+  /// **'Export lyrics file'**
+  String get lyrics_edit_export;
+
+  /// No description provided for @lyrics_edit_open_file.
+  ///
+  /// In en, this message translates to:
+  /// **'Open lyrics file'**
+  String get lyrics_edit_open_file;
 
   /// No description provided for @cover_add.
   ///

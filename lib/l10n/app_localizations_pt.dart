@@ -46,6 +46,9 @@ class AppLocalizationsPt extends AppLocalizations {
       'Gerar, importar, pesquisar online ou sincronizar letras';
 
   @override
+  String get tools_lyrics_edit_desc => 'Digite, cole ou abra a letra e edite';
+
+  @override
   String get tools_cover_desc =>
       'Adicionar, alterar ou remover uma capa personalizada';
 
@@ -530,6 +533,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_save => 'Salvar';
 
   @override
+  String get common_undo => 'Desfazer';
+
+  @override
+  String get common_redo => 'Refazer';
+
+  @override
   String get common_retry => 'Tentar novamente';
 
   @override
@@ -652,6 +661,18 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get lyrics_edit => 'Editar letra';
+
+  @override
+  String get lyrics_edit_page_settings => 'Ajustes da página';
+
+  @override
+  String get lyrics_edit_background => 'Cor de fundo';
+
+  @override
+  String get lyrics_edit_export => 'Exportar arquivo de letra';
+
+  @override
+  String get lyrics_edit_open_file => 'Abrir arquivo de letra';
 
   @override
   String get cover_add => 'Adicionar capa';
