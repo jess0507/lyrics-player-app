@@ -29,20 +29,11 @@ class PlaylistEntity {
   @Index()
   bool isRecentlyPlayed = false;
 
-  /// 「本機音樂」系統清單(固定 id 0,見 [PlaylistRepository.localMusicId]):
-  /// 不是真的清單,只用來記本機音樂頁的資料夾與排序並隨播放清單同步;
-  /// 不出現在播放清單列表(playlistsProvider 會濾掉)。
-  @Index()
-  bool isLocalMusic = false;
-
-  /// 「本機音樂」清單專用:上次選的資料夾路徑;null 為全部。
-  String? folder;
-
   /// 「最近播放」清單專用:依播放時間新到舊排序,同曲重播會移到最前面。
   List<RecentlyPlayedEntry> recentlyPlayed = [];
 
-  /// 上次套用的排序欄位(`TrackSortField.name`);null 為沒有紀錄。
-  /// 一般清單沒有紀錄時依清單順序,本機音樂依預設排序;「最近播放」不使用。
+  /// 詳細頁上次套用的排序欄位(`TrackSortField.name`);null 為沒有紀錄,
+  /// 依清單順序。「最近播放」不使用。
   String? sortField;
 
   /// 詳細頁上次套用的排序方向;null 時沿用預設方向。

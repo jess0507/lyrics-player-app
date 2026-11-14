@@ -11,19 +11,16 @@ int _sortTier(PlaylistEntity p) {
 }
 
 /// 所有播放清單,排序為:我的最愛、最近播放固定在最前,其餘依建立時間
-/// 由舊到新。不含「本機音樂」系統清單(只用來記本機音樂頁的資料夾與排序)。
+/// 由舊到新。
 final playlistsProvider = StreamProvider<List<PlaylistEntity>>((ref) {
   final repo = ref.watch(playlistRepositoryProvider);
   return repo.watchAll().map((list) {
-    final sorted =
-        [
-          for (final p in list)
-            if (!p.isLocalMusic) p,
-        ]..sort((a, b) {
-          final tierDiff = _sortTier(a) - _sortTier(b);
-          if (tierDiff != 0) return tierDiff;
-          return a.createdAt.compareTo(b.createdAt);
-        });
+    final sorted = [...list]
+      ..sort((a, b) {
+        final tierDiff = _sortTier(a) - _sortTier(b);
+        if (tierDiff != 0) return tierDiff;
+        return a.createdAt.compareTo(b.createdAt);
+      });
     return sorted;
   });
 });

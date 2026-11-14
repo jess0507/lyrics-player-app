@@ -41,8 +41,6 @@ class PlaylistsSync {
           'name': p.name,
           'isFavorites': p.isFavorites,
           'isRecentlyPlayed': p.isRecentlyPlayed,
-          'isLocalMusic': p.isLocalMusic,
-          'folder': p.folder,
           'createdAt': p.createdAt.millisecondsSinceEpoch,
           'trackIds': p.trackIds,
           'recentlyPlayed': [
@@ -122,8 +120,8 @@ class PlaylistsSync {
 /// 為主:雲端的清單整份照用(同 id 的本機清單捨棄),本機只有雲端沒有的
 /// id 才保留。
 ///
-/// 例外:我的最愛 / 最近播放 / 本機音樂是唯一的系統清單,雲端已有時,
-/// 本機 id 不同的那份也捨棄,避免出現兩份我的最愛。
+/// 例外:我的最愛 / 最近播放是唯一的系統清單,雲端已有時,本機 id 不同
+/// 的那份也捨棄,避免出現兩份我的最愛。
 List<PlaylistEntity> mergePlaylists(
   List<PlaylistEntity> local,
   List<PlaylistEntity> remote,
@@ -131,14 +129,12 @@ List<PlaylistEntity> mergePlaylists(
   final remoteIds = {for (final r in remote) r.id};
   final remoteHasFavorites = remote.any((r) => r.isFavorites);
   final remoteHasRecent = remote.any((r) => r.isRecentlyPlayed);
-  final remoteHasLocalMusic = remote.any((r) => r.isLocalMusic);
   return [
     ...remote,
     for (final l in local)
       if (!remoteIds.contains(l.id) &&
           !(l.isFavorites && remoteHasFavorites) &&
-          !(l.isRecentlyPlayed && remoteHasRecent) &&
-          !(l.isLocalMusic && remoteHasLocalMusic))
+          !(l.isRecentlyPlayed && remoteHasRecent))
         l,
   ];
 }
@@ -159,8 +155,6 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..isFavorites = (doc.data()['isFavorites'] as bool?) ?? false
           ..isRecentlyPlayed =
               (doc.data()['isRecentlyPlayed'] as bool?) ?? false
-          ..isLocalMusic = (doc.data()['isLocalMusic'] as bool?) ?? false
-          ..folder = doc.data()['folder'] as String?
           ..createdAt = DateTime.fromMillisecondsSinceEpoch(
             (doc.data()['createdAt'] as num? ?? 0).toInt(),
           )
@@ -183,11 +177,10 @@ extension _RemotePlaylistsDecode on QuerySnapshot<Map<String, dynamic>> {
 }
 
 /// 登入同步判斷「有沒有資料」用:自建清單一律算;我的最愛 / 最近播放是
-/// 預設存在的系統清單,有曲目才算;本機音樂有資料夾或排序紀錄才算。
+/// 預設存在的系統清單,有曲目才算。
 extension _PlaylistUserContent on PlaylistEntity {
-  bool get _hasUserContent => isLocalMusic
-      ? folder != null || sortField != null
-      : (!isFavorites && !isRecentlyPlayed) ||
-            trackIds.isNotEmpty ||
-            recentlyPlayed.isNotEmpty;
+  bool get _hasUserContent =>
+      (!isFavorites && !isRecentlyPlayed) ||
+      trackIds.isNotEmpty ||
+      recentlyPlayed.isNotEmpty;
 }

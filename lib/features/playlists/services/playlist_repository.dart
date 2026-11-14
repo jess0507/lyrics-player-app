@@ -11,9 +11,6 @@ const _defaultFavoritesFallbackName = 'Favorites';
 /// 最近播放清單 DB 內存名 fallback;僅初始化時寫入,UI 一律以在地化字串顯示。
 const _defaultRecentlyPlayedFallbackName = 'Recently Played';
 
-/// 本機音樂清單 DB 內存名 fallback;此清單不在 UI 顯示。
-const _defaultLocalMusicFallbackName = 'Local Music';
-
 /// 最近播放上限筆數,超過時捨棄最舊的。
 const _recentlyPlayedLimit = 200;
 
@@ -33,9 +30,6 @@ class PlaylistRepository {
   final BackupStateStore _backupState;
 
   IsarCollection<PlaylistEntity> get _col => _isar.playlistEntitys;
-
-  /// 「本機音樂」系統清單的固定 id(見 [PlaylistEntity.isLocalMusic])。
-  static const localMusicId = 0;
 
   /// 監聽所有播放清單(含初始值);排序交給衍生 provider。
   Stream<List<PlaylistEntity>> watchAll() =>
@@ -80,50 +74,12 @@ class PlaylistRepository {
     );
   }
 
-  /// 確保「本機音樂」系統清單(id [localMusicId])存在;已存在則 no-op。
-  /// 屬初始化而非使用者變更,不 markModified。
-  Future<void> ensureDefaultLocalMusic() async {
-    _isar.writeTxnSync(_localMusicInTxn);
-  }
-
-  /// 監聽「本機音樂」清單(含初始值);尚未建立時為 null。
-  Stream<PlaylistEntity?> watchLocalMusic() => _col
-      .watchObject(localMusicId, fireImmediately: true)
-      .map((p) => p != null && p.isLocalMusic ? p : null);
-
-  /// 記下本機音樂頁選的資料夾;與目前相同時不寫入。
-  Future<void> setLocalMusicFolder(String? folder) async {
-    final changed = _isar.writeTxnSync(() {
-      final pl = _localMusicInTxn();
-      if (pl.folder == folder) return false;
-      pl.folder = folder;
-      _col.putSync(pl);
-      return true;
-    });
-    if (changed) _backupState.markPlaylistModified();
-  }
-
-  /// 取得(必要時建立)「本機音樂」清單;須在 writeTxnSync 內呼叫。
-  PlaylistEntity _localMusicInTxn() {
-    final existing = _col.getSync(localMusicId);
-    if (existing != null && existing.isLocalMusic) return existing;
-    final created = PlaylistEntity()
-      ..id = localMusicId
-      ..name = _defaultLocalMusicFallbackName
-      ..isLocalMusic = true
-      ..createdAt = DateTime.now();
-    _col.putSync(created);
-    return created;
-  }
-
   /// 還原雲端備份(整份覆寫本機,含我的最愛)。
   /// 還原不算本機變更:不 markModified,避免還原後馬上又觸發上傳。
-  /// 雲端沒有「本機音樂」清單(舊資料)時補建一筆預設的。
   Future<void> restoreFromRemote(List<PlaylistEntity> playlists) async {
     _isar.writeTxnSync(() {
       _col.clearSync();
       _col.putAllSync(playlists);
-      _localMusicInTxn();
     });
   }
 
@@ -191,10 +147,9 @@ class PlaylistRepository {
   }
 
   /// 記下詳細頁套用的排序;與目前相同時不寫入。
-  /// [id] 為 [localMusicId] 時,清單不存在會先建立。
   Future<void> setSort(int id, TrackSort sort) async {
     final changed = _isar.writeTxnSync(() {
-      final pl = id == localMusicId ? _localMusicInTxn() : _col.getSync(id);
+      final pl = _col.getSync(id);
       if (pl == null ||
           (pl.sortField == sort.field.name &&
               pl.sortDescending == sort.descending)) {

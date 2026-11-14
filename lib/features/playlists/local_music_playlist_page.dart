@@ -11,12 +11,10 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
-import 'package:seek_player/features/playlists/models/local_music_view_state.dart';
-import 'package:seek_player/features/playlists/providers/local_music_view_provider.dart';
-import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/tools/models/track_file_stat.dart';
+import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
 import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
 import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
@@ -45,6 +43,9 @@ class _LocalMusicPlaylistPageState
     extends ConsumerState<LocalMusicPlaylistPage> {
   bool _scanning = false;
 
+  /// 目前篩選的資料夾路徑;null 代表全部。
+  String? _folder;
+  var _sort = const TrackSort();
   var _searching = false;
   final _searchController = TextEditingController();
 
@@ -92,19 +93,10 @@ class _LocalMusicPlaylistPageState
   }
 
   Future<void> _editSort() async {
-    final sort = await showTrackSortSheet(
-      context,
-      current:
-          (ref.read(localMusicViewProvider).valueOrNull ??
-                  const LocalMusicViewState())
-              .sort,
-    );
+    final sort = await showTrackSortSheet(context, current: _sort);
     if (sort == null) return;
     logAnalyticsAction(LibraryAction.changeSort, option: sort.field);
-    // 記在「本機音樂」系統清單上,下次開啟沿用並隨播放清單同步。
-    await ref
-        .read(playlistRepositoryProvider)
-        .setSort(PlaylistRepository.localMusicId, sort);
+    if (mounted) setState(() => _sort = sort);
   }
 
   void _toggleSearch() => setState(() {
@@ -140,19 +132,10 @@ class _LocalMusicPlaylistPageState
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final plays = ref.watch(trackPlayStatsProvider);
     final folders = TrackFolder.groupTracks(tracks);
-    // 資料夾與排序有紀錄(並同步到雲端),沒有紀錄時為全部 / 預設排序。
-    final view =
-        ref.watch(localMusicViewProvider).valueOrNull ??
-        const LocalMusicViewState();
-    final savedFolder = view.folder;
-    final sort = view.sort;
-    // 紀錄的資料夾可能已不存在(重新掃描後刪除、或另一台裝置的路徑),
-    // 此時顯示全部但保留紀錄。
-    final folder = folders.any((f) => f.path == savedFolder)
-        ? savedFolder
-        : null;
+    // 重新掃描後選中的資料夾可能已不存在,視為全部。
+    final folder = folders.any((f) => f.path == _folder) ? _folder : null;
     final query = _searchController.text.trim().toLowerCase();
-    final visibleTracks = sort.apply(
+    final visibleTracks = _sort.apply(
       [
         for (final t in tracks)
           if ((folder == null || TrackFolder.dirOf(t.filePath) == folder) &&
@@ -223,9 +206,7 @@ class _LocalMusicPlaylistPageState
                         LibraryAction.filterFolder,
                         option: path == null,
                       );
-                      ref
-                          .read(playlistRepositoryProvider)
-                          .setLocalMusicFolder(path);
+                      setState(() => _folder = path);
                     },
                   ),
                 ),
