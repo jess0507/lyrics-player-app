@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
-import 'package:seek_player/features/player/widgets/lyrics_actions_sheet.dart';
+import 'package:seek_player/features/player/services/open_tool_editor.dart';
+import 'package:seek_player/features/tools/models/tool_kind.dart';
 
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
@@ -57,15 +58,15 @@ class LyricsView extends ConsumerWidget {
   }
 }
 
-/// 無歌詞空狀態:提示文字 + 匯入入口(呼叫匯入服務)。
-class _EmptyLyrics extends ConsumerWidget {
+/// 無歌詞空狀態:提示文字 + 匯入入口(開啟「製作歌詞」的該曲編輯頁)。
+class _EmptyLyrics extends StatelessWidget {
   const _EmptyLyrics({required this.trackId, required this.title});
 
   final String trackId;
   final String title;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     return Center(
@@ -82,11 +83,10 @@ class _EmptyLyrics extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           FilledButton(
-            onPressed: () => showLyricsActionsSheet(
+            onPressed: () => openToolEditorFromPlayer(
               context,
-              ref,
+              tool: ToolKind.lyrics,
               trackId: trackId,
-              title: title,
             ),
             child: Text(l10n.lyrics_empty_import),
           ),
