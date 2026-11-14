@@ -634,12 +634,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_edit => '編輯歌詞';
 
   @override
-  String get lyrics_edit_page_settings => '页面调整';
-
-  @override
-  String get lyrics_edit_background => '背景颜色';
-
-  @override
   String get lyrics_edit_export => '导出歌词文件';
 
   @override
@@ -1582,12 +1576,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_edit => '编辑歌词';
 
   @override
-  String get lyrics_edit_page_settings => '页面调整';
-
-  @override
-  String get lyrics_edit_background => '背景颜色';
-
-  @override
   String get lyrics_edit_export => '导出歌词文件';
 
   @override
@@ -2528,12 +2516,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_edit => '編輯歌詞';
-
-  @override
-  String get lyrics_edit_page_settings => '頁面調整';
-
-  @override
-  String get lyrics_edit_background => '背景顏色';
 
   @override
   String get lyrics_edit_export => '匯出歌詞檔';

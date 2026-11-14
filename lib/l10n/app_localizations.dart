@@ -1350,18 +1350,6 @@ abstract class AppLocalizations {
   /// **'Edit lyrics'**
   String get lyrics_edit;
 
-  /// No description provided for @lyrics_edit_page_settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Page settings'**
-  String get lyrics_edit_page_settings;
-
-  /// No description provided for @lyrics_edit_background.
-  ///
-  /// In en, this message translates to:
-  /// **'Background color'**
-  String get lyrics_edit_background;
-
   /// No description provided for @lyrics_edit_export.
   ///
   /// In en, this message translates to:

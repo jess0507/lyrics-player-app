@@ -665,12 +665,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_edit => 'Şarkı sözlerini düzenle';
 
   @override
-  String get lyrics_edit_page_settings => 'Sayfa ayarları';
-
-  @override
-  String get lyrics_edit_background => 'Arka plan rengi';
-
-  @override
   String get lyrics_edit_export => 'Şarkı sözü dosyasını dışa aktar';
 
   @override

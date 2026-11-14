@@ -663,12 +663,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_edit => 'Изменить текст песни';
 
   @override
-  String get lyrics_edit_page_settings => 'Настройки страницы';
-
-  @override
-  String get lyrics_edit_background => 'Цвет фона';
-
-  @override
   String get lyrics_edit_export => 'Экспортировать файл текста';
 
   @override

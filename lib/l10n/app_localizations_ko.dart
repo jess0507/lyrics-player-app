@@ -643,12 +643,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_edit => '가사 편집';
 
   @override
-  String get lyrics_edit_page_settings => '페이지 설정';
-
-  @override
-  String get lyrics_edit_background => '배경 색상';
-
-  @override
   String get lyrics_edit_export => '가사 파일 내보내기';
 
   @override

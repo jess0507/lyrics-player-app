@@ -672,12 +672,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_edit => 'Modifier les paroles';
 
   @override
-  String get lyrics_edit_page_settings => 'Réglages de la page';
-
-  @override
-  String get lyrics_edit_background => 'Couleur d’arrière-plan';
-
-  @override
   String get lyrics_edit_export => 'Exporter le fichier de paroles';
 
   @override

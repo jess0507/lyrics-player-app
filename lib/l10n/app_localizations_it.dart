@@ -666,12 +666,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lyrics_edit => 'Modifica testo';
 
   @override
-  String get lyrics_edit_page_settings => 'Impostazioni pagina';
-
-  @override
-  String get lyrics_edit_background => 'Colore di sfondo';
-
-  @override
   String get lyrics_edit_export => 'Esporta file del testo';
 
   @override

@@ -660,12 +660,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_edit => 'تعديل كلمات الأغنية';
 
   @override
-  String get lyrics_edit_page_settings => 'إعدادات الصفحة';
-
-  @override
-  String get lyrics_edit_background => 'لون الخلفية';
-
-  @override
   String get lyrics_edit_export => 'تصدير ملف الكلمات';
 
   @override

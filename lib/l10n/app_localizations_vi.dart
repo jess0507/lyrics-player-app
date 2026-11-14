@@ -667,12 +667,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_edit => 'Chỉnh sửa lời bài hát';
 
   @override
-  String get lyrics_edit_page_settings => 'Điều chỉnh trang';
-
-  @override
-  String get lyrics_edit_background => 'Màu nền';
-
-  @override
   String get lyrics_edit_export => 'Xuất tệp lời bài hát';
 
   @override

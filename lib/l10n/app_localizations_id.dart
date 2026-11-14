@@ -664,12 +664,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_edit => 'Edit lirik';
 
   @override
-  String get lyrics_edit_page_settings => 'Pengaturan halaman';
-
-  @override
-  String get lyrics_edit_background => 'Warna latar';
-
-  @override
   String get lyrics_edit_export => 'Ekspor file lirik';
 
   @override

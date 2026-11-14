@@ -639,12 +639,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_edit => '歌詞を編集';
 
   @override
-  String get lyrics_edit_page_settings => 'ページ設定';
-
-  @override
-  String get lyrics_edit_background => '背景色';
-
-  @override
   String get lyrics_edit_export => '歌詞ファイルを書き出す';
 
   @override

@@ -661,12 +661,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_edit => 'Edit lyrics';
 
   @override
-  String get lyrics_edit_page_settings => 'Page settings';
-
-  @override
-  String get lyrics_edit_background => 'Background color';
-
-  @override
   String get lyrics_edit_export => 'Export lyrics file';
 
   @override

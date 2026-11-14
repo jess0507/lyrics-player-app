@@ -664,12 +664,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lyrics_edit => 'बोल संपादित करें';
 
   @override
-  String get lyrics_edit_page_settings => 'पेज सेटिंग';
-
-  @override
-  String get lyrics_edit_background => 'बैकग्राउंड रंग';
-
-  @override
   String get lyrics_edit_export => 'लिरिक्स फ़ाइल एक्सपोर्ट करें';
 
   @override
