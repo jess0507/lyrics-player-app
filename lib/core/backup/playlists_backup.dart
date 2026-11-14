@@ -6,7 +6,7 @@ import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 
 /// 播放清單 ↔ `playlists.json`:
-/// `{ "playlists": [ {id, name, isFavorites, isRecentlyPlayed, createdAt,
+/// `{ "playlists": [ {id, name, isFavorites, isRecentlyPlayed, isLocalMusic, folder, createdAt,
 /// trackIds, recentlyPlayed: [{trackId, playedAt}], sortField, sortDescending} ] }`,
 /// id 即本機 Isar id,時間一律毫秒 int。整份快照語意(last-write-wins)。
 class PlaylistsBackup implements DomainBackup {
@@ -43,6 +43,8 @@ class PlaylistsBackup implements DomainBackup {
               'name': p.name,
               'isFavorites': p.isFavorites,
               'isRecentlyPlayed': p.isRecentlyPlayed,
+              'isLocalMusic': p.isLocalMusic,
+              'folder': p.folder,
               'createdAt': p.createdAt.millisecondsSinceEpoch,
               'trackIds': p.trackIds,
               'sortField': p.sortField,
@@ -68,6 +70,8 @@ class PlaylistsBackup implements DomainBackup {
             ..name = (item['name'] as String?) ?? ''
             ..isFavorites = (item['isFavorites'] as bool?) ?? false
             ..isRecentlyPlayed = (item['isRecentlyPlayed'] as bool?) ?? false
+            ..isLocalMusic = (item['isLocalMusic'] as bool?) ?? false
+            ..folder = item['folder'] as String?
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(
               (item['createdAt'] as num? ?? 0).toInt(),
             )

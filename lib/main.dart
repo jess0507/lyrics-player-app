@@ -88,6 +88,7 @@ Future<void> main() async {
   final playlistRepository = PlaylistRepository(isar, backupState);
   await playlistRepository.ensureDefaultFavorites();
   await playlistRepository.ensureDefaultRecentlyPlayed();
+  await playlistRepository.ensureDefaultLocalMusic();
 
   runApp(
     ProviderScope(

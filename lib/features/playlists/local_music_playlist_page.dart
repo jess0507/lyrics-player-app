@@ -11,7 +11,9 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/widgets/track_actions_sheet.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/playlists/models/track_folder.dart';
-import 'package:seek_player/features/playlists/providers/local_music_view_controller.dart';
+import 'package:seek_player/features/playlists/models/local_music_view_state.dart';
+import 'package:seek_player/features/playlists/providers/local_music_view_provider.dart';
+import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/tools/models/track_file_stat.dart';
@@ -92,12 +94,17 @@ class _LocalMusicPlaylistPageState
   Future<void> _editSort() async {
     final sort = await showTrackSortSheet(
       context,
-      current: ref.read(localMusicViewControllerProvider).sort,
+      current:
+          (ref.read(localMusicViewProvider).valueOrNull ??
+                  const LocalMusicViewState())
+              .sort,
     );
     if (sort == null) return;
     logAnalyticsAction(LibraryAction.changeSort, option: sort.field);
-    // 記下來,下次開啟沿用並同步到雲端。
-    ref.read(localMusicViewControllerProvider.notifier).setSort(sort);
+    // 記在「本機音樂」系統清單上,下次開啟沿用並隨播放清單同步。
+    await ref
+        .read(playlistRepositoryProvider)
+        .setSort(PlaylistRepository.localMusicId, sort);
   }
 
   void _toggleSearch() => setState(() {
@@ -134,7 +141,9 @@ class _LocalMusicPlaylistPageState
     final plays = ref.watch(trackPlayStatsProvider);
     final folders = TrackFolder.groupTracks(tracks);
     // 資料夾與排序有紀錄(並同步到雲端),沒有紀錄時為全部 / 預設排序。
-    final view = ref.watch(localMusicViewControllerProvider);
+    final view =
+        ref.watch(localMusicViewProvider).valueOrNull ??
+        const LocalMusicViewState();
     final savedFolder = view.folder;
     final sort = view.sort;
     // 紀錄的資料夾可能已不存在(重新掃描後刪除、或另一台裝置的路徑),
@@ -215,8 +224,8 @@ class _LocalMusicPlaylistPageState
                         option: path == null,
                       );
                       ref
-                          .read(localMusicViewControllerProvider.notifier)
-                          .setFolder(path);
+                          .read(playlistRepositoryProvider)
+                          .setLocalMusicFolder(path);
                     },
                   ),
                 ),
