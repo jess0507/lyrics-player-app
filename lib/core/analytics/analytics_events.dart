@@ -137,7 +137,8 @@ enum LyricsAction implements AnalyticsAction {
   fontSizeChange,
   fontSizeReset,
   textAlignChange,
-  textAlignReset;
+  textAlignReset,
+  scrollToCurrent;
 
   @override
   AnalyticsEvent get analyticsEvent => AnalyticsEvent.lyricsAction;

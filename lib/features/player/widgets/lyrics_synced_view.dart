@@ -9,10 +9,12 @@ import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/lyrics/models/lyrics.dart';
+import 'package:seek_player/features/player/widgets/lyrics_sync_button.dart';
 
 /// 同步歌詞:目前行 highlight + 自動置中捲動 + 點行 seek。
 /// 位置來源 `positionStream`(節流 ~200ms),目前行以二分搜尋定位;
-/// 使用者手動捲動時暫停自動置中數秒後恢復。
+/// 使用者手動捲動後暫停自動置中,並顯示「同步」按鈕;點按鈕(或點某行 seek)
+/// 才捲回目前播放行並恢復自動置中。
 class LyricsSyncedView extends ConsumerStatefulWidget {
   const LyricsSyncedView({
     super.key,
@@ -30,13 +32,9 @@ class LyricsSyncedView extends ConsumerStatefulWidget {
 }
 
 class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
-  /// 手動捲動後恢復自動置中的延遲。
-  static const _resumeDelay = Duration(seconds: 4);
-
   final _scrollController = ScrollController();
   final _lineKeys = <GlobalKey>[];
   StreamSubscription<Duration>? _posSub;
-  Timer? _resumeTimer;
   int _currentIndex = -1;
   bool _autoScrollPaused = false;
 
@@ -61,6 +59,9 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
     if (!identical(oldWidget.lyrics, widget.lyrics)) {
       _buildKeys();
       _currentIndex = -1;
+      // 新歌詞從頭開始跟隨,不沿用上一首的手動捲動狀態。
+      _autoScrollPaused = false;
+      if (_scrollController.hasClients) _scrollController.jumpTo(0);
     }
   }
 
@@ -95,7 +96,10 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
     return ans;
   }
 
-  void _scrollToCurrent() {
+  /// 將目前行捲到中央。目前行若尚未被 ListView build(例如拖曳時間軸跳很遠),
+  /// 先依已 build 的行估算位置跳過去,最多重試 [attempts] 次;仍定位不到就
+  /// 改為暫停自動置中並顯示「同步」按鈕,讓使用者知道歌詞與播放進度不一致。
+  void _scrollToCurrent({int attempts = 3}) {
     final index = _currentIndex;
     if (index < 0 || index >= _lineKeys.length) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -105,40 +109,109 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
         return;
       }
       final ctx = _lineKeys[index].currentContext;
-      if (ctx == null) return; // 目前行未在快取範圍內,跳過(下次更新再追)
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.5,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+        return;
+      }
+      if (attempts > 0 && _jumpNear(index)) {
+        _scrollToCurrent(attempts: attempts - 1);
+      } else if (!_autoScrollPaused) {
+        setState(() => _autoScrollPaused = true);
+      }
     });
   }
 
+  /// 目前行未 build 時,依已 build 行的位置與平均行高估算 [index] 的位置,
+  /// 直接跳到讓它接近畫面中央處。回傳是否有跳動。
+  bool _jumpNear(int index) {
+    if (!_scrollController.hasClients) return false;
+    final position = _scrollController.position;
+    final viewport = context.findRenderObject();
+    if (viewport is! RenderBox || !viewport.hasSize) return false;
+    final centerDy = viewport
+        .localToGlobal(Offset(0, viewport.size.height / 2))
+        .dy;
+
+    int? first;
+    int? last;
+    for (var i = 0; i < _lineKeys.length; i++) {
+      if (_lineKeys[i].currentContext != null) {
+        first ??= i;
+        last = i;
+      }
+    }
+
+    double target;
+    if (first == null || last == null) {
+      // 完全沒有已 build 的行:退回依行數比例估算。
+      final lineCount = _lineKeys.length;
+      final ratio = lineCount <= 1 ? 0.0 : index / (lineCount - 1);
+      target = position.maxScrollExtent * ratio;
+    } else {
+      final firstBox =
+          _lineKeys[first].currentContext!.findRenderObject() as RenderBox;
+      final lastBox =
+          _lineKeys[last].currentContext!.findRenderObject() as RenderBox;
+      final firstDy = firstBox.localToGlobal(Offset.zero).dy;
+      final lastDy = lastBox.localToGlobal(Offset.zero).dy;
+      final avgExtent = last > first
+          ? (lastDy - firstDy) / (last - first)
+          : firstBox.size.height;
+      final estimatedDy = firstDy + (index - first) * avgExtent;
+      target = position.pixels + estimatedDy - centerDy;
+    }
+    final clamped = target.clamp(
+      position.minScrollExtent,
+      position.maxScrollExtent,
+    );
+    if ((clamped - position.pixels).abs() < 1) return false;
+    _scrollController.jumpTo(clamped);
+    return true;
+  }
+
   bool _onScrollNotification(ScrollNotification n) {
-    if (n is UserScrollNotification && n.direction != ScrollDirection.idle) {
-      _autoScrollPaused = true;
-      _resumeTimer?.cancel();
-      _resumeTimer = Timer(_resumeDelay, () {
-        _autoScrollPaused = false;
-        _scrollToCurrent();
-      });
+    if (n is UserScrollNotification &&
+        n.direction != ScrollDirection.idle &&
+        !_autoScrollPaused) {
+      setState(() => _autoScrollPaused = true);
     }
     return false;
+  }
+
+  /// 「同步」按鈕:捲回目前播放行並恢復自動置中。
+  void _syncToCurrent() {
+    logAnalyticsAction(LyricsAction.scrollToCurrent);
+    setState(() => _autoScrollPaused = false);
+    final index = _currentIndex;
+    if (index < 0) {
+      // 尚未進入首行:回到最上方。
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+      return;
+    }
+    _scrollToCurrent();
   }
 
   void _seekTo(Duration time) {
     logAnalyticsAction(LyricsAction.lineSeek);
     ref.read(audioPlayerServiceProvider).seek(time);
-    // 點行後立即跟隨,不等手動捲動的恢復計時。
-    _resumeTimer?.cancel();
-    _autoScrollPaused = false;
+    // 點行後立即恢復跟隨,並收起「同步」按鈕。
+    if (_autoScrollPaused) setState(() => _autoScrollPaused = false);
   }
 
   @override
   void dispose() {
     _posSub?.cancel();
-    _resumeTimer?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
@@ -154,7 +227,7 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
     final inactiveColor = isLight
         ? const Color(0xFF666666)
         : const Color(0xFFCCCCCC);
-    return NotificationListener<ScrollNotification>(
+    final list = NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotification,
       child: ListView.builder(
         controller: _scrollController,
@@ -186,6 +259,22 @@ class _LyricsSyncedViewState extends ConsumerState<LyricsSyncedView> {
           );
         },
       ),
+    );
+    return Stack(
+      children: [
+        list,
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 16,
+          child: Center(
+            child: LyricsSyncButton(
+              visible: _autoScrollPaused,
+              onPressed: _syncToCurrent,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
