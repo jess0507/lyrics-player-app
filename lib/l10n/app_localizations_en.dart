@@ -687,6 +687,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_text_align_right => 'Right';
 
   @override
+  String get lyrics_scroll_to_current => 'Sync';
+
+  @override
   String get lyrics_auto_align => 'Sync lyrics';
 
   @override

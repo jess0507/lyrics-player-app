@@ -690,6 +690,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get lyrics_text_align_right => 'Kanan';
 
   @override
+  String get lyrics_scroll_to_current => 'Sinkronkan';
+
+  @override
   String get lyrics_auto_align => 'Sinkronkan lirik';
 
   @override

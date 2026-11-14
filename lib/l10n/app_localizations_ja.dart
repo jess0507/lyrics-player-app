@@ -666,6 +666,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_text_align_right => '右揃え';
 
   @override
+  String get lyrics_scroll_to_current => '同期';
+
+  @override
   String get lyrics_auto_align => '歌詞を同期';
 
   @override

@@ -691,6 +691,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_text_align_right => 'Sağa';
 
   @override
+  String get lyrics_scroll_to_current => 'Senkronize et';
+
+  @override
   String get lyrics_auto_align => 'Şarkı sözlerini eşitle';
 
   @override

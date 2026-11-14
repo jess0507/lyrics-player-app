@@ -204,6 +204,7 @@
   "lyrics_text_align_left": "Gauche",
   "lyrics_text_align_center": "Centre",
   "lyrics_text_align_right": "Droite",
+  "lyrics_scroll_to_current": "Synchroniser",
   "cover_edit": "Modifier la pochette",
   "lyrics_edit": "Modifier les paroles",
   "cover_add": "Ajouter une pochette",

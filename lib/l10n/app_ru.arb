@@ -204,6 +204,7 @@
   "lyrics_text_align_left": "Слева",
   "lyrics_text_align_center": "По центру",
   "lyrics_text_align_right": "Справа",
+  "lyrics_scroll_to_current": "Синхронизировать",
   "cover_edit": "Изменить обложку",
   "lyrics_edit": "Изменить текст песни",
   "cover_add": "Добавить обложку",

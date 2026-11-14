@@ -689,6 +689,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_text_align_right => 'Справа';
 
   @override
+  String get lyrics_scroll_to_current => 'Синхронизировать';
+
+  @override
   String get lyrics_auto_align => 'Синхронизация текста';
 
   @override

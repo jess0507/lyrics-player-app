@@ -204,6 +204,7 @@
   "lyrics_text_align_left": "Links",
   "lyrics_text_align_center": "Mitte",
   "lyrics_text_align_right": "Rechts",
+  "lyrics_scroll_to_current": "Synchronisieren",
   "cover_edit": "Cover bearbeiten",
   "lyrics_edit": "Songtext bearbeiten",
   "cover_add": "Cover hinzufügen",

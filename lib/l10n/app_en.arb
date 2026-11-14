@@ -262,6 +262,10 @@
   "lyrics_text_align_left": "Left",
   "lyrics_text_align_center": "Center",
   "lyrics_text_align_right": "Right",
+  "lyrics_scroll_to_current": "Sync",
+  "@lyrics_scroll_to_current": {
+    "description": "Button shown when the user scrolls the synced lyrics away from the current line; tapping it scrolls back to the line being played."
+  },
   "lyrics_auto_align": "Sync lyrics",
   "lyrics_auto_resync": "Re-sync lyrics",
   "lyrics_auto_resync_confirm": "Re-syncing will replace the current lyrics timing. Continue?",

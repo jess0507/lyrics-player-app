@@ -686,6 +686,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_text_align_right => 'يمين';
 
   @override
+  String get lyrics_scroll_to_current => 'مزامنة';
+
+  @override
   String get lyrics_auto_align => 'مزامنة الكلمات';
 
   @override

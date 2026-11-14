@@ -670,6 +670,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_text_align_right => '오른쪽';
 
   @override
+  String get lyrics_scroll_to_current => '동기화';
+
+  @override
   String get lyrics_auto_align => '가사 동기화';
 
   @override

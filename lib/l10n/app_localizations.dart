@@ -1404,6 +1404,12 @@ abstract class AppLocalizations {
   /// **'Right'**
   String get lyrics_text_align_right;
 
+  /// Button shown when the user scrolls the synced lyrics away from the current line; tapping it scrolls back to the line being played.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync'**
+  String get lyrics_scroll_to_current;
+
   /// No description provided for @lyrics_auto_align.
   ///
   /// In en, this message translates to:

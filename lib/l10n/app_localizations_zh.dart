@@ -661,6 +661,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lyrics_text_align_right => '置右';
 
   @override
+  String get lyrics_scroll_to_current => '同步';
+
+  @override
   String get lyrics_auto_align => '同步歌詞';
 
   @override
@@ -1585,6 +1588,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get lyrics_text_align_right => '右对齐';
 
   @override
+  String get lyrics_scroll_to_current => '同步';
+
+  @override
   String get lyrics_auto_align => '同步歌词';
 
   @override
@@ -2507,6 +2513,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get lyrics_text_align_right => '置右';
+
+  @override
+  String get lyrics_scroll_to_current => '同步';
 
   @override
   String get lyrics_auto_align => '同步歌詞';

@@ -698,6 +698,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_text_align_right => 'Droite';
 
   @override
+  String get lyrics_scroll_to_current => 'Synchroniser';
+
+  @override
   String get lyrics_auto_align => 'Synchroniser les paroles';
 
   @override

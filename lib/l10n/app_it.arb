@@ -204,6 +204,7 @@
   "lyrics_text_align_left": "Sinistra",
   "lyrics_text_align_center": "Centro",
   "lyrics_text_align_right": "Destra",
+  "lyrics_scroll_to_current": "Sincronizza",
   "cover_edit": "Modifica copertina",
   "lyrics_edit": "Modifica testo",
   "cover_add": "Aggiungi copertina",
