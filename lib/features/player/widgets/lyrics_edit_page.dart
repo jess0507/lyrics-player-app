@@ -135,7 +135,9 @@ class _LyricsEditPageState extends ConsumerState<LyricsEditPage> {
   /// 預覽中點文字:切成可編輯。點擊已讓文字框取得焦點,唯讀解除時
   /// EditableText 會建立輸入連線並叫出鍵盤,游標停在點擊位置。
   void _startEditing() {
-    if (!_editing) setState(() => _editing = true);
+    if (_editing) return;
+    logAnalyticsAction(LyricsAction.editStart);
+    setState(() => _editing = true);
   }
 
   /// 以系統分享面板分享文字框內容;帶上按鈕位置作為 iPad 的錨點。

@@ -19,7 +19,11 @@ class LyricsEditFontSizeControl extends ConsumerWidget {
 
     void step(double delta) {
       controller.setSize(size + delta);
-      logAnalyticsAction(LyricsAction.fontSizeChange, option: size + delta);
+      logAnalyticsAction(
+        LyricsAction.fontSizeChange,
+        source: AnalyticsSource.lyricsEditor,
+        option: size + delta,
+      );
     }
 
     return Row(
@@ -32,8 +36,11 @@ class LyricsEditFontSizeControl extends ConsumerWidget {
             divisions: (_max - _min).round(),
             onChanged: controller.setSize,
             // 拖曳中不記,放開時記最終字級。
-            onChangeEnd: (v) =>
-                logAnalyticsAction(LyricsAction.fontSizeChange, option: v),
+            onChangeEnd: (v) => logAnalyticsAction(
+              LyricsAction.fontSizeChange,
+              source: AnalyticsSource.lyricsEditor,
+              option: v,
+            ),
           ),
         ),
         IconButton(

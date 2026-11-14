@@ -102,6 +102,9 @@ enum AnalyticsSource {
   progressCard,
   list,
   file,
+
+  /// 編輯歌詞頁(與播放頁歌詞字級等設定區分)。
+  lyricsEditor,
 }
 
 /// 通用結果。功能有更細的失敗原因 enum 時(如 `LyricsImportError`)直接傳那個。
@@ -140,7 +143,13 @@ enum LyricsAction implements AnalyticsAction {
   fontSizeReset,
   textAlignChange,
   textAlignReset,
-  scrollToCurrent;
+  scrollToCurrent,
+
+  /// 無歌詞空狀態的「匯入」按鈕(開啟製作歌詞頁)。
+  emptyStateImport,
+
+  /// 編輯歌詞頁由預覽切換到編輯。
+  editStart;
 
   @override
   AnalyticsEvent get analyticsEvent => AnalyticsEvent.lyricsAction;

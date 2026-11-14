@@ -83,11 +83,14 @@ class _EmptyLyrics extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           FilledButton(
-            onPressed: () => openToolEditorFromPlayer(
-              context,
-              tool: ToolKind.lyrics,
-              trackId: trackId,
-            ),
+            onPressed: () {
+              logAnalyticsAction(LyricsAction.emptyStateImport);
+              openToolEditorFromPlayer(
+                context,
+                tool: ToolKind.lyrics,
+                trackId: trackId,
+              );
+            },
             child: Text(l10n.lyrics_empty_import),
           ),
         ],
