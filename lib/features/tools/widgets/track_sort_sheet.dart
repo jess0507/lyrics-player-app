@@ -73,7 +73,14 @@ class _TrackSortSheetState extends State<TrackSortSheet> {
                   children: [
                     RadioGroup<TrackSortField>(
                       groupValue: _field,
-                      onChanged: (v) => setState(() => _field = v!),
+                      onChanged: (v) => setState(() {
+                        _field = v!;
+                        // 切回原本欄位時保留原方向;切到其他欄位時預設選第一個
+                        // 方向選項(名稱為 A 到 Z,其餘為遞減)。
+                        _descending = v == widget.initial.field
+                            ? widget.initial.descending
+                            : v != TrackSortField.name;
+                      }),
                       child: Column(
                         children: [
                           for (final field in widget.fields)
@@ -92,7 +99,11 @@ class _TrackSortSheetState extends State<TrackSortSheet> {
                         onChanged: (v) => setState(() => _descending = v!),
                         child: Column(
                           children: [
-                            for (final descending in const [true, false])
+                            // 名稱以 A 到 Z 在前,其餘欄位以遞減在前。
+                            for (final descending
+                                in _field == TrackSortField.name
+                                    ? const [false, true]
+                                    : const [true, false])
                               RadioListTile<bool>(
                                 value: descending,
                                 title: Text(
