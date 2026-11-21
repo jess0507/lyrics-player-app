@@ -177,8 +177,9 @@ gcloud iam service-accounts add-iam-policy-binding \
 - App 版本分佈（全部帳號 / 近 N 天有上傳過的帳號），含「未記錄版本」與「無主文件」。
 - 歌詞功能：
   - AI 歌詞任務（`user/{uid}/lyrics` 有 `status` 的文件）：總數、近 N 天、狀態、每月任務數、用最多的帳號。
-    對時與產生在文件上無法區分。
+    依 `kind` 拆成 generate（AI 產生）/ align（對時），含各自的人數與近 N 天任務數；`kind` 由後端寫入，2026-11 中之前的任務沒有。
   - 歌詞備份（`user/{uid}/backupLyrics`）：目前有歌詞的歌曲數，依來源 online / generated / manual。
+    `generated` 再依 `kind` 拆成 generate（AI 產生）/ align（對時）；沒有 `kind` 的是 App 加入該欄位前寫入的資料，無法區分。
   - AI 用量（`usage/{uid}`）：依月份統計分鐘數（每個帳號只留最近月份）。
 
 ```bash
@@ -186,7 +187,12 @@ python3 scripts/user_stats.py               # 統計（近期預設 30 天）
 python3 scripts/user_stats.py --days 7      # 近期改為 7 天
 python3 scripts/user_stats.py --list        # 加列每個帳號明細（含 email / 手機、AI 任務數、備份歌詞數、AI 用量）
 python3 scripts/user_stats.py --csv out.csv # 明細輸出 CSV
+python3 scripts/user_stats.py --include-test # 不排除測試帳號
 ```
+
+**測試帳號：** 預設會把 `TEST_EMAILS`（定義在 script 開頭）內的帳號從所有統計、明細與 CSV 中排除，
+連同它們的 Firestore 資料（主文件、AI 任務、備份歌詞、AI 用量）。要新增測試帳號就改該常數；
+加 `--include-test` 可看含測試帳號的數字。
 
 **認證：** 用目前 `gcloud` 登入帳號的 access token，需有 `seek-player-f724e` 的讀取權限。
 

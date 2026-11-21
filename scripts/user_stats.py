@@ -11,10 +11,11 @@ user_stats.py
     所以版本可能落後實際安裝版本;v1.2.13 之前的版本不會寫)。
   - Firestore `user/{uid}/lyrics/{jobId}`:後端 AI 歌詞任務(對時 / 產生)的投遞點,
     有 `status` 欄位的才是任務;沒有 `status` 的是舊版 client 寫在這裡的歌詞備份。
-    對時與產生在文件上無法區分(source 都是 generated)。
+    任務種類看 `kind`(generate / align),由後端寫入;2026-11 中之前的任務沒有這個欄位。
   - Firestore `user/{uid}/backupLyrics/{key}`:client 的歌詞備份(每首歌一份),
     依 source(online / generated / manual)統計;代表「目前有歌詞的歌曲數」,
-    不是操作次數,且只在有同步時更新。
+    不是操作次數,且只在有同步時更新。source=generated 的再依 kind
+    (generate / align)拆開;沒有 kind 的是舊版 App 寫入的,無法區分。
   - Firestore `usage/{uid}`:後端記錄的 AI 用量(month + secondsUsed),
     每個帳號只留最近一個月份。
 
@@ -25,6 +26,9 @@ user_stats.py
   python3 scripts/user_stats.py --days 7      # 「近期」視窗改為 7 天(預設 30)
   python3 scripts/user_stats.py --list        # 另外列出每個帳號的明細
   python3 scripts/user_stats.py --csv out.csv # 明細輸出成 CSV
+  python3 scripts/user_stats.py --include-test # 不排除測試帳號
+
+測試帳號(TEST_EMAILS)預設從所有統計與明細中排除。
 
 認證:用 `gcloud auth print-access-token`(目前 gcloud 登入的帳號),
      帳號需有該 Firebase 專案的讀取權限(Owner / Editor / Firebase Viewer)。
@@ -54,6 +58,20 @@ AUTH_BASE = f"https://identitytoolkit.googleapis.com/v1/projects/{PROJECT_ID}"
 
 NO_DOC = "(無主文件)"
 NO_VERSION = "(未記錄版本)"
+NO_KIND = "(未記錄,舊資料)"
+KIND_LABELS = {"generate": "generate(AI 產生)", "align": "align(對時)"}
+
+# 測試帳號:預設從所有統計與明細中排除(--include-test 可加回)。比對不分大小寫。
+TEST_EMAILS = frozenset(
+    {
+        "merukoo0507@gmail.com",
+        "merukoo1994@gmail.com",
+        "jessyenqa1@gmail.com",
+        "jessyenqa2@gmail.com",
+        "jessyen.001@gmail.com",
+        "fhmashiro@gmail.com",
+    }
+)
 
 
 def access_token() -> str:
@@ -253,6 +271,12 @@ def identity(u: dict) -> str:
     return u.get("email") or u.get("phoneNumber") or "-"
 
 
+def is_test_account(u: dict) -> bool:
+    """帳號本身或任一登入方式的 email 在 TEST_EMAILS 內。"""
+    emails = [u.get("email")] + [p.get("email") for p in u.get("providerUserInfo", [])]
+    return any(e and e.strip().lower() in TEST_EMAILS for e in emails)
+
+
 def pad(s: str, width: int) -> str:
     """依終端機顯示寬度(全形字算 2)補空白,讓中英混排的欄位對齊。"""
     w = sum(2 if unicodedata.east_asian_width(c) in "WF" else 1 for c in s)
@@ -281,16 +305,32 @@ def main() -> None:
     ap.add_argument("--days", type=int, default=30, help="「近期」視窗天數(預設 30)")
     ap.add_argument("--list", action="store_true", help="列出每個帳號的明細")
     ap.add_argument("--csv", metavar="PATH", help="把明細輸出成 CSV")
+    ap.add_argument(
+        "--include-test",
+        action="store_true",
+        help="不排除測試帳號(預設會排除 TEST_EMAILS 內的帳號)",
+    )
     args = ap.parse_args()
 
     token = access_token()
     auth_users = fetch_auth_users(token)
     docs = fetch_user_docs(token)
     lyrics_docs = fetch_collection_group(
-        token, "lyrics", ["status", "source", "addedAt", "statusUpdatedAt"]
+        token, "lyrics", ["status", "kind", "source", "addedAt", "statusUpdatedAt"]
     )
-    backup_docs = fetch_collection_group(token, "backupLyrics", ["source"])
+    backup_docs = fetch_collection_group(token, "backupLyrics", ["source", "kind"])
     usage = fetch_usage(token)
+
+    # 排除測試帳號:Auth 帳號與其所有 Firestore 資料(主文件 / 歌詞 / 用量)一併拿掉。
+    excluded = 0
+    if not args.include_test:
+        test_uids = {u["localId"] for u in auth_users if is_test_account(u)}
+        excluded = len(test_uids)
+        auth_users = [u for u in auth_users if u["localId"] not in test_uids]
+        docs = {uid: d for uid, d in docs.items() if uid not in test_uids}
+        lyrics_docs = [(uid, f) for uid, f in lyrics_docs if uid not in test_uids]
+        backup_docs = [(uid, f) for uid, f in backup_docs if uid not in test_uids]
+        usage = {uid: f for uid, f in usage.items() if uid not in test_uids}
 
     now = dt.datetime.now(dt.timezone.utc)
     since = now - dt.timedelta(days=args.days)
@@ -303,7 +343,14 @@ def main() -> None:
             legacy_lyrics += 1
             continue
         ts = f.get("addedAt") or f.get("statusUpdatedAt")
-        jobs.append({"uid": uid, "status": f["status"], "at": parse_ms(ts) if ts else None})
+        jobs.append(
+            {
+                "uid": uid,
+                "status": f["status"],
+                "kind": KIND_LABELS.get(f.get("kind"), NO_KIND),
+                "at": parse_ms(ts) if ts else None,
+            }
+        )
     jobs_by_uid = collections.Counter(j["uid"] for j in jobs)
     backup_by_uid = collections.Counter(uid for uid, _ in backup_docs)
 
@@ -336,6 +383,10 @@ def main() -> None:
 
     total = len(rows)
     print(f"專案:{PROJECT_ID}    時間:{fmt_time(now)}    近期 = {args.days} 天內")
+    if args.include_test:
+        print("含測試帳號(--include-test)")
+    else:
+        print(f"已排除測試帳號:{excluded} 個(名單 {len(TEST_EMAILS)} 個,--include-test 可加回)")
 
     # ---- 帳號 ----
     print(f"\n# 帳號(Firebase Auth):{total}")
@@ -382,6 +433,23 @@ def main() -> None:
         f"  近 {args.days} 天:{len(recent_jobs)}"
         f"(使用人數 {len({j['uid'] for j in recent_jobs})})"
     )
+    # 種類由後端寫在任務文件的 kind;人數是該種類的不重複帳號數。
+    kind_users: dict[str, set[str]] = collections.defaultdict(set)
+    recent_kind: collections.Counter = collections.Counter()
+    for j in jobs:
+        kind_users[j["kind"]].add(j["uid"])
+    for j in recent_jobs:
+        recent_kind[j["kind"]] += 1
+    print("\n## 任務種類")
+    kind_count = collections.Counter(j["kind"] for j in jobs)
+    width = max((disp_width(k) for k in kind_count), default=0)
+    for k, n in kind_count.most_common():
+        pct = n / len(jobs) * 100 if jobs else 0
+        print(
+            f"  {pad(k, width)}  {n:>5}  {pct:5.1f}%"
+            f"  人數 {len(kind_users[k]):>4}  近 {args.days} 天 {recent_kind[k]:>4}"
+        )
+    print("  註:kind 由後端寫入,2026-11 中之前的任務沒有這個欄位。")
     print_table(
         "任務狀態",
         collections.Counter(j["status"] for j in jobs).most_common(),
@@ -407,7 +475,17 @@ def main() -> None:
         collections.Counter(f.get("source", "?") for _, f in backup_docs).most_common(),
         len(backup_docs),
     )
+    # source=generated 再依 kind 拆成產生 / 對時;沒有 kind 的是 App 加入該欄位前寫入的。
+    generated = [f for _, f in backup_docs if f.get("source") == "generated"]
+    print_table(
+        f"AI 歌詞種類(source=generated,{len(generated)})",
+        collections.Counter(
+            KIND_LABELS.get(f.get("kind"), NO_KIND) for f in generated
+        ).most_common(),
+        len(generated),
+    )
     print("  註:只在 SyncService 有上傳時更新;刪掉的歌詞不會留下紀錄。")
+    print("      kind 由加入該欄位之後的 App 版本寫入,舊資料無法回推產生 / 對時。")
 
     print("\n## AI 用量(usage/{uid},每個帳號只留最近月份)")
     usage_month: dict[str, list[float]] = collections.defaultdict(list)
