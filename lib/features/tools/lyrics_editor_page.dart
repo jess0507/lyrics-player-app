@@ -5,13 +5,15 @@ import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/player/providers/lyrics_text_align_controller.dart';
 import 'package:seek_player/features/player/widgets/lyrics_action_tiles.dart';
+import 'package:seek_player/features/player/widgets/lyrics_menu_action.dart';
 import 'package:seek_player/features/tools/widgets/lyrics_job_progress_card.dart';
 import 'package:seek_player/features/tools/widgets/track_editor_header.dart';
 import 'package:seek_player/features/tools/widgets/track_editor_scaffold.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 
 /// 工具「製作歌詞」選完曲目後的編輯頁:上方封面與標題,有長時間任務
-/// (自動產生 / 對時)時顯示進度卡,接著是歌詞動作與目前歌詞預覽。
+/// (自動產生 / 對時)時顯示進度卡,接著是歌詞動作與目前歌詞預覽;
+/// 「編輯歌詞」的入口是預覽標題旁的編輯鈕。
 class LyricsEditorPage extends StatelessWidget {
   const LyricsEditorPage({super.key, required this.trackId, this.initialTrack});
 
@@ -59,15 +61,31 @@ class _LyricsEditorBody extends ConsumerWidget {
         ),
         const Divider(height: 32),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            l10n.tools_lyrics_preview,
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: theme.colorScheme.primary,
-            ),
+          padding: const EdgeInsets.only(left: 16, right: 4),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.tools_lyrics_preview,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(LyricsMenuAction.edit.icon),
+                tooltip: LyricsMenuAction.edit.label(l10n),
+                onPressed: () => runLyricsMenuAction(
+                  context,
+                  ref,
+                  LyricsMenuAction.edit,
+                  trackId: track.trackId,
+                  title: track.title,
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 8),
         if (lyrics == null || lyrics.isEmpty)
           Padding(
             padding: const EdgeInsets.all(16),

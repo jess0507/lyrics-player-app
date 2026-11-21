@@ -29,11 +29,11 @@ enum LyricsMenuAction implements AnalyticsAction {
   /// 上網搜尋歌詞(LRCLIB);完全沒有歌詞時顯示(排在 [aiGenerate] 之後)。
   searchOnline,
 
-  /// 編輯歌詞(文字框,可貼上或打字);無歌詞時排第二(在 [searchOnline] 之後),
-  /// 已有歌詞時排在 [reimport] 之前(覆蓋現有歌詞)。
+  /// 編輯歌詞(文字框,可貼上或打字);不列在 [lyricsMenuActions] 的清單裡,
+  /// 由製作歌詞頁的預覽標題旁編輯鈕與播放頁選單直接觸發。
   edit,
 
-  /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [edit] 之後)。
+  /// 從檔案匯入歌詞;完全沒有歌詞時顯示(排在 [searchOnline] 之後)。
   import,
 
   /// 自動對時(WhisperX 引擎);已有歌詞時顯示,已同步者為重新同步。
@@ -116,6 +116,8 @@ String _alignLabel(AppLocalizations l10n, bool synced) =>
 /// [canAiGenerate] 為「完全沒有歌詞」(可從音訊直接產生);
 /// [canAutoAlign] 為「已有歌詞」(已同步者為重新同步);[hasLyrics] 為「已有歌詞」。
 /// [includeDisplay] 為 false 時不列顯示設定(字體大小 / 對齊方式)。
+/// 「編輯歌詞」([LyricsMenuAction.edit])不在這份清單裡,由呼叫端另外提供入口
+/// (製作歌詞頁的預覽標題旁編輯鈕、播放頁選單)。
 List<LyricsMenuAction> lyricsMenuActions({
   required bool canAiGenerate,
   required bool canAutoAlign,
@@ -123,9 +125,8 @@ List<LyricsMenuAction> lyricsMenuActions({
   bool includeDisplay = true,
 }) {
   return [
-    // 無歌詞時提供四種取得方式:上網搜尋、編輯、從檔案匯入、自動產生。
+    // 無歌詞時提供三種取得方式:上網搜尋、從檔案匯入、自動產生。
     if (!hasLyrics) LyricsMenuAction.searchOnline,
-    if (!hasLyrics) LyricsMenuAction.edit,
     if (!hasLyrics) LyricsMenuAction.import,
     if (canAiGenerate) LyricsMenuAction.aiGenerate,
     if (canAutoAlign) ...[
@@ -137,7 +138,6 @@ List<LyricsMenuAction> lyricsMenuActions({
         LyricsMenuAction.fontSize,
         LyricsMenuAction.textAlign,
       ],
-      LyricsMenuAction.edit,
       LyricsMenuAction.reimport,
       LyricsMenuAction.download,
       LyricsMenuAction.delete,
