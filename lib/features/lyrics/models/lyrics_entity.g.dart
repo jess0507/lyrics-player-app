@@ -30,14 +30,20 @@ const LyricsEntitySchema = CollectionSchema(
       enumMap: _LyricsEntityformatEnumValueMap,
     ),
     r'jobId': PropertySchema(id: 3, name: r'jobId', type: IsarType.string),
-    r'source': PropertySchema(
+    r'kind': PropertySchema(
       id: 4,
+      name: r'kind',
+      type: IsarType.byte,
+      enumMap: _LyricsEntitykindEnumValueMap,
+    ),
+    r'source': PropertySchema(
+      id: 5,
       name: r'source',
       type: IsarType.byte,
       enumMap: _LyricsEntitysourceEnumValueMap,
     ),
-    r'title': PropertySchema(id: 5, name: r'title', type: IsarType.string),
-    r'trackId': PropertySchema(id: 6, name: r'trackId', type: IsarType.string),
+    r'title': PropertySchema(id: 6, name: r'title', type: IsarType.string),
+    r'trackId': PropertySchema(id: 7, name: r'trackId', type: IsarType.string),
   },
 
   estimateSize: _lyricsEntityEstimateSize,
@@ -97,9 +103,10 @@ void _lyricsEntitySerialize(
   writer.writeString(offsets[1], object.content);
   writer.writeByte(offsets[2], object.format.index);
   writer.writeString(offsets[3], object.jobId);
-  writer.writeByte(offsets[4], object.source.index);
-  writer.writeString(offsets[5], object.title);
-  writer.writeString(offsets[6], object.trackId);
+  writer.writeByte(offsets[4], object.kind.index);
+  writer.writeByte(offsets[5], object.source.index);
+  writer.writeString(offsets[6], object.title);
+  writer.writeString(offsets[7], object.trackId);
 }
 
 LyricsEntity _lyricsEntityDeserialize(
@@ -116,11 +123,14 @@ LyricsEntity _lyricsEntityDeserialize(
       LyricsFormat.lrc;
   object.id = id;
   object.jobId = reader.readStringOrNull(offsets[3]);
+  object.kind =
+      _LyricsEntitykindValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+      LyricsKind.unknown;
   object.source =
-      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+      _LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offsets[5])] ??
       LyricsSource.manual;
-  object.title = reader.readString(offsets[5]);
-  object.trackId = reader.readString(offsets[6]);
+  object.title = reader.readString(offsets[6]);
+  object.trackId = reader.readString(offsets[7]);
   return object;
 }
 
@@ -142,12 +152,16 @@ P _lyricsEntityDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (_LyricsEntitykindValueEnumMap[reader.readByteOrNull(offset)] ??
+              LyricsKind.unknown)
+          as P;
+    case 5:
       return (_LyricsEntitysourceValueEnumMap[reader.readByteOrNull(offset)] ??
               LyricsSource.manual)
           as P;
-    case 5:
-      return (reader.readString(offset)) as P;
     case 6:
+      return (reader.readString(offset)) as P;
+    case 7:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -165,6 +179,12 @@ const _LyricsEntityformatValueEnumMap = {
   1: LyricsFormat.srt,
   2: LyricsFormat.vtt,
   3: LyricsFormat.txt,
+};
+const _LyricsEntitykindEnumValueMap = {'unknown': 0, 'generate': 1, 'align': 2};
+const _LyricsEntitykindValueEnumMap = {
+  0: LyricsKind.unknown,
+  1: LyricsKind.generate,
+  2: LyricsKind.align,
 };
 const _LyricsEntitysourceEnumValueMap = {
   'manual': 0,
@@ -806,6 +826,63 @@ extension LyricsEntityQueryFilter
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> kindEqualTo(
+    LyricsKind value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'kind', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition>
+  kindGreaterThan(LyricsKind value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'kind',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> kindLessThan(
+    LyricsKind value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'kind',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> kindBetween(
+    LyricsKind lower,
+    LyricsKind upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'kind',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterFilterCondition> sourceEqualTo(
     LyricsSource value,
   ) {
@@ -1206,6 +1283,18 @@ extension LyricsEntityQuerySortBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByKind() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kind', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortByKindDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kind', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> sortBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1305,6 +1394,18 @@ extension LyricsEntityQuerySortThenBy
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByKind() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kind', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenByKindDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kind', Sort.desc);
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QAfterSortBy> thenBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'source', Sort.asc);
@@ -1372,6 +1473,12 @@ extension LyricsEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctByKind() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'kind');
+    });
+  }
+
   QueryBuilder<LyricsEntity, LyricsEntity, QDistinct> distinctBySource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'source');
@@ -1424,6 +1531,12 @@ extension LyricsEntityQueryProperty
   QueryBuilder<LyricsEntity, String?, QQueryOperations> jobIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'jobId');
+    });
+  }
+
+  QueryBuilder<LyricsEntity, LyricsKind, QQueryOperations> kindProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'kind');
     });
   }
 

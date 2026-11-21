@@ -29,6 +29,13 @@ class LyricsEntity {
   @enumerated
   late LyricsSource source;
 
+  /// 這份歌詞是哪一種後端 AI 任務的結果(產生 / 對時),值沿用任務文件
+  /// (`user/{uid}/lyrics/{jobId}`)上後端寫的 `kind`。兩者的 [source] 都是
+  /// generated,靠這個欄位區分;不是 AI 任務結果(手動 / 線上)或加入本欄位
+  /// 之前的舊資料為 [LyricsKind.unknown]。
+  @enumerated
+  LyricsKind kind = LyricsKind.unknown;
+
   /// 歌詞原文(解析的唯一依據;編輯計畫直接改這裡)。
   ///
   /// 可能為空字串:送出「AI 產生」任務時先建一筆空內容的 entity 記 [jobId]。
@@ -47,3 +54,7 @@ enum LyricsFormat { lrc, srt, vtt, txt }
 
 /// 歌詞來源。順序同上,勿重排。
 enum LyricsSource { manual, online, generated }
+
+/// AI 任務種類,名稱與後端任務文件的 `kind` 值一致(generate / align)。
+/// 順序同上,勿重排;unknown 必須維持第一個(ordinal 0 是舊資料讀出來的預設值)。
+enum LyricsKind { unknown, generate, align }

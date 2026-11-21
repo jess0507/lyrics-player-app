@@ -89,6 +89,7 @@ class LyricsSync {
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
+          if (e.kind != LyricsKind.unknown) 'kind': e.kind.name,
           'content': e.content,
           'updatedAt': e.addedAt.millisecondsSinceEpoch,
         }),
@@ -179,6 +180,8 @@ extension _RemoteLyricsDecode on QuerySnapshot<Map<String, dynamic>> {
           ..source =
               LyricsSource.values.asNameMap()[data['source']] ??
               LyricsSource.manual
+          ..kind =
+              LyricsKind.values.asNameMap()[data['kind']] ?? LyricsKind.unknown
           ..content = content
           ..addedAt = DateTime.fromMillisecondsSinceEpoch(
             (data['updatedAt'] as num? ?? 0).toInt(),

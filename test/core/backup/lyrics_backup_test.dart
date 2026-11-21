@@ -22,14 +22,53 @@ void main() {
     expect(decoded.title, 'Song');
     expect(decoded.format, LyricsFormat.lrc);
     expect(decoded.source, LyricsSource.online);
+    expect(decoded.kind, LyricsKind.unknown);
     expect(decoded.content, entity.content);
     expect(decoded.addedAt.millisecondsSinceEpoch, 12345);
+  });
+
+  test('kind round-trip;unknown 不寫入 JSON', () {
+    LyricsEntity entity(String trackId, LyricsKind kind) => LyricsEntity()
+      ..trackId = trackId
+      ..title = 'Song'
+      ..format = LyricsFormat.lrc
+      ..source = LyricsSource.generated
+      ..kind = kind
+      ..content = 'x'
+      ..addedAt = DateTime.fromMillisecondsSinceEpoch(0);
+
+    final json = jsonDecode(
+      jsonEncode(
+        LyricsBackup.encodeLyrics([
+          entity('gen', LyricsKind.generate),
+          entity('align', LyricsKind.align),
+          entity('old', LyricsKind.unknown),
+        ]),
+      ),
+    );
+    final items = (json['lyrics'] as List).cast<Map<String, dynamic>>();
+    expect(items[0]['kind'], 'generate');
+    expect(items[1]['kind'], 'align');
+    expect(items[2].containsKey('kind'), isFalse);
+
+    final decoded = LyricsBackup.decodeLyrics(json);
+    expect(decoded.map((e) => e.kind), [
+      LyricsKind.generate,
+      LyricsKind.align,
+      LyricsKind.unknown,
+    ]);
   });
 
   test('缺 trackId 或空內文跳過;未知 format / source fallback', () {
     final decoded = LyricsBackup.decodeLyrics({
       'lyrics': [
-        {'trackId': 'ok', 'content': 'x', 'format': 'weird', 'source': '??'},
+        {
+          'trackId': 'ok',
+          'content': 'x',
+          'format': 'weird',
+          'source': '??',
+          'kind': '??',
+        },
         {'trackId': 'empty', 'content': ''},
         {'content': 'no id'},
         'garbage',
@@ -39,6 +78,7 @@ void main() {
     expect(decoded.single.trackId, 'ok');
     expect(decoded.single.format, LyricsFormat.txt);
     expect(decoded.single.source, LyricsSource.manual);
+    expect(decoded.single.kind, LyricsKind.unknown);
     expect(decoded.single.title, '');
     expect(decoded.single.addedAt.millisecondsSinceEpoch, 0);
   });

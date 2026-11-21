@@ -121,7 +121,8 @@ class LyricsPendingSyncService {
     );
     final job = _ref.read(lyricsPendingSyncStoreProvider)[trackId];
     final success =
-        phase == LyricsJobPhase.done && await _syncContent(trackId, data);
+        phase == LyricsJobPhase.done &&
+        await _syncContent(trackId, data, mode: job?.mode);
     // 失敗:AI 產生的空內容佔位刪掉,對時則只清 jobId、保留原歌詞。
     if (!success) await _ref.read(lyricsRepositoryProvider).clearJob(trackId);
     if (job != null) {
@@ -131,7 +132,15 @@ class LyricsPendingSyncService {
   }
 
   /// 存回本機 Isar,成功回 true。
-  Future<bool> _syncContent(String trackId, Map<String, dynamic>? data) async {
+  ///
+  /// 任務種類寫成 [LyricsEntity.kind] 以區分產生 / 對時:以任務文件上後端寫的
+  /// `kind` 為準;舊版後端沒有這個欄位時退回本機待同步紀錄的 [mode],
+  /// 兩邊都沒有就記為 unknown。
+  Future<bool> _syncContent(
+    String trackId,
+    Map<String, dynamic>? data, {
+    required LyricsBackgroundMode? mode,
+  }) async {
     final content = data?['content'];
     if (content is! String || content.isEmpty) {
       // 後端回報 done 卻沒有內文:記下形狀以區分權限 / 資料異常。
@@ -149,6 +158,13 @@ class LyricsPendingSyncService {
       ..title = (data?['title'] as String?) ?? ''
       ..format = format
       ..source = LyricsSource.generated
+      ..kind =
+          LyricsKind.values.asNameMap()[data?['kind']] ??
+          switch (mode) {
+            LyricsBackgroundMode.generate => LyricsKind.generate,
+            LyricsBackgroundMode.align => LyricsKind.align,
+            null => LyricsKind.unknown,
+          }
       ..content = content
       ..addedAt = DateTime.now();
     await _ref.read(lyricsRepositoryProvider).save(entity);

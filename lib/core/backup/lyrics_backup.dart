@@ -57,6 +57,7 @@ class LyricsBackup implements DomainBackup {
           'title': e.title,
           'format': e.format.name,
           'source': e.source.name,
+          if (e.kind != LyricsKind.unknown) 'kind': e.kind.name,
           'content': e.content,
           'updatedAt': e.addedAt.millisecondsSinceEpoch,
         },
@@ -83,6 +84,8 @@ class LyricsBackup implements DomainBackup {
           ..source =
               LyricsSource.values.asNameMap()[item['source']] ??
               LyricsSource.manual
+          ..kind =
+              LyricsKind.values.asNameMap()[item['kind']] ?? LyricsKind.unknown
           ..content = content
           ..addedAt = DateTime.fromMillisecondsSinceEpoch(
             (item['updatedAt'] as num? ?? 0).toInt(),
