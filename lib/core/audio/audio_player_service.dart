@@ -41,6 +41,21 @@ class AudioPlayerService {
 
   static const _restartThreshold = Duration(seconds: 3);
 
+  /// 讓 seek 後的播放位置與實際聲音對齊,歌詞才不會越後面越慢。
+  ///
+  /// 沒有 Xing/VBRI header 的 mp3,預設以「位元率 × 時間」估算 seek 的位元組位置;
+  /// header 標示的位元率與實際只要差一點(例如標 64 kbps、實際 63.7 kbps),
+  /// 誤差就會隨時間等比例放大。改以逐 frame 建立的索引 seek(Android)與
+  /// 精確時間軸(iOS)換取準確位置,代價是往後 seek 時需多讀一段檔案。
+  static const _preciseSeekOptions = ProgressiveAudioSourceOptions(
+    androidExtractorOptions: AndroidExtractorOptions(
+      mp3Flags: AndroidExtractorOptions.flagMp3EnableIndexSeeking,
+    ),
+    darwinAssetOptions: DarwinAssetOptions(
+      preferPreciseDurationAndTiming: true,
+    ),
+  );
+
   AudioPlayer get player => _player;
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
@@ -82,8 +97,9 @@ class AudioPlayerService {
     final source = ConcatenatingAudioSource(
       children: [
         for (final t in tracks)
-          AudioSource.uri(
+          ProgressiveAudioSource(
             Uri.parse(t.uri),
+            options: _preciseSeekOptions,
             tag: MediaItem(
               id: t.trackId,
               title: t.title,
