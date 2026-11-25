@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/files/file_picker_guard.dart';
 import 'package:seek_player/features/lyrics/models/lyrics_entity.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
@@ -58,9 +59,11 @@ class LyricsImportService {
   /// 以系統選檔器挑歌詞檔並讀出文字(不存檔);取消回 null。
   /// 過大拋 [LyricsImportException]。供匯入與工具「編輯歌詞」開啟歌詞檔共用。
   Future<({String name, String content})?> pickFile() async {
-    final picked = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: const ['lrc', 'txt', 'srt', 'vtt'],
+    final picked = await FilePickerGuard.run(
+      () => FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['lrc', 'txt', 'srt', 'vtt'],
+      ),
     );
     final file = picked?.files.singleOrNull;
     if (file == null || file.path == null) return null; // 取消

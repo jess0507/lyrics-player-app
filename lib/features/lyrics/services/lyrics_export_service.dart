@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/files/file_picker_guard.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_parser.dart';
 import 'package:seek_player/features/lyrics/services/lyrics_repository.dart';
 
@@ -22,12 +23,14 @@ class LyricsExportService {
     final entity = _ref.read(lyricsRepositoryProvider).findByTrackId(trackId);
     if (entity == null || entity.content.isEmpty) return false;
 
-    final path = await FilePicker.saveFile(
-      fileName: '${_sanitizeFileName(title)}.${entity.format.name}',
-      type: FileType.custom,
-      allowedExtensions: [entity.format.name],
-      // 由 plugin 直接寫入 bytes,呼叫端不需再落地。
-      bytes: Uint8List.fromList(utf8.encode(entity.content)),
+    final path = await FilePickerGuard.run(
+      () => FilePicker.saveFile(
+        fileName: '${_sanitizeFileName(title)}.${entity.format.name}',
+        type: FileType.custom,
+        allowedExtensions: [entity.format.name],
+        // 由 plugin 直接寫入 bytes,呼叫端不需再落地。
+        bytes: Uint8List.fromList(utf8.encode(entity.content)),
+      ),
     );
     return path != null;
   }
@@ -44,11 +47,13 @@ class LyricsExportService {
       RegExp(r'\.(lrc|txt|srt|vtt)$', caseSensitive: false),
       '',
     );
-    final path = await FilePicker.saveFile(
-      fileName: '${_sanitizeFileName(base)}.$ext',
-      type: FileType.custom,
-      allowedExtensions: [ext],
-      bytes: Uint8List.fromList(utf8.encode(content)),
+    final path = await FilePickerGuard.run(
+      () => FilePicker.saveFile(
+        fileName: '${_sanitizeFileName(base)}.$ext',
+        type: FileType.custom,
+        allowedExtensions: [ext],
+        bytes: Uint8List.fromList(utf8.encode(content)),
+      ),
     );
     return path != null;
   }
