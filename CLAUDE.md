@@ -31,6 +31,8 @@
 - 唯一例外是 Android 的 versionName / pubspec `version:` / `--build-name`,
   平台要求 `X.Y.Z` 數字格式,由 CI 與 script 自動去掉 `v`,不要手動改。
 - tag 由 `scripts/release.sh` 打,不要手動打 tag。
+- OTA patch 的 tag 是 `patch-vX.Y.Z-N`(N 為該版本第幾次 patch 出貨),
+  由 `scripts/patch.sh` 打並觸發 `patch.yml`;刻意不以 `v` 開頭,以免被當成 release tag。
 
 ## Release Notes(Play Console 版本資訊)
 - 要產生新版本的 Play Console 多語言版本資訊時,使用 `/release-notes vX.Y.Z` skill

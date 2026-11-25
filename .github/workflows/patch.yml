@@ -1,10 +1,12 @@
 name: OTA Patch (Shorebird)
 
-# 只能手動觸發(workflow_dispatch,通常由 ./scripts/patch.sh 呼叫),
-# 對「最新 tag 對應的 release 版本」下 Shorebird patch,
+# 推送 patch tag(patch-vX.Y.Z-N,由 ./scripts/patch.sh 打)時觸發,
+# 對「最新 v* tag 對應的 release 版本」下 Shorebird patch,
 # 純 Dart 變更數分鐘內 OTA 出貨,不經 Play Store。
 # 直接 git push origin master 不會觸發任何 Shorebird 動作,
-# 要出貨必須明確執行 ./scripts/patch.sh(或 gh workflow run patch.yml)。
+# 要出貨必須明確執行 ./scripts/patch.sh;workflow_dispatch 保留作為備援
+# (例如在 GitHub 網頁上重跑)。
+# patch tag 不以 v 開頭,不會觸發 release.yml,也不影響以 v* tag 計算的版號。
 # 版號與 release.yml 用同一套規則、同樣錨定在最新 tag 計算,
 # 所以 tag 之間的每次 patch 算出的目標版本都相同,patch 才打得到 baseline。
 #
@@ -15,6 +17,9 @@ name: OTA Patch (Shorebird)
 # - 最新 tag 必須已用 shorebird release 建過(即已跑過新版 release.yml),
 #   否則 patch 找不到 baseline 會失敗。
 on:
+  push:
+    tags:
+      - 'patch-v*'
   workflow_dispatch:
 
 # patch 依序執行,避免連續觸發時亂序。
@@ -46,10 +51,21 @@ jobs:
             exit 0
           fi
           # HEAD 本身就是 tag → 該 commit 已由 release.yml 上架,沒有新變更可 patch。
-          if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          if git describe --tags --exact-match --match 'v*' HEAD >/dev/null 2>&1; then
             echo "HEAD 即 tag $RAW_TAG,已是 release 本身,跳過 patch。"
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
+          fi
+          # 由 patch tag 觸發時,tag 內的版本必須就是這個 commit 的最新 release,
+          # 否則 patch 會打到別的版本上。
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            case "$GITHUB_REF_NAME" in
+              "patch-${RAW_TAG}-"*) ;;
+              *)
+                echo "::error::patch tag $GITHUB_REF_NAME 與此 commit 的最新 release $RAW_TAG 不符。"
+                exit 1
+                ;;
+            esac
           fi
           VERSION_NAME=${RAW_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
           BUILD_NUMBER=$(git rev-list "$RAW_TAG" --count)
@@ -135,5 +151,6 @@ jobs:
             echo "| 項目 | 值 |"
             echo "| --- | --- |"
             echo "| release-version | \`${{ needs.version.outputs.name }}+${{ needs.version.outputs.build }}\` |"
+            echo "| 觸發來源 | \`${{ github.ref_name }}\` |"
             echo "| track | \`stable\` |"
           } >> "$GITHUB_STEP_SUMMARY"

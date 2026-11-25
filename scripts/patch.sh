@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # patch.sh
-# 確認本地 master 已推上 GitHub 後，以 gh workflow run 手動觸發 patch.yml：
+# 確認本地 master 已推上 GitHub 後，打 patch tag（patch-vX.Y.Z-N）並 push 觸發 patch.yml：
 #   對「最新 tag 對應的 release 版本」下 shorebird patch，
 #   純 Dart 變更數分鐘內 OTA 出貨，不經 Play Store 審查。
 #
@@ -11,7 +11,8 @@
 #   ./scripts/patch.sh
 #
 # 注意：
-# - 需要安裝並登入 gh CLI（brew install gh && gh auth login）。
+# - patch tag 的 N 是該版本的第幾次 patch 出貨（本 script 自動遞增），
+#   不以 v 開頭，所以不會觸發 release.yml，也不影響以 v* tag 計算的版號。
 # - 動到 native（gradle / AndroidManifest / 含 native code 的 plugin / Flutter 升版）
 #   無法 patch，CI 會偵測並失敗——此時請改跑 ./scripts/release.sh 打新版上架。
 # - 需要至少一個已 release 的 v* tag 當 baseline。
@@ -48,7 +49,7 @@ if [[ -z "$LATEST_TAG" ]]; then
   exit 1
 fi
 
-if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+if git describe --tags --exact-match --match 'v*' HEAD >/dev/null 2>&1; then
   echo "❌ HEAD 就是 tag $LATEST_TAG 本身，沒有新變更可 patch。" >&2
   exit 1
 fi
@@ -57,10 +58,16 @@ VERSION_NAME=${LATEST_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
 BUILD_NUMBER=$(git rev-list "$LATEST_TAG" --count)
 AHEAD=$(git rev-list "$LATEST_TAG"..HEAD --count)
 
+# patch tag:patch-vX.Y.Z-N,N 接續該版本現有 patch tag 的最大編號。
+PATCH_PREFIX="patch-${LATEST_TAG}-"
+LAST_N=$(git tag --list "${PATCH_PREFIX}*" | sed 's/^.*-//' | grep -E '^[0-9]+$' | sort -n | tail -1 || true)
+PATCH_TAG="${PATCH_PREFIX}$(( ${LAST_N:-0} + 1 ))"
+
 echo ""
 echo "🩹 即將 OTA patch："
 echo "   目標 release : ${LATEST_TAG}（shorebird 識別：${VERSION_NAME}+${BUILD_NUMBER}，領先 ${AHEAD} commits）"
 echo "   commit       : $(git log -1 --oneline)"
+echo "   patch tag    : ${PATCH_TAG}"
 echo ""
 read -r -p "確認出貨？[y/N] " REPLY
 if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
@@ -68,26 +75,18 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
   exit 0
 fi
 
-# --- 觸發 workflow -----------------------------------------------------------
-# patch.yml 只接受 workflow_dispatch,push master 本身不會觸發。
-# 先確保 origin/master 與本地一致(有未推的 commit 就先推),再手動 dispatch。
-if ! command -v gh >/dev/null 2>&1; then
-  echo "❌ 需要 gh CLI 才能觸發 patch.yml（brew install gh && gh auth login）。" >&2
-  exit 1
-fi
-
+# --- 打 patch tag 觸發 workflow ----------------------------------------------
+# patch.yml 由 patch-v* tag 的 push 觸發,push master 本身不會觸發。
+# 先確保 origin/master 與本地一致(有未推的 commit 就先推),再打 tag 並推上去。
+# 只靠 git push,不需要 gh CLI。
 if [[ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]]; then
   git push origin master
   echo "✅ 已推送 master。"
 fi
 
-gh workflow run patch.yml --ref master
-echo "✅ 已觸發 patch workflow。"
+git tag -a "$PATCH_TAG" -m "OTA patch $PATCH_TAG"
+git push origin "refs/tags/$PATCH_TAG"
+echo "✅ 已推送 tag ${PATCH_TAG},觸發 patch workflow。"
 
 REPO_URL=$(git remote get-url origin | sed -E 's#^git@github.com:#https://github.com/#; s#\.git$##')
 echo "   $REPO_URL/actions/workflows/patch.yml"
-
-sleep 8
-RUN_URL=$(gh run list --workflow=patch.yml --limit 1 --json url --jq '.[0].url' 2>/dev/null || true)
-[[ -n "$RUN_URL" ]] && echo "   本次 run：$RUN_URL"
-echo "   即時追蹤：gh run watch"

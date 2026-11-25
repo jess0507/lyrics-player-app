@@ -6,7 +6,8 @@
   以 `shorebird release` 建置已簽章 AAB 與 APK（同時向 Shorebird 註冊 baseline），
   AAB 上傳到 Play Store 的 production(正式版)軌道；兩者皆上傳為 GitHub Actions artifact，
   下載連結顯示在該 run 的 summary 頁面（APK 可直接側載測試）。
-- **`patch.yml`** — 僅手動觸發（`workflow_dispatch`，由 `./scripts/patch.sh` 呼叫），
+- **`patch.yml`** — 推送 patch tag（`patch-vX.Y.Z-N`，由 `./scripts/patch.sh` 打）時觸發
+  （另保留 `workflow_dispatch` 作為備援），
   對「最新 tag 對應的 release 版本」下 `shorebird patch`，純 Dart 變更以 OTA 出貨，
   不經商店審查。
 
@@ -18,7 +19,7 @@
 - **上架新版**：`./scripts/release.sh`（patch bump；也可 `minor` / `major` / 直接給 `1.4.0`）。
   會檢查 master 乾淨且同步後打 tag，並與 master 一次 atomic push，最後印出 Actions run 連結。
 - **OTA 出貨**：`./scripts/patch.sh`。確認 master 已推上遠端後，
-  以 `gh workflow run patch.yml` 手動觸發（需安裝並登入 gh CLI）。
+  打 patch tag（`patch-vX.Y.Z-N`，N 自動遞增）並 push 觸發，只需要 git，不需要 gh CLI。
 
 ## 版號規則
 
@@ -51,9 +52,11 @@ build job 一開始就檢查該檔存在且格式正確，缺檔直接失敗；`
 git tag v1.2.13
 git push --atomic origin master v1.2.13
 
-# 出 OTA patch（純 Dart 修改）：master 推上去後手動 dispatch
+# 出 OTA patch（純 Dart 修改）：master 推上去後打 patch tag
+# （N = 該版本第幾次 patch 出貨；不以 v 開頭，不會觸發 release.yml）
 git push origin master
-gh workflow run patch.yml --ref master
+git tag -a patch-v1.2.13-1 -m "OTA patch patch-v1.2.13-1"
+git push origin refs/tags/patch-v1.2.13-1
 ```
 
 > - release.yml 會檢查 tag 指向的 commit 是否在 `origin/master` 上，否則中止。

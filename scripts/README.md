@@ -6,7 +6,7 @@
 | Script | 用途 | 會不會觸發 CI / 出貨 |
 | --- | --- | --- |
 | [`release.sh`](release.sh) | 打新版本 tag 並上架 Play Store | 會，觸發 `release.yml` |
-| [`patch.sh`](patch.sh) | 對最新 release 下 Shorebird OTA patch | 會，手動觸發 `patch.yml` |
+| [`patch.sh`](patch.sh) | 對最新 release 下 Shorebird OTA patch | 會，推 patch tag 觸發 `patch.yml` |
 | [`gen_app_assets.sh`](gen_app_assets.sh) | 由 SVG 重新產生 App 圖示與啟動畫面 | 不會，純本機 |
 | [`release_notes.py`](release_notes.py) | 把 `docs/release-notes/vX.Y.Z.md` 拆成 Play 上傳用的 whatsnew 目錄 | 不會，由 `release.sh` 與 `release.yml` 內部呼叫 |
 | [`store_listing.py`](store_listing.py) | 把 `docs/store-listing/` 商店文案推到 Play Console | 會，直接改 Play Console listing（CI 也會在 push master 時自動跑） |
@@ -74,14 +74,19 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 1. 前置檢查（master、乾淨、不落後遠端、至少有一個 `v*` tag、HEAD 不是 tag 本身）。
 2. 印出目標 release 版本與領先 tag 的 commit 數，按 `y` 確認。
 3. 若本地有尚未推上去的 commit，先 `git push origin master`。
-4. 以 `gh workflow run patch.yml --ref master` 手動觸發 `.github/workflows/patch.yml`。
+4. 打 patch tag `patch-vX.Y.Z-N` 並 push，觸發 `.github/workflows/patch.yml`。
+   N 接續該版本現有 patch tag 的最大編號（例如 `patch-v1.2.18-1`、`patch-v1.2.18-2`）。
 
-**需求：** 已安裝並登入 [gh CLI](https://cli.github.com/)（`brew install gh && gh auth login`）。
+只靠 `git push`，不需要 gh CLI。patch tag 不以 `v` 開頭，
+不會觸發 `release.yml`，也不影響以 `v*` tag 計算的版號。
 
 **注意：**
 - 動到 native 的變更無法 patch，CI 會偵測並失敗，此時改跑 `release.sh`。
 - 最新 tag 必須已經用新版 `release.yml` 建過，否則 patch 找不到 baseline 會失敗。
-- 要重跑失敗的 patch，直接再執行一次 `patch.sh` 即可（沒有新 commit 也沒關係）。
+- 要重跑失敗的 patch，直接再執行一次 `patch.sh` 即可（沒有新 commit 也沒關係），
+  會打下一個編號的 tag；也可以在 GitHub Actions 網頁上 Re-run 失敗的 run。
+- tag 的 N 是「第幾次出貨嘗試」，CI 失敗重跑後可能與 Shorebird 的 patch 編號
+  （App 關於頁顯示的 `patch N`）不同。
 - CI 預設推到 Shorebird 的 `stable` track；裝置下次啟動背景下載、再下次啟動生效。
 
 ---
