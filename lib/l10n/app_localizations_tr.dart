@@ -992,7 +992,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get update_later => 'Daha sonra';
 
   @override
-  String get update_ready_title => 'Yeni sürüm güncellemesi';
+  String get update_ready_message =>
+      'Güncellemeyi uygulamak için yeniden başlatın';
+
+  @override
+  String get update_ready_title => 'Güncelleme hazır';
 
   @override
   String get update_restart_action => 'Şimdi yeniden başlat';
@@ -1001,6 +1005,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get update_store_action => 'Güncelle';
 
   @override
-  String get update_store_message =>
-      'Google Play\'de yeni bir sürüm mevcut. Şimdi güncellensin mi?';
+  String get update_store_message => 'Google Play\'de yeni bir sürüm mevcut';
+
+  @override
+  String get update_store_title => 'Güncelleme mevcut';
 }

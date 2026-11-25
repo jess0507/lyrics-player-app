@@ -297,8 +297,10 @@
   "music_folder_all": "Tümü",
   "playlist_track_count": "{count, plural, =0{Şarkı yok} =1{1 şarkı} other{{count} şarkı}}",
   "update_later": "Daha sonra",
-  "update_ready_title": "Yeni sürüm güncellemesi",
+  "update_ready_message": "Güncellemeyi uygulamak için yeniden başlatın",
+  "update_ready_title": "Güncelleme hazır",
   "update_restart_action": "Şimdi yeniden başlat",
   "update_store_action": "Güncelle",
-  "update_store_message": "Google Play'de yeni bir sürüm mevcut. Şimdi güncellensin mi?"
+  "update_store_message": "Google Play'de yeni bir sürüm mevcut",
+  "update_store_title": "Güncelleme mevcut"
 }

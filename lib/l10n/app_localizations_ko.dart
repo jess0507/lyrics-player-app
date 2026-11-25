@@ -948,7 +948,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get update_later => '나중에';
 
   @override
-  String get update_ready_title => '새 버전 업데이트';
+  String get update_ready_message => '다시 시작하면 업데이트가 적용됩니다';
+
+  @override
+  String get update_ready_title => '업데이트 준비 완료';
 
   @override
   String get update_restart_action => '지금 다시 시작';
@@ -957,5 +960,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get update_store_action => '업데이트';
 
   @override
-  String get update_store_message => 'Google Play에 새 버전이 있습니다. 지금 업데이트할까요?';
+  String get update_store_message => 'Google Play에서 새 버전을 이용하실 수 있습니다';
+
+  @override
+  String get update_store_title => '업데이트 가능';
 }

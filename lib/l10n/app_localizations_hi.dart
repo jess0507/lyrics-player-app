@@ -992,7 +992,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get update_later => 'बाद में';
 
   @override
-  String get update_ready_title => 'नया संस्करण अपडेट';
+  String get update_ready_message => 'अपडेट लागू करने के लिए पुनः आरंभ करें';
+
+  @override
+  String get update_ready_title => 'अपडेट तैयार है';
 
   @override
   String get update_restart_action => 'अभी पुनः आरंभ करें';
@@ -1001,6 +1004,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get update_store_action => 'अपडेट करें';
 
   @override
-  String get update_store_message =>
-      'Google Play पर नया संस्करण उपलब्ध है। क्या अभी अपडेट करें?';
+  String get update_store_message => 'Google Play पर नया संस्करण उपलब्ध है';
+
+  @override
+  String get update_store_title => 'अपडेट उपलब्ध है';
 }

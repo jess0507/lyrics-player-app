@@ -1911,10 +1911,16 @@ abstract class AppLocalizations {
   /// **'Later'**
   String get update_later;
 
+  /// No description provided for @update_ready_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart to apply the update'**
+  String get update_ready_message;
+
   /// No description provided for @update_ready_title.
   ///
   /// In en, this message translates to:
-  /// **'New Version Update'**
+  /// **'Update Ready'**
   String get update_ready_title;
 
   /// No description provided for @update_restart_action.
@@ -1932,8 +1938,14 @@ abstract class AppLocalizations {
   /// No description provided for @update_store_message.
   ///
   /// In en, this message translates to:
-  /// **'A new version is available on Google Play. Update now?'**
+  /// **'A new version is available on Google Play'**
   String get update_store_message;
+
+  /// No description provided for @update_store_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get update_store_title;
 }
 
 class _AppLocalizationsDelegate

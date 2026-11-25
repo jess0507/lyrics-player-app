@@ -994,7 +994,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get update_later => 'Più tardi';
 
   @override
-  String get update_ready_title => 'Aggiornamento nuova versione';
+  String get update_ready_message => 'Riavvia per applicare l\'aggiornamento';
+
+  @override
+  String get update_ready_title => 'Aggiornamento pronto';
 
   @override
   String get update_restart_action => 'Riavvia ora';
@@ -1004,5 +1007,8 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get update_store_message =>
-      'È disponibile una nuova versione su Google Play. Aggiornare ora?';
+      'È disponibile una nuova versione su Google Play';
+
+  @override
+  String get update_store_title => 'Aggiornamento disponibile';
 }

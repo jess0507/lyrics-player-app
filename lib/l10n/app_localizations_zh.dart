@@ -934,7 +934,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update_later => '稍後';
 
   @override
-  String get update_ready_title => '新版本更新';
+  String get update_ready_message => '重新啟動即可套用更新';
+
+  @override
+  String get update_ready_title => '更新已就緒';
 
   @override
   String get update_restart_action => '立即重新啟動';
@@ -943,7 +946,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update_store_action => '更新';
 
   @override
-  String get update_store_message => 'Google Play 上有新版本，要立即更新嗎？';
+  String get update_store_message => 'Google Play 已有新版本，歡迎前往更新';
+
+  @override
+  String get update_store_title => '有可用的更新';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1876,7 +1882,10 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get update_later => '稍后';
 
   @override
-  String get update_ready_title => '新版本更新';
+  String get update_ready_message => '重新启动即可应用更新';
+
+  @override
+  String get update_ready_title => '更新已就绪';
 
   @override
   String get update_restart_action => '立即重新启动';
@@ -1885,7 +1894,10 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get update_store_action => '更新';
 
   @override
-  String get update_store_message => 'Google Play 上有新版本，要立即更新吗？';
+  String get update_store_message => 'Google Play 已有新版本，欢迎前往更新';
+
+  @override
+  String get update_store_title => '有可用的更新';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -2818,7 +2830,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get update_later => '稍後';
 
   @override
-  String get update_ready_title => '新版本更新';
+  String get update_ready_message => '重新啟動即可套用更新';
+
+  @override
+  String get update_ready_title => '更新已就緒';
 
   @override
   String get update_restart_action => '立即重新啟動';
@@ -2827,5 +2842,8 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get update_store_action => '更新';
 
   @override
-  String get update_store_message => 'Google Play 上有新版本，要立即更新嗎？';
+  String get update_store_message => 'Google Play 已有新版本，歡迎前往更新';
+
+  @override
+  String get update_store_title => '有可用的更新';
 }

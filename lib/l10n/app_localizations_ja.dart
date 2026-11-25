@@ -943,7 +943,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get update_later => 'あとで';
 
   @override
-  String get update_ready_title => '新バージョンのアップデート';
+  String get update_ready_message => '再起動するとアップデートが適用されます';
+
+  @override
+  String get update_ready_title => 'アップデートの準備ができました';
 
   @override
   String get update_restart_action => '今すぐ再起動';
@@ -952,5 +955,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get update_store_action => '更新';
 
   @override
-  String get update_store_message => 'Google Play に新しいバージョンがあります。今すぐ更新しますか？';
+  String get update_store_message => 'Google Play で新しいバージョンをご利用いただけます';
+
+  @override
+  String get update_store_title => 'アップデートがあります';
 }

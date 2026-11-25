@@ -988,7 +988,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update_later => 'لاحقًا';
 
   @override
-  String get update_ready_title => 'تحديث إصدار جديد';
+  String get update_ready_message => 'أعد التشغيل لتطبيق التحديث';
+
+  @override
+  String get update_ready_title => 'التحديث جاهز';
 
   @override
   String get update_restart_action => 'إعادة التشغيل الآن';
@@ -997,6 +1000,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update_store_action => 'تحديث';
 
   @override
-  String get update_store_message =>
-      'يتوفر إصدار جديد على Google Play. هل تريد التحديث الآن؟';
+  String get update_store_message => 'يتوفر إصدار جديد على Google Play';
+
+  @override
+  String get update_store_title => 'يتوفر تحديث';
 }

@@ -992,7 +992,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get update_later => 'Để sau';
 
   @override
-  String get update_ready_title => 'Cập nhật phiên bản mới';
+  String get update_ready_message => 'Khởi động lại để áp dụng bản cập nhật';
+
+  @override
+  String get update_ready_title => 'Bản cập nhật đã sẵn sàng';
 
   @override
   String get update_restart_action => 'Khởi động lại ngay';
@@ -1001,6 +1004,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get update_store_action => 'Cập nhật';
 
   @override
-  String get update_store_message =>
-      'Đã có phiên bản mới trên Google Play. Cập nhật ngay?';
+  String get update_store_message => 'Đã có phiên bản mới trên Google Play';
+
+  @override
+  String get update_store_title => 'Có bản cập nhật';
 }

@@ -992,7 +992,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get update_later => 'Позже';
 
   @override
-  String get update_ready_title => 'Обновление до новой версии';
+  String get update_ready_message =>
+      'Перезапустите, чтобы применить обновление';
+
+  @override
+  String get update_ready_title => 'Обновление готово';
 
   @override
   String get update_restart_action => 'Перезапустить сейчас';
@@ -1001,6 +1005,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get update_store_action => 'Обновить';
 
   @override
-  String get update_store_message =>
-      'В Google Play доступна новая версия. Обновить сейчас?';
+  String get update_store_message => 'В Google Play доступна новая версия';
+
+  @override
+  String get update_store_title => 'Доступно обновление';
 }

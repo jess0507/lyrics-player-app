@@ -297,8 +297,10 @@
   "music_folder_all": "Alle",
   "playlist_track_count": "{count, plural, =0{Keine Songs} =1{1 Song} other{{count} Songs}}",
   "update_later": "Später",
-  "update_ready_title": "Update auf neue Version",
+  "update_ready_message": "Neu starten, um das Update anzuwenden",
+  "update_ready_title": "Update bereit",
   "update_restart_action": "Jetzt neu starten",
   "update_store_action": "Aktualisieren",
-  "update_store_message": "Eine neue Version ist bei Google Play verfügbar. Jetzt aktualisieren?"
+  "update_store_message": "Eine neue Version ist bei Google Play verfügbar",
+  "update_store_title": "Update verfügbar"
 }

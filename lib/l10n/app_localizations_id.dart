@@ -988,7 +988,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get update_later => 'Nanti';
 
   @override
-  String get update_ready_title => 'Pembaruan Versi Baru';
+  String get update_ready_message => 'Mulai ulang untuk menerapkan pembaruan';
+
+  @override
+  String get update_ready_title => 'Pembaruan siap';
 
   @override
   String get update_restart_action => 'Mulai ulang sekarang';
@@ -997,6 +1000,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get update_store_action => 'Perbarui';
 
   @override
-  String get update_store_message =>
-      'Versi baru tersedia di Google Play. Perbarui sekarang?';
+  String get update_store_message => 'Versi baru tersedia di Google Play';
+
+  @override
+  String get update_store_title => 'Pembaruan tersedia';
 }
