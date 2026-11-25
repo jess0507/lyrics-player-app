@@ -80,11 +80,13 @@ class ExternalFileOpenService {
           : tracks.where((t) => t.trackId == trackId).firstOrNull;
 
       final playback = _ref.read(playbackControllerProvider);
-      if (existing != null) {
-        await playback.playTrack(existing);
-      } else {
-        await playback.playTracksAt([await _buildTrack(raw, uri, filePath)], 0);
-      }
+      // 載入失敗時 PlaybackController 已提示並回報,這裡只需停留原頁。
+      final started = existing != null
+          ? await playback.playTrack(existing)
+          : await playback.playTracksAt([
+              await _buildTrack(raw, uri, filePath),
+            ], 0);
+      if (!started) return;
     } catch (e, s) {
       // 播放失敗停留原頁,不開播放頁。
       reportError(e, s, reason: 'ExternalFileOpenService 播放外部開啟的檔案失敗');

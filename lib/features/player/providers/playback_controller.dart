@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/cover/services/notification_artwork_resolver.dart';
+import 'package:seek_player/features/lyrics/background/lyrics_l10n_resolver.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/profile/statistics/services/statistics_service.dart';
+import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 串接音樂庫、音訊服務與統計：負責「從某首開始播放」與背景統計收集。
 class PlaybackController {
@@ -65,27 +67,53 @@ class PlaybackController {
     });
   }
 
-  /// 以整個音樂庫為播放清單，從 [index] 開始播放。
-  Future<void> playLibraryAt(int index) async {
-    final tracks = _tracks;
-    if (index < 0 || index >= tracks.length) return;
-    _queue = tracks;
-    await _setPlaylist(tracks, index);
-    _startPlaying();
-  }
+  /// 以整個音樂庫為播放清單，從 [index] 開始播放。回傳是否成功開始播放。
+  Future<bool> playLibraryAt(int index) => playTracksAt(_tracks, index);
 
-  Future<void> playTrack(Track track) async {
+  /// 回傳是否成功開始播放;[track] 不在音樂庫時為 false。
+  Future<bool> playTrack(Track track) async {
     final tracks = _tracks;
     final index = tracks.indexWhere((t) => t.trackId == track.trackId);
-    if (index >= 0) await playLibraryAt(index);
+    if (index < 0) return false;
+    return playLibraryAt(index);
   }
 
   /// 以指定曲目清單(如某個播放清單)為佇列,從 [index] 開始播放。
-  Future<void> playTracksAt(List<Track> tracks, int index) async {
-    if (index < 0 || index >= tracks.length) return;
+  ///
+  /// 回傳是否成功開始播放。起始曲目載入失敗(檔案已不存在、格式不支援、
+  /// URI 權限失效等)時以 toast 提示並回報非致命錯誤,不往外丟例外——
+  /// 呼叫端多半是 onTap 內不 await 的呼叫,丟出去只會變成未處理的錯誤。
+  Future<bool> playTracksAt(List<Track> tracks, int index) async {
+    if (index < 0 || index >= tracks.length) return false;
     _queue = List.unmodifiable(tracks);
-    await _setPlaylist(tracks, index);
+    try {
+      await _setPlaylist(tracks, index);
+    } catch (e, s) {
+      reportError(
+        e,
+        s,
+        reason: 'PlaybackController 載入播放清單失敗',
+        information: _loadFailureInfo(tracks, index),
+      );
+      showAppToast(resolveLyricsL10n(ref).playback_load_failed);
+      return false;
+    }
     _startPlaying();
+    return true;
+  }
+
+  /// 載入失敗時附給 Crashlytics 的線索:只帶 URI scheme 與副檔名,
+  /// 不帶完整路徑(檔名可能含個人資訊)。
+  static List<Object> _loadFailureInfo(List<Track> tracks, int index) {
+    final uri = Uri.tryParse(tracks[index].uri);
+    final path = uri?.path ?? '';
+    final dot = path.lastIndexOf('.');
+    final hasExtension = dot >= 0 && dot > path.lastIndexOf('/');
+    return [
+      'scheme=${uri?.scheme ?? 'unknown'}',
+      'extension=${hasExtension ? path.substring(dot + 1).toLowerCase() : 'none'}',
+      'queueLength=${tracks.length}',
+    ];
   }
 
   /// 送進播放器前先決定各曲的通知列封面;封面解析失敗不應擋播放。
@@ -103,8 +131,8 @@ class PlaybackController {
 
   /// just_audio 的 `play()` 回傳的 Future 要等到「播放完畢／暫停／停止」
   /// 才完成,不是「開始播放」;await 它會把呼叫端卡到整首歌結束
-  /// (外部開檔後要接著開播放頁就會卡死)。載入失敗已在 [setPlaylist]
-  /// 丟出,這裡只需觸發播放並吞掉之後的錯誤。
+  /// (外部開檔後要接著開播放頁就會卡死)。載入失敗已在 [playTracksAt]
+  /// 處理,這裡只需觸發播放並吞掉之後的錯誤。
   void _startPlaying() {
     unawaited(
       _audio.play().catchError(
