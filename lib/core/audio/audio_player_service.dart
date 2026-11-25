@@ -83,8 +83,19 @@ class AudioPlayerService {
         _player.positionStream,
         _player.bufferedPositionStream,
         _player.durationStream,
-        (pos, buf, dur) => PositionData(pos, buf, dur ?? Duration.zero),
+        (pos, buf, dur) =>
+            PositionData(pos, buf, dur ?? _taggedDuration ?? Duration.zero),
       );
+
+  /// 播放器尚未得知總長度時,退回曲目 metadata 記錄的長度。
+  ///
+  /// 啟用 index seeking 後,沒有 Xing/VBRI header 的 mp3 要等整個檔案讀完
+  /// 才知道總長度,這段期間 [AudioPlayer.duration] 為 null;沒有這個退路的話
+  /// 進度條會因總長度為 0 而無法拖曳。
+  Duration? get _taggedDuration {
+    final tag = _player.sequenceState?.currentSource?.tag;
+    return tag is MediaItem ? tag.duration : null;
+  }
 
   /// 以整個音樂庫建立播放清單，並從 [initialIndex] 開始播放。
   /// [artUris] 為 trackId → 通知列 / 鎖定畫面封面 URI,查無者不帶封面。
@@ -105,6 +116,7 @@ class AudioPlayerService {
               title: t.title,
               artist: t.artist ?? '',
               album: t.album,
+              duration: t.duration,
               artUri: artUris[t.trackId],
             ),
           ),
@@ -155,7 +167,7 @@ class AudioPlayerService {
 
   /// 相對目前位置快進（正值）或快退（負值），並夾在 [0, 總時長] 範圍內。
   Future<void> seekRelative(Duration delta) {
-    final duration = _player.duration ?? Duration.zero;
+    final duration = _player.duration ?? _taggedDuration ?? Duration.zero;
     var target = _player.position + delta;
     if (target < Duration.zero) target = Duration.zero;
     if (duration > Duration.zero && target > duration) target = duration;
