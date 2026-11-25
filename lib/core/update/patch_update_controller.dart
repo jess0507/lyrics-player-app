@@ -1,4 +1,5 @@
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
@@ -17,12 +18,20 @@ enum PatchUpdateState {
   error,
 }
 
-/// 背景檢查並下載 Shorebird patch。
+/// App 啟動與每次 resume 時,背景檢查並下載 Shorebird patch。
+///
+/// 背景播放讓 engine 在滑掉 app 後仍然存活,再打開只是接回同一個 engine、
+/// 不會重跑啟動流程;只在啟動時檢查的話,engine 啟動之後才發佈的 patch
+/// 要等到 process 被殺掉才偵測得到,所以 resume 時也要檢查。
+/// 每次檢查都先經過 [PatchUpdateState.checking],確保 patch 已下載、
+/// 使用者先前按了「稍後」時,監聽端仍會收到狀態轉變而再次提示。
 ///
 /// checkForUpdate / update 在套件內部以 Isolate.run 於背景 isolate 執行,
 /// 不會佔用 UI thread;下載完成後停在 [PatchUpdateState.restartReady],
 /// 由 UI 提示使用者重啟。任何失敗都不影響 App 使用(下次啟動會再檢查)。
 class PatchUpdateController extends Notifier<PatchUpdateState> {
+  AppLifecycleListener? _lifecycleListener;
+
   @override
   PatchUpdateState build() {
     // 等第一幀渲染完成後才開始(含 ShorebirdUpdater 的初始化),
@@ -30,10 +39,17 @@ class PatchUpdateController extends Notifier<PatchUpdateState> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _checkAndDownload();
     });
+    _lifecycleListener = AppLifecycleListener(onResume: _checkAndDownload);
+    ref.onDispose(() => _lifecycleListener?.dispose());
     return PatchUpdateState.idle;
   }
 
   Future<void> _checkAndDownload() async {
+    // 上一輪檢查 / 下載還在進行時不重入。
+    if (state == PatchUpdateState.checking ||
+        state == PatchUpdateState.downloading) {
+      return;
+    }
     final updater = ref.read(shorebirdUpdaterProvider);
     // debug build 或非 shorebird build 時引擎不可用,直接略過。
     if (!updater.isAvailable) return;
