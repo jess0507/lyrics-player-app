@@ -255,6 +255,7 @@
   "lyrics_job_busy": "Espera a que termine la tarea de letra actual",
   "lyrics_job_processing": "Procesando la letra…",
   "lyrics_job_cancelled": "Tarea de letra cancelada",
+  "playback_load_failed": "No se pudo reproducir esta canción",
   "lyrics_action_running_suffix": " (En curso)",
   "lyrics_job_error_invalid_request": "Hubo un problema con la solicitud. Inténtalo de nuevo.",
   "lyrics_job_error_audio_fetch_failed": "No se pudo descargar el archivo de audio. Inténtalo de nuevo.",

@@ -834,6 +834,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lyrics_job_cancelled => 'Lyrics task cancelled';
 
   @override
+  String get playback_load_failed => 'Couldn\'t play this track';
+
+  @override
   String get lyrics_action_running_suffix => ' (Running)';
 
   @override

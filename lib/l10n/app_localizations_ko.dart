@@ -804,6 +804,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lyrics_job_cancelled => '가사 작업이 취소되었습니다';
 
   @override
+  String get playback_load_failed => '이 곡을 재생할 수 없습니다';
+
+  @override
   String get lyrics_action_running_suffix => ' (실행 중)';
 
   @override

@@ -849,6 +849,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lyrics_job_cancelled => 'Songtext-Aufgabe abgebrochen';
 
   @override
+  String get playback_load_failed =>
+      'Dieser Titel kann nicht abgespielt werden';
+
+  @override
   String get lyrics_action_running_suffix => ' (Wird ausgeführt)';
 
   @override

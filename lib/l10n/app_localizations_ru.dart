@@ -840,6 +840,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lyrics_job_cancelled => 'Задача с текстом отменена';
 
   @override
+  String get playback_load_failed => 'Не удалось воспроизвести этот трек';
+
+  @override
   String get lyrics_action_running_suffix => ' (Выполняется)';
 
   @override

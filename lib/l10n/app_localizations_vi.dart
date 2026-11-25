@@ -842,6 +842,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lyrics_job_cancelled => 'Đã hủy tác vụ lời bài hát';
 
   @override
+  String get playback_load_failed => 'Không thể phát bài hát này';
+
+  @override
   String get lyrics_action_running_suffix => ' (Đang chạy)';
 
   @override

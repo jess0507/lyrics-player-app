@@ -799,6 +799,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lyrics_job_cancelled => '歌詞処理をキャンセルしました';
 
   @override
+  String get playback_load_failed => 'この曲を再生できませんでした';
+
+  @override
   String get lyrics_action_running_suffix => '（実行中）';
 
   @override

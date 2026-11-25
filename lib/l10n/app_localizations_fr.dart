@@ -850,6 +850,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lyrics_job_cancelled => 'Tâche de paroles annulée';
 
   @override
+  String get playback_load_failed => 'Impossible de lire ce titre';
+
+  @override
   String get lyrics_action_running_suffix => ' (En cours)';
 
   @override

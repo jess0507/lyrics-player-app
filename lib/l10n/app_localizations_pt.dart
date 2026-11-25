@@ -840,6 +840,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lyrics_job_cancelled => 'Tarefa de letra cancelada';
 
   @override
+  String get playback_load_failed => 'Não foi possível reproduzir esta faixa';
+
+  @override
   String get lyrics_action_running_suffix => ' (Em execução)';
 
   @override

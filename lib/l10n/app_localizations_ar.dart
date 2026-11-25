@@ -835,6 +835,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lyrics_job_cancelled => 'تم إلغاء مهمة الكلمات';
 
   @override
+  String get playback_load_failed => 'تعذّر تشغيل هذا المقطع';
+
+  @override
   String get lyrics_action_running_suffix => ' (قيد التشغيل)';
 
   @override

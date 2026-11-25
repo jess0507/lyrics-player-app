@@ -1659,6 +1659,12 @@ abstract class AppLocalizations {
   /// **'Lyrics task cancelled'**
   String get lyrics_job_cancelled;
 
+  /// No description provided for @playback_load_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t play this track'**
+  String get playback_load_failed;
+
   /// No description provided for @lyrics_action_running_suffix.
   ///
   /// In en, this message translates to:

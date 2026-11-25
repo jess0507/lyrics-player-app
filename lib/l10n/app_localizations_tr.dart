@@ -843,6 +843,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lyrics_job_cancelled => 'Sözler görevi iptal edildi';
 
   @override
+  String get playback_load_failed => 'Bu parça çalınamadı';
+
+  @override
   String get lyrics_action_running_suffix => ' (Çalışıyor)';
 
   @override
