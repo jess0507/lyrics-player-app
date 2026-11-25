@@ -81,8 +81,9 @@ class PlaybackController {
   /// 以指定曲目清單(如某個播放清單)為佇列,從 [index] 開始播放。
   ///
   /// 回傳是否成功開始播放。起始曲目載入失敗(檔案已不存在、格式不支援、
-  /// URI 權限失效等)時以 toast 提示並回報非致命錯誤,不往外丟例外——
-  /// 呼叫端多半是 onTap 內不 await 的呼叫,丟出去只會變成未處理的錯誤。
+  /// URI 權限失效等)時以 toast 提示,不往外丟例外——呼叫端多半是 onTap 內
+  /// 不 await 的呼叫,丟出去只會變成不帶任何線索的未處理錯誤。
+  /// 仍以 fatal 回報,讓它繼續列在 Crashlytics 的 crash,並附上曲目資訊。
   Future<bool> playTracksAt(List<Track> tracks, int index) async {
     if (index < 0 || index >= tracks.length) return false;
     _queue = List.unmodifiable(tracks);
@@ -94,6 +95,7 @@ class PlaybackController {
         s,
         reason: 'PlaybackController 載入播放清單失敗',
         information: _loadFailureInfo(tracks, index),
+        fatal: true,
       );
       showAppToast(resolveLyricsL10n(ref).playback_load_failed);
       return false;
@@ -102,16 +104,16 @@ class PlaybackController {
     return true;
   }
 
-  /// 載入失敗時附給 Crashlytics 的線索:只帶 URI scheme 與副檔名,
-  /// 不帶完整路徑(檔名可能含個人資訊)。
+  /// 載入失敗時附給 Crashlytics 的線索:起始曲目的 URI、檔案路徑與 trackId,
+  /// 用來判斷是檔案不存在、格式不支援還是 URI 權限失效。
+  /// 使用者 uid 已由 [bindCrashUserIdentifier] 綁定,不必另外附。
   static List<Object> _loadFailureInfo(List<Track> tracks, int index) {
-    final uri = Uri.tryParse(tracks[index].uri);
-    final path = uri?.path ?? '';
-    final dot = path.lastIndexOf('.');
-    final hasExtension = dot >= 0 && dot > path.lastIndexOf('/');
+    final track = tracks[index];
     return [
-      'scheme=${uri?.scheme ?? 'unknown'}',
-      'extension=${hasExtension ? path.substring(dot + 1).toLowerCase() : 'none'}',
+      'uri=${track.uri}',
+      'filePath=${track.filePath}',
+      'trackId=${track.trackId}',
+      'index=$index',
       'queueLength=${tracks.length}',
     ];
   }
