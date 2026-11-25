@@ -10,7 +10,13 @@ import 'package:flutter/foundation.dart';
 /// Firebase 未初始化(未設定 / 啟動時初始化失敗)時安靜略過;
 /// debug build 由 main.dart 關閉收集,上報為 no-op——但仍會 [debugPrint],
 /// 讓本機開發時在 console 直接看到錯誤與 stack trace。
-void reportError(Object error, StackTrace stack, {String? reason}) {
+/// [information] 為協助判讀的附加資訊,會隨該筆事件顯示在 Crashlytics。
+void reportError(
+  Object error,
+  StackTrace stack, {
+  String? reason,
+  Iterable<Object> information = const [],
+}) {
   debugPrint('[reportError] ${reason ?? error.runtimeType}\n$error\n$stack');
   if (Firebase.apps.isEmpty) return;
   unawaited(
@@ -18,6 +24,7 @@ void reportError(Object error, StackTrace stack, {String? reason}) {
       error,
       stack,
       reason: reason,
+      information: information,
       fatal: false,
     ),
   );
