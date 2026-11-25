@@ -51,7 +51,10 @@ enum AnalyticsEvent {
   statisticsAction,
 
   /// 個人頁其他項目([ProfileAction])。
-  profileAction;
+  profileAction,
+
+  /// App 更新提示([UpdateAction])。
+  updateAction;
 
   /// 送到 GA 的事件名。
   String get gaName => _snakeCase(name);
@@ -322,6 +325,20 @@ enum ProfileAction implements AnalyticsAction {
 
   @override
   AnalyticsEvent get analyticsEvent => AnalyticsEvent.profileAction;
+}
+
+/// App 更新提示 dialog:Google Play 商店更新與 Shorebird 熱更新。
+/// `*PromptShown` 是 dialog 顯示(非使用者操作),用來算看到提示後的選擇比例。
+enum UpdateAction implements AnalyticsAction {
+  storePromptShown,
+  storeUpdate,
+  storeLater,
+  patchPromptShown,
+  patchRestart,
+  patchLater;
+
+  @override
+  AnalyticsEvent get analyticsEvent => AnalyticsEvent.updateAction;
 }
 
 // ── 轉換 ─────────────────────────────────────────────────────────────────────
