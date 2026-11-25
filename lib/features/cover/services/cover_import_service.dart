@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/files/file_picker_guard.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seek_player/features/cover/providers/track_cover_color_provider.dart';
 import 'package:seek_player/features/cover/providers/track_cover_provider.dart';
@@ -43,7 +44,9 @@ class CoverImportService {
   /// 取消選圖,或該曲沒有 TrackEntity(暫時曲目)無法設定。
   /// 失敗(過大 / 無法讀取 / 格式不支援)拋 [CoverImportException]。
   Future<bool> pickAndSetForTrack(String trackId) async {
-    final picked = await FilePicker.pickFiles(type: FileType.image);
+    final picked = await FilePickerGuard.run(
+      () => FilePicker.pickFiles(type: FileType.image),
+    );
     final file = picked?.files.singleOrNull;
     if (file == null || file.path == null) return false; // 取消
 
