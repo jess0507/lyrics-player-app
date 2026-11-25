@@ -82,7 +82,10 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
     _dialogShowing = true;
     showDialog<void>(
       context: navigatorContext,
-      builder: builder,
+      // 只能透過 dialog 上的按鈕關閉:點擊外側與系統返回鍵都不會關掉。
+      // 按鈕用的 Navigator.pop() 不受 PopScope 影響,仍可正常關閉。
+      barrierDismissible: false,
+      builder: (context) => PopScope(canPop: false, child: builder(context)),
     ).whenComplete(() => _dialogShowing = false);
   }
 

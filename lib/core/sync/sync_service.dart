@@ -16,6 +16,7 @@ import 'package:seek_player/core/sync/settings_sync.dart';
 import 'package:seek_player/core/sync/sign_in_sync_plan.dart';
 import 'package:seek_player/core/sync/statistics_sync.dart';
 import 'package:seek_player/core/sync/sync_domain.dart';
+import 'package:seek_player/core/update/current_patch_number_provider.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 
 /// 設定 / 播放清單 / 統計 / 歌詞四個領域與 Firestore `user/{uid}` 之間的
@@ -36,8 +37,8 @@ import 'package:seek_player/features/music_list/providers/music_library.dart';
 ///   與立即同步同樣走這個判斷)。
 /// - 推送為整份快照語意:多裝置之間是 last-write-wins;不處理同一台
 ///   裝置切換帳號的情境。
-/// - 每次上傳順便把 App 版本(appVersion / buildNumber / recordedAt)寫進
-///   主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
+/// - 每次上傳順便把 App 版本(appVersion / buildNumber / patchNumber /
+///   recordedAt)寫進主文件,供後台觀察各使用者的版本分佈;無人讀取,純記錄用途。
 ///
 /// Google Drive 備份(GoogleDriveBackupService)暫時停用,改回本機制;
 /// 兩者共用同一個 [BackupStateStore] 作為本機變更時戳來源。
@@ -437,10 +438,14 @@ class SyncService {
   /// 主文件內容:schema 版號 + 這台裝置的 App 版本與寫入時間(merge)。
   Future<Map<String, dynamic>> _userDocData() async {
     final info = await PackageInfo.fromPlatform();
+    final patchNumber = await ref.read(currentPatchNumberProvider.future);
     return {
       'schemaVersion': schemaVersion,
       'appVersion': info.version,
       'buildNumber': info.buildNumber,
+      // 執行中的 Shorebird patch 編號;沒套用 patch 時寫 null,
+      // 蓋掉上一版留下的編號(buildNumber 不會隨熱更新改變)。
+      'patchNumber': patchNumber,
       'recordedAt': FieldValue.serverTimestamp(),
     };
   }

@@ -6,7 +6,7 @@ user_stats.py
 資料來源:
   - Firebase Auth(Identity Toolkit accounts:batchGet):所有帳號、登入方式、
     建立時間、最後登入時間。
-  - Firestore `user/{uid}` 主文件:appVersion / buildNumber / recordedAt,
+  - Firestore `user/{uid}` 主文件:appVersion / buildNumber / patchNumber / recordedAt,
     由 SyncService 在「有上傳」時寫入(開 App 但沒資料變更時不會更新,
     所以版本可能落後實際安裝版本;v1.2.13 之前的版本不會寫)。
   - Firestore `user/{uid}/lyrics/{jobId}`:後端 AI 歌詞任務(對時 / 產生)的投遞點,
@@ -200,13 +200,13 @@ def fetch_auth_users(token: str) -> list[dict]:
 
 
 def fetch_user_docs(token: str) -> dict[str, dict]:
-    """uid → {appVersion, buildNumber, recordedAt}(只抓這三個欄位)。"""
+    """uid → {appVersion, buildNumber, patchNumber, recordedAt}(只抓這幾個欄位)。"""
     docs: dict[str, dict] = {}
     page = None
     while True:
         params = [("pageSize", "300")] + [
             ("mask.fieldPaths", f)
-            for f in ("appVersion", "buildNumber", "recordedAt")
+            for f in ("appVersion", "buildNumber", "patchNumber", "recordedAt")
         ]
         if page:
             params.append(("pageToken", page))
@@ -218,6 +218,8 @@ def fetch_user_docs(token: str) -> dict[str, dict]:
             docs[d["name"].rsplit("/", 1)[-1]] = {
                 "appVersion": f.get("appVersion", {}).get("stringValue"),
                 "buildNumber": f.get("buildNumber", {}).get("stringValue"),
+                # Shorebird patch 編號;沒套用 patch 或舊版 App 沒寫時為 None。
+                "patchNumber": f.get("patchNumber", {}).get("integerValue"),
                 "recordedAt": parse_rfc3339(
                     f.get("recordedAt", {}).get("timestampValue")
                 ),
@@ -248,18 +250,25 @@ def version_label(doc: dict | None) -> str:
         return NO_DOC
     if not doc["appVersion"]:
         return NO_VERSION
-    return f"v{doc['appVersion']}+{doc['buildNumber'] or '?'}"
+    label = f"v{doc['appVersion']}+{doc['buildNumber'] or '?'}"
+    if doc.get("patchNumber"):
+        label += f" (patch {doc['patchNumber']})"
+    return label
 
 
 def version_sort_key(label: str):
     """新版本排前面;無法解析的(無主文件 / 未記錄 / dev)排最後。"""
     if not label.startswith("v"):
         return (1, ())
-    core, _, build = label[1:].partition("+")
+    core, _, rest = label[1:].partition("+")
+    build, _, patch = rest.partition(" (patch ")
+    patch = patch.rstrip(")")
     nums = []
     for p in core.split("-")[0].split("."):
         nums.append(int(p) if p.isdigit() else -1)
-    return (0, tuple(-n for n in nums) + (-(int(build) if build.isdigit() else -1),))
+    nums.append(int(build) if build.isdigit() else -1)
+    nums.append(int(patch) if patch.isdigit() else 0)
+    return (0, tuple(-n for n in nums))
 
 
 def provider_label(u: dict) -> str:
