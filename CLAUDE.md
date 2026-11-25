@@ -41,6 +41,15 @@
 - 版本號必填,沒帶版本號就不產生;每種語言最多 500 個 Unicode 字元。
 - 格式規範以 `docs/release-notes/README.md` 為準,skill 有變動時兩邊要同步。
 
+## Changelog 慣例
+- 使用者說「更新 changelog」或 `/changelog` 時,依 `.claude/skills/changelog/` 的流程執行;
+  skill 有變動時這裡要同步。
+- 把尚未 push 的 commits 整理進 `Changelog.md` 的 `## develop` 區塊,
+  分 `feature` / `enhancement` / `analysis` 三類條列,沒有項目的類別省略。
+- 每行盡量短,講不完就拆成子條列;l10n 併進所屬功能,
+  `docs` / `ci` / `chore` / `refactor` / `test` 略過。
+- 只改 `Changelog.md`,不自動 commit。
+
 ## Commit 慣例
 - 使用者說「commit」或 `/commit` 時,依 `.claude/skills/commit/` 的流程執行;
   skill 有變動時這裡要同步。
