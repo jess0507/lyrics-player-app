@@ -988,10 +988,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update_later => 'لاحقًا';
 
   @override
-  String get update_ready_message => 'نسخة جديدة جاهزة';
+  String get update_ready_title => 'تحديث إصدار جديد';
 
   @override
-  String get update_restart_action => 'إعادة التشغيل';
+  String get update_restart_action => 'إعادة التشغيل الآن';
 
   @override
   String get update_store_action => 'تحديث';

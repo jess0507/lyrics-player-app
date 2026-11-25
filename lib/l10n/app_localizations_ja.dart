@@ -943,10 +943,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get update_later => 'あとで';
 
   @override
-  String get update_ready_message => '新しいバージョンの準備ができました';
+  String get update_ready_title => '新バージョンのアップデート';
 
   @override
-  String get update_restart_action => '再起動';
+  String get update_restart_action => '今すぐ再起動';
 
   @override
   String get update_store_action => '更新';

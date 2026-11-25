@@ -994,10 +994,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get update_later => 'Più tardi';
 
   @override
-  String get update_ready_message => 'Una nuova versione è pronta';
+  String get update_ready_title => 'Aggiornamento nuova versione';
 
   @override
-  String get update_restart_action => 'Riavvia';
+  String get update_restart_action => 'Riavvia ora';
 
   @override
   String get update_store_action => 'Aggiorna';

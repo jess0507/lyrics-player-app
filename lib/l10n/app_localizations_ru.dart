@@ -992,10 +992,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get update_later => 'Позже';
 
   @override
-  String get update_ready_message => 'Новая версия готова';
+  String get update_ready_title => 'Обновление до новой версии';
 
   @override
-  String get update_restart_action => 'Перезапустить';
+  String get update_restart_action => 'Перезапустить сейчас';
 
   @override
   String get update_store_action => 'Обновить';

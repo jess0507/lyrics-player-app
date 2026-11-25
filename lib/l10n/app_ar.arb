@@ -297,8 +297,8 @@
   "music_folder_all": "الكل",
   "playlist_track_count": "{count, plural, =0{لا أغاني} =1{أغنية واحدة} =2{أغنيتان} few{{count} أغانٍ} many{{count} أغنية} other{{count} أغنية}}",
   "update_later": "لاحقًا",
-  "update_ready_message": "نسخة جديدة جاهزة",
-  "update_restart_action": "إعادة التشغيل",
+  "update_ready_title": "تحديث إصدار جديد",
+  "update_restart_action": "إعادة التشغيل الآن",
   "update_store_action": "تحديث",
   "update_store_message": "يتوفر إصدار جديد على Google Play. هل تريد التحديث الآن؟"
 }

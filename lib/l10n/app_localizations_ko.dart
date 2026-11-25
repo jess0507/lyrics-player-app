@@ -948,10 +948,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get update_later => '나중에';
 
   @override
-  String get update_ready_message => '새 버전이 준비되었습니다';
+  String get update_ready_title => '새 버전 업데이트';
 
   @override
-  String get update_restart_action => '다시 시작';
+  String get update_restart_action => '지금 다시 시작';
 
   @override
   String get update_store_action => '업데이트';

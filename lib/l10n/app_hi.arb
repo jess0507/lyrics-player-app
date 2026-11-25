@@ -297,8 +297,8 @@
   "music_folder_all": "सभी",
   "playlist_track_count": "{count, plural, =0{कोई गाना नहीं} =1{1 गाना} other{{count} गाने}}",
   "update_later": "बाद में",
-  "update_ready_message": "नया संस्करण तैयार है",
-  "update_restart_action": "पुनः आरंभ करें",
+  "update_ready_title": "नया संस्करण अपडेट",
+  "update_restart_action": "अभी पुनः आरंभ करें",
   "update_store_action": "अपडेट करें",
   "update_store_message": "Google Play पर नया संस्करण उपलब्ध है। क्या अभी अपडेट करें?"
 }

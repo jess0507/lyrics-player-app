@@ -984,10 +984,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get update_later => 'Later';
 
   @override
-  String get update_ready_message => 'A new version is ready';
+  String get update_ready_title => 'New Version Update';
 
   @override
-  String get update_restart_action => 'Restart';
+  String get update_restart_action => 'Restart Now';
 
   @override
   String get update_store_action => 'Update';

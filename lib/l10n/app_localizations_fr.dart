@@ -1002,10 +1002,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get update_later => 'Plus tard';
 
   @override
-  String get update_ready_message => 'Une nouvelle version est prête';
+  String get update_ready_title => 'Nouvelle mise à jour';
 
   @override
-  String get update_restart_action => 'Redémarrer';
+  String get update_restart_action => 'Redémarrer maintenant';
 
   @override
   String get update_store_action => 'Mettre à jour';

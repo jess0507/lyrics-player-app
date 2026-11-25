@@ -934,10 +934,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update_later => '稍後';
 
   @override
-  String get update_ready_message => '新版本已就緒';
+  String get update_ready_title => '新版本更新';
 
   @override
-  String get update_restart_action => '重新啟動';
+  String get update_restart_action => '立即重新啟動';
 
   @override
   String get update_store_action => '更新';
@@ -1876,10 +1876,10 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get update_later => '稍后';
 
   @override
-  String get update_ready_message => '新版本已就绪';
+  String get update_ready_title => '新版本更新';
 
   @override
-  String get update_restart_action => '重新启动';
+  String get update_restart_action => '立即重新启动';
 
   @override
   String get update_store_action => '更新';
@@ -2818,10 +2818,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get update_later => '稍後';
 
   @override
-  String get update_ready_message => '新版本已就緒';
+  String get update_ready_title => '新版本更新';
 
   @override
-  String get update_restart_action => '重新啟動';
+  String get update_restart_action => '立即重新啟動';
 
   @override
   String get update_store_action => '更新';

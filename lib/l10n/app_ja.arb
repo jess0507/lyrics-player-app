@@ -297,8 +297,8 @@
   "music_folder_all": "すべて",
   "playlist_track_count": "{count, plural, =0{曲なし} other{{count} 曲}}",
   "update_later": "あとで",
-  "update_ready_message": "新しいバージョンの準備ができました",
-  "update_restart_action": "再起動",
+  "update_ready_title": "新バージョンのアップデート",
+  "update_restart_action": "今すぐ再起動",
   "update_store_action": "更新",
   "update_store_message": "Google Play に新しいバージョンがあります。今すぐ更新しますか？"
 }

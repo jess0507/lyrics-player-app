@@ -990,10 +990,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get update_later => 'Mais tarde';
 
   @override
-  String get update_ready_message => 'Uma nova versão está pronta';
+  String get update_ready_title => 'Atualização de nova versão';
 
   @override
-  String get update_restart_action => 'Reiniciar';
+  String get update_restart_action => 'Reiniciar agora';
 
   @override
   String get update_store_action => 'Atualizar';

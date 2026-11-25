@@ -1911,16 +1911,16 @@ abstract class AppLocalizations {
   /// **'Later'**
   String get update_later;
 
-  /// No description provided for @update_ready_message.
+  /// No description provided for @update_ready_title.
   ///
   /// In en, this message translates to:
-  /// **'A new version is ready'**
-  String get update_ready_message;
+  /// **'New Version Update'**
+  String get update_ready_title;
 
   /// No description provided for @update_restart_action.
   ///
   /// In en, this message translates to:
-  /// **'Restart'**
+  /// **'Restart Now'**
   String get update_restart_action;
 
   /// No description provided for @update_store_action.

@@ -992,10 +992,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get update_later => 'बाद में';
 
   @override
-  String get update_ready_message => 'नया संस्करण तैयार है';
+  String get update_ready_title => 'नया संस्करण अपडेट';
 
   @override
-  String get update_restart_action => 'पुनः आरंभ करें';
+  String get update_restart_action => 'अभी पुनः आरंभ करें';
 
   @override
   String get update_store_action => 'अपडेट करें';

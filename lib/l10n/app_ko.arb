@@ -297,8 +297,8 @@
   "music_folder_all": "전체",
   "playlist_track_count": "{count, plural, =0{곡 없음} other{{count}곡}}",
   "update_later": "나중에",
-  "update_ready_message": "새 버전이 준비되었습니다",
-  "update_restart_action": "다시 시작",
+  "update_ready_title": "새 버전 업데이트",
+  "update_restart_action": "지금 다시 시작",
   "update_store_action": "업데이트",
   "update_store_message": "Google Play에 새 버전이 있습니다. 지금 업데이트할까요?"
 }

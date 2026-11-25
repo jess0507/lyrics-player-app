@@ -1000,10 +1000,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get update_later => 'Más tarde';
 
   @override
-  String get update_ready_message => 'Una nueva versión está lista';
+  String get update_ready_title => 'Actualización de nueva versión';
 
   @override
-  String get update_restart_action => 'Reiniciar';
+  String get update_restart_action => 'Reiniciar ahora';
 
   @override
   String get update_store_action => 'Actualizar';

@@ -992,10 +992,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get update_later => 'Daha sonra';
 
   @override
-  String get update_ready_message => 'Yeni bir sürüm hazır';
+  String get update_ready_title => 'Yeni sürüm güncellemesi';
 
   @override
-  String get update_restart_action => 'Yeniden başlat';
+  String get update_restart_action => 'Şimdi yeniden başlat';
 
   @override
   String get update_store_action => 'Güncelle';

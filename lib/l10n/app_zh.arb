@@ -297,8 +297,8 @@
   "lyrics_job_error_firestore_write_failed": "歌詞已處理完成,但儲存失敗,請重新嘗試。",
   "lyrics_job_error_unknown": "無法處理歌詞。",
   "update_later": "稍後",
-  "update_ready_message": "新版本已就緒",
-  "update_restart_action": "重新啟動",
+  "update_ready_title": "新版本更新",
+  "update_restart_action": "立即重新啟動",
   "update_store_action": "更新",
   "update_store_message": "Google Play 上有新版本，要立即更新嗎？"
 }

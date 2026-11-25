@@ -297,8 +297,8 @@
   "music_folder_all": "全部",
   "playlist_track_count": "{count, plural, =0{没有歌曲} other{{count} 首}}",
   "update_later": "稍后",
-  "update_ready_message": "新版本已就绪",
-  "update_restart_action": "重新启动",
+  "update_ready_title": "新版本更新",
+  "update_restart_action": "立即重新启动",
   "update_store_action": "更新",
   "update_store_message": "Google Play 上有新版本，要立即更新吗？"
 }

@@ -992,10 +992,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get update_later => 'Để sau';
 
   @override
-  String get update_ready_message => 'Phiên bản mới đã sẵn sàng';
+  String get update_ready_title => 'Cập nhật phiên bản mới';
 
   @override
-  String get update_restart_action => 'Khởi động lại';
+  String get update_restart_action => 'Khởi động lại ngay';
 
   @override
   String get update_store_action => 'Cập nhật';

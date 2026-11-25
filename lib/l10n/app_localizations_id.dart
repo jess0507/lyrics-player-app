@@ -988,10 +988,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get update_later => 'Nanti';
 
   @override
-  String get update_ready_message => 'Versi baru sudah siap';
+  String get update_ready_title => 'Pembaruan Versi Baru';
 
   @override
-  String get update_restart_action => 'Mulai ulang';
+  String get update_restart_action => 'Mulai ulang sekarang';
 
   @override
   String get update_store_action => 'Perbarui';
