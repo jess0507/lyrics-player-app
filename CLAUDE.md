@@ -42,9 +42,15 @@
 - 格式規範以 `docs/release-notes/README.md` 為準,skill 有變動時兩邊要同步。
 
 ## Commit 慣例
-- 使用者只說「commit」時，預設把**翻譯**和**功能**分成不同 commit：
-  1. 先 commit 翻譯：`lib/l10n/` 下的 `.arb` 與重新產生的 `app_localizations*.dart`，
+- 使用者說「commit」或 `/commit` 時,依 `.claude/skills/commit/` 的流程執行;
+  skill 有變動時這裡要同步。
+- **翻譯和實作分成不同 commit**:
+  1. 先 commit 翻譯:`lib/l10n/` 下的 `.arb` 與重新產生的 `app_localizations*.dart`,
      訊息用 `feat(l10n): ...`。
-  2. 再 commit 其餘的功能程式碼，訊息依 feature 範圍（例如 `feat(lyrics): ...`）。
-- 翻譯先 commit，讓功能 commit 用到的 l10n key 已經存在。
-- 沒有翻譯變更時就只做一個功能 commit；不要切 branch，不要 push，除非使用者要求。
+  2. 再 commit 其餘的實作,訊息依 feature 範圍(例如 `feat(lyrics): ...`)。
+- 翻譯先 commit,讓實作 commit 用到的 l10n key 已經存在。
+- **實作盡量拆成多個 commit**:type(feat / fix / refactor / docs / ci…)不同、
+  scope 不同、或能獨立說明的改動各自成 commit;測試跟著它測的實作,
+  被依賴的先 commit。拆不乾淨的才合在一起。
+- 含示範 / 暫時性程式碼(`DEMO` 等)時先停下來確認,不要直接 commit。
+- 不要切 branch,不要 push,除非使用者要求。
