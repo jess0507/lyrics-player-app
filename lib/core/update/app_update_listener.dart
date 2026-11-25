@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/router/app_router.dart';
 import 'package:seek_player/core/update/open_play_store.dart';
 import 'package:seek_player/core/update/patch_update_controller.dart';
 import 'package:seek_player/core/update/store_update_controller.dart';
+import 'package:seek_player/core/update/widgets/update_prompt_dialog.dart';
 
 /// 統一監聽兩種更新來源,並依優先序顯示提示 Dialog:
 ///
@@ -44,12 +47,12 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
         case StoreUpdateState.updateAvailable:
           // 商店更新優先,擱置中的 patch 提示不再需要。
           _patchPromptPending = false;
-          _showDialog(_buildStoreDialog);
+          _showDialog(_buildStoreDialog, UpdateAction.storePromptShown);
         case StoreUpdateState.upToDate:
         case StoreUpdateState.error:
           if (_patchPromptPending) {
             _patchPromptPending = false;
-            _showDialog(_buildPatchDialog);
+            _showDialog(_buildPatchDialog, UpdateAction.patchPromptShown);
           }
         case StoreUpdateState.idle:
         case StoreUpdateState.checking:
@@ -69,17 +72,22 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
         case StoreUpdateState.idle: // 非 Android 不會做商店檢查。
         case StoreUpdateState.upToDate:
         case StoreUpdateState.error:
-          _showDialog(_buildPatchDialog);
+          _showDialog(_buildPatchDialog, UpdateAction.patchPromptShown);
       }
     });
     return widget.child;
   }
 
-  void _showDialog(Widget Function(BuildContext) builder) {
+  /// [shownAction] 在 dialog 實際顯示時記錄一次(被擋下的重複顯示不記)。
+  void _showDialog(
+    Widget Function(BuildContext) builder,
+    UpdateAction shownAction,
+  ) {
     if (_dialogShowing) return;
     final navigatorContext = rootNavigatorKey.currentContext;
     if (navigatorContext == null) return;
     _dialogShowing = true;
+    logAnalyticsAction(shownAction);
     showDialog<void>(
       context: navigatorContext,
       // 只能透過 dialog 上的按鈕關閉:點擊外側與系統返回鍵都不會關掉。
@@ -92,41 +100,36 @@ class _AppUpdateListenerState extends ConsumerState<AppUpdateListener> {
   /// Google Play 有新版本:詢問是否前往商店更新。
   Widget _buildStoreDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return AlertDialog(
-      content: Text(l10n.update_store_message),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.update_later),
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            openPlayStore();
-          },
-          child: Text(l10n.update_store_action),
-        ),
-      ],
+    return UpdatePromptDialog(
+      title: l10n.update_store_title,
+      // 副標題註明這是 Google Play 的版本更新,與熱更新區分。
+      subtitle: l10n.update_store_message,
+      actionLabel: l10n.update_store_action,
+      onAction: () {
+        logAnalyticsAction(UpdateAction.storeUpdate);
+        Navigator.of(context).pop();
+        openPlayStore();
+      },
+      onLater: () => logAnalyticsAction(UpdateAction.storeLater),
     );
   }
 
   /// Shorebird patch 下載完成:詢問是否重新啟動以套用。
   Widget _buildPatchDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return AlertDialog(
-      content: Text(l10n.update_ready_message),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.update_later),
-        ),
-        FilledButton(
-          // 必須用 process 模式殺掉整個 process 冷啟動,
-          // 預設模式只重建 Activity,engine 不重載、patch 不會生效。
-          onPressed: () => Restart.restartApp(mode: RestartMode.process),
-          child: Text(l10n.update_restart_action),
-        ),
-      ],
+    return UpdatePromptDialog(
+      title: l10n.update_ready_title,
+      // patch 已下載完成,說明只差重啟這一步。
+      subtitle: l10n.update_ready_message,
+      actionLabel: l10n.update_restart_action,
+      // 必須用 process 模式殺掉整個 process 冷啟動,
+      // 預設模式只重建 Activity,engine 不重載、patch 不會生效。
+      onAction: () {
+        // process 隨即被殺掉;事件已寫入本機佇列,下次啟動時上傳。
+        logAnalyticsAction(UpdateAction.patchRestart);
+        Restart.restartApp(mode: RestartMode.process);
+      },
+      onLater: () => logAnalyticsAction(UpdateAction.patchLater),
     );
   }
 }
