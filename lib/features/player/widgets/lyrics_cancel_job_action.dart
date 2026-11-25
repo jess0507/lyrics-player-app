@@ -23,12 +23,16 @@ Future<void> cancelLyricsJob(
   required AnalyticsSource source,
 }) async {
   logAnalyticsAction(LyricsAction.cancelJob, source: source);
+  // 取消過程會讓「工作進行中」狀態消失,顯示取消鈕的 widget 隨之被移除,
+  // ref 與 context 都會失效;需要的東西一律在第一個 await 前取好。
+  final runner = ref.read(lyricsBackgroundRunnerProvider);
+  final pendingStore = ref.read(lyricsPendingSyncStoreProvider.notifier);
+  final repository = ref.read(lyricsRepositoryProvider);
+  final message = AppLocalizations.of(context)!.lyrics_job_cancelled;
   if (Platform.isAndroid) {
-    await ref.read(lyricsBackgroundRunnerProvider).cancel(trackId);
+    await runner.cancel(trackId);
   }
-  await ref.read(lyricsPendingSyncStoreProvider.notifier).remove(trackId);
-  await ref.read(lyricsRepositoryProvider).clearJob(trackId);
-  if (!context.mounted) return;
-  final l10n = AppLocalizations.of(context)!;
-  showAppToast(l10n.lyrics_job_cancelled);
+  await pendingStore.remove(trackId);
+  await repository.clearJob(trackId);
+  showAppToast(message);
 }
