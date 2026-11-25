@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 #
 # patch.sh
-# 確認本地 master 已推上 GitHub 後，打 patch tag（patch-vX.Y.Z-N）並 push 觸發 patch.yml：
+# 確認本地 master 已推上 GitHub 後，打 patch tag（patch-N-vX.Y.Z）並 push 觸發 patch.yml：
 #   對「最新 tag 對應的 release 版本」下 shorebird patch，
 #   純 Dart 變更數分鐘內 OTA 出貨，不經 Play Store 審查。
 #
 # 直接 git push origin master 不會觸發 Shorebird，一定要跑這支 script 才會出貨。
 #
 # 用法（從專案根目錄執行）：
-#   ./scripts/patch.sh
+#   ./scripts/patch.sh        # N 自動接續該版本現有 patch tag 的最大編號
+#   ./scripts/patch.sh 3      # 指定 N（例如要對齊 Shorebird 的 patch 編號時）
 #
 # 注意：
 # - patch tag 的 N 是該版本的第幾次 patch 出貨（本 script 自動遞增），
@@ -58,10 +59,26 @@ VERSION_NAME=${LATEST_TAG#v} # Android versionName 需為 X.Y.Z 數字格式
 BUILD_NUMBER=$(git rev-list "$LATEST_TAG" --count)
 AHEAD=$(git rev-list "$LATEST_TAG"..HEAD --count)
 
-# patch tag:patch-vX.Y.Z-N,N 接續該版本現有 patch tag 的最大編號。
-PATCH_PREFIX="patch-${LATEST_TAG}-"
-LAST_N=$(git tag --list "${PATCH_PREFIX}*" | sed 's/^.*-//' | grep -E '^[0-9]+$' | sort -n | tail -1 || true)
-PATCH_TAG="${PATCH_PREFIX}$(( ${LAST_N:-0} + 1 ))"
+# patch tag:patch-N-vX.Y.Z。N 可由第一個參數指定,否則接續該版本現有
+# patch tag 的最大編號(含改格式前的舊 tag patch-vX.Y.Z-N)。
+PATCH_N="${1:-}"
+if [[ -z "$PATCH_N" ]]; then
+  LAST_N=$(
+    {
+      git tag --list "patch-*-${LATEST_TAG}" | sed -E 's/^patch-([^-]*)-.*$/\1/'
+      git tag --list "patch-${LATEST_TAG}-*" | sed 's/^.*-//'
+    } | grep -E '^[0-9]+$' | sort -n | tail -1 || true
+  )
+  PATCH_N=$(( ${LAST_N:-0} + 1 ))
+elif [[ ! "$PATCH_N" =~ ^[1-9][0-9]*$ ]]; then
+  echo "❌ patch 編號必須是正整數：${PATCH_N}" >&2
+  exit 1
+fi
+PATCH_TAG="patch-${PATCH_N}-${LATEST_TAG}"
+if git rev-parse -q --verify "refs/tags/${PATCH_TAG}" >/dev/null; then
+  echo "❌ tag ${PATCH_TAG} 已存在。" >&2
+  exit 1
+fi
 
 echo ""
 echo "🩹 即將 OTA patch："
@@ -76,7 +93,7 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 # --- 打 patch tag 觸發 workflow ----------------------------------------------
-# patch.yml 由 patch-v* tag 的 push 觸發,push master 本身不會觸發。
+# patch.yml 由 patch-N-vX.Y.Z tag 的 push 觸發,push master 本身不會觸發。
 # 先確保 origin/master 與本地一致(有未推的 commit 就先推),再打 tag 並推上去。
 # 只靠 git push,不需要 gh CLI。
 if [[ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]]; then

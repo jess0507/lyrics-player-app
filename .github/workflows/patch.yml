@@ -1,6 +1,6 @@
 name: OTA Patch (Shorebird)
 
-# 推送 patch tag(patch-vX.Y.Z-N,由 ./scripts/patch.sh 打)時觸發,
+# 推送 patch tag(patch-N-vX.Y.Z,由 ./scripts/patch.sh 打)時觸發,
 # 對「最新 v* tag 對應的 release 版本」下 Shorebird patch,
 # 純 Dart 變更數分鐘內 OTA 出貨,不經 Play Store。
 # 直接 git push origin master 不會觸發任何 Shorebird 動作,
@@ -19,7 +19,7 @@ name: OTA Patch (Shorebird)
 on:
   push:
     tags:
-      - 'patch-v*'
+      - 'patch-*-v*'
   workflow_dispatch:
 
 # patch 依序執行,避免連續觸發時亂序。
@@ -60,7 +60,7 @@ jobs:
           # 否則 patch 會打到別的版本上。
           if [ "$GITHUB_REF_TYPE" = "tag" ]; then
             case "$GITHUB_REF_NAME" in
-              "patch-${RAW_TAG}-"*) ;;
+              patch-*-"${RAW_TAG}") ;;
               *)
                 echo "::error::patch tag $GITHUB_REF_NAME 與此 commit 的最新 release $RAW_TAG 不符。"
                 exit 1

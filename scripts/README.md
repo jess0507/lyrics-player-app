@@ -74,8 +74,9 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 1. 前置檢查（master、乾淨、不落後遠端、至少有一個 `v*` tag、HEAD 不是 tag 本身）。
 2. 印出目標 release 版本與領先 tag 的 commit 數，按 `y` 確認。
 3. 若本地有尚未推上去的 commit，先 `git push origin master`。
-4. 打 patch tag `patch-vX.Y.Z-N` 並 push，觸發 `.github/workflows/patch.yml`。
-   N 接續該版本現有 patch tag 的最大編號（例如 `patch-v1.2.18-1`、`patch-v1.2.18-2`）。
+4. 打 patch tag `patch-N-vX.Y.Z` 並 push，觸發 `.github/workflows/patch.yml`。
+   N 接續該版本現有 patch tag 的最大編號（例如 `patch-1-v1.2.18`、`patch-2-v1.2.18`）；
+   也可以用 `./scripts/patch.sh 3` 指定 N。
 
 只靠 `git push`，不需要 gh CLI。patch tag 不以 `v` 開頭，
 不會觸發 `release.yml`，也不影響以 `v*` tag 計算的版號。
@@ -86,7 +87,7 @@ script 參數**只接受帶 `v` 的版本號**，`1.4.0` 會被拒絕。唯一�
 - 要重跑失敗的 patch，直接再執行一次 `patch.sh` 即可（沒有新 commit 也沒關係），
   會打下一個編號的 tag；也可以在 GitHub Actions 網頁上 Re-run 失敗的 run。
 - tag 的 N 是「第幾次出貨嘗試」，CI 失敗重跑後可能與 Shorebird 的 patch 編號
-  （App 關於頁顯示的 `patch N`）不同。
+  （App 關於頁顯示的 `patch N`）不同；要對齊時下次出貨指定 N 即可。
 - CI 預設推到 Shorebird 的 `stable` track；裝置下次啟動背景下載、再下次啟動生效。
 
 ---
