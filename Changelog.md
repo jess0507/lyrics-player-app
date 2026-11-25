@@ -2,7 +2,10 @@
 
 ## develop
 
-## 1.2.19(20261124)
+## 1.2.18(20261125)
+- 修正player點擊、拖曳進度條
+
+## 1.2.18(20261124)
 - enhancement
   - fix(audio): enable precise MP3 seeking
   - lyrics:歌詞記錄 AI 任務種類 `kind`(`generate` / `align`),並帶進 Firestore `backupLyrics`
