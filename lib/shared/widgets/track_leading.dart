@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
 import 'package:seek_player/gen/assets.gen.dart';
+import 'package:seek_player/shared/widgets/cover_image.dart';
 
 /// 曲目清單每列的 leading:預設顯示曲目封面縮圖(自訂封面優先,無自訂時
-/// 退回音檔內嵌封面),查無封面時退回 [Assets.icon.music] 佔位圖。
+/// 退回音檔內嵌封面),查無封面或封面解不開時退回 [Assets.icon.music] 佔位圖。
 /// 供音樂清單與播放清單等各列共用。
 class TrackLeading extends ConsumerWidget {
   const TrackLeading({
@@ -27,6 +28,16 @@ class TrackLeading extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
     final cover = ref.watch(trackArtworkProvider(trackId)).valueOrNull;
+    final placeholder = ColoredBox(
+      color: scheme.surfaceContainerHighest,
+      child: Center(
+        child: Assets.icon.music.svg(
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(scheme.outline, BlendMode.srcIn),
+        ),
+      ),
+    );
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SizedBox(
@@ -36,20 +47,8 @@ class TrackLeading extends ConsumerWidget {
           fit: StackFit.expand,
           children: [
             cover != null
-                ? Image(image: cover, fit: BoxFit.cover)
-                : ColoredBox(
-                    color: scheme.surfaceContainerHighest,
-                    child: Center(
-                      child: Assets.icon.music.svg(
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          scheme.outline,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
+                ? CoverImage(image: cover, fallback: placeholder)
+                : placeholder,
           ],
         ),
       ),

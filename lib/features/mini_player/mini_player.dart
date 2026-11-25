@@ -8,6 +8,7 @@ import 'package:seek_player/shared/widgets/marquee_text.dart';
 
 import 'package:seek_player/core/audio/audio_player_service.dart';
 import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
+import 'package:seek_player/shared/widgets/cover_image.dart';
 import 'package:seek_player/features/player/providers/playback_controller.dart';
 import 'package:seek_player/features/player/providers/player_page_controller.dart';
 import 'package:seek_player/features/mini_player/widgets/mini_play_pause_button.dart';
@@ -65,19 +66,24 @@ class MiniPlayer extends ConsumerWidget {
                     child: Row(
                       children: [
                         const SizedBox(width: 16),
-                        if (cover != null) ...[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: Image(
-                              image: cover,
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.cover,
-                            ),
+                        // 封面解不開時視同沒有封面:連同右側間距一起不顯示。
+                        if (cover != null)
+                          CoverImage(
+                            image: cover,
+                            width: 40,
+                            height: 40,
+                            fallback: const SizedBox.shrink(),
+                            frameBuilder: (context, child, frame, wasSync) =>
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                    end: 12,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: child,
+                                  ),
+                                ),
                           ),
-                          const SizedBox(width: 12),
-                        ] else
-                          SizedBox.shrink(),
                         Expanded(
                           // 曲名 / 歌手區左右滑動切換上 / 下一首（帶跟手位移效果）；
                           // 點擊（無水平位移）仍由外層 InkWell 展開播放器。

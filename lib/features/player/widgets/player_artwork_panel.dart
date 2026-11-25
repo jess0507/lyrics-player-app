@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
+import 'package:seek_player/shared/widgets/cover_image.dart';
 import 'package:seek_player/features/lyrics/providers/track_lyrics_provider.dart';
 import 'package:seek_player/features/player/widgets/lyrics_view.dart';
 import 'package:seek_player/features/player/widgets/player_artwork.dart';
@@ -115,7 +116,10 @@ class _ArtworkPage extends ConsumerWidget {
         ),
         Positioned.fill(
           child: artwork != null
-              ? Image(image: artwork, fit: BoxFit.cover)
+              ? CoverImage(
+                  image: artwork,
+                  fallback: PlayerArtwork(active: active),
+                )
               : PlayerArtwork(active: active),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seek_player/features/cover/providers/track_artwork_provider.dart';
+import 'package:seek_player/shared/widgets/cover_image.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/gen/assets.gen.dart';
 
@@ -23,6 +24,16 @@ class TrackEditorHeader extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final cover = ref.watch(trackArtworkProvider(track.trackId)).valueOrNull;
+    final placeholder = ColoredBox(
+      color: scheme.surfaceContainerHighest,
+      child: Center(
+        child: Assets.icon.music.svg(
+          width: 64,
+          height: 64,
+          colorFilter: ColorFilter.mode(scheme.outline, BlendMode.srcIn),
+        ),
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
       child: Column(
@@ -32,20 +43,8 @@ class TrackEditorHeader extends ConsumerWidget {
             child: SizedBox.square(
               dimension: coverSize,
               child: cover != null
-                  ? Image(image: cover, fit: BoxFit.cover)
-                  : ColoredBox(
-                      color: scheme.surfaceContainerHighest,
-                      child: Center(
-                        child: Assets.icon.music.svg(
-                          width: 64,
-                          height: 64,
-                          colorFilter: ColorFilter.mode(
-                            scheme.outline,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                    ),
+                  ? CoverImage(image: cover, fallback: placeholder)
+                  : placeholder,
             ),
           ),
           const SizedBox(height: 16),
