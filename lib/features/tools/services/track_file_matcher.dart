@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seek_player/core/files/file_picker_guard.dart';
 import 'package:seek_player/features/music_list/models/track.dart';
 import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/music_list/services/content_path_resolver.dart';
@@ -46,8 +47,8 @@ class TrackFileMatcher {
   final Ref _ref;
 
   Future<TrackFileMatch> pickAndMatch() async {
-    final picked = (await FilePicker.pickFiles(
-      type: FileType.audio,
+    final picked = (await FilePickerGuard.run(
+      () => FilePicker.pickFiles(type: FileType.audio),
     ))?.files.singleOrNull;
     final path = picked?.path;
     if (picked == null || path == null) return const TrackFileCancelled();
