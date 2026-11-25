@@ -219,6 +219,7 @@
   "cover_removed": "커버가 제거됨",
   "cover_failed": "커버를 설정할 수 없습니다",
   "cover_too_large": "이미지가 너무 큽니다",
+  "cover_unsupported": "지원하지 않는 이미지 형식입니다",
   "lyrics_auto_align": "가사 동기화",
   "lyrics_auto_resync": "가사 다시 동기화",
   "lyrics_auto_resync_confirm": "다시 동기화하면 현재 가사 타이밍이 덮어쓰입니다. 계속할까요?",

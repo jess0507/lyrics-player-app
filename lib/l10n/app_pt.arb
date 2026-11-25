@@ -219,6 +219,7 @@
   "cover_removed": "Capa removida",
   "cover_failed": "Não foi possível definir a capa",
   "cover_too_large": "A imagem é muito grande",
+  "cover_unsupported": "Este formato de imagem não é suportado",
   "lyrics_auto_align": "Sincronizar letra",
   "lyrics_auto_resync": "Ressincronizar letra",
   "lyrics_auto_resync_confirm": "Ressincronizar substituirá o tempo atual da letra. Continuar?",

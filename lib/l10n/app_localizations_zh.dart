@@ -661,6 +661,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cover_too_large => '圖片太大';
 
   @override
+  String get cover_unsupported => '不支援這個圖片格式';
+
+  @override
   String get lyrics_font_size => '字體大小';
 
   @override
@@ -1612,6 +1615,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get cover_too_large => '图片太大';
 
   @override
+  String get cover_unsupported => '不支持这个图片格式';
+
+  @override
   String get lyrics_font_size => '字体大小';
 
   @override
@@ -2561,6 +2567,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get cover_too_large => '圖片太大';
+
+  @override
+  String get cover_unsupported => '不支援這個圖片格式';
 
   @override
   String get lyrics_font_size => '字體大小';

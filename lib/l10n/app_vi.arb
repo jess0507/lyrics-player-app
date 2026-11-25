@@ -219,6 +219,7 @@
   "cover_removed": "Đã xóa ảnh bìa",
   "cover_failed": "Không thể đặt ảnh bìa",
   "cover_too_large": "Ảnh quá lớn",
+  "cover_unsupported": "Định dạng ảnh này không được hỗ trợ",
   "lyrics_auto_align": "Đồng bộ lời bài hát",
   "lyrics_auto_resync": "Đồng bộ lại lời bài hát",
   "lyrics_auto_resync_confirm": "Đồng bộ lại sẽ thay thế thời gian hiện tại của lời bài hát. Tiếp tục?",

@@ -219,6 +219,7 @@
   "cover_removed": "カバーを削除しました",
   "cover_failed": "カバーを設定できませんでした",
   "cover_too_large": "画像が大きすぎます",
+  "cover_unsupported": "この画像形式には対応していません",
   "lyrics_auto_align": "歌詞を同期",
   "lyrics_auto_resync": "歌詞を再同期",
   "lyrics_auto_resync_confirm": "再同期すると現在の歌詞のタイミングが上書きされます。続行しますか?",

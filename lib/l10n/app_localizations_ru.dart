@@ -690,6 +690,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cover_too_large => 'Изображение слишком большое';
 
   @override
+  String get cover_unsupported => 'Этот формат изображения не поддерживается';
+
+  @override
   String get lyrics_font_size => 'Размер шрифта';
 
   @override

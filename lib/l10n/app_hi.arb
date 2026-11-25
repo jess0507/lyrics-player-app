@@ -219,6 +219,7 @@
   "cover_removed": "कवर हटाया गया",
   "cover_failed": "कवर सेट नहीं हो सका",
   "cover_too_large": "छवि बहुत बड़ी है",
+  "cover_unsupported": "यह इमेज फ़ॉर्मैट समर्थित नहीं है",
   "lyrics_auto_align": "बोल सिंक करें",
   "lyrics_auto_resync": "बोल फिर से सिंक करें",
   "lyrics_auto_resync_confirm": "फिर से सिंक करने पर बोल की मौजूदा टाइमिंग बदल जाएगी। जारी रखें?",

@@ -670,6 +670,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cover_too_large => '이미지가 너무 큽니다';
 
   @override
+  String get cover_unsupported => '지원하지 않는 이미지 형식입니다';
+
+  @override
   String get lyrics_font_size => '글자 크기';
 
   @override

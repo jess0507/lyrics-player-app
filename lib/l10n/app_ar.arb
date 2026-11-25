@@ -219,6 +219,7 @@
   "cover_removed": "تمت إزالة الغلاف",
   "cover_failed": "تعذّر تعيين الغلاف",
   "cover_too_large": "الصورة كبيرة جدًا",
+  "cover_unsupported": "تنسيق الصورة هذا غير مدعوم",
   "lyrics_auto_align": "مزامنة الكلمات",
   "lyrics_auto_resync": "إعادة مزامنة الكلمات",
   "lyrics_auto_resync_confirm": "ستؤدي إعادة المزامنة إلى استبدال التوقيت الحالي للكلمات. هل تريد المتابعة؟",

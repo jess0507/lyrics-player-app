@@ -219,6 +219,7 @@
   "cover_removed": "Cover entfernt",
   "cover_failed": "Cover konnte nicht festgelegt werden",
   "cover_too_large": "Bild ist zu groß",
+  "cover_unsupported": "Dieses Bildformat wird nicht unterstützt",
   "lyrics_auto_align": "Liedtext synchronisieren",
   "lyrics_auto_resync": "Songtext neu synchronisieren",
   "lyrics_auto_resync_confirm": "Beim erneuten Synchronisieren wird das aktuelle Timing ersetzt. Fortfahren?",

@@ -694,6 +694,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get cover_too_large => 'Ảnh quá lớn';
 
   @override
+  String get cover_unsupported => 'Định dạng ảnh này không được hỗ trợ';
+
+  @override
   String get lyrics_font_size => 'Cỡ chữ';
 
   @override

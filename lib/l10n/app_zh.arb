@@ -213,6 +213,7 @@
   "cover_removed": "封面已移除",
   "cover_failed": "無法設定封面",
   "cover_too_large": "圖片太大",
+  "cover_unsupported": "不支援這個圖片格式",
   "lyrics_font_size": "字體大小",
   "lyrics_text_align": "對齊方式",
   "lyrics_text_align_left": "置左",

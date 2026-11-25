@@ -691,6 +691,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get cover_too_large => 'Gambar terlalu besar';
 
   @override
+  String get cover_unsupported => 'Format gambar ini tidak didukung';
+
+  @override
   String get lyrics_font_size => 'Ukuran font';
 
   @override

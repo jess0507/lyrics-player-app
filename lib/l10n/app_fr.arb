@@ -219,6 +219,7 @@
   "cover_removed": "Pochette supprimée",
   "cover_failed": "Impossible de définir la pochette",
   "cover_too_large": "L’image est trop grande",
+  "cover_unsupported": "Ce format d'image n'est pas pris en charge",
   "lyrics_auto_align": "Synchroniser les paroles",
   "lyrics_auto_resync": "Resynchroniser les paroles",
   "lyrics_auto_resync_confirm": "La resynchronisation remplacera le minutage actuel des paroles. Continuer ?",

@@ -687,6 +687,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cover_too_large => 'الصورة كبيرة جدًا';
 
   @override
+  String get cover_unsupported => 'تنسيق الصورة هذا غير مدعوم';
+
+  @override
   String get lyrics_font_size => 'حجم الخط';
 
   @override

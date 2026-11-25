@@ -1404,6 +1404,12 @@ abstract class AppLocalizations {
   /// **'Image is too large'**
   String get cover_too_large;
 
+  /// No description provided for @cover_unsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This image format isn\'t supported'**
+  String get cover_unsupported;
+
   /// No description provided for @lyrics_font_size.
   ///
   /// In en, this message translates to:

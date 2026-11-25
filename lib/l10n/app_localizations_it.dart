@@ -693,6 +693,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cover_too_large => 'L’immagine è troppo grande';
 
   @override
+  String get cover_unsupported => 'Questo formato immagine non è supportato';
+
+  @override
   String get lyrics_font_size => 'Dimensione del carattere';
 
   @override

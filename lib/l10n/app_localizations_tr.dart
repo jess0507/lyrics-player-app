@@ -692,6 +692,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cover_too_large => 'Görsel çok büyük';
 
   @override
+  String get cover_unsupported => 'Bu görsel biçimi desteklenmiyor';
+
+  @override
   String get lyrics_font_size => 'Yazı tipi boyutu';
 
   @override

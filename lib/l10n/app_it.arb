@@ -219,6 +219,7 @@
   "cover_removed": "Copertina rimossa",
   "cover_failed": "Impossibile impostare la copertina",
   "cover_too_large": "L’immagine è troppo grande",
+  "cover_unsupported": "Questo formato immagine non è supportato",
   "lyrics_auto_align": "Sincronizza testo",
   "lyrics_auto_resync": "Risincronizza testo",
   "lyrics_auto_resync_confirm": "La risincronizzazione sostituirà la sincronizzazione attuale del testo. Continuare?",

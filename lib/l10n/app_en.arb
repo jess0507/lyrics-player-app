@@ -262,6 +262,7 @@
   "cover_removed": "Cover removed",
   "cover_failed": "Couldn't set cover",
   "cover_too_large": "Image is too large",
+  "cover_unsupported": "This image format isn't supported",
   "lyrics_font_size": "Font size",
   "lyrics_text_align": "Text alignment",
   "lyrics_text_align_left": "Left",

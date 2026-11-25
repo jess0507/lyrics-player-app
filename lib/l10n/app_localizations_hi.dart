@@ -691,6 +691,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get cover_too_large => 'छवि बहुत बड़ी है';
 
   @override
+  String get cover_unsupported => 'यह इमेज फ़ॉर्मैट समर्थित नहीं है';
+
+  @override
   String get lyrics_font_size => 'फ़ॉन्ट आकार';
 
   @override

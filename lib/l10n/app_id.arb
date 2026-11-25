@@ -219,6 +219,7 @@
   "cover_removed": "Sampul dihapus",
   "cover_failed": "Tidak dapat menyetel sampul",
   "cover_too_large": "Gambar terlalu besar",
+  "cover_unsupported": "Format gambar ini tidak didukung",
   "lyrics_auto_align": "Sinkronkan lirik",
   "lyrics_auto_resync": "Sinkronkan ulang lirik",
   "lyrics_auto_resync_confirm": "Sinkronisasi ulang akan mengganti waktu lirik saat ini. Lanjutkan?",

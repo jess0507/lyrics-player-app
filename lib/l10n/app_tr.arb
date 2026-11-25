@@ -219,6 +219,7 @@
   "cover_removed": "Kapak kaldırıldı",
   "cover_failed": "Kapak ayarlanamadı",
   "cover_too_large": "Görsel çok büyük",
+  "cover_unsupported": "Bu görsel biçimi desteklenmiyor",
   "lyrics_auto_align": "Şarkı sözlerini eşitle",
   "lyrics_auto_resync": "Şarkı sözlerini yeniden senkronize et",
   "lyrics_auto_resync_confirm": "Yeniden senkronizasyon mevcut söz zamanlamasının yerini alacak. Devam edilsin mi?",

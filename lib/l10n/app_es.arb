@@ -219,6 +219,7 @@
   "cover_removed": "Portada eliminada",
   "cover_failed": "No se pudo establecer la portada",
   "cover_too_large": "La imagen es demasiado grande",
+  "cover_unsupported": "Este formato de imagen no es compatible",
   "lyrics_auto_align": "Sincronizar letra",
   "lyrics_auto_resync": "Volver a sincronizar letra",
   "lyrics_auto_resync_confirm": "Volver a sincronizar reemplazará la sincronización actual de la letra. ¿Continuar?",
