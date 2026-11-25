@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +11,7 @@ import 'package:seek_player/features/cover/services/cover_color.dart';
 import 'package:seek_player/features/cover/services/track_cover_repository.dart';
 
 /// 設定封面失敗原因,供 UI 映射到對應的 l10n 失敗訊息。
-enum CoverImportError { tooLarge, unreadable }
+enum CoverImportError { tooLarge, unreadable, unsupported }
 
 /// 設定封面失敗;UI 以 [error] 決定 toast 文案。使用者取消選圖不是失敗,
 /// 由 [CoverImportService.pickAndSetForTrack] 回 false 表示。
@@ -39,7 +41,7 @@ class CoverImportService {
 
   /// 為 [trackId] 挑一張封面並設定。回傳 true 表示已設定;false 表示使用者
   /// 取消選圖,或該曲沒有 TrackEntity(暫時曲目)無法設定。
-  /// 失敗(過大 / 無法讀取)拋 [CoverImportException]。
+  /// 失敗(過大 / 無法讀取 / 格式不支援)拋 [CoverImportException]。
   Future<bool> pickAndSetForTrack(String trackId) async {
     final picked = await FilePicker.pickFiles(type: FileType.image);
     final file = picked?.files.singleOrNull;
@@ -56,9 +58,10 @@ class CoverImportService {
 
     final source = File(file.path!);
     final bytes = await _read(source);
+    final ext = _extension(file.name);
+    await _ensureDecodable(bytes, ext);
 
     final dir = await _coversDir();
-    final ext = _extension(file.name);
     final dest = File(
       '${dir.path}/${DateTime.now().millisecondsSinceEpoch}$ext',
     );
@@ -107,7 +110,26 @@ class CoverImportService {
     }
   }
 
-  Future<List<int>> _read(File source) async {
+  /// 確認 [bytes] 是引擎解得開的圖;解不開(HEIC / SVG 等不支援的格式、
+  /// 或檔案損毀)就拒收。否則壞圖會被存成封面,之後每次顯示都解碼失敗。
+  Future<void> _ensureDecodable(Uint8List bytes, String ext) async {
+    try {
+      // 只為驗證,降採樣解碼以免大圖佔記憶體。
+      final codec = await ui.instantiateImageCodec(bytes, targetWidth: 100);
+      try {
+        (await codec.getNextFrame()).image.dispose();
+      } finally {
+        codec.dispose();
+      }
+    } catch (e) {
+      throw CoverImportException(
+        CoverImportError.unsupported,
+        message: 'ext=$ext, size=${bytes.length}B, $e',
+      );
+    }
+  }
+
+  Future<Uint8List> _read(File source) async {
     try {
       return await source.readAsBytes();
     } on FileSystemException catch (e) {

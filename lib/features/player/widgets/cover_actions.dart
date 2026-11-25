@@ -53,4 +53,5 @@ String _errorText(AppLocalizations l10n, CoverImportError error) =>
     switch (error) {
       CoverImportError.tooLarge => l10n.cover_too_large,
       CoverImportError.unreadable => l10n.cover_failed,
+      CoverImportError.unsupported => l10n.cover_unsupported,
     };
