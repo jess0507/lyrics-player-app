@@ -1,6 +1,15 @@
 # Changelog
 
 ## develop
+- enhancement
+  - update:回到前景時檢查熱更新
+  - update:更新提示 dialog 改版
+    - 加上 logo、標題、副標題
+    - 主要按鈕改全寬
+- analysis
+  - 新增 `update_action` 事件
+    - 商店更新:顯示 / 更新 / 稍後
+    - 熱更新:顯示 / 重啟 / 稍後
 
 ## 1.2.18 patch 2(261125)
 - 修正player點擊、拖曳進度條
