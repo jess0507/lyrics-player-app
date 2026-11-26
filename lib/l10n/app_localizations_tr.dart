@@ -885,7 +885,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tab_playlists => 'Çalma listeleri';
 
   @override
-  String get tab_library => 'Kitaplık';
+  String get tab_library => 'Ses';
 
   @override
   String get playlist_favorites => 'Favoriler';
@@ -1017,7 +1017,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get update_store_title => 'Güncelleme mevcut';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'Çıktılar';
 
   @override
   String get output_tasks => 'Görevler';

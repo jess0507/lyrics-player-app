@@ -839,7 +839,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tab_playlists => 'プレイリスト';
 
   @override
-  String get tab_library => 'ライブラリ';
+  String get tab_library => 'オーディオ';
 
   @override
   String get playlist_favorites => 'お気に入り';
@@ -967,7 +967,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get update_store_title => 'アップデートがあります';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => '出力';
 
   @override
   String get output_tasks => 'タスク';

@@ -894,7 +894,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tab_playlists => 'Playlists';
 
   @override
-  String get tab_library => 'Bibliothèque';
+  String get tab_library => 'Audio';
 
   @override
   String get playlist_favorites => 'Favoris';
@@ -1028,7 +1028,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get update_store_title => 'Mise à jour disponible';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'Résultats';
 
   @override
   String get output_tasks => 'Tâches';

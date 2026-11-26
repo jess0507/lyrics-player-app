@@ -885,7 +885,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tab_playlists => 'Danh sách phát';
 
   @override
-  String get tab_library => 'Thư viện';
+  String get tab_library => 'Âm thanh';
 
   @override
   String get playlist_favorites => 'Yêu thích';
@@ -1016,7 +1016,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get update_store_title => 'Có bản cập nhật';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'Kết quả';
 
   @override
   String get output_tasks => 'Tác vụ';

@@ -844,7 +844,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tab_playlists => '재생목록';
 
   @override
-  String get tab_library => '보관함';
+  String get tab_library => '오디오';
 
   @override
   String get playlist_favorites => '즐겨찾기';
@@ -972,7 +972,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get update_store_title => '업데이트 가능';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => '결과물';
 
   @override
   String get output_tasks => '작업';

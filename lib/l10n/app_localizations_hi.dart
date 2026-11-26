@@ -885,7 +885,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tab_playlists => 'प्लेलिस्ट';
 
   @override
-  String get tab_library => 'लाइब्रेरी';
+  String get tab_library => 'ऑडियो';
 
   @override
   String get playlist_favorites => 'पसंदीदा';
@@ -1016,7 +1016,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get update_store_title => 'अपडेट उपलब्ध है';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'आउटपुट';
 
   @override
   String get output_tasks => 'कार्य';

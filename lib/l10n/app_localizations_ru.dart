@@ -883,7 +883,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tab_playlists => 'Плейлисты';
 
   @override
-  String get tab_library => 'Медиатека';
+  String get tab_library => 'Аудио';
 
   @override
   String get playlist_favorites => 'Избранное';
@@ -1017,7 +1017,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get update_store_title => 'Доступно обновление';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'Результаты';
 
   @override
   String get output_tasks => 'Задачи';

@@ -877,7 +877,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tab_playlists => 'قوائم التشغيل';
 
   @override
-  String get tab_library => 'المكتبة';
+  String get tab_library => 'الصوت';
 
   @override
   String get playlist_favorites => 'المفضلة';
@@ -1012,7 +1012,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update_store_title => 'يتوفر تحديث';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'المخرجات';
 
   @override
   String get output_tasks => 'المهام';

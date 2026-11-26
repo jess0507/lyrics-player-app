@@ -882,7 +882,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get tab_playlists => 'Playlist';
 
   @override
-  String get tab_library => 'Pustaka';
+  String get tab_library => 'Audio';
 
   @override
   String get playlist_favorites => 'Favorit';
@@ -1012,7 +1012,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get update_store_title => 'Pembaruan tersedia';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => 'Hasil';
 
   @override
   String get output_tasks => 'Tugas';

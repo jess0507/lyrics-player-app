@@ -830,7 +830,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tab_playlists => '播放清單';
 
   @override
-  String get tab_library => '媒體庫';
+  String get tab_library => '音訊';
 
   @override
   String get playlist_favorites => '我的最愛';
@@ -958,7 +958,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update_store_title => '有可用的更新';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => '產出';
 
   @override
   String get output_tasks => '任務';
@@ -1805,7 +1805,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get tab_playlists => '播放列表';
 
   @override
-  String get tab_library => '媒体库';
+  String get tab_library => '音频';
 
   @override
   String get playlist_favorites => '我的收藏';
@@ -1933,7 +1933,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get update_store_title => '有可用的更新';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => '产出';
 
   @override
   String get output_tasks => '任务';
@@ -2780,7 +2780,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get tab_playlists => '播放清單';
 
   @override
-  String get tab_library => '媒體庫';
+  String get tab_library => '音訊';
 
   @override
   String get playlist_favorites => '我的最愛';
@@ -2908,7 +2908,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get update_store_title => '有可用的更新';
 
   @override
-  String get tab_output => 'Output';
+  String get tab_output => '產出';
 
   @override
   String get output_tasks => '任務';
