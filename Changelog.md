@@ -1,6 +1,8 @@
 # Changelog
 
 ## develop
+- feature
+  - New navigation for "Output", "Media"
 - bug
   - 先上搜尋關鍵字不要省略標點符號, 可能會影響原文, ex. Don't
 - enhancement
