@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/output/models/output_collection.dart';
 import 'package:seek_player/features/output/output_lyrics_page.dart';
-import 'package:seek_player/features/output/output_page.dart';
 import 'package:seek_player/features/output/output_tasks_page.dart';
 import 'package:seek_player/features/library/library_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
@@ -71,6 +70,16 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/tools',
                 builder: (context, state) => const ToolsPage(),
                 routes: [
+                  // 工具頁下方「產出」區的集合曲目清單。留在 shell 內,
+                  // 保留底部導覽列;需排在 `:tool` 之前,以免被當成工具名稱。
+                  GoRoute(
+                    path: 'output/${OutputCollection.tasks.name}',
+                    builder: (context, state) => const OutputTasksPage(),
+                  ),
+                  GoRoute(
+                    path: 'output/${OutputCollection.lyrics.name}',
+                    builder: (context, state) => const OutputLyricsPage(),
+                  ),
                   // 選曲頁與編輯頁全螢幕顯示:掛在 root navigator,
                   // 蓋過 shell 的底部導覽列。
                   GoRoute(
@@ -151,25 +160,6 @@ final routerProvider = Provider<GoRouter>((ref) {
                         ),
                       ),
                     ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          // 「Output」分頁:任務、歌詞等產出集合。
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/output',
-                builder: (context, state) => const OutputPage(),
-                routes: [
-                  GoRoute(
-                    path: OutputCollection.tasks.name,
-                    builder: (context, state) => const OutputTasksPage(),
-                  ),
-                  GoRoute(
-                    path: OutputCollection.lyrics.name,
-                    builder: (context, state) => const OutputLyricsPage(),
                   ),
                 ],
               ),

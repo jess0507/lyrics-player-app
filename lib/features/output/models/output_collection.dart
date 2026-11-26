@@ -3,8 +3,8 @@ import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 
-/// 「Output」分頁列出的集合。[name] 同時作為路由片段
-/// (`/output/tasks`、`/output/lyrics`);宣告順序即顯示順序。
+/// 工具頁「產出」區列出的集合。[name] 同時作為路由片段
+/// (`/tools/output/tasks`、`/tools/output/lyrics`);宣告順序即顯示順序。
 enum OutputCollection {
   tasks,
   lyrics;
