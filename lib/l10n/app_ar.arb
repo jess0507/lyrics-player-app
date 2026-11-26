@@ -304,5 +304,12 @@
   "update_restart_action": "إعادة التشغيل الآن",
   "update_store_action": "تحديث",
   "update_store_message": "يتوفر إصدار جديد على Google Play",
-  "update_store_title": "يتوفر تحديث"
+  "update_store_title": "يتوفر تحديث",
+  "tab_output": "Output",
+  "output_tasks": "المهام",
+  "output_lyrics": "الكلمات",
+  "output_tasks_empty": "لا توجد مهام قيد التنفيذ",
+  "output_lyrics_empty": "لا توجد مقاطع بكلمات بعد",
+  "output_task_generate": "جارٍ الإنشاء",
+  "output_task_align": "جارٍ المزامنة"
 }

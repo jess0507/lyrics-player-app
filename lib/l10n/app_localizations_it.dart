@@ -1017,4 +1017,25 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get update_store_title => 'Aggiornamento disponibile';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Attività';
+
+  @override
+  String get output_lyrics => 'Testi';
+
+  @override
+  String get output_tasks_empty => 'Nessuna attività in corso';
+
+  @override
+  String get output_lyrics_empty => 'Ancora nessun brano con testo';
+
+  @override
+  String get output_task_generate => 'Generazione';
+
+  @override
+  String get output_task_align => 'Sincronizzazione';
 }

@@ -1010,4 +1010,25 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get update_store_title => 'Pembaruan tersedia';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Tugas';
+
+  @override
+  String get output_lyrics => 'Lirik';
+
+  @override
+  String get output_tasks_empty => 'Tidak ada tugas yang sedang berjalan';
+
+  @override
+  String get output_lyrics_empty => 'Belum ada lagu dengan lirik';
+
+  @override
+  String get output_task_generate => 'Membuat';
+
+  @override
+  String get output_task_align => 'Menyinkronkan';
 }

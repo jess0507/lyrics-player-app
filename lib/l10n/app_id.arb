@@ -304,5 +304,12 @@
   "update_restart_action": "Mulai ulang sekarang",
   "update_store_action": "Perbarui",
   "update_store_message": "Versi baru tersedia di Google Play",
-  "update_store_title": "Pembaruan tersedia"
+  "update_store_title": "Pembaruan tersedia",
+  "tab_output": "Output",
+  "output_tasks": "Tugas",
+  "output_lyrics": "Lirik",
+  "output_tasks_empty": "Tidak ada tugas yang sedang berjalan",
+  "output_lyrics_empty": "Belum ada lagu dengan lirik",
+  "output_task_generate": "Membuat",
+  "output_task_align": "Menyinkronkan"
 }

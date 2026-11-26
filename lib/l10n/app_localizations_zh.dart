@@ -956,6 +956,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get update_store_title => '有可用的更新';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => '任務';
+
+  @override
+  String get output_lyrics => '歌詞';
+
+  @override
+  String get output_tasks_empty => '目前沒有進行中的任務';
+
+  @override
+  String get output_lyrics_empty => '還沒有含歌詞的曲目';
+
+  @override
+  String get output_task_generate => '產生中';
+
+  @override
+  String get output_task_align => '對時中';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1910,6 +1931,27 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get update_store_title => '有可用的更新';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => '任务';
+
+  @override
+  String get output_lyrics => '歌词';
+
+  @override
+  String get output_tasks_empty => '当前没有进行中的任务';
+
+  @override
+  String get output_lyrics_empty => '还没有含歌词的曲目';
+
+  @override
+  String get output_task_generate => '生成中';
+
+  @override
+  String get output_task_align => '对时中';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -2864,4 +2906,25 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get update_store_title => '有可用的更新';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => '任務';
+
+  @override
+  String get output_lyrics => '歌詞';
+
+  @override
+  String get output_tasks_empty => '目前沒有進行中的任務';
+
+  @override
+  String get output_lyrics_empty => '還沒有含歌詞的曲目';
+
+  @override
+  String get output_task_generate => '產生中';
+
+  @override
+  String get output_task_align => '對時中';
 }

@@ -304,5 +304,12 @@
   "update_restart_action": "Şimdi yeniden başlat",
   "update_store_action": "Güncelle",
   "update_store_message": "Google Play'de yeni bir sürüm mevcut",
-  "update_store_title": "Güncelleme mevcut"
+  "update_store_title": "Güncelleme mevcut",
+  "tab_output": "Output",
+  "output_tasks": "Görevler",
+  "output_lyrics": "Şarkı sözleri",
+  "output_tasks_empty": "Devam eden görev yok",
+  "output_lyrics_empty": "Henüz sözleri olan parça yok",
+  "output_task_generate": "Oluşturuluyor",
+  "output_task_align": "Senkronize ediliyor"
 }

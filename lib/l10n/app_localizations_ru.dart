@@ -1015,4 +1015,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get update_store_title => 'Доступно обновление';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Задачи';
+
+  @override
+  String get output_lyrics => 'Тексты';
+
+  @override
+  String get output_tasks_empty => 'Нет активных задач';
+
+  @override
+  String get output_lyrics_empty => 'Пока нет треков с текстом';
+
+  @override
+  String get output_task_generate => 'Создание';
+
+  @override
+  String get output_task_align => 'Синхронизация';
 }

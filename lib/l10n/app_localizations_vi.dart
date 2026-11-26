@@ -1014,4 +1014,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get update_store_title => 'Có bản cập nhật';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Tác vụ';
+
+  @override
+  String get output_lyrics => 'Lời bài hát';
+
+  @override
+  String get output_tasks_empty => 'Không có tác vụ nào đang chạy';
+
+  @override
+  String get output_lyrics_empty => 'Chưa có bài hát nào có lời';
+
+  @override
+  String get output_task_generate => 'Đang tạo';
+
+  @override
+  String get output_task_align => 'Đang đồng bộ';
 }

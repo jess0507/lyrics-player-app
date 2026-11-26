@@ -304,5 +304,12 @@
   "update_restart_action": "立即重新啟動",
   "update_store_action": "更新",
   "update_store_message": "Google Play 已有新版本，歡迎前往更新",
-  "update_store_title": "有可用的更新"
+  "update_store_title": "有可用的更新",
+  "tab_output": "Output",
+  "output_tasks": "任務",
+  "output_lyrics": "歌詞",
+  "output_tasks_empty": "目前沒有進行中的任務",
+  "output_lyrics_empty": "還沒有含歌詞的曲目",
+  "output_task_generate": "產生中",
+  "output_task_align": "對時中"
 }

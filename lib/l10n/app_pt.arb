@@ -304,5 +304,12 @@
   "update_restart_action": "Reiniciar agora",
   "update_store_action": "Atualizar",
   "update_store_message": "Uma nova versão está disponível no Google Play",
-  "update_store_title": "Atualização disponível"
+  "update_store_title": "Atualização disponível",
+  "tab_output": "Output",
+  "output_tasks": "Tarefas",
+  "output_lyrics": "Letras",
+  "output_tasks_empty": "Nenhuma tarefa em andamento",
+  "output_lyrics_empty": "Ainda não há faixas com letra",
+  "output_task_generate": "Gerando",
+  "output_task_align": "Sincronizando"
 }

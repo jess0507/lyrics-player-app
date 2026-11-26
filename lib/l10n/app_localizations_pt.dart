@@ -1013,4 +1013,25 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get update_store_title => 'Atualização disponível';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Tarefas';
+
+  @override
+  String get output_lyrics => 'Letras';
+
+  @override
+  String get output_tasks_empty => 'Nenhuma tarefa em andamento';
+
+  @override
+  String get output_lyrics_empty => 'Ainda não há faixas com letra';
+
+  @override
+  String get output_task_generate => 'Gerando';
+
+  @override
+  String get output_task_align => 'Sincronizando';
 }

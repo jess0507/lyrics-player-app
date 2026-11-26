@@ -304,5 +304,12 @@
   "update_restart_action": "Riavvia ora",
   "update_store_action": "Aggiorna",
   "update_store_message": "È disponibile una nuova versione su Google Play",
-  "update_store_title": "Aggiornamento disponibile"
+  "update_store_title": "Aggiornamento disponibile",
+  "tab_output": "Output",
+  "output_tasks": "Attività",
+  "output_lyrics": "Testi",
+  "output_tasks_empty": "Nessuna attività in corso",
+  "output_lyrics_empty": "Ancora nessun brano con testo",
+  "output_task_generate": "Generazione",
+  "output_task_align": "Sincronizzazione"
 }

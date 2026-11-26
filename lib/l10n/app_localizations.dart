@@ -1958,6 +1958,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Available'**
   String get update_store_title;
+
+  /// No description provided for @tab_output.
+  ///
+  /// In en, this message translates to:
+  /// **'Output'**
+  String get tab_output;
+
+  /// No description provided for @output_tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get output_tasks;
+
+  /// No description provided for @output_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get output_lyrics;
+
+  /// No description provided for @output_tasks_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks in progress'**
+  String get output_tasks_empty;
+
+  /// No description provided for @output_lyrics_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tracks with lyrics yet'**
+  String get output_lyrics_empty;
+
+  /// No description provided for @output_task_generate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating'**
+  String get output_task_generate;
+
+  /// No description provided for @output_task_align.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing'**
+  String get output_task_align;
 }
 
 class _AppLocalizationsDelegate

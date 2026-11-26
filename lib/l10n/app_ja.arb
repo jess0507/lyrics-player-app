@@ -304,5 +304,12 @@
   "update_restart_action": "今すぐ再起動",
   "update_store_action": "更新",
   "update_store_message": "Google Play で新しいバージョンをご利用いただけます",
-  "update_store_title": "アップデートがあります"
+  "update_store_title": "アップデートがあります",
+  "tab_output": "Output",
+  "output_tasks": "タスク",
+  "output_lyrics": "歌詞",
+  "output_tasks_empty": "進行中のタスクはありません",
+  "output_lyrics_empty": "歌詞のある曲はまだありません",
+  "output_task_generate": "生成中",
+  "output_task_align": "同期中"
 }

@@ -1015,4 +1015,25 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get update_store_title => 'Güncelleme mevcut';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'Görevler';
+
+  @override
+  String get output_lyrics => 'Şarkı sözleri';
+
+  @override
+  String get output_tasks_empty => 'Devam eden görev yok';
+
+  @override
+  String get output_lyrics_empty => 'Henüz sözleri olan parça yok';
+
+  @override
+  String get output_task_generate => 'Oluşturuluyor';
+
+  @override
+  String get output_task_align => 'Senkronize ediliyor';
 }

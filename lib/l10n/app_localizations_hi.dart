@@ -1014,4 +1014,25 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get update_store_title => 'अपडेट उपलब्ध है';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'कार्य';
+
+  @override
+  String get output_lyrics => 'बोल';
+
+  @override
+  String get output_tasks_empty => 'कोई कार्य प्रगति में नहीं है';
+
+  @override
+  String get output_lyrics_empty => 'अभी तक बोल वाला कोई ट्रैक नहीं';
+
+  @override
+  String get output_task_generate => 'बन रहे हैं';
+
+  @override
+  String get output_task_align => 'सिंक हो रहे हैं';
 }

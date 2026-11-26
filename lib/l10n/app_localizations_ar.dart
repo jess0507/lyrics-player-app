@@ -1010,4 +1010,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get update_store_title => 'يتوفر تحديث';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'المهام';
+
+  @override
+  String get output_lyrics => 'الكلمات';
+
+  @override
+  String get output_tasks_empty => 'لا توجد مهام قيد التنفيذ';
+
+  @override
+  String get output_lyrics_empty => 'لا توجد مقاطع بكلمات بعد';
+
+  @override
+  String get output_task_generate => 'جارٍ الإنشاء';
+
+  @override
+  String get output_task_align => 'جارٍ المزامنة';
 }

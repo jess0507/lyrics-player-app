@@ -970,4 +970,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get update_store_title => '업데이트 가능';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => '작업';
+
+  @override
+  String get output_lyrics => '가사';
+
+  @override
+  String get output_tasks_empty => '진행 중인 작업이 없습니다';
+
+  @override
+  String get output_lyrics_empty => '가사가 있는 곡이 아직 없습니다';
+
+  @override
+  String get output_task_generate => '생성 중';
+
+  @override
+  String get output_task_align => '싱크 중';
 }

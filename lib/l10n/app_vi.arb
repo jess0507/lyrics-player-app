@@ -304,5 +304,12 @@
   "update_restart_action": "Khởi động lại ngay",
   "update_store_action": "Cập nhật",
   "update_store_message": "Đã có phiên bản mới trên Google Play",
-  "update_store_title": "Có bản cập nhật"
+  "update_store_title": "Có bản cập nhật",
+  "tab_output": "Output",
+  "output_tasks": "Tác vụ",
+  "output_lyrics": "Lời bài hát",
+  "output_tasks_empty": "Không có tác vụ nào đang chạy",
+  "output_lyrics_empty": "Chưa có bài hát nào có lời",
+  "output_task_generate": "Đang tạo",
+  "output_task_align": "Đang đồng bộ"
 }

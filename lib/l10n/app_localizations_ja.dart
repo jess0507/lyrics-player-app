@@ -965,4 +965,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get update_store_title => 'アップデートがあります';
+
+  @override
+  String get tab_output => 'Output';
+
+  @override
+  String get output_tasks => 'タスク';
+
+  @override
+  String get output_lyrics => '歌詞';
+
+  @override
+  String get output_tasks_empty => '進行中のタスクはありません';
+
+  @override
+  String get output_lyrics_empty => '歌詞のある曲はまだありません';
+
+  @override
+  String get output_task_generate => '生成中';
+
+  @override
+  String get output_task_align => '同期中';
 }
