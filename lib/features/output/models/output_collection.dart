@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 「Output」分頁列出的集合。[name] 同時作為路由片段
 /// (`/output/tasks`、`/output/lyrics`);宣告順序即顯示順序。
 enum OutputCollection {
-  tasks(Icons.pending_actions_outlined),
-  lyrics(Icons.lyrics_outlined);
+  tasks,
+  lyrics;
 
-  const OutputCollection(this.icon);
-
-  final IconData icon;
+  /// 列表前方的 icon;歌詞沿用底部導覽「播放清單」的 app logo SVG。
+  Widget get icon => switch (this) {
+    tasks => const Icon(Icons.pending_actions_outlined),
+    lyrics => SvgIcon(Assets.icon.appLogoSvg),
+  };
 
   String label(AppLocalizations l10n) => switch (this) {
     tasks => l10n.output_tasks,

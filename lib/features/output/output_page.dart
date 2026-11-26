@@ -29,7 +29,7 @@ class OutputPage extends ConsumerWidget {
           for (final collection in OutputCollection.values)
             ListTile(
               minTileHeight: 60,
-              leading: CircleAvatar(child: Icon(collection.icon)),
+              leading: CircleAvatar(child: collection.icon),
               title: Text(collection.label(l10n)),
               // 與播放清單列表一致:沒有曲目時不顯示曲數,但維持雙行版面。
               subtitle: counts[collection]! > 0
