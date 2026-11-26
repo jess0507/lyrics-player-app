@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seek_player/core/analytics/analytics_events.dart';
+import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/core/storage/preferences_service.dart';
 import 'package:seek_player/features/library/models/library_section.dart';
 
@@ -24,6 +26,7 @@ class LibrarySectionController extends Notifier<LibrarySection> {
   void select(LibrarySection section) {
     if (section == state) return;
     state = section;
+    logAnalyticsAction(LibraryAction.switchSection, option: section);
     _prefs.setString(_key, section.name);
   }
 }

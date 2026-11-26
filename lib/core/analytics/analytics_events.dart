@@ -211,7 +211,11 @@ enum LibraryAction implements AnalyticsAction {
   filterFolder,
   playTrack,
   addToPlaylistOpen,
-  trackInfo;
+  trackInfo,
+
+  /// 「媒體庫」頂欄的區塊切換(本地音樂 / 播放清單);option = 切到的
+  /// `LibrarySection`。用來評估兩區塊合併成一個底部導覽後的切換頻率。
+  switchSection;
 
   @override
   AnalyticsEvent get analyticsEvent => AnalyticsEvent.libraryAction;
