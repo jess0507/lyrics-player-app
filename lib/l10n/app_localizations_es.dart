@@ -1025,7 +1025,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get update_store_title => 'Actualización disponible';
 
   @override
-  String get tab_output => 'Resultados';
+  String get output_section => 'Resultados';
 
   @override
   String get output_tasks => 'Tareas';

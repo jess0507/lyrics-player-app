@@ -1016,7 +1016,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get update_store_title => 'अपडेट उपलब्ध है';
 
   @override
-  String get tab_output => 'आउटपुट';
+  String get output_section => 'आउटपुट';
 
   @override
   String get output_tasks => 'कार्य';

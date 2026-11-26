@@ -1016,7 +1016,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get update_store_title => 'Có bản cập nhật';
 
   @override
-  String get tab_output => 'Kết quả';
+  String get output_section => 'Kết quả';
 
   @override
   String get output_tasks => 'Tác vụ';

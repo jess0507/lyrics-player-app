@@ -1028,7 +1028,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get update_store_title => 'Mise à jour disponible';
 
   @override
-  String get tab_output => 'Résultats';
+  String get output_section => 'Résultats';
 
   @override
   String get output_tasks => 'Tâches';

@@ -1012,7 +1012,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get update_store_title => 'Pembaruan tersedia';
 
   @override
-  String get tab_output => 'Hasil';
+  String get output_section => 'Hasil';
 
   @override
   String get output_tasks => 'Tugas';

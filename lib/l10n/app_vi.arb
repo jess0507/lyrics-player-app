@@ -305,7 +305,7 @@
   "update_store_action": "Cập nhật",
   "update_store_message": "Đã có phiên bản mới trên Google Play",
   "update_store_title": "Có bản cập nhật",
-  "tab_output": "Kết quả",
+  "output_section": "Kết quả",
   "output_tasks": "Tác vụ",
   "output_lyrics": "Lời bài hát",
   "output_tasks_empty": "Không có tác vụ nào đang chạy",

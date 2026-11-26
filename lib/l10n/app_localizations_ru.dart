@@ -1017,7 +1017,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get update_store_title => 'Доступно обновление';
 
   @override
-  String get tab_output => 'Результаты';
+  String get output_section => 'Результаты';
 
   @override
   String get output_tasks => 'Задачи';

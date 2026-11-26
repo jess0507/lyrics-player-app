@@ -305,7 +305,7 @@
   "update_store_action": "Обновить",
   "update_store_message": "В Google Play доступна новая версия",
   "update_store_title": "Доступно обновление",
-  "tab_output": "Результаты",
+  "output_section": "Результаты",
   "output_tasks": "Задачи",
   "output_lyrics": "Тексты",
   "output_tasks_empty": "Нет активных задач",

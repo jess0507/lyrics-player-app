@@ -1012,7 +1012,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update_store_title => 'يتوفر تحديث';
 
   @override
-  String get tab_output => 'المخرجات';
+  String get output_section => 'المخرجات';
 
   @override
   String get output_tasks => 'المهام';

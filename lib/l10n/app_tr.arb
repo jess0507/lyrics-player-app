@@ -305,7 +305,7 @@
   "update_store_action": "Güncelle",
   "update_store_message": "Google Play'de yeni bir sürüm mevcut",
   "update_store_title": "Güncelleme mevcut",
-  "tab_output": "Çıktılar",
+  "output_section": "Çıktılar",
   "output_tasks": "Görevler",
   "output_lyrics": "Şarkı sözleri",
   "output_tasks_empty": "Devam eden görev yok",

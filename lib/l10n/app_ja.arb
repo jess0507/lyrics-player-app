@@ -305,7 +305,7 @@
   "update_store_action": "更新",
   "update_store_message": "Google Play で新しいバージョンをご利用いただけます",
   "update_store_title": "アップデートがあります",
-  "tab_output": "出力",
+  "output_section": "出力",
   "output_tasks": "タスク",
   "output_lyrics": "歌詞",
   "output_tasks_empty": "進行中のタスクはありません",

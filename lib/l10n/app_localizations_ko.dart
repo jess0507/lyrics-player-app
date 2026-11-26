@@ -972,7 +972,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get update_store_title => '업데이트 가능';
 
   @override
-  String get tab_output => '결과물';
+  String get output_section => '결과물';
 
   @override
   String get output_tasks => '작업';

@@ -305,7 +305,7 @@
   "update_store_action": "Aggiorna",
   "update_store_message": "È disponibile una nuova versione su Google Play",
   "update_store_title": "Aggiornamento disponibile",
-  "tab_output": "Risultati",
+  "output_section": "Risultati",
   "output_tasks": "Attività",
   "output_lyrics": "Testi",
   "output_tasks_empty": "Nessuna attività in corso",

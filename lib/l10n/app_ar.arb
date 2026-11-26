@@ -305,7 +305,7 @@
   "update_store_action": "تحديث",
   "update_store_message": "يتوفر إصدار جديد على Google Play",
   "update_store_title": "يتوفر تحديث",
-  "tab_output": "المخرجات",
+  "output_section": "المخرجات",
   "output_tasks": "المهام",
   "output_lyrics": "الكلمات",
   "output_tasks_empty": "لا توجد مهام قيد التنفيذ",

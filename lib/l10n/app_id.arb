@@ -305,7 +305,7 @@
   "update_store_action": "Perbarui",
   "update_store_message": "Versi baru tersedia di Google Play",
   "update_store_title": "Pembaruan tersedia",
-  "tab_output": "Hasil",
+  "output_section": "Hasil",
   "output_tasks": "Tugas",
   "output_lyrics": "Lirik",
   "output_tasks_empty": "Tidak ada tugas yang sedang berjalan",

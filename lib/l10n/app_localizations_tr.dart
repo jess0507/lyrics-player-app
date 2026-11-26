@@ -1017,7 +1017,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get update_store_title => 'Güncelleme mevcut';
 
   @override
-  String get tab_output => 'Çıktılar';
+  String get output_section => 'Çıktılar';
 
   @override
   String get output_tasks => 'Görevler';

@@ -1019,7 +1019,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get update_store_title => 'Aggiornamento disponibile';
 
   @override
-  String get tab_output => 'Risultati';
+  String get output_section => 'Risultati';
 
   @override
   String get output_tasks => 'Attività';

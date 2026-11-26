@@ -305,7 +305,7 @@
   "update_store_action": "Actualizar",
   "update_store_message": "Hay una nueva versión disponible en Google Play",
   "update_store_title": "Actualización disponible",
-  "tab_output": "Resultados",
+  "output_section": "Resultados",
   "output_tasks": "Tareas",
   "output_lyrics": "Letras",
   "output_tasks_empty": "No hay tareas en curso",

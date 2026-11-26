@@ -1959,11 +1959,11 @@ abstract class AppLocalizations {
   /// **'Update Available'**
   String get update_store_title;
 
-  /// No description provided for @tab_output.
+  /// No description provided for @output_section.
   ///
   /// In en, this message translates to:
   /// **'Output'**
-  String get tab_output;
+  String get output_section;
 
   /// No description provided for @output_tasks.
   ///

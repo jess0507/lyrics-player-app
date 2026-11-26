@@ -1009,7 +1009,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get update_store_title => 'Update Available';
 
   @override
-  String get tab_output => 'Output';
+  String get output_section => 'Output';
 
   @override
   String get output_tasks => 'Tasks';

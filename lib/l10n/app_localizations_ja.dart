@@ -967,7 +967,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get update_store_title => 'アップデートがあります';
 
   @override
-  String get tab_output => '出力';
+  String get output_section => '出力';
 
   @override
   String get output_tasks => 'タスク';
