@@ -2,15 +2,26 @@
 
 ## develop
 - feature
-  - New navigation for "Output", "Media"
+  - 底部導覽改版:工具 / 音訊 / 我的
+    - 音訊:本地音樂與播放清單合併,記住上次區塊
+    - 工具:工具與產出(任務、歌詞)改為卡片
 - bug
   - 先上搜尋關鍵字不要省略標點符號, 可能會影響原文, ex. Don't
 - enhancement
+  - 更多選單:顯示搜尋等選項,讓畫面簡潔
+  - player:曲目載入失敗時提示,不再丟例外
+  - cover:無法解碼的圖片匯入時擋下、顯示時視為無封面
+  - 檔案 / 封面選擇器防止連點重複開啟
+  - lyrics:取消任務時找不到ref問題修復
   - update:回到前景時檢查熱更新
   - update:更新提示 dialog 改版
     - 加上 logo、標題、副標題
     - 主要按鈕改全寬
 - analysis
+  - `library_action` 新增 `switch_section`(音訊頁區塊切換)
+  - crash:回報可附加資訊、可標為 fatal
+    - 曲目載入失敗以 fatal 回報並附曲目資訊
+    - Play 更新檢查失敗分類回報
   - 新增 `update_action` 事件
     - 商店更新:顯示 / 更新 / 稍後
     - 熱更新:顯示 / 重啟 / 稍後
