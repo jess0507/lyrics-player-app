@@ -15,6 +15,7 @@ import 'package:seek_player/features/playlists/providers/recently_played_provide
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/services/playlist_repository.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
+import 'package:seek_player/shared/widgets/more_menu_button.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_track_actions_sheet.dart';
 import 'package:seek_player/features/playlists/widgets/recently_played_track_list.dart';
@@ -28,8 +29,9 @@ import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
-/// 單一播放清單內容:頂端靠左為清單名稱,其下一列新增 / 編輯 / 排序 / 搜尋
-/// (最近播放為清空 / 搜尋),同列右側為隨機 / 播放全部,再下方為曲目清單。
+/// 單一播放清單內容:頂端靠左為清單名稱,右側更多選單為搜尋 / 新增 / 編輯 /
+/// 排序(最近播放為搜尋 / 清空);其下一列右側為隨機 / 播放全部,再下方為
+/// 曲目清單。
 class PlaylistDetailPage extends ConsumerStatefulWidget {
   const PlaylistDetailPage({
     super.key,
@@ -218,13 +220,22 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
                   onChanged: (_) => setState(() {}),
                 )
               : Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          // 搜尋欄右側留白,不貼齊螢幕邊緣。
-          actions: [if (_searching) const SizedBox(width: 16)],
+          actions: [
+            if (_searching)
+              // 搜尋欄右側留白,不貼齊螢幕邊緣。
+              const SizedBox(width: 16)
+            else
+              MoreMenuButton(
+                entries: _menuEntries(l10n, isRecentlyPlayed, tracks),
+              ),
+          ],
         ),
         body: Column(
           children: [
+            // 清單為空(或搜尋無結果)時不顯示隨機 / 播放,整列不佔空間;
+            // 只播目前篩選出的曲目。
             PlaylistActionBar(
-              // 清單為空(或搜尋無結果)時不顯示隨機 / 播放;只播目前篩選出的曲目。
+              actions: const [],
               trailing: visibleTracks.isEmpty
                   ? null
                   : PlaylistPlayControls(
@@ -233,52 +244,6 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
                           ? AnalyticsSource.recentlyPlayed
                           : AnalyticsSource.playlistDetail,
                     ),
-              actions: [
-                // 新增往上展開挑選曲目頁;最近播放不可增加項目。
-                if (!isRecentlyPlayed)
-                  IconButton(
-                    tooltip: l10n.playlist_add_item,
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      logAnalyticsAction(PlaylistAction.openAddTracks);
-                      showPlaylistAddTracksPage(context, playlistId);
-                    },
-                  ),
-                // 清單為空時沒有東西可編輯 / 排序 / 搜尋 / 清空,不顯示。
-                if (tracks.isNotEmpty) ...[
-                  if (isRecentlyPlayed)
-                    IconButton(
-                      tooltip: l10n.playlist_clear_recently_played,
-                      icon: const Icon(Icons.delete_sweep_outlined),
-                      onPressed: _clearRecentlyPlayed,
-                    )
-                  else ...[
-                    // 往上展開同一張挑選曲目頁,調整已加入曲目的順序。
-                    IconButton(
-                      tooltip: l10n.playlist_edit,
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        logAnalyticsAction(PlaylistAction.openEditTracks);
-                        showPlaylistAddTracksPage(
-                          context,
-                          playlistId,
-                          reorderable: true,
-                        );
-                      },
-                    ),
-                    IconButton(
-                      tooltip: l10n.tools_sort_by,
-                      icon: const Icon(Icons.sort),
-                      onPressed: _editSort,
-                    ),
-                  ],
-                  IconButton(
-                    tooltip: l10n.music_search,
-                    icon: SvgIcon(Assets.icon.search),
-                    onPressed: _toggleSearch,
-                  ),
-                ],
-              ],
             ),
             Expanded(
               child: tracks.isEmpty
@@ -302,6 +267,56 @@ class _PlaylistDetailPageState extends ConsumerState<PlaylistDetailPage> {
       ),
     );
   }
+
+  /// 頂欄更多選單的選項。
+  List<MoreMenuEntry> _menuEntries(
+    AppLocalizations l10n,
+    bool isRecentlyPlayed,
+    List<Track> tracks,
+  ) => [
+    // 搜尋排第一;清單為空時沒有東西可搜尋。
+    if (tracks.isNotEmpty)
+      MoreMenuEntry(
+        icon: SvgIcon(Assets.icon.search),
+        label: l10n.music_search,
+        onSelected: _toggleSearch,
+      ),
+    // 新增往上展開挑選曲目頁;最近播放不可增加項目。
+    if (!isRecentlyPlayed)
+      MoreMenuEntry(
+        icon: const Icon(Icons.add),
+        label: l10n.playlist_add_item,
+        onSelected: () {
+          logAnalyticsAction(PlaylistAction.openAddTracks);
+          showPlaylistAddTracksPage(context, playlistId);
+        },
+      ),
+    // 清單為空時沒有東西可編輯 / 排序 / 清空,不顯示。
+    if (tracks.isNotEmpty) ...[
+      if (isRecentlyPlayed)
+        MoreMenuEntry(
+          icon: const Icon(Icons.delete_sweep_outlined),
+          label: l10n.playlist_clear_recently_played,
+          onSelected: _clearRecentlyPlayed,
+        )
+      else ...[
+        // 往上展開同一張挑選曲目頁,調整已加入曲目的順序。
+        MoreMenuEntry(
+          icon: const Icon(Icons.edit),
+          label: l10n.playlist_edit,
+          onSelected: () {
+            logAnalyticsAction(PlaylistAction.openEditTracks);
+            showPlaylistAddTracksPage(context, playlistId, reorderable: true);
+          },
+        ),
+        MoreMenuEntry(
+          icon: const Icon(Icons.sort),
+          label: l10n.tools_sort_by,
+          onSelected: _editSort,
+        ),
+      ],
+    ],
+  ];
 
   /// 最近播放:把篩選後的 [tracks] 對回播放紀錄,依播放時間新到舊、
   /// 按日期分組。
