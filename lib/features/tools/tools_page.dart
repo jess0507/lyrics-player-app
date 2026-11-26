@@ -33,6 +33,7 @@ class ToolsPage extends StatelessWidget {
                 ActionCard(
                   icon: Icon(tool.icon),
                   label: tool.label(l10n),
+                  accent: tool.accent,
                   // 卡片只放名稱,完整說明改由長按提示。
                   tooltip: tool.description(l10n),
                   onTap: () {

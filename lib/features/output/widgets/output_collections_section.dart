@@ -36,6 +36,7 @@ class OutputCollectionsSection extends ConsumerWidget {
               ActionCard(
                 icon: collection.icon,
                 label: collection.label(l10n),
+                accent: collection.accent,
                 // 沒有曲目時不顯示曲數,卡片高度固定不受影響。
                 caption: counts[collection]! > 0
                     ? l10n.playlist_track_count(counts[collection]!)

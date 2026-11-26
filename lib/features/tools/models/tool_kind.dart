@@ -6,14 +6,17 @@ import 'package:seek_player/l10n/app_localizations.dart';
 /// [name] 同時作為選曲頁的路由片段(`/tools/lyrics`、`/tools/lyricsEdit`、`/tools/cover`)。
 /// 宣告順序即工具頁的顯示順序。
 enum ToolKind {
-  lyrics(Icons.lyrics_outlined),
+  lyrics(Icons.lyrics_outlined, Color(0xFF8B5CF6)),
   /// 「編輯歌詞」的圖示也是播放頁選單編輯歌詞項目的唯一來源。
-  lyricsEdit(Icons.edit_outlined),
-  cover(Icons.image_outlined);
+  lyricsEdit(Icons.edit_outlined, Color(0xFFF59E0B)),
+  cover(Icons.image_outlined, Color(0xFFEC4899));
 
-  const ToolKind(this.icon);
+  const ToolKind(this.icon, this.accent);
 
   final IconData icon;
+
+  /// 工具頁卡片 icon 的主色,每個工具一色以便辨識。
+  final Color accent;
 
   String label(AppLocalizations l10n) => switch (this) {
     lyrics => l10n.tools_lyrics,

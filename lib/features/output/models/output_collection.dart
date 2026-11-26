@@ -6,8 +6,13 @@ import 'package:seek_player/shared/widgets/svg_icon.dart';
 /// 工具頁「產出」區列出的集合。[name] 同時作為路由片段
 /// (`/tools/output/tasks`、`/tools/output/lyrics`);宣告順序即顯示順序。
 enum OutputCollection {
-  tasks,
-  lyrics;
+  tasks(Color(0xFF3B82F6)),
+  lyrics(Color(0xFF10B981));
+
+  const OutputCollection(this.accent);
+
+  /// 工具頁卡片 icon 的主色,與工具卡片的顏色錯開。
+  final Color accent;
 
   /// 列表前方的 icon;歌詞沿用底部導覽「播放清單」的 app logo SVG。
   Widget get icon => switch (this) {
