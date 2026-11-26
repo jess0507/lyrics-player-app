@@ -29,14 +29,17 @@ class OutputCollectionsSection extends ConsumerWidget {
           ),
         ),
         for (final collection in OutputCollection.values)
+          // 樣式對齊上方的工具列:一般 icon、說明行、右側箭頭。
           ListTile(
-            minTileHeight: 60,
-            leading: CircleAvatar(child: collection.icon),
+            leading: collection.icon,
             title: Text(collection.label(l10n)),
-            // 與播放清單列表一致:沒有曲目時不顯示曲數,但維持雙行版面。
-            subtitle: counts[collection]! > 0
-                ? Text(l10n.playlist_track_count(counts[collection]!))
-                : const SizedBox.shrink(),
+            // 沒有曲目時改顯示空狀態文字,讓每列都維持雙行。
+            subtitle: Text(
+              counts[collection]! > 0
+                  ? l10n.playlist_track_count(counts[collection]!)
+                  : collection.emptyLabel(l10n),
+            ),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push('/tools/output/${collection.name}'),
           ),
       ],
