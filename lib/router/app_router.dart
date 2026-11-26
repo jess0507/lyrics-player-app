@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
+import 'package:seek_player/features/output/models/output_collection.dart';
+import 'package:seek_player/features/output/output_lyrics_page.dart';
+import 'package:seek_player/features/output/output_page.dart';
+import 'package:seek_player/features/output/output_tasks_page.dart';
 import 'package:seek_player/features/playlists/local_music_playlist_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/playlist_search_page.dart';
@@ -158,6 +162,25 @@ final routerProvider = Provider<GoRouter>((ref) {
                         ),
                       ),
                     ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          // 「Output」分頁:任務、歌詞等產出集合。
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/output',
+                builder: (context, state) => const OutputPage(),
+                routes: [
+                  GoRoute(
+                    path: OutputCollection.tasks.name,
+                    builder: (context, state) => const OutputTasksPage(),
+                  ),
+                  GoRoute(
+                    path: OutputCollection.lyrics.name,
+                    builder: (context, state) => const OutputLyricsPage(),
                   ),
                 ],
               ),

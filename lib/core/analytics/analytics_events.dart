@@ -108,6 +108,10 @@ enum AnalyticsSource {
 
   /// 編輯歌詞頁(與播放頁歌詞字級等設定區分)。
   lyricsEditor,
+
+  /// 「Output」分頁的歌詞 / 任務集合。
+  outputLyrics,
+  outputTasks,
 }
 
 /// 通用結果。功能有更細的失敗原因 enum 時(如 `LyricsImportError`)直接傳那個。

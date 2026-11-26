@@ -44,6 +44,11 @@ class ScaffoldWithNav extends StatelessWidget {
                 label: l10n.tab_playlists,
               ),
               NavigationDestination(
+                icon: const Icon(Icons.inventory_2_outlined),
+                selectedIcon: const Icon(Icons.inventory_2),
+                label: l10n.tab_output,
+              ),
+              NavigationDestination(
                 icon: const Icon(Icons.person_outline),
                 label: l10n.tab_profile,
               ),
