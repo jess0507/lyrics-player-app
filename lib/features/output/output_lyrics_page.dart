@@ -26,8 +26,8 @@ class OutputLyricsPage extends ConsumerStatefulWidget {
 }
 
 class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
-  /// 預設維持 provider 的順序(歌詞加入時間新到舊);僅本頁暫存。
-  var _sort = const TrackSort(field: TrackSortField.custom);
+  /// 預設加入時間新到舊;僅本頁暫存。
+  var _sort = const TrackSort();
   var _searching = false;
   final _searchController = TextEditingController();
 
@@ -38,11 +38,7 @@ class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
   }
 
   Future<void> _editSort() async {
-    final sort = await showTrackSortSheet(
-      context,
-      current: _sort,
-      fields: TrackSortField.values,
-    );
+    final sort = await showTrackSortSheet(context, current: _sort);
     if (sort == null) return;
     logAnalyticsAction(
       PlaylistAction.changeSort,
@@ -78,17 +74,18 @@ class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
     final stats = ref.watch(trackFileStatsProvider).valueOrNull ?? const {};
     final plays = ref.watch(trackPlayStatsProvider);
     final query = _searchController.text.trim().toLowerCase();
-    final visibleTracks = _sort.apply(
-      [
-        for (final t in tracks)
-          if (query.isEmpty ||
-              t.title.toLowerCase().contains(query) ||
-              (t.artist?.toLowerCase().contains(query) ?? false))
-            t,
-      ],
-      stats,
-      plays,
-    );
+    final filtered = [
+      for (final t in tracks)
+        if (query.isEmpty ||
+            t.title.toLowerCase().contains(query) ||
+            (t.artist?.toLowerCase().contains(query) ?? false))
+          t,
+    ];
+    // 本頁的「加入時間」指歌詞加入時間,即 provider 的順序(新到舊),
+    // 不用 TrackSort 的檔案修改時間。
+    final visibleTracks = _sort.field == TrackSortField.timeAdded
+        ? (_sort.descending ? filtered : filtered.reversed.toList())
+        : _sort.apply(filtered, stats, plays);
     return PopScope(
       // 搜尋中按返回只關閉搜尋、回到原本的頂欄,不離開本頁。
       canPop: !_searching,
