@@ -6,10 +6,9 @@ import 'package:seek_player/features/output/models/output_collection.dart';
 import 'package:seek_player/features/output/output_lyrics_page.dart';
 import 'package:seek_player/features/output/output_page.dart';
 import 'package:seek_player/features/output/output_tasks_page.dart';
-import 'package:seek_player/features/playlists/local_music_playlist_page.dart';
+import 'package:seek_player/features/library/library_page.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
 import 'package:seek_player/features/playlists/playlist_search_page.dart';
-import 'package:seek_player/features/playlists/playlists_page.dart';
 import 'package:seek_player/features/profile/about/about_page.dart';
 import 'package:seek_player/features/profile/account/account_page.dart';
 import 'package:seek_player/features/profile/profile_page.dart';
@@ -51,7 +50,7 @@ CustomTransitionPage<void> _slideInPage({
 final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/local',
+    initialLocation: '/library',
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -117,12 +116,12 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // 「本地音樂」分頁。
+          // 「媒體庫」分頁:本地音樂與播放清單合併,頁內以 tag 切換。
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/local',
-                builder: (context, state) => const LocalMusicPlaylistPage(),
+                path: '/library',
+                builder: (context, state) => const LibraryPage(),
                 routes: [
                   GoRoute(
                     path: 'search',
@@ -132,18 +131,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                       child: const PlaylistSearchPage(playlistId: null),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/playlists',
-                builder: (context, state) => const PlaylistsPage(),
-                routes: [
                   GoRoute(
-                    path: ':id',
+                    path: 'playlists/:id',
                     builder: (context, state) => PlaylistDetailPage(
                       playlistId: int.parse(state.pathParameters['id']!),
                       openAddTracksOnOpen:

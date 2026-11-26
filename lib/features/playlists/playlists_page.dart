@@ -3,9 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seek_player/core/analytics/analytics_events.dart';
 import 'package:seek_player/core/analytics/analytics_reporter.dart';
-import 'package:seek_player/core/permissions/permission_service.dart';
-import 'package:seek_player/features/music_list/models/track.dart';
-import 'package:seek_player/features/music_list/providers/music_library.dart';
 import 'package:seek_player/features/playlists/models/playlist_display_name.dart';
 import 'package:seek_player/features/playlists/models/playlist_entity.dart';
 import 'package:seek_player/features/playlists/playlist_detail_page.dart';
@@ -17,40 +14,19 @@ import 'package:seek_player/features/playlists/widgets/playlist_name_dialog.dart
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 
-/// 播放清單列表:本地音樂、我的最愛、最近播放等系統清單固定在最前,
+/// 「媒體庫」分頁的播放清單區塊:我的最愛、最近播放等系統清單固定在最前,
 /// 可新增 / 重新命名 / 刪除其他使用者清單。
-/// 「本地音樂」是虛擬清單(不落地 Isar):內容即裝置音樂庫,唯讀。
 class PlaylistsPage extends ConsumerStatefulWidget {
-  const PlaylistsPage({super.key});
+  const PlaylistsPage({super.key, this.header});
+
+  /// 頂欄下方的區塊切換列(見 LibraryPage)。
+  final Widget? header;
 
   @override
   ConsumerState<PlaylistsPage> createState() => _PlaylistsPageState();
 }
 
 class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
-  @override
-  void initState() {
-    super.initState();
-    // 進播放清單頁即檢查本地音樂:musicLibrary 的 build 不會主動要權限,
-    // 未授權時只會回空清單。等首次結果出來,若為空就先確認權限再掃描,
-    // 讓使用者不必進到「本地音樂」再手動點「重新掃描」。已有曲目則不重掃。
-    WidgetsBinding.instance.addPostFrameCallback((_) => _rescanIfEmpty());
-  }
-
-  Future<void> _rescanIfEmpty() async {
-    List<Track> tracks;
-    try {
-      tracks = await ref.read(musicLibraryProvider.future);
-    } catch (_) {
-      tracks = const [];
-    }
-    if (!mounted || tracks.isNotEmpty) return;
-
-    final granted = await permissionService.ensureAudioPermission(context);
-    if (!granted || !mounted) return;
-    await ref.read(musicLibraryProvider.notifier).refresh();
-  }
-
   Future<void> _create(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context)!;
     final name = await showPlaylistNameDialog(
@@ -66,7 +42,9 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
     if (!context.mounted) return;
     // 新建的清單是空的:進詳細頁後直接疊上「增加項目」頁,返回即回到
     // 這個清單(見 PlaylistDetailPage.openAddTracksOnOpen)。
-    context.push('/playlists/$id?${PlaylistDetailPage.addTracksQuery}=1');
+    context.push(
+      '/library/playlists/$id?${PlaylistDetailPage.addTracksQuery}=1',
+    );
   }
 
   Future<void> _rename(
@@ -129,7 +107,7 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
       appBar: AppBar(
         // 分頁根頁沒有返回鍵,左側改放 app 圖示。
         leading: const AppLogoLeading(),
-        title: Text(l10n.tab_playlists),
+        title: Text(l10n.tab_library),
       ),
       floatingActionButton: FloatingActionButton(
         // 各分頁在 IndexedStack 中同時存在,共用預設 hero tag 會在推頁時
@@ -139,57 +117,66 @@ class _PlaylistsPageState extends ConsumerState<PlaylistsPage> {
         tooltip: l10n.playlist_new,
         child: const Icon(Icons.add),
       ),
-      body: playlists.isEmpty
-          ? Center(child: Text(l10n.playlists_empty))
-          : ListView.builder(
-              itemCount: playlists.length,
-              itemBuilder: (context, index) {
-                final playlist = playlists[index];
-                // 曲數只計 music library 找得到的曲目(來源檔已移除 / 尚未
-                // 掃描到的略過),與詳頁實際顯示的清單一致。
-                final trackCount = playlist.isRecentlyPlayed
-                    ? ref.watch(recentlyPlayedProvider).length
-                    : ref.watch(playlistTracksProvider(playlist.id)).length;
-                return ListTile(
-                  minTileHeight: 60,
-                  // 預設左右各 16;去掉右側留白,讓 trailing 選單貼齊右緣。
-                  contentPadding: const EdgeInsetsDirectional.only(start: 16),
-                  leading: playlist.isFavorites
-                      ? const CircleAvatar(child: Icon(Icons.favorite))
-                      : playlist.isRecentlyPlayed
-                      ? const CircleAvatar(child: Icon(Icons.history))
-                      : null,
-                  title: Text(
-                    playlistDisplayName(playlist, l10n),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: _countSubtitle(l10n, trackCount),
-                  trailing: playlist.isFavorites || playlist.isRecentlyPlayed
-                      ? null
-                      : PopupMenuButton<String>(
-                          onSelected: (value) {
-                            if (value == 'rename') {
-                              _rename(context, ref, playlist);
-                            } else if (value == 'delete') {
-                              _delete(context, ref, playlist);
-                            }
-                          },
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 'rename',
-                              child: Text(l10n.playlist_rename),
-                            ),
-                            PopupMenuItem(
-                              value: 'delete',
-                              child: Text(l10n.playlist_delete),
-                            ),
-                          ],
-                        ),
-                  onTap: () => context.push('/playlists/${playlist.id}'),
-                );
-              },
-            ),
+      body: Column(
+        children: [
+          ?widget.header,
+          Expanded(child: _buildList(l10n, playlists)),
+        ],
+      ),
     );
+  }
+
+  Widget _buildList(AppLocalizations l10n, List<PlaylistEntity> playlists) {
+    return playlists.isEmpty
+        ? Center(child: Text(l10n.playlists_empty))
+        : ListView.builder(
+            itemCount: playlists.length,
+            itemBuilder: (context, index) {
+              final playlist = playlists[index];
+              // 曲數只計 music library 找得到的曲目(來源檔已移除 / 尚未
+              // 掃描到的略過),與詳頁實際顯示的清單一致。
+              final trackCount = playlist.isRecentlyPlayed
+                  ? ref.watch(recentlyPlayedProvider).length
+                  : ref.watch(playlistTracksProvider(playlist.id)).length;
+              return ListTile(
+                minTileHeight: 60,
+                // 預設左右各 16;去掉右側留白,讓 trailing 選單貼齊右緣。
+                contentPadding: const EdgeInsetsDirectional.only(start: 16),
+                leading: playlist.isFavorites
+                    ? const CircleAvatar(child: Icon(Icons.favorite))
+                    : playlist.isRecentlyPlayed
+                    ? const CircleAvatar(child: Icon(Icons.history))
+                    : null,
+                title: Text(
+                  playlistDisplayName(playlist, l10n),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: _countSubtitle(l10n, trackCount),
+                trailing: playlist.isFavorites || playlist.isRecentlyPlayed
+                    ? null
+                    : PopupMenuButton<String>(
+                        onSelected: (value) {
+                          if (value == 'rename') {
+                            _rename(context, ref, playlist);
+                          } else if (value == 'delete') {
+                            _delete(context, ref, playlist);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 'rename',
+                            child: Text(l10n.playlist_rename),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Text(l10n.playlist_delete),
+                          ),
+                        ],
+                      ),
+                onTap: () => context.push('/library/playlists/${playlist.id}'),
+              );
+            },
+          );
   }
 }

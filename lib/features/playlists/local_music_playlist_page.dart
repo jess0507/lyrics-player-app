@@ -27,12 +27,15 @@ import 'package:seek_player/shared/widgets/empty_state_view.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
-/// 「本地音樂」分頁(底部導覽第一個分頁):內容即裝置音樂庫全部曲目,不落地 Isar、不參與
+/// 「媒體庫」分頁的本地音樂區塊:內容即裝置音樂庫全部曲目,不落地 Isar、不參與
 /// 同步,直接由 music library 衍生。唯讀 — 不可新增 / 移除 / 手動調整順序,
 /// 僅能重新掃描、依資料夾篩選、搜尋、排序、播放全部、逐首播放與開啟曲目
 /// 操作選單(加入清單、檢視資訊)。
 class LocalMusicPlaylistPage extends ConsumerStatefulWidget {
-  const LocalMusicPlaylistPage({super.key});
+  const LocalMusicPlaylistPage({super.key, this.header});
+
+  /// 頂欄下方的區塊切換列(見 LibraryPage);搜尋中隱藏。
+  final Widget? header;
 
   @override
   ConsumerState<LocalMusicPlaylistPage> createState() =>
@@ -177,7 +180,7 @@ class _LocalMusicPlaylistPageState
                   onChanged: (_) => setState(() {}),
                 )
               : Text(
-                  l10n.playlist_local_music,
+                  l10n.tab_library,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -186,6 +189,7 @@ class _LocalMusicPlaylistPageState
         ),
         body: Column(
           children: [
+            if (!_searching && widget.header != null) widget.header!,
             // 有曲目時才顯示資料夾下拉與操作列;清單為空時重新掃描改由
             // 下方空狀態提供。
             if (tracks.isNotEmpty) ...[

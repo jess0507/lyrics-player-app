@@ -33,15 +33,11 @@ class ScaffoldWithNav extends StatelessWidget {
                 icon: const Icon(Icons.auto_fix_high_outlined),
                 label: l10n.tab_tools,
               ),
-              // SVG 沒有實心版,選中與否共用同一張,顏色由導覽列的 IconTheme 切換。
+              // 媒體庫(本地音樂 + 播放清單)。SVG 沒有實心版,選中與否共用
+              // 同一張,顏色由導覽列的 IconTheme 切換。
               NavigationDestination(
                 icon: SvgIcon(Assets.icon.music),
-                label: l10n.playlist_local_music,
-              ),
-              // 播放清單用 app logo 的形狀;SVG 經 SvgIcon 單色化,隨 IconTheme 換色。
-              NavigationDestination(
-                icon: SvgIcon(Assets.icon.appLogoSvg),
-                label: l10n.tab_playlists,
+                label: l10n.tab_library,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.inventory_2_outlined),
