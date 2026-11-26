@@ -6,10 +6,10 @@ import 'package:seek_player/core/crash_reporter.dart';
 import 'package:seek_player/features/lyrics/online/models/lrclib_result.dart';
 import 'package:seek_player/features/lyrics/online/providers/lyrics_online_search_service_provider.dart';
 import 'package:seek_player/features/lyrics/online/services/lrclib_client.dart';
+import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/keyboard.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
-import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 線上搜尋歌詞的完整面板:上方為預填查詢字串的搜尋欄(可編輯後重查),
@@ -91,17 +91,14 @@ class _LyricsOnlineSearchSheetState
   }
 
   /// 搜尋欄預填的查詢字串:曲名 + 演出者(重查時作為關鍵字使用)。
-  /// 標點符號以空格取代,避免檔名式標題(如「A - B」「A_B」)影響關鍵字比對。
+  /// 壓縮連續空白並去頭尾空白。
   String get _initialKeyword {
     final artist = widget.artist;
     final keyword = [
       widget.title,
       if (artist != null && artist.isNotEmpty) artist,
     ].join(' ');
-    return keyword
-        .replaceAll(RegExp(r'[\p{P}\p{S}]', unicode: true), ' ')
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .trim();
+    return keyword.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   Future<void> _searchByKeyword() async {

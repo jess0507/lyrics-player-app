@@ -1,6 +1,8 @@
 # Changelog
 
 ## develop
+- bug
+  - 先上搜尋關鍵字不要省略標點符號, 可能會影響原文, ex. Don't
 - enhancement
   - update:回到前景時檢查熱更新
   - update:更新提示 dialog 改版
