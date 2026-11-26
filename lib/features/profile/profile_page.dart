@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seek_player/features/profile/widgets/profile_card.dart';
 import 'package:seek_player/features/profile/widgets/profile_entry.dart';
+import 'package:seek_player/features/profile/widgets/sign_out_card.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 
@@ -36,6 +37,8 @@ class ProfilePage extends ConsumerWidget {
                 ),
             ],
           ),
+          const SizedBox(height: 24),
+          const SignOutCard(),
         ],
       ),
     );

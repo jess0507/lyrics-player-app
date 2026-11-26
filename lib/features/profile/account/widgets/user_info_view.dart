@@ -14,7 +14,7 @@ import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_toast.dart';
 
 /// 已登入:最上方是頭像、名稱與 Email,接著是備份區塊(Google Drive 連結、
-/// 上次備份),最後是登出與刪除資料/刪除帳號。備份授權與 Firebase 登入彼此獨立(plan 26)。
+/// 上次備份),最後是刪除資料/刪除帳號(登出在「更多」頁)。備份授權與 Firebase 登入彼此獨立(plan 26)。
 class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key, required this.user});
 
@@ -69,16 +69,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
         // 備份
         const Divider(height: 1),
         const BackupSection(),
-        Spacer(),
-        // 登出
-        const Divider(height: 1),
-        ListTile(
-          leading: const Icon(Icons.logout),
-          title: Text(l10n.account_sign_out),
-          onTap: () => _signOut(context, auth),
-        ),
-        const Divider(height: 1),
-        const SizedBox(height: 32),
+        const Spacer(),
         // 危險操作
         const Divider(height: 1),
         ListTile(
@@ -102,27 +93,6 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
         const SizedBox(height: 32),
       ],
     );
-  }
-
-  /// 登出並以 toast 回報結果。成功後 authState 變更,本視圖會被換成
-  /// 登入畫面;toast 掛在 root overlay,不依賴本視圖的 context。
-  Future<void> _signOut(BuildContext context, AuthService auth) async {
-    final l10n = AppLocalizations.of(context)!;
-    try {
-      await auth.signOut();
-      logAnalyticsAction(
-        AccountAction.signOut,
-        result: AnalyticsResult.success,
-      );
-      showAppToast(l10n.account_signed_out);
-    } catch (e, s) {
-      logAnalyticsAction(
-        AccountAction.signOut,
-        result: AnalyticsResult.failure,
-      );
-      reportError(e, s, reason: '登出失敗');
-      showAppToast(l10n.account_sign_out_failed);
-    }
   }
 
   Future<void> _confirmDeleteData(
