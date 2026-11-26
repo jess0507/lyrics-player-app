@@ -17,13 +17,14 @@ import 'package:seek_player/features/tools/models/track_file_stat.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
 import 'package:seek_player/features/tools/providers/track_play_stats_provider.dart';
-import 'package:seek_player/features/tools/widgets/folder_menu_button.dart';
+import 'package:seek_player/features/tools/widgets/folder_picker_sheet.dart';
 import 'package:seek_player/features/tools/widgets/track_search_field.dart';
 import 'package:seek_player/features/tools/widgets/track_sort_sheet.dart';
 import 'package:seek_player/gen/assets.gen.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 import 'package:seek_player/shared/widgets/empty_state_view.dart';
+import 'package:seek_player/shared/widgets/more_menu_button.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 import 'package:seek_player/shared/widgets/track_list_tile.dart';
 
@@ -100,6 +101,22 @@ class _LocalMusicPlaylistPageState
     if (sort == null) return;
     logAnalyticsAction(LibraryAction.changeSort, option: sort.field);
     if (mounted) setState(() => _sort = sort);
+  }
+
+  Future<void> _pickFolder(List<TrackFolder> folders, String? folder) async {
+    final tracks = ref.read(musicLibraryProvider).valueOrNull ?? const [];
+    final stats = ref.read(trackFileStatsProvider).valueOrNull ?? const {};
+    final picked = await showFolderPickerSheet(
+      context,
+      folders: folders,
+      totalCount: tracks.length,
+      latestOf: (path) => latestModifiedIn(tracks, stats, path),
+      selected: folder,
+    );
+    if (picked == null || !mounted) return;
+    // option = 是否選「全部」;不送資料夾路徑。
+    logAnalyticsAction(LibraryAction.filterFolder, option: picked.path == null);
+    setState(() => _folder = picked.path);
   }
 
   void _toggleSearch() => setState(() {
@@ -184,70 +201,62 @@ class _LocalMusicPlaylistPageState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-          // 搜尋欄右側留白,不貼齊螢幕邊緣。
-          actions: [if (_searching) const SizedBox(width: 16)],
+          actions: [
+            if (_searching)
+              // 搜尋欄右側留白,不貼齊螢幕邊緣。
+              const SizedBox(width: 16)
+            else
+              MoreMenuButton(
+                entries: [
+                  // 清單為空時沒有東西可搜尋 / 篩選 / 排序;重新掃描一律提供。
+                  if (tracks.isNotEmpty) ...[
+                    MoreMenuEntry(
+                      icon: SvgIcon(Assets.icon.search),
+                      label: l10n.music_search,
+                      onSelected: _toggleSearch,
+                    ),
+                    // 標籤即目前篩選的資料夾,讓選單也看得出篩選狀態。
+                    MoreMenuEntry(
+                      icon: const Icon(Icons.folder_outlined),
+                      label: folder == null
+                          ? l10n.tools_all_audios
+                          : folders.firstWhere((f) => f.path == folder).name,
+                      onSelected: () => _pickFolder(folders, folder),
+                    ),
+                    MoreMenuEntry(
+                      icon: const Icon(Icons.sort),
+                      label: l10n.tools_sort_by,
+                      onSelected: _editSort,
+                    ),
+                  ],
+                  MoreMenuEntry(
+                    icon: const Icon(Icons.refresh),
+                    label: l10n.music_rescan,
+                    enabled: !_scanning,
+                    onSelected: _onRescanPressed,
+                  ),
+                ],
+              ),
+          ],
         ),
         body: Column(
           children: [
             if (!_searching && widget.header != null) widget.header!,
-            // 有曲目時才顯示資料夾下拉與操作列;清單為空時重新掃描改由
-            // 下方空狀態提供。
-            if (tracks.isNotEmpty) ...[
-              // 資料夾下拉放在操作列上方;TextButton 自帶 12 內距,
-              // 左側補 4 讓文字與下方圖示對齊。
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 16, 0),
-                child: Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: FolderMenuButton(
-                    folders: folders,
-                    totalCount: tracks.length,
-                    latestOf: (path) => latestModifiedIn(tracks, stats, path),
-                    selected: folder,
-                    onSelected: (path) {
-                      // option = 是否選「全部」;不送資料夾路徑。
-                      logAnalyticsAction(
-                        LibraryAction.filterFolder,
-                        option: path == null,
-                      );
-                      setState(() => _folder = path);
-                    },
-                  ),
-                ),
-              ),
-              PlaylistActionBar(
-                actions: [
-                  IconButton(
-                    tooltip: l10n.tools_sort_by,
-                    icon: const Icon(Icons.sort),
-                    onPressed: _editSort,
-                  ),
-                  IconButton(
-                    tooltip: l10n.music_search,
-                    icon: SvgIcon(Assets.icon.search),
-                    onPressed: _toggleSearch,
-                  ),
-                  IconButton(
-                    tooltip: l10n.music_rescan,
-                    onPressed: _scanning ? null : _onRescanPressed,
-                    icon: _scanning
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.refresh),
-                  ),
-                ],
-                // 篩選 / 搜尋無結果時不顯示隨機 / 播放;只播目前篩選出的曲目。
-                trailing: visibleTracks.isEmpty
-                    ? null
-                    : PlaylistPlayControls(
-                        tracks: visibleTracks,
-                        source: AnalyticsSource.local,
-                      ),
-              ),
-            ],
+            // 手動重新掃描且已有曲目時,以細進度條提示掃描中(清單為空時
+            // 中央改顯示 loading)。
+            if (_scanning && tracks.isNotEmpty)
+              const LinearProgressIndicator(minHeight: 2),
+            // 篩選 / 搜尋無結果時不顯示隨機 / 播放,整列不佔空間;
+            // 只播目前篩選出的曲目。
+            PlaylistActionBar(
+              actions: const [],
+              trailing: visibleTracks.isEmpty
+                  ? null
+                  : PlaylistPlayControls(
+                      tracks: visibleTracks,
+                      source: AnalyticsSource.local,
+                    ),
+            ),
             Expanded(
               child: tracks.isEmpty && scanning
                   ? const Center(child: CircularProgressIndicator())

@@ -6,11 +6,15 @@ class MoreMenuEntry {
     required this.icon,
     required this.label,
     required this.onSelected,
+    this.enabled = true,
   });
 
   final Widget icon;
   final String label;
   final VoidCallback onSelected;
+
+  /// false 時選項顯示為停用、不可點(例如掃描中的重新掃描)。
+  final bool enabled;
 }
 
 /// 頂欄右側的更多按鈕,點擊後列出 [entries](例如新增 / 編輯 /
@@ -30,7 +34,12 @@ class MoreMenuButton extends StatelessWidget {
         for (final (index, entry) in entries.indexed)
           PopupMenuItem(
             value: index,
-            child: ListTile(leading: entry.icon, title: Text(entry.label)),
+            enabled: entry.enabled,
+            child: ListTile(
+              enabled: entry.enabled,
+              leading: entry.icon,
+              title: Text(entry.label),
+            ),
           ),
       ],
     );
