@@ -5,6 +5,8 @@ import 'package:seek_player/features/output/models/output_collection.dart';
 import 'package:seek_player/features/output/providers/output_lyrics_tracks_provider.dart';
 import 'package:seek_player/features/output/providers/output_task_items_provider.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/action_card.dart';
+import 'package:seek_player/shared/widgets/action_card_grid.dart';
 
 /// 工具頁下半部的「產出」區:列出各種產出集合(任務、歌詞),
 /// 點選進入該集合的曲目清單。產出都由上方的工具產生,所以與工具同頁。
@@ -28,20 +30,23 @@ class OutputCollectionsSection extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-        for (final collection in OutputCollection.values)
-          // 樣式對齊上方的工具列:一般 icon、說明行、右側箭頭。
-          ListTile(
-            leading: collection.icon,
-            title: Text(collection.label(l10n)),
-            // 沒有曲目時改顯示空狀態文字,讓每列都維持雙行。
-            subtitle: Text(
-              counts[collection]! > 0
-                  ? l10n.playlist_track_count(counts[collection]!)
-                  : collection.emptyLabel(l10n),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/tools/output/${collection.name}'),
-          ),
+        ActionCardGrid(
+          children: [
+            for (final collection in OutputCollection.values)
+              ActionCard(
+                icon: collection.icon,
+                label: collection.label(l10n),
+                // 沒有曲目時不顯示曲數,卡片高度固定不受影響。
+                caption: counts[collection]! > 0
+                    ? l10n.playlist_track_count(counts[collection]!)
+                    : null,
+                tooltip: counts[collection]! > 0
+                    ? null
+                    : collection.emptyLabel(l10n),
+                onTap: () => context.push('/tools/output/${collection.name}'),
+              ),
+          ],
+        ),
       ],
     );
   }

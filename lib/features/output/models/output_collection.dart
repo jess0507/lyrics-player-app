@@ -20,7 +20,7 @@ enum OutputCollection {
     lyrics => l10n.output_lyrics,
   };
 
-  /// 集合沒有曲目時,工具頁列表上顯示的副標。
+  /// 集合沒有曲目時,工具頁卡片長按顯示的說明。
   String emptyLabel(AppLocalizations l10n) => switch (this) {
     tasks => l10n.output_tasks_empty,
     lyrics => l10n.output_lyrics_empty,

@@ -5,6 +5,8 @@ import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/output/widgets/output_collections_section.dart';
 import 'package:seek_player/features/tools/models/tool_kind.dart';
 import 'package:seek_player/l10n/app_localizations.dart';
+import 'package:seek_player/shared/widgets/action_card.dart';
+import 'package:seek_player/shared/widgets/action_card_grid.dart';
 import 'package:seek_player/shared/widgets/app_logo_leading.dart';
 
 /// 「工具」分頁:集中針對單首曲目加工的功能(製作歌詞、更改封面 …),
@@ -25,18 +27,22 @@ class ToolsPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          for (final tool in ToolKind.values)
-            ListTile(
-              leading: Icon(tool.icon),
-              title: Text(tool.label(l10n)),
-              subtitle: Text(tool.description(l10n)),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                // 路由樣板 `/tools/:tool` 分不出工具種類,另記選了哪個工具。
-                logAnalyticsAction(ToolsAction.selectTool, option: tool);
-                context.push('/tools/${tool.name}');
-              },
-            ),
+          ActionCardGrid(
+            children: [
+              for (final tool in ToolKind.values)
+                ActionCard(
+                  icon: Icon(tool.icon),
+                  label: tool.label(l10n),
+                  // 卡片只放名稱,完整說明改由長按提示。
+                  tooltip: tool.description(l10n),
+                  onTap: () {
+                    // 路由樣板 `/tools/:tool` 分不出工具種類,另記選了哪個工具。
+                    logAnalyticsAction(ToolsAction.selectTool, option: tool);
+                    context.push('/tools/${tool.name}');
+                  },
+                ),
+            ],
+          ),
           // 先用工具才會有產出,產出集合接在工具下方。
           const OutputCollectionsSection(),
         ],
