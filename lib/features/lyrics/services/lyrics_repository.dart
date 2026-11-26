@@ -44,6 +44,10 @@ class LyricsRepository {
   List<LyricsEntity> getAllSync() =>
       _col.filter().contentIsNotEmpty().findAllSync();
 
+  /// 監聽全部**有內容**的歌詞(含初始值);規則同 [getAllSync]。
+  Stream<List<LyricsEntity>> watchAllWithContent() =>
+      _col.filter().contentIsNotEmpty().watch(fireImmediately: true);
+
   /// 送出後端歌詞任務時記下 [jobId]:已有歌詞(對時)只更新 jobId;還沒有
   /// 歌詞(AI 產生)就先建一筆空內容的 entity。不算使用者的歌詞變更,
   /// 不 markLyricsModified(空內容本來就不會被上傳)。
