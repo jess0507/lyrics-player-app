@@ -5,6 +5,7 @@ import 'package:seek_player/core/analytics/analytics_reporter.dart';
 import 'package:seek_player/features/output/providers/output_lyrics_tracks_provider.dart';
 import 'package:seek_player/features/output/widgets/output_track_list.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_action_bar.dart';
+import 'package:seek_player/shared/widgets/more_menu_button.dart';
 import 'package:seek_player/features/playlists/widgets/playlist_play_controls.dart';
 import 'package:seek_player/features/tools/models/track_sort.dart';
 import 'package:seek_player/features/tools/providers/track_file_stats_provider.dart';
@@ -16,7 +17,7 @@ import 'package:seek_player/l10n/app_localizations.dart';
 import 'package:seek_player/shared/widgets/svg_icon.dart';
 
 /// 「Output → 歌詞」:列出有歌詞的曲目,點選播放並顯示滿版歌詞。
-/// 頂欄右側的更多按鈕開啟排序 / 搜尋選單;清單上方右側為隨機 / 播放全部
+/// 頂欄右側的更多按鈕開啟搜尋 / 排序選單;清單上方右側為隨機 / 播放全部
 /// (同播放清單頁)。
 class OutputLyricsPage extends ConsumerStatefulWidget {
   const OutputLyricsPage({super.key});
@@ -62,11 +63,6 @@ class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
     }
   });
 
-  void _onMenuSelected(_MoreAction action) => switch (action) {
-    _MoreAction.sort => _editSort(),
-    _MoreAction.search => _toggleSearch(),
-  };
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -110,23 +106,17 @@ class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
               const SizedBox(width: 16)
             // 沒有曲目時沒有東西可排序 / 搜尋 / 播放,不顯示。
             else if (tracks.isNotEmpty)
-              PopupMenuButton<_MoreAction>(
-                icon: const Icon(Icons.more_vert),
-                onSelected: _onMenuSelected,
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: _MoreAction.sort,
-                    child: ListTile(
-                      leading: const Icon(Icons.sort),
-                      title: Text(l10n.tools_sort_by),
-                    ),
+              MoreMenuButton(
+                entries: [
+                  MoreMenuEntry(
+                    icon: SvgIcon(Assets.icon.search),
+                    label: l10n.music_search,
+                    onSelected: _toggleSearch,
                   ),
-                  PopupMenuItem(
-                    value: _MoreAction.search,
-                    child: ListTile(
-                      leading: SvgIcon(Assets.icon.search),
-                      title: Text(l10n.music_search),
-                    ),
+                  MoreMenuEntry(
+                    icon: const Icon(Icons.sort),
+                    label: l10n.tools_sort_by,
+                    onSelected: _editSort,
                   ),
                 ],
               ),
@@ -159,6 +149,3 @@ class _OutputLyricsPageState extends ConsumerState<OutputLyricsPage> {
     );
   }
 }
-
-/// 頂欄更多選單的項目。
-enum _MoreAction { sort, search }
